@@ -36,6 +36,10 @@
             <name>Wojciech Sowa</name>
             <id>224429</id>
         </developer>
+        <developer>
+            <name>Kacper Świercz</name>
+            <id>224443</id>
+        </developer>
     </developers>
 
     <properties>
