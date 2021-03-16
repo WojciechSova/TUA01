@@ -12,7 +12,10 @@
     <name>ssbd02</name>
 
     <developers>
-
+        <developer>
+            <name>Wojciech Sowa</name>
+            <id>224429</id>
+        </developer>
     </developers>
 
     <properties>
