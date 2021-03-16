@@ -16,6 +16,10 @@
             <name>Artur Madaj</name>
             <id>224363</id>
         </developer>
+        <developer>
+            <name>Daniel Łondka</name>
+            <id>224360</id>
+        </developer>
     </developers>
 
     <properties>
