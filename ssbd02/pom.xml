@@ -12,7 +12,10 @@
     <name>ssbd02</name>
 
     <developers>
-
+        <developer>
+            <name>Artur Madaj</name>
+            <id>224363</id>
+        </developer>
     </developers>
 
     <properties>
