@@ -12,7 +12,10 @@
     <name>ssbd02</name>
 
     <developers>
-
+        <developer>
+            <name>Karolina Kowalczyk</name>
+            <id>224340</id>
+        </developer>
     </developers>
 
     <properties>
