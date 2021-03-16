@@ -12,7 +12,10 @@
     <name>ssbd02</name>
 
     <developers>
-
+        <developer>
+            <name>Daniel Łondka</name>
+            <id>224360</id>
+        </developer>
     </developers>
 
     <properties>
