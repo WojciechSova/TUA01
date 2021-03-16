@@ -12,7 +12,10 @@
     <name>ssbd02</name>
 
     <developers>
-
+        <developer>
+            <name>Patryk Kolanek</name>
+            <id>224333</id>
+        </developer>
     </developers>
 
     <properties>
