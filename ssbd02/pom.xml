@@ -12,7 +12,10 @@
     <name>ssbd02</name>
 
     <developers>
-
+        <developer>
+            <name>Kacper Świercz</name>
+            <id>224443</id>
+        </developer>
     </developers>
 
     <properties>
