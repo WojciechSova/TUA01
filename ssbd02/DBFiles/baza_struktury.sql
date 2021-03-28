@@ -5,16 +5,27 @@ DROP VIEW IF EXISTS Auth_view CASCADE;
 
 CREATE TABLE Account (
     id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    version integer NOT NULL,
+    version bigint NOT NULL,
 	login varchar(30) NOT NULL,
-    name varchar(30) NOT NULL,
-    surname varchar(50) NOT NULL,
-    email varchar(100) NOT NULL,
-    phone_number varchar(12) NOT NULL,
+    first_name varchar(30) NOT NULL,
+    last_name varchar(50) NOT NULL,
+    email varchar(70) NOT NULL,
     password char(128) NOT NULL,
     active bool DEFAULT true NOT NULL,
 	confirmed bool DEFAULT false NOT NULL,
+	modification_date timestamp,
+	modified_by bigint,
+	creation_date timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	created_by bigint,
+	language varchar(5),
+	last_known_good_login timestamp,
+	last_known_good_login_ip varchar(15),
+	last_known_bad_login timestamp,
+	last_known_bad_login_ip varchar(15),
+	time_zone varchar(10),
     PRIMARY KEY (id),
+    CONSTRAINT key_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES account(id),
+    CONSTRAINT key_account_id_created_by FOREIGN KEY (created_by) REFERENCES account(id),
     CONSTRAINT email_unique unique (email),
     CONSTRAINT login_unique unique (login)
 );
@@ -25,7 +36,7 @@ GRANT SELECT, INSERT, UPDATE ON TABLE Account TO ssbd02mok;
 
 CREATE TABLE Access_level (
     id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-	version integer NOT NULL,
+	version bigint NOT NULL,
     level character varying(16) NOT NULL,
     account_id bigint NOT NULL,
     active boolean DEFAULT true NOT NULL,
