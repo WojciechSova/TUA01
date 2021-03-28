@@ -1,1 +1,107 @@
-<h1>Hello promy</h1>
+<head>
+    <link rel="shortcut icon" href="../assets/favicon_dolphin.png">
+</head>
+
+<div class="main" >
+
+    <div class="navbar" id="navigation" (scroll)="showNavbarOnScroll()">
+        <div class="top-left-navbar">
+            <img class="logo-navbar" src="assets/logo_blue.png" alt="Beautiful logo" style="max-width: 40%">
+        </div>
+        <div class="top-right-navbar">
+            <a routerLink="">O nas</a>
+            <a routerLink="">Kontakt</a>
+            <a routerLink="">Trasy</a>
+            <a routerLink="/login" class="login_a">Zaloguj</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <img class="main-image" src="assets/mewa.jpg" alt="" />
+
+        <div class="top-left">
+            <img class="logo" src="assets/logo_white.png" alt="Beautiful logo" style="max-width: 40%">
+        </div>
+        <div class="top-right">
+            <a routerLink="">O nas</a>
+            <a routerLink="">Kontakt</a>
+            <a routerLink="">Trasy</a>
+            <a routerLink="/login" class="login_a">Zaloguj</a>
+        </div>
+        <div class="centered">
+            <p class="main-text">Przeprawy promowe jak z bajki</p>
+            <p>
+                <button class="button">Sprawdź teraz!</button>
+            </p>
+        </div>
+    </div>
+    <button class="login-button" routerLink="/login">Zaloguj się, aby zarezerwować bilet!</button>
+
+    <div class="popular-offers">Najpopularniejsze trasy</div>
+
+    <div class="popular-offers-hr"></div>
+    <div class="row">
+        <div class="column">
+            <img src="assets/offer1.png" alt="Offer 1" class="offer-image"/>
+            <div class="offer">
+                <div class="offer-text">Warszawa - Ciechocinek</div>
+                <div class="offer-price">Już od 159.99zł od osoby</div>
+                <button class="offer-btn">Zarezerwuj</button>
+            </div>
+        </div>
+        <div class="column">
+            <img src="assets/offer2.png" alt="Offer 2" class="offer-image"/>
+            <div class="offer">
+                <div class="offer-text">Warszawa - Ciechocinek</div>
+                <div class="offer-price">Już od 159.99zł od osoby</div>
+                <button class="offer-btn">Zarezerwuj</button>
+            </div>
+        </div>
+        <div class="column">
+            <img src="assets/offer3.png" alt="Offer 3" class="offer-image"/>
+            <div class="offer">
+                <div class="offer-text">Warszawa - Ciechocinek</div>
+                <div class="offer-price">Już od 159.99zł od osoby</div>
+                <button class="offer-btn">Zarezerwuj</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <img src="assets/offer1.png" alt="Offer 1" class="offer-image"/>
+            <div class="offer">
+                <div class="offer-text">Warszawa - Ciechocinek</div>
+                <div class="offer-price">Już od 159.99zł od osoby</div>
+                <button class="offer-btn">Zarezerwuj</button>
+            </div>
+        </div>
+        <div class="column">
+            <img src="assets/offer2.png" alt="Offer 2" class="offer-image"/>
+            <div class="offer">
+                <div class="offer-text">Warszawa - Ciechocinek</div>
+                <div class="offer-price">Już od 159.99zł od osoby</div>
+                <button class="offer-btn">Zarezerwuj</button>
+            </div>
+        </div>
+        <div class="column">
+            <img src="assets/offer3.png" alt="Offer 3" class="offer-image"/>
+            <div class="offer">
+                <div class="offer-text">Warszawa - Ciechocinek</div>
+                <div class="offer-price">Już od 159.99zł od osoby</div>
+                <button class="offer-btn">Zarezerwuj</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-footer">
+    </div>
+    <div class="copyright-footer">
+        <hr>
+        <div class="copyright">
+            © 2021 Ferrytales, Inc. All rights reserved
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>
+
