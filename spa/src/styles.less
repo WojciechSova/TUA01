@@ -21,10 +21,6 @@ a {
     text-shadow: 0 0.18vw 0.36vw #000000;
 }
 
-.a :hover{
-
-}
-
 .button {
     position: absolute;
     left: 50%;
@@ -43,6 +39,7 @@ a {
 
     &:hover {
         background-position: right center;
+        cursor: pointer;
     }
 
     &:focus {
@@ -67,6 +64,10 @@ a {
     &:hover {
         background-position: right center;
         cursor: pointer;
+    }
+
+    &:focus {
+        outline: none;
     }
 }
 
