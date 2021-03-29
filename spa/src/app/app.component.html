@@ -4,7 +4,7 @@
 
 <div class="main" >
 
-    <div class="navbar" id="navigation" (scroll)="showNavbarOnScroll()">
+    <div class="navbar" #navigation id="navigation">
         <div class="top-left-navbar">
             <img class="logo-navbar" src="assets/logo_blue.png" alt="Beautiful logo" style="max-width: 40%">
         </div>
@@ -20,7 +20,7 @@
         <img class="main-image" src="assets/mewa.jpg" alt="" />
 
         <div class="top-left">
-            <img class="logo" src="assets/logo_white.png" alt="Beautiful logo" style="max-width: 40%">
+            <img id="logo" #logo class="logo" src="assets/logo_white.png" alt="Beautiful logo" style="max-width: 40%">
         </div>
         <div class="top-right">
             <a routerLink="">O nas</a>
