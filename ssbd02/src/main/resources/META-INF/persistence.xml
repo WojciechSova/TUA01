@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <persistence-unit name="ssbd02adminPU">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/jdbc/ssbd02admin</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <properties>
+            <!-- This line is responsible for logging level -->
+            <property name="org.hibernate.SQL" value="DEBUG"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+        </properties>
+    </persistence-unit>
+
+
+    <persistence-unit name="ssbd02authPU">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/jdbc/ssbd02auth</jta-data-source>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <!-- This line is responsible for logging level -->
+            <property name="org.hibernate.SQL" value="DEBUG"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+        </properties>
+    </persistence-unit>
+
+
+    <persistence-unit name="ssbd02mokPU">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/jdbc/ssbd02mok</jta-data-source>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <!-- This line is responsible for logging level -->
+            <property name="org.hibernate.SQL" value="DEBUG"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+        </properties>
+    </persistence-unit>
+
+
+    <persistence-unit name="ssbd02mopPU">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/jdbc/ssbd02mop</jta-data-source>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <!-- This line is responsible for logging level -->
+            <property name="org.hibernate.SQL" value="DEBUG"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>
