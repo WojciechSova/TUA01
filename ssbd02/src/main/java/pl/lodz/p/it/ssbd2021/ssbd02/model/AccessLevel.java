@@ -21,6 +21,7 @@ import java.io.Serializable;
         @NamedQuery(name = "AccessLevel.findById", query = "SELECT l FROM AccessLevel l WHERE l.id = :id"),
         @NamedQuery(name = "AccessLevel.findByVersion", query = "SELECT l FROM AccessLevel l WHERE l.version = :version"),
         @NamedQuery(name = "AccessLevel.findByLevel", query = "SELECT l FROM AccessLevel l WHERE l.level = :level"),
+        @NamedQuery(name = "AccessLevel.findByAccountId", query = "SELECT l FROM AccessLevel l WHERE l.accountId = :accountId"),
         @NamedQuery(name = "AccessLevel.findByActive", query = "SELECT l FROM AccessLevel l WHERE l.active = :active"),
 })
 @Data
