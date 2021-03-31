@@ -38,8 +38,8 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Account.findByLastKnownBadLogin", query = "SELECT a FROM Account a WHERE a.lastKnownBadLogin = :lastKnownBadLogin"),
         @NamedQuery(name = "Account.findByLastKnownBadLoginIp", query = "SELECT a FROM Account a WHERE a.lastKnownBadLoginIp = :lastKnownBadLoginIp"),
         @NamedQuery(name = "Account.findByTimeZone", query = "SELECT a FROM Account a WHERE a.timeZone = :timeZone"),
-        @NamedQuery(name = "Account.findByAccountByModifiedBy", query = "SELECT a FROM Account a WHERE a.accountByModifiedBy = :accountByModifiedBy"),
-        @NamedQuery(name = "Account.findByAccountByCreatedBy", query = "SELECT a FROM Account a WHERE a.accountByCreatedBy = :accountByCreatedBy")
+        @NamedQuery(name = "Account.findByModifiedBy", query = "SELECT a FROM Account a WHERE a.modifiedBy = :modifiedBy"),
+        @NamedQuery(name = "Account.findByCreatedBy", query = "SELECT a FROM Account a WHERE a.createdBy = :createdBy")
 })
 @Data
 public class Account implements Serializable {
@@ -110,10 +110,10 @@ public class Account implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
-    private Account accountByModifiedBy;
+    private Account modifiedBy;
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")
-    private Account accountByCreatedBy;
+    private Account createdBy;
 
 }
