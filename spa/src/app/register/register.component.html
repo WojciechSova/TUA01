@@ -1,1 +1,27 @@
-<p>register works!</p>
+<div class="overlay">
+    <div class="form-container">
+        <img class="circle" src="assets/login-register-circle.png" alt=""/>
+        <img class="logo" routerLink="/" src="assets/logo_primary_color.png" alt=""/>
+        <form action="">
+            <label for="login-reg"></label>
+            <input type="text" id="login-reg" name="Login" placeholder="Login"><br>
+            <label for="email-reg"></label>
+            <input type="text" id="email-reg" name="Email" placeholder="Adres e-mail"><br>
+            <label for="email-reg-repeat"></label>
+            <input type="text" id="email-reg-repeat" name="Email-repeat" placeholder="Powtórz adres e-mail"><br>
+            <label for="password-reg"></label>
+            <input type="password" id="password-reg" name="Password" placeholder="Hasło"><br>
+            <label for="password-reg-repeat"></label>
+            <input type="password" id="password-reg-repeat" name="Password-repeat" placeholder="Powtórz hasło"><br>
+            <label for="first-name"></label>
+            <input type="text" id="first-name" name="Name" placeholder="Imię"><br>
+            <label for="last-name"></label>
+            <input type="text" id="last-name" name="Last-name" placeholder="Nazwisko"><br><br>
+            <button class="form-button">Zarejestruj</button>
+        </form>
+        <p class="column-nav">
+            <a routerLink="/login">Masz już konto? Zaloguj się!</a>
+<!--            <a routerLink="/">Wróć</a>-->
+        </p>
+    </div>
+</div>

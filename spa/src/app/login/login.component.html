@@ -1,19 +1,17 @@
-<div id="overlay-login">
-    <img class="circle" src="assets/login-register-circle.png" alt=""/>
-    <img class="logo" routerLink="/" src="assets/logo_primary_color.png" alt=""/>
-
-    <div class="login-form">
+<div class="overlay">
+    <div class="form-container">
+        <img class="circle" src="assets/login-register-circle.png" alt=""/>
+        <img class="logo" routerLink="/" src="assets/logo_primary_color.png" alt=""/>
         <form action="">
             <label for="login"></label>
             <input type="text" id="login" name="Login" placeholder="Login"><br>
             <label for="password"></label>
             <input type="password" id="password" name="Password" placeholder="Hasło"><br><br>
-            <input type="button" value="Zaloguj">
+            <button class="form-button">Zaloguj</button>
         </form>
         <p class="column-nav">
             <a routerLink="/register">Nie masz konta? Zarejestruj się</a>
 <!--            <a routerLink="/">Wróć</a>-->
         </p>
     </div>
-
 </div>

@@ -1,56 +1,22 @@
 @import '../../styles.less';
 
-#overlay-login {
-    position: fixed;
-    display: block;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255,255,255,0.25);
-    z-index: 2;
-}
-
-.login-form {
-    position: absolute;
-    top: 35%;
-    left:50%;
-    transform: translateX(-50%);
-    text-align: center;
-    align-items: center;
-
-    a {
-        color: @footer-accent-color;
-        font: italic 200 1.5vw Source Sans Pro;
-        text-decoration: none;
-        text-transform: none;
-        cursor: pointer;
-        margin-bottom: 7px;
-        text-shadow: none;
-    }
-
-    p {
-        text-align: center;
-    }
-}
-
 .logo {
-    width: 18vw;
+    width: 40%;
     position: absolute;
-    top: 24vh;
+    top: 32vh;
     bottom: 68vh;
-    left: 50%;
+    left: 48%;
     transform: translateX(-50%);
     margin: auto;
 }
 
-.circle {
-    max-height: 100%;
-    width: auto;
+.column-nav {
+    display: flex;
     position: absolute;
-    top: 50%;
+    top: 74%;
     left: 50%;
     transform: translate(-50%, -50%);
+    flex-direction: column;
 }
+
+
