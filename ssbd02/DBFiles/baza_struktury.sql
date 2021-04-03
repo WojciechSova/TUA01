@@ -16,7 +16,7 @@ CREATE TABLE Account
     CONSTRAINT login_unique UNIQUE (login)
 );
 
-ALTER TABLE public.account OWNER TO ssbd02admin;
+ALTER TABLE Account OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Account TO ssbd02mok;
 GRANT SELECT ON TABLE Account TO ssbd02mok;
@@ -33,19 +33,17 @@ CREATE TABLE Personal_data
     modification_date        timestamp,
     modified_by              bigint,
     creation_date            timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    created_by               bigint,
     last_known_good_login    timestamp,
     last_known_good_login_ip varchar(15),
     last_known_bad_login     timestamp,
     last_known_bad_login_ip  varchar(15),
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES account(id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES account(id),
     CONSTRAINT fk_account_id_id FOREIGN KEY (id) REFERENCES account(id),
     CONSTRAINT email_unique UNIQUE (email)
 );
 
-ALTER TABLE public.personal_data OWNER TO ssbd02admin;
+ALTER TABLE Personal_data OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Personal_data TO ssbd02mok;
 
@@ -59,13 +57,13 @@ CREATE TABLE Access_level
     modification_date timestamp,
     modified_by       bigint,
     creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    created_by        bigint,
     PRIMARY KEY (id),
+    CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES account(id),
     CONSTRAINT fk_account_id FOREIGN KEY (account_id) REFERENCES account(id),
     CONSTRAINT account_id_level_unique UNIQUE (account_id, level)
 );
 
-ALTER TABLE public.access_level OWNER TO ssbd02admin;
+ALTER TABLE Access_level OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
 
@@ -79,6 +77,6 @@ CREATE TABLE Client_data
     CONSTRAINT phone_number_unique UNIQUE (phone_number)
 );
 
-ALTER TABLE public.client_data OWNER TO ssbd02admin;
+ALTER TABLE Client_data OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Client_data TO ssbd02mok;
