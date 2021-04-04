@@ -25,13 +25,13 @@ public class JWTGenerator {
                     .build();
 
             SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), jwtClaimsSet);
-
             signedJWT.sign(jwsSigner);
 
             return signedJWT.serialize();
         } catch (JOSEException e) {
             e.printStackTrace();
-            return "";
         }
+
+        return "";
     }
 }
