@@ -207,7 +207,7 @@ CREATE TABLE Vehicle_type
 (
     id                bigint      NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     vehicle_type_name varchar(30) NOT NULL,
-    required_space    int         NOT NULL,
+    required_space    float       NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT required_space_not_negative CHECK (required_space >= 0)
 );
