@@ -1,6 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -25,6 +27,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "AccessLevel.findByCreationDate", query = "SELECT l FROM AccessLevel l WHERE creationDate = :creationDate")
 })
 @Data
+@NoArgsConstructor
 public class AccessLevel implements Serializable {
 
     @NotNull
@@ -36,6 +39,7 @@ public class AccessLevel implements Serializable {
     @NotNull
     @Version
     @Setter(lombok.AccessLevel.NONE)
+    @Getter(lombok.AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = true)
     private Long version;
 

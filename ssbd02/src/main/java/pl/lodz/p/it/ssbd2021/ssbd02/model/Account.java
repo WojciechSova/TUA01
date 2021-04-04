@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.model;
 
 import lombok.*;
+import lombok.AccessLevel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,39 +33,38 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Account.findByLastKnownBadLogin", query = "SELECT a FROM Account a WHERE a.lastKnownBadLogin = :lastKnownBadLogin"),
         @NamedQuery(name = "Account.findByLastKnownBadLoginIp", query = "SELECT a FROM Account a WHERE a.lastKnownBadLoginIp = :lastKnownBadLoginIp")
 })
-@ToString
+@Data
+@NoArgsConstructor
 public class Account implements Serializable {
 
     //region Account section
     @NotNull
     @Id
     @Column(name = "id", nullable = false, updatable = false)
-    @Getter
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @NotNull
     @Version
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = true)
     private Long version;
 
     @NotNull
-    @Getter @Setter
     @Column(name = "login", nullable = false, unique = true, updatable = false, length = 30)
     private String login;
 
     @NotNull
-    @Getter @Setter
     @Column(name = "password", nullable = false, updatable = true, length = 128)
     @ToString.Exclude
     private String password;
 
     @NotNull
-    @Getter @Setter
     @Column(name = "active", nullable = false, updatable = true)
     private Boolean active;
 
     @NotNull
-    @Getter @Setter
     @Column(name = "confirmed", nullable = false, updatable = true)
     private Boolean confirmed;
     //endregion
@@ -72,60 +72,45 @@ public class Account implements Serializable {
 
     //region Personal data section
     @NotNull
-    @Getter @Setter
     @Column(name = "first_name", nullable = false, updatable = true, length = 30, table = "Personal_data")
     private String firstName;
 
     @NotNull
-    @Getter @Setter
     @Column(name = "last_name", nullable = false, updatable = true, length = 50, table = "Personal_data")
     private String lastName;
 
     @NotNull
-    @Getter @Setter
-    @Column(name = "email", nullable = false, updatable = true, length = 70, table = "Personal_data")
+    @Column(name = "email", unique = true, nullable = false, updatable = true, length = 70, table = "Personal_data")
     private String email;
 
-    @Getter @Setter
     @Column(name = "language", nullable = true, updatable = true, length = 5, table = "Personal_data")
     private String language;
 
-    @Getter @Setter
     @Column(name = "time_zone", nullable = true, updatable = true, length = 10, table = "Personal_data")
     private String timeZone;
 
-    @Getter @Setter
     @Column(name = "modification_date", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp modificationDate;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @Getter @Setter
     @JoinColumn(name = "modified_by", nullable = true, updatable = false, referencedColumnName = "id", table = "Personal_data")
     private Account modifiedBy;
 
     @NotNull
-    @Getter @Setter
     @Column(name = "creation_date", nullable = false, updatable = false, table = "Personal_data")
     private Timestamp creationDate;
 
-    @Getter @Setter
     @Column(name = "last_known_good_login", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp lastKnownGoodLogin;
 
-    @Getter @Setter
     @Column(name = "last_known_good_login_ip", nullable = true, updatable = true, length = 15, table = "Personal_data")
     private String lastKnownGoodLoginIp;
 
-    @Getter @Setter
     @Column(name = "last_known_bad_login", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp lastKnownBadLogin;
 
-    @Getter @Setter
     @Column(name = "last_known_bad_login_ip", nullable = true, updatable = true, length = 15, table = "Personal_data")
     private String lastKnownBadLoginIp;
     //endregion
 
-    public Account() {
-
-    }
 }
