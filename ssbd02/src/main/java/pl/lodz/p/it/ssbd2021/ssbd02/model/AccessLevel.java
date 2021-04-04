@@ -24,7 +24,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "AccessLevel.findByActive", query = "SELECT l FROM AccessLevel l WHERE l.active = :active"),
         @NamedQuery(name = "AccessLevel.findByModificationDate", query = "SELECT l FROM AccessLevel l WHERE l.modificationDate = :modificationDate"),
         @NamedQuery(name = "AccessLevel.findByModifiedBy", query = "SELECT l FROM AccessLevel l WHERE l.modifiedBy = :modifiedBy"),
-        @NamedQuery(name = "AccessLevel.findByCreationDate", query = "SELECT l FROM AccessLevel l WHERE creationDate = :creationDate")
+        @NamedQuery(name = "AccessLevel.findByCreationDate", query = "SELECT l FROM AccessLevel l WHERE l.creationDate = :creationDate")
 })
 @Data
 @NoArgsConstructor
