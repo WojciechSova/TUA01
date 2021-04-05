@@ -93,7 +93,7 @@ public class Account implements Serializable {
     private Timestamp modificationDate;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "modified_by", nullable = true, updatable = false, referencedColumnName = "id", table = "Personal_data")
+    @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id", table = "Personal_data")
     private Account modifiedBy;
 
     @NotNull
