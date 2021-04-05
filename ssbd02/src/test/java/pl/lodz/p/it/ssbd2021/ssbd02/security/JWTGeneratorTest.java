@@ -22,10 +22,10 @@ class JWTGeneratorTest {
 
     private JWTGeneratorTest() {
         this.callerPrincipal = new CallerPrincipal("Test");
-        this.algorithm = "alg\":\"HS256";
-        this.issuer = "iss\":\"" + SecretConstants.ISSUER;
-        this.subject = "sub\":\"Test";
-        this.auth = "auth\":\"test-group";
+        this.algorithm = "\"alg\":\"HS256\"";
+        this.issuer = "\"iss\":\"" + SecretConstants.ISSUER + "\"";
+        this.subject = "\"sub\":\"Test\"";
+        this.auth = "\"auth\":\"test-group\"";
 
         Mockito.when(credentialValidationResult.getCallerPrincipal()).thenReturn(callerPrincipal);
         Mockito.when(credentialValidationResult.getCallerGroups()).thenReturn(Collections.singleton("test-group"));
