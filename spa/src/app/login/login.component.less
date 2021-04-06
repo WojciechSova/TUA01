@@ -10,13 +10,28 @@
     margin: auto;
 }
 
+@media screen and (max-height: 750px){
+    .logo {
+        top: 240px;
+        bottom: 510px;
+    }
+}
+
 .column-nav {
     display: flex;
     position: absolute;
-    top: 74%;
+    max-height: 10vh;
+    top: 67%;
     left: 50%;
     transform: translate(-50%, -50%);
     flex-direction: column;
 }
+
+@media screen and (max-height: 750px){
+    .column-nav {
+        max-height: 75px;
+    }
+}
+
 
 

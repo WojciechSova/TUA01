@@ -9,6 +9,12 @@ body{
     font-size: 62.5%;
 }
 
+//@media screen and (max-height: 300px) {
+//    body {
+//        overflow-y: hidden;
+//    }
+//}
+
 a {
     float: left;
     margin-left: 1.4vw;
@@ -91,16 +97,24 @@ hr {
 }
 
 .overlay {
+    //display: block;
     display: inline;
     position: fixed;
+    //position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.5);
     z-index: 2;
+}
+
+@media screen and (max-height: 750px){
+    .overlay {
+        overflow-y: scroll;
+    }
 }
 
 .form-container {
@@ -116,10 +130,11 @@ hr {
 
     a {
         color: @footer-accent-color;
-        font: italic 200 2.2vh Source Sans Pro;
+        font: italic 400 2.2vh Source Sans Pro;
         text-decoration: none;
         text-transform: none;
         cursor: pointer;
+        margin-top: 1vh;
         margin-bottom: 20vh;
         text-shadow: none;
     }
@@ -129,9 +144,26 @@ hr {
     }
 }
 
+@media screen and (max-height: 750px) {
+    .form-container {
+        //plan - 600px;
+        min-height: 750px;
+        position: absolute;
+        transform: translateX(-50%);
+        a {
+            font: italic 200 16.5px Source Sans Pro;
+            margin-top: 7.5px;
+            margin-bottom: 150px;
+        }
+    }
+}
+
 .circle {
     display: inline-block;
-    max-height: 100%;
+    //max-height: 100%;
+    height: 100%;
+    //min-height: 750px;
+    //min-width: 750px;
     width: auto;
     position: relative;
     top: 50%;
@@ -150,6 +182,13 @@ form {
     margin-bottom: 1vh;
 }
 
+@media screen and (max-height: 750px){
+    form {
+        margin-top: 15px;
+        margin-bottom: 7.5px;
+    }
+}
+
 input {
     position: relative;
     height: 4.8vh;
@@ -159,8 +198,19 @@ input {
     background-color: transparent;
     font: lighter 3.2vh Source Sans Pro;
     color: @footer-accent-color;
-    padding: 0.6vh 1.4vw;
+    padding: 0.6vh 1.6vw;
     margin: 0.5vh 0.5vw;
+}
+
+@media screen and (max-height: 750px){
+    input {
+        font: lighter 24px Source Sans Pro;
+        height: 36px;
+        padding-top: 4.5px;
+        padding-bottom: 4.5px;
+        margin-top: 3.75px;
+        margin-bottom: 3.75px;
+    }
 }
 
 .form-button {
@@ -172,14 +222,21 @@ input {
     text-align: center;
     font: lighter 3vh Source Sans Pro;
     border: none;
-    border-radius: 3.5vw;
+    border-radius: 35px;
     background-size: 200% auto;
     background-image: linear-gradient(to right, @primary-color 0%, @secondary-color 100%);
     transition: 0.3s;
-
     color: @primary-text-color;
 
     &:hover {
         background-position: right center;
     }
 }
+
+@media screen and (max-height: 750px){
+    .form-button{
+        height: 36px;
+        font: lighter 22.5px Source Sans Pro;
+    }
+}
+
