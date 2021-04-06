@@ -1,4 +1,4 @@
-package pl.lodz.p.it.ssbd2021.ssbd02.model;
+package pl.lodz.p.it.ssbd2021.ssbd02.model.mok;
 
 import lombok.Data;
 import lombok.Getter;
