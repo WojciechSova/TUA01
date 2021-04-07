@@ -117,6 +117,7 @@ CREATE TABLE Seaport
     id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     version           bigint                              NOT NULL,
     city              varchar(30)                         NOT NULL,
+    code              varchar(3)                         NOT NULL,
     modification_date timestamp,
     modified_by       bigint,
     creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -124,7 +125,8 @@ CREATE TABLE Seaport
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
-    CONSTRAINT city_unique UNIQUE (city)
+    CONSTRAINT city_unique UNIQUE (city),
+    CONSTRAINT seaport_code_unique UNIQUE (code)
 );
 
 ALTER TABLE Seaport OWNER TO ssbd02admin;
@@ -137,13 +139,15 @@ CREATE TABLE Route
     version       bigint                              NOT NULL,
     start         bigint                              NOT NULL,
     destination   bigint                              NOT NULL,
+    code          varchar(6)                         NOT NULL,
     creation_date timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_by    bigint,
     PRIMARY KEY (id),
     CONSTRAINT fk_seaport_id_start FOREIGN KEY (start) REFERENCES Seaport (id),
     CONSTRAINT fk_seaport_id_destination FOREIGN KEY (destination) REFERENCES Seaport (id),
     CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
-    CONSTRAINT start_destination_unique UNIQUE (start, destination)
+    CONSTRAINT start_destination_unique UNIQUE (start, destination),
+    CONSTRAINT route_code_unique UNIQUE (code)
 );
 
 ALTER TABLE Route OWNER TO ssbd02admin;
@@ -166,6 +170,7 @@ CREATE TABLE Cabin
     ferry             bigint                              NOT NULL,
     capacity          int                                 NOT NULL,
     cabin_type        bigint                              NOT NULL,
+    number            varchar(4)                         NOT NULL,
     modification_date timestamp,
     modified_by       bigint,
     creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -175,7 +180,8 @@ CREATE TABLE Cabin
     CONSTRAINT fk_ferry_id FOREIGN KEY (ferry) REFERENCES Ferry (id),
     CONSTRAINT fk_cabin_type_id FOREIGN KEY (cabin_type) REFERENCES Cabin_type (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id)
+    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT cabin_number_unique UNIQUE (number)
 );
 
 ALTER TABLE Cabin OWNER TO ssbd02admin;
@@ -190,6 +196,7 @@ CREATE TABLE Cruise
     end_date          timestamp                           NOT NULL,
     route             bigint                              NOT NULL,
     ferry             bigint                              NOT NULL,
+    number            varchar(12)                         NOT NULL,
     modification_date timestamp,
     modified_by       bigint,
     creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -199,7 +206,8 @@ CREATE TABLE Cruise
     CONSTRAINT fk_route_id FOREIGN KEY (route) REFERENCES Route (id),
     CONSTRAINT fk_ferry_id FOREIGN KEY (ferry) REFERENCES Ferry (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id)
+    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT cruise_number_unique UNIQUE (number)
 );
 
 ALTER TABLE Cruise OWNER TO ssbd02admin;
@@ -227,6 +235,7 @@ CREATE TABLE Booking
     cabin            bigint,
     vehicle_type     bigint                              NOT NULL,
     price            float                               NOT NULL,
+    number           varchar(10)                         NOT NULL,
     creation_date    timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT number_of_people_greater_than_zero CHECK (number_of_people > 0),
@@ -234,7 +243,8 @@ CREATE TABLE Booking
     CONSTRAINT fk_cruise_id FOREIGN KEY (cruise) REFERENCES Cruise (id),
     CONSTRAINT fk_account_id FOREIGN KEY (account) REFERENCES Account (id),
     CONSTRAINT fk_cabin_id FOREIGN KEY (cabin) REFERENCES Cabin (id),
-    CONSTRAINT fk_vehicle_type_id FOREIGN KEY (vehicle_type) REFERENCES Vehicle_type (id)
+    CONSTRAINT fk_vehicle_type_id FOREIGN KEY (vehicle_type) REFERENCES Vehicle_type (id),
+    CONSTRAINT booking_number_unique UNIQUE (number)
 );
 
 ALTER TABLE Booking OWNER TO ssbd02admin;

@@ -29,14 +29,14 @@ public class Route implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = true)
-    private long version;
+    private Long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
@@ -47,6 +47,10 @@ public class Route implements Serializable {
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "destination", nullable = false, updatable = true, referencedColumnName = "id")
     private Seaport destination;
+
+    @NotNull
+    @Column(name = "code", nullable = false, updatable = true, length = 6)
+    private String code;
 
     @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)

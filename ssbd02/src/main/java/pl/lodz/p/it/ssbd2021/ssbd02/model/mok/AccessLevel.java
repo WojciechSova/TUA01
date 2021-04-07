@@ -54,7 +54,7 @@ public class AccessLevel implements Serializable {
 
     @NotNull
     @Column(name = "active", nullable = false, updatable = true)
-    private boolean active;
+    private Boolean active;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
