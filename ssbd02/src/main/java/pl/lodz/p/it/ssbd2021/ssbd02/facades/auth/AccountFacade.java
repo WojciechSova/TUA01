@@ -32,10 +32,10 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     /**
-     * Metoda wyszukująca encję typu {@link Account} o podanym loginie.
+     * Metoda wyszukująca encję typu {@link Account} o przekazanym loginie.
      *
      * @param login Login encji.
-     * @return Zwraca encję typu {@link Account} o podanym loginie.
+     * @return Zwraca encję typu {@link Account} o przekazanym loginie.
      */
     public Account findByLogin(String login) {
         TypedQuery<Account> tq = entityManager.createNamedQuery("Account.findByLogin", Account.class);
