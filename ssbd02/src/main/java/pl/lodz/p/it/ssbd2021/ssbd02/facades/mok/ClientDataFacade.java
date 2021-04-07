@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.facades.mok;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.facades.AbstractFacade;
-import pl.lodz.p.it.ssbd2021.ssbd02.model.ClientData;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.ClientData;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
