@@ -28,12 +28,12 @@ public class AuthenticationMechanism implements HttpAuthenticationMechanism {
      * oraz czy jest on aktualny.
      *
      * @param request            Zawiera zapytanie jakie wykonał klient.
-     * @param response           Zawiera odpowiedź jasa zostanie wysłana do klienta.
+     * @param response           Zawiera odpowiedź jaka zostanie wysłana do klienta.
      * @param httpMessageContext Kontekst służący do interakcji z kontenerem.
      * @return W przypadku braku przesłania tokenu, przesłania tokenu, którego walidacja się nie powiedzie
-     * oraz przasłaniu tokenu który wygasł, metoda zwraca SEND_FAILURE. W przypadku poprawnego uwierzytelnienia
+     * oraz przasłania tokenu który wygasł, metoda zwraca SEND_FAILURE. W przypadku poprawnego uwierzytelnienia
      * zwraca SUCCESS.
-     * @throws AuthenticationException Kiedy przetwaranie się nie powiodło się.
+     * @throws AuthenticationException Kiedy przetwarzanie się nie powiodło.
      */
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
