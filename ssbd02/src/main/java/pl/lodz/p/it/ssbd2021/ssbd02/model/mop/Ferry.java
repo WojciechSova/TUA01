@@ -13,15 +13,15 @@ import java.sql.Timestamp;
 @Table(name = "Ferry")
 @NamedQueries({
         @NamedQuery(name = "Ferry.findAll", query = "SELECT f FROM Ferry f"),
-        @NamedQuery(name = "Seaport.findById", query = "SELECT f FROM Ferry f WHERE f.id = :id"),
-        @NamedQuery(name = "Seaport.findByVersion", query = "SELECT f FROM Ferry f WHERE f.version = :version"),
-        @NamedQuery(name = "Seaport.findByName", query = "SELECT f FROM Ferry f WHERE f.name = :name"),
-        @NamedQuery(name = "Seaport.findByVehicleCapacity", query = "SELECT f FROM Ferry f WHERE f.vehicleCapacity = :vehicleCapacity"),
-        @NamedQuery(name = "Seaport.findByOnDeckCapacity", query = "SELECT f FROM Ferry f WHERE f.onDeckCapacity = :onDeckCapacity"),
-        @NamedQuery(name = "Seaport.findByModificationDate", query = "SELECT f FROM Ferry f WHERE f.modificationDate = :modificationDate"),
-        @NamedQuery(name = "Seaport.findByModifiedBy", query = "SELECT f FROM Ferry f WHERE f.modifiedBy = :modifiedBy"),
-        @NamedQuery(name = "Seaport.findByCreationDate", query = "SELECT f FROM Ferry f WHERE f.creationDate = :creationDate"),
-        @NamedQuery(name = "Seaport.findByCreatedBy", query = "SELECT f FROM Ferry f WHERE f.createdBy = :createdBy")
+        @NamedQuery(name = "Ferry.findById", query = "SELECT f FROM Ferry f WHERE f.id = :id"),
+        @NamedQuery(name = "Ferry.findByVersion", query = "SELECT f FROM Ferry f WHERE f.version = :version"),
+        @NamedQuery(name = "Ferry.findByName", query = "SELECT f FROM Ferry f WHERE f.name = :name"),
+        @NamedQuery(name = "Ferry.findByVehicleCapacity", query = "SELECT f FROM Ferry f WHERE f.vehicleCapacity = :vehicleCapacity"),
+        @NamedQuery(name = "Ferry.findByOnDeckCapacity", query = "SELECT f FROM Ferry f WHERE f.onDeckCapacity = :onDeckCapacity"),
+        @NamedQuery(name = "Ferry.findByModificationDate", query = "SELECT f FROM Ferry f WHERE f.modificationDate = :modificationDate"),
+        @NamedQuery(name = "Ferry.findByModifiedBy", query = "SELECT f FROM Ferry f WHERE f.modifiedBy = :modifiedBy"),
+        @NamedQuery(name = "Ferry.findByCreationDate", query = "SELECT f FROM Ferry f WHERE f.creationDate = :creationDate"),
+        @NamedQuery(name = "Ferry.findByCreatedBy", query = "SELECT f FROM Ferry f WHERE f.createdBy = :createdBy")
 })
 @Data
 @NoArgsConstructor
