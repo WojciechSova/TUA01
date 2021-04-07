@@ -21,8 +21,8 @@
     <persistence-unit name="ssbd02authPU">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/jdbc/ssbd02auth</jta-data-source>
-        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.AccessLevel</class>
-        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.Account</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.AccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <!-- This line is responsible for logging level -->
@@ -36,8 +36,9 @@
     <persistence-unit name="ssbd02mokPU">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/jdbc/ssbd02mok</jta-data-source>
-        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.AccessLevel</class>
-        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.Account</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.AccessLevel</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.ClientData</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <!-- This line is responsible for logging level -->
@@ -51,6 +52,15 @@
     <persistence-unit name="ssbd02mopPU">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/jdbc/ssbd02mop</jta-data-source>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mop.Booking</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mop.Cabin</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mop.CabinType</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mop.Cruise</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mop.Ferry</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mop.Route</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mop.Seaport</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mop.VehicleType</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <!-- This line is responsible for logging level -->
