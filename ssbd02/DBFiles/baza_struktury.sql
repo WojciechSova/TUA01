@@ -123,7 +123,8 @@ CREATE TABLE Seaport
     created_by        bigint,
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id)
+    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT city_unique UNIQUE (city)
 );
 
 ALTER TABLE Seaport OWNER TO ssbd02admin;
@@ -141,7 +142,8 @@ CREATE TABLE Route
     PRIMARY KEY (id),
     CONSTRAINT fk_seaport_id_start FOREIGN KEY (start) REFERENCES Seaport (id),
     CONSTRAINT fk_seaport_id_destination FOREIGN KEY (destination) REFERENCES Seaport (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id)
+    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT start_destination_unique UNIQUE (start, destination)
 );
 
 ALTER TABLE Route OWNER TO ssbd02admin;
@@ -222,7 +224,7 @@ CREATE TABLE Booking
     cruise           bigint                              NOT NULL,
     account          bigint                              NOT NULL,
     number_of_people int                                 NOT NULL,
-    cabin            bigint                              NOT NULL,
+    cabin            bigint,
     vehicle_type     bigint                              NOT NULL,
     price            float                               NOT NULL,
     creation_date    timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
