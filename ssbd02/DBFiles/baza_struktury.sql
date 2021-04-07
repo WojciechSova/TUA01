@@ -224,7 +224,7 @@ CREATE TABLE Booking
     cruise           bigint                              NOT NULL,
     account          bigint                              NOT NULL,
     number_of_people int                                 NOT NULL,
-    cabin            bigint                              NOT NULL,
+    cabin            bigint,
     vehicle_type     bigint                              NOT NULL,
     price            float                               NOT NULL,
     creation_date    timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
