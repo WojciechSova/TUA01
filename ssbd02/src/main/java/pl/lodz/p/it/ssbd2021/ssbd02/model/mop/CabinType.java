@@ -28,7 +28,7 @@ public class CabinType implements Serializable {
     private long id;
 
     @NotNull
-    @Column(name = "cabin_type_name", nullable = false, updatable = true, length = 30)
+    @Column(name = "cabin_type_name", nullable = false, updatable = false, length = 30)
     private String cabinTypeName;
 
 }
