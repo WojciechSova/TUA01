@@ -73,6 +73,7 @@ CREATE TABLE Access_level
 ALTER TABLE Access_level OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
+GRANT SELECT ON TABLE Access_level TO ssbd02auth;
 
 CREATE TABLE Client_data
 (
