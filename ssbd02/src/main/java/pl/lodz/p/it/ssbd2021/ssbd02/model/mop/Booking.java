@@ -37,39 +37,39 @@ public class Booking implements Serializable {
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
+    @Column(name = "version", nullable = false, updatable = false)
     private long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "cruise", nullable = false, updatable = true, referencedColumnName = "id")
+    @JoinColumn(name = "cruise", nullable = false, updatable = false, referencedColumnName = "id")
     private Cruise cruise;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "account", nullable = false, updatable = true, referencedColumnName = "id")
+    @JoinColumn(name = "account", nullable = false, updatable = false, referencedColumnName = "id")
     private Account account;
 
     @NotNull
-    @Column(name = "number_of_people", nullable = false, updatable = true)
+    @Column(name = "number_of_people", nullable = false, updatable = false)
     private int numberOfPeople;
 
     @NotNull
     @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "cabin", nullable = true, updatable = true, referencedColumnName = "id")
+    @JoinColumn(name = "cabin", nullable = true, updatable = false, referencedColumnName = "id")
     private Cabin cabin;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "vehicle_type", nullable = false, updatable = true, referencedColumnName = "id")
+    @JoinColumn(name = "vehicle_type", nullable = false, updatable = false, referencedColumnName = "id")
     private VehicleType vehicleType;
 
     @NotNull
-    @Column(name = "price", nullable = false, updatable = true)
+    @Column(name = "price", nullable = false, updatable = false)
     private double price;
 
     @NotNull
-    @Column(name = "creation_date", nullable = false, updatable = true)
+    @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;
 
 }
