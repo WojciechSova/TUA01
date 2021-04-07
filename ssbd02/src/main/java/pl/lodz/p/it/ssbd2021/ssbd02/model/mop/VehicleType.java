@@ -24,7 +24,7 @@ public class VehicleType implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @NotNull
     @Column(name = "vehicle_type_name", nullable = false, updatable = false, length = 30)
@@ -33,6 +33,6 @@ public class VehicleType implements Serializable {
 
     @NotNull
     @Column(name = "required_space", nullable = false, updatable = false)
-    private double requiredSpace;
+    private Double requiredSpace;
 
 }

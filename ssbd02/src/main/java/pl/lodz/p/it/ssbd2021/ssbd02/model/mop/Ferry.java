@@ -32,14 +32,14 @@ public class Ferry implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = true)
-    private long version;
+    private Long version;
 
     @NotNull
     @Column(name = "name", nullable = false, unique = true, length = 30)
@@ -47,11 +47,11 @@ public class Ferry implements Serializable {
 
     @NotNull
     @Column(name = "vehicle_capacity", nullable = false, updatable = true)
-    private int vehicleCapacity;
+    private Integer vehicleCapacity;
 
     @NotNull
     @Column(name = "on_deck_capacity", nullable = false, updatable = true)
-    private int onDeckCapacity;
+    private Integer onDeckCapacity;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
