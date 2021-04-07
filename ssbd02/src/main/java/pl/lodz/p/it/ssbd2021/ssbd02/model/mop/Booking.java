@@ -55,7 +55,7 @@ public class Booking implements Serializable {
     private int numberOfPeople;
 
     @NotNull
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cabin", nullable = true, updatable = true, referencedColumnName = "id")
     private Cabin cabin;
 
