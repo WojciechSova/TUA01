@@ -33,10 +33,10 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
     }
 
     /**
-     * Metoda wyszukująca encję typu {@link AccessLevel} o podanym identyfikatorze encji.
+     * Metoda wyszukująca encję typu {@link AccessLevel} o przekazanym identyfikatorze encji.
      *
      * @param id Identyfikator encji.
-     * @return Zwraca obiekt typu {@link AccessLevel}, o podanym identyfikatorze encji.
+     * @return Zwraca obiekt typu {@link AccessLevel}, o przekazanym identyfikatorze encji.
      */
     public AccessLevel findById(String id) {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findById", AccessLevel.class);
@@ -45,10 +45,10 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
     }
 
     /**
-     * Metoda wyszukująca encje typu {@link AccessLevel}, w których znajduje się dowiązanie do encji typu {@link Account} o podanym loginie.
+     * Metoda wyszukująca encje typu {@link AccessLevel}, w których znajduje się dowiązanie do encji typu {@link Account} o przekazanym loginie.
      *
      * @param login Login encji.
-     * @return Zwraca kolekcje encji typu {@link AccessLevel}, w których znajduje się dowiązanie do encji typu {@link Account} o podanym loginie.
+     * @return Zwraca kolekcję encji typu {@link AccessLevel}, w których znajduje się dowiązanie do encji typu {@link Account} o przekazanym loginie.
      */
     public List<AccessLevel> findByLogin(String login) {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findByLogin", AccessLevel.class);

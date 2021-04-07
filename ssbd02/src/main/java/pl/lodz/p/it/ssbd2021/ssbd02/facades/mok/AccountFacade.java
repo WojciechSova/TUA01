@@ -34,10 +34,10 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     /**
-     * Metoda wyszukująca encję typu {@link Account} o podanym identyfikatorze encji.
+     * Metoda wyszukująca encję typu {@link Account} o przekazanym identyfikatorze encji.
      *
      * @param id Identyfikator encji.
-     * @return Zwraca obiekt typu {@link Account}, o podanym identyfikatorze encji.
+     * @return Zwraca obiekt typu {@link Account}, o przekazanym identyfikatorze encji.
      */
     public Account findById(Long id) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findById", Account.class);
@@ -46,10 +46,10 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     /**
-     * Metoda wyszukująca encję typu {@link Account} o podanym loginie.
+     * Metoda wyszukująca encję typu {@link Account} o przekazanym loginie.
      *
      * @param login Login encji.
-     * @return Zwraca obiekt typu {@link Account}, o podanym loginie encji.
+     * @return Zwraca obiekt typu {@link Account}, o przekazanym loginie encji.
      */
     public Account findByLogin(String login) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByLogin", Account.class);
@@ -58,10 +58,10 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     /**
-     * Metoda wyszukująca encję typu {@link Account} o podanym adresie email.
+     * Metoda wyszukująca encję typu {@link Account} o przekazanym adresie email.
      *
      * @param email Email encji.
-     * @return Zwraca obiekt typu {@link Account}, o podanym emailu encji.
+     * @return Zwraca obiekt typu {@link Account}, o przekazanym emailu encji.
      */
     public Account findByEmail(String email) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail", Account.class);

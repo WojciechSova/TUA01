@@ -31,10 +31,10 @@ public class ClientDataFacade extends AbstractFacade<ClientData> {
     }
 
     /**
-     * Metoda wyszukująca encje typu {@link ClientData} o podanym identyfikatorze encji.
+     * Metoda wyszukująca encje typu {@link ClientData} o przekazanym identyfikatorze encji.
      *
      * @param id Identyfikator encji.
-     * @return Zwraca obiekt typu {@link ClientData}, o podanym identyfikatorze encji.
+     * @return Zwraca obiekt typu {@link ClientData}, o przekazanym identyfikatorze encji.
      */
     public ClientData findById(Long id) {
         TypedQuery<ClientData> typedQuery = entityManager.createNamedQuery("ClientData.findById", ClientData.class);
