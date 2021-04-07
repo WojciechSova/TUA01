@@ -26,15 +26,15 @@ public class JWTGenerator {
      */
     public static String generateJWT(CredentialValidationResult credentialValidationResult) {
         try {
-            JWSSigner jwsSigner = new MACSigner(SecretConstants.SECRET);
+            JWSSigner jwsSigner = new MACSigner(SecurityConstants.SECRET);
 
             JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
 
             JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                     .subject(credentialValidationResult.getCallerPrincipal().getName())
-                    .claim(SecretConstants.AUTH, String.join(",", credentialValidationResult.getCallerGroups()))
-                    .issuer(SecretConstants.ISSUER)
-                    .expirationTime(new Date(new Date().getTime() + SecretConstants.EXPIRATION_TIME))
+                    .claim(SecurityConstants.AUTH, String.join(",", credentialValidationResult.getCallerGroups()))
+                    .issuer(SecurityConstants.ISSUER)
+                    .expirationTime(new Date(new Date().getTime() + SecurityConstants.EXPIRATION_TIME))
                     .build();
 
             SignedJWT signedJWT = new SignedJWT(jwsHeader, jwtClaimsSet);
