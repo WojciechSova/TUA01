@@ -38,13 +38,12 @@ import java.sql.Timestamp;
 public class Account implements Serializable {
 
     //region Account section
-    @NotNull
     @Id
     @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -62,11 +61,11 @@ public class Account implements Serializable {
 
     @NotNull
     @Column(name = "active", nullable = false, updatable = true)
-    private Boolean active;
+    private Boolean active = true;
 
     @NotNull
     @Column(name = "confirmed", nullable = false, updatable = true)
-    private Boolean confirmed;
+    private Boolean confirmed = false;
     //endregion
 
 
@@ -96,8 +95,7 @@ public class Account implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id", table = "Personal_data")
     private Account modifiedBy;
 
-    @NotNull
-    @Column(name = "creation_date", nullable = false, updatable = false, table = "Personal_data")
+    @Column(name = "creation_date", nullable = true, updatable = false, table = "Personal_data")
     private Timestamp creationDate;
 
     @Column(name = "last_known_good_login", nullable = true, updatable = true, table = "Personal_data")

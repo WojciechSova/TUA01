@@ -12,8 +12,9 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
         </properties>
     </persistence-unit>
 
@@ -27,8 +28,8 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
         </properties>
     </persistence-unit>
 
@@ -43,8 +44,8 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
         </properties>
     </persistence-unit>
 
@@ -65,8 +66,8 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
         </properties>
     </persistence-unit>
 

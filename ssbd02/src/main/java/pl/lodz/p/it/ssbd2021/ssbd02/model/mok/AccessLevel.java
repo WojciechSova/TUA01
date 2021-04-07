@@ -30,13 +30,12 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class AccessLevel implements Serializable {
 
-    @NotNull
     @Id
     @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
-    @NotNull
     @Version
     @Setter(lombok.AccessLevel.NONE)
     @Getter(lombok.AccessLevel.NONE)
@@ -54,7 +53,7 @@ public class AccessLevel implements Serializable {
 
     @NotNull
     @Column(name = "active", nullable = false, updatable = true)
-    private boolean active;
+    private Boolean active = true;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
@@ -63,8 +62,7 @@ public class AccessLevel implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 
-    @NotNull
-    @Column(name = "creation_date", nullable = false, updatable = false)
+    @Column(name = "creation_date", nullable = true, updatable = false)
     private Timestamp creationDate;
 
 }

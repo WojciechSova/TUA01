@@ -26,14 +26,12 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class Booking implements Serializable {
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private long id;
 
-    @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -68,8 +66,7 @@ public class Booking implements Serializable {
     @Column(name = "price", nullable = false, updatable = false)
     private double price;
 
-    @NotNull
-    @Column(name = "creation_date", nullable = false, updatable = false)
+    @Column(name = "creation_date", nullable = true, updatable = false)
     private Timestamp creationDate;
 
 }
