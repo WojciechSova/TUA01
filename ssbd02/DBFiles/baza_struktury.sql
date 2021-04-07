@@ -23,7 +23,8 @@ CREATE TABLE Account
     CONSTRAINT login_unique UNIQUE (login)
 );
 
-ALTER TABLE Account OWNER TO ssbd02admin;
+ALTER TABLE Account
+    OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Account TO ssbd02mok;
 GRANT SELECT ON TABLE Account TO ssbd02auth;
@@ -50,7 +51,8 @@ CREATE TABLE Personal_data
     CONSTRAINT email_unique UNIQUE (email)
 );
 
-ALTER TABLE Personal_data OWNER TO ssbd02admin;
+ALTER TABLE Personal_data
+    OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Personal_data TO ssbd02mok;
 
@@ -70,7 +72,8 @@ CREATE TABLE Access_level
     CONSTRAINT account_id_level_unique UNIQUE (account_id, level)
 );
 
-ALTER TABLE Access_level OWNER TO ssbd02admin;
+ALTER TABLE Access_level
+    OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
 GRANT SELECT ON TABLE Access_level TO ssbd02auth;
@@ -85,7 +88,8 @@ CREATE TABLE Client_data
     CONSTRAINT phone_number_unique UNIQUE (phone_number)
 );
 
-ALTER TABLE Client_data OWNER TO ssbd02admin;
+ALTER TABLE Client_data
+    OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Client_data TO ssbd02mok;
 
@@ -108,7 +112,8 @@ CREATE TABLE Ferry
     CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id)
 );
 
-ALTER TABLE Ferry OWNER TO ssbd02admin;
+ALTER TABLE Ferry
+    OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Ferry TO ssbd02mop;
 
@@ -117,7 +122,7 @@ CREATE TABLE Seaport
     id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     version           bigint                              NOT NULL,
     city              varchar(30)                         NOT NULL,
-    code              varchar(3)                         NOT NULL,
+    code              varchar(3)                          NOT NULL,
     modification_date timestamp,
     modified_by       bigint,
     creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -129,7 +134,8 @@ CREATE TABLE Seaport
     CONSTRAINT seaport_code_unique UNIQUE (code)
 );
 
-ALTER TABLE Seaport OWNER TO ssbd02admin;
+ALTER TABLE Seaport
+    OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Seaport TO ssbd02mop;
 
@@ -139,7 +145,7 @@ CREATE TABLE Route
     version       bigint                              NOT NULL,
     start         bigint                              NOT NULL,
     destination   bigint                              NOT NULL,
-    code          varchar(6)                         NOT NULL,
+    code          varchar(6)                          NOT NULL,
     creation_date timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_by    bigint,
     PRIMARY KEY (id),
@@ -150,7 +156,8 @@ CREATE TABLE Route
     CONSTRAINT route_code_unique UNIQUE (code)
 );
 
-ALTER TABLE Route OWNER TO ssbd02admin;
+ALTER TABLE Route
+    OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, DELETE ON TABLE Route TO ssbd02mop;
 
@@ -161,7 +168,8 @@ CREATE TABLE Cabin_type
     PRIMARY KEY (id)
 );
 
-ALTER TABLE Cabin_type OWNER TO ssbd02admin;
+ALTER TABLE Cabin_type
+    OWNER TO ssbd02admin;
 
 CREATE TABLE Cabin
 (
@@ -170,7 +178,7 @@ CREATE TABLE Cabin
     ferry             bigint                              NOT NULL,
     capacity          int                                 NOT NULL,
     cabin_type        bigint                              NOT NULL,
-    number            varchar(4)                         NOT NULL,
+    number            varchar(4)                          NOT NULL,
     modification_date timestamp,
     modified_by       bigint,
     creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -184,7 +192,8 @@ CREATE TABLE Cabin
     CONSTRAINT cabin_number_unique UNIQUE (number)
 );
 
-ALTER TABLE Cabin OWNER TO ssbd02admin;
+ALTER TABLE Cabin
+    OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cabin TO ssbd02mop;
 
@@ -210,7 +219,8 @@ CREATE TABLE Cruise
     CONSTRAINT cruise_number_unique UNIQUE (number)
 );
 
-ALTER TABLE Cruise OWNER TO ssbd02admin;
+ALTER TABLE Cruise
+    OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cruise TO ssbd02mop;
 
@@ -223,7 +233,8 @@ CREATE TABLE Vehicle_type
     CONSTRAINT required_space_not_negative CHECK (required_space >= 0)
 );
 
-ALTER TABLE Vehicle_type OWNER TO ssbd02admin;
+ALTER TABLE Vehicle_type
+    OWNER TO ssbd02admin;
 
 CREATE TABLE Booking
 (
@@ -247,6 +258,7 @@ CREATE TABLE Booking
     CONSTRAINT booking_number_unique UNIQUE (number)
 );
 
-ALTER TABLE Booking OWNER TO ssbd02admin;
+ALTER TABLE Booking
+    OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, DELETE ON TABLE Booking TO ssbd02mop;
