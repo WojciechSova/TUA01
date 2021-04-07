@@ -44,7 +44,7 @@ public class Route implements Serializable {
     private Seaport start;
 
     @NotNull
-    @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "destination", nullable = false, updatable = true, referencedColumnName = "id")
     private Seaport destination;
 
