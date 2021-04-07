@@ -1,8 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.facades.auth;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.facades.AbstractFacade;
-import pl.lodz.p.it.ssbd2021.ssbd02.model.AccessLevel;
-import pl.lodz.p.it.ssbd2021.ssbd02.model.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
