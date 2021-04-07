@@ -122,7 +122,8 @@ CREATE TABLE Seaport
     created_by        bigint,
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id)
+    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT city_unique UNIQUE (city)
 );
 
 ALTER TABLE Seaport OWNER TO ssbd02admin;
@@ -140,7 +141,8 @@ CREATE TABLE Route
     PRIMARY KEY (id),
     CONSTRAINT fk_seaport_id_start FOREIGN KEY (start) REFERENCES Seaport (id),
     CONSTRAINT fk_seaport_id_destination FOREIGN KEY (destination) REFERENCES Seaport (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id)
+    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT start_destination_unique UNIQUE (start, destination)
 );
 
 ALTER TABLE Route OWNER TO ssbd02admin;
