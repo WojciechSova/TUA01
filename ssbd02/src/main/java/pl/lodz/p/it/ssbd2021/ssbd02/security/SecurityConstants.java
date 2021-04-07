@@ -15,4 +15,6 @@ class SecurityConstants {
     public static final String ISSUER = "ssbd02";
     public static final String EXP = "exp";
     public static final int EXPIRATION_TIME = 10 * 60 * 1000;
+
+    public static final String GROUP_SPLIT_CONSTANT = ",";
 }

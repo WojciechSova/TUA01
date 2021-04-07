@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.security;
 
 import com.nimbusds.jwt.SignedJWT;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.security.enterprise.AuthenticationException;
 import javax.security.enterprise.AuthenticationStatus;
 import javax.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
@@ -19,6 +20,7 @@ import java.util.Objects;
  *
  * @author Patryk Kolanek
  */
+@ApplicationScoped
 public class AuthenticationMechanism implements HttpAuthenticationMechanism {
 
     /**
@@ -60,7 +62,7 @@ public class AuthenticationMechanism implements HttpAuthenticationMechanism {
                 return httpMessageContext.responseUnauthorized();
             }
 
-            return httpMessageContext.notifyContainerAboutLogin(login, new HashSet<>(Arrays.asList(groups.split(","))));
+            return httpMessageContext.notifyContainerAboutLogin(login, new HashSet<>(Arrays.asList(groups.split(SecurityConstants.GROUP_SPLIT_CONSTANT))));
         } catch (ParseException e) {
             e.printStackTrace();
         }

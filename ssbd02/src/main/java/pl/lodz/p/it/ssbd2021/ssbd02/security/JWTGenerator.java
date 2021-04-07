@@ -32,7 +32,7 @@ public class JWTGenerator {
 
             JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                     .subject(credentialValidationResult.getCallerPrincipal().getName())
-                    .claim(SecurityConstants.AUTH, String.join(",", credentialValidationResult.getCallerGroups()))
+                    .claim(SecurityConstants.AUTH, String.join(SecurityConstants.GROUP_SPLIT_CONSTANT, credentialValidationResult.getCallerGroups()))
                     .issuer(SecurityConstants.ISSUER)
                     .expirationTime(new Date(new Date().getTime() + SecurityConstants.EXPIRATION_TIME))
                     .build();
