@@ -30,12 +30,12 @@ public class Booking implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
-    @Setter(lombok.AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private long id;
 
     @NotNull
     @Version
-    @Getter(lombok.AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = true)
     private long version;
@@ -56,7 +56,7 @@ public class Booking implements Serializable {
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "cabin", nullable = false, updatable = true, referencedColumnName = "id")
+    @JoinColumn(name = "cabin", nullable = true, updatable = true, referencedColumnName = "id")
     private Cabin cabin;
 
     @NotNull
