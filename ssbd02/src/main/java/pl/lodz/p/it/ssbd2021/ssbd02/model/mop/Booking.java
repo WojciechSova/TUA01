@@ -20,6 +20,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Booking.findByCabin", query = "SELECT b FROM Booking b WHERE b.cabin = :cabin"),
         @NamedQuery(name = "Booking.findByVehicleType", query = "SELECT b FROM Booking b WHERE b.vehicleType = :vehicleType"),
         @NamedQuery(name = "Booking.findByPrice", query = "SELECT b FROM Booking b WHERE b.price = :price"),
+        @NamedQuery(name = "Booking.findByNumber", query = "SELECT b FROM Booking b WHERE b.number = :number"),
         @NamedQuery(name = "Booking.findByCreationDate", query = "SELECT b FROM Booking b WHERE b.creationDate = :creationDate")
 })
 @Data
