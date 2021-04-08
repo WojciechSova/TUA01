@@ -31,14 +31,14 @@ public class Booking implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = false)
-    private long version;
+    private Long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
@@ -52,7 +52,7 @@ public class Booking implements Serializable {
 
     @NotNull
     @Column(name = "number_of_people", nullable = false, updatable = false)
-    private int numberOfPeople;
+    private Integer numberOfPeople;
 
     @NotNull
     @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
@@ -66,7 +66,11 @@ public class Booking implements Serializable {
 
     @NotNull
     @Column(name = "price", nullable = false, updatable = false)
-    private double price;
+    private Double price;
+
+    @NotNull
+    @Column(name = "number", nullable = false, updatable = true, length = 10)
+    private String number;
 
     @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)

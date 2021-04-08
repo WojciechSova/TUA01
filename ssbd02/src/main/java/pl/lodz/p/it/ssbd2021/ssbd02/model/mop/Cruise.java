@@ -33,14 +33,14 @@ public class Cruise implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = true)
-    private long version;
+    private Long version;
 
     @NotNull
     @Column(name = "start_date", nullable = false, updatable = true)
@@ -59,6 +59,10 @@ public class Cruise implements Serializable {
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "ferry", nullable = false, updatable = true, referencedColumnName = "id")
     private Ferry ferry;
+
+    @NotNull
+    @Column(name = "number", nullable = false, updatable = true, length = 12)
+    private String number;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;

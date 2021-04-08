@@ -30,18 +30,22 @@ public class Seaport implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = true)
-    private long version;
+    private Long version;
 
     @NotNull
     @Column(name = "city", nullable = false, updatable = true, length = 30)
     private String city;
+
+    @NotNull
+    @Column(name = "code", nullable = false, updatable = true, length = 3)
+    private String code;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
