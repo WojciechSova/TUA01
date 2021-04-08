@@ -73,6 +73,7 @@ public class Booking implements Serializable {
     @Column(name = "number", nullable = false, updatable = true, length = 10)
     private String number;
 
+    @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 
