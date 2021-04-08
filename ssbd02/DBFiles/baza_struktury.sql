@@ -82,7 +82,7 @@ CREATE TABLE Client_data
 (
     id           bigint      NOT NULL,
     version      bigint      NOT NULL,
-    phone_number varchar(11) NOT NULL,
+    phone_number varchar(11),
     PRIMARY KEY (id),
     CONSTRAINT fk_access_level_id_id FOREIGN KEY (id) REFERENCES Access_level (id),
     CONSTRAINT phone_number_unique UNIQUE (phone_number)
