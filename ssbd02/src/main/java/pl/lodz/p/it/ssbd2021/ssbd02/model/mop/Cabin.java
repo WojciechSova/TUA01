@@ -1,10 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.model.mop;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account;
 
 import javax.persistence.*;
@@ -12,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Cabin.findAll", query = "SELECT c FROM Cabin c"),
@@ -28,7 +26,7 @@ import java.sql.Timestamp;
 })
 @Data
 @NoArgsConstructor
-public class Cabin implements Serializable {
+public class Cabin extends AbstractEntity implements Serializable {
 
     @NotNull
     @Id
@@ -36,13 +34,6 @@ public class Cabin implements Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
-    private Long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)

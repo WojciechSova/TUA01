@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.model.mop;
 
 import lombok.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Cruise")
 @NamedQueries({
@@ -26,7 +28,7 @@ import java.sql.Timestamp;
 })
 @Data
 @NoArgsConstructor
-public class Cruise implements Serializable {
+public class Cruise extends AbstractEntity implements Serializable {
 
     @NotNull
     @Id
@@ -34,13 +36,6 @@ public class Cruise implements Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
-    private Long version;
 
     @NotNull
     @Column(name = "start_date", nullable = false, updatable = true)

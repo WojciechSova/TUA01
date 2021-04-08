@@ -2,12 +2,14 @@ package pl.lodz.p.it.ssbd2021.ssbd02.model.mok;
 
 import lombok.*;
 import lombok.AccessLevel;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Account")
 @SecondaryTable(name = "Personal_data")
@@ -35,7 +37,7 @@ import java.sql.Timestamp;
 })
 @Data
 @NoArgsConstructor
-public class Account implements Serializable {
+public class Account extends AbstractEntity implements Serializable {
 
     //region Account section
     @NotNull
@@ -43,13 +45,6 @@ public class Account implements Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
-    private Long version;
 
     @NotNull
     @Column(name = "login", nullable = false, unique = true, updatable = false, length = 30)
