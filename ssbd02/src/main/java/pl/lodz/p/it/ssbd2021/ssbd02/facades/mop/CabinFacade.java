@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.facades.mop;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.facades.AbstractFacade;
-import pl.lodz.p.it.ssbd2021.ssbd02.model.mop.Booking;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mop.Cabin;
 
 import javax.ejb.Stateless;
@@ -11,7 +10,7 @@ import javax.persistence.TypedQuery;
 
 /**
  * Klasa rozszerzająca abstrakcyjną klasę {@link AbstractFacade}.
- * Używa konkretnego typu {@link Booking} zamiast typu generycznego.
+ * Używa konkretnego typu {@link Cabin} zamiast typu generycznego.
  * Jednostka składowania używana do wstrzyknięcia zarządcy encji do ssbd02mopPU.
  *
  * @author Artur Madaj
