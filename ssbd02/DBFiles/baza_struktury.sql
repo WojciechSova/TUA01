@@ -27,7 +27,6 @@ ALTER TABLE Account
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Account TO ssbd02mok;
-GRANT SELECT ON TABLE Account TO ssbd02auth;
 
 CREATE TABLE Personal_data
 (
@@ -76,7 +75,6 @@ ALTER TABLE Access_level
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
-GRANT SELECT ON TABLE Access_level TO ssbd02auth;
 
 CREATE TABLE Client_data
 (
@@ -92,6 +90,18 @@ ALTER TABLE Client_data
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Client_data TO ssbd02mok;
+
+CREATE VIEW Auth_view AS
+SELECT Account.login, Account.password, Access_level.level
+FROM (Account JOIN Access_level ON
+    ((Account.id = Access_level.Account_id)))
+WHERE (((Account.confirmed = true) AND (Account.active = true))
+    AND (Access_level.active = true));
+
+ALTER TABLE public.Auth_view
+    OWNER TO ssbd02admin;
+
+GRANT SELECT ON TABLE Auth_view TO ssbd02auth;
 
 CREATE TABLE Ferry
 (
