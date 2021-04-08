@@ -1,40 +1,32 @@
 @import '../../styles.less';
 
 .logo {
-    width: 25%;
     position: absolute;
     top: 7vh;
     bottom: 73vh;
     left: 48%;
     transform: translateX(-50%);
     margin: auto;
+    width: 25%;
+    outline-width: 0;
 }
 
-@media screen and (max-height: 750px){
+.column-nav {
+    .column-nav-base();
+    top: 85%;
+}
+
+@media screen and (max-height: 750px) {
     .logo {
         top: 52.5px;
         bottom: 547.5px;
     }
-}
-
-.column-nav {
-    display: flex;
-    position: absolute;
-    max-height: 10vh;
-    top: 85%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    flex-direction: column;
-}
-
-@media screen and (max-height: 750px){
     .column-nav {
         max-height: 75px;
     }
 }
 
-
-
-
-
-
+.return-arrow {
+    .return-arrow-base();
+    top: 85%;
+}

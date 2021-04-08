@@ -1,13 +1,19 @@
 @import '../../styles.less';
 
 .logo {
-    width: 40%;
     position: absolute;
     top: 32vh;
     bottom: 68vh;
     left: 48%;
     transform: translateX(-50%);
     margin: auto;
+    width: 40%;
+    outline-width: 0;
+}
+
+.column-nav {
+    .column-nav-base();
+    top: 67%;
 }
 
 @media screen and (max-height: 750px){
@@ -15,23 +21,12 @@
         top: 240px;
         bottom: 510px;
     }
-}
-
-.column-nav {
-    display: flex;
-    position: absolute;
-    max-height: 10vh;
-    top: 67%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    flex-direction: column;
-}
-
-@media screen and (max-height: 750px){
     .column-nav {
         max-height: 75px;
     }
 }
 
-
-
+.return-arrow {
+    .return-arrow-base();
+    top: 67%;
+}
