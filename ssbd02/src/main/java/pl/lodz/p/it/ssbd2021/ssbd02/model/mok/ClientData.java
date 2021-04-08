@@ -28,6 +28,4 @@ public class ClientData extends AccessLevel implements Serializable {
     @Column(name = "phone_number", nullable = false, updatable = true, length = 11)
     private String phoneNumber;
 
-
-
 }

@@ -30,7 +30,6 @@ public class VehicleType implements Serializable {
     @Column(name = "vehicle_type_name", nullable = false, updatable = false, length = 30)
     private String vehicleTypeName;
 
-
     @NotNull
     @Column(name = "required_space", nullable = false, updatable = false)
     private Double requiredSpace;

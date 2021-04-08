@@ -77,5 +77,4 @@ public class Cabin implements Serializable {
     @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")
     private Account createdBy;
 
-
 }
