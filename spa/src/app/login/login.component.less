@@ -1,0 +1,32 @@
+@import '../../styles.less';
+
+.logo {
+    position: absolute;
+    top: 32vh;
+    bottom: 68vh;
+    left: 48%;
+    transform: translateX(-50%);
+    margin: auto;
+    width: 40%;
+    outline-width: 0;
+}
+
+.column-nav {
+    .column-nav-base();
+    top: 67%;
+}
+
+@media screen and (max-height: 750px){
+    .logo {
+        top: 240px;
+        bottom: 510px;
+    }
+    .column-nav {
+        max-height: 75px;
+    }
+}
+
+.return-arrow {
+    .return-arrow-base();
+    top: 66%;
+}
