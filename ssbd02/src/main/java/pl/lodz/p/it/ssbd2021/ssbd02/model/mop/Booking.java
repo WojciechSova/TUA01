@@ -66,7 +66,7 @@ public class Booking implements Serializable {
     @Column(name = "price", nullable = false, updatable = false)
     private double price;
 
-    @Column(name = "creation_date", nullable = true, updatable = false)
+    @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;
 
 }

@@ -59,11 +59,9 @@ public class Account implements Serializable {
     @ToString.Exclude
     private String password;
 
-    @NotNull
     @Column(name = "active", nullable = false, updatable = true)
     private Boolean active = true;
 
-    @NotNull
     @Column(name = "confirmed", nullable = false, updatable = true)
     private Boolean confirmed = false;
     //endregion
@@ -95,7 +93,7 @@ public class Account implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id", table = "Personal_data")
     private Account modifiedBy;
 
-    @Column(name = "creation_date", nullable = true, updatable = false, table = "Personal_data")
+    @Column(name = "creation_date", nullable = false, updatable = false, table = "Personal_data")
     private Timestamp creationDate;
 
     @Column(name = "last_known_good_login", nullable = true, updatable = true, table = "Personal_data")

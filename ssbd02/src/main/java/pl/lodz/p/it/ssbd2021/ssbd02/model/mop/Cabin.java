@@ -30,14 +30,12 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class Cabin implements Serializable {
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private long id;
 
-    @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -65,7 +63,6 @@ public class Cabin implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 
-    @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;
 
