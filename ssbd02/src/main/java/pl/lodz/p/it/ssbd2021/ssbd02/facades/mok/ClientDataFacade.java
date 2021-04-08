@@ -6,7 +6,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.ClientData;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 /**
  * Klasa rozszerzająca abstrakcyjną klasę {@link AbstractFacade}.
@@ -28,17 +27,5 @@ public class ClientDataFacade extends AbstractFacade<ClientData> {
     @Override
     protected EntityManager getEntityManager() {
         return entityManager;
-    }
-
-    /**
-     * Metoda wyszukująca encje typu {@link ClientData} o przekazanym identyfikatorze encji.
-     *
-     * @param id Identyfikator encji.
-     * @return Zwraca obiekt typu {@link ClientData}, o przekazanym identyfikatorze encji.
-     */
-    public ClientData findById(Long id) {
-        TypedQuery<ClientData> typedQuery = entityManager.createNamedQuery("ClientData.findById", ClientData.class);
-        typedQuery.setParameter("id", id);
-        return typedQuery.getSingleResult();
     }
 }
