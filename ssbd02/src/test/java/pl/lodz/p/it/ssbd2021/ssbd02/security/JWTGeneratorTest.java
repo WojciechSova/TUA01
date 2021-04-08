@@ -23,7 +23,7 @@ class JWTGeneratorTest {
     private JWTGeneratorTest() {
         this.callerPrincipal = new CallerPrincipal("Test");
         this.algorithm = "\"alg\":\"HS256\"";
-        this.issuer = "\"iss\":\"" + SecretConstants.ISSUER + "\"";
+        this.issuer = "\"iss\":\"" + SecurityConstants.ISSUER + "\"";
         this.subject = "\"sub\":\"Test\"";
         this.auth = "\"auth\":\"test-group\"";
 
