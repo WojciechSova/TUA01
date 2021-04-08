@@ -17,6 +17,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Route.findByVersion", query = "SELECT r FROM Route r WHERE r.version = :version"),
         @NamedQuery(name = "Route.findByStart", query = "SELECT r FROM Route r WHERE r.start = :start"),
         @NamedQuery(name = "Route.findByDestination", query = "SELECT r FROM Route r WHERE r.destination = :destination"),
+        @NamedQuery(name = "Route.findByCode", query = "SELECT r FROM Route r WHERE r.code = :code"),
         @NamedQuery(name = "Route.findByCreationDate", query = "SELECT r FROM Route r WHERE r.creationDate = :creationDate"),
         @NamedQuery(name = "Route.findByCreatedBy", query = "SELECT r FROM Route r WHERE r.createdBy = :createdBy"),
 })
@@ -29,14 +30,14 @@ public class Route implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = true)
-    private long version;
+    private Long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
@@ -47,6 +48,10 @@ public class Route implements Serializable {
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "destination", nullable = false, updatable = true, referencedColumnName = "id")
     private Seaport destination;
+
+    @NotNull
+    @Column(name = "code", nullable = false, updatable = true, length = 6)
+    private String code;
 
     @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)

@@ -16,6 +16,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Seaport.findById", query = "SELECT s FROM Seaport s WHERE s.id = :id"),
         @NamedQuery(name = "Seaport.findByVersion", query = "SELECT s FROM Seaport s WHERE s.version = :version"),
         @NamedQuery(name = "Seaport.findByCity", query = "SELECT s FROM Seaport s WHERE s.city = :city"),
+        @NamedQuery(name = "Seaport.findByCode", query = "SELECT s FROM Seaport s WHERE s.code = :code"),
         @NamedQuery(name = "Seaport.findByModificationDate", query = "SELECT s FROM Seaport s WHERE s.modificationDate = :modificationDate"),
         @NamedQuery(name = "Seaport.findByModifiedBy", query = "SELECT s FROM Seaport s WHERE s.modifiedBy = :modifiedBy"),
         @NamedQuery(name = "Seaport.findByCreationDate", query = "SELECT s FROM Seaport s WHERE s.creationDate = :creationDate"),
@@ -30,18 +31,22 @@ public class Seaport implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = true)
-    private long version;
+    private Long version;
 
     @NotNull
     @Column(name = "city", nullable = false, updatable = true, length = 30)
     private String city;
+
+    @NotNull
+    @Column(name = "code", nullable = false, updatable = true, length = 3)
+    private String code;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;

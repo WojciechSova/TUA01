@@ -20,6 +20,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Booking.findByCabin", query = "SELECT b FROM Booking b WHERE b.cabin = :cabin"),
         @NamedQuery(name = "Booking.findByVehicleType", query = "SELECT b FROM Booking b WHERE b.vehicleType = :vehicleType"),
         @NamedQuery(name = "Booking.findByPrice", query = "SELECT b FROM Booking b WHERE b.price = :price"),
+        @NamedQuery(name = "Booking.findByNumber", query = "SELECT b FROM Booking b WHERE b.number = :number"),
         @NamedQuery(name = "Booking.findByCreationDate", query = "SELECT b FROM Booking b WHERE b.creationDate = :creationDate")
 })
 @Data
@@ -30,13 +31,13 @@ public class Booking implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = false)
-    private long version;
+    private Long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
@@ -50,7 +51,7 @@ public class Booking implements Serializable {
 
     @NotNull
     @Column(name = "number_of_people", nullable = false, updatable = false)
-    private int numberOfPeople;
+    private Integer numberOfPeople;
 
     @NotNull
     @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
@@ -64,7 +65,11 @@ public class Booking implements Serializable {
 
     @NotNull
     @Column(name = "price", nullable = false, updatable = false)
-    private double price;
+    private Double price;
+
+    @NotNull
+    @Column(name = "number", nullable = false, updatable = true, length = 10)
+    private String number;
 
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate;

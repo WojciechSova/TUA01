@@ -25,7 +25,7 @@ public class CabinType implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @NotNull
     @Column(name = "cabin_type_name", nullable = false, updatable = false, length = 30)

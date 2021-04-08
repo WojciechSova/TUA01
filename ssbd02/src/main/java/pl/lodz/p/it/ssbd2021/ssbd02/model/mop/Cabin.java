@@ -20,6 +20,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Cabin.findByFerry", query = "SELECT c FROM Cabin c WHERE c.ferry = :ferry"),
         @NamedQuery(name = "Cabin.findByCapacity", query = "SELECT c FROM Cabin c WHERE c.capacity = :capacity"),
         @NamedQuery(name = "Cabin.findByCabinType", query = "SELECT c FROM Cabin c WHERE c.cabinType = :cabinType"),
+        @NamedQuery(name = "Cabin.findByNumber", query = "SELECT c FROM Cabin c WHERE c.number = :number"),
         @NamedQuery(name = "Cabin.findByModificationDate", query = "SELECT c FROM Cabin c WHERE c.modificationDate = :modificationDate"),
         @NamedQuery(name = "Cabin.findBModifiedBy", query = "SELECT c FROM Cabin c WHERE c.modifiedBy = :modifiedBy"),
         @NamedQuery(name = "Cabin.findByCreationDate", query = "SELECT c FROM Cabin c WHERE c.creationDate = :creationDate"),
@@ -34,13 +35,13 @@ public class Cabin implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
-    private long id;
+    private Long id;
 
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Column(name = "version", nullable = false, updatable = true)
-    private long version;
+    private Long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
@@ -49,12 +50,16 @@ public class Cabin implements Serializable {
 
     @NotNull
     @Column(name = "capacity", nullable = false, updatable = true)
-    private int capacity;
+    private Integer capacity;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cabin_type", nullable = false, updatable = true, referencedColumnName = "id")
     private CabinType cabinType;
+
+    @NotNull
+    @Column(name = "number", nullable = false, updatable = true, length = 4)
+    private String number;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
@@ -69,6 +74,5 @@ public class Cabin implements Serializable {
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")
     private Account createdBy;
-
 
 }
