@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Table(name = "Account")
@@ -44,6 +45,7 @@ public class Account implements Serializable {
     @Setter(AccessLevel.NONE)
     private Long id;
 
+    @NotNull
     @Version
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -93,8 +95,9 @@ public class Account implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id", table = "Personal_data")
     private Account modifiedBy;
 
+    @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false, table = "Personal_data")
-    private Timestamp creationDate;
+    private Timestamp creationDate = Timestamp.from(Instant.now());
 
     @Column(name = "last_known_good_login", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp lastKnownGoodLogin;
