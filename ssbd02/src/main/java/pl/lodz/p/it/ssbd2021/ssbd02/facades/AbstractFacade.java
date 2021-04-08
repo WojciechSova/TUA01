@@ -72,17 +72,18 @@ public abstract class AbstractFacade<T> {
     }
 
     /**
-     * Metoda pobierająca encje danego typu z podanego zakresu
+     * Metoda pobierająca encje danego typu z podanego przedziału
      *
-     * @param range Zakres
-     * @return Kolekcja encji typu T z przekazanego zakresu
+     * @param start Początek przedziału
+     * @param end Koniec przedziału (włącznie)
+     * @return Kolekcja encji typu T z przekazanego przedziału
      */
-    public List<T> findInRange(int[] range) {
+    public List<T> findInRange(int start, int end) {
         CriteriaQuery<T> criteriaQuery = getEntityManager().getCriteriaBuilder().createQuery(entityClass);
         Root<T> root = criteriaQuery.from(entityClass);
         criteriaQuery.select(root);
         TypedQuery<T> query = getEntityManager().createQuery(criteriaQuery);
-        query.setFirstResult(range[0]).setMaxResults(range[1] - range[0] + 1);
+        query.setFirstResult(start).setMaxResults(end - start + 1);
         return query.getResultList();
     }
 
