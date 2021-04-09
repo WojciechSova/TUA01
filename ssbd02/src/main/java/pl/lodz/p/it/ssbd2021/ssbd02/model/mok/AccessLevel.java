@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 
 @Entity
@@ -37,6 +38,7 @@ public class AccessLevel implements Serializable {
     @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
+    @NotNull
     @Version
     @Setter(lombok.AccessLevel.NONE)
     @Getter(lombok.AccessLevel.NONE)
@@ -63,7 +65,7 @@ public class AccessLevel implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 
-    @Column(name = "creation_date", nullable = true, updatable = false)
-    private Timestamp creationDate;
+    @Column(name = "creation_date", nullable = false, updatable = false)
+    private Timestamp creationDate = Timestamp.from(Instant.now());
 
 }
