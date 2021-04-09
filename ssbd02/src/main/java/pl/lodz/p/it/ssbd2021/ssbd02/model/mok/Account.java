@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Table(name = "Account")
@@ -38,9 +39,9 @@ import java.sql.Timestamp;
 public class Account implements Serializable {
 
     //region Account section
-    @NotNull
     @Id
     @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
 
@@ -60,13 +61,11 @@ public class Account implements Serializable {
     @ToString.Exclude
     private String password;
 
-    @NotNull
     @Column(name = "active", nullable = false, updatable = true)
-    private Boolean active;
+    private Boolean active = true;
 
-    @NotNull
     @Column(name = "confirmed", nullable = false, updatable = true)
-    private Boolean confirmed;
+    private Boolean confirmed = false;
     //endregion
 
 
@@ -98,7 +97,7 @@ public class Account implements Serializable {
 
     @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false, table = "Personal_data")
-    private Timestamp creationDate;
+    private Timestamp creationDate = Timestamp.from(Instant.now());
 
     @Column(name = "last_known_good_login", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp lastKnownGoodLogin;
