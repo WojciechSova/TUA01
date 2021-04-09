@@ -12,7 +12,6 @@ import java.io.Serializable;
         @NamedQuery(name = "AuthView.findByLogin", query = "SELECT av FROM AuthView av WHERE av.login = :login"),
         @NamedQuery(name = "AuthView.findByLevel", query = "SELECT av FROM AuthView av WHERE av.level = :level")
 })
-@IdClass(AuthView.class)
 @Getter
 @NoArgsConstructor
 public class AuthView implements Serializable {
