@@ -11,7 +11,7 @@ import java.io.Serializable;
         @NamedQuery(name = "AuthView.findAll", query = "SELECT av FROM AuthView av"),
         @NamedQuery(name = "AuthView.findByLogin", query = "SELECT av FROM AuthView av WHERE av.login = :login"),
         @NamedQuery(name = "AuthView.findByLevel", query = "SELECT av FROM AuthView av WHERE av.level = :level"),
-        @NamedQuery(name = "AuthView.findByCredentials", query = "SELECT av FROM AuthView av WHERE av.login = :login AND av.password = :password")
+        @NamedQuery(name = "AuthView.findLevelByCredentials", query = "SELECT av.level FROM AuthView av WHERE av.login = :login AND av.password = :password")
 })
 @Getter
 @NoArgsConstructor
