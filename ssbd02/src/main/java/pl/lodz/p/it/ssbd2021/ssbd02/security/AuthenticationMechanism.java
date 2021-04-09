@@ -30,7 +30,7 @@ public class AuthenticationMechanism implements HttpAuthenticationMechanism {
      * @param request            Zawiera zapytanie jakie wykonał klient.
      * @param response           Zawiera odpowiedź jaka zostanie wysłana do klienta.
      * @param httpMessageContext Kontekst służący do interakcji z kontenerem.
-     * @return W przypadku braku przesłania tokenu, przesłania tokenu, którego walidacja się nie powiedzie
+     * @return W przypadku braku przesłania tokenu zwraca NOT_DONE. W przypadku przesłania tokenu, którego walidacja się nie powiedzie
      * oraz przasłania tokenu który wygasł, metoda zwraca SEND_FAILURE. W przypadku poprawnego uwierzytelnienia
      * zwraca SUCCESS.
      * @throws AuthenticationException Kiedy przetwarzanie się nie powiodło.
@@ -40,7 +40,7 @@ public class AuthenticationMechanism implements HttpAuthenticationMechanism {
         String authorizationHeader = request.getHeader(SecurityConstants.AUTHORIZATION);
 
         if (Objects.isNull(authorizationHeader) || !authorizationHeader.startsWith(SecurityConstants.BEARER)) {
-            return httpMessageContext.responseUnauthorized();
+            return httpMessageContext.doNothing();
         }
 
         String jwt = authorizationHeader.substring(SecurityConstants.BEARER.length()).trim();

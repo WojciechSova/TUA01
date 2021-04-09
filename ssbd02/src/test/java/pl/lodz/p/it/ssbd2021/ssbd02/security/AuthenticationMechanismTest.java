@@ -33,6 +33,7 @@ class AuthenticationMechanismTest {
         Mockito.when(credentialValidationResult.getCallerGroups()).thenReturn(Collections.singleton("test-group"));
 
         Mockito.when(httpMessageContext.responseUnauthorized()).thenReturn(AuthenticationStatus.SEND_FAILURE);
+        Mockito.when(httpMessageContext.doNothing()).thenReturn(AuthenticationStatus.NOT_DONE);
         Mockito.when(httpMessageContext.notifyContainerAboutLogin("Test", new HashSet<>(Collections.singletonList("test-group"))))
                 .thenReturn(AuthenticationStatus.SUCCESS);
     }
@@ -42,7 +43,7 @@ class AuthenticationMechanismTest {
         Mockito.when(request.getHeader(SecurityConstants.AUTHORIZATION)).thenReturn(null);
 
         try {
-            Assertions.assertEquals(AuthenticationStatus.SEND_FAILURE, authenticationMechanism.validateRequest(request, response, httpMessageContext));
+            Assertions.assertEquals(AuthenticationStatus.NOT_DONE, authenticationMechanism.validateRequest(request, response, httpMessageContext));
         } catch (AuthenticationException ignored) {}
     }
 
