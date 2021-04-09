@@ -22,8 +22,7 @@
     <persistence-unit name="ssbd02authPU">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/jdbc/ssbd02auth</jta-data-source>
-        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.AccessLevel</class>
-        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.auth.AuthView</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <!-- This line is responsible for logging level -->
