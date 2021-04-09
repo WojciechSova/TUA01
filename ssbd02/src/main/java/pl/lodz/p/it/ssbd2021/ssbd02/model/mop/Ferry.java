@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 
 
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @Table(name = "Ferry")
 @NamedQueries({

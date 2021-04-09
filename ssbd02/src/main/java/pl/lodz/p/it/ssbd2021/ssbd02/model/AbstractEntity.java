@@ -1,10 +1,13 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.model;
 
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
+@ToString
 @MappedSuperclass
 public abstract class AbstractEntity {
 

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @Table(name = "Route")
 @NamedQueries({

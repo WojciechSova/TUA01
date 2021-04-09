@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Cabin.findAll", query = "SELECT c FROM Cabin c"),

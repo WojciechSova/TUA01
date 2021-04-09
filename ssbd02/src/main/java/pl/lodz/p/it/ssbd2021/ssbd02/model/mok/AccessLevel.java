@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 
 
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "level", discriminatorType = DiscriminatorType.STRING)
