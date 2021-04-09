@@ -31,7 +31,6 @@ GRANT SELECT, INSERT, UPDATE ON TABLE Account TO ssbd02mok;
 CREATE TABLE Personal_data
 (
     id                       bigint                              NOT NULL,
-    version                  bigint                              NOT NULL,
     first_name               varchar(30)                         NOT NULL,
     last_name                varchar(50)                         NOT NULL,
     email                    varchar(70)                         NOT NULL,
@@ -79,7 +78,6 @@ GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
 CREATE TABLE Client_data
 (
     id           bigint      NOT NULL,
-    version      bigint      NOT NULL,
     phone_number varchar(11),
     PRIMARY KEY (id),
     CONSTRAINT fk_access_level_id_id FOREIGN KEY (id) REFERENCES Access_level (id),

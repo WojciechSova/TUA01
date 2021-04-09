@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.model.mop;
 
 import lombok.AccessLevel;
 import lombok.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account;
 
 import javax.persistence.*;
@@ -10,6 +11,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @Table(name = "Route")
 @NamedQueries({
@@ -24,7 +27,7 @@ import java.time.Instant;
 })
 @Data
 @NoArgsConstructor
-public class Route implements Serializable {
+public class Route extends AbstractEntity implements Serializable {
 
     @NotNull
     @Id
@@ -32,13 +35,6 @@ public class Route implements Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
-    private Long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)

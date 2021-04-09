@@ -1,9 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.model.mok;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,6 +10,8 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "level", discriminatorType = DiscriminatorType.STRING)
@@ -30,20 +30,13 @@ import java.time.Instant;
 })
 @Data
 @NoArgsConstructor
-public class AccessLevel implements Serializable {
+public class AccessLevel extends AbstractEntity implements Serializable {
 
     @Id
     @Column(name = "id", nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(lombok.AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Setter(lombok.AccessLevel.NONE)
-    @Getter(lombok.AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
-    private Long version;
 
     @NotNull
     @Column(name = "level", nullable = false, updatable = false, length = 16)
