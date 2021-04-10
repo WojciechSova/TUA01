@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.security;
 
 import com.nimbusds.jwt.SignedJWT;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Stateless;
 import javax.security.enterprise.AuthenticationException;
 import javax.security.enterprise.AuthenticationStatus;
 import javax.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
@@ -20,7 +20,7 @@ import java.util.Objects;
  *
  * @author Patryk Kolanek
  */
-@ApplicationScoped
+@Stateless
 public class AuthenticationMechanism implements HttpAuthenticationMechanism {
 
     /**

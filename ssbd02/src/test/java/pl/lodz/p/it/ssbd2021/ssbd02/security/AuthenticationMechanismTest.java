@@ -1,8 +1,12 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.security;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import javax.security.enterprise.AuthenticationException;
 import javax.security.enterprise.AuthenticationStatus;
@@ -16,25 +20,38 @@ import java.util.HashSet;
 
 class AuthenticationMechanismTest {
 
-    private final AuthenticationMechanism authenticationMechanism;
+    @Mock
+    private HttpServletRequest request;
 
-    private final HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-    private final HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-    private final HttpMessageContext httpMessageContext = Mockito.mock(HttpMessageContext.class);
+    @Mock
+    private HttpServletResponse response;
 
-    private final CredentialValidationResult credentialValidationResult = Mockito.mock(CredentialValidationResult.class);
+    @Mock
+    private HttpMessageContext httpMessageContext;
+
+    @Mock
+    private CredentialValidationResult credentialValidationResult;
+
+    @InjectMocks
+    private AuthenticationMechanism authenticationMechanism;
+
     private final CallerPrincipal callerPrincipal;
 
     private AuthenticationMechanismTest() {
-        this.authenticationMechanism = new AuthenticationMechanism();
         this.callerPrincipal = new CallerPrincipal("Test");
+    }
+
+    @BeforeEach
+    void initMocks() {
+        MockitoAnnotations.openMocks(this);
 
         Mockito.when(credentialValidationResult.getCallerPrincipal()).thenReturn(callerPrincipal);
         Mockito.when(credentialValidationResult.getCallerGroups()).thenReturn(Collections.singleton("test-group"));
 
         Mockito.when(httpMessageContext.responseUnauthorized()).thenReturn(AuthenticationStatus.SEND_FAILURE);
         Mockito.when(httpMessageContext.doNothing()).thenReturn(AuthenticationStatus.NOT_DONE);
-        Mockito.when(httpMessageContext.notifyContainerAboutLogin("Test", new HashSet<>(Collections.singletonList("test-group"))))
+        Mockito.when(httpMessageContext
+                .notifyContainerAboutLogin("Test", new HashSet<>(Collections.singletonList("test-group"))))
                 .thenReturn(AuthenticationStatus.SUCCESS);
     }
 

@@ -1,8 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.security;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import javax.security.enterprise.CallerPrincipal;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
@@ -12,20 +15,23 @@ import java.util.Collections;
 
 class JWTGeneratorTest {
 
-    private final CredentialValidationResult credentialValidationResult = Mockito.mock(CredentialValidationResult.class);
+    @Mock
+    private CredentialValidationResult credentialValidationResult;
+
     private final CallerPrincipal callerPrincipal;
 
-    private final String algorithm;
-    private final String issuer;
-    private final String subject;
-    private final String auth;
+    private final String algorithm = "\"alg\":\"HS256\"";
+    private final String issuer = "\"iss\":\"" + SecurityConstants.ISSUER + "\"";
+    private final String subject = "\"sub\":\"Test\"";
+    private final String auth = "\"auth\":\"test-group\"";
 
     private JWTGeneratorTest() {
         this.callerPrincipal = new CallerPrincipal("Test");
-        this.algorithm = "\"alg\":\"HS256\"";
-        this.issuer = "\"iss\":\"" + SecurityConstants.ISSUER + "\"";
-        this.subject = "\"sub\":\"Test\"";
-        this.auth = "\"auth\":\"test-group\"";
+    }
+
+    @BeforeEach
+    void initMocks() {
+        MockitoAnnotations.openMocks(this);
 
         Mockito.when(credentialValidationResult.getCallerPrincipal()).thenReturn(callerPrincipal);
         Mockito.when(credentialValidationResult.getCallerGroups()).thenReturn(Collections.singleton("test-group"));
