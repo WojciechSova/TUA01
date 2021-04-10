@@ -18,7 +18,7 @@ import javax.persistence.TypedQuery;
  * @author Patryk Kolanek
  */
 @Stateless
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccountFacade extends AbstractFacade<Account> {
 
     @PersistenceContext(unitName = "ssbd02mokPU")
