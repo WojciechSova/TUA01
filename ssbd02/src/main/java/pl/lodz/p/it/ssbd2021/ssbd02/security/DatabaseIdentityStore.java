@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.security;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.managers.auth.AuthManagerLocal;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
@@ -16,6 +17,7 @@ import java.util.Set;
  *
  * @author Patryk Kolanek
  */
+@RequestScoped
 public class DatabaseIdentityStore implements IdentityStore {
 
     @Inject
