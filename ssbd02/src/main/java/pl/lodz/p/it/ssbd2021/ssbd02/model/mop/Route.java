@@ -2,13 +2,17 @@ package pl.lodz.p.it.ssbd2021.ssbd02.model.mop;
 
 import lombok.AccessLevel;
 import lombok.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @Table(name = "Route")
 @NamedQueries({
@@ -17,12 +21,13 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Route.findByVersion", query = "SELECT r FROM Route r WHERE r.version = :version"),
         @NamedQuery(name = "Route.findByStart", query = "SELECT r FROM Route r WHERE r.start = :start"),
         @NamedQuery(name = "Route.findByDestination", query = "SELECT r FROM Route r WHERE r.destination = :destination"),
+        @NamedQuery(name = "Route.findByCode", query = "SELECT r FROM Route r WHERE r.code = :code"),
         @NamedQuery(name = "Route.findByCreationDate", query = "SELECT r FROM Route r WHERE r.creationDate = :creationDate"),
         @NamedQuery(name = "Route.findByCreatedBy", query = "SELECT r FROM Route r WHERE r.createdBy = :createdBy"),
 })
 @Data
 @NoArgsConstructor
-public class Route implements Serializable {
+public class Route extends AbstractEntity implements Serializable {
 
     @NotNull
     @Id
@@ -30,13 +35,6 @@ public class Route implements Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
-    private Long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
@@ -54,7 +52,7 @@ public class Route implements Serializable {
 
     @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private Timestamp creationDate;
+    private Timestamp creationDate = Timestamp.from(Instant.now());
 
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "created_by", updatable = false, referencedColumnName = "id")

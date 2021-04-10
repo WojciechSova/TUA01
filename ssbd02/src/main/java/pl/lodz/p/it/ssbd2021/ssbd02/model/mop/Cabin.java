@@ -1,17 +1,17 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.model.mop;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @NamedQueries({
         @NamedQuery(name = "Cabin.findAll", query = "SELECT c FROM Cabin c"),
@@ -20,6 +20,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Cabin.findByFerry", query = "SELECT c FROM Cabin c WHERE c.ferry = :ferry"),
         @NamedQuery(name = "Cabin.findByCapacity", query = "SELECT c FROM Cabin c WHERE c.capacity = :capacity"),
         @NamedQuery(name = "Cabin.findByCabinType", query = "SELECT c FROM Cabin c WHERE c.cabinType = :cabinType"),
+        @NamedQuery(name = "Cabin.findByNumber", query = "SELECT c FROM Cabin c WHERE c.number = :number"),
         @NamedQuery(name = "Cabin.findByModificationDate", query = "SELECT c FROM Cabin c WHERE c.modificationDate = :modificationDate"),
         @NamedQuery(name = "Cabin.findBModifiedBy", query = "SELECT c FROM Cabin c WHERE c.modifiedBy = :modifiedBy"),
         @NamedQuery(name = "Cabin.findByCreationDate", query = "SELECT c FROM Cabin c WHERE c.creationDate = :creationDate"),
@@ -28,21 +29,13 @@ import java.sql.Timestamp;
 })
 @Data
 @NoArgsConstructor
-public class Cabin implements Serializable {
+public class Cabin extends AbstractEntity implements Serializable {
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
-    private Long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
@@ -71,7 +64,7 @@ public class Cabin implements Serializable {
 
     @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private Timestamp creationDate;
+    private Timestamp creationDate = Timestamp.from(Instant.now());
 
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")

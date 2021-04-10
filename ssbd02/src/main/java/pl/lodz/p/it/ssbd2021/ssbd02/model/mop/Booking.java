@@ -1,13 +1,17 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.model.mop;
 
 import lombok.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @Table(name = "Booking")
 @NamedQueries({
@@ -20,25 +24,18 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Booking.findByCabin", query = "SELECT b FROM Booking b WHERE b.cabin = :cabin"),
         @NamedQuery(name = "Booking.findByVehicleType", query = "SELECT b FROM Booking b WHERE b.vehicleType = :vehicleType"),
         @NamedQuery(name = "Booking.findByPrice", query = "SELECT b FROM Booking b WHERE b.price = :price"),
+        @NamedQuery(name = "Booking.findByNumber", query = "SELECT b FROM Booking b WHERE b.number = :number"),
         @NamedQuery(name = "Booking.findByCreationDate", query = "SELECT b FROM Booking b WHERE b.creationDate = :creationDate")
 })
 @Data
 @NoArgsConstructor
-public class Booking implements Serializable {
+public class Booking extends AbstractEntity implements Serializable {
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = false)
-    private Long version;
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
@@ -74,6 +71,6 @@ public class Booking implements Serializable {
 
     @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private Timestamp creationDate;
+    private Timestamp creationDate = Timestamp.from(Instant.now());
 
 }

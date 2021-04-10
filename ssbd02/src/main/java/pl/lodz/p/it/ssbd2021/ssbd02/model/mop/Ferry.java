@@ -2,13 +2,18 @@ package pl.lodz.p.it.ssbd2021.ssbd02.model.mop;
 
 import lombok.*;
 import lombok.AccessLevel;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
+
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @Table(name = "Ferry")
 @NamedQueries({
@@ -25,7 +30,7 @@ import java.sql.Timestamp;
 })
 @Data
 @NoArgsConstructor
-public class Ferry implements Serializable {
+public class Ferry extends AbstractEntity implements Serializable {
 
     @NotNull
     @Id
@@ -33,13 +38,6 @@ public class Ferry implements Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
-    private Long version;
 
     @NotNull
     @Column(name = "name", nullable = false, unique = true, length = 30)
@@ -62,7 +60,7 @@ public class Ferry implements Serializable {
 
     @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private Timestamp creationDate;
+    private Timestamp creationDate = Timestamp.from(Instant.now());
 
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")

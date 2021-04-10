@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2021.ssbd02.config;
 
 import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.sql.Connection;
 
 @DataSourceDefinition(
@@ -50,4 +52,6 @@ import java.sql.Connection;
 )
 @Stateless
 public class JDBCConfig {
+    @PersistenceContext(unitName = "ssbd02adminPU")
+    EntityManager entityManager;
 }

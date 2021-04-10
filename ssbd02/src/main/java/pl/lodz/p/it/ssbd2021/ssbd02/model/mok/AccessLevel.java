@@ -1,16 +1,17 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.model.mok;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "level", discriminatorType = DiscriminatorType.STRING)
@@ -29,20 +30,13 @@ import java.sql.Timestamp;
 })
 @Data
 @NoArgsConstructor
-public class AccessLevel implements Serializable {
+public class AccessLevel extends AbstractEntity implements Serializable {
 
-    @NotNull
     @Id
     @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(lombok.AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Setter(lombok.AccessLevel.NONE)
-    @Getter(lombok.AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
-    private Long version;
 
     @NotNull
     @Column(name = "level", nullable = false, updatable = false, length = 16)
@@ -55,7 +49,7 @@ public class AccessLevel implements Serializable {
 
     @NotNull
     @Column(name = "active", nullable = false, updatable = true)
-    private Boolean active;
+    private Boolean active = true;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
@@ -64,8 +58,7 @@ public class AccessLevel implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 
-    @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
-    private Timestamp creationDate;
+    private Timestamp creationDate = Timestamp.from(Instant.now());
 
 }

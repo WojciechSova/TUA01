@@ -2,12 +2,16 @@ package pl.lodz.p.it.ssbd2021.ssbd02.model.mok;
 
 import lombok.*;
 import lombok.AccessLevel;
+import pl.lodz.p.it.ssbd2021.ssbd02.model.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Entity
 @Table(name = "Account")
 @SecondaryTable(name = "Personal_data")
@@ -35,21 +39,14 @@ import java.sql.Timestamp;
 })
 @Data
 @NoArgsConstructor
-public class Account implements Serializable {
+public class Account extends AbstractEntity implements Serializable {
 
     //region Account section
-    @NotNull
     @Id
     @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
-
-    @NotNull
-    @Version
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    @Column(name = "version", nullable = false, updatable = true)
-    private Long version;
 
     @NotNull
     @Column(name = "login", nullable = false, unique = true, updatable = false, length = 30)
@@ -60,13 +57,11 @@ public class Account implements Serializable {
     @ToString.Exclude
     private String password;
 
-    @NotNull
     @Column(name = "active", nullable = false, updatable = true)
-    private Boolean active;
+    private Boolean active = true;
 
-    @NotNull
     @Column(name = "confirmed", nullable = false, updatable = true)
-    private Boolean confirmed;
+    private Boolean confirmed = false;
     //endregion
 
 
@@ -98,7 +93,7 @@ public class Account implements Serializable {
 
     @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false, table = "Personal_data")
-    private Timestamp creationDate;
+    private Timestamp creationDate = Timestamp.from(Instant.now());
 
     @Column(name = "last_known_good_login", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp lastKnownGoodLogin;

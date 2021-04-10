@@ -12,8 +12,9 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
+<!--            <property name="hibernate.hbm2ddl.auto" value="validate"/>  TODO: Próba implementacji w dalszej fazie rozwoju projektu -->
         </properties>
     </persistence-unit>
 
@@ -21,14 +22,13 @@
     <persistence-unit name="ssbd02authPU">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:app/jdbc/ssbd02auth</jta-data-source>
-        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.AccessLevel</class>
-        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.auth.AuthView</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
         </properties>
     </persistence-unit>
 
@@ -43,8 +43,8 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
         </properties>
     </persistence-unit>
 
@@ -65,8 +65,8 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
         </properties>
     </persistence-unit>
 
