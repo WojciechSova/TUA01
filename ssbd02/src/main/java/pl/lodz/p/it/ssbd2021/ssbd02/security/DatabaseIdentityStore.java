@@ -32,19 +32,19 @@ public class DatabaseIdentityStore implements IdentityStore {
      */
     @Override
     public CredentialValidationResult validate(Credential credential) {
-        if (credential instanceof UsernamePasswordCredential) {
-            UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) credential;
+        if (!(credential instanceof UsernamePasswordCredential)) {
+            return CredentialValidationResult.NOT_VALIDATED_RESULT;
+        }
 
-            List<String> accessGroups = authManager.getAccessLevels(usernamePasswordCredential.getCaller(), usernamePasswordCredential.getPasswordAsString());
+        UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) credential;
 
-            if (!accessGroups.isEmpty()) {
-                return new CredentialValidationResult(usernamePasswordCredential.getCaller(), new HashSet<>(accessGroups));
-            }
+        List<String> accessGroups = authManager.getAccessLevels(usernamePasswordCredential.getCaller(), usernamePasswordCredential.getPasswordAsString());
 
+        if (accessGroups.isEmpty()) {
             return CredentialValidationResult.INVALID_RESULT;
         }
 
-        return CredentialValidationResult.NOT_VALIDATED_RESULT;
+        return new CredentialValidationResult(usernamePasswordCredential.getCaller(), new HashSet<>(accessGroups));
     }
 
     /**
