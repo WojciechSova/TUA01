@@ -5,6 +5,8 @@ import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -18,6 +20,7 @@ import java.util.List;
  * @author Patryk Kolanek
  */
 @Stateless
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
 
     @PersistenceContext(unitName = "ssbd02mokPU")

@@ -4,6 +4,8 @@ import pl.lodz.p.it.ssbd2021.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.ClientData;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,6 +17,7 @@ import javax.persistence.PersistenceContext;
  * @author Patryk Kolanek
  */
 @Stateless
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class ClientDataFacade extends AbstractFacade<ClientData> {
 
     @PersistenceContext(unitName = "ssbd02mokPU")
