@@ -61,6 +61,7 @@
         <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mop.Seaport</class>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mop.VehicleType</class>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account</class>
+        <class>pl.lodz.p.it.ssbd2021.ssbd02.model.mok.ClientData</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <!-- This line is responsible for logging level -->
