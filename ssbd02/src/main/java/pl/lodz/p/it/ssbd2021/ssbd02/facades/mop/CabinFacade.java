@@ -4,6 +4,8 @@ import pl.lodz.p.it.ssbd2021.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mop.Cabin;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -16,6 +18,7 @@ import javax.persistence.TypedQuery;
  * @author Artur Madaj
  */
 @Stateless
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class CabinFacade extends AbstractFacade<Cabin> {
 
     @PersistenceContext(unitName = "ssbd02mopPU")

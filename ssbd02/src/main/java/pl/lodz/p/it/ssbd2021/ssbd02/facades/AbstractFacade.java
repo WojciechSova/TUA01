@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2021.ssbd02.facades;
 
 import lombok.AllArgsConstructor;
 
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
  */
 
 @AllArgsConstructor
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public abstract class AbstractFacade<T> {
 
     private final Class<T> entityClass;

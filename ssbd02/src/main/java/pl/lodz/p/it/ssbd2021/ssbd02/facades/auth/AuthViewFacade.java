@@ -4,6 +4,8 @@ import pl.lodz.p.it.ssbd2021.ssbd02.facades.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.auth.AuthView;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -19,6 +21,7 @@ import java.util.List;
  */
 
 @Stateless
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AuthViewFacade extends AbstractFacade<AuthView> {
 
     @PersistenceContext(unitName = "ssbd02authPU")
