@@ -34,7 +34,7 @@ public class AuthEndpoint {
      *
      * @param credentialsDTO Dane logowania użytkownika.
      * @return W przypadku poprawnego uwierzytelnienia zwraca w odpowiedzi wygenerowany token JWT.
-     * W przypadku niepoprawnego wyniku uwierzytelnienia zwracana jest odpowiedź o kodzie błędu HTTP 401, Unauthorized.
+     * W przypadku niepoprawnego wyniku uwierzytelnienia zwracana jest odpowiedź o kodzie błędu HTTP 401 - Unauthorized.
      */
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
