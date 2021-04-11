@@ -7,8 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.CredentialsDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.security.JWTVerifier;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTVerifier;
 
 import javax.security.enterprise.CallerPrincipal;
 import javax.security.enterprise.identitystore.CredentialValidationResult;

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTGenerator;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
 
 import javax.security.enterprise.CallerPrincipal;
 import javax.security.enterprise.identitystore.CredentialValidationResult;

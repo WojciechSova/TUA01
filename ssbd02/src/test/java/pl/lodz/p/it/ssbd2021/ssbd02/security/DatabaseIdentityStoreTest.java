@@ -7,7 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import pl.lodz.p.it.ssbd2021.ssbd02.managers.auth.AuthManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers.AuthManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.DatabaseIdentityStore;
 
 import javax.security.enterprise.credential.Credential;
 import javax.security.enterprise.credential.UsernamePasswordCredential;

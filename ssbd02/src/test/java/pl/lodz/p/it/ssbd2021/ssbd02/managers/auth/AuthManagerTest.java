@@ -8,7 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import pl.lodz.p.it.ssbd2021.ssbd02.facades.auth.AuthViewFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades.AuthViewFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers.AuthManager;
 
 import java.util.Arrays;
 import java.util.Collections;
