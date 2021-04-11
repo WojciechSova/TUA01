@@ -1,4 +1,4 @@
-package pl.lodz.p.it.ssbd2021.ssbd02.security;
+package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

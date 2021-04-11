@@ -1,4 +1,4 @@
-package pl.lodz.p.it.ssbd2021.ssbd02.managers.auth;
+package pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Assertions;
