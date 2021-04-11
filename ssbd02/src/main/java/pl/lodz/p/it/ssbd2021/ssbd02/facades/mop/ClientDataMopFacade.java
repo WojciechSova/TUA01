@@ -1,10 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.facades.mop;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.facades.AbstractFacade;
-import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.model.mok.ClientData;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -17,7 +18,8 @@ import javax.persistence.TypedQuery;
  * @author Karolina Kowalczyk
  */
 @Stateless
-public class ClientDataMopFacade extends AbstractFacade<ClientData>{
+@TransactionAttribute(TransactionAttributeType.MANDATORY)
+public class ClientDataMopFacade extends AbstractFacade<ClientData> {
 
     @PersistenceContext(unitName = "ssbd02mopPU")
     private EntityManager entityManager;
@@ -37,7 +39,7 @@ public class ClientDataMopFacade extends AbstractFacade<ClientData>{
      * @param login Login konta.
      * @return Obiekt typu {@link ClientData} o przekazanym loginie.
      */
-    public ClientData findByLogin(String login){
+    public ClientData findByLogin(String login) {
         TypedQuery<ClientData> typedQuery = entityManager.createNamedQuery("ClientData.findByLogin", ClientData.class);
         typedQuery.setParameter("login", login);
         return typedQuery.getSingleResult();
