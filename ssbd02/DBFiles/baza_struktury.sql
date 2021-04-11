@@ -54,6 +54,9 @@ ALTER TABLE Personal_data
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Personal_data TO ssbd02mok;
 
+CREATE INDEX personal_data_id ON Personal_data USING btree (id);
+CREATE INDEX personal_data_modified_by ON Personal_data USING btree (modified_by);
+
 CREATE TABLE Access_level
 (
     id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
@@ -75,6 +78,9 @@ ALTER TABLE Access_level
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
 
+CREATE INDEX access_level_account_id ON Access_level USING btree (account_id);
+CREATE INDEX access_level_modified_by  ON Access_level USING btree (modified_by);
+
 CREATE TABLE Client_data
 (
     id           bigint      NOT NULL,
@@ -88,6 +94,8 @@ ALTER TABLE Client_data
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Client_data TO ssbd02mok;
+
+CREATE INDEX client_data_id ON Client_data USING btree (id);
 
 CREATE VIEW Auth_view AS
 SELECT Account.login, Account.password, Access_level.level
@@ -125,6 +133,9 @@ ALTER TABLE Ferry
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Ferry TO ssbd02mop;
 
+CREATE INDEX ferry_modified_by ON Ferry USING btree (modified_by);
+CREATE INDEX ferry_created_by ON Ferry USING btree (created_by);
+
 CREATE TABLE Seaport
 (
     id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
@@ -147,6 +158,9 @@ ALTER TABLE Seaport
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Seaport TO ssbd02mop;
 
+CREATE INDEX seaport_modified_by ON Seaport USING btree (modified_by);
+CREATE INDEX seaport_created_by ON Seaport USING btree (created_by);
+
 CREATE TABLE Route
 (
     id            bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
@@ -168,6 +182,10 @@ ALTER TABLE Route
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, DELETE ON TABLE Route TO ssbd02mop;
+
+CREATE INDEX route_created_by ON Route USING btree (created_by);
+CREATE INDEX route_start ON Route USING btree (start);
+CREATE INDEX route_destination ON Route USING btree (destination);
 
 CREATE TABLE Cabin_type
 (
@@ -205,6 +223,11 @@ ALTER TABLE Cabin
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cabin TO ssbd02mop;
 
+CREATE INDEX cabin_ferry ON Cabin USING btree (ferry);
+CREATE INDEX cabin_cabin_type ON Cabin USING btree (cabin_type);
+CREATE INDEX cabin_modified_by ON Cabin USING btree (modified_by);
+CREATE INDEX cabin_created_by ON Cabin USING btree (created_by);
+
 CREATE TABLE Cruise
 (
     id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
@@ -231,6 +254,11 @@ ALTER TABLE Cruise
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cruise TO ssbd02mop;
+
+CREATE INDEX cruise_ferry ON Cruise USING btree (ferry);
+CREATE INDEX cruise_route ON Cruise USING btree (route);
+CREATE INDEX cruise_modified_by ON Cruise USING btree (modified_by);
+CREATE INDEX cruise_created_by ON Cruise USING btree (created_by);
 
 CREATE TABLE Vehicle_type
 (
@@ -270,3 +298,8 @@ ALTER TABLE Booking
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, DELETE ON TABLE Booking TO ssbd02mop;
+
+CREATE INDEX booking_cruise ON Booking USING btree (cruise);
+CREATE INDEX booking_account ON Booking USING btree (account);
+CREATE INDEX booking_cabin ON Booking USING btree (cabin);
+CREATE INDEX booking_vehicle_type ON Booking USING btree (vehicle_type);
