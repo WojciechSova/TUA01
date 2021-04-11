@@ -27,6 +27,7 @@ ALTER TABLE Account
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Account TO ssbd02mok;
+GRANT SELECT ON TABLE Account TO ssbd02mop;
 
 CREATE TABLE Personal_data
 (
@@ -53,6 +54,7 @@ ALTER TABLE Personal_data
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Personal_data TO ssbd02mok;
+GRANT SELECT ON TABLE Personal_data TO ssbd02mop;
 
 CREATE TABLE Access_level
 (
@@ -74,6 +76,7 @@ ALTER TABLE Access_level
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
+GRANT SELECT ON TABLE Access_level TO ssbd02mop;
 
 CREATE TABLE Client_data
 (
@@ -88,6 +91,7 @@ ALTER TABLE Client_data
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, UPDATE ON TABLE Client_data TO ssbd02mok;
+GRANT SELECT ON TABLE Client_data TO ssbd02mop;
 
 CREATE VIEW Auth_view AS
 SELECT Account.login, Account.password, Access_level.level
