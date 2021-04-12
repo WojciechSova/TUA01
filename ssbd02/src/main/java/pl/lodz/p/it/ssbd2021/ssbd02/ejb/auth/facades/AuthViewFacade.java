@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades.interfaces.AuthViewFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.auth.AuthView;
 
 import javax.ejb.Stateless;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class AuthViewFacade extends AbstractFacade<AuthView> {
+public class AuthViewFacade extends AbstractFacade<AuthView> implements AuthViewFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02authPU")
     private EntityManager entityManager;

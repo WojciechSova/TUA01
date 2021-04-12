@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers.AuthManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers.interfaces.AuthManagerLocal;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

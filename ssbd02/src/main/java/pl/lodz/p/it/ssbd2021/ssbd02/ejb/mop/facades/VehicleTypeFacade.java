@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.VehicleTypeFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.VehicleType;
 
 import javax.ejb.Stateless;
@@ -18,7 +19,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class VehicleTypeFacade extends AbstractFacade<VehicleType> {
+public class VehicleTypeFacade extends AbstractFacade<VehicleType> implements VehicleTypeFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")
     private EntityManager entityManager;
