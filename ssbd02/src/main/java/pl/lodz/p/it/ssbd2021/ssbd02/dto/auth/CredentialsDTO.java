@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Klasa DTO zawierająca dane uwierzytelniające użytkownika.
- * Używana przy odbieraniu danych przez endpoint obsługujący uwierzytelnianie.
+ * Używana przy odbieraniu danych przez punkt dostępowy obsługujący uwierzytelnianie.
  *
  * @author Kacper Świercz
  */
