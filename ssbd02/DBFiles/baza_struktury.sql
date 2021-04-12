@@ -201,6 +201,8 @@ CREATE TABLE Cabin_type
 ALTER TABLE Cabin_type
     OWNER TO ssbd02admin;
 
+GRANT SELECT ON TABLE Cabin_type TO ssbd02mop;
+
 CREATE TABLE Cabin
 (
     id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
@@ -275,6 +277,8 @@ CREATE TABLE Vehicle_type
 
 ALTER TABLE Vehicle_type
     OWNER TO ssbd02admin;
+
+GRANT SELECT ON TABLE Vehicle_type TO ssbd02mop;
 
 CREATE TABLE Booking
 (
