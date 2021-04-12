@@ -21,7 +21,7 @@ import java.util.Set;
 public class DatabaseIdentityStore implements IdentityStore {
 
     @Inject
-    private AuthManagerLocal authManager;
+    private AuthManagerLocal authManagerLocal;
 
     /**
      * Metoda walidująca poprawność przekazanych danych logowania.
@@ -38,7 +38,7 @@ public class DatabaseIdentityStore implements IdentityStore {
 
         UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) credential;
 
-        List<String> accessGroups = authManager.getAccessLevels(usernamePasswordCredential.getCaller(), usernamePasswordCredential.getPasswordAsString());
+        List<String> accessGroups = authManagerLocal.getAccessLevels(usernamePasswordCredential.getCaller(), usernamePasswordCredential.getPasswordAsString());
 
         if (accessGroups.isEmpty()) {
             return CredentialValidationResult.INVALID_RESULT;
