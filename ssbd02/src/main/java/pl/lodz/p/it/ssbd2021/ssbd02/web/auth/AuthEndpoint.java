@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.auth;
 
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.CredentialsDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.security.JWTGenerator;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTGenerator;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
