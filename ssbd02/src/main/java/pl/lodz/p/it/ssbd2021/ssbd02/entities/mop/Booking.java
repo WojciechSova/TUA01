@@ -38,12 +38,12 @@ public class Booking extends AbstractEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "cruise", nullable = false, updatable = false, referencedColumnName = "id")
     private Cruise cruise;
 
     @NotNull
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "account", nullable = false, updatable = false, referencedColumnName = "id")
     private Account account;
 
@@ -52,12 +52,12 @@ public class Booking extends AbstractEntity implements Serializable {
     private Integer numberOfPeople;
 
     @NotNull
-    @ManyToOne(optional = true, cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "cabin", nullable = true, updatable = false, referencedColumnName = "id")
     private Cabin cabin;
 
     @NotNull
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "vehicle_type", nullable = false, updatable = false, referencedColumnName = "id")
     private VehicleType vehicleType;
 
