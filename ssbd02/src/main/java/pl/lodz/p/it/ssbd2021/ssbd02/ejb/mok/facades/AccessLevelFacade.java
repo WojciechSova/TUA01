@@ -36,12 +36,6 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> implements Ac
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encje typu {@link AccessLevel}, w których znajduje się dowiązanie do encji typu {@link Account} o przekazanym loginie.
-     *
-     * @param login Login encji.
-     * @return Lista obiektów typu {@link AccessLevel} o przekazanym loginie.
-     */
     public List<AccessLevel> findByLogin(String login) {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findByLogin", AccessLevel.class);
         typedQuery.setParameter("login", login);

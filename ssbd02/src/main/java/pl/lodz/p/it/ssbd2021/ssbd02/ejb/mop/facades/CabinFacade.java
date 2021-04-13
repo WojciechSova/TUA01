@@ -34,12 +34,6 @@ public class CabinFacade extends AbstractFacade<Cabin> implements CabinFacadeLoc
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encje typu {@link Cabin} o przekazanym biznesowym numerze identyfikacyjnym.
-     *
-     * @param number Biznesowy numer identyfikacyjny.
-     * @return Obiekt typu {@link Cabin} o przekazanym biznesowym numerze identyfikacyjnym.
-     */
     public Cabin findByNumber(String number) {
         TypedQuery<Cabin> typedQuery = entityManager.createNamedQuery("Cabin.findByNumber", Cabin.class);
         typedQuery.setParameter("number", number);

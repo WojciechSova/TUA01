@@ -34,12 +34,6 @@ public class ClientDataMopFacade extends AbstractFacade<ClientData> implements C
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encję typu {@link ClientData} o przekazanym loginie.
-     *
-     * @param login Login konta.
-     * @return Obiekt typu {@link ClientData} o przekazanym loginie.
-     */
     public ClientData findByLogin(String login) {
         TypedQuery<ClientData> typedQuery = entityManager.createNamedQuery("ClientData.findByLogin", ClientData.class);
         typedQuery.setParameter("login", login);

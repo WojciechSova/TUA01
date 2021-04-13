@@ -34,12 +34,6 @@ public class FerryFacade extends AbstractFacade<Ferry> implements FerryFacadeLoc
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encje typu {@link Ferry} o przekazanej nazwie promu.
-     *
-     * @param name Nazwa promu.
-     * @return Obiekt typu {@link Ferry} o przekazanej nazwie promu.
-     */
     public Ferry findByName(String name) {
         TypedQuery<Ferry> typedQuery = entityManager.createNamedQuery("Ferry.findByName", Ferry.class);
         typedQuery.setParameter("name", name);

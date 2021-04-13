@@ -20,7 +20,6 @@ import java.util.List;
  *
  * @author Daniel Łondka
  */
-
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 public class AuthViewFacade extends AbstractFacade<AuthView> implements AuthViewFacadeLocal {
@@ -37,13 +36,6 @@ public class AuthViewFacade extends AbstractFacade<AuthView> implements AuthView
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca poziomy dostępu użytkownika.
-     *
-     * @param login Login konta, którego poziomy dostępu pozyskujemy.
-     * @param password Hasło konta, którego poziomy dostępu pozyskujemy.
-     * @return Lista poziomów dostępu typu {@link String}.
-     */
     public List<String> findLevelsByCredentials(String login, String password) {
         TypedQuery<String> typedQuery = entityManager.createNamedQuery("AuthView.findLevelByCredentials", String.class);
         typedQuery.setParameter("login", login);

@@ -11,5 +11,13 @@ import java.util.List;
 @Local
 public interface AuthManagerLocal {
 
+    /**
+     * Metoda wyszukująca poziomy dostępu użytkownika o podanym loginie i haśle.
+     *
+     * @param login    Login użytkownika, którego poziomy dostępu są wyszukiwane
+     * @param password Hasło użytkownika, którego poziomy dostępu są wyszukiwane
+     * @return Lista obiektów typu {@link String} zawierająca poziomy dostępu danego użytkownika,
+     * pusta lista w przypadku niezgodności loginu lub hasła
+     */
     List<String> getAccessLevels(String login, String password);
 }

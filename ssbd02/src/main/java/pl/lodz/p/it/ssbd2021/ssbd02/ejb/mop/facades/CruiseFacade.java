@@ -34,12 +34,6 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encje typu {@link Cruise} o przekazanym biznesowym numerze identyfikacyjnym.
-     *
-     * @param number Biznesowy numer identyfikacyjny.
-     * @return Obiekt typu {@link Cruise} o przekazanym biznesowym numerze identyfikacyjnym.
-     */
     public Cruise findByNumber(String number) {
         TypedQuery<Cruise> typedQuery = entityManager.createNamedQuery("Cruise.findByNumber", Cruise.class);
         typedQuery.setParameter("number", number);

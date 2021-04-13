@@ -34,12 +34,6 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encje typu {@link Booking} o przekazanym biznesowym numerze identyfikacyjnym.
-     *
-     * @param number Biznesowy numer identyfikacyjny.
-     * @return Obiekt typu {@link Booking} o przekazanym biznesowym numerze identyfikacyjnym.
-     */
     public Booking findByNumber(String number) {
         TypedQuery<Booking> typedQuery = entityManager.createNamedQuery("Booking.findByNumber", Booking.class);
         typedQuery.setParameter("number", number);

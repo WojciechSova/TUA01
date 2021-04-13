@@ -34,12 +34,6 @@ public class SeaportFacade extends AbstractFacade<Seaport> implements SeaportFac
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encje typu {@link Seaport} o przekazanym kodzie portu.
-     *
-     * @param code Kod portu.
-     * @return Obiekt typu {@link Seaport} o przekazanym kodzie portu.
-     */
     public Seaport findByCode(String code) {
         TypedQuery<Seaport> typedQuery = entityManager.createNamedQuery("Seaport.findByCode", Seaport.class);
         typedQuery.setParameter("code", code);

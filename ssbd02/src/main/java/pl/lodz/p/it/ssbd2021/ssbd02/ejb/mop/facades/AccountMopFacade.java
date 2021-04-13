@@ -34,24 +34,12 @@ public class AccountMopFacade extends AbstractFacade<Account> implements Account
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encję typu {@link Account} o przekazanym loginie.
-     *
-     * @param login Login konta.
-     * @return Obiekt typu {@link Account}, o przekazanym loginie.
-     */
     public Account findByLogin(String login) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByLogin", Account.class);
         typedQuery.setParameter("login", login);
         return typedQuery.getSingleResult();
     }
 
-    /**
-     * Metoda wyszukująca encję typu {@link Account} o przekazanym adresie email.
-     *
-     * @param email Adres email konta.
-     * @return Obiekt typu {@link Account} o przekazanym adresie email.
-     */
     public Account findByEmail(String email) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail", Account.class);
         typedQuery.setParameter("email", email);
