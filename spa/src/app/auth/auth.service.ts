@@ -9,14 +9,14 @@ export class AuthService {
     constructor(private http: HttpClient) {
     }
 
-    auth(login: string | undefined, password: string | undefined): any {
+    auth(login: string, password: string): any {
         return this.http.post('https://localhost:8181/ssbd02/auth', {
-            "login": login,
-            "password": password
+            login,
+            password
         }, {observe: 'body', responseType: 'text'});
     }
 
-    public setSession(token: string) {
+    public setSession(token: string): void {
         localStorage.setItem('token', token);
     }
 }
