@@ -13,6 +13,9 @@ public class AuthenticationTest {
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
     private WebDriver driver;
+    private final String login = "admin";
+    private final String incorrectLogin = "nieprawidlowe";
+    private final String password = "password?";
 
     @BeforeAll
     static void initAll() {
@@ -39,9 +42,9 @@ public class AuthenticationTest {
         Assertions.assertEquals(driver.getCurrentUrl(), "https://localhost:8181/login");
 
         driver.findElement(By.id("login"))
-                .sendKeys("admin");
+                .sendKeys(login);
         driver.findElement(By.id("password"))
-                .sendKeys("password?");
+                .sendKeys(password);
         driver.findElement(By.xpath("/html/body/app-root/app-login/div/div/form/button"))
                 .click();
 
@@ -64,9 +67,9 @@ public class AuthenticationTest {
         Assertions.assertEquals("https://localhost:8181/login", driver.getCurrentUrl());
 
         driver.findElement(By.id("login"))
-                .sendKeys("nieprawidlowe");
+                .sendKeys(incorrectLogin);
         driver.findElement(By.id("password"))
-                .sendKeys("password?");
+                .sendKeys(password);
         driver.findElement(By.xpath("/html/body/app-root/app-login/div/div/form/button"))
                 .click();
 
