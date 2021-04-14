@@ -37,12 +37,12 @@ public class Route extends AbstractEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "start", nullable = false, updatable = true, referencedColumnName = "id")
     private Seaport start;
 
     @NotNull
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "destination", nullable = false, updatable = true, referencedColumnName = "id")
     private Seaport destination;
 
