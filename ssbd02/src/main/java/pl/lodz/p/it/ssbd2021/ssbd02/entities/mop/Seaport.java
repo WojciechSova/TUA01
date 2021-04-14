@@ -42,7 +42,7 @@ public class Seaport extends AbstractEntity implements Serializable {
     private String city;
 
     @NotNull
-    @Column(name = "code", nullable = false, updatable = true, length = 3)
+    @Column(name = "code", nullable = false, unique = true, updatable = false, length = 3)
     private String code;
 
     @Column(name = "modification_date", nullable = true, updatable = true)

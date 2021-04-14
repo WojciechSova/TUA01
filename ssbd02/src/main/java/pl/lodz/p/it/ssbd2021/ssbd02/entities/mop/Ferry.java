@@ -40,7 +40,7 @@ public class Ferry extends AbstractEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "name", nullable = false, unique = true, length = 30)
+    @Column(name = "name", nullable = false, unique = true, updatable = false, length = 30)
     private String name;
 
     @NotNull

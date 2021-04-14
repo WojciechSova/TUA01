@@ -66,7 +66,7 @@ public class Booking extends AbstractEntity implements Serializable {
     private Double price;
 
     @NotNull
-    @Column(name = "number", nullable = false, updatable = true, length = 10)
+    @Column(name = "number", nullable = false, unique = true, updatable = false, length = 10)
     private String number;
 
     @NotNull

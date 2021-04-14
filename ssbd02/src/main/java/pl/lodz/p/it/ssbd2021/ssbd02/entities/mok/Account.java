@@ -75,7 +75,7 @@ public class Account extends AbstractEntity implements Serializable {
     private String lastName;
 
     @NotNull
-    @Column(name = "email", unique = true, nullable = false, updatable = true, length = 70, table = "Personal_data")
+    @Column(name = "email", nullable = false, unique = true, updatable = true, length = 70, table = "Personal_data")
     private String email;
 
     @Column(name = "language", nullable = true, updatable = true, length = 5, table = "Personal_data")

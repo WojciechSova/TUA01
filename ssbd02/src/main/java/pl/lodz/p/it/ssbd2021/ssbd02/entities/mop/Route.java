@@ -47,7 +47,7 @@ public class Route extends AbstractEntity implements Serializable {
     private Seaport destination;
 
     @NotNull
-    @Column(name = "code", nullable = false, updatable = true, length = 6)
+    @Column(name = "code", nullable = false, unique = true, updatable = false, length = 6)
     private String code;
 
     @NotNull
