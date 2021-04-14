@@ -37,7 +37,7 @@ public class Seaport extends AbstractEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "city", nullable = false, updatable = true, length = 30)
+    @Column(name = "city", nullable = false, unique = true, updatable = true, length = 30)
     private String city;
 
     @NotNull
