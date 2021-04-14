@@ -49,8 +49,8 @@ public class AuthenticationTest {
 
         Assertions.assertEquals("https://localhost:8181/", driver.getCurrentUrl());
 
-        String role = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/div[2]/div/a[1]")).getText();
-        String login = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/div[2]/div/a[2]")).getText();
+        final String role = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/div[2]/div/a[1]")).getText();
+        final String login = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/div[2]/div/a[2]")).getText();
 
         Assertions.assertEquals("administrator", role.toLowerCase());
         Assertions.assertEquals("admin", login.toLowerCase());
