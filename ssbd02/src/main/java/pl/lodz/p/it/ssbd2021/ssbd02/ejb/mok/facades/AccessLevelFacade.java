@@ -3,7 +3,6 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -15,7 +14,7 @@ import java.util.List;
 
 /**
  * Klasa rozszerzająca abstrakcyjną klasę {@link AbstractFacade}.
- * Używa konkretnego typu {@link AccessLevel} zamiast typu generycznego.
+ * Używa konkretnego tAccountypu {@link AccessLevel} zamiast typu generycznego.
  * Jednostka składowania używana do wstrzyknięcia zarządcy encji to ssbd02mokPU.
  *
  * @author Patryk Kolanek
