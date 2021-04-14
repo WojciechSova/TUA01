@@ -30,7 +30,6 @@ import java.time.Instant;
 @NoArgsConstructor
 public class Seaport extends AbstractEntity implements Serializable {
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
