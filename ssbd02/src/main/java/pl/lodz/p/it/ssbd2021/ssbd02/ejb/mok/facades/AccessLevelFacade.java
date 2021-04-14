@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Klasa rozszerzająca abstrakcyjną klasę {@link AbstractFacade}.
- * Używa konkretnego tAccountypu {@link AccessLevel} zamiast typu generycznego.
+ * Używa konkretnego typu {@link AccessLevel} zamiast typu generycznego.
  * Jednostka składowania używana do wstrzyknięcia zarządcy encji to ssbd02mokPU.
  *
  * @author Patryk Kolanek
