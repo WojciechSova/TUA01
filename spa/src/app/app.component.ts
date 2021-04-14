@@ -47,7 +47,6 @@ export class AppComponent implements AfterViewInit{
     }
 
     isGuest(): boolean {
-        console.log(localStorage.getItem('currentAccessLevel'));
         return localStorage.getItem('currentAccessLevel') === null;
     }
 
