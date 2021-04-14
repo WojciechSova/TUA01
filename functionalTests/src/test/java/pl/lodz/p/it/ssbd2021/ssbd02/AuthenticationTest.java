@@ -10,9 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AuthenticationTest {
 
-    static ChromeOptions options;
-    static WebDriverWait driverWait;
-    WebDriver driver;
+    private static ChromeOptions options;
+    private static WebDriverWait driverWait;
+    private WebDriver driver;
 
     @BeforeAll
     static void initAll() {
