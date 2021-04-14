@@ -25,7 +25,7 @@
         <div class="top-right-navbar">
             <a routerLink="">Konta</a>
             <a routerLink="">Moje konto</a>
-            <a routerLink="" class="login_a">Wyloguj</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
         </div>
         <div class="login-accessLevel-navbar">
             <a style="pointer-events: none; color: #ba0d41; font-weight: normal;">Administrator</a>
@@ -42,7 +42,7 @@
             <a routerLink="">Aktualne rejsy</a>
             <a routerLink="">Rezerwacje</a>
             <a routerLink="">Moje konto</a>
-            <a routerLink="" class="login_a">Wyloguj</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
         </div>
         <div class="login-accessLevel-navbar">
             <a style="pointer-events: none; color: #0F084B; font-weight: normal;">Klient</a>
@@ -61,7 +61,7 @@
             <a routerLink="">Rezerwacje</a>
             <a routerLink="">Kajuty</a>
             <a routerLink="">Moje konto</a>
-            <a routerLink="" class="login_a">Wyloguj</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
         </div>
         <div class="login-accessLevel-navbar">
             <a style="pointer-events: none; color: #f2aa00; font-weight: normal;">Pracownik</a>
@@ -91,7 +91,7 @@
                 <a style="pointer-events: none; color: #ba0d41; font-weight: normal;">Administrator</a>
                 <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" [textContent]="getLogin()"></a>
             </div>
-            <a routerLink="" class="login_a" style="color: white">Wyloguj</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white">Wyloguj</a>
         </div>
         <div class="top-right" *ngIf="isClient()">
             <a routerLink="">Aktualne rejsy</a>
@@ -101,7 +101,7 @@
                 <a style="pointer-events: none; color: #0F084B; font-weight: normal;">Klient</a>
                 <a style="pointer-events: none; color: #0F084B; font-weight: normal;" [textContent]="getLogin()"></a>
             </div>
-            <a routerLink="" class="login_a" style="color: white">Wyloguj</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white">Wyloguj</a>
         </div>
         <div class="top-right" *ngIf="isEmployee()">
             <a routerLink="">Promy</a>
@@ -114,7 +114,7 @@
                 <a style="pointer-events: none; color: #f2aa00; font-weight: normal;">Pracownik</a>
                 <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" [textContent]="getLogin()"></a>
             </div>
-            <a routerLink="" class="login_a" style="color: white">Wyloguj</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white">Wyloguj</a>
         </div>
         <div class="centered">
             <p class="main-text">Przeprawy promowe jak z bajki</p>

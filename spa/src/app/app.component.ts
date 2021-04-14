@@ -53,6 +53,13 @@ export class AppComponent implements AfterViewInit{
     getLogin(): string {
         return localStorage.getItem('login') as string;
     }
+
+    signOut(): void {
+        localStorage.removeItem('token');
+        localStorage.removeItem('login');
+        localStorage.removeItem('currentAccessLevel');
+        localStorage.removeItem('accessLevel');
+    }
 }
 
 

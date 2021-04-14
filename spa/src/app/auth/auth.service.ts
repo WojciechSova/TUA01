@@ -11,7 +11,7 @@ export class AuthService {
     }
 
     auth(login: string, password: string): any {
-        return this.http.post('https://localhost:8181/ssbd02/auth', {
+        return this.http.post('https://studapp.it.p.lodz.pl:8402/ssbd02/auth', {
             login,
             password
         }, {observe: 'body', responseType: 'text'});
