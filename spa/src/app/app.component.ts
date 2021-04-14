@@ -33,6 +33,26 @@ export class AppComponent implements AfterViewInit{
             this.navigation?.nativeElement.classList.remove('nav-sticky');
         }
     }
+
+    isAdmin(): boolean {
+        return localStorage.getItem('currentAccessLevel') === 'ADMIN';
+    }
+
+    isEmployee(): boolean {
+        return localStorage.getItem('currentAccessLevel') === 'EMPLOYEE';
+    }
+
+    isClient(): boolean {
+        return localStorage.getItem('currentAccessLevel') === 'CLIENT';
+    }
+
+    isGuest(): boolean {
+        return localStorage.getItem('currentAccessLevel') === null;
+    }
+
+    getLogin(): string {
+        return localStorage.getItem('login') as string;
+    }
 }
 
 
