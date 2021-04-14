@@ -1,7 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades.AuthViewFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades.interfaces.AuthViewFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers.interfaces.AuthManagerLocal;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -19,18 +20,10 @@ import java.util.List;
 public class AuthManager implements AuthManagerLocal {
 
     @Inject
-    private AuthViewFacade authViewFacade;
+    private AuthViewFacadeLocal authViewFacadeLocal;
 
-    /**
-     * Metoda wyszukująca poziomy dostępu użytkownika o podanym loginie i haśle.
-     *
-     * @param login    Login użytkownika, którego poziomy dostępu są wyszukiwane
-     * @param password Hasło użytkownika, którego poziomy dostępu są wyszukiwane
-     * @return Lista obiektów typu {@link String} zawierająca poziomy dostępu danego użytkownika,
-     * pusta lista w przypadku niezgodności loginu lub hasła
-     */
     public List<String> getAccessLevels(String login, String password) {
         String hashedPassword = DigestUtils.sha512Hex(password);
-        return authViewFacade.findLevelsByCredentials(login, hashedPassword);
+        return authViewFacadeLocal.findLevelsByCredentials(login, hashedPassword);
     }
 }

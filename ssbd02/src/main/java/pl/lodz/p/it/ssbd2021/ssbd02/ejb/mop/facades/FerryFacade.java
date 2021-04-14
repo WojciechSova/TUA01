@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 
 import javax.ejb.Stateless;
@@ -19,7 +20,7 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class FerryFacade extends AbstractFacade<Ferry> {
+public class FerryFacade extends AbstractFacade<Ferry> implements FerryFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")
     private EntityManager entityManager;
@@ -33,12 +34,6 @@ public class FerryFacade extends AbstractFacade<Ferry> {
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encje typu {@link Ferry} o przekazanej nazwie promu.
-     *
-     * @param name Nazwa promu.
-     * @return Obiekt typu {@link Ferry} o przekazanej nazwie promu.
-     */
     public Ferry findByName(String name) {
         TypedQuery<Ferry> typedQuery = entityManager.createNamedQuery("Ferry.findByName", Ferry.class);
         typedQuery.setParameter("name", name);

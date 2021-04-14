@@ -1,8 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
+public class AccessLevelFacade extends AbstractFacade<AccessLevel> implements AccessLevelFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mokPU")
     private EntityManager entityManager;
@@ -35,12 +35,6 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> {
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encje typu {@link AccessLevel}, w których znajduje się dowiązanie do encji typu {@link Account} o przekazanym loginie.
-     *
-     * @param login Login encji.
-     * @return Lista obiektów typu {@link AccessLevel} o przekazanym loginie.
-     */
     public List<AccessLevel> findByLogin(String login) {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findByLogin", AccessLevel.class);
         typedQuery.setParameter("login", login);

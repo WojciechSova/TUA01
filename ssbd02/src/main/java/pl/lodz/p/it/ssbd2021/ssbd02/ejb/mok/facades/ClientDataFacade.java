@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.ClientDataFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.ClientData;
 
 import javax.ejb.Stateless;
@@ -18,7 +19,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class ClientDataFacade extends AbstractFacade<ClientData> {
+public class ClientDataFacade extends AbstractFacade<ClientData> implements ClientDataFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mokPU")
     private EntityManager entityManager;

@@ -8,8 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades.AuthViewFacade;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers.AuthManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades.interfaces.AuthViewFacadeLocal;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,7 +17,7 @@ import java.util.List;
 class AuthManagerTest {
 
     @Mock
-    private AuthViewFacade authViewFacade;
+    private AuthViewFacadeLocal authViewFacade;
     @InjectMocks
     private AuthManager authManager;
 

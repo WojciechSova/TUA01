@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
 
 import javax.ejb.Stateless;
@@ -19,7 +20,7 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class BookingFacade extends AbstractFacade<Booking> {
+public class BookingFacade extends AbstractFacade<Booking> implements BookingFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")
     private EntityManager entityManager;
@@ -33,12 +34,6 @@ public class BookingFacade extends AbstractFacade<Booking> {
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encje typu {@link Booking} o przekazanym biznesowym numerze identyfikacyjnym.
-     *
-     * @param number Biznesowy numer identyfikacyjny.
-     * @return Obiekt typu {@link Booking} o przekazanym biznesowym numerze identyfikacyjnym.
-     */
     public Booking findByNumber(String number) {
         TypedQuery<Booking> typedQuery = entityManager.createNamedQuery("Booking.findByNumber", Booking.class);
         typedQuery.setParameter("number", number);

@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Stateless;
@@ -19,7 +20,7 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class AccountFacade extends AbstractFacade<Account> {
+public class AccountFacade extends AbstractFacade<Account> implements AccountFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mokPU")
     private EntityManager entityManager;
@@ -33,24 +34,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encję typu {@link Account} o przekazanym loginie.
-     *
-     * @param login Login encji.
-     * @return Obiekt typu {@link Account}, o przekazanym loginie.
-     */
     public Account findByLogin(String login) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByLogin", Account.class);
         typedQuery.setParameter("login", login);
         return typedQuery.getSingleResult();
     }
 
-    /**
-     * Metoda wyszukująca encję typu {@link Account} o przekazanym adresie email.
-     *
-     * @param email Email encji.
-     * @return Obiekt typu {@link Account} o przekazanym adresie email.
-     */
     public Account findByEmail(String email) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail", Account.class);
         typedQuery.setParameter("email", email);

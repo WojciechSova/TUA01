@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.RouteFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 
 import javax.ejb.Stateless;
@@ -19,7 +20,7 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-public class RouteFacade extends AbstractFacade<Route> {
+public class RouteFacade extends AbstractFacade<Route> implements RouteFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")
     private EntityManager entityManager;
@@ -33,12 +34,6 @@ public class RouteFacade extends AbstractFacade<Route> {
         return entityManager;
     }
 
-    /**
-     * Metoda wyszukująca encje typu {@link Route} o przekazanym kodzie trasy.
-     *
-     * @param code Kod trasy.
-     * @return Obiekt typu {@link Route} o przekazanym kodzie trasy.
-     */
     public Route findByCode(String code) {
         TypedQuery<Route> typedQuery = entityManager.createNamedQuery("Route.findByCode", Route.class);
         typedQuery.setParameter("code", code);
