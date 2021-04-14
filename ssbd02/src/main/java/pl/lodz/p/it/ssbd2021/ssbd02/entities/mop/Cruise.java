@@ -59,7 +59,7 @@ public class Cruise extends AbstractEntity implements Serializable {
     private Ferry ferry;
 
     @NotNull
-    @Column(name = "number", nullable = false, updatable = true, length = 12)
+    @Column(name = "number", nullable = false, unique = true, updatable = false, length = 12)
     private String number;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
