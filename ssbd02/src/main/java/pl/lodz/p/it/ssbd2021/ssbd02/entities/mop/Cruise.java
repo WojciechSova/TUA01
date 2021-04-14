@@ -33,7 +33,6 @@ import java.time.Instant;
 @NoArgsConstructor
 public class Cruise extends AbstractEntity implements Serializable {
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
