@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -8,10 +9,15 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 export class NavigationComponent implements AfterViewInit {
 
     @ViewChild('logo')
-    private logo: ElementRef = new ElementRef('logo');
+    private logo: ElementRef;
 
     @ViewChild('navigation')
-    private navigation: ElementRef = new ElementRef('navigation');
+    private navigation: ElementRef;
+
+    constructor(private authService: AuthService) {
+        this.logo = new ElementRef('logo');
+        this.navigation = new ElementRef('navigation');
+    }
 
     ngAfterViewInit(): void {
         const obsOptions: any = {
@@ -54,9 +60,6 @@ export class NavigationComponent implements AfterViewInit {
     }
 
     signOut(): void {
-        localStorage.removeItem('token');
-        localStorage.removeItem('login');
-        localStorage.removeItem('currentAccessLevel');
-        localStorage.removeItem('accessLevel');
+        this.authService.signOut();
     }
 }
