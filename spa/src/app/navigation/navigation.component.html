@@ -1,65 +1,29 @@
-<div class="navbar" #navigation *ngIf="isGuest()">
+<div class="navbar" #navigation>
     <div class="top-left-navbar">
-        <img class="logo-navbar" src="assets/logo_primary_color_basic.png" alt="Beautiful logo"
-             style="max-width: 40%">
+        <img class="logo-navbar" src="assets/logo_primary_color_basic.png" alt="Beautiful logo">
     </div>
     <div class="top-right-navbar" style="right: 5%">
-        <a routerLink="">O nas</a>
-        <a routerLink="">Kontakt</a>
-        <a routerLink="">Trasy</a>
-        <a routerLink="/login" class="login_a">Zaloguj</a>
-        <a routerLink="/register" class="login_a">Zarejestruj</a>
-    </div>
-</div>
-
-<div class="navbar" #navigation *ngIf="isAdmin()">
-    <div class="top-left-navbar">
-        <img class="logo-navbar" src="assets/logo_red_basic.png" alt="Beautiful logo" style="max-width: 40%">
-    </div>
-    <div class="top-right-navbar">
-        <a routerLink="">Konta</a>
-        <a routerLink="">Moje konto</a>
-        <a routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
-    </div>
-    <div class="login-accessLevel-navbar">
-        <a style="pointer-events: none; color: #ba0d41; font-weight: normal;">Administrator</a>
-        <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" [textContent]="getLogin()"></a>
-    </div>
-</div>
-
-<div class="navbar" #navigation *ngIf="isClient()">
-    <div class="top-left-navbar">
-        <img class="logo-navbar" src="assets/logo_secondary_color_basic.png" alt="Beautiful logo"
-             style="max-width: 40%">
-    </div>
-    <div class="top-right-navbar">
-        <a routerLink="">Aktualne rejsy</a>
-        <a routerLink="">Rezerwacje</a>
-        <a routerLink="">Moje konto</a>
-        <a routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
-    </div>
-    <div class="login-accessLevel-navbar">
-        <a style="pointer-events: none; color: #0F084B; font-weight: normal;">Klient</a>
-        <a style="pointer-events: none; color: #0F084B; font-weight: normal;" [textContent]="getLogin()"></a>
-    </div>
-</div>
-
-<div class="navbar" #navigation *ngIf="isEmployee()">
-    <div class="top-left-navbar">
-        <img class="logo-navbar" src="assets/logo_orange_basic.png" alt="Beautiful logo" style="max-width: 40%">
-    </div>
-    <div class="top-right-navbar">
-        <a routerLink="">Promy</a>
-        <a routerLink="">Trasy</a>
-        <a routerLink="">Rejsy</a>
-        <a routerLink="">Rezerwacje</a>
-        <a routerLink="">Kajuty</a>
-        <a routerLink="">Moje konto</a>
-        <a routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
-    </div>
-    <div class="login-accessLevel-navbar">
-        <a style="pointer-events: none; color: #f2aa00; font-weight: normal;">Pracownik</a>
-        <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" [textContent]="getLogin()"></a>
+        <a *ngIf="isGuest()" routerLink="">O nas</a>
+        <a *ngIf="isGuest()" routerLink="">Kontakt</a>
+        <a *ngIf="isGuest() || isEmployee()" routerLink="">Trasy</a>
+        <a *ngIf="isEmployee()" routerLink="">Promy</a>
+        <a *ngIf="isEmployee()" routerLink="">Trasy</a>
+        <a *ngIf="isEmployee()" routerLink="">Rejsy</a>
+        <a *ngIf="isEmployee()" routerLink="">Rezerwacje</a>
+        <a *ngIf="isEmployee()" routerLink="">Kajuty</a>
+        <a *ngIf="isClient() || isEmployee()" routerLink="">Rezerwacje</a>
+        <a *ngIf="isClient()" routerLink="">Aktualne rejsy</a>
+        <a *ngIf="isAdmin()" routerLink="">Konta</a>
+        <a *ngIf="isAdmin() || isEmployee() || isClient()" routerLink="">Moje konto</a>
+        <a *ngIf="isAdmin() || isEmployee() || isClient()" routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
+        <a *ngIf="isGuest()" routerLink="/login" class="login_a">Zaloguj</a>
+        <a *ngIf="isGuest()" routerLink="/register" class="login_a">Zarejestruj</a>
+        <div class="login-accessLevel" *ngIf="!isGuest()">
+            <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" *ngIf="isAdmin()">Administrator</a>
+            <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" *ngIf="isEmployee()">Pracownik</a>
+            <a style="pointer-events: none; color: #0F084B; font-weight: normal;" *ngIf="isClient()">Klient</a>
+            <a style="pointer-events: none; color: #ba0d41; font-weight: normal;">{{getLogin()}}</a>
+        </div>
     </div>
 </div>
 
@@ -67,42 +31,26 @@
     <img id="logo" #logo class="logo" src="assets/logo_white_basic.png" alt="Beautiful logo"
          style="max-width: 35%">
 </div>
-<div class="top-right" *ngIf="isGuest()" style="right:5%">
-    <a routerLink="">O nas</a>
-    <a routerLink="">Kontakt</a>
-    <a routerLink="">Trasy</a>
-    <a routerLink="/login" class="login_a">Zaloguj</a>
-    <a routerLink="/register" class="login_a">Zarejestruj</a>
-</div>
-<div class="top-right" *ngIf="isAdmin()">
-    <a routerLink="">Konta</a>
-    <a routerLink="">Moje konto</a>
-    <div class="login-accessLevel">
-        <a style="pointer-events: none; color: #ba0d41; font-weight: normal;">Administrator</a>
-        <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" [textContent]="getLogin()"></a>
+<div class="top-right" style="right: 5%">
+    <a *ngIf="isGuest()" routerLink="">O nas</a>
+    <a *ngIf="isGuest()" routerLink="">Kontakt</a>
+    <a *ngIf="isGuest() || isEmployee()" routerLink="">Trasy</a>
+    <a *ngIf="isEmployee()" routerLink="">Promy</a>
+    <a *ngIf="isEmployee()" routerLink="">Trasy</a>
+    <a *ngIf="isEmployee()" routerLink="">Rejsy</a>
+    <a *ngIf="isEmployee()" routerLink="">Rezerwacje</a>
+    <a *ngIf="isEmployee()" routerLink="">Kajuty</a>
+    <a *ngIf="isClient() || isEmployee()" routerLink="">Rezerwacje</a>
+    <a *ngIf="isClient()" routerLink="">Aktualne rejsy</a>
+    <a *ngIf="isAdmin()" routerLink="">Konta</a>
+    <a *ngIf="isAdmin() || isEmployee() || isClient()" routerLink="">Moje konto</a>
+    <a *ngIf="isAdmin() || isEmployee() || isClient()" routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
+    <a *ngIf="isGuest()" routerLink="/login" class="login_a">Zaloguj</a>
+    <a *ngIf="isGuest()" routerLink="/register" class="login_a">Zarejestruj</a>
+    <div class="login-accessLevel" *ngIf="!isGuest()">
+        <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" *ngIf="isAdmin()">Administrator</a>
+        <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" *ngIf="isEmployee()">Pracownik</a>
+        <a style="pointer-events: none; color: #0F084B; font-weight: normal;" *ngIf="isClient()">Klient</a>
+        <a style="pointer-events: none; color: #ba0d41; font-weight: normal;">{{getLogin()}}</a>
     </div>
-    <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white">Wyloguj</a>
-</div>
-<div class="top-right" *ngIf="isClient()">
-    <a routerLink="">Aktualne rejsy</a>
-    <a routerLink="">Rezerwacje</a>
-    <a routerLink="">Moje konto</a>
-    <div class="login-accessLevel">
-        <a style="pointer-events: none; color: #0F084B; font-weight: normal;">Klient</a>
-        <a style="pointer-events: none; color: #0F084B; font-weight: normal;" [textContent]="getLogin()"></a>
-    </div>
-    <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white">Wyloguj</a>
-</div>
-<div class="top-right" *ngIf="isEmployee()">
-    <a routerLink="">Promy</a>
-    <a routerLink="">Trasy</a>
-    <a routerLink="">Rejsy</a>
-    <a routerLink="">Rezerwacje</a>
-    <a routerLink="">Kajuty</a>
-    <a routerLink="">Moje konto</a>
-    <div class="login-accessLevel">
-        <a style="pointer-events: none; color: #f2aa00; font-weight: normal;">Pracownik</a>
-        <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" [textContent]="getLogin()"></a>
-    </div>
-    <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white">Wyloguj</a>
 </div>
