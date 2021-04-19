@@ -4,6 +4,6 @@ export interface AccessLevel {
     level: string;
     active: boolean;
     modificationDate?: Date;
-    account: AccountGeneral;
+    modifiedBy?: AccountGeneral;
     creationDate: Date;
 }

@@ -11,14 +11,14 @@ export interface AccountDetails {
     email: string;
     phoneNumber?: string;
     accessLevel: AccessLevel[];
-    language: string;
-    timeZone: string;
+    language?: string;
+    timeZone?: string;
     modificationDate?: Date;
-    modifiedBy: AccountGeneral;
+    modifiedBy?: AccountGeneral;
     creationDate: Date;
-    lastKnownGoodLogin: Date;
-    lastKnownGoodLoginIp: string;
-    lastKnownBadLogin: Date;
-    lastKnownBadLoginIp: string;
+    lastKnownGoodLogin?: Date;
+    lastKnownGoodLoginIp?: string;
+    lastKnownBadLogin?: Date;
+    lastKnownBadLoginIp?: string;
     numberOfBadLogins: number;
 }
