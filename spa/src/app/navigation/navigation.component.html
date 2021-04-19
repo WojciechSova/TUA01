@@ -30,7 +30,7 @@
 
 <div class="flex-container fixed nav-non-sticky" #navigation>
     <div class=left>
-        <img [ngClass]="isAdmin() ? 'admin' : isEmployee() ? 'employee' : isClient() ? 'client' : ''" src="assets/logo_primary_color_basic.png" alt="Beautiful logo">
+        <img src="assets/logo_primary_color_basic.png" alt="Beautiful logo">
     </div>
     <div class="right">
         <a *ngIf="isGuest()" routerLink="">O nas</a>
