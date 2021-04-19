@@ -1,6 +1,6 @@
 <div class="flex-container">
     <div class=left>
-        <img #logo src="assets/logo_primary_color_basic.png" alt="Beautiful logo">
+        <img #logo src="assets/logo_white_basic.png" alt="Beautiful logo">
     </div>
     <div class="right">
         <a *ngIf="isGuest()" routerLink="">O nas</a>
@@ -14,17 +14,46 @@
         <a *ngIf="isClient() || isEmployee()" routerLink="">Rezerwacje</a>
         <a *ngIf="isClient()" routerLink="">Aktualne rejsy</a>
         <a *ngIf="isAdmin()" routerLink="">Konta</a>
-        <a *ngIf="isAdmin() || isEmployee() || isClient()" routerLink="">Moje konto</a>
         <a *ngIf="isAdmin() || isEmployee() || isClient()" routerLink="/" (click)="signOut()" class="login-a">Wyloguj</a>
         <a *ngIf="isGuest()" routerLink="/login" class="login-a">Zaloguj</a>
         <a *ngIf="isGuest()" routerLink="/register" class="login-a">Zarejestruj</a>
         <div class="login-access-level" *ngIf="!isGuest()">
-            <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" *ngIf="isAdmin()">Administrator</a>
-            <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" *ngIf="isEmployee()">Pracownik</a>
-            <a style="pointer-events: none; color: #0F084B; font-weight: normal;" *ngIf="isClient()">Klient</a>
-            <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" *ngIf="isAdmin()">{{getLogin()}}</a>
-            <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" *ngIf="isEmployee()">{{getLogin()}}</a>
-            <a style="pointer-events: none; color: #0F084B; font-weight: normal;" *ngIf="isClient()">{{getLogin()}}</a>
+            <a *ngIf="isAdmin()" routerLink="" class="admin" >Administrator</a>
+            <a *ngIf="isEmployee()" routerLink="" class="employee" >Pracownik</a>
+            <a *ngIf="isClient()" routerLink="" class="client" >Klient</a>
+            <a *ngIf="isAdmin()" routerLink="" class="admin" >{{getLogin()}}</a>
+            <a *ngIf="isEmployee()" routerLink="" class="employee" >{{getLogin()}}</a>
+            <a *ngIf="isClient()" routerLink="" class="client" >{{getLogin()}}</a>
+        </div>
+    </div>
+</div>
+
+<div class="flex-container fixed nav-non-sticky" #navigation>
+    <div class=left>
+        <img [ngClass]="isAdmin() ? 'admin' : isEmployee() ? 'employee' : isClient() ? 'client' : ''" src="assets/logo_primary_color_basic.png" alt="Beautiful logo">
+    </div>
+    <div class="right">
+        <a *ngIf="isGuest()" routerLink="">O nas</a>
+        <a *ngIf="isGuest()" routerLink="">Kontakt</a>
+        <a *ngIf="isGuest() || isEmployee()" routerLink="">Trasy</a>
+        <a *ngIf="isEmployee()" routerLink="">Promy</a>
+        <a *ngIf="isEmployee()" routerLink="">Trasy</a>
+        <a *ngIf="isEmployee()" routerLink="">Rejsy</a>
+        <a *ngIf="isEmployee()" routerLink="">Rezerwacje</a>
+        <a *ngIf="isEmployee()" routerLink="">Kajuty</a>
+        <a *ngIf="isClient() || isEmployee()" routerLink="">Rezerwacje</a>
+        <a *ngIf="isClient()" routerLink="">Aktualne rejsy</a>
+        <a *ngIf="isAdmin()" routerLink="">Konta</a>
+        <a *ngIf="isAdmin() || isEmployee() || isClient()" routerLink="/" (click)="signOut()" class="login-a">Wyloguj</a>
+        <a *ngIf="isGuest()" routerLink="/login" class="login-a">Zaloguj</a>
+        <a *ngIf="isGuest()" routerLink="/register" class="login-a">Zarejestruj</a>
+        <div class="login-access-level" *ngIf="!isGuest()">
+            <a *ngIf="isAdmin()" routerLink="" class="admin" >Administrator</a>
+            <a *ngIf="isEmployee()" routerLink="" class="employee" >Pracownik</a>
+            <a *ngIf="isClient()" routerLink="" class="client" >Klient</a>
+            <a *ngIf="isAdmin()" routerLink="" class="admin" >{{getLogin()}}</a>
+            <a *ngIf="isEmployee()" routerLink="" class="employee" >{{getLogin()}}</a>
+            <a *ngIf="isClient()" routerLink="" class="client" >{{getLogin()}}</a>
         </div>
     </div>
 </div>

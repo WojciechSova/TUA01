@@ -7,8 +7,28 @@
     width: 100%;
     height: 100px;
     position: absolute;
-    top: 25px;
+    top: 0;
     left: 0;
+
+    @media(max-width: 768px) {
+        height: 75px;
+    }
+
+    &.fixed {
+        background: white;
+        position: fixed;
+        z-index: 1;
+        box-shadow: 0 1px 30px -5px rgba(0,0,0,.6);
+
+        a {
+            color: @primary-color;
+            text-shadow: none;
+
+            &.login-a {
+                font-weight: 400;
+            }
+        }
+    }
 
     .left {
         display: flex;
@@ -19,13 +39,21 @@
             max-width: 100%;
             max-height: 100%;
 
+            margin-top: 10px;
             margin-left: 85px;
+            margin-bottom: 10px;
+
+            @media(max-width: 1280px) {
+                margin-top: 15px;
+                margin-left: 30px;
+                margin-bottom: 15px;
+            }
         }
     }
 
     .right {
         display: flex;
-        width: 100%;
+        max-width: 80%;
         height: 100%;
         justify-content: flex-end;
         align-items: center;
@@ -49,7 +77,32 @@
             justify-content: center;
             align-items: center;
             height: 100%;
+
+            pointer-events: none;
+            font-weight: bold;
+
+            .admin {
+                color: #ba0d41;
+            }
+
+            .employee {
+                color: #f2aa00;
+            }
+
+            .client {
+                color: #0F084B;
+            }
         }
     }
+}
+
+.nav-sticky {
+    top: 0;
+    transition-duration: 1s;
+}
+
+.nav-non-sticky {
+    top: -100px;
+    transition-duration: 1s;
 }
 
