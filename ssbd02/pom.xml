@@ -99,11 +99,6 @@
             <version>2.26</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.12.1</version>
-        </dependency>
     </dependencies>
 
     <build>

@@ -9,7 +9,6 @@ import lombok.*;
  *
  * @author Karolina Kowalczyk
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

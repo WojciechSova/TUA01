@@ -15,7 +15,6 @@ import java.time.Instant;
  *
  * @author Karolina Kowalczyk
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

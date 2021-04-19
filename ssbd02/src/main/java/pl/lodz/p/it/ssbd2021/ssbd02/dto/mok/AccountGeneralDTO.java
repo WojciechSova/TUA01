@@ -12,7 +12,6 @@ import java.util.List;
  *
  * @author Karolina Kowalczyk
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

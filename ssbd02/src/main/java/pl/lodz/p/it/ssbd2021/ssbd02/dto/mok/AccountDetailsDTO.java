@@ -1,9 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTransient;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -13,7 +14,6 @@ import java.util.List;
  *
  * @author Karolina Kowalczyk
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -57,12 +57,12 @@ public class AccountDetailsDTO {
 
     private int numberOfBadLogins;
 
-    @JsonIgnore
+    @JsonbTransient
     public String getPassword() {
         return password;
     }
 
-    @JsonProperty
+    @JsonbProperty
     public void setPassword(String password) {
         this.password = password;
     }
