@@ -25,6 +25,8 @@ public class AccountDetailsDTO {
 
     private String login;
 
+    private String password;
+
     private Boolean active;
 
     private Boolean confirmed;
