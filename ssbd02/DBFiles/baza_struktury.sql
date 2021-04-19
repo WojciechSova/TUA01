@@ -46,7 +46,7 @@ CREATE TABLE Personal_data
     last_known_good_login_ip varchar(15),
     last_known_bad_login     timestamp,
     last_known_bad_login_ip  varchar(15),
-    number_of_bad_logins     int,
+    number_of_bad_logins     int       DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id_id FOREIGN KEY (id) REFERENCES Account (id),
@@ -87,7 +87,6 @@ GRANT SELECT ON TABLE Access_level TO ssbd02mop;
 
 CREATE INDEX access_level_account_id ON Access_level USING btree (account_id);
 CREATE INDEX access_level_modified_by ON Access_level USING btree (modified_by);
-CREATE INDEX access_level_account_id ON Access_level USING btree (account_id);
 CREATE INDEX access_level_level ON Access_level USING btree (level);
 
 CREATE TABLE Client_data
