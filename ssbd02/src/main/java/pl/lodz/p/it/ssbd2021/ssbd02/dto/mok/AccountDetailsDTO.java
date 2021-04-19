@@ -1,14 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 
 /**
@@ -60,4 +56,14 @@ public class AccountDetailsDTO {
     private String lastKnownBadLoginIp;
 
     private int numberOfBadLogins;
+
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonProperty
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
