@@ -3,57 +3,15 @@
         <img #logo src="assets/logo_white_basic.png" alt="Beautiful logo">
     </div>
     <div class="right">
-        <a *ngIf="isGuest()" routerLink="">O nas</a>
-        <a *ngIf="isGuest()" routerLink="">Kontakt</a>
-        <a *ngIf="isGuest() || isEmployee()" routerLink="">Trasy</a>
-        <a *ngIf="isEmployee()" routerLink="">Promy</a>
-        <a *ngIf="isEmployee()" routerLink="">Trasy</a>
-        <a *ngIf="isEmployee()" routerLink="">Rejsy</a>
-        <a *ngIf="isEmployee()" routerLink="">Rezerwacje</a>
-        <a *ngIf="isEmployee()" routerLink="">Kajuty</a>
-        <a *ngIf="isClient() || isEmployee()" routerLink="">Rezerwacje</a>
-        <a *ngIf="isClient()" routerLink="">Aktualne rejsy</a>
-        <a *ngIf="isAdmin()" routerLink="">Konta</a>
-        <a *ngIf="!isGuest()" routerLink="/" (click)="signOut()" class="login-a">Wyloguj</a>
-        <a *ngIf="isGuest()" routerLink="/login" class="login-a">Zaloguj</a>
-        <a *ngIf="isGuest()" routerLink="/register" class="login-a">Zarejestruj</a>
-        <div class="login-access-level" *ngIf="!isGuest()">
-            <a *ngIf="isAdmin()" routerLink="" class="admin" >Administrator</a>
-            <a *ngIf="isEmployee()" routerLink="" class="employee" >Pracownik</a>
-            <a *ngIf="isClient()" routerLink="" class="client" >Klient</a>
-            <a *ngIf="isAdmin()" routerLink="" class="admin" >{{getLogin()}}</a>
-            <a *ngIf="isEmployee()" routerLink="" class="employee" >{{getLogin()}}</a>
-            <a *ngIf="isClient()" routerLink="" class="client" >{{getLogin()}}</a>
-        </div>
+        <app-links [stickyStyles]="stickyStyles"></app-links>
     </div>
 </div>
 
-<div class="flex-container fixed nav-non-sticky" #navigation>
+<div [ngClass]="isSticky ? 'nav-sticky' : 'nav-non-sticky'" class="flex-container fixed" #navigation>
     <div class=left>
         <img src="assets/logo_primary_color_basic.png" alt="Beautiful logo">
     </div>
     <div class="right">
-        <a *ngIf="isGuest()" routerLink="">O nas</a>
-        <a *ngIf="isGuest()" routerLink="">Kontakt</a>
-        <a *ngIf="isGuest() || isEmployee()" routerLink="">Trasy</a>
-        <a *ngIf="isEmployee()" routerLink="">Promy</a>
-        <a *ngIf="isEmployee()" routerLink="">Trasy</a>
-        <a *ngIf="isEmployee()" routerLink="">Rejsy</a>
-        <a *ngIf="isEmployee()" routerLink="">Rezerwacje</a>
-        <a *ngIf="isEmployee()" routerLink="">Kajuty</a>
-        <a *ngIf="isClient() || isEmployee()" routerLink="">Rezerwacje</a>
-        <a *ngIf="isClient()" routerLink="">Aktualne rejsy</a>
-        <a *ngIf="isAdmin()" routerLink="">Konta</a>
-        <a *ngIf="!isGuest()" routerLink="/" (click)="signOut()" class="login-a">Wyloguj</a>
-        <a *ngIf="isGuest()" routerLink="/login" class="login-a">Zaloguj</a>
-        <a *ngIf="isGuest()" routerLink="/register" class="login-a">Zarejestruj</a>
-        <div class="login-access-level" *ngIf="!isGuest()">
-            <a *ngIf="isAdmin()" routerLink="" class="admin" >Administrator</a>
-            <a *ngIf="isEmployee()" routerLink="" class="employee" >Pracownik</a>
-            <a *ngIf="isClient()" routerLink="" class="client" >Klient</a>
-            <a *ngIf="isAdmin()" routerLink="" class="admin" >{{getLogin()}}</a>
-            <a *ngIf="isEmployee()" routerLink="" class="employee" >{{getLogin()}}</a>
-            <a *ngIf="isClient()" routerLink="" class="client" >{{getLogin()}}</a>
-        </div>
+        <app-links [stickyStyles]="stickyStyles"></app-links>
     </div>
 </div>

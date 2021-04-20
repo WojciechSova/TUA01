@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-navigation',
@@ -8,13 +7,18 @@ import { AuthService } from '../auth/auth.service';
 })
 export class NavigationComponent implements AfterViewInit {
 
+    @Input()
+    public isSticky = true;
+
+    public stickyStyles = true;
+
     @ViewChild('logo')
     private logo: ElementRef;
 
     @ViewChild('navigation')
     private navigation: ElementRef;
 
-    constructor(private authService: AuthService) {
+    constructor() {
         this.logo = new ElementRef('logo');
         this.navigation = new ElementRef('navigation');
     }
@@ -30,36 +34,16 @@ export class NavigationComponent implements AfterViewInit {
     }
 
     showNavbarOnScroll(entries: any): void {
-        if (!entries[0].isIntersecting) {
-            this.navigation?.nativeElement.classList.add('nav-sticky');
-            this.navigation?.nativeElement.classList.remove('nav-non-sticky');
-        } else {
-            this.navigation?.nativeElement.classList.add('nav-non-sticky');
-            this.navigation?.nativeElement.classList.remove('nav-sticky');
+        if (!this.isSticky) {
+            if (!entries[0].isIntersecting) {
+                this.navigation?.nativeElement.classList.add('nav-sticky');
+                this.navigation?.nativeElement.classList.remove('nav-non-sticky');
+                this.stickyStyles = true;
+            } else {
+                this.navigation?.nativeElement.classList.add('nav-non-sticky');
+                this.navigation?.nativeElement.classList.remove('nav-sticky');
+                this.stickyStyles = false;
+            }
         }
-    }
-
-    isAdmin(): boolean {
-        return localStorage.getItem('currentAccessLevel') === 'ADMIN';
-    }
-
-    isEmployee(): boolean {
-        return localStorage.getItem('currentAccessLevel') === 'EMPLOYEE';
-    }
-
-    isClient(): boolean {
-        return localStorage.getItem('currentAccessLevel') === 'CLIENT';
-    }
-
-    isGuest(): boolean {
-        return localStorage.getItem('currentAccessLevel') === null;
-    }
-
-    getLogin(): string {
-        return localStorage.getItem('login') as string;
-    }
-
-    signOut(): void {
-        this.authService.signOut();
     }
 }

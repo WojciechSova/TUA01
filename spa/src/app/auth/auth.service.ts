@@ -33,7 +33,6 @@ export class AuthService {
     }
 
     signOut(): void {
-        console.log('test');
         localStorage.removeItem('token');
         localStorage.removeItem('login');
         localStorage.removeItem('currentAccessLevel');
