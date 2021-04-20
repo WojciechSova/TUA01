@@ -19,6 +19,8 @@ public class AccountGeneralDTO {
 
     private String login;
 
+    private Boolean active;
+
     private String firstName;
 
     private String lastName;
