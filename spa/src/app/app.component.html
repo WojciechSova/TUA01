@@ -10,11 +10,11 @@
                  style="max-width: 40%">
         </div>
         <div class="top-right-navbar" style="right: 5%">
-            <a routerLink="">O nas</a>
-            <a routerLink="">Kontakt</a>
-            <a routerLink="">Trasy</a>
-            <a routerLink="/login" class="login_a">Zaloguj</a>
-            <a routerLink="/register" class="login_a">Zarejestruj</a>
+            <a routerLink=""></a>
+            <a routerLink="" i18n="Contact header|">Kontakt</a>
+            <a routerLink="" i18n="Routes header|">Trasy</a>
+            <a routerLink="/login" class="login_a" i18n="Sign in|">Zaloguj</a>
+            <a routerLink="/register" class="login_a" i18n="Register|">Zarejestruj</a>
         </div>
     </div>
 
@@ -23,12 +23,12 @@
             <img class="logo-navbar" src="assets/logo_red_basic.png" alt="Beautiful logo" style="max-width: 40%">
         </div>
         <div class="top-right-navbar">
-            <a routerLink="">Konta</a>
-            <a routerLink="">Moje konto</a>
-            <a routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
+            <a routerLink="" i18n="Accounts header|">Konta</a>
+            <a routerLink="" i18n="My account header|">Moje konto</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a" i18n="Log out|">Wyloguj</a>
         </div>
         <div class="login-accessLevel-navbar">
-            <a style="pointer-events: none; color: #ba0d41; font-weight: normal;">Administrator</a>
+            <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" i18n="Administrator|">Administrator</a>
             <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" [textContent]="getLogin()"></a>
         </div>
     </div>
@@ -39,13 +39,13 @@
                  style="max-width: 40%">
         </div>
         <div class="top-right-navbar">
-            <a routerLink="">Aktualne rejsy</a>
-            <a routerLink="">Rezerwacje</a>
-            <a routerLink="">Moje konto</a>
-            <a routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
+            <a routerLink="" i18n="Routes header|">Aktualne rejsy</a>
+            <a routerLink="" i18n="Bookings header|">Rezerwacje</a>
+            <a routerLink="" i18n="My account header|">Moje konto</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a" i18n="Log out|">Wyloguj</a>
         </div>
         <div class="login-accessLevel-navbar">
-            <a style="pointer-events: none; color: #0F084B; font-weight: normal;">Klient</a>
+            <a style="pointer-events: none; color: #0F084B; font-weight: normal;" i18n="Client|">Klient</a>
             <a style="pointer-events: none; color: #0F084B; font-weight: normal;" [textContent]="getLogin()"></a>
         </div>
     </div>
@@ -55,16 +55,16 @@
             <img class="logo-navbar" src="assets/logo_orange_basic.png" alt="Beautiful logo" style="max-width: 40%">
         </div>
         <div class="top-right-navbar">
-            <a routerLink="">Promy</a>
-            <a routerLink="">Trasy</a>
-            <a routerLink="">Rejsy</a>
-            <a routerLink="">Rezerwacje</a>
-            <a routerLink="">Kajuty</a>
-            <a routerLink="">Moje konto</a>
-            <a routerLink="/main_page" (click)="signOut()" class="login_a">Wyloguj</a>
+            <a routerLink="" i18n="Ferries header|">Promy</a>
+            <a routerLink="" i18n="Routes header">Trasy</a>
+            <a routerLink="" i18n="Cruises header|">Rejsy</a>
+            <a routerLink="" i18n="Bookings header|">Rezerwacje</a>
+            <a routerLink="" i18n="Cabins header|">Kajuty</a>
+            <a routerLink="" i18n="My account header|">Moje konto</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a" i18n="Log out|">Wyloguj</a>
         </div>
         <div class="login-accessLevel-navbar">
-            <a style="pointer-events: none; color: #f2aa00; font-weight: normal;">Pracownik</a>
+            <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" i18n="Employee|">Pracownik</a>
             <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" [textContent]="getLogin()"></a>
         </div>
     </div>
@@ -78,79 +78,79 @@
                  style="max-width: 35%">
         </div>
         <div class="top-right" *ngIf="isGuest()" style="right:5%">
-            <a routerLink="">O nas</a>
-            <a routerLink="">Kontakt</a>
-            <a routerLink="">Trasy</a>
-            <a routerLink="/login" class="login_a">Zaloguj</a>
-            <a routerLink="/register" class="login_a">Zarejestruj</a>
+            <a routerLink="" i18n="About us header|">O nas</a>
+            <a routerLink="" i18n="Contact header|">Kontakt</a>
+            <a routerLink="" i18n="Routes header|">Trasy</a>
+            <a routerLink="/login" class="login_a" i18n="Sign in|">Zaloguj</a>
+            <a routerLink="/register" class="login_a" i18n="Register|">Zarejestruj</a>
         </div>
         <div class="top-right" *ngIf="isAdmin()">
-            <a routerLink="">Konta</a>
-            <a routerLink="">Moje konto</a>
+            <a routerLink="" i18n="Accounts header|">Konta</a>
+            <a routerLink="" i18n="My account header|">Moje konto</a>
             <div class="login-accessLevel">
-                <a style="pointer-events: none; color: #ba0d41; font-weight: normal;">Administrator</a>
+                <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" i18n="Administrator|">Administrator</a>
                 <a style="pointer-events: none; color: #ba0d41; font-weight: normal;" [textContent]="getLogin()"></a>
             </div>
-            <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white">Wyloguj</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white" i18n="Log out|">Wyloguj</a>
         </div>
         <div class="top-right" *ngIf="isClient()">
-            <a routerLink="">Aktualne rejsy</a>
-            <a routerLink="">Rezerwacje</a>
-            <a routerLink="">Moje konto</a>
+            <a routerLink="" i18n="Current cruises header|">Aktualne rejsy</a>
+            <a routerLink="" i18n="Bookings header|">Rezerwacje</a>
+            <a routerLink="" i18n="My account header|">Moje konto</a>
             <div class="login-accessLevel">
-                <a style="pointer-events: none; color: #0F084B; font-weight: normal;">Klient</a>
+                <a style="pointer-events: none; color: #0F084B; font-weight: normal;" i18n="Client|">Klient</a>
                 <a style="pointer-events: none; color: #0F084B; font-weight: normal;" [textContent]="getLogin()"></a>
             </div>
-            <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white">Wyloguj</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white" i18n="Log out|">Wyloguj</a>
         </div>
         <div class="top-right" *ngIf="isEmployee()">
-            <a routerLink="">Promy</a>
-            <a routerLink="">Trasy</a>
-            <a routerLink="">Rejsy</a>
-            <a routerLink="">Rezerwacje</a>
-            <a routerLink="">Kajuty</a>
-            <a routerLink="">Moje konto</a>
+            <a routerLink="" i18n="Ferries header|">Promy</a>
+            <a routerLink="" i18n="Routes header">Trasy</a>
+            <a routerLink="" i18n="Cruises header|">Rejsy</a>
+            <a routerLink="" i18n="Bookings header|">Rezerwacje</a>
+            <a routerLink="" i18n="Cabins header|">Kajuty</a>
+            <a routerLink="" i18n="My account header|">Moje konto</a>
             <div class="login-accessLevel">
-                <a style="pointer-events: none; color: #f2aa00; font-weight: normal;">Pracownik</a>
+                <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" i18n="Employee|">Pracownik</a>
                 <a style="pointer-events: none; color: #f2aa00; font-weight: normal;" [textContent]="getLogin()"></a>
             </div>
-            <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white">Wyloguj</a>
+            <a routerLink="/main_page" (click)="signOut()" class="login_a" style="color: white" i18n="Log out|">Wyloguj</a>
         </div>
         <div class="centered">
-            <p class="main-text">Przeprawy promowe jak z bajki</p>
+            <p class="main-text" i18n="Advert|">Przeprawy promowe jak z bajki</p>
             <p>
-                <button class="button">Sprawdź teraz!</button>
+                <button class="button" i18n="Check now|">Sprawdź teraz!</button>
             </p>
         </div>
     </div>
-    <button class="login-button" routerLink="/login">Zaloguj się, aby zarezerwować bilet!</button>
+    <button class="login-button" routerLink="/login" i18n="Sign in to book|">Zaloguj się, aby zarezerwować bilet!</button>
 
-    <div class="popular-offers">Najpopularniejsze trasy</div>
+    <div class="popular-offers" i18n="Popular routes|">Najpopularniejsze trasy</div>
 
     <div class="popular-offers-hr"></div>
     <div class="row">
         <div class="column">
             <img src="assets/offer1.png" alt="Offer 1" class="offer-image"/>
             <div class="offer">
-                <div class="offer-text">Warszawa - Ciechocinek</div>
-                <div class="offer-price">Już od 159.99zł od osoby</div>
-                <button class="offer-btn">Zarezerwuj</button>
+                <div class="offer-text" i18n>Warszawa - Ciechocinek</div>
+                <div class="offer-price" i18n>Już od 159.99zł od osoby</div>
+                <button class="offer-btn" i18n="Book|">Zarezerwuj</button>
             </div>
         </div>
         <div class="column">
             <img src="assets/offer2.png" alt="Offer 2" class="offer-image"/>
             <div class="offer">
-                <div class="offer-text">Warszawa - Ciechocinek</div>
-                <div class="offer-price">Już od 159.99zł od osoby</div>
-                <button class="offer-btn">Zarezerwuj</button>
+                <div class="offer-text" i18n>Warszawa - Ciechocinek</div>
+                <div class="offer-price" i18n>Już od 159.99zł od osoby</div>
+                <button class="offer-btn" i18n="Book|">Zarezerwuj</button>
             </div>
         </div>
         <div class="column">
             <img src="assets/offer3.png" alt="Offer 3" class="offer-image"/>
             <div class="offer">
-                <div class="offer-text">Warszawa - Ciechocinek</div>
-                <div class="offer-price">Już od 159.99zł od osoby</div>
-                <button class="offer-btn">Zarezerwuj</button>
+                <div class="offer-text" i18n>Warszawa - Ciechocinek</div>
+                <div class="offer-price" i18n>Już od 159.99zł od osoby</div>
+                <button class="offer-btn" i18n="Book|">Zarezerwuj</button>
             </div>
         </div>
     </div>
@@ -158,25 +158,25 @@
         <div class="column">
             <img src="assets/offer1.png" alt="Offer 1" class="offer-image"/>
             <div class="offer">
-                <div class="offer-text">Warszawa - Ciechocinek</div>
-                <div class="offer-price">Już od 159.99zł od osoby</div>
-                <button class="offer-btn">Zarezerwuj</button>
+                <div class="offer-text" i18n>Warszawa - Ciechocinek</div>
+                <div class="offer-price" i18n>Już od 159.99zł od osoby</div>
+                <button class="offer-btn" i18n="Book|">Zarezerwuj</button>
             </div>
         </div>
         <div class="column">
             <img src="assets/offer2.png" alt="Offer 2" class="offer-image"/>
             <div class="offer">
-                <div class="offer-text">Warszawa - Ciechocinek</div>
-                <div class="offer-price">Już od 159.99zł od osoby</div>
-                <button class="offer-btn">Zarezerwuj</button>
+                <div class="offer-text" i18n>Warszawa - Ciechocinek</div>
+                <div class="offer-price" i18n>Już od 159.99zł od osoby</div>
+                <button class="offer-btn" i18n="Book|">Zarezerwuj</button>
             </div>
         </div>
         <div class="column">
             <img src="assets/offer3.png" alt="Offer 3" class="offer-image"/>
             <div class="offer">
-                <div class="offer-text">Warszawa - Ciechocinek</div>
-                <div class="offer-price">Już od 159.99zł od osoby</div>
-                <button class="offer-btn">Zarezerwuj</button>
+                <div class="offer-text" i18n>Warszawa - Ciechocinek</div>
+                <div class="offer-price" i18n>Już od 159.99zł od osoby</div>
+                <button class="offer-btn" i18n="Book|">Zarezerwuj</button>
             </div>
         </div>
     </div>

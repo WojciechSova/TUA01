@@ -5,6 +5,15 @@
   "projects": {
     "spa": {
       "projectType": "application",
+        "i18n": {
+            "sourceLocale": "pl",
+            "locales": {
+                "en": {
+                    "translation": "src/locales/messages.en.xlf",
+                    "baseHref": ""
+                }
+            }
+        },
       "schematics": {
         "@schematics/angular:component": {
           "style": "less"
@@ -62,7 +71,12 @@
                   "maximumError": "1mb"
                 }
               ]
-            }
+            },
+              "en": {
+                  "localize": ["en"],
+                  "outputPath": "dist/spa-en",
+                  "i18nMissingTranslation": "ignore"
+              }
           }
         },
         "serve": {
@@ -73,7 +87,10 @@
           "configurations": {
             "production": {
               "browserTarget": "spa:build:production"
-            }
+            },
+              "en": {
+                  "browserTarget": "spa:build:en"
+              }
           }
         },
         "extract-i18n": {

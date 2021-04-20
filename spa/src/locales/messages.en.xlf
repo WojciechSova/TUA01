@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="3199961101981873325" datatype="html">
+        <source>Kontakt</source>
+          <target>Contact</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <note priority="1" from="meaning">Contact header</note>
+      </trans-unit>
+      <trans-unit id="6400800524641342543" datatype="html">
+        <source>Trasy</source>
+          <target>Routes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <note priority="1" from="meaning">Routes header</note>
+      </trans-unit>
+      <trans-unit id="5768592782899450423" datatype="html">
+        <source>Zaloguj</source>
+          <target>Sign in</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <note priority="1" from="meaning">Log in</note>
+      </trans-unit>
+      <trans-unit id="7502433910517381017" datatype="html">
+        <source>Zarejestruj</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <note priority="1" from="meaning">Register</note>
+      </trans-unit>
+      <trans-unit id="989552244803479390" datatype="html">
+        <source>Konta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+        <note priority="1" from="meaning">Accounts header</note>
+      </trans-unit>
+      <trans-unit id="5168151673537737202" datatype="html">
+        <source>Moje konto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+        <note priority="1" from="meaning">My account header</note>
+      </trans-unit>
+      <trans-unit id="5578991880982564416" datatype="html">
+        <source>Wyloguj</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">117</context>
+        </context-group>
+        <note priority="1" from="meaning">Log out</note>
+      </trans-unit>
+      <trans-unit id="6447901693423282654" datatype="html">
+        <source>Administrator</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">91</context>
+        </context-group>
+        <note priority="1" from="meaning">Administrator</note>
+      </trans-unit>
+      <trans-unit id="1804893196073962397" datatype="html">
+        <source>Aktualne rejsy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <note priority="1" from="meaning">Routes header</note>
+      </trans-unit>
+      <trans-unit id="5905157044748325477" datatype="html">
+        <source>Rezerwacje</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+        <note priority="1" from="meaning">Bookings header</note>
+      </trans-unit>
+      <trans-unit id="4561104884193876464" datatype="html">
+        <source>Klient</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+        <note priority="1" from="meaning">Client</note>
+      </trans-unit>
+      <trans-unit id="6115414182435908328" datatype="html">
+        <source>Promy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+        <note priority="1" from="meaning">Ferries header</note>
+      </trans-unit>
+      <trans-unit id="1378768229779313783" datatype="html">
+        <source>Trasy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+        <note priority="1" from="description">Routes header</note>
+      </trans-unit>
+      <trans-unit id="6108281090767456815" datatype="html">
+        <source>Rejsy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+        <note priority="1" from="meaning">Cruises header</note>
+      </trans-unit>
+      <trans-unit id="643161102484969723" datatype="html">
+        <source>Kajuty</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+        <note priority="1" from="meaning">Cabins header</note>
+      </trans-unit>
+      <trans-unit id="5687313820786677974" datatype="html">
+        <source>Pracownik</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+        <note priority="1" from="meaning">Employee</note>
+      </trans-unit>
+      <trans-unit id="1409395019116492725" datatype="html">
+        <source>O nas</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+        <note priority="1" from="meaning">About us header</note>
+      </trans-unit>
+      <trans-unit id="397497450705980813" datatype="html">
+        <source>Kontakt</source>
+          <target>Contact</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+        <note priority="1" from="description">Contact header</note>
+      </trans-unit>
+      <trans-unit id="6327707404016234082" datatype="html">
+        <source>Zaloguj</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+        <note priority="1" from="description">Log in</note>
+      </trans-unit>
+      <trans-unit id="2100673911933195115" datatype="html">
+        <source>Zarejestruj</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1736567645711912662" datatype="html">
+        <source>Aktualne rejsy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+        <note priority="1" from="meaning">Current cruises header</note>
+      </trans-unit>
+      <trans-unit id="953969179322728927" datatype="html">
+        <source>Przeprawy promowe jak z bajki</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+        <note priority="1" from="meaning">Advert</note>
+      </trans-unit>
+      <trans-unit id="3484248867700627612" datatype="html">
+        <source>Sprawdź teraz!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+        <note priority="1" from="meaning">Check now</note>
+      </trans-unit>
+      <trans-unit id="1657017839273300955" datatype="html">
+        <source>Zaloguj się, aby zarezerwować bilet!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+        <note priority="1" from="description">Log in to book</note>
+      </trans-unit>
+      <trans-unit id="6953797301121885018" datatype="html">
+        <source>Najpopularniejsze trasy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+        <note priority="1" from="description">Popular routes</note>
+      </trans-unit>
+      <trans-unit id="7025097440275656215" datatype="html">
+        <source>Warszawa - Ciechocinek</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">177</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5574962880009222265" datatype="html">
+        <source>Już od 159.99zł od osoby</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">144</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">152</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">170</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">178</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6267725038581870503" datatype="html">
+        <source>Zarezerwuj</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">137</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">145</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">163</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">171</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">179</context>
+        </context-group>
+        <note priority="1" from="meaning">Book</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
