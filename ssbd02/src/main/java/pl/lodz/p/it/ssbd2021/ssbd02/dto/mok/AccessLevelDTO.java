@@ -1,13 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
-import lombok.*;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
-import java.time.Instant;
 
 /**
  * Klasa DTO zawierająca poziomy konta użytkownika.
@@ -26,7 +23,7 @@ public class AccessLevelDTO {
 
     private Timestamp modificationDate;
 
-    private Account modifiedBy;
+    private AccountGeneralDTO modifiedBy;
 
     private Timestamp creationDate;
 }
