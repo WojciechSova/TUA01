@@ -7,14 +7,19 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import {FooterComponent} from "./footer/footer.component";
+import { NavigationComponent } from './navigation/navigation.component';
+import { LinksComponent } from './navigation/links/links.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
         RegisterComponent,
-        FooterComponent
+        FooterComponent,
+        RegisterComponent,
+        NavigationComponent,
+        LinksComponent
     ],
     imports: [
         BrowserModule,
