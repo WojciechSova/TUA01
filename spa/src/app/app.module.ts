@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './common/login/login.component';
-import { RegisterComponent } from './common/register/register.component';
+import { LoginComponent } from './common/navigation/login/login.component';
+import { RegisterComponent } from './common/navigation/register/register.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigationComponent } from './common/navigation/navigation.component';
