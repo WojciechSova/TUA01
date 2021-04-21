@@ -1,9 +1,9 @@
-<div class="flex-container">
+<div *ngIf="!isSticky" class="flex-container">
     <div class=left>
         <img #logo src="assets/logo_white_basic.png" alt="Beautiful logo">
     </div>
     <div class="right">
-        <app-links [stickyStyles]="stickyStyles"></app-links>
+        <app-links [stickyStyles]="false"></app-links>
     </div>
 </div>
 
@@ -12,6 +12,6 @@
         <img src="assets/logo_primary_color_basic.png" alt="Beautiful logo">
     </div>
     <div class="right">
-        <app-links [stickyStyles]="stickyStyles"></app-links>
+        <app-links [stickyStyles]="true"></app-links>
     </div>
 </div>

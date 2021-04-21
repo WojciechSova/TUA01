@@ -1,16 +1,14 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.less']
+    selector: 'app-navigation',
+    templateUrl: './navigation.component.html',
+    styleUrls: ['./navigation.component.less']
 })
 export class NavigationComponent implements AfterViewInit {
 
     @Input()
     public isSticky = true;
-
-    public stickyStyles = true;
 
     @ViewChild('logo')
     private logo: ElementRef;
@@ -38,11 +36,9 @@ export class NavigationComponent implements AfterViewInit {
             if (!entries[0].isIntersecting) {
                 this.navigation?.nativeElement.classList.add('nav-sticky');
                 this.navigation?.nativeElement.classList.remove('nav-non-sticky');
-                this.stickyStyles = true;
             } else {
                 this.navigation?.nativeElement.classList.add('nav-non-sticky');
                 this.navigation?.nativeElement.classList.remove('nav-sticky');
-                this.stickyStyles = false;
             }
         }
     }
