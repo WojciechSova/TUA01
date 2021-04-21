@@ -9,11 +9,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LinksComponent } from './navigation/links/links.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
+        RegisterComponent,
+        FooterComponent,
         RegisterComponent,
         NavigationComponent,
         LinksComponent
