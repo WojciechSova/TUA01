@@ -11,8 +11,8 @@
     <a *ngIf="isClient()" routerLink="">Aktualne rejsy</a>
     <a *ngIf="isAdmin()" routerLink="">Konta</a>
     <a *ngIf="!isGuest()" routerLink="/" (click)="signOut()" class="login-a">Wyloguj</a>
-    <a *ngIf="isGuest()" routerLink="/login" class="login-a">Zaloguj</a>
-    <a *ngIf="isGuest()" routerLink="/register" class="login-a">Zarejestruj</a>
+    <a *ngIf="isGuest()" (click)="changeLoginVisible(!isLoginVisible)" class="login-a">Zaloguj</a>
+    <a *ngIf="isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" class="login-a">Zarejestruj</a>
     <div class="login-access-level" *ngIf="!isGuest()">
         <a *ngIf="isAdmin()" routerLink="" class="admin">Administrator</a>
         <a *ngIf="isEmployee()" routerLink="" class="employee">Pracownik</a>
@@ -21,3 +21,7 @@
            class="admin">{{ getLogin() }}</a>
     </div>
 </div>
+<app-login *ngIf="isLoginVisible" (isLoginVisibleChange)="changeLoginVisible($event)"
+           (isRegisterVisibleChange)="changeRegisterVisible($event)"></app-login>
+<app-register *ngIf="isRegisterVisible" (isLoginVisibleChange)="changeLoginVisible($event)"
+              (isRegisterVisibleChange)="changeRegisterVisible($event)"></app-register>

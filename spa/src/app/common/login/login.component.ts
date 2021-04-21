@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -9,8 +9,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-    constructor(private authService: AuthService, private router: Router) {
+    constructor(private authService: AuthService) {
     }
+
+    @Output()
+    isLoginVisibleChange = new EventEmitter<boolean>();
+
+    @Output()
+    isRegisterVisibleChange = new EventEmitter<boolean>();
 
     login = '';
     password = '';
@@ -19,8 +25,18 @@ export class LoginComponent {
         this.authService.auth(this.login, this.password).subscribe(
             (response: string) => {
                 this.authService.setSession(response);
-                this.router.navigateByUrl('/');
+                this.closeComponent();
             }
         );
+    }
+
+    closeComponent(): void {
+        this.isLoginVisibleChange.emit(false);
+        this.isRegisterVisibleChange.emit(false);
+    }
+
+    openRegister(): void {
+        this.isLoginVisibleChange.emit(false);
+        this.isRegisterVisibleChange.emit(true);
     }
 }
