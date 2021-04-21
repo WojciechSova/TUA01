@@ -11,6 +11,8 @@ import { NavigationComponent } from './common/navigation/navigation.component';
 import { LinksComponent } from './common/navigation/links/links.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { MainPageComponent } from './main/main-page/main-page.component';
+import { FerrytalesComponent } from './ferrytales/ferrytales/ferrytales.component';
+import { ExampleComponentComponent } from './ferrytales/example-component/example-component.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +23,9 @@ import { MainPageComponent } from './main/main-page/main-page.component';
         RegisterComponent,
         NavigationComponent,
         LinksComponent,
-        MainPageComponent
+        MainPageComponent,
+        FerrytalesComponent,
+        ExampleComponentComponent
     ],
     imports: [
         BrowserModule,
