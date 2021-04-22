@@ -181,13 +181,13 @@ input {
     font: normal 3vh Source Sans Pro;
     background-color: transparent;
     color: @primary-color;
-    outline-width: 0;
+    outline: none;
 }
 
 input::placeholder{
     font: lighter 3vh Source Sans Pro;
     color: @footer-accent-color;
-    outline-width: 0;
+    outline: none;
 }
 
 @media screen and (max-height: 750px){
@@ -198,10 +198,14 @@ input::placeholder{
         padding-bottom: 4.5px;
         height: 33px;
         font: normal 22.5px Source Sans Pro;
+        outline: none;
+
     }
     input::placeholder{
         font: lighter 22.5px Source Sans Pro;
         color: @footer-accent-color;
+        outline: none;
+
     }
 }
 
@@ -222,6 +226,12 @@ input::placeholder{
 
     &:hover {
         background-position: right center;
+        cursor: pointer;
+    }
+
+    &:disabled {
+        background-image: linear-gradient(to right, darkgray 0%, darkgray 100%);
+        cursor: auto;
     }
 }
 
@@ -249,4 +259,17 @@ input::placeholder{
     width: auto;
     cursor: pointer;
     outline-width: 0;
+}
+
+.is-invalid{
+    border-color: rgb(200, 50, 20);
+    -moz-box-shadow: 0 0 5px rgb(200, 50, 20);
+    -webkit-box-shadow: 0 0 5px rgb(200, 50, 20);
+    box-shadow: 0 0 5px rgb(200, 50, 20);
+}
+
+.validation-error{
+    position: relative;
+    color: rgb(200, 50, 20);
+    font: normal 0.6vw Source Sans Pro;
 }
