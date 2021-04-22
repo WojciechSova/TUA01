@@ -20,7 +20,7 @@ import java.io.Serializable;
         @NamedQuery(name = "ClientData.findAll", query = "SELECT c FROM ClientData c"),
         @NamedQuery(name = "ClientData.findById", query = "SELECT c FROM ClientData c WHERE c.id =  :id"),
         @NamedQuery(name = "ClientData.findByPhoneNumber", query = "SELECT c FROM ClientData c WHERE c.phoneNumber = :phoneNumber"),
-        @NamedQuery(name = "ClientData.findByLogin", query = "SELECT c FROM ClientData c WHERE c.accountId.login = :login")
+        @NamedQuery(name = "ClientData.findByLogin", query = "SELECT c FROM ClientData c WHERE c.account.login = :login")
 })
 public class ClientData extends AccessLevel implements Serializable {
 
