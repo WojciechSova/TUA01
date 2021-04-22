@@ -74,9 +74,9 @@ CREATE TABLE Access_level
     modified_by       bigint,
     creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_account_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account FOREIGN KEY (account) REFERENCES Account (id),
-    CONSTRAINT account_id_level_unique UNIQUE (account, level)
+    CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
+    CONSTRAINT fk_account_id_account FOREIGN KEY (account) REFERENCES Account (id),
+    CONSTRAINT account_level_unique UNIQUE (account, level)
 );
 
 ALTER TABLE Access_level
@@ -85,7 +85,7 @@ ALTER TABLE Access_level
 GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
 GRANT SELECT ON TABLE Access_level TO ssbd02mop;
 
-CREATE INDEX access_level_account_id ON Access_level USING btree (account_id);
+CREATE INDEX access_level_account ON Access_level USING btree (account);
 CREATE INDEX access_level_modified_by ON Access_level USING btree (modified_by);
 CREATE INDEX access_level_level ON Access_level USING btree (level);
 

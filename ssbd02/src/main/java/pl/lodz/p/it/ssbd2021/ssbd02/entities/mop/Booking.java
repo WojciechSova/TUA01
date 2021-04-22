@@ -51,7 +51,6 @@ public class Booking extends AbstractEntity implements Serializable {
     @Column(name = "number_of_people", nullable = false, updatable = false)
     private Integer numberOfPeople;
 
-    @NotNull
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "cabin", nullable = true, updatable = false, referencedColumnName = "id")
     private Cabin cabin;
