@@ -1,7 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
-import lombok.*;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
@@ -43,7 +44,7 @@ public class AccountDetailsDTO {
 
     private Timestamp modificationDate;
 
-    private Account modifiedBy;
+    private AccountGeneralDTO modifiedBy;
 
     private Timestamp creationDate;
 
