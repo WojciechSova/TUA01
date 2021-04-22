@@ -19,8 +19,8 @@
             <input type="text" id="email-reg-repeat" name="Email-repeat" placeholder="*Powtórz adres e-mail" formControlName="emailRepeat"
                    [ngClass]="{'is-invalid': form.controls.emailRepeat.touched && form.controls.emailRepeat.invalid}">
             <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('required') && form.controls.emailRepeat.touched">Pole wymagane</div>
-            <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('notMatching') && !form.controls.emailRepeat.hasError('required')
-                ">Adresy email nie są takie same</div>
+            <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('notMatching') && form.controls.emailRepeat.touched
+            && !form.controls.emailRepeat.hasError('required')">Adresy email nie są takie same</div>
 
             <label for="password-reg"></label>
             <input type="password" id="password-reg" name="Password"  placeholder="*Hasło" formControlName="password"
