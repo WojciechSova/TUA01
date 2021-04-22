@@ -44,17 +44,16 @@ public class AccessLevel extends AbstractEntity implements Serializable {
 
     @NotNull
     @ManyToOne(optional = false)
-    @JoinColumn(name = "account_id", nullable = false, updatable = false, referencedColumnName = "id")
-    private Account accountId;
+    @JoinColumn(name = "account", nullable = false, updatable = false, referencedColumnName = "id")
+    private Account account;
 
-    @NotNull
     @Column(name = "active", nullable = false, updatable = true)
     private Boolean active = true;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
 
-    @ManyToOne
+    @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 

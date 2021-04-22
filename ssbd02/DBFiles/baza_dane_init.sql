@@ -15,7 +15,7 @@ VALUES (1, 'Kazimierz', 'Andrzejewski', 'nieistnieje@aaa.pl'),
        (5, 'Gabriela', 'Górska', 'zmyslony4@aaa.pl'),
        (6, 'Anastazy', 'Cieślak', 'zmyslony5@aaa.pl');
 
-INSERT INTO Access_level (version, level, account_id, active)
+INSERT INTO Access_level (version, level, account, active)
 VALUES (1, 'ADMIN', 1, true),
        (1, 'EMPLOYEE', 2, true),
        (1, 'ADMIN', 3, true),

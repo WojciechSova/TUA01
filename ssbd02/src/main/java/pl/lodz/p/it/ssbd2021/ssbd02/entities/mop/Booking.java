@@ -69,7 +69,6 @@ public class Booking extends AbstractEntity implements Serializable {
     @Column(name = "number", nullable = false, unique = true, updatable = false, length = 10)
     private String number;
 
-    @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 
