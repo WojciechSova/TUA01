@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-links',
@@ -8,11 +8,14 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class LinksComponent {
 
+    constructor(private authService: AuthService) {
+    }
+
     @Input()
     public stickyStyles = true;
 
-    constructor(private authService: AuthService) {
-    }
+    isLoginVisible = false;
+    isRegisterVisible = false;
 
     isAdmin(): boolean {
         return localStorage.getItem('currentAccessLevel') === 'ADMIN';
@@ -36,5 +39,13 @@ export class LinksComponent {
 
     signOut(): void {
         this.authService.signOut();
+    }
+
+    changeLoginVisible(visible: boolean): void {
+        this.isLoginVisible = visible;
+    }
+
+    changeRegisterVisible(visible: boolean): void {
+        this.isRegisterVisible = visible;
     }
 }
