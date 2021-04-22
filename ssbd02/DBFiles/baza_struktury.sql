@@ -29,6 +29,8 @@ ALTER TABLE Account
 GRANT SELECT, INSERT, UPDATE ON TABLE Account TO ssbd02mok;
 GRANT SELECT ON TABLE Account TO ssbd02mop;
 
+CREATE INDEX account_login ON Account USING btree (login);
+
 CREATE TABLE Personal_data
 (
     id                       bigint                              NOT NULL,
@@ -44,6 +46,7 @@ CREATE TABLE Personal_data
     last_known_good_login_ip varchar(15),
     last_known_bad_login     timestamp,
     last_known_bad_login_ip  varchar(15),
+    number_of_bad_logins     int       DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id_id FOREIGN KEY (id) REFERENCES Account (id),
@@ -58,6 +61,7 @@ GRANT SELECT ON TABLE Personal_data TO ssbd02mop;
 
 CREATE INDEX personal_data_id ON Personal_data USING btree (id);
 CREATE INDEX personal_data_modified_by ON Personal_data USING btree (modified_by);
+CREATE INDEX personal_data_email ON Personal_data USING btree (email);
 
 CREATE TABLE Access_level
 (
@@ -82,7 +86,8 @@ GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
 GRANT SELECT ON TABLE Access_level TO ssbd02mop;
 
 CREATE INDEX access_level_account_id ON Access_level USING btree (account_id);
-CREATE INDEX access_level_modified_by  ON Access_level USING btree (modified_by);
+CREATE INDEX access_level_modified_by ON Access_level USING btree (modified_by);
+CREATE INDEX access_level_level ON Access_level USING btree (level);
 
 CREATE TABLE Client_data
 (
@@ -100,6 +105,7 @@ GRANT SELECT, INSERT, UPDATE ON TABLE Client_data TO ssbd02mok;
 GRANT SELECT ON TABLE Client_data TO ssbd02mop;
 
 CREATE INDEX client_data_id ON Client_data USING btree (id);
+CREATE INDEX client_data_phone_number ON Client_data USING btree (phone_number);
 
 CREATE VIEW Auth_view AS
 SELECT Account.login, Account.password, Access_level.level
@@ -139,6 +145,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Ferry TO ssbd02mop;
 
 CREATE INDEX ferry_modified_by ON Ferry USING btree (modified_by);
 CREATE INDEX ferry_created_by ON Ferry USING btree (created_by);
+CREATE INDEX ferry_name ON Ferry USING btree (name);
 
 CREATE TABLE Seaport
 (
@@ -164,6 +171,8 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Seaport TO ssbd02mop;
 
 CREATE INDEX seaport_modified_by ON Seaport USING btree (modified_by);
 CREATE INDEX seaport_created_by ON Seaport USING btree (created_by);
+CREATE INDEX seaport_city ON Seaport USING btree (city);
+CREATE INDEX seaport_code ON Seaport USING btree (code);
 
 CREATE TABLE Route
 (
@@ -190,6 +199,7 @@ GRANT SELECT, INSERT, DELETE ON TABLE Route TO ssbd02mop;
 CREATE INDEX route_created_by ON Route USING btree (created_by);
 CREATE INDEX route_start ON Route USING btree (start);
 CREATE INDEX route_destination ON Route USING btree (destination);
+CREATE INDEX route_code ON Route USING btree (code);
 
 CREATE TABLE Cabin_type
 (
@@ -221,7 +231,7 @@ CREATE TABLE Cabin
     CONSTRAINT fk_cabin_type_id FOREIGN KEY (cabin_type) REFERENCES Cabin_type (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
-    CONSTRAINT cabin_number_unique UNIQUE (number)
+    CONSTRAINT cabin_ferry_number_unique UNIQUE (ferry, number)
 );
 
 ALTER TABLE Cabin
@@ -233,6 +243,7 @@ CREATE INDEX cabin_ferry ON Cabin USING btree (ferry);
 CREATE INDEX cabin_cabin_type ON Cabin USING btree (cabin_type);
 CREATE INDEX cabin_modified_by ON Cabin USING btree (modified_by);
 CREATE INDEX cabin_created_by ON Cabin USING btree (created_by);
+CREATE INDEX cabin_number ON Cabin USING btree (number);
 
 CREATE TABLE Cruise
 (
@@ -265,6 +276,7 @@ CREATE INDEX cruise_ferry ON Cruise USING btree (ferry);
 CREATE INDEX cruise_route ON Cruise USING btree (route);
 CREATE INDEX cruise_modified_by ON Cruise USING btree (modified_by);
 CREATE INDEX cruise_created_by ON Cruise USING btree (created_by);
+CREATE INDEX cruise_number ON Cruise USING btree (number);
 
 CREATE TABLE Vehicle_type
 (
@@ -311,3 +323,4 @@ CREATE INDEX booking_cruise ON Booking USING btree (cruise);
 CREATE INDEX booking_account ON Booking USING btree (account);
 CREATE INDEX booking_cabin ON Booking USING btree (cabin);
 CREATE INDEX booking_vehicle_type ON Booking USING btree (vehicle_type);
+CREATE INDEX booking_number ON Booking USING btree (number);

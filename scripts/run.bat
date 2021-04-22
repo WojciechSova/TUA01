@@ -1,2 +1,4 @@
 cd ../spa
-ng build --prod
+rem Execute ng build --prod only if execution of npm install has finished successfully
+npm install && ng build --prod
+

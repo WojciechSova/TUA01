@@ -1,0 +1,22 @@
+<div class="main">
+    <div class="container">
+        <img class="main-image" src="assets/mewa.jpg" alt=""/>
+
+        <app-navigation [isSticky]="false"></app-navigation>
+
+        <div class="centered">
+            <p class="main-text">Przeprawy promowe jak z bajki</p>
+            <p>
+                <button class="button">Sprawdź teraz!</button>
+            </p>
+        </div>
+    </div>
+
+    <button class="login-button" routerLink="/login">Zaloguj się, aby zarezerwować bilet!</button>
+
+    <app-popular-offers></app-popular-offers>
+
+    <app-footer></app-footer>
+</div>
+
+<router-outlet></router-outlet>
