@@ -12,6 +12,8 @@ import { FooterComponent } from './common/footer/footer.component';
 import { MainPageComponent } from './main/main-page/main-page.component';
 import { FerrytalesComponent } from './ferrytales/ferrytales/ferrytales.component';
 import { ExampleComponentComponent } from './ferrytales/example-component/example-component.component';
+import { PopularOffersComponent } from './main/popular-offers/popular-offers.component';
+import { OfferComponent } from './main/popular-offers/offer/offer.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +26,9 @@ import { ExampleComponentComponent } from './ferrytales/example-component/exampl
         LinksComponent,
         MainPageComponent,
         FerrytalesComponent,
-        ExampleComponentComponent
+        ExampleComponentComponent,
+        PopularOffersComponent,
+        OfferComponent
     ],
     imports: [
         BrowserModule,
