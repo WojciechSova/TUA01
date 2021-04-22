@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './common/navigation/login/login.component';
 import { RegisterComponent } from './common/navigation/register/register.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigationComponent } from './common/navigation/navigation.component';
 import { LinksComponent } from './common/navigation/links/links.component';

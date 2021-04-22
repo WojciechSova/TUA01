@@ -1,13 +1,10 @@
-import {AbstractControl} from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 export function validatePassword(control: AbstractControl): { [key: string]: boolean } | null {
-
-
     const passwordPath = 'password';
     const passwordRepeatPath = 'passwordRepeat';
 
     return checkMatching(control, passwordPath, passwordRepeatPath);
-
 }
 
 export function validateEmail(control: AbstractControl): { [key: string]: boolean } | null {
