@@ -68,15 +68,15 @@ CREATE TABLE Access_level
     id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     version           bigint                              NOT NULL,
     level             varchar(16)                         NOT NULL,
-    account_id        bigint                              NOT NULL,
+    account           bigint                              NOT NULL,
     active            boolean   DEFAULT true              NOT NULL,
     modification_date timestamp,
     modified_by       bigint,
     creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id FOREIGN KEY (account_id) REFERENCES Account (id),
-    CONSTRAINT account_id_level_unique UNIQUE (account_id, level)
+    CONSTRAINT fk_account_id_account FOREIGN KEY (account) REFERENCES Account (id),
+    CONSTRAINT account_level_unique UNIQUE (account, level)
 );
 
 ALTER TABLE Access_level
@@ -85,7 +85,7 @@ ALTER TABLE Access_level
 GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
 GRANT SELECT ON TABLE Access_level TO ssbd02mop;
 
-CREATE INDEX access_level_account_id ON Access_level USING btree (account_id);
+CREATE INDEX access_level_account ON Access_level USING btree (account);
 CREATE INDEX access_level_modified_by ON Access_level USING btree (modified_by);
 CREATE INDEX access_level_level ON Access_level USING btree (level);
 
@@ -110,7 +110,7 @@ CREATE INDEX client_data_phone_number ON Client_data USING btree (phone_number);
 CREATE VIEW Auth_view AS
 SELECT Account.login, Account.password, Access_level.level
 FROM (Account JOIN Access_level ON
-    ((Account.id = Access_level.Account_id)))
+    ((Account.id = Access_level.Account)))
 WHERE (((Account.confirmed = true) AND (Account.active = true))
     AND (Access_level.active = true));
 
