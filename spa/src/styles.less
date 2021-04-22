@@ -3,6 +3,8 @@
 @primary-text-color: #FFFFFF;
 @footer-accent-color: #BDBDBD;
 @footer-background-color: #EFEFEF;
+@validation-error-color: #FC9483;
+@validation-error-background-color: #FFE3DE;
 
 body{
     margin:0;
@@ -262,14 +264,32 @@ input::placeholder{
 }
 
 .is-invalid{
-    border-color: rgb(200, 50, 20);
-    -moz-box-shadow: 0 0 5px rgb(200, 50, 20);
-    -webkit-box-shadow: 0 0 5px rgb(200, 50, 20);
-    box-shadow: 0 0 5px rgb(200, 50, 20);
+    border-color: @validation-error-color;
+    -moz-box-shadow: 0 0 5px @validation-error-color;
+    -webkit-box-shadow: 0 0 5px @validation-error-color;
+    box-shadow: 0 0 5px @validation-error-color;
 }
 
 .validation-error{
-    position: relative;
-    color: rgb(200, 50, 20);
-    font: normal 0.6vw Source Sans Pro;
+    position: absolute;
+    z-index: 1;
+    left: 76%;
+    display: block;
+    margin-top: -5.5vh;
+    padding: 1vh calc(0.5vw + 5px);
+    height: auto;
+    width: auto;
+    background-color: @validation-error-background-color;
+    border-radius: 10px;
+    color: @validation-error-color;
+    font: normal 1.7vh Source Sans Pro;
+}
+
+@media screen and (max-height: 750px){
+    .validation-error{
+        padding: 7.5px ;
+        margin-top: -41.25px;
+        margin-bottom: -41.25px;
+        font: normal 12.75px Source Sans Pro;
+    }
 }

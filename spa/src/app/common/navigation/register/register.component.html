@@ -20,7 +20,7 @@
                    [ngClass]="{'is-invalid': form.controls.emailRepeat.touched && form.controls.emailRepeat.invalid}">
             <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('required') && form.controls.emailRepeat.touched">Pole wymagane</div>
             <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('notMatching') && form.controls.emailRepeat.touched
-            && !form.controls.emailRepeat.hasError('required')">Adresy email nie są takie same</div>
+            && !form.controls.emailRepeat.hasError('required')">Adresy nie są takie same</div>
 
             <label for="password-reg"></label>
             <input type="password" id="password-reg" name="Password"  placeholder="*Hasło" formControlName="password"
@@ -48,7 +48,7 @@
             <label for="phone-number"></label>
             <input type="text" id="phone-number" name="Phone-number" placeholder="Numer telefonu" formControlName="phoneNumber"
                    [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}">
-            <div class="validation-error" *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched">Niepoprawny format, nr telefonu musi zawierać kod kierunkowy</div><br><br>
+            <div class="validation-error" *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched">Niepoprawny format</div><br><br>
 
             <button class="form-button" [disabled]="form.invalid">Zarejestruj</button>
         </form>
