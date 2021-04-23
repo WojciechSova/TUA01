@@ -6,7 +6,7 @@
 
     <groupId>pl.lodz.p.it.ssbd2021.ssbd02</groupId>
     <artifactId>ssbd02</artifactId>
-    <version>Wv0.3.0</version>
+    <version>v0.4.0</version>
     <packaging>war</packaging>
 
     <name>ssbd02</name>
@@ -98,6 +98,16 @@
             <artifactId>jersey-common</artifactId>
             <version>2.26</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.14.1</version>
         </dependency>
     </dependencies>
 

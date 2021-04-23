@@ -1,0 +1,60 @@
+<div class="overlay">
+    <div class="form-container">
+        <img class="circle" src="assets/login-register-circle.png" alt=""/>
+        <img class="logo" (click)="closeComponent()" src="assets/logo_primary_color.png" alt=""/>
+        <form action="" [formGroup]="form">
+            <label for="login-reg"></label>
+            <input type="text" id="login-reg" name="Login" placeholder="*Login" formControlName="login"
+                   [ngClass]="{'is-invalid': form.controls.login.touched && form.controls.login.invalid}"><br>
+            <div class="validation-error" *ngIf="form.controls.login.hasError('required')
+                && form.controls.login.touched">Pole wymagane</div>
+
+            <label for="email-reg"></label>
+            <input type="text" id="email-reg" name="Email" placeholder="*Adres e-mail" formControlName="email"
+                   [ngClass]="{'is-invalid': form.controls.email.touched && form.controls.email.invalid}">
+            <div class="validation-error" *ngIf="form.controls.email.hasError('required') && form.controls.email.touched">Pole wymagane</div>
+            <div class="validation-error" *ngIf="form.controls.email.hasError('email') && form.controls.email.touched">Niepoprawny format</div>
+
+            <label for="email-reg-repeat"></label>
+            <input type="text" id="email-reg-repeat" name="Email-repeat" placeholder="*Powtórz adres e-mail" formControlName="emailRepeat"
+                   [ngClass]="{'is-invalid': form.controls.emailRepeat.touched && form.controls.emailRepeat.invalid}">
+            <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('required') && form.controls.emailRepeat.touched">Pole wymagane</div>
+            <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('notMatching') && form.controls.emailRepeat.touched
+            && !form.controls.emailRepeat.hasError('required')">Adresy nie są takie same</div>
+
+            <label for="password-reg"></label>
+            <input type="password" id="password-reg" name="Password"  placeholder="*Hasło" formControlName="password"
+                   [ngClass]="{'is-invalid': form.controls.password.touched && form.controls.password.invalid}">
+            <div class="validation-error" *ngIf="form.controls.password.hasError('required') && form.controls.password.touched">Pole wymagane</div>
+            <div class="validation-error" *ngIf="form.controls.password.hasError('minlength') && form.controls.password.touched">Hasło za krótkie</div>
+
+            <label for="passwordRegRepeat"></label>
+            <input type="password" id="passwordRegRepeat" appConfirmEqualValidator="password" name="PasswordRegRepeat" placeholder="*Powtórz hasło" formControlName="passwordRepeat"
+                   [ngClass]="{'is-invalid': form.controls.passwordRepeat.touched && form.controls.passwordRepeat.invalid}">
+            <div class="validation-error" *ngIf="form.controls.passwordRepeat.hasError('notMatching')
+                && !form.controls.passwordRepeat.hasError('required') && form.controls.passwordRepeat.touched">Hasła nie są takie same</div>
+            <div class="validation-error" *ngIf="form.controls.passwordRepeat.hasError('required') && form.controls.passwordRepeat.touched">Pole wymagane</div>
+
+            <label for="first-name"></label>
+            <input type="text" id="first-name" name="Name" placeholder="*Imię" formControlName="firstName"
+                   [ngClass]="{'is-invalid': form.controls.firstName.touched && form.controls.firstName.invalid}">
+            <div class="validation-error" *ngIf="form.controls.firstName.hasError('required') && form.controls.firstName.touched">Pole wymagane</div>
+
+            <label for="last-name"></label>
+            <input type="text" id="last-name" name="Last-name" placeholder="*Nazwisko" formControlName="lastName"
+                   [ngClass]="{'is-invalid': form.controls.lastName.touched && form.controls.lastName.invalid}">
+            <div class="validation-error" *ngIf="form.controls.lastName.hasError('required') && form.controls.lastName.touched">Pole wymagane</div>
+
+            <label for="phone-number"></label>
+            <input type="text" id="phone-number" name="Phone-number" placeholder="Numer telefonu" formControlName="phoneNumber"
+                   [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}">
+            <div class="validation-error" *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched">Niepoprawny format</div><br><br>
+
+            <button class="form-button" [disabled]="form.invalid">Zarejestruj</button>
+        </form>
+        <div class="column-nav">
+            <a (click)="openLogin()">Masz już konto? Zaloguj się!</a>
+        </div>
+        <img class="return-arrow" (click)="closeComponent()" src="assets/back-arrow.png" alt=""/>
+    </div>
+</div>
