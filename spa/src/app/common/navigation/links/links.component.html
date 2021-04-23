@@ -1,6 +1,5 @@
 <div [ngClass]="stickyStyles ? 'sticky-links' : 'links'">
-    <!-- todo usunąć router link do accoutn -->
-    <a *ngIf="identityService.isGuest()" routerLink="/ferrytales/account">O nas</a>
+    <a *ngIf="identityService.isGuest()" routerLink="">O nas</a>
     <a *ngIf="identityService.isGuest()" routerLink="">Kontakt</a>
     <a *ngIf="identityService.isGuest() || identityService.isEmployee()" routerLink="">Trasy</a>
     <a *ngIf="identityService.isEmployee()" routerLink="">Promy</a>
@@ -18,8 +17,8 @@
         <a *ngIf="identityService.isAdmin()" routerLink="" class="admin">Administrator</a>
         <a *ngIf="identityService.isEmployee()" routerLink="" class="employee">Pracownik</a>
         <a *ngIf="identityService.isClient()" routerLink="" class="client">Klient</a>
-        <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''" routerLink=""
-           class="admin">{{ identityService.getLogin() }}</a>
+        <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''"
+           routerLink="/ferrytales/account" class="admin">{{ identityService.getLogin() }}</a>
     </div>
 </div>
 <app-login *ngIf="isLoginVisible" (isLoginVisibleChange)="changeLoginVisible($event)"

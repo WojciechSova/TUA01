@@ -1,29 +1,81 @@
 <div class="outer-div">
     <div class="account-details">
-        <label>Login: {{account.login}}<br/></label>
-        <label>Imię: {{account.firstName}}<br/></label>
-        <label>Nazwisko: {{account.lastName}}<br/></label>
-        <label>Adres email: {{account.email}}<br/></label>
-        <label *ngIf="account.accessLevel.some(hasClientAccessLevel)">Numer telefonu: {{account.phoneNumber}}
-            <br/></label>
-        <label>Poziomy dostępu:<br/></label>
-        <app-access-level-table [accessLevels]="account.accessLevel"></app-access-level-table>
-        <label>Język: {{account.language}}<br/></label>
-        <label>Strefa czasowa: {{account.timeZone}}<br/></label>
-        <div *ngIf="identityService.isAdmin()">
-            <label>Aktywne: {{account.active}}<br/></label>
-            <label>Potwierdzone: {{account.confirmed}}<br/></label>
-            <label>Data ostatniej modyfikacji: {{account.modificationDate}}<br/></label>
-            <label>Autor ostatniej modyfikacji: {{account.modifiedBy}}<br/></label>
-            <label>Data utworzenia: {{account.creationDate}}<br/></label>
-            <label>Data ostatniej udanej próby logowania: {{account.lastKnownGoodLogin}}<br/></label>
-            <label>Adres ip ostatniej udanej próby logowania: {{account.lastKnownGoodLoginIp}}<br/></label>
-            <label>Data ostatniej nieudanej próby logowania: {{account.lastKnownBadLogin}}<br/></label>
-            <label>Adres ip ostatniej nieudanej próby logowania: {{account.lastKnownBadLoginIp}}<br/></label>
-            <label>Liczba nieudanych prób logowania: {{account.numberOfBadLogins}}<br/></label>
+        <button class="edit-button">Edytuj konto</button>
+        <div class="col">
+            <div class="row">
+                <label>Login:</label>
+                <label>{{account.login}}</label>
+            </div>
+            <div class="row">
+                <label>Imię:</label>
+                <label>{{account.firstName}}</label>
+            </div>
+            <div class="row">
+                <label>Nazwisko:</label>
+                <label>{{account.lastName}}</label>
+            </div>
+            <div class="row">
+                <label>Adres email:</label>
+                <label>{{account.email}}</label>
+            </div>
+            <div class="row" *ngIf="account.accessLevel.some(hasClientAccessLevel)">
+                <label>Numer telefonu:</label>
+                <label>{{account.phoneNumber}}</label>
+            </div>
+            <div class="row">
+                <label>Język:</label>
+                <label>{{account.language}}</label>
+            </div>
+            <div class="row">
+                <label>Strefa czasowa:</label>
+                <label>{{account.timeZone}}</label>
+            </div>
+            <div *ngIf="identityService.isAdmin()">
+                <div class="row">
+                    <label>Aktywne:</label>
+                    <label>{{account.active}}</label>
+                </div>
+                <div class="row">
+                    <label>Potwierdzone:</label>
+                    <label>{{account.confirmed}}</label>
+                </div>
+                <div class="row">
+                    <label>Data ostatniej modyfikacji:</label>
+                    <label>{{account.modificationDate}}</label>
+                </div>
+                <div class="row">
+                    <label>Autor ostatniej modyfikacji:</label>
+                    <label>{{account.modifiedBy}}</label>
+                </div>
+                <div class="row">
+                    <label>Data utworzenia:</label>
+                    <label>{{account.creationDate}}</label>
+                </div>
+                <div class="row">
+                    <label>Data ostatniej udanej próby logowania:</label>
+                    <label>{{account.lastKnownGoodLogin}}</label>
+                </div>
+                <div class="row">
+                    <label>Adres ip ostatniej udanej próby logowania:</label>
+                    <label>{{account.lastKnownGoodLoginIp}}</label>
+                </div>
+                <div class="row">
+                    <label>Data ostatniej nieudanej próby logowania:</label>
+                    <label>{{account.lastKnownBadLogin}}</label>
+                </div>
+                <div class="row">
+                    <label>Adres ip ostatniej nieudanej próby logowania:</label>
+                    <label>{{account.lastKnownBadLoginIp}}</label>
+                </div>
+                <div class="row">
+                    <label>Liczba nieudanych prób logowania:</label>
+                    <label>{{account.numberOfBadLogins}}</label>
+                </div>
+            </div>
         </div>
-
-
-        <label></label>
+        <div>
+            <label>Poziomy dostępu:</label>
+            <app-access-level-table [accessLevels]="account.accessLevel"></app-access-level-table>
+        </div>
     </div>
 </div>

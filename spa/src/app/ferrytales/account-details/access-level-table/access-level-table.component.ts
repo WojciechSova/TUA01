@@ -16,5 +16,4 @@ export class AccessLevelTableComponent implements OnInit {
 
     ngOnInit(): void {
     }
-
 }
