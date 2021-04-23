@@ -113,6 +113,9 @@
 
     <profiles>
         <profile>
+            <id>without-spa</id>
+        </profile>
+        <profile>
             <id>with-spa</id>
             <build>
                 <plugins>
