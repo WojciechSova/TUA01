@@ -1,4 +1,4 @@
-import {AccountGeneral} from './AccountGeneral';
+import { AccountGeneral } from './AccountGeneral';
 
 export interface AccessLevel {
     level: string;

@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {AccountDetails} from '../../model/mok/AccountDetails';
-import {IdentityService} from '../../services/utils/identity.service';
-import {AccessLevel} from '../../model/mok/AccessLevel';
+import { Component, OnInit } from '@angular/core';
+import { AccountDetails } from '../../model/mok/AccountDetails';
+import { IdentityService } from '../../services/utils/identity.service';
+import { AccessLevel } from '../../model/mok/AccessLevel';
 
 @Component({
     selector: 'app-account-details',
@@ -21,7 +21,7 @@ export class AccountDetailsComponent implements OnInit {
         firstName: 'Daniel',
         lastName: 'Łondka',
         email: 'ssbd02@edu.p.lodz.pl',
-        phoneNumber: '513954710',
+        phoneNumber: '123123123',
         accessLevel: [
             {
                 level: 'CLIENT',

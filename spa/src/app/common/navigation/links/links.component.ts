@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import {IdentityService} from '../../../services/utils/identity.service';
+import { IdentityService } from '../../../services/utils/identity.service';
 
 @Component({
     selector: 'app-links',

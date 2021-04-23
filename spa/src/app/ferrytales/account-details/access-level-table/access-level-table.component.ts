@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AccessLevel} from '../../../model/mok/AccessLevel';
+import { Component, Input, OnInit } from '@angular/core';
+import { AccessLevel } from '../../../model/mok/AccessLevel';
 
 @Component({
     selector: 'app-access-level-table',
