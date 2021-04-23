@@ -34,7 +34,6 @@ export class AccountDetailsComponent implements OnInit {
                 creationDate: new Date()
             }
         ],
-        timeZone: 'string',
         creationDate: new Date(),
         numberOfBadLogins: 0
     };
@@ -43,6 +42,6 @@ export class AccountDetailsComponent implements OnInit {
     }
 
     hasClientAccessLevel(accessLevel: AccessLevel): boolean {
-        return accessLevel.level.includes('CLIENT');
+        return accessLevel.level === 'CLIENT';
     }
 }

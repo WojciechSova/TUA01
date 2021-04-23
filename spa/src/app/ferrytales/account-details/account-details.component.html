@@ -1,60 +1,29 @@
-<div>
-    <div>
-        <label>Login: {{account.login}}</label>
-    </div>
-    <div>
-        <label>Hasło
-            <button>Zmień hasło</button>
-        </label>
-    </div>
-    <div *ngIf="identityService.isAdmin()">
-        <label>Aktywne: {{account.active}}</label>
-        <button *ngIf="identityService.isAdmin()">{{ account.active ? 'Aktywuj' : 'Dezaktywuj' }}</button>
-    </div>
-    <div *ngIf="identityService.isAdmin()">
-        <label>Potwierdzone: {{account.confirmed}}</label>
-    </div>
-    <div>
-        <label>Imię:
-            <input [(ngModel)]="account.firstName"/>
-        </label>
-    </div>
-    <div>
-        <label>Nazwisko:
-            <input [(ngModel)]="account.lastName"/>
-        </label>
-    </div>
-    <div>
-        <label>Adres email:
-            <label>{{account.email}}</label>
-        </label>
-    </div>
-    <div *ngIf="account.accessLevel.some(hasClientAccessLevel)">
-        <label>Numer telefonu:
-            <label >{{account.phoneNumber}}</label>
-        </label>
-    </div>
-    <div>
-        <label>Poziomy dostępu:</label>
+<div class="outer-div">
+    <div class="account-details">
+        <label>Login: {{account.login}}<br/></label>
+        <label>Imię: {{account.firstName}}<br/></label>
+        <label>Nazwisko: {{account.lastName}}<br/></label>
+        <label>Adres email: {{account.email}}<br/></label>
+        <label *ngIf="account.accessLevel.some(hasClientAccessLevel)">Numer telefonu: {{account.phoneNumber}}
+            <br/></label>
+        <label>Poziomy dostępu:<br/></label>
         <app-access-level-table [accessLevels]="account.accessLevel"></app-access-level-table>
-    </div>
-    <div>
-        <label>Język: {{account.language}}</label>
-    </div>
-    <div>
-        <label>Strefa czasowa: {{account.timeZone}}</label>
-    </div>
-    <div>
-        <label>Data ostatniej modyfikacji: {{account.modificationDate}}</label>
-    </div>
-    <div>
-        <label>Autor ostatniej modyfikacji: {{account.modifiedBy}}</label>
-    </div>
-    <div>
-        <label>Data utworzenia: {{account.creationDate}}</label>
-    </div>
-    <div>
-        <label>Konto twórcy: {{account.creationDate}}</label>
-    </div>
+        <label>Język: {{account.language}}<br/></label>
+        <label>Strefa czasowa: {{account.timeZone}}<br/></label>
+        <div *ngIf="identityService.isAdmin()">
+            <label>Aktywne: {{account.active}}<br/></label>
+            <label>Potwierdzone: {{account.confirmed}}<br/></label>
+            <label>Data ostatniej modyfikacji: {{account.modificationDate}}<br/></label>
+            <label>Autor ostatniej modyfikacji: {{account.modifiedBy}}<br/></label>
+            <label>Data utworzenia: {{account.creationDate}}<br/></label>
+            <label>Data ostatniej udanej próby logowania: {{account.lastKnownGoodLogin}}<br/></label>
+            <label>Adres ip ostatniej udanej próby logowania: {{account.lastKnownGoodLoginIp}}<br/></label>
+            <label>Data ostatniej nieudanej próby logowania: {{account.lastKnownBadLogin}}<br/></label>
+            <label>Adres ip ostatniej nieudanej próby logowania: {{account.lastKnownBadLoginIp}}<br/></label>
+            <label>Liczba nieudanych prób logowania: {{account.numberOfBadLogins}}<br/></label>
+        </div>
 
+
+        <label></label>
+    </div>
 </div>
