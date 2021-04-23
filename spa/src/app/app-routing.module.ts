@@ -1,17 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { AppComponent } from './app.component';
+import { MainPageComponent } from './main/main-page/main-page.component';
+import { ExampleComponentComponent } from './ferrytales/example-component/example-component.component';
+import { FerrytalesComponent } from './ferrytales/ferrytales/ferrytales.component';
+
+const ferrytalesChildren: Routes = [
+    { path: 'example-component', component: ExampleComponentComponent }
+];
+
 
 const routes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'main_page', component: AppComponent }
+    { path: '', component: MainPageComponent },
+    { path: 'ferrytales', component: FerrytalesComponent, children: ferrytalesChildren }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {useHash: true})],
+    imports: [RouterModule.forRoot(routes, { useHash: true })],
     exports: [RouterModule]
 })
 export class AppRoutingModule {

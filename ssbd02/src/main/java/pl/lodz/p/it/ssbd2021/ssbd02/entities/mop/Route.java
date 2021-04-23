@@ -49,7 +49,6 @@ public class Route extends AbstractEntity implements Serializable {
     @Column(name = "code", nullable = false, unique = true, updatable = false, length = 6)
     private String code;
 
-    @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 
