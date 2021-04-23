@@ -1,24 +1,25 @@
 <div [ngClass]="stickyStyles ? 'sticky-links' : 'links'">
-    <a *ngIf="isGuest()" routerLink="">O nas</a>
-    <a *ngIf="isGuest()" routerLink="">Kontakt</a>
-    <a *ngIf="isGuest() || isEmployee()" routerLink="">Trasy</a>
-    <a *ngIf="isEmployee()" routerLink="">Promy</a>
-    <a *ngIf="isEmployee()" routerLink="">Trasy</a>
-    <a *ngIf="isEmployee()" routerLink="">Rejsy</a>
-    <a *ngIf="isEmployee()" routerLink="">Rezerwacje</a>
-    <a *ngIf="isEmployee()" routerLink="">Kajuty</a>
-    <a *ngIf="isClient() || isEmployee()" routerLink="">Rezerwacje</a>
-    <a *ngIf="isClient()" routerLink="">Aktualne rejsy</a>
-    <a *ngIf="isAdmin()" routerLink="">Konta</a>
-    <a *ngIf="!isGuest()" routerLink="/" (click)="signOut()" class="login-a">Wyloguj</a>
-    <a *ngIf="isGuest()" (click)="changeLoginVisible(!isLoginVisible)" class="login-a">Zaloguj</a>
-    <a *ngIf="isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" class="login-a">Zarejestruj</a>
-    <div class="login-access-level" *ngIf="!isGuest()">
-        <a *ngIf="isAdmin()" routerLink="" class="admin">Administrator</a>
-        <a *ngIf="isEmployee()" routerLink="" class="employee">Pracownik</a>
-        <a *ngIf="isClient()" routerLink="" class="client">Klient</a>
-        <a [ngClass]="isAdmin() ? 'admin' : isEmployee() ? 'employee' : isClient() ? 'client' : ''" routerLink=""
-           class="admin">{{ getLogin() }}</a>
+    <!-- todo usunąć router link do accoutn -->
+    <a *ngIf="identityService.isGuest()" routerLink="/ferrytales/account">O nas</a>
+    <a *ngIf="identityService.isGuest()" routerLink="">Kontakt</a>
+    <a *ngIf="identityService.isGuest() || identityService.isEmployee()" routerLink="">Trasy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="">Promy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="">Trasy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="">Rejsy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="">Rezerwacje</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="">Kajuty</a>
+    <a *ngIf="identityService.isClient() || identityService.isEmployee()" routerLink="">Rezerwacje</a>
+    <a *ngIf="identityService.isClient()" routerLink="">Aktualne rejsy</a>
+    <a *ngIf="identityService.isAdmin()" routerLink="">Konta</a>
+    <a *ngIf="!identityService.isGuest()" routerLink="/" (click)="signOut()" class="login-a">Wyloguj</a>
+    <a *ngIf="identityService.isGuest()" (click)="changeLoginVisible(!isLoginVisible)" class="login-a">Zaloguj</a>
+    <a *ngIf="identityService.isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" class="login-a">Zarejestruj</a>
+    <div class="login-access-level" *ngIf="!identityService.isGuest()">
+        <a *ngIf="identityService.isAdmin()" routerLink="" class="admin">Administrator</a>
+        <a *ngIf="identityService.isEmployee()" routerLink="" class="employee">Pracownik</a>
+        <a *ngIf="identityService.isClient()" routerLink="" class="client">Klient</a>
+        <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''" routerLink=""
+           class="admin">{{ identityService.getLogin() }}</a>
     </div>
 </div>
 <app-login *ngIf="isLoginVisible" (isLoginVisibleChange)="changeLoginVisible($event)"

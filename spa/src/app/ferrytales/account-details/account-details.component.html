@@ -1,0 +1,60 @@
+<div>
+    <div>
+        <label>Login: {{account.login}}</label>
+    </div>
+    <div>
+        <label>Hasło
+            <button>Zmień hasło</button>
+        </label>
+    </div>
+    <div *ngIf="identityService.isAdmin()">
+        <label>Aktywne: {{account.active}}</label>
+        <button *ngIf="identityService.isAdmin()">{{ account.active ? 'Aktywuj' : 'Dezaktywuj' }}</button>
+    </div>
+    <div *ngIf="identityService.isAdmin()">
+        <label>Potwierdzone: {{account.confirmed}}</label>
+    </div>
+    <div>
+        <label>Imię:
+            <input [(ngModel)]="account.firstName"/>
+        </label>
+    </div>
+    <div>
+        <label>Nazwisko:
+            <input [(ngModel)]="account.lastName"/>
+        </label>
+    </div>
+    <div>
+        <label>Adres email:
+            <label>{{account.email}}</label>
+        </label>
+    </div>
+    <div *ngIf="account.accessLevel.some(hasClientAccessLevel)">
+        <label>Numer telefonu:
+            <label >{{account.phoneNumber}}</label>
+        </label>
+    </div>
+    <div>
+        <label>Poziomy dostępu:</label>
+        <app-access-level-table [accessLevels]="account.accessLevel"></app-access-level-table>
+    </div>
+    <div>
+        <label>Język: {{account.language}}</label>
+    </div>
+    <div>
+        <label>Strefa czasowa: {{account.timeZone}}</label>
+    </div>
+    <div>
+        <label>Data ostatniej modyfikacji: {{account.modificationDate}}</label>
+    </div>
+    <div>
+        <label>Autor ostatniej modyfikacji: {{account.modifiedBy}}</label>
+    </div>
+    <div>
+        <label>Data utworzenia: {{account.creationDate}}</label>
+    </div>
+    <div>
+        <label>Konto twórcy: {{account.creationDate}}</label>
+    </div>
+
+</div>
