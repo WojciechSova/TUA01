@@ -1,0 +1,32 @@
+<div class="users-list-container">
+    <table id="users">
+        <tr>
+            <th *ngFor="let column of headers">
+                {{column}}
+            </th>
+        </tr>
+
+        <tr *ngFor="let user of getAccounts()">
+            <td>{{user['login']}}</td>
+            <td>{{user['firstName']}}</td>
+            <td>{{user['lastName']}}</td>
+            <td>
+                <div *ngFor="let accessLevel of user.accessLevel">
+                    <div *ngIf="accessLevel.active">{{accessLevel['level'] }}</div>
+                </div>
+            </td>
+            <td>
+                <div *ngIf="user.active; then block else unblock">{{user['active']}}</div>
+                <ng-template #unblock>
+                    <button class="button-user-table button-unblock">Odblokuj</button>
+                </ng-template>
+                <ng-template #block>
+                    <button class="button-user-table button-block">Zablokuj</button>
+                </ng-template>
+            </td>
+            <td>
+                <button class="button-user-table">Szczegóły</button>
+            </td>
+        </tr>
+    </table>
+</div>
