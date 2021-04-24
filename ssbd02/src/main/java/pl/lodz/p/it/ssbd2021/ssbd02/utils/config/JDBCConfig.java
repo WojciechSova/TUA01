@@ -26,7 +26,7 @@ import java.sql.Connection;
         password = "auth_password",
         serverName = "studdev.it.p.lodz.pl",
         portNumber = 5432,
-        databaseName = "ssbd0l"
+        databaseName = "ssbd02"
 )
 @DataSourceDefinition(
         name = "java:app/jdbc/ssbd02mok",
