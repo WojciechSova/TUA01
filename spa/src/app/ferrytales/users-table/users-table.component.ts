@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {MokService} from "../../services/mok.service";
-import {AccountGeneral} from "../../model/mok/AccountGeneral";
+import { Component } from '@angular/core';
+import { MokService } from "../../services/mok.service";
+import { AccountGeneral } from "../../model/mok/AccountGeneral";
 
 
 @Component({
