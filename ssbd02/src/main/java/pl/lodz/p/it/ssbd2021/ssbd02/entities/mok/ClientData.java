@@ -24,7 +24,7 @@ import java.io.Serializable;
 })
 public class ClientData extends AccessLevel implements Serializable {
 
-    @Column(name = "phone_number", nullable = true, updatable = true, length = 11)
+    @Column(name = "phone_number", nullable = true, unique = true, updatable = true, length = 11)
     private String phoneNumber;
 
 }
