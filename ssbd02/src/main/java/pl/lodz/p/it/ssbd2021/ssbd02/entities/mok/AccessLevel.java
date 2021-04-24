@@ -60,4 +60,7 @@ public class AccessLevel extends AbstractEntity implements Serializable {
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 
+    @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")
+    private Account createdBy;
 }
