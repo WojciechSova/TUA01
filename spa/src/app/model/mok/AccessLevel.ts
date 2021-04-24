@@ -6,4 +6,5 @@ export interface AccessLevel {
     modificationDate?: Date;
     modifiedBy?: AccountGeneral;
     creationDate: Date;
+    createdBy?: AccountGeneral;
 }
