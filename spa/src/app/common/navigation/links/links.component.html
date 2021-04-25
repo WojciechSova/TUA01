@@ -17,8 +17,8 @@
         <a *ngIf="identityService.isAdmin()" routerLink="" class="admin" i18n="Administrator|">Administrator</a>
         <a *ngIf="identityService.isEmployee()" routerLink="" class="employee" i18n="Employee|">Pracownik</a>
         <a *ngIf="identityService.isClient()" routerLink="" class="client" i18n="Client|">Klient</a>
-        <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''" routerLink=""
-           class="admin">{{ getLogin() }}</a>
+        <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''"
+           routerLink="/ferrytales/account" class="admin">{{ identityService.getLogin() }}</a>
     </div>
 </div>
 <app-login *ngIf="isLoginVisible" (isLoginVisibleChange)="changeLoginVisible($event)"
