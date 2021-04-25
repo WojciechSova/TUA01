@@ -360,7 +360,7 @@
 
             <trans-unit id="953969179322728927" datatype="html">
                 <source>Przeprawy promowe jak z bajki</source>
-                <target>Ferry crossings like fairy tales</target>
+                <target>Fairytale-like ferry crossings</target>
                 <note priority="1" from="meaning">Advert</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/main/main-page/main-page.component.html</context>
