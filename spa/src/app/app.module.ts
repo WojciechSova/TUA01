@@ -15,6 +15,9 @@ import { ExampleComponentComponent } from './ferrytales/example-component/exampl
 import { PopularOffersComponent } from './main/popular-offers/popular-offers.component';
 import { OfferComponent } from './main/popular-offers/offer/offer.component';
 import { UsersTableComponent } from './ferrytales/users-table/users-table.component';
+import { AccountDetailsComponent } from './ferrytales/account-details/account-details.component';
+import {IdentityService} from './services/utils/identity.service';
+import { AccessLevelTableComponent } from './ferrytales/account-details/access-level-table/access-level-table.component';
 
 @NgModule({
     declarations: [
@@ -30,6 +33,8 @@ import { UsersTableComponent } from './ferrytales/users-table/users-table.compon
         ExampleComponentComponent,
         PopularOffersComponent,
         OfferComponent,
+        AccountDetailsComponent,
+        AccessLevelTableComponent,
         UsersTableComponent
     ],
     imports: [
@@ -39,7 +44,7 @@ import { UsersTableComponent } from './ferrytales/users-table/users-table.compon
         FormsModule,
         ReactiveFormsModule
     ],
-    providers: [],
+    providers: [IdentityService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

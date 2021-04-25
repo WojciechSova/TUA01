@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <th>Poziom</th>
+        <th>Aktywne</th>
+        <th>Data ostatniej modyfikacji</th>
+        <th>Autor ostatniej modyfikacji</th>
+        <th>Data utworzenia</th>
+    </tr>
+    <tr *ngFor="let accessLvl of accessLevels">
+        <td>{{accessLvl.level}}</td>
+        <td>{{accessLvl.active}}</td>
+        <td>{{accessLvl.modificationDate}}</td>
+        <td>{{accessLvl.modifiedBy}}</td>
+        <td>{{accessLvl.creationDate}}</td>
+    </tr>
+</table>

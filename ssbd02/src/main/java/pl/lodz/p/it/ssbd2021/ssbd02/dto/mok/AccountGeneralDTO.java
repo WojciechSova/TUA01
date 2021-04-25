@@ -25,5 +25,5 @@ public class AccountGeneralDTO {
 
     private String lastName;
 
-    private List<AccessLevelDTO> accessLevel;
+    private List<String> accessLevel;
 }

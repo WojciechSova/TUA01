@@ -26,4 +26,6 @@ public class AccessLevelDTO {
     private AccountGeneralDTO modifiedBy;
 
     private Timestamp creationDate;
+
+    private AccountGeneralDTO createdBy;
 }

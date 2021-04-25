@@ -8,6 +8,15 @@
   "projects": {
     "spa": {
       "projectType": "application",
+      "i18n": {
+        "sourceLocale": "pl",
+        "locales": {
+          "en": {
+            "translation": "src/i18n/messages.en.xlf",
+            "baseHref": ""
+          }
+        }
+      },
       "schematics": {
         "@schematics/angular:component": {
           "style": "less"
@@ -65,6 +74,13 @@
                   "maximumError": "1mb"
                 }
               ]
+            },
+            "en": {
+              "aot": true,
+              "outputPath": "dist/spa-en",
+              "i18nFile": "src/i18n/messages.en.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "en"
             }
           }
         },
@@ -76,6 +92,9 @@
           "configurations": {
             "production": {
               "browserTarget": "spa:build:production"
+            },
+            "en": {
+              "browserTarget": "spa:build:en"
             }
           }
         },
@@ -124,6 +143,21 @@
           "configurations": {
             "production": {
               "devServerTarget": "spa:serve:production"
+            }
+          }
+        },
+        "xliffmerge": {
+          "builder": "@ngx-i18nsupport/tooling:xliffmerge",
+          "options": {
+            "xliffmergeOptions": {
+              "i18nFormat": "xlf",
+              "srcDir": "src/i18n",
+              "genDir": "src/i18n",
+              "defaultLanguage": "pl",
+              "languages": [
+                "pl",
+                "en"
+              ]
             }
           }
         }
