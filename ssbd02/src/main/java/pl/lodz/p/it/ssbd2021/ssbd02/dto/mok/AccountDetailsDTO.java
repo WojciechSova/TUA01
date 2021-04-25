@@ -2,7 +2,9 @@ package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
@@ -16,9 +18,10 @@ import java.util.List;
  * @author Karolina Kowalczyk
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class AccountDetailsDTO {
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class AccountDetailsDTO extends AbstractDTO {
 
     private String login;
 
