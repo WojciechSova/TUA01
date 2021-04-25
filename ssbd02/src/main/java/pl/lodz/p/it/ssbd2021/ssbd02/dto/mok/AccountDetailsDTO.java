@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 
 import javax.json.bind.annotation.JsonbProperty;
@@ -21,6 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class AccountDetailsDTO extends AbstractDTO {
 
     private String login;

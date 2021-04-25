@@ -14,6 +14,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class PasswordDTO extends AbstractDTO {
 
     private String newPassword;
