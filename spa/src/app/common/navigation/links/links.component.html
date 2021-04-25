@@ -1,24 +1,24 @@
 <div [ngClass]="stickyStyles ? 'sticky-links' : 'links'">
-    <a *ngIf="identityService.isGuest()" routerLink="">O nas</a>
-    <a *ngIf="identityService.isGuest()" routerLink="">Kontakt</a>
-    <a *ngIf="identityService.isGuest() || identityService.isEmployee()" routerLink="">Trasy</a>
-    <a *ngIf="identityService.isEmployee()" routerLink="">Promy</a>
-    <a *ngIf="identityService.isEmployee()" routerLink="">Trasy</a>
-    <a *ngIf="identityService.isEmployee()" routerLink="">Rejsy</a>
-    <a *ngIf="identityService.isEmployee()" routerLink="">Rezerwacje</a>
-    <a *ngIf="identityService.isEmployee()" routerLink="">Kajuty</a>
-    <a *ngIf="identityService.isClient() || identityService.isEmployee()" routerLink="">Rezerwacje</a>
-    <a *ngIf="identityService.isClient()" routerLink="">Aktualne rejsy</a>
-    <a *ngIf="identityService.isAdmin()" routerLink="">Konta</a>
-    <a *ngIf="!identityService.isGuest()" routerLink="/" (click)="signOut()" class="login-a">Wyloguj</a>
-    <a *ngIf="identityService.isGuest()" (click)="changeLoginVisible(!isLoginVisible)" class="login-a">Zaloguj</a>
-    <a *ngIf="identityService.isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" class="login-a">Zarejestruj</a>
+    <a *ngIf="identityService.isGuest()" routerLink="" i18n="About us header|">O nas</a>
+    <a *ngIf="identityService.isGuest()" routerLink="" i18n="Contact header|">Kontakt</a>
+    <a *ngIf="identityService.isGuest() || identityService.isEmployee()" routerLink="" i18n="Routes header|">Trasy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Ferries header|">Promy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Routes header|">Trasy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Cruises header|">Rejsy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Bookings header|">Rezerwacje</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Cabins header|">Kajuty</a>
+    <a *ngIf="identityService.isClient() || identityService.isEmployee()" routerLink="" i18n="Bookings header|">Rezerwacje</a>
+    <a *ngIf="identityService.isClient()" routerLink="" i18n="Current cruises|">Aktualne rejsy</a>
+    <a *ngIf="identityService.isAdmin()" routerLink="" i18n="Accounts header|">Konta</a>
+    <a *ngIf="!identityService.isGuest()" routerLink="/" (click)="signOut()" class="login-a" i18n="Sign out|">Wyloguj</a>
+    <a *ngIf="identityService.isGuest()" (click)="changeLoginVisible(!isLoginVisible)" class="login-a" i18n="Sign in|">Zaloguj</a>
+    <a *ngIf="identityService.isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" class="login-a" i18n="Sign up|">Zarejestruj</a>
     <div class="login-access-level" *ngIf="!identityService.isGuest()">
-        <a *ngIf="identityService.isAdmin()" routerLink="" class="admin">Administrator</a>
-        <a *ngIf="identityService.isEmployee()" routerLink="" class="employee">Pracownik</a>
-        <a *ngIf="identityService.isClient()" routerLink="" class="client">Klient</a>
-        <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''"
-           routerLink="/ferrytales/account" class="admin">{{ identityService.getLogin() }}</a>
+        <a *ngIf="identityService.isAdmin()" routerLink="" class="admin" i18n="Administrator|">Administrator</a>
+        <a *ngIf="identityService.isEmployee()" routerLink="" class="employee" i18n="Employee|">Pracownik</a>
+        <a *ngIf="identityService.isClient()" routerLink="" class="client" i18n="Client|">Klient</a>
+        <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''" routerLink=""
+           class="admin">{{ getLogin() }}</a>
     </div>
 </div>
 <app-login *ngIf="isLoginVisible" (isLoginVisibleChange)="changeLoginVisible($event)"
