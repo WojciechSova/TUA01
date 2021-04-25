@@ -3,5 +3,5 @@ export interface AccountGeneral {
     active: boolean;
     firstName: string;
     lastName: string;
-    accessLevel: String[];
+    accessLevel: string[];
 }
