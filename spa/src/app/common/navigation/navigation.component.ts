@@ -11,7 +11,7 @@ export class NavigationComponent implements AfterViewInit {
     public isSticky = true;
 
     @ViewChild('logo')
-    private logo: ElementRef;
+    private readonly logo: ElementRef;
 
     @ViewChild('navigation')
     private navigation: ElementRef;
@@ -22,6 +22,12 @@ export class NavigationComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        if (this.logo) {
+            this.initObserver();
+        }
+    }
+
+    initObserver(): void {
         const obsOptions: any = {
             root: null,
             threshold: 0
