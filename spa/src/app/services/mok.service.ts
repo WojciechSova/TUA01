@@ -8,21 +8,9 @@ export class MokService {
 
     //TODO: Zaimplementowanie metody, która korzysta z endpointa udostępnionego przez warstę logiki
     getAccounts(): AccountGeneral[] {
-        const accessLevel = {
-            level: "ADMIN",
-            active: true,
-            creationDate: new Date()
-        }
-        const accessLevel2 = {
-            level: "CLIENT",
-            active: true,
-            creationDate: new Date()
-        }
-        const accessLevel3 = {
-            level: "EMPLOYEE",
-            active: false,
-            creationDate: new Date()
-        }
+        const accessLevel = "ADMIN"
+        const accessLevel2 = "CLIENT"
+        const accessLevel3 = "EMPLOYEE"
         const user = {
             login: "MojLogin",
             active: true,

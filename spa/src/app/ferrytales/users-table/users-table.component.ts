@@ -10,9 +10,6 @@ import { AccountGeneral } from "../../model/mok/AccountGeneral";
 })
 export class UsersTableComponent {
 
-    //TODO: Internacjonalizacja
-    headers = ["Login", "Imię",  "Nazwisko", "Poziomy dostępu", "Odblokuj/Zablokuj", "Szczegóły"];
-
     constructor(private mokService: MokService) {
     }
 
