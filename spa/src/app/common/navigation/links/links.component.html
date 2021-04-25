@@ -1,23 +1,23 @@
 <div [ngClass]="stickyStyles ? 'sticky-links' : 'links'">
-    <a *ngIf="isGuest()" routerLink="" i18n="About us header|">O nas</a>
-    <a *ngIf="isGuest()" routerLink="" i18n="Contact header|">Kontakt</a>
-    <a *ngIf="isGuest() || isEmployee()" routerLink="" i18n="Routes header|">Trasy</a>
-    <a *ngIf="isEmployee()" routerLink="" i18n="Ferries header|">Promy</a>
-    <a *ngIf="isEmployee()" routerLink="" i18n="Routes header|">Trasy</a>
-    <a *ngIf="isEmployee()" routerLink="" i18n="Cruises header|">Rejsy</a>
-    <a *ngIf="isEmployee()" routerLink="" i18n="Bookings header|">Rezerwacje</a>
-    <a *ngIf="isEmployee()" routerLink="" i18n="Cabins header|">Kajuty</a>
-    <a *ngIf="isClient() || isEmployee()" routerLink="" i18n="Bookings header|">Rezerwacje</a>
-    <a *ngIf="isClient()" routerLink="" i18n="Current cruises|">Aktualne rejsy</a>
-    <a *ngIf="isAdmin()" routerLink="" i18n="Accounts header|">Konta</a>
-    <a *ngIf="!isGuest()" routerLink="/" (click)="signOut()" class="login-a" i18n="Sign out|">Wyloguj</a>
-    <a *ngIf="isGuest()" (click)="changeLoginVisible(!isLoginVisible)" class="login-a" i18n="Sign in|">Zaloguj</a>
-    <a *ngIf="isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" class="login-a" i18n="Sign up|">Zarejestruj</a>
-    <div class="login-access-level" *ngIf="!isGuest()">
-        <a *ngIf="isAdmin()" routerLink="" class="admin" i18n="Administrator|">Administrator</a>
-        <a *ngIf="isEmployee()" routerLink="" class="employee" i18n="Employee|">Pracownik</a>
-        <a *ngIf="isClient()" routerLink="" class="client" i18n="Client|">Klient</a>
-        <a [ngClass]="isAdmin() ? 'admin' : isEmployee() ? 'employee' : isClient() ? 'client' : ''" routerLink=""
+    <a *ngIf="identityService.isGuest()" routerLink="" i18n="About us header|">O nas</a>
+    <a *ngIf="identityService.isGuest()" routerLink="" i18n="Contact header|">Kontakt</a>
+    <a *ngIf="identityService.isGuest() || identityService.isEmployee()" routerLink="" i18n="Routes header|">Trasy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Ferries header|">Promy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Routes header|">Trasy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Cruises header|">Rejsy</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Bookings header|">Rezerwacje</a>
+    <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Cabins header|">Kajuty</a>
+    <a *ngIf="identityService.isClient() || identityService.isEmployee()" routerLink="" i18n="Bookings header|">Rezerwacje</a>
+    <a *ngIf="identityService.isClient()" routerLink="" i18n="Current cruises|">Aktualne rejsy</a>
+    <a *ngIf="identityService.isAdmin()" routerLink="" i18n="Accounts header|">Konta</a>
+    <a *ngIf="!identityService.isGuest()" routerLink="/" (click)="signOut()" class="login-a" i18n="Sign out|">Wyloguj</a>
+    <a *ngIf="identityService.isGuest()" (click)="changeLoginVisible(!isLoginVisible)" class="login-a" i18n="Sign in|">Zaloguj</a>
+    <a *ngIf="identityService.isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" class="login-a" i18n="Sign up|">Zarejestruj</a>
+    <div class="login-access-level" *ngIf="!identityService.isGuest()">
+        <a *ngIf="identityService.isAdmin()" routerLink="" class="admin" i18n="Administrator|">Administrator</a>
+        <a *ngIf="identityService.isEmployee()" routerLink="" class="employee" i18n="Employee|">Pracownik</a>
+        <a *ngIf="identityService.isClient()" routerLink="" class="client" i18n="Client|">Klient</a>
+        <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''" routerLink=""
            class="admin">{{ getLogin() }}</a>
     </div>
 </div>
