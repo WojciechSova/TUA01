@@ -1,14 +1,18 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Manager kont
@@ -22,8 +26,16 @@ public class AccountManager implements AccountManagerLocal {
     @Inject
     private AccountFacadeLocal accountFacadeLocal;
 
+    @Inject
+    private AccessLevelFacadeLocal accessLevelFacadeLocal;
+
     @Override
-    public List<Account> getAllAccounts() {
-        return accountFacadeLocal.findAll();
+    public Map<Account, List<AccessLevel>> getAllAccountsWithAccessLevels() {
+        Map<Account, List<AccessLevel>> accountLevelsMap = new HashMap<>();
+        List<Account> accountList = accountFacadeLocal.findAll();
+        for (Account account: accountList) {
+            accountLevelsMap.put(account, accessLevelFacadeLocal.findByLogin(account.getLogin()));
+        }
+        return accountLevelsMap;
     }
 }
