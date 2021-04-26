@@ -1,9 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 
 import java.util.List;
@@ -18,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 public class AccountGeneralDTO extends AbstractDTO {
 
     private String login;
