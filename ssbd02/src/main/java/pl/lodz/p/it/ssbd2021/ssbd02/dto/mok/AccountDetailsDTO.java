@@ -1,8 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
@@ -15,10 +17,11 @@ import java.util.List;
  *
  * @author Karolina Kowalczyk
  */
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class AccountDetailsDTO {
+@NoArgsConstructor
+@Getter
+@Setter
+public class AccountDetailsDTO extends AbstractDTO {
 
     private String login;
 
