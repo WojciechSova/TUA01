@@ -1,13 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
-import org.apache.logging.log4j.core.util.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
@@ -56,7 +54,7 @@ public class AccountManagerTest {
         Mockito.when(accessLevelFacadeLocal.findByLogin(login2)).thenReturn(accessLevels2);
 
         Assertions.assertEquals(accountListMap, accountManager.getAllAccountsWithAccessLevels());
-        Assertions.assertEquals(2, accountListMap.size());
+        Assertions.assertEquals(2, accountManager.getAllAccountsWithAccessLevels().size());
         Assertions.assertEquals(2, accountListMap.get(a1).size());
         Assertions.assertEquals(1, accountListMap.get(a2).size());
         Assertions.assertEquals(accessLevels1, accountListMap.get(a1));

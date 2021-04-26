@@ -18,7 +18,8 @@ public interface AccountManagerLocal {
     /**
      * Metoda wyszukujące wszystkie konta wraz z ich poziomami dostępu
      *
-     * @return lista obiektów typu {@link Account} reprezentujących konta
+     * @return mapa o kluczu {@link Account} i wartości będącej listą {@link AccessLevel} reprezentująca konta
+     * i ich poziomy dostępu
      */
     Map<Account, List<AccessLevel>> getAllAccountsWithAccessLevels();
 }
