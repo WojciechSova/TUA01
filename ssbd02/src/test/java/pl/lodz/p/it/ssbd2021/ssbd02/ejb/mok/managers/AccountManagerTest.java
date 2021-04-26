@@ -53,11 +53,13 @@ public class AccountManagerTest {
         Mockito.when(accessLevelFacadeLocal.findByLogin(login1)).thenReturn(accessLevels1);
         Mockito.when(accessLevelFacadeLocal.findByLogin(login2)).thenReturn(accessLevels2);
 
-        Assertions.assertEquals(accountListMap, accountManager.getAllAccountsWithAccessLevels());
-        Assertions.assertEquals(2, accountManager.getAllAccountsWithAccessLevels().size());
-        Assertions.assertEquals(2, accountListMap.get(a1).size());
-        Assertions.assertEquals(1, accountListMap.get(a2).size());
-        Assertions.assertEquals(accessLevels1, accountListMap.get(a1));
-        Assertions.assertEquals(accessLevels2, accountListMap.get(a2));
+        Map<Account, List<AccessLevel>> testedMap = accountManager.getAllAccountsWithAccessLevels();
+
+        Assertions.assertEquals(accountListMap, testedMap);
+        Assertions.assertEquals(2, testedMap.size());
+        Assertions.assertEquals(2, testedMap.get(a1).size());
+        Assertions.assertEquals(1, testedMap.get(a2).size());
+        Assertions.assertEquals(accessLevels1, testedMap.get(a1));
+        Assertions.assertEquals(accessLevels2, testedMap.get(a2));
     }
 }
