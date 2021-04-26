@@ -50,8 +50,8 @@ public class AccountManagerTest {
         Mockito.when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(a1, a2));
         Mockito.when(a1.getLogin()).thenReturn(login1);
         Mockito.when(a2.getLogin()).thenReturn(login2);
-        Mockito.when(accessLevelFacadeLocal.findByLogin(login1)).thenReturn(accessLevels1);
-        Mockito.when(accessLevelFacadeLocal.findByLogin(login2)).thenReturn(accessLevels2);
+        Mockito.when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+        Mockito.when(accessLevelFacadeLocal.findAllByAccount(a2)).thenReturn(accessLevels2);
 
         Map<Account, List<AccessLevel>> testedMap = accountManager.getAllAccountsWithAccessLevels();
 

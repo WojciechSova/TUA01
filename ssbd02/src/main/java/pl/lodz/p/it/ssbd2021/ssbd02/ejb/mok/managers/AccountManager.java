@@ -34,7 +34,7 @@ public class AccountManager implements AccountManagerLocal {
         Map<Account, List<AccessLevel>> accountLevelsMap = new HashMap<>();
         List<Account> accountList = accountFacadeLocal.findAll();
         for (Account account: accountList) {
-            accountLevelsMap.put(account, accessLevelFacadeLocal.findByLogin(account.getLogin()));
+            accountLevelsMap.put(account, accessLevelFacadeLocal.findAllByAccount(account));
         }
         return accountLevelsMap;
     }
