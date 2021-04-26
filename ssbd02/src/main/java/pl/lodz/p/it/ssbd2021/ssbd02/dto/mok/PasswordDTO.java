@@ -1,7 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Klasa DTO zawierająca stare i nowe hasło użytkownika.
@@ -9,9 +11,10 @@ import lombok.*;
  *
  * @author Karolina Kowalczyk
  */
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class PasswordDTO {
 
     private String newPassword;

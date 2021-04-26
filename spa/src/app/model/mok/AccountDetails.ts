@@ -1,5 +1,5 @@
-import {AccessLevel} from './AccessLevel';
-import {AccountGeneral} from './AccountGeneral';
+import { AccessLevel } from './AccessLevel';
+import { AccountGeneral } from './AccountGeneral';
 
 export interface AccountDetails {
     login: string;

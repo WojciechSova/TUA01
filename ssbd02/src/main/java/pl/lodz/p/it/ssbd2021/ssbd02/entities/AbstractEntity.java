@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.entities;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -16,6 +18,8 @@ public abstract class AbstractEntity {
     @NotNull
     @Column(name = "version", nullable = false, updatable = true)
     @Version
+    @Getter
+    @Setter
     private Long version;
 
     @Override

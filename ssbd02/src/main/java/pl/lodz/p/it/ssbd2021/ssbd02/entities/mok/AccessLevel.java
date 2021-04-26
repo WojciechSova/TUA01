@@ -15,17 +15,14 @@ import java.time.Instant;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "level", discriminatorType = DiscriminatorType.STRING)
-@Table(name = "Access_level")
+@Table(name = "Access_level", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"account", "level"})
+})
 @NamedQueries({
         @NamedQuery(name = "AccessLevel.findAll", query = "SELECT l FROM AccessLevel l"),
         @NamedQuery(name = "AccessLevel.findById", query = "SELECT l FROM AccessLevel l WHERE l.id = :id"),
-        @NamedQuery(name = "AccessLevel.findByVersion", query = "SELECT l FROM AccessLevel l WHERE l.version = :version"),
         @NamedQuery(name = "AccessLevel.findByLevel", query = "SELECT l FROM AccessLevel l WHERE l.level = :level"),
         @NamedQuery(name = "AccessLevel.findByAccount", query = "SELECT l FROM AccessLevel l WHERE l.account = :account"),
-        @NamedQuery(name = "AccessLevel.findByActive", query = "SELECT l FROM AccessLevel l WHERE l.active = :active"),
-        @NamedQuery(name = "AccessLevel.findByModificationDate", query = "SELECT l FROM AccessLevel l WHERE l.modificationDate = :modificationDate"),
-        @NamedQuery(name = "AccessLevel.findByModifiedBy", query = "SELECT l FROM AccessLevel l WHERE l.modifiedBy = :modifiedBy"),
-        @NamedQuery(name = "AccessLevel.findByCreationDate", query = "SELECT l FROM AccessLevel l WHERE l.creationDate = :creationDate"),
         @NamedQuery(name = "AccessLevel.findByLogin", query = "SELECT l FROM AccessLevel l WHERE l.account.login = :login")
 })
 @Data
