@@ -36,7 +36,6 @@ import java.time.Instant;
         @NamedQuery(name = "Account.findByLastKnownGoodLoginIp", query = "SELECT a FROM Account a WHERE a.lastKnownGoodLoginIp = :lastKnownGoodLoginIp"),
         @NamedQuery(name = "Account.findByLastKnownBadLogin", query = "SELECT a FROM Account a WHERE a.lastKnownBadLogin = :lastKnownBadLogin"),
         @NamedQuery(name = "Account.findByLastKnownBadLoginIp", query = "SELECT a FROM Account a WHERE a.lastKnownBadLoginIp = :lastKnownBadLoginIp"),
-        @NamedQuery(name = "Account.findByNumberOfBadLogins", query = "SELECT a FROM Account a WHERE a.numberOfBadLogins = :numberOfBadLogins")
 })
 @Data
 @NoArgsConstructor
