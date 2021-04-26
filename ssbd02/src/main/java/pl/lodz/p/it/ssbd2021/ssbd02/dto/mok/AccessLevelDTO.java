@@ -1,10 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 
 import java.sql.Timestamp;
@@ -15,11 +14,10 @@ import java.sql.Timestamp;
  *
  * @author Karolina Kowalczyk
  */
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
+@Getter
+@Setter
 public class AccessLevelDTO extends AbstractDTO {
 
     private String level;

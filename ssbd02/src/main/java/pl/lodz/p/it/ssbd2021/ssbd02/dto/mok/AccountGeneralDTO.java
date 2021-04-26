@@ -1,10 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 
 import java.util.List;
@@ -15,11 +14,10 @@ import java.util.List;
  *
  * @author Karolina Kowalczyk
  */
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
+@Getter
+@Setter
 public class AccountGeneralDTO extends AbstractDTO {
 
     private String login;
