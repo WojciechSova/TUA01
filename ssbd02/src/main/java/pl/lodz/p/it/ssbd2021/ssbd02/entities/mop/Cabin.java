@@ -13,6 +13,9 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"ferry", "number"})
+})
 @NamedQueries({
         @NamedQuery(name = "Cabin.findAll", query = "SELECT c FROM Cabin c"),
         @NamedQuery(name = "Cabin.findById", query = "SELECT c FROM Cabin c WHERE c.id = :id"),
@@ -52,7 +55,7 @@ public class Cabin extends AbstractEntity implements Serializable {
     private CabinType cabinType;
 
     @NotNull
-    @Column(name = "number", nullable = false, unique = true, updatable = false, length = 4)
+    @Column(name = "number", nullable = false, updatable = false, length = 4)
     private String number;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
