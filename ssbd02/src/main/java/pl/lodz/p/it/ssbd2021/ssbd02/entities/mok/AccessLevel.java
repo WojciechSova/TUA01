@@ -15,7 +15,9 @@ import java.time.Instant;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "level", discriminatorType = DiscriminatorType.STRING)
-@Table(name = "Access_level")
+@Table(name = "Access_level", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"account", "level"})
+})
 @NamedQueries({
         @NamedQuery(name = "AccessLevel.findAll", query = "SELECT l FROM AccessLevel l"),
         @NamedQuery(name = "AccessLevel.findById", query = "SELECT l FROM AccessLevel l WHERE l.id = :id"),
