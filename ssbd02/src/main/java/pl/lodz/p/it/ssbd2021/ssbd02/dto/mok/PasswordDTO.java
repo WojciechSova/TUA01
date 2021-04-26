@@ -1,8 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
-
 import lombok.*;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 
 /**
  * Klasa DTO zawierająca stare i nowe hasło użytkownika.
@@ -13,9 +11,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
-public class PasswordDTO extends AbstractDTO {
+public class PasswordDTO {
 
     private String newPassword;
 
