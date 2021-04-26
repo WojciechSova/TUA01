@@ -93,6 +93,9 @@ public class Account extends AbstractEntity implements Serializable {
 
     @Column(name = "last_known_bad_login_ip", nullable = true, updatable = true, length = 15, table = "Personal_data")
     private String lastKnownBadLoginIp;
+
+    @Column(name = "number_of_bad_logins", nullable = false, updatable = true, table = "Personal_data")
+    private Integer numberOfBadLogins = 0;
     //endregion
 
 }
