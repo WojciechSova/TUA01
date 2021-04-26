@@ -12,8 +12,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = "VehicleType.findAll", query = "SELECT vt FROM VehicleType vt"),
         @NamedQuery(name = "VehicleType.findById", query = "SELECT vt FROM VehicleType vt WHERE vt.id = :id"),
-        @NamedQuery(name = "VehicleType.findByVehicleTypeName", query = "SELECT vt FROM VehicleType vt WHERE vt.vehicleTypeName = :vehicleTypeName"),
-        @NamedQuery(name = "VehicleType.findByRequiredSpace", query = "SELECT vt FROM VehicleType vt WHERE vt.requiredSpace = :requiredSpace")
+        @NamedQuery(name = "VehicleType.findByVehicleTypeName", query = "SELECT vt FROM VehicleType vt WHERE vt.vehicleTypeName = :vehicleTypeName")
 })
 @Data
 @NoArgsConstructor

@@ -18,24 +18,12 @@ import java.time.Instant;
 @NamedQueries({
         @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
         @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
-        @NamedQuery(name = "Account.findByVersion", query = "SELECT a FROM Account a WHERE a.version = :version"),
         @NamedQuery(name = "Account.findByLogin", query = "SELECT a FROM Account a WHERE a.login = :login"),
-        @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password"),
-        @NamedQuery(name = "Account.findByActive", query = "SELECT a FROM Account a WHERE a.active = :active"),
-        @NamedQuery(name = "Account.findByConfirmed", query = "SELECT a FROM Account a WHERE a.confirmed = :confirmed"),
+        @NamedQuery(name = "Account.findAllActiveAccounts", query = "SELECT a FROM Account a WHERE a.active = :active"),
 
         @NamedQuery(name = "Account.findByFirstName", query = "SELECT a FROM Account a WHERE a.firstName = :firstName"),
         @NamedQuery(name = "Account.findByLastName", query = "SELECT a FROM Account a WHERE a.lastName = :lastName"),
-        @NamedQuery(name = "Account.findByEmail", query = "SELECT a FROM Account a WHERE a.email = :email"),
-        @NamedQuery(name = "Account.findByLanguage", query = "SELECT a FROM Account a WHERE a.language = :language"),
-        @NamedQuery(name = "Account.findByTimeZone", query = "SELECT a FROM Account a WHERE a.timeZone = :timeZone"),
-        @NamedQuery(name = "Account.findByModificationDate", query = "SELECT a FROM Account a WHERE a.modificationDate = :modificationDate"),
-        @NamedQuery(name = "Account.findByModifiedBy", query = "SELECT a FROM Account a WHERE a.modifiedBy = :modifiedBy"),
-        @NamedQuery(name = "Account.findByCreationDate", query = "SELECT a FROM Account a WHERE a.creationDate = :creationDate"),
-        @NamedQuery(name = "Account.findByLastKnownGoodLogin", query = "SELECT a FROM Account a WHERE a.lastKnownGoodLogin = :lastKnownGoodLogin"),
-        @NamedQuery(name = "Account.findByLastKnownGoodLoginIp", query = "SELECT a FROM Account a WHERE a.lastKnownGoodLoginIp = :lastKnownGoodLoginIp"),
-        @NamedQuery(name = "Account.findByLastKnownBadLogin", query = "SELECT a FROM Account a WHERE a.lastKnownBadLogin = :lastKnownBadLogin"),
-        @NamedQuery(name = "Account.findByLastKnownBadLoginIp", query = "SELECT a FROM Account a WHERE a.lastKnownBadLoginIp = :lastKnownBadLoginIp"),
+        @NamedQuery(name = "Account.findByEmail", query = "SELECT a FROM Account a WHERE a.email = :email")
 })
 @Data
 @NoArgsConstructor
