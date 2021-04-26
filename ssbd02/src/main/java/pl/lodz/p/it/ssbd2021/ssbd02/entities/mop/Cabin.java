@@ -13,7 +13,7 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
-@Table(uniqueConstraints = {
+@Table(name = "Cabin", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"ferry", "number"})
 })
 @NamedQueries({
