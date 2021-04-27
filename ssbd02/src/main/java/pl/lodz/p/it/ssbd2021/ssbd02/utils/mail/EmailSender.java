@@ -25,7 +25,7 @@ public class EmailSender {
      *
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
-     * @param link                  Link zawarty w wiadomości.
+     * @param link                  Jednorazowy adres url, który służy do potwierdzenia konta przez użytkownika.
      */
     public static void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
