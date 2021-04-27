@@ -1,9 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Abstrakcyjna klasa DTO zawierająca wersję.
@@ -14,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 public abstract class AbstractDTO {
 
     private Long version;
