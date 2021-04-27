@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.ClientData;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -37,5 +38,16 @@ public class AccountManager implements AccountManagerLocal {
             accountLevelsMap.put(account, accessLevelFacadeLocal.findAllByAccount(account));
         }
         return accountLevelsMap;
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void createAccount(Account account) {
+        AccessLevel accessLevel = new AccessLevel();
+        accessLevel.setLevel("CLIENT");
+        accessLevel.setAccount(account);
+        accountFacadeLocal.create(account);
+        accessLevelFacadeLocal.create(accessLevel);
+
     }
 }

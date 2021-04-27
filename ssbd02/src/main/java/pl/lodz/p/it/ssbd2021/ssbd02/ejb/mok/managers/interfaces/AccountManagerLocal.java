@@ -22,4 +22,6 @@ public interface AccountManagerLocal {
      * i ich poziomy dostępu
      */
     Map<Account, List<AccessLevel>> getAllAccountsWithAccessLevels();
+
+    void createAccount(Account account);
 }
