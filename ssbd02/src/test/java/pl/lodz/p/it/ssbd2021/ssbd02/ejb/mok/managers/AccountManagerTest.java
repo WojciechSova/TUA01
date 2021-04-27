@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,5 +62,16 @@ public class AccountManagerTest {
         Assertions.assertEquals(1, testedMap.get(a2).size());
         Assertions.assertEquals(accessLevels1, testedMap.get(a1));
         Assertions.assertEquals(accessLevels2, testedMap.get(a2));
+    }
+
+    @Test
+    void getAccountWithLogin() {
+        Mockito.when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        Mockito.when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+        Assertions.assertEquals(Pair.of(a1, accessLevels1), accountManager.getAccountWithLogin(login1));
+        Assertions.assertEquals(a1, accountManager.getAccountWithLogin(login1).getLeft());
+        Assertions.assertEquals(a1, accountManager.getAccountWithLogin(login1).getKey());
+        Assertions.assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getRight());
+        Assertions.assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getValue());
     }
 }

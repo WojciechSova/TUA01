@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces;
 
+import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
@@ -22,4 +23,11 @@ public interface AccountManagerLocal {
      * i ich poziomy dostępu
      */
     Map<Account, List<AccessLevel>> getAllAccountsWithAccessLevels();
+
+    /**
+     * Metoda wyszukująca konto o podanym loginie wraz z jego poziomami dostępu
+     *
+     * @return Para reprezentująca konto, składająca się z klucza typu {@link Account} i wartości będącej listą obiektów typu {@link AccessLevel}
+     */
+    Pair<Account, List<AccessLevel>> getAccountWithLogin(String login);
 }
