@@ -44,12 +44,16 @@ public class AccountManager implements AccountManagerLocal {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createAccount(Account account) throws WebApplicationException {
-        if (accountFacadeLocal.findAll().stream()
-                .anyMatch(x -> account.getLogin().equals(x.getLogin())) ||
-                accountFacadeLocal.findAll().stream()
-                        .anyMatch(x -> account.getEmail().equals(x.getEmail()))) {
+        List<Account> allAccounts = accountFacadeLocal.findAll();
+        if (allAccounts.stream()
+                .anyMatch(x -> account.getLogin().equals(x.getLogin()))) {
             throw new WebApplicationException("Such login exists", 409);
         }
+        else if (allAccounts.stream()
+                .anyMatch(x -> account.getEmail().equals(x.getEmail()))) {
+            throw new WebApplicationException("Such email exists", 409);
+        }
+
         ClientData accessLevel = new ClientData();
         accessLevel.setLevel("CLIENT");
         accessLevel.setAccount(account);
