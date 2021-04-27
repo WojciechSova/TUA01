@@ -14,16 +14,15 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
-@Table(name = "Route")
+@Table(name = "Route", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"start", "destination"})
+})
 @NamedQueries({
         @NamedQuery(name = "Route.findAll", query = "SELECT r FROM Route r"),
         @NamedQuery(name = "Route.findById", query = "SELECT r FROM Route r WHERE r.id = :id"),
-        @NamedQuery(name = "Route.findByVersion", query = "SELECT r FROM Route r WHERE r.version = :version"),
         @NamedQuery(name = "Route.findByStart", query = "SELECT r FROM Route r WHERE r.start = :start"),
         @NamedQuery(name = "Route.findByDestination", query = "SELECT r FROM Route r WHERE r.destination = :destination"),
-        @NamedQuery(name = "Route.findByCode", query = "SELECT r FROM Route r WHERE r.code = :code"),
-        @NamedQuery(name = "Route.findByCreationDate", query = "SELECT r FROM Route r WHERE r.creationDate = :creationDate"),
-        @NamedQuery(name = "Route.findByCreatedBy", query = "SELECT r FROM Route r WHERE r.createdBy = :createdBy"),
+        @NamedQuery(name = "Route.findByCode", query = "SELECT r FROM Route r WHERE r.code = :code")
 })
 @Data
 @NoArgsConstructor

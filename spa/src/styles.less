@@ -3,8 +3,10 @@
 @primary-text-color: #FFFFFF;
 @footer-accent-color: #BDBDBD;
 @footer-background-color: #EFEFEF;
-@validation-error-color: #FC9483;
-@validation-error-background-color: #FFE3DE;
+@primary-color-red: #FFE3DE;
+@secondary-color-red: #FC9483;
+@primary-color-green: #DFEAE2;
+@secondary-color-green: #6BAF92;
 
 body{
     margin:0;
@@ -264,10 +266,10 @@ input::placeholder{
 }
 
 .is-invalid{
-    border-color: @validation-error-color;
-    -moz-box-shadow: 0 0 5px @validation-error-color;
-    -webkit-box-shadow: 0 0 5px @validation-error-color;
-    box-shadow: 0 0 5px @validation-error-color;
+    border-color: @secondary-color-red;
+    -moz-box-shadow: 0 0 5px @secondary-color-red;
+    -webkit-box-shadow: 0 0 5px @secondary-color-red;
+    box-shadow: 0 0 5px @secondary-color-red;
 }
 
 .validation-error{
@@ -279,9 +281,9 @@ input::placeholder{
     padding: 1vh calc(0.2vw + 1px);
     height: auto;
     width: auto;
-    background-color: @validation-error-background-color;
+    background-color: @primary-color-red;
     border-radius: 10px;
-    color: @validation-error-color;
+    color: @secondary-color-red;
     font: normal 1.7vh Source Sans Pro;
 }
 

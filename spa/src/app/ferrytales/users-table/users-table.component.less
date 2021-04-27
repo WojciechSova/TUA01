@@ -1,0 +1,59 @@
+@import '../../../styles.less';
+
+.users-list-container {
+    padding: 10%;
+}
+
+#users {
+    border-collapse: collapse;
+    width:100%;
+    text-align: center;
+    font: lighter 2vh Source Sans Pro;
+}
+
+#users td, #users th {
+    border-bottom: 2px solid #ddd;
+    border-top: 2px solid #ddd;
+    padding: 8px;
+}
+
+#users tr:hover{background-color: #ddd;}
+
+#users th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: @primary-color;
+    color: white;
+}
+
+#users td:first-child {
+    font-weight: bold;
+}
+
+.button-user-table {
+    transition: 0.3s;
+    height: 4.8vh;
+    width:100%;
+    border: none;
+    border-radius: 35px;
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, @primary-color 0%, @secondary-color 100%);
+    font: lighter 2vh Source Sans Pro;
+    color: @primary-text-color;
+    text-align: center;
+
+    &:hover {
+        background-position: right center;
+        cursor: pointer;
+    }
+}
+
+.button-block {
+    background-image: linear-gradient(to right, @primary-color-red 0%, @secondary-color-red 100%);
+    color: black;
+}
+
+.button-unblock {
+    background-image: linear-gradient(to right, @primary-color-green 0%, @secondary-color-green 100%);
+    color: black;
+}

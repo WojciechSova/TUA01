@@ -17,17 +17,11 @@ import java.time.Instant;
 @NamedQueries({
         @NamedQuery(name = "Cruise.findAll", query = "SELECT cr FROM Cruise cr"),
         @NamedQuery(name = "Cruise.findById", query = "SELECT cr FROM Cruise cr WHERE cr.id = :id"),
-        @NamedQuery(name = "Cruise.findByVersion", query = "SELECT cr FROM Cruise cr WHERE cr.version = :version"),
         @NamedQuery(name = "Cruise.findByStartDate", query = "SELECT cr FROM Cruise cr WHERE cr.startDate = :startDate"),
         @NamedQuery(name = "Cruise.findByEndDate", query = "SELECT cr FROM Cruise cr WHERE cr.endDate = :endDate"),
         @NamedQuery(name = "Cruise.findByRoute", query = "SELECT cr FROM Cruise cr WHERE cr.route = :route"),
         @NamedQuery(name = "Cruise.findByFerry", query = "SELECT cr FROM Cruise cr WHERE cr.ferry = :ferry"),
-        @NamedQuery(name = "Cruise.findByNumber", query = "SELECT cr FROM Cruise cr WHERE cr.number = :number"),
-        @NamedQuery(name = "Cruise.findByModificationDate", query = "SELECT cr FROM Cruise cr WHERE cr.modificationDate = :modificationDate"),
-        @NamedQuery(name = "Cruise.findByModifiedBy", query = "SELECT cr FROM Cruise cr WHERE cr.modifiedBy = :modifiedBy"),
-        @NamedQuery(name = "Cruise.findByCreationDate", query = "SELECT cr FROM Cruise cr WHERE cr.creationDate = :creationDate"),
-        @NamedQuery(name = "Cruise.findByCreatedBy", query = "SELECT cr FROM Cruise cr WHERE cr.createdBy = :createdBy"),
-
+        @NamedQuery(name = "Cruise.findByNumber", query = "SELECT cr FROM Cruise cr WHERE cr.number = :number")
 })
 @Data
 @NoArgsConstructor
