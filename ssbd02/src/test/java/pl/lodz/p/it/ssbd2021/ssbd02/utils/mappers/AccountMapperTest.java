@@ -80,6 +80,7 @@ class AccountMapperTest {
     private AccessLevel createAccessLevel(String level, Account account, Timestamp modificationDate, Account modifiedBy,
                                           Timestamp creationDate, Account createdBy) {
         AccessLevel al = new AccessLevel();
+        al.setVersion(1L);
         al.setLevel(level);
         al.setAccount(account);
         al.setModificationDate(modificationDate);
@@ -107,6 +108,7 @@ class AccountMapperTest {
         AccountGeneralDTO accGenDTO = AccountMapper.createAccountGeneralDTOFromEntities(Pair.of(account,
                 Arrays.asList(accessLevel1, accessLevel2, accessLevel3)));
 
+        assertEquals(account.getVersion(), accGenDTO.getVersion());
         assertEquals(account.getLogin(), accGenDTO.getLogin());
         assertEquals(account.getActive(), accGenDTO.getActive());
         assertEquals(account.getFirstName(), accGenDTO.getFirstName());
@@ -118,6 +120,7 @@ class AccountMapperTest {
     void createAccountGeneralDTOFromEntity() {
         AccountGeneralDTO accGenDTO = AccountMapper.createAccountGeneralDTOFromEntity(account);
 
+        assertEquals(account.getVersion(), accGenDTO.getVersion());
         assertEquals(account.getLogin(), accGenDTO.getLogin());
         assertEquals(account.getActive(), accGenDTO.getActive());
         assertEquals(account.getFirstName(), accGenDTO.getFirstName());
@@ -130,6 +133,7 @@ class AccountMapperTest {
         AccountDetailsDTO accDetDTO = AccountMapper.createAccountDetailsDTOFromEntities(Pair.of(account,
                 Collections.singletonList(accessLevel3)));
 
+        assertEquals(account.getVersion(), accDetDTO.getVersion());
         assertEquals(account.getLogin(), accDetDTO.getLogin());
         assertEquals(account.getPassword(), accDetDTO.getPassword());
         assertEquals(account.getActive(), accDetDTO.getActive());
@@ -158,6 +162,7 @@ class AccountMapperTest {
         Account accFromPair = pair.getLeft();
         String phoneNumberFromPair = pair.getRight();
 
+        assertEquals(accountDetailsDTO.getVersion(), accFromPair.getVersion());
         assertEquals(accountDetailsDTO.getLogin(), accFromPair.getLogin());
         assertEquals(accountDetailsDTO.getPassword(), accFromPair.getPassword());
         assertEquals(accountDetailsDTO.getFirstName(), accFromPair.getFirstName());
