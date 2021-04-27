@@ -27,9 +27,10 @@ public class AccountMapper {
     public static AccountGeneralDTO createAccountGeneralDTOFromEntities(Pair<Account, List<AccessLevel>> pair) {
         Account acc = pair.getLeft();
         List<AccessLevel> accessLvls = pair.getRight();
-
-        return new AccountGeneralDTO(acc.getLogin(), acc.getActive(), acc.getFirstName(),
+        AccountGeneralDTO accountGeneralDTO = new AccountGeneralDTO(acc.getLogin(), acc.getActive(), acc.getFirstName(),
                 acc.getLastName(), accessLvls.stream().map(AccessLevel::getLevel).collect(Collectors.toList()));
+        accountGeneralDTO.setVersion(acc.getVersion());
+        return accountGeneralDTO;
     }
 
     /**
@@ -40,8 +41,10 @@ public class AccountMapper {
      * @return Obiekt typu {@link AccountGeneralDTO}
      */
     static AccountGeneralDTO createAccountGeneralDTOFromEntity(Account account) {
-        return new AccountGeneralDTO(account.getLogin(), account.getActive(), account.getFirstName(),
+        AccountGeneralDTO accountGeneralDTO = new AccountGeneralDTO(account.getLogin(), account.getActive(), account.getFirstName(),
                 account.getLastName(), null);
+        accountGeneralDTO.setVersion(account.getVersion());
+        return accountGeneralDTO;
     }
 
     /**
@@ -61,12 +64,14 @@ public class AccountMapper {
             }
         }
 
-        return new AccountDetailsDTO(acc.getLogin(), acc.getPassword(), acc.getActive(), acc.getConfirmed(),
+        AccountDetailsDTO accountDetailsDTO = new AccountDetailsDTO(acc.getLogin(), acc.getPassword(), acc.getActive(), acc.getConfirmed(),
                 acc.getFirstName(), acc.getLastName(), acc.getEmail(), phoneNumber,
                 accessLvls.stream().map(AccessLevelMapper::createAccessLevelDTOFromEntity).collect(Collectors.toList()),
                 acc.getLanguage(), acc.getTimeZone(), acc.getModificationDate(), createAccountGeneralDTOFromEntity(acc.getModifiedBy()),
                 acc.getCreationDate(), acc.getLastKnownGoodLogin(), acc.getLastKnownGoodLoginIp(), acc.getLastKnownBadLogin(),
                 acc.getLastKnownBadLoginIp(), acc.getNumberOfBadLogins());
+        accountDetailsDTO.setVersion(acc.getVersion());
+        return accountDetailsDTO;
     }
 
     /**
@@ -85,6 +90,7 @@ public class AccountMapper {
         account.setEmail(acc.getEmail());
         account.setLanguage(acc.getLanguage());
         account.setTimeZone(acc.getTimeZone());
+        account.setVersion(acc.getVersion());
         return Pair.of(account, acc.getPhoneNumber());
     }
 }

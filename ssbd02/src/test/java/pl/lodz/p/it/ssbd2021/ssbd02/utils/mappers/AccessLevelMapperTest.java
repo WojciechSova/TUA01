@@ -24,6 +24,7 @@ class AccessLevelMapperTest {
         accountCreatedBy.setLogin("CreatedLogin");
         accessLevel = new AccessLevel();
         accessLevel.setLevel("ADMIN");
+        accessLevel.setVersion(1L);
         accessLevel.setModificationDate(Timestamp.from(Instant.now()));
         accessLevel.setModifiedBy(accountModifiedBy);
         accessLevel.setCreationDate(Timestamp.valueOf("2020-03-25 11:21:15"));
@@ -37,6 +38,7 @@ class AccessLevelMapperTest {
         assertEquals(accessLevel.getLevel(), accLvlDTO.getLevel());
         assertTrue(accLvlDTO.getActive());
         assertEquals(accessLevel.getModificationDate(), accLvlDTO.getModificationDate());
+        assertEquals(accessLevel.getVersion(), accLvlDTO.getVersion());
         assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(accessLevel.getModifiedBy()).hashCode(), accLvlDTO.getModifiedBy().hashCode());
         assertEquals(accessLevel.getCreationDate(), accLvlDTO.getCreationDate());
         assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(accessLevel.getCreatedBy()).hashCode(), accLvlDTO.getCreatedBy().hashCode());
