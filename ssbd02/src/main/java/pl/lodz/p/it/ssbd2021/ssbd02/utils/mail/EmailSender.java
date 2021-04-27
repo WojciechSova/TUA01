@@ -18,16 +18,17 @@ import java.util.Properties;
  */
 public class EmailSender {
 
+    private static final Properties prop = new Properties();
+
     /**
      * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie nowo założonego konta.
      *
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     * @param link                  Link zawarty w wiadomości.
      */
     public static void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
-
-            Properties prop = new Properties();
 
             prop.load(input);
 
@@ -48,8 +49,6 @@ public class EmailSender {
      */
     public static void sendModificationEmail(String recipientName, String recipientEmailAddress) {
         try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
-
-            Properties prop = new Properties();
 
             prop.load(input);
 
@@ -72,8 +71,6 @@ public class EmailSender {
      */
     public static void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
         try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
-
-            Properties prop = new Properties();
 
             prop.load(input);
 
