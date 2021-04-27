@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Local;
+import javax.ws.rs.WebApplicationException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,5 +24,12 @@ public interface AccountManagerLocal {
      */
     Map<Account, List<AccessLevel>> getAllAccountsWithAccessLevels();
 
-    void createAccount(Account account);
+    /**
+     * Metoda tworząca konto wraz z początkowym poziomem dostępu klienta
+     * @param account Encja typu {@link Account}
+     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
+     * o podanym loginie bądź emailu
+     */
+    void createAccount(Account account) throws WebApplicationException;
+
 }

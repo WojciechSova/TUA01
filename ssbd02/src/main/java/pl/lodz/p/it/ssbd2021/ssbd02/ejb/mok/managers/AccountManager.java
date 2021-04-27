@@ -11,6 +11,7 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,12 +43,21 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void createAccount(Account account) {
-        AccessLevel accessLevel = new AccessLevel();
+    public void createAccount(Account account) throws WebApplicationException {
+        if (accountFacadeLocal.findAll().stream()
+                .anyMatch(x -> account.getLogin().equals(x.getLogin())) ||
+                accountFacadeLocal.findAll().stream()
+                        .anyMatch(x -> account.getEmail().equals(x.getEmail()))) {
+            throw new WebApplicationException("Such login exists", 409);
+        }
+        ClientData accessLevel = new ClientData();
         accessLevel.setLevel("CLIENT");
         accessLevel.setAccount(account);
         accountFacadeLocal.create(account);
         accessLevelFacadeLocal.create(accessLevel);
 
+        //TODO: send email
     }
+
+    //TODO: method that will handle account confirmation
 }

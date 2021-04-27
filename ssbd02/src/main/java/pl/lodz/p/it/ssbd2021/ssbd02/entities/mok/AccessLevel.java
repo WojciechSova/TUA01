@@ -36,7 +36,7 @@ public class AccessLevel extends AbstractEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "level", nullable = false, updatable = false, length = 16)
+    @Column(name = "level", insertable = false, nullable = false, updatable = false, length = 16)
     private String level;
 
     @NotNull
