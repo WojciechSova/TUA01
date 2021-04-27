@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
+import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
@@ -10,9 +11,8 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Manager kont
@@ -30,12 +30,9 @@ public class AccountManager implements AccountManagerLocal {
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
 
     @Override
-    public Map<Account, List<AccessLevel>> getAllAccountsWithAccessLevels() {
-        Map<Account, List<AccessLevel>> accountLevelsMap = new HashMap<>();
-        List<Account> accountList = accountFacadeLocal.findAll();
-        for (Account account: accountList) {
-            accountLevelsMap.put(account, accessLevelFacadeLocal.findAllByAccount(account));
-        }
-        return accountLevelsMap;
+    public List<Pair<Account, List<AccessLevel>>> getAllAccountsWithAccessLevels() {
+        return accountFacadeLocal.findAll().stream()
+                .map(account -> Pair.of(account, accessLevelFacadeLocal.findAllByAccount(account)))
+                .collect(Collectors.toList());
     }
 }
