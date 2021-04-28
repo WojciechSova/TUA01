@@ -7,7 +7,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.ClientData;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -23,7 +22,7 @@ class AccountMapperTest {
     Account accountCreatedBy;
     AccessLevel accessLevel1;
     AccessLevel accessLevel2;
-    ClientData accessLevel3;
+    AccessLevel accessLevel3;
     AccountDetailsDTO accountDetailsDTO;
 
     @BeforeEach
@@ -37,8 +36,8 @@ class AccountMapperTest {
                 Timestamp.valueOf("2020-03-25 11:21:15"), accountCreatedBy);
         accessLevel2 = createAccessLevel("EMPLOYEE", account, Timestamp.from(Instant.now()), accountModifiedBy,
                 Timestamp.valueOf("2020-03-25 12:21:15"), accountCreatedBy);
-        accessLevel3 = createClientData("CLIENT", account, Timestamp.from(Instant.now()), accountModifiedBy,
-                Timestamp.valueOf("2020-03-25 13:21:15"), accountCreatedBy, "48123456789");
+        accessLevel3 = createAccessLevel("CLIENT", account, Timestamp.from(Instant.now()), accountModifiedBy,
+                Timestamp.valueOf("2020-03-25 13:21:15"), accountCreatedBy);
         accountDetailsDTO = createAccountDetailsDTO();
     }
 
@@ -51,6 +50,7 @@ class AccountMapperTest {
         acc.setFirstName("Annabelle");
         acc.setLastName("Washington");
         acc.setEmail("example@example.com");
+        acc.setPhoneNumber("48123456788");
         acc.setLanguage("PL");
         acc.setTimeZone("PL");
         acc.setModificationDate(Timestamp.from(Instant.now()));
@@ -88,19 +88,6 @@ class AccountMapperTest {
         al.setCreationDate(creationDate);
         al.setCreatedBy(createdBy);
         return al;
-    }
-
-    private ClientData createClientData(String level, Account account, Timestamp modificationDate, Account modifiedBy,
-                                        Timestamp creationDate, Account createdBy, String phoneNumber) {
-        ClientData cd = new ClientData();
-        cd.setLevel(level);
-        cd.setAccount(account);
-        cd.setModificationDate(modificationDate);
-        cd.setModifiedBy(modifiedBy);
-        cd.setCreationDate(creationDate);
-        cd.setCreatedBy(createdBy);
-        cd.setPhoneNumber(phoneNumber);
-        return cd;
     }
 
     @Test
@@ -141,7 +128,7 @@ class AccountMapperTest {
         assertEquals(account.getFirstName(), accDetDTO.getFirstName());
         assertEquals(account.getLastName(), accDetDTO.getLastName());
         assertEquals(account.getEmail(), accDetDTO.getEmail());
-        assertEquals(accessLevel3.getPhoneNumber(), accDetDTO.getPhoneNumber());
+        assertEquals(account.getPhoneNumber(), accDetDTO.getPhoneNumber());
         assertEquals(Collections.singletonList(AccessLevelMapper.createAccessLevelDTOFromEntity(accessLevel3)).hashCode(),
                 accDetDTO.getAccessLevel().hashCode());
         assertEquals(account.getLanguage(), accDetDTO.getLanguage());
@@ -157,19 +144,17 @@ class AccountMapperTest {
     }
 
     @Test
-    void createPairAccountPhoneNumberFromAccountDetailsDTO() {
-        Pair<Account, String> pair = AccountMapper.createPairAccountPhoneNumberFromAccountDetailsDTO(accountDetailsDTO);
-        Account accFromPair = pair.getLeft();
-        String phoneNumberFromPair = pair.getRight();
+    void createAccountFromAccountDetailsDTO() {
+        Account mappedAcc = AccountMapper.createAccountFromAccountDetailsDTO(accountDetailsDTO);
 
-        assertEquals(accountDetailsDTO.getVersion(), accFromPair.getVersion());
-        assertEquals(accountDetailsDTO.getLogin(), accFromPair.getLogin());
-        assertEquals(accountDetailsDTO.getPassword(), accFromPair.getPassword());
-        assertEquals(accountDetailsDTO.getFirstName(), accFromPair.getFirstName());
-        assertEquals(accountDetailsDTO.getLastName(), accFromPair.getLastName());
-        assertEquals(accountDetailsDTO.getEmail(), accFromPair.getEmail());
-        assertEquals(accountDetailsDTO.getLanguage(), accFromPair.getLanguage());
-        assertEquals(accountDetailsDTO.getTimeZone(), accFromPair.getTimeZone());
-        assertEquals(accountDetailsDTO.getPhoneNumber(), phoneNumberFromPair);
+        assertEquals(accountDetailsDTO.getVersion(), mappedAcc.getVersion());
+        assertEquals(accountDetailsDTO.getLogin(), mappedAcc.getLogin());
+        assertEquals(accountDetailsDTO.getPassword(), mappedAcc.getPassword());
+        assertEquals(accountDetailsDTO.getFirstName(), mappedAcc.getFirstName());
+        assertEquals(accountDetailsDTO.getLastName(), mappedAcc.getLastName());
+        assertEquals(accountDetailsDTO.getEmail(), mappedAcc.getEmail());
+        assertEquals(accountDetailsDTO.getLanguage(), mappedAcc.getLanguage());
+        assertEquals(accountDetailsDTO.getTimeZone(), mappedAcc.getTimeZone());
+        assertEquals(accountDetailsDTO.getPhoneNumber(), mappedAcc.getPhoneNumber());
     }
 }

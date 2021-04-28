@@ -38,7 +38,6 @@
         <jta-data-source>java:app/jdbc/ssbd02mok</jta-data-source>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel</class>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account</class>
-        <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.ClientData</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <!-- This line is responsible for logging level -->
@@ -61,7 +60,6 @@
         <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport</class>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.VehicleType</class>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account</class>
-        <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.ClientData</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <!-- This line is responsible for logging level -->
