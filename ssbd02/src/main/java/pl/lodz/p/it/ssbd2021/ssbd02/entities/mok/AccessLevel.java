@@ -14,7 +14,6 @@ import java.time.Instant;
 @ToString(callSuper = true)
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "level", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "Access_level", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"account", "level"})
 })
