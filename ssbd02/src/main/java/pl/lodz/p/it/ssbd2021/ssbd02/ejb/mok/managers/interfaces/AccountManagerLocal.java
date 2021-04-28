@@ -26,6 +26,7 @@ public interface AccountManagerLocal {
 
     /**
      * Metoda tworząca konto wraz z początkowym poziomem dostępu klienta
+     *
      * @param account Encja typu {@link Account}
      * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
      * o podanym loginie bądź emailu

@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.ClientData;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
 
 import javax.ejb.Stateful;
@@ -36,7 +35,7 @@ public class AccountManager implements AccountManagerLocal {
     public Map<Account, List<AccessLevel>> getAllAccountsWithAccessLevels() {
         Map<Account, List<AccessLevel>> accountLevelsMap = new HashMap<>();
         List<Account> accountList = accountFacadeLocal.findAll();
-        for (Account account: accountList) {
+        for (Account account : accountList) {
             accountLevelsMap.put(account, accessLevelFacadeLocal.findAllByAccount(account));
         }
         return accountLevelsMap;
@@ -49,13 +48,12 @@ public class AccountManager implements AccountManagerLocal {
         if (allAccounts.stream()
                 .anyMatch(x -> account.getLogin().equals(x.getLogin()))) {
             throw new WebApplicationException("Such login exists", 409);
-        }
-        else if (allAccounts.stream()
+        } else if (allAccounts.stream()
                 .anyMatch(x -> account.getEmail().equals(x.getEmail()))) {
             throw new WebApplicationException("Such email exists", 409);
         }
 
-        ClientData accessLevel = new ClientData();
+        AccessLevel accessLevel = new AccessLevel();
         accessLevel.setLevel("CLIENT");
         accessLevel.setAccount(account);
         accountFacadeLocal.create(account);

@@ -2,7 +2,10 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
@@ -12,20 +15,13 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.ClientData;
 import javax.ws.rs.WebApplicationException;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doAnswer;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 public class AccountManagerTest {
-
-    @Mock
-    private AccountFacadeLocal accountFacadeLocal;
-    @Mock
-    private AccessLevelFacadeLocal accessLevelFacadeLocal;
-    @InjectMocks
-    private AccountManager accountManager;
 
     @Spy
     private final Account a1 = new Account();
@@ -47,6 +43,12 @@ public class AccountManagerTest {
     private final AccessLevel al3 = new AccessLevel();
     private final List<AccessLevel> accessLevels1 = new ArrayList<>();
     private final List<AccessLevel> accessLevels2 = new ArrayList<>();
+    @Mock
+    private AccountFacadeLocal accountFacadeLocal;
+    @Mock
+    private AccessLevelFacadeLocal accessLevelFacadeLocal;
+    @InjectMocks
+    private AccountManager accountManager;
     private Map<Account, List<AccessLevel>> accountListMap;
     private List<Account> accounts;
 
