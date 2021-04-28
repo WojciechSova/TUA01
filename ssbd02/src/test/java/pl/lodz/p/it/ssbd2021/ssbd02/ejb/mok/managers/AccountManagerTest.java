@@ -10,7 +10,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacade
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.ClientData;
 
 import javax.ws.rs.WebApplicationException;
 import java.util.*;
@@ -30,12 +29,10 @@ public class AccountManagerTest {
     @Spy
     private final Account a3 = new Account();
     @Spy
-    private final ClientData cd3 = new ClientData();
+    private final AccessLevel al4 = new AccessLevel();
     private final String login1 = "a1Login";
     private final String email1 = "a1Email@domain.com";
     private final String login2 = "a2Login";
-    private final String email2 = "a2Email@domain.com";
-    private final String login3 = "a3Login";
     private final String email3 = "a3Email@domain.com";
     private final String level = "CLIENT";
     private final AccessLevel al1 = new AccessLevel();
@@ -95,12 +92,12 @@ public class AccountManagerTest {
         }).when(accountFacadeLocal).create(a3);
 
         doAnswer(invocationOnMock -> {
-            accountListMap.put(a3, List.of(cd3));
+            accountListMap.put(a3, List.of(al4));
             return null;
         }).when(accessLevelFacadeLocal).create(any());
 
-        when(cd3.getAccount()).thenReturn(a3);
-        when(cd3.getLevel()).thenReturn(level);
+        when(al4.getAccount()).thenReturn(a3);
+        when(al4.getLevel()).thenReturn(level);
         when(a3.getEmail()).thenReturn(email3);
 
         assertEquals(2, accounts.size());
@@ -111,8 +108,8 @@ public class AccountManagerTest {
         assertEquals(3, accounts.size());
         assertEquals(3, accountListMap.size());
         assertEquals(a3.hashCode(), accounts.get(2).hashCode());
-        assertEquals(cd3.getAccount(), accountListMap.get(a3).get(0).getAccount());
-        assertEquals(cd3.getLevel(), accountListMap.get(a3).get(0).getLevel());
+        assertEquals(al4.getAccount(), accountListMap.get(a3).get(0).getAccount());
+        assertEquals(al4.getLevel(), accountListMap.get(a3).get(0).getLevel());
     }
 
     @Test
