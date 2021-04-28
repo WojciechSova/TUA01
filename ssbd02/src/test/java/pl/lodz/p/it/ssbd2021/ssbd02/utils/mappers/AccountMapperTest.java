@@ -157,4 +157,26 @@ class AccountMapperTest {
         assertEquals(accountDetailsDTO.getTimeZone(), mappedAcc.getTimeZone());
         assertEquals(accountDetailsDTO.getPhoneNumber(), mappedAcc.getPhoneNumber());
     }
+
+    @Test
+    void createAccountDetailsDTOWhenModifiedByIsNull() {
+        account.setModifiedBy(null);
+        AccountDetailsDTO accDetDTO = AccountMapper.createAccountDetailsDTOFromEntities(Pair.of(account,
+                Collections.singletonList(accessLevel3)));
+        assertNull(accDetDTO.getModifiedBy());
+    }
+
+    @Test
+    void createAccountDetailsDTOWhenAccessLevelsIsEmpty() {
+        AccountDetailsDTO accDetDTO = AccountMapper.createAccountDetailsDTOFromEntities(Pair.of(account,
+                Collections.emptyList()));
+        assertEquals(Collections.emptyList(), accDetDTO.getAccessLevel());
+    }
+
+    @Test
+    void createAccountGeneralDTOWhenAccessLevelsIsEmpty() {
+        AccountGeneralDTO accGenDTO = AccountMapper.createAccountGeneralDTOFromEntities(Pair.of(account,
+                Collections.emptyList()));
+        assertEquals(Collections.emptyList(), accGenDTO.getAccessLevel());
+    }
 }
