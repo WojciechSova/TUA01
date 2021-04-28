@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MokService } from "../../services/mok.service";
-import { AccountGeneral } from "../../model/mok/AccountGeneral";
+import { MokService } from '../../services/mok.service';
+import { AccountGeneral } from '../../model/mok/AccountGeneral';
 
 
 @Component({
@@ -14,6 +14,6 @@ export class UsersTableComponent {
     }
 
     getAccounts(): AccountGeneral[] {
-        return this.mokService.getAccounts()
+        return this.mokService.getAccounts();
     }
 }
