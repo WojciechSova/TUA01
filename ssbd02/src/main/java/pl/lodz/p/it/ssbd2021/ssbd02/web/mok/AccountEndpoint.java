@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @author Daniel Łondka
  */
 @RequestScoped
-@Path("/account")
+@Path("accounts")
 public class AccountEndpoint {
 
     @Inject
@@ -29,13 +29,11 @@ public class AccountEndpoint {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("/general")
     public Response getAllAccountGenerals() {
         List<AccountGeneralDTO> accountGeneralDTOList = accountManager.getAllAccountsWithAccessLevels().stream()
                 .map(AccountMapper::createAccountGeneralDTOFromEntities)
                 .collect(Collectors.toList());
         return Response.accepted(accountGeneralDTOList)
-                .type(MediaType.APPLICATION_JSON_TYPE)
                 .entity(accountGeneralDTOList)
                 .build();
     }
