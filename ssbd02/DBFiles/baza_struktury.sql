@@ -63,7 +63,7 @@ GRANT SELECT ON TABLE Personal_data TO ssbd02mop;
 CREATE INDEX personal_data_id ON Personal_data USING btree (id);
 CREATE INDEX personal_data_modified_by ON Personal_data USING btree (modified_by);
 CREATE INDEX personal_data_email ON Personal_data USING btree (email);
-CREATE INDEX client_data_phone_number ON Personal_data USING btree (phone_number);
+CREATE INDEX personal_data_phone_number ON Personal_data USING btree (phone_number);
 
 CREATE TABLE Access_level
 (
