@@ -27,6 +27,11 @@ public class AccountEndpoint {
     @Inject
     private AccountManagerLocal accountManager;
 
+    /**
+     * Metoda udostępniająca ogólne informacje o kontach aplikacji.
+     *
+     * @return Lista ogólnych informacji o kontach aplikacji.
+     */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllAccountGenerals() {
