@@ -4,7 +4,7 @@ import { MainPageComponent } from './main/main-page/main-page.component';
 import { ExampleComponentComponent } from './ferrytales/example-component/example-component.component';
 import { FerrytalesComponent } from './ferrytales/ferrytales/ferrytales.component';
 import { AccountDetailsComponent } from './ferrytales/account-details/account-details.component';
-import {UsersTableComponent} from './ferrytales/users-table/users-table.component';
+import { UsersTableComponent } from './ferrytales/users-table/users-table.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'example-component', component: ExampleComponentComponent },
