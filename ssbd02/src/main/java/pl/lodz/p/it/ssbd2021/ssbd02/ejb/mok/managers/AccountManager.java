@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
+import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
@@ -37,5 +38,12 @@ public class AccountManager implements AccountManagerLocal {
             accountLevelsMap.put(account, accessLevelFacadeLocal.findAllByAccount(account));
         }
         return accountLevelsMap;
+    }
+
+    @Override
+    public Pair<Account, List<AccessLevel>> getAccountWithLogin(String login) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
+        return Pair.of(account, accessLevels);
     }
 }
