@@ -32,12 +32,12 @@
 .offer-text {
     margin: 0.56vw;
     color: @secondary-color;
-    font: normal normal 250 2.45vw Source Sans Pro;
+    font: normal normal 250 2.2rem Source Sans Pro;
 }
 
 .offer-price {
     color: @primary-color;
-    font: normal normal 350 1.4vw Source Sans Pro;
+    font: normal normal 350 1.3rem Source Sans Pro;
 }
 
 .column:hover .offer-image {
@@ -46,4 +46,29 @@
 
 .column:hover .offer {
     opacity: 1;
+}
+
+
+.offer-btn {
+    width: 60%;
+    height: 37px;
+    min-width: 120px;
+    text-align: center;
+    font: lighter 1.15rem Source Sans Pro;
+    color: white;
+    border-radius: 2.2vw;
+    border: none;
+    margin: 0.35vw;
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, @primary-color 0%, @secondary-color 100%);
+    transition: 0.3s;
+
+    &:hover {
+        background-position: right center;
+        cursor: pointer;
+    }
+
+    &:focus {
+        outline: none;
+    }
 }

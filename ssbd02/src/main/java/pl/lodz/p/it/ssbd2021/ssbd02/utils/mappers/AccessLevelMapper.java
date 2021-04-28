@@ -20,9 +20,16 @@ public class AccessLevelMapper {
      * @return Obiekt typu {@link AccessLevelDTO}
      */
     static AccessLevelDTO createAccessLevelDTOFromEntity(AccessLevel accessLevel) {
-        AccessLevelDTO accessLevelDTO = new AccessLevelDTO(accessLevel.getLevel(), accessLevel.getActive(), accessLevel.getModificationDate(),
-                AccountMapper.createAccountGeneralDTOFromEntity(accessLevel.getModifiedBy()), accessLevel.getCreationDate(),
-                AccountMapper.createAccountGeneralDTOFromEntity(accessLevel.getCreatedBy()));
+        if (accessLevel == null) {
+            return null;
+        }
+        AccessLevelDTO accessLevelDTO = new AccessLevelDTO();
+        accessLevelDTO.setLevel(accessLevel.getLevel());
+        accessLevelDTO.setActive(accessLevel.getActive());
+        accessLevelDTO.setModificationDate(accessLevel.getModificationDate());
+        accessLevelDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(accessLevel.getModifiedBy()));
+        accessLevelDTO.setCreationDate(accessLevel.getCreationDate());
+        accessLevelDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(accessLevel.getCreatedBy()));
         accessLevelDTO.setVersion(accessLevel.getVersion());
         return accessLevelDTO;
     }
