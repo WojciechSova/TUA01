@@ -6,7 +6,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Local;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Lokalny interfejs managera kont
@@ -19,10 +18,10 @@ public interface AccountManagerLocal {
     /**
      * Metoda wyszukujące wszystkie konta wraz z ich poziomami dostępu
      *
-     * @return Mapa o kluczu {@link Account} i wartości będącej listą {@link AccessLevel} reprezentująca konta
+     * @return Lista par kont {@link Account} i listy poziomów dostępu {@link AccessLevel} reprezentująca konta
      * i ich poziomy dostępu
      */
-    Map<Account, List<AccessLevel>> getAllAccountsWithAccessLevels();
+    List<Pair<Account, List<AccessLevel>>> getAllAccountsWithAccessLevels();
 
     /**
      * Metoda wyszukująca konto o podanym loginie wraz z jego poziomami dostępu
