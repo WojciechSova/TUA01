@@ -36,11 +36,11 @@ public class AccountManagerTest {
     @Spy
     private final ClientData cd3 = new ClientData();
     private final String login1 = "a1Login";
-    private final String email1 = "a1Email";
+    private final String email1 = "a1Email@domain.com";
     private final String login2 = "a2Login";
-    private final String email2 = "a2Email";
+    private final String email2 = "a2Email@domain.com";
     private final String login3 = "a3Login";
-    private final String email3 = "a3Email";
+    private final String email3 = "a3Email@domain.com";
     private final String level = "CLIENT";
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
@@ -99,6 +99,7 @@ public class AccountManagerTest {
 
         when(cd3.getAccount()).thenReturn(a3);
         when(cd3.getLevel()).thenReturn(level);
+        when(a3.getEmail()).thenReturn(email3);
 
         assertEquals(2, accounts.size());
         assertEquals(2, accountListMap.size());

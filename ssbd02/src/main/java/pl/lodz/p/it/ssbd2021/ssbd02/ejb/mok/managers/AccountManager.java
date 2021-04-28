@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLo
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.ClientData;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -60,7 +61,7 @@ public class AccountManager implements AccountManagerLocal {
         accountFacadeLocal.create(account);
         accessLevelFacadeLocal.create(accessLevel);
 
-        //TODO: send email
+        EmailSender.sendRegistrationEmail(account.getFirstName(), account.getEmail(), "link");
     }
 
     //TODO: method that will handle account confirmation
