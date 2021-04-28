@@ -1,9 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 
 import java.sql.Timestamp;
@@ -18,6 +15,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true)
 public class AccessLevelDTO extends AbstractDTO {
 
     private String level;

@@ -303,6 +303,66 @@
         </context-group>
         <note priority="1" from="description">Signing in in case of having an account</note>
         <note priority="1" from="meaning">Sign in if having an account</note>
+      </trans-unit><trans-unit id="7362151090434011899" datatype="html">
+        <source>Login</source><target state="final">Login</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="meaning">Login</note>
+      </trans-unit><trans-unit id="5065846871546310253" datatype="html">
+        <source>Imię</source><target state="final">Imię</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <note priority="1" from="meaning">First name</note>
+      </trans-unit><trans-unit id="6409515600829802653" datatype="html">
+        <source>Nazwisko</source><target state="final">Nazwisko</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="meaning">Last name</note>
+      </trans-unit><trans-unit id="786683128280404394" datatype="html">
+        <source>Poziomy dostępu</source><target state="final">Poziomy dostępu</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <note priority="1" from="meaning">Access levels</note>
+      </trans-unit><trans-unit id="5281815555181327638" datatype="html">
+        <source>Odblokuj/Zablokuj</source><target state="final">Odblokuj/Zablokuj</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <note priority="1" from="meaning">Unblock/Block</note>
+      </trans-unit><trans-unit id="8420268270827593822" datatype="html">
+        <source>Szczegóły</source><target state="final">Szczegóły</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <note priority="1" from="meaning">Details</note>
+      </trans-unit><trans-unit id="3223369467475636838" datatype="html">
+        <source>Odblokuj</source><target state="final">Odblokuj</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <note priority="1" from="meaning">Unblock</note>
+      </trans-unit><trans-unit id="5594175483540179462" datatype="html">
+        <source>Zablokuj</source><target state="final">Zablokuj</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <note priority="1" from="meaning">Block</note>
       </trans-unit>
       <trans-unit id="953969179322728927" datatype="html">
         <source>Przeprawy promowe jak z bajki</source><target state="final">Przeprawy promowe jak z bajki</target>
