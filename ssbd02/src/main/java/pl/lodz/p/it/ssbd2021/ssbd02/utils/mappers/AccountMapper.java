@@ -5,7 +5,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.ClientData;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,15 +56,9 @@ public class AccountMapper {
     public static AccountDetailsDTO createAccountDetailsDTOFromEntities(Pair<Account, List<AccessLevel>> pair) {
         Account acc = pair.getLeft();
         List<AccessLevel> accessLvls = pair.getRight();
-        String phoneNumber = null;
-        for (AccessLevel al : accessLvls) {
-            if (al instanceof ClientData) {
-                phoneNumber = ((ClientData) al).getPhoneNumber();
-            }
-        }
 
         AccountDetailsDTO accountDetailsDTO = new AccountDetailsDTO(acc.getLogin(), acc.getPassword(), acc.getActive(), acc.getConfirmed(),
-                acc.getFirstName(), acc.getLastName(), acc.getEmail(), phoneNumber,
+                acc.getFirstName(), acc.getLastName(), acc.getEmail(), acc.getPhoneNumber(),
                 accessLvls.stream().map(AccessLevelMapper::createAccessLevelDTOFromEntity).collect(Collectors.toList()),
                 acc.getLanguage(), acc.getTimeZone(), acc.getModificationDate(), createAccountGeneralDTOFromEntity(acc.getModifiedBy()),
                 acc.getCreationDate(), acc.getLastKnownGoodLogin(), acc.getLastKnownGoodLoginIp(), acc.getLastKnownBadLogin(),
@@ -75,13 +68,12 @@ public class AccountMapper {
     }
 
     /**
-     * Metoda mapująca obiekt {@link AccountDetailsDTO} na parę obiektów: {@link Account}
-     * oraz numer telefonu typu String
+     * Metoda mapująca obiekt {@link AccountDetailsDTO} na obiekt {@link Account}
      *
      * @param acc Obiekt {@link AccountDetailsDTO}, który chcemy mapować
-     * @return Para obiektów: {@link Account} oraz numer telefonu typu String
+     * @return Obiekt konta typu {@link Account}
      */
-    public static Pair<Account, String> createPairAccountPhoneNumberFromAccountDetailsDTO(AccountDetailsDTO acc) {
+    public static Account createAccountFromAccountDetailsDTO(AccountDetailsDTO acc) {
         Account account = new Account();
         account.setLogin(acc.getLogin());
         account.setPassword(acc.getPassword());
@@ -91,6 +83,7 @@ public class AccountMapper {
         account.setLanguage(acc.getLanguage());
         account.setTimeZone(acc.getTimeZone());
         account.setVersion(acc.getVersion());
-        return Pair.of(account, acc.getPhoneNumber());
+        account.setPhoneNumber(acc.getPhoneNumber());
+        return account;
     }
 }
