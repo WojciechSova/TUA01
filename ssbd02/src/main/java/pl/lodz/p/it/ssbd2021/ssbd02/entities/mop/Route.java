@@ -14,7 +14,9 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
-@Table(name = "Route")
+@Table(name = "Route", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"start", "destination"})
+})
 @NamedQueries({
         @NamedQuery(name = "Route.findAll", query = "SELECT r FROM Route r"),
         @NamedQuery(name = "Route.findById", query = "SELECT r FROM Route r WHERE r.id = :id"),
