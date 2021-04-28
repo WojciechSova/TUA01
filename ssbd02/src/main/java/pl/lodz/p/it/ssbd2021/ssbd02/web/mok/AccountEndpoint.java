@@ -45,6 +45,12 @@ public class AccountEndpoint {
                 .build();
     }
 
+    /**
+     * Metoda udostępniająca szczegółowe informacje dotyczące konta o podanym loginie.
+     *
+     * @param login Login wyszukiwanego konta
+     * @return Szczegółowe informacje o koncie
+     */
     @GET
     @Path("{login}")
     @Produces({MediaType.APPLICATION_JSON})
