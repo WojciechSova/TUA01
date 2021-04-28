@@ -49,8 +49,11 @@ public class AccountMapper {
         if (account == null) {
             return null;
         }
-        AccountGeneralDTO accountGeneralDTO = new AccountGeneralDTO(account.getLogin(), account.getActive(),
-                account.getFirstName(), account.getLastName(), null);
+        AccountGeneralDTO accountGeneralDTO = new AccountGeneralDTO();
+        accountGeneralDTO.setLogin(account.getLogin());
+        accountGeneralDTO.setActive(account.getActive());
+        accountGeneralDTO.setFirstName(account.getFirstName());
+        accountGeneralDTO.setLastName(account.getLastName());
         accountGeneralDTO.setVersion(account.getVersion());
         return accountGeneralDTO;
     }
