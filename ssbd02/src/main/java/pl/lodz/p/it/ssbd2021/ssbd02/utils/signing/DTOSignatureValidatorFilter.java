@@ -22,9 +22,9 @@ public class DTOSignatureValidatorFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) {
         String header = requestContext.getHeaderString("If-Match");
-        if(header == null || header.isEmpty()){
+        if (header == null || header.isEmpty()) {
             requestContext.abortWith(Response.status(Response.Status.BAD_REQUEST).build());
-        } else if(!DTOIdentitySignerVerifier.validateDTOSignature(header)){
+        } else if (!DTOIdentitySignerVerifier.validateDTOSignature(header)) {
             requestContext.abortWith(Response.status(Response.Status.PRECONDITION_FAILED).build());
         }
     }

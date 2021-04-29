@@ -4,7 +4,9 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
+
 import java.text.ParseException;
+
 import static com.nimbusds.jose.JWSAlgorithm.HS256;
 
 /**
@@ -30,8 +32,9 @@ public class DTOIdentitySignerVerifier {
             return objectJWS.serialize();
 
         } catch (JOSEException ex) {
-            return null;
+            ex.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -49,15 +52,16 @@ public class DTOIdentitySignerVerifier {
             return objectJWS.verify(verifier);
 
         } catch (JOSEException | ParseException ex) {
-            return false;
+            ex.printStackTrace();
         }
+        return false;
     }
 
     /**
      * Metoda sprawdzająca integralność podpisanego obiektu.
      *
      * @param signableDTO Obiekt klasy implementującej interfejs SignableDTO.
-     * @param header Nagłówek zawierający podpis.
+     * @param header      Nagłówek zawierający podpis.
      * @return True, jeśli podpis jest poprawny i wartość podpisanego pola nie uległa zmianie, w przeciwnym wypadku false.
      */
     public static boolean verifyDTOIntegrity(String header, SignableDTO signableDTO) {
@@ -67,8 +71,9 @@ public class DTOIdentitySignerVerifier {
 
             return validateDTOSignature(header) && ifMatchHeaderValue.equals(entitySignablePayloadValue);
         } catch (ParseException ex) {
-            return false;
+            ex.printStackTrace();
         }
+        return false;
     }
 
 }
