@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS Account CASCADE;
 DROP TABLE IF EXISTS Access_level CASCADE;
 DROP TABLE IF EXISTS Personal_data CASCADE;
-DROP TABLE IF EXISTS Client_data CASCADE;
 DROP TABLE IF EXISTS Ferry CASCADE;
 DROP TABLE IF EXISTS Seaport CASCADE;
 DROP TABLE IF EXISTS Route CASCADE;
@@ -37,6 +36,7 @@ CREATE TABLE Personal_data
     first_name               varchar(30)                         NOT NULL,
     last_name                varchar(50)                         NOT NULL,
     email                    varchar(70)                         NOT NULL,
+    phone_number             varchar(11),
     language                 varchar(5),
     time_zone                varchar(10),
     modification_date        timestamp,
@@ -50,7 +50,8 @@ CREATE TABLE Personal_data
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id_id FOREIGN KEY (id) REFERENCES Account (id),
-    CONSTRAINT email_unique UNIQUE (email)
+    CONSTRAINT email_unique UNIQUE (email),
+    CONSTRAINT phone_number_unique UNIQUE (phone_number)
 );
 
 ALTER TABLE Personal_data
@@ -62,21 +63,24 @@ GRANT SELECT ON TABLE Personal_data TO ssbd02mop;
 CREATE INDEX personal_data_id ON Personal_data USING btree (id);
 CREATE INDEX personal_data_modified_by ON Personal_data USING btree (modified_by);
 CREATE INDEX personal_data_email ON Personal_data USING btree (email);
+CREATE INDEX personal_data_phone_number ON Personal_data USING btree (phone_number);
 
 CREATE TABLE Access_level
 (
     id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     version           bigint                              NOT NULL,
     level             varchar(16)                         NOT NULL,
-    account_id        bigint                              NOT NULL,
+    account           bigint                              NOT NULL,
     active            boolean   DEFAULT true              NOT NULL,
     modification_date timestamp,
     modified_by       bigint,
     creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_by        bigint,
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id FOREIGN KEY (account_id) REFERENCES Account (id),
-    CONSTRAINT account_id_level_unique UNIQUE (account_id, level)
+    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT fk_account_id_account FOREIGN KEY (account) REFERENCES Account (id),
+    CONSTRAINT account_level_unique UNIQUE (account, level)
 );
 
 ALTER TABLE Access_level
@@ -85,32 +89,16 @@ ALTER TABLE Access_level
 GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
 GRANT SELECT ON TABLE Access_level TO ssbd02mop;
 
-CREATE INDEX access_level_account_id ON Access_level USING btree (account_id);
+CREATE INDEX access_level_account ON Access_level USING btree (account);
 CREATE INDEX access_level_modified_by ON Access_level USING btree (modified_by);
+CREATE INDEX access_level_created_by ON Access_level USING btree (created_by);
 CREATE INDEX access_level_level ON Access_level USING btree (level);
-
-CREATE TABLE Client_data
-(
-    id           bigint      NOT NULL,
-    phone_number varchar(11),
-    PRIMARY KEY (id),
-    CONSTRAINT fk_access_level_id_id FOREIGN KEY (id) REFERENCES Access_level (id),
-    CONSTRAINT phone_number_unique UNIQUE (phone_number)
-);
-
-ALTER TABLE Client_data
-    OWNER TO ssbd02admin;
-
-GRANT SELECT, INSERT, UPDATE ON TABLE Client_data TO ssbd02mok;
-GRANT SELECT ON TABLE Client_data TO ssbd02mop;
-
-CREATE INDEX client_data_id ON Client_data USING btree (id);
-CREATE INDEX client_data_phone_number ON Client_data USING btree (phone_number);
 
 CREATE VIEW Auth_view AS
 SELECT Account.login, Account.password, Access_level.level
-FROM (Account JOIN Access_level ON
-    ((Account.id = Access_level.Account_id)))
+FROM (Account
+         JOIN Access_level ON
+    ((Account.id = Access_level.Account)))
 WHERE (((Account.confirmed = true) AND (Account.active = true))
     AND (Access_level.active = true));
 

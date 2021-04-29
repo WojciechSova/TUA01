@@ -1,0 +1,81 @@
+<div class="outer-div">
+    <div class="account-details">
+        <button class="edit-button">Edytuj konto</button>
+        <div class="col">
+            <div class="row">
+                <label>Login:</label>
+                <label>{{account.login}}</label>
+            </div>
+            <div class="row">
+                <label>Imię:</label>
+                <label>{{account.firstName}}</label>
+            </div>
+            <div class="row">
+                <label>Nazwisko:</label>
+                <label>{{account.lastName}}</label>
+            </div>
+            <div class="row">
+                <label>Adres email:</label>
+                <label>{{account.email}}</label>
+            </div>
+            <div class="row" *ngIf="account.accessLevel.some(hasClientAccessLevel)">
+                <label>Numer telefonu:</label>
+                <label>{{account.phoneNumber}}</label>
+            </div>
+            <div class="row">
+                <label>Język:</label>
+                <label>{{account.language}}</label>
+            </div>
+            <div class="row">
+                <label>Strefa czasowa:</label>
+                <label>{{account.timeZone}}</label>
+            </div>
+            <div *ngIf="identityService.isAdmin()">
+                <div class="row">
+                    <label>Aktywne:</label>
+                    <label>{{account.active}}</label>
+                </div>
+                <div class="row">
+                    <label>Potwierdzone:</label>
+                    <label>{{account.confirmed}}</label>
+                </div>
+                <div class="row">
+                    <label>Data ostatniej modyfikacji:</label>
+                    <label>{{account.modificationDate}}</label>
+                </div>
+                <div class="row">
+                    <label>Autor ostatniej modyfikacji:</label>
+                    <label>{{account.modifiedBy}}</label>
+                </div>
+                <div class="row">
+                    <label>Data utworzenia:</label>
+                    <label>{{account.creationDate}}</label>
+                </div>
+                <div class="row">
+                    <label>Data ostatniej udanej próby logowania:</label>
+                    <label>{{account.lastKnownGoodLogin}}</label>
+                </div>
+                <div class="row">
+                    <label>Adres ip ostatniej udanej próby logowania:</label>
+                    <label>{{account.lastKnownGoodLoginIp}}</label>
+                </div>
+                <div class="row">
+                    <label>Data ostatniej nieudanej próby logowania:</label>
+                    <label>{{account.lastKnownBadLogin}}</label>
+                </div>
+                <div class="row">
+                    <label>Adres ip ostatniej nieudanej próby logowania:</label>
+                    <label>{{account.lastKnownBadLoginIp}}</label>
+                </div>
+                <div class="row">
+                    <label>Liczba nieudanych prób logowania:</label>
+                    <label>{{account.numberOfBadLogins}}</label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <label>Poziomy dostępu:</label>
+            <app-access-level-table [accessLevels]="account.accessLevel"></app-access-level-table>
+        </div>
+    </div>
+</div>

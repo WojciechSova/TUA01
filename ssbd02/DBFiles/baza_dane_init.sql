@@ -10,12 +10,14 @@ VALUES (1, 'admin', '0885c94ed2e94369bafab182efc19c41624dd8f2b12b79fdfd1c4e8a740
 INSERT INTO Personal_data (id, first_name, last_name, email)
 VALUES (1, 'Kazimierz', 'Andrzejewski', 'nieistnieje@aaa.pl'),
        (2, 'Eustachy', 'Kaczmarczyk', 'zmyslony@aaa.pl'),
-       (3, 'Jadwiga', 'Sokołowska', 'zmyslony2@aaa.pl'),
-       (4, 'Patryk', 'Rutkowski', 'zmyslony3@aaa.pl'),
-       (5, 'Gabriela', 'Górska', 'zmyslony4@aaa.pl'),
-       (6, 'Anastazy', 'Cieślak', 'zmyslony5@aaa.pl');
+       (3, 'Jadwiga', 'Sokołowska', 'zmyslony2@aaa.pl');
 
-INSERT INTO Access_level (version, level, account_id, active)
+INSERT INTO Personal_data (id, first_name, last_name, email, phone_number)
+VALUES (4, 'Patryk', 'Rutkowski', 'zmyslony3@aaa.pl', '48123456789'),
+       (5, 'Gabriela', 'Górska', 'zmyslony4@aaa.pl', '48987654321'),
+       (6, 'Anastazy', 'Cieślak', 'zmyslony5@aaa.pl', '48111111111');
+
+INSERT INTO Access_level (version, level, account, active)
 VALUES (1, 'ADMIN', 1, true),
        (1, 'EMPLOYEE', 2, true),
        (1, 'ADMIN', 3, true),
@@ -23,11 +25,6 @@ VALUES (1, 'ADMIN', 1, true),
        (1, 'CLIENT', 4, true),
        (1, 'CLIENT', 5, true),
        (1, 'CLIENT', 6, true);
-
-INSERT INTO Client_data (id, phone_number)
-VALUES (5, '48123456789'),
-       (6, '48987654321'),
-       (7, '48111111111');
 
 INSERT INTO Ferry (version, name, vehicle_capacity, on_deck_capacity)
 VALUES (1, 'Ever Given', 10, 100),

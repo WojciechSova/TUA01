@@ -1,4 +1,4 @@
-import {AccountGeneral} from './AccountGeneral';
+import { AccountGeneral } from './AccountGeneral';
 
 export interface AccessLevel {
     level: string;
@@ -6,4 +6,5 @@ export interface AccessLevel {
     modificationDate?: Date;
     modifiedBy?: AccountGeneral;
     creationDate: Date;
+    createdBy?: AccountGeneral;
 }

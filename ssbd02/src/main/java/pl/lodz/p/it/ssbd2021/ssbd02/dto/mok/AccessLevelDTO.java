@@ -1,8 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mok;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 
 import java.sql.Timestamp;
 
@@ -12,10 +11,12 @@ import java.sql.Timestamp;
  *
  * @author Karolina Kowalczyk
  */
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccessLevelDTO {
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+public class AccessLevelDTO extends AbstractDTO {
 
     private String level;
 
@@ -26,4 +27,6 @@ public class AccessLevelDTO {
     private AccountGeneralDTO modifiedBy;
 
     private Timestamp creationDate;
+
+    private AccountGeneralDTO createdBy;
 }

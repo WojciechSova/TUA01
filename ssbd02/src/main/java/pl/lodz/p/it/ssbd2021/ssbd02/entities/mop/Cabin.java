@@ -13,19 +13,14 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
+@Table(name = "Cabin", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"ferry", "number"})
+})
 @NamedQueries({
         @NamedQuery(name = "Cabin.findAll", query = "SELECT c FROM Cabin c"),
         @NamedQuery(name = "Cabin.findById", query = "SELECT c FROM Cabin c WHERE c.id = :id"),
-        @NamedQuery(name = "Cabin.findByVersion", query = "SELECT c FROM Cabin c WHERE c.version = :version"),
         @NamedQuery(name = "Cabin.findByFerry", query = "SELECT c FROM Cabin c WHERE c.ferry = :ferry"),
-        @NamedQuery(name = "Cabin.findByCapacity", query = "SELECT c FROM Cabin c WHERE c.capacity = :capacity"),
-        @NamedQuery(name = "Cabin.findByCabinType", query = "SELECT c FROM Cabin c WHERE c.cabinType = :cabinType"),
-        @NamedQuery(name = "Cabin.findByNumber", query = "SELECT c FROM Cabin c WHERE c.number = :number"),
-        @NamedQuery(name = "Cabin.findByModificationDate", query = "SELECT c FROM Cabin c WHERE c.modificationDate = :modificationDate"),
-        @NamedQuery(name = "Cabin.findBModifiedBy", query = "SELECT c FROM Cabin c WHERE c.modifiedBy = :modifiedBy"),
-        @NamedQuery(name = "Cabin.findByCreationDate", query = "SELECT c FROM Cabin c WHERE c.creationDate = :creationDate"),
-        @NamedQuery(name = "Cabin.findByCreatedBy", query = "SELECT c FROM Cabin c WHERE c.createdBy = :createdBy")
-
+        @NamedQuery(name = "Cabin.findByNumber", query = "SELECT c FROM Cabin c WHERE c.number = :number")
 })
 @Data
 @NoArgsConstructor
@@ -52,7 +47,7 @@ public class Cabin extends AbstractEntity implements Serializable {
     private CabinType cabinType;
 
     @NotNull
-    @Column(name = "number", nullable = false, unique = true, updatable = false, length = 4)
+    @Column(name = "number", nullable = false, updatable = false, length = 4)
     private String number;
 
     @Column(name = "modification_date", nullable = true, updatable = true)
@@ -62,7 +57,6 @@ public class Cabin extends AbstractEntity implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 
-    @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 

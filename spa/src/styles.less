@@ -3,6 +3,10 @@
 @primary-text-color: #FFFFFF;
 @footer-accent-color: #BDBDBD;
 @footer-background-color: #EFEFEF;
+@primary-color-red: #FFE3DE;
+@secondary-color-red: #FC9483;
+@primary-color-green: #DFEAE2;
+@secondary-color-green: #6BAF92;
 
 body{
     margin:0;
@@ -14,7 +18,7 @@ a {
     margin-left: 1.4vw;
     margin-right: 1.4vw;
     color: @primary-text-color;
-    font: lighter 1.45vw Source Sans Pro;
+    font: lighter 1.45rem Source Sans Pro;
     text-decoration: none;
     text-transform: uppercase;
     cursor: pointer;
@@ -26,36 +30,14 @@ a {
     left: 50%;
     transform: translateX(-50%);
     width: 30%;
-    height: 3vw;
+    height: 45px;
+    min-width: 350px;
     border: none;
     border-radius: 3.5vw;
     color: @primary-text-color;
     background-color: transparent;
-    font: lighter 1.75vw Source Sans Pro;
+    font: lighter 1.75rem Source Sans Pro;
     text-align: center;
-    background-size: 200% auto;
-    background-image: linear-gradient(to right, @primary-color 0%, @secondary-color 100%);
-    transition: 0.3s;
-
-    &:hover {
-        background-position: right center;
-        cursor: pointer;
-    }
-
-    &:focus {
-        outline: none;
-    }
-}
-
-.offer-btn {
-    width: 60%;
-    height: 2.2vw;
-    text-align: center;
-    font: lighter 1.05vw Source Sans Pro;
-    color: white;
-    border-radius: 2.2vw;
-    border: none;
-    margin: 0.35vw;
     background-size: 200% auto;
     background-image: linear-gradient(to right, @primary-color 0%, @secondary-color 100%);
     transition: 0.3s;
@@ -77,7 +59,7 @@ a {
     background: transparent;
     letter-spacing: 0;
     color: @primary-color;
-    font: lighter 2.45vw Source Sans Pro;
+    font: lighter 2.45rem Source Sans Pro;
     text-align: center;
     cursor: pointer;
 }
@@ -121,7 +103,7 @@ hr {
     a {
         margin-top: 1vh;
         margin-bottom: 20vh;
-        font: italic 200 2.2vh Source Sans Pro;
+        font: italic 200 1.5rem Source Sans Pro;
         color: @footer-accent-color;
         text-shadow: none;
         text-transform: none;
@@ -178,14 +160,14 @@ input {
     width: 45%;
     border: @footer-accent-color 0.2px solid;
     border-radius: 35px;
-    font: normal 3vh Source Sans Pro;
+    font: normal 1.8rem Source Sans Pro;
     background-color: transparent;
     color: @primary-color;
     outline: none;
 }
 
 input::placeholder{
-    font: lighter 3vh Source Sans Pro;
+    font: lighter 1.8rem Source Sans Pro;
     color: @footer-accent-color;
     outline: none;
 }
@@ -220,7 +202,7 @@ input::placeholder{
     border-radius: 35px;
     background-size: 200% auto;
     background-image: linear-gradient(to right, @primary-color 0%, @secondary-color 100%);
-    font: lighter 3vh Source Sans Pro;
+    font: lighter 1.8rem Source Sans Pro;
     color: @primary-text-color;
     text-align: center;
 
@@ -262,14 +244,32 @@ input::placeholder{
 }
 
 .is-invalid{
-    border-color: rgb(200, 50, 20);
-    -moz-box-shadow: 0 0 5px rgb(200, 50, 20);
-    -webkit-box-shadow: 0 0 5px rgb(200, 50, 20);
-    box-shadow: 0 0 5px rgb(200, 50, 20);
+    border-color: @secondary-color-red;
+    -moz-box-shadow: 0 0 5px @secondary-color-red;
+    -webkit-box-shadow: 0 0 5px @secondary-color-red;
+    box-shadow: 0 0 5px @secondary-color-red;
 }
 
 .validation-error{
-    position: relative;
-    color: rgb(200, 50, 20);
-    font: normal 0.6vw Source Sans Pro;
+    position: absolute;
+    z-index: 1;
+    left: 76.5%;
+    display: block;
+    margin-top: -5.5vh;
+    padding: 1vh calc(0.2vw + 1px);
+    height: auto;
+    width: max-content;
+    background-color: @primary-color-red;
+    border-radius: 10px;
+    color: @secondary-color-red;
+    font: normal 1.4rem Source Sans Pro;
+}
+
+@media screen and (max-height: 750px){
+    .validation-error{
+        padding: 7.5px ;
+        margin-top: -41.25px;
+        margin-bottom: -41.25px;
+        font: normal 12.75px Source Sans Pro;
+    }
 }

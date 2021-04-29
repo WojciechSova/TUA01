@@ -17,15 +17,9 @@ import java.time.Instant;
 @NamedQueries({
         @NamedQuery(name = "Booking.findAll", query = "SELECT b FROM Booking b"),
         @NamedQuery(name = "Booking.findById", query = "SELECT b FROM Booking b WHERE b.id = :id"),
-        @NamedQuery(name = "Booking.findByVersion", query = "SELECT b FROM Booking b WHERE b.version = :version"),
         @NamedQuery(name = "Booking.findByCruise", query = "SELECT b FROM Booking b WHERE b.cruise = :cruise"),
         @NamedQuery(name = "Booking.findByAccount", query = "SELECT b FROM Booking b WHERE b.account = :account"),
-        @NamedQuery(name = "Booking.findByNumberOfPeople", query = "SELECT b FROM Booking b WHERE b.numberOfPeople = :numberOfPeople"),
-        @NamedQuery(name = "Booking.findByCabin", query = "SELECT b FROM Booking b WHERE b.cabin = :cabin"),
-        @NamedQuery(name = "Booking.findByVehicleType", query = "SELECT b FROM Booking b WHERE b.vehicleType = :vehicleType"),
-        @NamedQuery(name = "Booking.findByPrice", query = "SELECT b FROM Booking b WHERE b.price = :price"),
-        @NamedQuery(name = "Booking.findByNumber", query = "SELECT b FROM Booking b WHERE b.number = :number"),
-        @NamedQuery(name = "Booking.findByCreationDate", query = "SELECT b FROM Booking b WHERE b.creationDate = :creationDate")
+        @NamedQuery(name = "Booking.findByNumber", query = "SELECT b FROM Booking b WHERE b.number = :number")
 })
 @Data
 @NoArgsConstructor
@@ -51,7 +45,6 @@ public class Booking extends AbstractEntity implements Serializable {
     @Column(name = "number_of_people", nullable = false, updatable = false)
     private Integer numberOfPeople;
 
-    @NotNull
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "cabin", nullable = true, updatable = false, referencedColumnName = "id")
     private Cabin cabin;
@@ -69,7 +62,6 @@ public class Booking extends AbstractEntity implements Serializable {
     @Column(name = "number", nullable = false, unique = true, updatable = false, length = 10)
     private String number;
 
-    @NotNull
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 
