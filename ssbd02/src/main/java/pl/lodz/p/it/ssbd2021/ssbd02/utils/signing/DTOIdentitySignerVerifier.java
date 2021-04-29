@@ -17,14 +17,13 @@ public class DTOIdentitySignerVerifier {
     /**
      * Metoda generująca podpis.
      *
-     * @param signableDTO Obiekt klay implementującej interfejs SignableDTO.
+     * @param signableDTO Obiekt klasy implementującej interfejs SignableDTO.
      * @return Wygenerowany podpis.
      * W przypadku podania nieprawdiłowego wystąpienia błędu podczas generowania podpisu zwraca null.
      */
     public static String calculateDTOSignature(SignableDTO signableDTO) {
         try {
             JWSSigner signerJWS = new MACSigner(SecurityConstants.SECRET);
-            JWSAlgorithm JWSAlgorithm = null;
             JWSObject objectJWS = new JWSObject(new JWSHeader(HS256), new Payload(String.valueOf(signableDTO.getSignablePayload())));
             objectJWS.sign(signerJWS);
 
@@ -57,7 +56,7 @@ public class DTOIdentitySignerVerifier {
     /**
      * Metoda sprawdzająca integralność podpisanego obiektu.
      *
-     * @param signableDTO Obiekt klay implementującej interfejs SignableDTO.
+     * @param signableDTO Obiekt klasy implementującej interfejs SignableDTO.
      * @param header Nagłówek zawierający podpis.
      * @return True, jeśli podpis jest poprawny i wartość podpisanego pola nie uległa zmianie, w przeciwnym wypadku false.
      */

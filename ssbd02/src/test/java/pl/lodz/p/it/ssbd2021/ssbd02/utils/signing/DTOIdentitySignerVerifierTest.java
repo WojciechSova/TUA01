@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.signing;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 
@@ -9,14 +10,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DTOIdentitySignerVerifierTest {
 
+    private AccountDetailsDTO account;
+
+    @BeforeEach
+    void setUp(){
+        account = new AccountDetailsDTO();
+        account.setVersion(100745463456452700L);
+    }
 
     @Test
     void calculateEntitySignature() {
         String algorithm = "\"alg\":\"HS256\"";
-
-        AccountDetailsDTO account = new AccountDetailsDTO();
-        account.setVersion(100745463456452700L);
-        account.setFirstName("Testowy2");
 
         String[] separatedETag = DTOIdentitySignerVerifier.calculateDTOSignature(account).split("\\.");
         assertEquals(3, separatedETag.length);
@@ -28,10 +32,6 @@ class DTOIdentitySignerVerifierTest {
 
     @Test
     void validateEntitySignature() {
-        AccountDetailsDTO account = new AccountDetailsDTO();
-        account.setVersion(100745463456452700L);
-        account.setFirstName("Testowy2");
-
         String eTag = DTOIdentitySignerVerifier.calculateDTOSignature(account);
         assertTrue(DTOIdentitySignerVerifier.validateDTOSignature(eTag));
         assertFalse(DTOIdentitySignerVerifier.validateDTOSignature("notAnETAg"));
@@ -39,10 +39,6 @@ class DTOIdentitySignerVerifierTest {
 
     @Test
     void verifyEntityIntegrity() {
-        AccountDetailsDTO account = new AccountDetailsDTO();
-        account.setVersion(100745463456452700L);
-        account.setFirstName("Testowy2");
-
         String header = DTOIdentitySignerVerifier.calculateDTOSignature(account);
         assertTrue(DTOIdentitySignerVerifier.verifyDTOIntegrity(header, account));
         account.setVersion(11223454L);
