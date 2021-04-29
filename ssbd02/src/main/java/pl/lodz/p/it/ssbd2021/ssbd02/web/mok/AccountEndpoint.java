@@ -38,7 +38,7 @@ public class AccountEndpoint {
         List<AccountGeneralDTO> accountGeneralDTOList = accountManager.getAllAccountsWithAccessLevels().stream()
                 .map(AccountMapper::createAccountGeneralDTOFromEntities)
                 .collect(Collectors.toList());
-        return Response.ok(accountGeneralDTOList)
+        return Response.ok()
                 .entity(accountGeneralDTOList)
                 .build();
     }
