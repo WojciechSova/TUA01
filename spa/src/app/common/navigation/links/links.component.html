@@ -9,7 +9,7 @@
     <a *ngIf="identityService.isEmployee()" routerLink="" i18n="Cabins header|">Kajuty</a>
     <a *ngIf="identityService.isClient() || identityService.isEmployee()" routerLink="" i18n="Bookings header|">Rezerwacje</a>
     <a *ngIf="identityService.isClient()" routerLink="" i18n="Current cruises|">Aktualne rejsy</a>
-    <a *ngIf="identityService.isAdmin()" routerLink="" i18n="Accounts header|">Konta</a>
+    <a *ngIf="identityService.isAdmin()" routerLink="/ferrytales/accounts" i18n="Accounts header|">Konta</a>
     <a *ngIf="!identityService.isGuest()" routerLink="/" (click)="signOut()" class="login-a" i18n="Sign out|">Wyloguj</a>
     <a *ngIf="identityService.isGuest()" (click)="changeLoginVisible(!isLoginVisible)" class="login-a" i18n="Sign in|">Zaloguj</a>
     <a *ngIf="identityService.isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" class="login-a" i18n="Sign up|">Zarejestruj</a>
