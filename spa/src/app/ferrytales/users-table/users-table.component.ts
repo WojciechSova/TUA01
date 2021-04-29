@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MokService } from "../../services/mok.service";
-import { AccountGeneral } from "../../model/mok/AccountGeneral";
+import { AccountGeneral } from '../../model/mok/AccountGeneral';
+import { AccountGeneralService } from '../../services/accountGeneral.service';
 
 
 @Component({
@@ -10,10 +10,14 @@ import { AccountGeneral } from "../../model/mok/AccountGeneral";
 })
 export class UsersTableComponent {
 
-    constructor(private mokService: MokService) {
+    accountGeneralList: AccountGeneral[] = [];
+
+    constructor(private accountGeneralService: AccountGeneralService) {
+        this.getAccounts();
     }
 
-    getAccounts(): AccountGeneral[] {
-        return this.mokService.getAccounts()
+    getAccounts(): void {
+        this.accountGeneralService.getAccounts().subscribe(
+            (response: AccountGeneral[]) => this.accountGeneralList = response);
     }
 }
