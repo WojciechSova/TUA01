@@ -38,6 +38,7 @@ public class AccountManagerTest {
     private final String login2 = "a2Login";
     private final String phoneNumber2 = "222222222";
     private final String email3 = "a3Email@domain.com";
+    private final String password3 = "a3Password";
     private final String phoneNumber3 = "333333333";
     private final String login4 = "a4login";
     private final String email4 = "a4Email@domain.com";
@@ -106,6 +107,7 @@ public class AccountManagerTest {
         when(al4.getAccount()).thenReturn(a3);
         when(al4.getLevel()).thenReturn(level);
         when(a3.getEmail()).thenReturn(email3);
+        when(a3.getPassword()).thenReturn(password3);
 
         assertEquals(2, accounts.size());
         assertEquals(2, accountListMap.size());
