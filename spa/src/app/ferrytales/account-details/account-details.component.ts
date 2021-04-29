@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountDetails } from '../../model/mok/AccountDetails';
-import { IdentityService } from '../../services/utils/identity.service';
+import { IdentityService  } from '../../services/utils/identity.service';
 import { AccessLevel } from '../../model/mok/AccessLevel';
+import { AccountDetailsService } from '../../services/account-details.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
     selector: 'app-account-details',
@@ -10,38 +13,35 @@ import { AccessLevel } from '../../model/mok/AccessLevel';
 })
 export class AccountDetailsComponent implements OnInit {
 
-    constructor(public identityService: IdentityService) {
-    }
-
     account: AccountDetails = {
-        login: 'testlogin',
-        password: 'raczejNiePokazujemy',
-        active: true,
-        confirmed: true,
-        firstName: 'Daniel',
-        lastName: 'Łondka',
-        email: 'ssbd02@edu.p.lodz.pl',
-        phoneNumber: '123123123',
-        accessLevel: [
-            {
-                level: 'CLIENT',
-                active: true,
-                creationDate: new Date()
-            },
-            {
-                level: 'ADMIN',
-                active: false,
-                creationDate: new Date()
-            }
-        ],
+        accessLevel: [],
+        active: false,
+        confirmed: false,
         creationDate: new Date(),
-        numberOfBadLogins: 0
+        email: '',
+        firstName: '',
+        lastName: '',
+        numberOfBadLogins: 0,
+        login: '',
+        password: ''
     };
+
+    constructor(public identityService: IdentityService,
+                private accountDetailsService: AccountDetailsService,
+                private route: ActivatedRoute) {
+        this.getAccount();
+    }
 
     ngOnInit(): void {
     }
 
     hasClientAccessLevel(accessLevel: AccessLevel): boolean {
         return accessLevel.level === 'CLIENT';
+    }
+
+    getAccount(): void {
+        const login = (this.route.snapshot.paramMap.get('login') as string);
+        this.accountDetailsService.getAccountDetails(login).subscribe(
+            (accountDetails: AccountDetails) => this.account = accountDetails);
     }
 }
