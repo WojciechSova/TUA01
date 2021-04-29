@@ -26,8 +26,14 @@ public class AccountMapper {
     public static AccountGeneralDTO createAccountGeneralDTOFromEntities(Pair<Account, List<AccessLevel>> pair) {
         Account acc = pair.getLeft();
         List<AccessLevel> accessLvls = pair.getRight();
-        AccountGeneralDTO accountGeneralDTO = new AccountGeneralDTO(acc.getLogin(), acc.getActive(), acc.getFirstName(),
-                acc.getLastName(), accessLvls.stream().map(AccessLevel::getLevel).collect(Collectors.toList()));
+        AccountGeneralDTO accountGeneralDTO = new AccountGeneralDTO();
+        accountGeneralDTO.setLogin(acc.getLogin());
+        accountGeneralDTO.setActive(acc.getActive());
+        accountGeneralDTO.setFirstName(acc.getFirstName());
+        accountGeneralDTO.setLastName(acc.getLastName());
+        accountGeneralDTO.setAccessLevel(accessLvls.stream()
+                .map(AccessLevel::getLevel)
+                .collect(Collectors.toList()));
         accountGeneralDTO.setVersion(acc.getVersion());
         return accountGeneralDTO;
     }
@@ -40,8 +46,14 @@ public class AccountMapper {
      * @return Obiekt typu {@link AccountGeneralDTO}
      */
     static AccountGeneralDTO createAccountGeneralDTOFromEntity(Account account) {
-        AccountGeneralDTO accountGeneralDTO = new AccountGeneralDTO(account.getLogin(), account.getActive(), account.getFirstName(),
-                account.getLastName(), null);
+        if (account == null) {
+            return null;
+        }
+        AccountGeneralDTO accountGeneralDTO = new AccountGeneralDTO();
+        accountGeneralDTO.setLogin(account.getLogin());
+        accountGeneralDTO.setActive(account.getActive());
+        accountGeneralDTO.setFirstName(account.getFirstName());
+        accountGeneralDTO.setLastName(account.getLastName());
         accountGeneralDTO.setVersion(account.getVersion());
         return accountGeneralDTO;
     }
@@ -57,12 +69,28 @@ public class AccountMapper {
         Account acc = pair.getLeft();
         List<AccessLevel> accessLvls = pair.getRight();
 
-        AccountDetailsDTO accountDetailsDTO = new AccountDetailsDTO(acc.getLogin(), acc.getPassword(), acc.getActive(), acc.getConfirmed(),
-                acc.getFirstName(), acc.getLastName(), acc.getEmail(), acc.getPhoneNumber(),
-                accessLvls.stream().map(AccessLevelMapper::createAccessLevelDTOFromEntity).collect(Collectors.toList()),
-                acc.getLanguage(), acc.getTimeZone(), acc.getModificationDate(), createAccountGeneralDTOFromEntity(acc.getModifiedBy()),
-                acc.getCreationDate(), acc.getLastKnownGoodLogin(), acc.getLastKnownGoodLoginIp(), acc.getLastKnownBadLogin(),
-                acc.getLastKnownBadLoginIp(), acc.getNumberOfBadLogins());
+        AccountDetailsDTO accountDetailsDTO = new AccountDetailsDTO();
+        accountDetailsDTO.setLogin(acc.getLogin());
+        accountDetailsDTO.setPassword(acc.getPassword());
+        accountDetailsDTO.setActive(acc.getActive());
+        accountDetailsDTO.setConfirmed(acc.getConfirmed());
+        accountDetailsDTO.setFirstName(acc.getFirstName());
+        accountDetailsDTO.setLastName(acc.getLastName());
+        accountDetailsDTO.setEmail(acc.getEmail());
+        accountDetailsDTO.setPhoneNumber(acc.getPhoneNumber());
+        accountDetailsDTO.setAccessLevel(accessLvls.stream()
+                .map(AccessLevelMapper::createAccessLevelDTOFromEntity)
+                .collect(Collectors.toList()));
+        accountDetailsDTO.setLanguage(acc.getLanguage());
+        accountDetailsDTO.setTimeZone(acc.getTimeZone());
+        accountDetailsDTO.setModificationDate(acc.getModificationDate());
+        accountDetailsDTO.setModifiedBy(createAccountGeneralDTOFromEntity(acc.getModifiedBy()));
+        accountDetailsDTO.setCreationDate(acc.getCreationDate());
+        accountDetailsDTO.setLastKnownGoodLogin(acc.getLastKnownGoodLogin());
+        accountDetailsDTO.setLastKnownGoodLoginIp(acc.getLastKnownGoodLoginIp());
+        accountDetailsDTO.setLastKnownBadLogin(acc.getLastKnownBadLogin());
+        accountDetailsDTO.setLastKnownBadLoginIp(acc.getLastKnownBadLoginIp());
+        accountDetailsDTO.setNumberOfBadLogins(acc.getNumberOfBadLogins());
         accountDetailsDTO.setVersion(acc.getVersion());
         return accountDetailsDTO;
     }

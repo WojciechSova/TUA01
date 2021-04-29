@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { AccountGeneral } from '../../model/mok/AccountGeneral';
-import { AccountGeneralService } from '../../services/accountGeneral.service';
+import {Component} from '@angular/core';
+import {AccountGeneral} from '../../model/mok/AccountGeneral';
+import {AccountGeneralService} from '../../services/accountGeneral.service';
 
 
 @Component({
@@ -15,6 +15,7 @@ export class UsersTableComponent {
     constructor(private accountGeneralService: AccountGeneralService) {
         this.getAccounts();
     }
+
 
     getAccounts(): void {
         this.accountGeneralService.getAccounts().subscribe(
