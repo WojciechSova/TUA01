@@ -1,5 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,6 +24,13 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 public class AccountManagerTest {
+
+    @Mock
+    private AccountFacadeLocal accountFacadeLocal;
+    @Mock
+    private AccessLevelFacadeLocal accessLevelFacadeLocal;
+    @InjectMocks
+    private AccountManager accountManager;
 
     @Spy
     private final Account a1 = new Account();
@@ -48,15 +58,8 @@ public class AccountManagerTest {
     private final AccessLevel al3 = new AccessLevel();
     private final List<AccessLevel> accessLevels1 = new ArrayList<>();
     private final List<AccessLevel> accessLevels2 = new ArrayList<>();
-    @Mock
-    private AccountFacadeLocal accountFacadeLocal;
-    @Mock
-    private AccessLevelFacadeLocal accessLevelFacadeLocal;
-    @InjectMocks
-    private AccountManager accountManager;
-    private Map<Account, List<AccessLevel>> accountListMap;
+    private final List<Pair<Account, List<AccessLevel>>> pairList = new ArrayList<>();
     private List<Account> accounts;
-
 
     @BeforeEach
     void initMocks() {
@@ -69,9 +72,8 @@ public class AccountManagerTest {
         accounts.add(a1);
         accounts.add(a2);
 
-        accountListMap = new HashMap<>();
-        accountListMap.put(a1, accessLevels1);
-        accountListMap.put(a2, accessLevels2);
+        pairList.add(new ImmutablePair<>(a1, accessLevels1));
+        pairList.add(new ImmutablePair<>(a2, accessLevels2));
     }
 
     @Test
@@ -82,14 +84,16 @@ public class AccountManagerTest {
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
         when(accessLevelFacadeLocal.findAllByAccount(a2)).thenReturn(accessLevels2);
 
-        Map<Account, List<AccessLevel>> testedMap = accountManager.getAllAccountsWithAccessLevels();
+        List<Pair<Account, List<AccessLevel>>> testedPairList = accountManager.getAllAccountsWithAccessLevels();
 
-        assertEquals(accountListMap, testedMap);
-        assertEquals(2, testedMap.size());
-        assertEquals(2, testedMap.get(a1).size());
-        assertEquals(1, testedMap.get(a2).size());
-        assertEquals(accessLevels1, testedMap.get(a1));
-        assertEquals(accessLevels2, testedMap.get(a2));
+        assertEquals(pairList, testedPairList);
+        assertEquals(2, testedPairList.size());
+        assertEquals(2, testedPairList.get(0).getValue().size());
+        assertEquals(1, testedPairList.get(1).getValue().size());
+        assertEquals(accessLevels1, testedPairList.get(0).getValue());
+        assertEquals(accessLevels2, testedPairList.get(1).getValue());
+        assertEquals(a1, testedPairList.get(0).getKey());
+        assertEquals(a2, testedPairList.get(1).getKey());
     }
 
     @Test
