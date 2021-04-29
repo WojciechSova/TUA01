@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -73,9 +74,9 @@ public class AccountManagerTest {
 
     @Test
     void getAllAccountsWithAccessLevelsTest() {
-        Mockito.when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(a1, a2));
-        Mockito.when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
-        Mockito.when(accessLevelFacadeLocal.findAllByAccount(a2)).thenReturn(accessLevels2);
+        when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(a1, a2));
+        when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+        when(accessLevelFacadeLocal.findAllByAccount(a2)).thenReturn(accessLevels2);
 
         List<Pair<Account, List<AccessLevel>>> testedPairList = accountManager.getAllAccountsWithAccessLevels();
 
@@ -97,7 +98,7 @@ public class AccountManagerTest {
         }).when(accountFacadeLocal).create(a3);
 
         doAnswer(invocationOnMock -> {
-            accountListMap.put(a3, List.of(al4));
+            accessLevels1.add(al4);
             return null;
         }).when(accessLevelFacadeLocal).create(any());
 
@@ -107,15 +108,15 @@ public class AccountManagerTest {
         when(a3.getPassword()).thenReturn(password3);
 
         assertEquals(2, accounts.size());
-        assertEquals(2, accountListMap.size());
+        assertEquals(2, accessLevels1.size());
 
         accountManager.createAccount(a3);
 
         assertEquals(3, accounts.size());
-        assertEquals(3, accountListMap.size());
+        assertEquals(3, accessLevels1.size());
         assertEquals(a3.hashCode(), accounts.get(2).hashCode());
-        assertEquals(al4.getAccount(), accountListMap.get(a3).get(0).getAccount());
-        assertEquals(al4.getLevel(), accountListMap.get(a3).get(0).getLevel());
+        assertEquals(al4.getAccount(), accessLevels1.get(2).getAccount());
+        assertEquals(al4.getLevel(), accessLevels1.get(2).getLevel());
     }
 
     @Test
