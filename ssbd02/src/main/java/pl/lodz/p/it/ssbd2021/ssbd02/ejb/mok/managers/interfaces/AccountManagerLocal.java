@@ -29,7 +29,7 @@ public interface AccountManagerLocal {
      *
      * @param account Encja typu {@link Account}
      * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
-     * o podanym loginie bądź emailu
+     * o podanym loginie, emailu bądź numerze telefonu
      */
     void createAccount(Account account) throws WebApplicationException;
 

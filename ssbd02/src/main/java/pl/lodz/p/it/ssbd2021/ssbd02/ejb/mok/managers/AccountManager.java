@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
@@ -51,8 +52,14 @@ public class AccountManager implements AccountManagerLocal {
         } else if (allAccounts.stream()
                 .anyMatch(x -> account.getEmail().equals(x.getEmail()))) {
             throw new WebApplicationException("Such email exists", 409);
+        } else if (account.getPhoneNumber() != null &&
+                allAccounts.stream()
+                .filter(x -> x.getPhoneNumber() != null)
+                .anyMatch(x -> account.getPhoneNumber().equals(x.getPhoneNumber()))) {
+            throw new WebApplicationException("Such phone number exists", 409);
         }
 
+        account.setPassword(DigestUtils.sha512Hex(account.getPassword()));
         AccessLevel accessLevel = new AccessLevel();
         accessLevel.setLevel("CLIENT");
         accessLevel.setAccount(account);

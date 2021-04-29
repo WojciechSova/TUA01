@@ -29,11 +29,18 @@ public class AccountManagerTest {
     @Spy
     private final Account a3 = new Account();
     @Spy
+    private final Account a4 = new Account();
+    @Spy
     private final AccessLevel al4 = new AccessLevel();
     private final String login1 = "a1Login";
     private final String email1 = "a1Email@domain.com";
+    private final String phoneNumber1 = "111111111";
     private final String login2 = "a2Login";
+    private final String phoneNumber2 = "222222222";
     private final String email3 = "a3Email@domain.com";
+    private final String phoneNumber3 = "333333333";
+    private final String login4 = "a4login";
+    private final String email4 = "a4Email@domain.com";
     private final String level = "CLIENT";
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
@@ -116,21 +123,32 @@ public class AccountManagerTest {
     void createAccountExceptionTest() {
         when(a1.getEmail()).thenReturn(email1);
         when(a1.getLogin()).thenReturn(login1);
+        when(a1.getPhoneNumber()).thenReturn(phoneNumber1);
 
         when(a2.getEmail()).thenReturn(email1);
         when(a2.getLogin()).thenReturn(login2);
+        when(a2.getPhoneNumber()).thenReturn(phoneNumber2);
 
         when(a3.getEmail()).thenReturn(email3);
         when(a3.getLogin()).thenReturn(login1);
+        when(a3.getPhoneNumber()).thenReturn(phoneNumber3);
+
+        when(a4.getEmail()).thenReturn(email4);
+        when(a4.getLogin()).thenReturn(login4);
+        when(a4.getPhoneNumber()).thenReturn(phoneNumber1);
 
         when(accountFacadeLocal.findAll()).thenReturn(List.of(a1));
         WebApplicationException exceptionA2 = assertThrows(WebApplicationException.class, () -> accountManager.createAccount(a2));
         WebApplicationException exceptionA3 = assertThrows(WebApplicationException.class, () -> accountManager.createAccount(a3));
+        WebApplicationException exceptionA4 = assertThrows(WebApplicationException.class, () -> accountManager.createAccount(a4));
 
         assertEquals(409, exceptionA2.getResponse().getStatus());
         assertEquals("Such email exists", exceptionA2.getMessage());
 
         assertEquals(409, exceptionA3.getResponse().getStatus());
         assertEquals("Such login exists", exceptionA3.getMessage());
+
+        assertEquals(409, exceptionA4.getResponse().getStatus());
+        assertEquals("Such phone number exists", exceptionA4.getMessage());
     }
 }
