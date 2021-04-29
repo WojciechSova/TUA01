@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountDetails } from '../../model/mok/AccountDetails';
-import { IdentityService  } from '../../services/utils/identity.service';
+import { IdentityService } from '../../services/utils/identity.service';
 import { AccessLevel } from '../../model/mok/AccessLevel';
 import { AccountDetailsService } from '../../services/account-details.service';
 import { ActivatedRoute } from '@angular/router';
