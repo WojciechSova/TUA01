@@ -18,6 +18,7 @@ import { UsersTableComponent } from './ferrytales/users-table/users-table.compon
 import { AccountDetailsComponent } from './ferrytales/account-details/account-details.component';
 import {IdentityService} from './services/utils/identity.service';
 import { AccessLevelTableComponent } from './ferrytales/account-details/access-level-table/access-level-table.component';
+import {RegistrationService} from "./services/registration.service";
 
 @NgModule({
     declarations: [
@@ -44,7 +45,7 @@ import { AccessLevelTableComponent } from './ferrytales/account-details/access-l
         FormsModule,
         ReactiveFormsModule
     ],
-    providers: [IdentityService],
+    providers: [IdentityService, RegistrationService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

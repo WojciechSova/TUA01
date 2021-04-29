@@ -23,7 +23,6 @@ public interface AccountManagerLocal {
      * i ich poziomy dostępu.
      */
     List<Pair<Account, List<AccessLevel>>> getAllAccountsWithAccessLevels();
-    Map<Account, List<AccessLevel>> getAllAccountsWithAccessLevels();
 
     /**
      * Metoda tworząca konto wraz z początkowym poziomem dostępu klienta
