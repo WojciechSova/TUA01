@@ -47,6 +47,13 @@ public class AccountEndpoint {
                 .build();
     }
 
+    /**
+     * Punkt dostępowy udostępniający informacje o koncie uwierzytelnionego uzytkownika.
+     * Tylko użytkownicy uwierzytelnieni mogą skorzystać z tego punktu dostępowego.
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkwnika.
+     * @return Szczegóły konta aktualnie uwierzytelnionego użytkownika.
+     */
     @GET
     @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
     @Path("/profile")
