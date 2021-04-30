@@ -9,7 +9,7 @@
             <th i18n="Details|">Szczegóły</th>
         </tr>
 
-        <tr *ngFor="let user of getAccounts()">
+        <tr *ngFor="let user of accountGeneralList">
             <td>{{user['login']}}</td>
             <td>{{user['firstName']}}</td>
             <td>{{user['lastName']}}</td>
@@ -28,7 +28,7 @@
                 </ng-template>
             </td>
             <td>
-                <button class="button-user-table" i18n="Details|">Szczegóły</button>
+                <button class="button-user-table" (click)="setUser(user.login)" i18n="Details|">Szczegóły</button>
             </td>
         </tr>
     </table>
