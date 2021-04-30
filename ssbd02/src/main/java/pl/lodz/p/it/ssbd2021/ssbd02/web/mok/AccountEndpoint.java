@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
- * Zawiera metody zawierające zapytania związane z modułem obsługi kont.
+ * Zawiera metody obsługujące żądania związane z modułem obsługi kont.
  *
  * @author Daniel Łondka
  */
@@ -29,7 +29,7 @@ public class AccountEndpoint {
     /**
      * Metoda udostępniająca ogólne informacje o kontach aplikacji.
      *
-     * @return Lista ogólnych informacji o kontach aplikacji.
+     * @return Lista kont zawierających zestaw ogólnych informacji o użytkownikach.
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -37,7 +37,7 @@ public class AccountEndpoint {
         List<AccountGeneralDTO> accountGeneralDTOList = accountManager.getAllAccountsWithAccessLevels().stream()
                 .map(AccountMapper::createAccountGeneralDTOFromEntities)
                 .collect(Collectors.toList());
-        return Response.accepted(accountGeneralDTOList)
+        return Response.ok()
                 .entity(accountGeneralDTOList)
                 .build();
     }

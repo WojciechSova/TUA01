@@ -5,7 +5,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
  *
  * @author Patryk Kolanek
  */
-class SecurityConstants {
+public class SecurityConstants {
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";

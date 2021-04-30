@@ -61,16 +61,13 @@ public class AccountManagerTest {
     private final List<Pair<Account, List<AccessLevel>>> pairList = new ArrayList<>();
     private List<Account> accounts;
 
+
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
         accessLevels1.add(al1);
         accessLevels1.add(al2);
         accessLevels2.add(al3);
-
-        accounts = new ArrayList<>();
-        accounts.add(a1);
-        accounts.add(a2);
 
         pairList.add(new ImmutablePair<>(a1, accessLevels1));
         pairList.add(new ImmutablePair<>(a2, accessLevels2));
@@ -79,10 +76,7 @@ public class AccountManagerTest {
     @Test
     void getAllAccountsWithAccessLevelsTest() {
         when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(a1, a2));
-        when(a1.getLogin()).thenReturn(login1);
-        when(a2.getLogin()).thenReturn(login2);
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
-        when(accessLevelFacadeLocal.findAllByAccount(a2)).thenReturn(accessLevels2);
 
         List<Pair<Account, List<AccessLevel>>> testedPairList = accountManager.getAllAccountsWithAccessLevels();
 
@@ -119,7 +113,7 @@ public class AccountManagerTest {
         accountManager.createAccount(a3);
 
         assertEquals(3, accounts.size());
-        assertEquals(3, accounts.size());
+        assertEquals(3, accessLevels1.size());
         assertEquals(a3.hashCode(), accounts.get(2).hashCode());
         assertEquals(al4.getAccount(), accessLevels1.get(2).getAccount());
         assertEquals(al4.getLevel(), accessLevels1.get(2).getLevel());
