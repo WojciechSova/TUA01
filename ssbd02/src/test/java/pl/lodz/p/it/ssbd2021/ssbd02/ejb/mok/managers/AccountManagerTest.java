@@ -69,6 +69,9 @@ public class AccountManagerTest {
         accessLevels1.add(al2);
         accessLevels2.add(al3);
 
+        accounts = new ArrayList<>();
+        accounts.add(a1);
+        accounts.add(a2);
         pairList.add(new ImmutablePair<>(a1, accessLevels1));
         pairList.add(new ImmutablePair<>(a2, accessLevels2));
     }
@@ -77,6 +80,7 @@ public class AccountManagerTest {
     void getAllAccountsWithAccessLevelsTest() {
         when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(a1, a2));
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+        when(accessLevelFacadeLocal.findAllByAccount(a2)).thenReturn(accessLevels2);
 
         List<Pair<Account, List<AccessLevel>>> testedPairList = accountManager.getAllAccountsWithAccessLevels();
 
