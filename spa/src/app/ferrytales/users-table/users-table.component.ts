@@ -17,6 +17,7 @@ export class UsersTableComponent {
         this.getAccounts();
     }
 
+
     getAccounts(): void {
         this.accountGeneralService.getAccounts().subscribe(
             (response: AccountGeneral[]) => this.accountGeneralList = response);
