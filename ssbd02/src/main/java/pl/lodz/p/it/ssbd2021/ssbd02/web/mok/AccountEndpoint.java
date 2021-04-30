@@ -10,6 +10,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
- * Zawiera metody zawierające zapytania związane z modułem obsługi kont.
+ * Zawiera metody obsługujące żądania związane z modułem obsługi kont.
  *
  * @author Daniel Łondka
  */
@@ -34,7 +35,7 @@ public class AccountEndpoint {
     /**
      * Metoda udostępniająca ogólne informacje o kontach aplikacji.
      *
-     * @return Lista ogólnych informacji o kontach aplikacji.
+     * @return Lista kont zawierających zestaw ogólnych informacji o użytkownikach.
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -42,8 +43,26 @@ public class AccountEndpoint {
         List<AccountGeneralDTO> accountGeneralDTOList = accountManager.getAllAccountsWithAccessLevels().stream()
                 .map(AccountMapper::createAccountGeneralDTOFromEntities)
                 .collect(Collectors.toList());
-        return Response.accepted(accountGeneralDTOList)
+        return Response.ok()
                 .entity(accountGeneralDTOList)
+                .build();
+    }
+
+    /**
+     * Metoda udostępniająca szczegółowe informacje dotyczące konta o podanym loginie.
+     *
+     * @param login Login wyszukiwanego konta
+     * @return Szczegółowe informacje o koncie
+     */
+    @GET
+    @Path("{login}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getAccountWithLogin(@PathParam("login") String login) {
+        AccountDetailsDTO account = AccountMapper
+                .createAccountDetailsDTOFromEntities(accountManager.getAccountWithLogin(login));
+
+        return Response.ok()
+                .entity(account)
                 .build();
     }
 
