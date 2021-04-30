@@ -151,4 +151,15 @@ public class AccountManagerTest {
         assertEquals(409, exceptionA4.getResponse().getStatus());
         assertEquals("Such phone number exists", exceptionA4.getMessage());
     }
+
+    @Test
+    void getAccountWithLogin() {
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+        assertEquals(Pair.of(a1, accessLevels1), accountManager.getAccountWithLogin(login1));
+        assertEquals(a1, accountManager.getAccountWithLogin(login1).getLeft());
+        assertEquals(a1, accountManager.getAccountWithLogin(login1).getKey());
+        assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getRight());
+        assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getValue());
+    }
 }
