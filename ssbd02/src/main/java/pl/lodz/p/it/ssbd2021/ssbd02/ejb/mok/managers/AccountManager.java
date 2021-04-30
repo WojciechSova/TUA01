@@ -41,6 +41,13 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
+    public Pair<Account, List<AccessLevel>> getAccountWithLogin(String login) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
+        return Pair.of(account, accessLevels);
+    }
+
+    @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createAccount(Account account) throws WebApplicationException {
         List<Account> allAccounts = accountFacadeLocal.findAll();
