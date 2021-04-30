@@ -5,14 +5,17 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +63,25 @@ public class AccountEndpoint {
 
         return Response.ok()
                 .entity(account)
+                .build();
+    }
+
+    /**
+     * Punkt dostępowy udostępniający informacje o koncie uwierzytelnionego uzytkownika.
+     * Tylko użytkownicy uwierzytelnieni mogą skorzystać z tego punktu dostępowego.
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkwnika.
+     * @return Szczegóły konta aktualnie uwierzytelnionego użytkownika.
+     */
+    @GET
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
+    @Path("/profile")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getProfile(@Context SecurityContext securityContext) {
+        AccountDetailsDTO account = AccountMapper.createAccountDetailsDTOFromEntities(
+                accountManager.getAccountWithLogin(securityContext.getUserPrincipal().getName())
+        );
+        return Response.ok(account)
                 .build();
     }
 }
