@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -76,7 +77,6 @@ public class AccountManagerTest {
     void getAllAccountsWithAccessLevelsTest() {
         when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(a1, a2));
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
-        when(accessLevelFacadeLocal.findAllByAccount(a2)).thenReturn(accessLevels2);
 
         List<Pair<Account, List<AccessLevel>>> testedPairList = accountManager.getAllAccountsWithAccessLevels();
 
@@ -155,7 +155,7 @@ public class AccountManagerTest {
     @Test
     void getAccountWithLogin() {
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
-        accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+        when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
         assertEquals(Pair.of(a1, accessLevels1), accountManager.getAccountWithLogin(login1));
         assertEquals(a1, accountManager.getAccountWithLogin(login1).getLeft());
         assertEquals(a1, accountManager.getAccountWithLogin(login1).getKey());
