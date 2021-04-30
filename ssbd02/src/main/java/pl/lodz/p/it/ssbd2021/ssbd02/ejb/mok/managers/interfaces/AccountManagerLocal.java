@@ -40,5 +40,4 @@ public interface AccountManagerLocal {
      * o podanym loginie, emailu bądź numerze telefonu
      */
     void createAccount(Account account) throws WebApplicationException;
-
 }
