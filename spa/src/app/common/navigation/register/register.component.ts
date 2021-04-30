@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
         this.isRegisterVisibleChange.emit(false);
     }
 
-        register(login: string, password: string, firstName: string, lastName: string, email: string, phoneNumber?: string): void {
+    register(login: string, password: string, firstName: string, lastName: string, email: string, phoneNumber?: string): void {
         const account: AccountDetails = {
             login: login,
             password: password,
@@ -66,8 +66,8 @@ export class RegisterComponent implements OnInit {
                 ],
             creationDate: new Date(),
             numberOfBadLogins: 0
-
         }
+        console.log("Przed registracją", account);
         this.registrationService.register(account);
     }
 }

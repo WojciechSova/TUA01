@@ -10,12 +10,13 @@ export class RegistrationService {
     private readonly url: string;
 
     constructor(private http: HttpClient) {
-        this.url = 'https://studapp.it.p.lodz.pl:8402/ssbd02/accounts/register';
+        this.url = 'https://localhost:8181/ssbd02/accounts/register';
     }
 
     register(account: AccountDetails): void {
-        this.http.post<any>(this.url, {
+        this.http.post(this.url, {
            account
-        }, { observe: 'body'});
+        }).subscribe(() => alert("No wysłało"));
+        console.log("Registracja" + account);
     }
 }
