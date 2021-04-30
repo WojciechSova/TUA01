@@ -42,6 +42,11 @@ public class AccountEndpoint {
                 .build();
     }
 
+    /**
+     * Metoda umożliwiająca użytkownikowi nieuprzywilejowanemu zarejestrowanie nowego konta w aplikacji.
+     * @param accountDTO Obiekt typu {@link AccountDetailsDTO} przechowujący szczegóły nowego konta.
+     * @return Kod 202 w przypadku poprawnej rejestracji.
+     */
     @POST
     @Path("register")
     @Consumes(MediaType.APPLICATION_JSON)
