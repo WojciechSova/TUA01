@@ -67,7 +67,6 @@ export class RegisterComponent implements OnInit {
             creationDate: new Date(),
             numberOfBadLogins: 0
         }
-        console.log("Przed registracją", account);
         this.registrationService.register(account);
     }
 }
