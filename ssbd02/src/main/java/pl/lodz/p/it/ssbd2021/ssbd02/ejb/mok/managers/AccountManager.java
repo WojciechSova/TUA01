@@ -35,4 +35,11 @@ public class AccountManager implements AccountManagerLocal {
                 .map(account -> Pair.of(account, accessLevelFacadeLocal.findAllByAccount(account)))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Pair<Account, List<AccessLevel>> getAccountWithLogin(String login) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
+        return Pair.of(account, accessLevels);
+    }
 }

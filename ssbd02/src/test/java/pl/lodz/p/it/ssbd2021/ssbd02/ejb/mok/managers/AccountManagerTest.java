@@ -26,6 +26,8 @@ public class AccountManagerTest {
     private final Account a1 = new Account();
     @Spy
     private final Account a2 = new Account();
+    private final String login1 = "a1Login";
+    private final String login2 = "a2Login";
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
     private final AccessLevel al3 = new AccessLevel();
@@ -61,5 +63,16 @@ public class AccountManagerTest {
         Assertions.assertEquals(accessLevels2, testedPairList.get(1).getValue());
         Assertions.assertEquals(a1, testedPairList.get(0).getKey());
         Assertions.assertEquals(a2, testedPairList.get(1).getKey());
+    }
+
+    @Test
+    void getAccountWithLogin() {
+        Mockito.when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        Mockito.when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+        Assertions.assertEquals(Pair.of(a1, accessLevels1), accountManager.getAccountWithLogin(login1));
+        Assertions.assertEquals(a1, accountManager.getAccountWithLogin(login1).getLeft());
+        Assertions.assertEquals(a1, accountManager.getAccountWithLogin(login1).getKey());
+        Assertions.assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getRight());
+        Assertions.assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getValue());
     }
 }
