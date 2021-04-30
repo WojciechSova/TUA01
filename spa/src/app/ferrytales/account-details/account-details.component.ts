@@ -13,21 +13,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AccountDetailsComponent implements OnInit {
 
-    account: AccountDetails = {
-        accessLevel: [],
-        active: false,
-        confirmed: false,
-        creationDate: new Date(),
-        email: '',
-        firstName: '',
-        lastName: '',
-        numberOfBadLogins: 0,
-        login: '',
-        password: ''
-    };
-
     constructor(public identityService: IdentityService,
-                private accountDetailsService: AccountDetailsService,
+                public accountDetailsService: AccountDetailsService,
                 private route: ActivatedRoute) {
         this.getAccount();
     }
@@ -41,7 +28,10 @@ export class AccountDetailsComponent implements OnInit {
 
     getAccount(): void {
         const login = (this.route.snapshot.paramMap.get('login') as string);
+        if (!login) {
+            return;
+        }
         this.accountDetailsService.getAccountDetails(login).subscribe(
-            (accountDetails: AccountDetails) => this.account = accountDetails);
+            (accountDetails: AccountDetails) => this.accountDetailsService.account = accountDetails);
     }
 }

@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { IdentityService } from '../../../services/utils/identity.service';
+import { AccountDetailsService } from '../../../services/account-details.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-links',
@@ -9,7 +11,10 @@ import { IdentityService } from '../../../services/utils/identity.service';
 })
 export class LinksComponent {
 
-    constructor(private authService: AuthService, public identityService: IdentityService) {
+    constructor(private authService: AuthService,
+                public identityService: IdentityService,
+                private accountDetailsService: AccountDetailsService,
+                private router: Router) {
     }
 
     @Input()
@@ -28,5 +33,14 @@ export class LinksComponent {
 
     changeRegisterVisible(visible: boolean): void {
         this.isRegisterVisible = visible;
+    }
+
+    getProfile(): void {
+        this.accountDetailsService.getProfile().subscribe(
+            (acc) => {
+                this.accountDetailsService.account = acc;
+                this.router.navigateByUrl('/ferrytales/account');
+            }
+        );
     }
 }
