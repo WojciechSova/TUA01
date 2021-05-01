@@ -45,7 +45,7 @@ import {RegistrationService} from "./services/registration.service";
         FormsModule,
         ReactiveFormsModule
     ],
-    providers: [IdentityService, RegistrationService],
+    providers: [IdentityService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

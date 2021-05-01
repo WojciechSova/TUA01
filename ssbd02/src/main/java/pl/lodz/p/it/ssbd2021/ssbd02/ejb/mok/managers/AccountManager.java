@@ -51,6 +51,9 @@ public class AccountManager implements AccountManagerLocal {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createAccount(Account account) throws WebApplicationException {
         List<Account> allAccounts = accountFacadeLocal.findAll();
+        if (account.getPhoneNumber().isEmpty()) {
+            account.setPhoneNumber(null);
+        }
         if (allAccounts.stream()
                 .anyMatch(x -> account.getLogin().equals(x.getLogin()))) {
             throw new WebApplicationException("Such login exists", 409);
