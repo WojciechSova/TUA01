@@ -9,7 +9,8 @@ import { UsersTableComponent } from './ferrytales/users-table/users-table.compon
 const ferrytalesChildren: Routes = [
     { path: 'example-component', component: ExampleComponentComponent },
     { path: 'account', component: AccountDetailsComponent },
-    { path: 'accounts', component: UsersTableComponent }
+    { path: 'accounts', component: UsersTableComponent },
+    { path: 'accounts/:login', component: AccountDetailsComponent }
 ];
 
 
