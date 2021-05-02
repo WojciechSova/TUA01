@@ -110,6 +110,7 @@ public class AccountManagerTest {
         when(al4.getLevel()).thenReturn(level);
         when(a3.getEmail()).thenReturn(email3);
         when(a3.getPassword()).thenReturn(password3);
+        when(a3.getPhoneNumber()).thenReturn(phoneNumber3);
 
         assertEquals(2, accounts.size());
         assertEquals(2, accessLevels1.size());

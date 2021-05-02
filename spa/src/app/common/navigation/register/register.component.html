@@ -4,14 +4,14 @@
         <img class="logo" (click)="closeComponent()" src="assets/logo_primary_color.png" alt=""/>
         <form action="" [formGroup]="form">
             <label for="login-reg"></label>
-            <input type="text" id="login-reg" name="Login"
+            <input #login type="text" id="login-reg" name="Login"
                    placeholder="*Login" i18n-placeholder="*Login|" formControlName="login"
                    [ngClass]="{'is-invalid': form.controls.login.touched && form.controls.login.invalid}"><br>
             <div class="validation-error" *ngIf="form.controls.login.hasError('required')
                 && form.controls.login.touched" i18n="Field required|">Pole wymagane</div>
 
             <label for="email-reg"></label>
-            <input type="text" id="email-reg" name="Email"
+            <input #email type="text" id="email-reg" name="Email"
                    placeholder="*Adres e-mail" i18n-placeholder="*Email address|" formControlName="email"
                    [ngClass]="{'is-invalid': form.controls.email.touched && form.controls.email.invalid}">
             <div class="validation-error" *ngIf="form.controls.email.hasError('required') && form.controls.email.touched"
@@ -30,7 +30,7 @@
                  i18n="Emails differ|">Adresy nie są takie same</div>
 
             <label for="password-reg"></label>
-            <input type="password" id="password-reg" name="Password"
+            <input #password type="password" id="password-reg" name="Password"
                    placeholder="*Hasło" i18n-placeholder="*Password|" formControlName="password"
                    [ngClass]="{'is-invalid': form.controls.password.touched && form.controls.password.invalid}">
             <div class="validation-error" *ngIf="form.controls.password.hasError('required') && form.controls.password.touched"
@@ -49,27 +49,29 @@
                  i18n="Field required|">Pole wymagane</div>
 
             <label for="first-name"></label>
-            <input type="text" id="first-name" name="Name"
+            <input #firstname type="text" id="first-name" name="Name"
                    placeholder="*Imię" i18n-placeholder="*First name|" formControlName="firstName"
                    [ngClass]="{'is-invalid': form.controls.firstName.touched && form.controls.firstName.invalid}">
             <div class="validation-error" *ngIf="form.controls.firstName.hasError('required') && form.controls.firstName.touched"
                  i18n="Field required|">Pole wymagane</div>
 
             <label for="last-name"></label>
-            <input type="text" id="last-name" name="Last-name"
+            <input #lastName type="text" id="last-name" name="Last-name"
                    placeholder="*Nazwisko" i18n-placeholder="*Last name|" formControlName="lastName"
                    [ngClass]="{'is-invalid': form.controls.lastName.touched && form.controls.lastName.invalid}">
             <div class="validation-error" *ngIf="form.controls.lastName.hasError('required') && form.controls.lastName.touched"
                  i18n="Field required|">Pole wymagane</div>
 
             <label for="phone-number"></label>
-            <input type="text" id="phone-number" name="Phone-number"
+            <input #phoneNumber type="text" id="phone-number" name="Phone-number"
                    placeholder="Numer telefonu" i18n-placeholder="Phone number|" formControlName="phoneNumber"
                    [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}">
             <div class="validation-error" *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
                  i18n="Invalid format|">Niepoprawny format</div><br><br>
 
-            <button class="form-button" [disabled]="form.invalid" i18n="Sign up|">Zarejestruj</button>
+            <button class="form-button"
+                    (click)="register(login.value, password.value, firstname.value, lastName.value, email.value, phoneNumber?.value)"
+                    [disabled]="form.invalid" i18n="Sign up|">Zarejestruj</button>
         </form>
         <div class="column-nav">
             <a (click)="openLogin()" i18n="Sign in if having an account|Signing in in case of having an account">Masz już konto? Zaloguj się!</a>
