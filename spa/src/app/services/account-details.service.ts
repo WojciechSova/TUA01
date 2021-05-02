@@ -8,6 +8,19 @@ import {Observable} from 'rxjs';
 })
 export class AccountDetailsService {
 
+    public account: AccountDetails = {
+        accessLevel: [],
+        active: false,
+        confirmed: false,
+        creationDate: new Date(),
+        email: '',
+        firstName: '',
+        lastName: '',
+        numberOfBadLogins: 0,
+        login: '',
+        password: ''
+    };
+
     private readonly url: string;
 
     constructor(private http: HttpClient) {
@@ -17,5 +30,15 @@ export class AccountDetailsService {
     getAccountDetails(login: string): Observable<AccountDetails> {
         return this.http.get<AccountDetails>(this.url + encodeURIComponent(login),
             {observe: 'body', responseType: 'json'});
+    }
+
+    getProfile(): Observable<AccountDetails>{
+        return this.http.get<AccountDetails>(this.url + 'profile',
+            {observe: 'body',
+                responseType: 'json',
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            });
     }
 }
