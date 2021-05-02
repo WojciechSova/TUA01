@@ -63,15 +63,17 @@
             <trans-unit id="2006180768975064443" datatype="html">
                 <source>Zarejestruj</source>
                 <target>Sign up</target>
+
+
+                <note priority="1" from="meaning">Sign up</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
                     <context context-type="linenumber">15</context>
                 </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
-                    <context context-type="linenumber">72</context>
+                    <context context-type="linenumber">74</context>
                 </context-group>
-                <note priority="1" from="meaning">Sign up</note>
             </trans-unit>
 
 
@@ -288,87 +290,101 @@
             <trans-unit id="4220759193116209203" datatype="html">
                 <source>Masz już konto? Zaloguj się!</source>
                 <target>Already have an account? Sign in!</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
-                    <context context-type="linenumber">75</context>
-                </context-group>
+
                 <note priority="1" from="description">Signing in in case of having an account</note>
                 <note priority="1" from="meaning">Sign in if having an account</note>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
+                    <context context-type="linenumber">77</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="5065846871546310253" datatype="html">
                 <source>Imię</source>
                 <target>First name</target>
+
+                <note priority="1" from="meaning">First name</note>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">5</context>
                 </context-group>
-                <note priority="1" from="meaning">First name</note>
             </trans-unit>
             <trans-unit id="6409515600829802653" datatype="html">
                 <source>Nazwisko</source>
                 <target>Last name</target>
+
+                <note priority="1" from="meaning">Last name</note>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">6</context>
                 </context-group>
-                <note priority="1" from="meaning">Last name</note>
             </trans-unit>
             <trans-unit id="786683128280404394" datatype="html">
                 <source>Poziomy dostępu</source>
                 <target>Access levels</target>
+
+                <note priority="1" from="meaning">Access levels</note>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">7</context>
                 </context-group>
-                <note priority="1" from="meaning">Access levels</note>
             </trans-unit>
             <trans-unit id="5281815555181327638" datatype="html">
                 <source>Odblokuj/Zablokuj</source>
                 <target>Unblock/Block</target>
+
+                <note priority="1" from="meaning">Unblock/Block</note>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">8</context>
                 </context-group>
-                <note priority="1" from="meaning">Unblock/Block</note>
             </trans-unit>
             <trans-unit id="8420268270827593822" datatype="html">
                 <source>Szczegóły</source>
                 <target>Details</target>
+
+
+                <note priority="1" from="meaning">Details</note>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">9</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
-                    <context context-type="linenumber">31</context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+                    <context context-type="linenumber">32</context>
                 </context-group>
-                <note priority="1" from="meaning">Details</note>
+            </trans-unit>
+            <trans-unit id="5194220749716873858" datatype="html">
+                <source>Edytuj</source>
+                <target>Edit</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+                    <context context-type="linenumber">10</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+                    <context context-type="linenumber">35</context>
+                </context-group>
+                <note priority="1" from="meaning">Edit</note>
             </trans-unit>
             <trans-unit id="3223369467475636838" datatype="html">
                 <source>Odblokuj</source>
                 <target>Unblock</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
-                    <context context-type="linenumber">24</context>
-                </context-group>
+
                 <note priority="1" from="meaning">Unblock</note>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+                    <context context-type="linenumber">25</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="5594175483540179462" datatype="html">
                 <source>Zablokuj</source>
                 <target>Block</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
-                    <context context-type="linenumber">27</context>
-                </context-group>
+
                 <note priority="1" from="meaning">Block</note>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+                    <context context-type="linenumber">28</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="6115414182435908328" datatype="html">
                 <source>Promy</source>

@@ -7,6 +7,7 @@
             <th i18n="Access levels|">Poziomy dostępu</th>
             <th i18n="Unblock/Block|">Odblokuj/Zablokuj</th>
             <th i18n="Details|">Szczegóły</th>
+            <th i18n="Edit|">Edytuj</th>
         </tr>
 
         <tr *ngFor="let user of accountGeneralList">
@@ -29,6 +30,9 @@
             </td>
             <td>
                 <button class="button-user-table" (click)="setUser(user.login)" i18n="Details|">Szczegóły</button>
+            </td>
+            <td>
+                <button class="button-user-table" (click)="editUser(user.login)" i18n="Edit|">Edytuj</button>
             </td>
         </tr>
     </table>
