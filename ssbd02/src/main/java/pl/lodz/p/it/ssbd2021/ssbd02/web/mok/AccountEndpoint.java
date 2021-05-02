@@ -8,6 +8,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.ws.rs.*;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -82,6 +83,24 @@ public class AccountEndpoint {
                 accountManager.getAccountWithLogin(securityContext.getUserPrincipal().getName())
         );
         return Response.ok(account)
+                .build();
+    }
+
+    /**
+     * Metoda umożliwiająca użytkownikowi nieuprzywilejowanemu zarejestrowanie nowego konta w aplikacji.
+     *
+     * @param accountDTO Obiekt typu {@link AccountDetailsDTO} przechowujący szczegóły nowego konta.
+     * @return Kod 202 w przypadku poprawnej rejestracji.
+     */
+    @POST
+    @Path("register")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createAccount(AccountDetailsDTO accountDTO) {
+        if (accountDTO.getPassword() == null || accountDTO.getEmail() == null || accountDTO.getLogin() == null) {
+            throw new WebApplicationException("Not all required fields were provided", 400);
+        }
+        accountManager.createAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO));
+        return Response.accepted()
                 .build();
     }
 }

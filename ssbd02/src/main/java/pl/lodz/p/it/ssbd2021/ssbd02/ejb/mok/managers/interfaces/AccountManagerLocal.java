@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Local;
+import javax.ws.rs.WebApplicationException;
 import java.util.List;
 
 /**
@@ -30,4 +31,13 @@ public interface AccountManagerLocal {
      * @return Para reprezentująca konto, składająca się z klucza typu {@link Account} i wartości będącej listą obiektów typu {@link AccessLevel}
      */
     Pair<Account, List<AccessLevel>> getAccountWithLogin(String login);
+
+    /**
+     * Metoda tworząca konto wraz z początkowym poziomem dostępu klienta
+     *
+     * @param account Encja typu {@link Account}
+     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
+     * o podanym loginie, emailu bądź numerze telefonu
+     */
+    void createAccount(Account account) throws WebApplicationException;
 }
