@@ -45,6 +45,7 @@
                 </td>
                 <td>
                     <input #newEmail type="text" id="edit-email" formControlName="email"
+                           placeholder="E-mail"
                            [ngClass]="{'is-invalid': form.controls.email.touched && form.controls.email.invalid}">
                     <div class="edit-validation-error" *ngIf="form.controls.email.hasError('email') && form.controls.email.touched"
                          i18n="Invalid format|">Niepoprawny format</div>
