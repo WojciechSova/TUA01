@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {AccountDetails} from "../../model/mok/AccountDetails";
+import { Component, OnInit } from '@angular/core';
+import { AccountDetails } from "../../model/mok/AccountDetails";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { validateEmail } from "../../common/navigation/register/matching.validator";
 
 @Component({
     selector: 'app-edit-user',
@@ -52,7 +51,7 @@ export class EditUserComponent implements OnInit {
         'GMT+10',
         'GMT+11',
         'GMT+12'
-        ]
+    ]
 
     form = new FormGroup({
         firstName: new FormControl(''),
