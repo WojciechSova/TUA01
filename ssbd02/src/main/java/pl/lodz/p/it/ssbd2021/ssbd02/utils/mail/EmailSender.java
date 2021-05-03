@@ -1,12 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.mail;
 
-import org.simplejavamail.api.email.*;
+import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.api.mailer.config.TransportStrategy;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -28,7 +27,7 @@ public class EmailSender {
      * @param link                  Jednorazowy adres url, który służy do potwierdzenia konta przez użytkownika.
      */
     public static void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link) {
-        try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
@@ -48,7 +47,7 @@ public class EmailSender {
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
     public static void sendModificationEmail(String recipientName, String recipientEmailAddress) {
-        try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
@@ -70,7 +69,7 @@ public class EmailSender {
      * @param text                  Treść wiadomości.
      */
     public static void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
-        try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
