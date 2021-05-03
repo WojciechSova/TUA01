@@ -196,6 +196,9 @@
             <trans-unit id="3080636135766240238" datatype="html">
                 <source>Niepoprawny format</source>
                 <target>Invalid format</target>
+
+
+                <note priority="1" from="meaning">Invalid format</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">20</context>
@@ -204,7 +207,14 @@
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">70</context>
                 </context-group>
-                <note priority="1" from="meaning">Invalid format</note>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/edit-user/edit-user.component.html</context>
+                    <context context-type="linenumber">38</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/edit-user/edit-user.component.html</context>
+                    <context context-type="linenumber">51</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="3057031773183945348" datatype="html">
                 <source>*Powtórz adres e-mail</source>
@@ -281,11 +291,16 @@
             <trans-unit id="4405266889024864607" datatype="html">
                 <source>Numer telefonu</source>
                 <target>Phone number</target>
+
+                <note priority="1" from="meaning">Phone number</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">67</context>
                 </context-group>
-                <note priority="1" from="meaning">Phone number</note>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/edit-user/edit-user.component.html</context>
+                    <context context-type="linenumber">35</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="4220759193116209203" datatype="html">
                 <source>Masz już konto? Zaloguj się!</source>
@@ -298,11 +313,34 @@
                     <context context-type="linenumber">77</context>
                 </context-group>
             </trans-unit>
+            <trans-unit id="8130941078265509920" datatype="html">
+                <source>Aktualne</source>
+                <target>Current</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/edit-user/edit-user.component.html</context>
+                    <context context-type="linenumber">5</context>
+                </context-group>
+                <note priority="1" from="meaning">Current</note>
+            </trans-unit>
+            <trans-unit id="8601468923266124150" datatype="html">
+                <source>Nowe</source>
+                <target>New</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/edit-user/edit-user.component.html</context>
+                    <context context-type="linenumber">6</context>
+                </context-group>
+                <note priority="1" from="meaning">New</note>
+            </trans-unit>
             <trans-unit id="5065846871546310253" datatype="html">
                 <source>Imię</source>
                 <target>First name</target>
 
                 <note priority="1" from="meaning">First name</note>
+
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/edit-user/edit-user.component.html</context>
+                    <context context-type="linenumber">15</context>
+                </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">5</context>
@@ -313,10 +351,42 @@
                 <target>Last name</target>
 
                 <note priority="1" from="meaning">Last name</note>
+
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/edit-user/edit-user.component.html</context>
+                    <context context-type="linenumber">25</context>
+                </context-group>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">6</context>
                 </context-group>
+            </trans-unit>
+            <trans-unit id="6998201784744463693" datatype="html">
+                <source>język polski</source>
+                <target>polish</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/edit-user/edit-user.component.html</context>
+                    <context context-type="linenumber">61</context>
+                </context-group>
+                <note priority="1" from="meaning">Polish language</note>
+            </trans-unit>
+            <trans-unit id="6784747611802582815" datatype="html">
+                <source>język angielski</source>
+                <target>english</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/edit-user/edit-user.component.html</context>
+                    <context context-type="linenumber">62</context>
+                </context-group>
+                <note priority="1" from="meaning">English language</note>
+            </trans-unit>
+            <trans-unit id="6993459075473155888" datatype="html">
+                <source>Zapisz</source>
+                <target>Save</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/edit-user/edit-user.component.html</context>
+                    <context context-type="linenumber">80</context>
+                </context-group>
+                <note priority="1" from="meaning">Save</note>
             </trans-unit>
             <trans-unit id="786683128280404394" datatype="html">
                 <source>Poziomy dostępu</source>
