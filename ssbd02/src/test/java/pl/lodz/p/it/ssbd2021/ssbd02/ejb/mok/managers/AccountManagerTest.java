@@ -17,8 +17,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import javax.ws.rs.WebApplicationException;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
@@ -45,6 +44,7 @@ public class AccountManagerTest {
     private final String login1 = "a1Login";
     private final String email1 = "a1Email@domain.com";
     private final String phoneNumber1 = "111111111";
+    private final String password1 = "a1Password";
     private final String login2 = "a2Login";
     private final String phoneNumber2 = "222222222";
     private final String email3 = "a3Email@domain.com";
@@ -52,10 +52,12 @@ public class AccountManagerTest {
     private final String phoneNumber3 = "333333333";
     private final String login4 = "a4login";
     private final String email4 = "a4Email@domain.com";
-    private final String level = "CLIENT";
+    private final String levelClient = "CLIENT";
+    private final String levelAdmin = "ADMIN";
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
     private final AccessLevel al3 = new AccessLevel();
+    @Spy
     private final List<AccessLevel> accessLevels1 = new ArrayList<>();
     private final List<AccessLevel> accessLevels2 = new ArrayList<>();
     private final List<Pair<Account, List<AccessLevel>>> pairList = new ArrayList<>();
@@ -107,7 +109,7 @@ public class AccountManagerTest {
         }).when(accessLevelFacadeLocal).create(any());
 
         when(al4.getAccount()).thenReturn(a3);
-        when(al4.getLevel()).thenReturn(level);
+        when(al4.getLevel()).thenReturn(levelClient);
         when(a3.getEmail()).thenReturn(email3);
         when(a3.getPassword()).thenReturn(password3);
         when(a3.getPhoneNumber()).thenReturn(phoneNumber3);
@@ -166,5 +168,40 @@ public class AccountManagerTest {
         assertEquals(a1, accountManager.getAccountWithLogin(login1).getKey());
         assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getRight());
         assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getValue());
+    }
+
+    @Test
+    void addAccessLevel() {
+        AccessLevel accessLevelClient = new AccessLevel();
+        accessLevelClient.setLevel(levelClient);
+
+        AccessLevel accessLevelAdmin = new AccessLevel();
+        accessLevelAdmin.setLevel(levelAdmin);
+
+        accessLevels1.clear();
+        accessLevels1.add(accessLevelClient);
+
+        a1.setLogin(login1);
+        a1.setEmail(email1);
+
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+
+        doAnswer(invocationOnMock -> {
+            accessLevels1.add(accessLevelAdmin);
+            return null;
+        }).when(accessLevelFacadeLocal).create(any());
+
+        accountManager.addAccessLevel(a1.getLogin(), "random");
+        assertEquals(1, accessLevels1.size());
+
+        accountManager.addAccessLevel(a1.getLogin(), levelClient);
+        assertEquals(1, accessLevels1.size());
+        assertEquals(levelClient, accessLevels1.get(0).getLevel());
+
+        accountManager.addAccessLevel(a1.getLogin(), levelAdmin);
+        assertEquals(2, accessLevels1.size());
+        assertTrue(accessLevels1.stream().anyMatch(x -> x.getLevel().equals(levelClient)));
+        assertTrue(accessLevels1.stream().anyMatch(x -> x.getLevel().equals(levelAdmin)));
     }
 }

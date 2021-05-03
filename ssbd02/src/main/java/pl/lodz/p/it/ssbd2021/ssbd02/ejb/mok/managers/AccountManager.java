@@ -77,4 +77,32 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     //TODO: method that will handle account confirmation
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void addAccessLevel(String login, String accessLevel) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
+
+        if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
+            return;
+        }
+
+        if (accessLevels.stream().anyMatch(x -> x.getLevel().equals(accessLevel))) {
+            return;
+        }
+
+        AccessLevel newAccessLevel = new AccessLevel();
+        newAccessLevel.setLevel(accessLevel);
+        newAccessLevel.setAccount(account);
+        accessLevelFacadeLocal.create(newAccessLevel);
+
+        EmailSender.sendModificationEmail(account.getFirstName(), account.getEmail());
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void removeAccessLevel(String login, String accessLevel) {
+
+    }
 }
