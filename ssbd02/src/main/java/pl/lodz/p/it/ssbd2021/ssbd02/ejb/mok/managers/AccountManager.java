@@ -103,6 +103,18 @@ public class AccountManager implements AccountManagerLocal {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void removeAccessLevel(String login, String accessLevel) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
 
+        List<AccessLevel> removeAccessLevels = accessLevels.stream()
+                .filter(x -> x.getLevel().equals(accessLevel)).collect(Collectors.toList());
+
+        if (removeAccessLevels.isEmpty()) {
+            return;
+        }
+
+        removeAccessLevels.forEach(x -> accessLevelFacadeLocal.remove(x));
+
+        EmailSender.sendModificationEmail(account.getFirstName(), account.getEmail());
     }
 }
