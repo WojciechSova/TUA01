@@ -24,7 +24,7 @@ public class SecurityConstants {
     public static final String GROUP_SPLIT_CONSTANT = ",";
 
     /**
-     * Metoda generująca klucz prywatny służacy podpisywaniu.
+     * Metoda generująca klucz prywatny służący podpisywaniu.
      * Klucz generowany jest dla algorytmu HmacSHA512.
      * Długość klucza wynosi 512 bitów.
      *
