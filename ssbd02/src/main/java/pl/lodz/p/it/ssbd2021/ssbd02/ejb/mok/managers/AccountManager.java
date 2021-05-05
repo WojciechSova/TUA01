@@ -81,12 +81,12 @@ public class AccountManager implements AccountManagerLocal {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void addAccessLevel(String login, String accessLevel) {
-        Account account = accountFacadeLocal.findByLogin(login);
-        List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
-
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
             return;
         }
+
+        Account account = accountFacadeLocal.findByLogin(login);
+        List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
 
         if (accessLevels.stream().noneMatch(x -> x.getLevel().equals(accessLevel))) {
             AccessLevel newAccessLevel = new AccessLevel();
@@ -94,6 +94,7 @@ public class AccountManager implements AccountManagerLocal {
             newAccessLevel.setLevel(accessLevel);
             newAccessLevel.setActive(true);
             accessLevelFacadeLocal.create(newAccessLevel);
+            EmailSender.sendAddAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
             return;
         }
 
@@ -101,25 +102,31 @@ public class AccountManager implements AccountManagerLocal {
             if (x.getLevel().equals(accessLevel) && !x.getActive()) {
                 x.setActive(true);
                 accessLevelFacadeLocal.edit(x);
+                EmailSender.sendAddAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
             }
         });
-
-        EmailSender.sendModificationEmail(account.getFirstName(), account.getEmail());
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void removeAccessLevel(String login, String accessLevel) {
+        if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
+            return;
+        }
+
         Account account = accountFacadeLocal.findByLogin(login);
         List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
+
+        if (accessLevels.stream().noneMatch(x -> x.getLevel().equals(accessLevel))) {
+            return;
+        }
 
         accessLevels.forEach(x -> {
             if (x.getLevel().equals(accessLevel) && x.getActive()) {
                 x.setActive(false);
                 accessLevelFacadeLocal.edit(x);
+                EmailSender.sendRemoveAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
             }
         });
-
-        EmailSender.sendModificationEmail(account.getFirstName(), account.getEmail());
     }
 }

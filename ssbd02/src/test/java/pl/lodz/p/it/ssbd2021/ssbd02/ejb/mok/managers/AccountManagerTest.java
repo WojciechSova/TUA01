@@ -43,7 +43,7 @@ public class AccountManagerTest {
     @Spy
     private final AccessLevel al4 = new AccessLevel();
     private final String login1 = "a1Login";
-    private final String email1 = "a1Email@domain.com";
+    private final String email1 = "marti3go@gmail.com";
     private final String phoneNumber1 = "111111111";
     private final String password1 = "a1Password";
     private final String login2 = "a2Login";
