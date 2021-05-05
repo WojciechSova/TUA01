@@ -77,4 +77,17 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     //TODO: method that will handle account confirmation
+
+    public void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException {
+        Account account = accountFacadeLocal.findByLogin(login);
+        String hashedOldPassword = DigestUtils.sha512Hex(oldPassword);
+        if (!hashedOldPassword.equals(account.getPassword())) {
+            throw new WebApplicationException("The provided password is invalid", 406);
+        } else if (newPassword.equals(oldPassword)) {
+            throw new WebApplicationException("The new password is the same as the old password", 409);
+        }
+
+        account.setPassword(DigestUtils.sha512Hex(newPassword));
+        accountFacadeLocal.edit(account);
+    }
 }
