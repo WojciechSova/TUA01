@@ -52,4 +52,11 @@ public interface AccountManagerLocal {
      * 409 gdy podane nowe hasło jest identyczne jak hasło poprzednie
      */
     void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException;
+
+    /**
+     * Metoda zmieniająca aktywność użytkownika
+     *
+     * @param login Login użytkownika
+     */
+    void changeActivity(String login);
 }

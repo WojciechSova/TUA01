@@ -43,7 +43,7 @@ public class AccountManagerTest {
     @Spy
     private final AccessLevel al4 = new AccessLevel();
     private final String login1 = "a1Login";
-    private final String email1 = "a1Email@domain.com";
+    private final String email1 = "flowerka99@gmail.com";
     private final String phoneNumber1 = "111111111";
     private final String login2 = "a2Login";
     private final String phoneNumber2 = "222222222";
@@ -206,5 +206,22 @@ public class AccountManagerTest {
             assertEquals("The new password is the same as the old password", ex.getMessage());
             assertEquals(409, ex.getResponse().getStatus());
         }
+    }
+
+    @Test
+    void changeActivityTest(){
+        a1.setLogin(login1);
+        a1.setEmail(email1);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        accountManager.changeActivity(login1);
+        verify(accountFacadeLocal).edit(a1);
+        assertFalse(a1.getActive());
+        assertFalse(accounts.get(0).getActive());
+
+        accountManager.changeActivity(login1);
+        verify(accountFacadeLocal, times(2)).edit(a1);
+        assertTrue(a1.getActive());
+        assertTrue(accounts.get(0).getActive());
     }
 }

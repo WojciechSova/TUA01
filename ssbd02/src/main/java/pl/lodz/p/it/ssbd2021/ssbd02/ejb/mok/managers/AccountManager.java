@@ -90,4 +90,14 @@ public class AccountManager implements AccountManagerLocal {
         account.setPassword(DigestUtils.sha512Hex(newPassword));
         accountFacadeLocal.edit(account);
     }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void changeActivity(String login) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        account.setActive(!account.getActive());
+        accountFacadeLocal.edit(account);
+
+        EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());
+    }
 }
