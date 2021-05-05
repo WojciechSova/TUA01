@@ -46,7 +46,7 @@ public interface AccountManagerLocal {
      *
      * @param account Encja typu {@link Account}
      * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
-     * o podanym emailu bądź numerze telefonu
+     * o podanym emailu bądź numerze telefonu, kod odpowiedzi 406 w przypadku, gdy nie podano loginu
      */
     void updateAccount(Account account) throws WebApplicationException;
 }
