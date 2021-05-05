@@ -1,12 +1,5 @@
 @import '../../../../styles.less';
 
-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
-}
-
 .dropdown {
     position: relative;
     display: inline-block;
@@ -14,22 +7,31 @@ select {
 
 .dropdown-content {
     display: none;
-    position: absolute;
+    position: fixed;
+    flex-direction: column;
     box-shadow: 0px 8px 16px 0px #0F084B;
-    background: rgba(#0ba9bc, 0.8);
-    margin-left: -5vw;
+    background: #dddddd;
+    margin-left: -2vw;
     margin-top: 1.5vw;
+    align-items: center;
+    width: auto;
 }
 
 .dropdown-content a {
     padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+    width: -webkit-fill-available;
+    margin-left: 0;
+    text-align: center;
+    text-shadow: none;
 }
 
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {
+    background-color: #BDBDBD;
+}
 
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
 
 .login-access-level {
     display: flex;

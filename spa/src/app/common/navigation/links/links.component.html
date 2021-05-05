@@ -16,8 +16,12 @@
     <a *ngIf="identityService.isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" class="login-a"
        i18n="Sign up|">Zarejestruj</a>
     <div class="login-access-level" *ngIf="!identityService.isGuest()">
+        <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''"
+           (click)="getProfile()" class="admin">{{ identityService.getLogin() }}</a>
         <div class="dropdown">
-            <a>{{identityService.getCurrentRole()}}</a>
+            <a *ngIf="identityService.isAdmin()" routerLink="" class="admin" i18n="Administrator|">Administrator</a>
+            <a *ngIf="identityService.isEmployee()" routerLink="" class="employee" i18n="Employee|">Pracownik</a>
+            <a *ngIf="identityService.isClient()" routerLink="" class="client" i18n="Client|">Klient</a>
             <div class="dropdown-content">
                 <a *ngFor="let level of getAccessLevels()" routerLink="" (click)="setCurrentAccessLevel(level)">
                     <div *ngIf="level === 'EMPLOYEE'" class="employee" i18n="Employee|">Pracownik</div>
@@ -26,8 +30,6 @@
                 </a>
             </div>
         </div>
-        <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''"
-           (click)="getProfile()" class="admin">{{ identityService.getLogin() }}</a>
     </div>
 </div>
 <app-login *ngIf="isLoginVisible" (isLoginVisibleChange)="changeLoginVisible($event)"
