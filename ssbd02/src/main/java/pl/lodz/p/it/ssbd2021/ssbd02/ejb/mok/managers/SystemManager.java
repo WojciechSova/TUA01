@@ -18,6 +18,12 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+/**
+ * Manager systemu
+ *
+ * @author Daniel Łondka
+ */
+
 @Singleton
 @Startup
 @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
