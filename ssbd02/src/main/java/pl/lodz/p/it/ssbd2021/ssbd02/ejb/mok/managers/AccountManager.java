@@ -102,6 +102,6 @@ public class AccountManager implements AccountManagerLocal {
         account.setModificationDate(new Timestamp(new Date().getTime()));
         accountFacadeLocal.edit(account);
 
-        //EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());
+        EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());
     }
 }
