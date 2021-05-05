@@ -92,6 +92,7 @@ public class AccountManager implements AccountManagerLocal {
             AccessLevel newAccessLevel = new AccessLevel();
             newAccessLevel.setAccount(account);
             newAccessLevel.setLevel(accessLevel);
+            newAccessLevel.setActive(true);
             accessLevelFacadeLocal.create(newAccessLevel);
             return;
         }

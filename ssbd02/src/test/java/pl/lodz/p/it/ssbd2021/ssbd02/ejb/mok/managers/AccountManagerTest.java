@@ -55,6 +55,7 @@ public class AccountManagerTest {
     private final String email4 = "a4Email@domain.com";
     private final String levelClient = "CLIENT";
     private final String levelAdmin = "ADMIN";
+    private final String levelEmployee = "EMPLOYEE";
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
     private final AccessLevel al3 = new AccessLevel();
@@ -173,6 +174,10 @@ public class AccountManagerTest {
 
     @Test
     void addAccessLevel() {
+        AccessLevel employeeAccessLevel = new AccessLevel();
+        employeeAccessLevel.setAccount(a1);
+        employeeAccessLevel.setLevel(levelEmployee);
+
         a1.setLogin(login1);
         a1.setEmail(email1);
 
@@ -184,7 +189,6 @@ public class AccountManagerTest {
         al2.setLevel(levelAdmin);
         al2.setActive(false);
 
-
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
 
@@ -192,6 +196,11 @@ public class AccountManagerTest {
             accessLevels1.get(1).setActive(true);
             return null;
         }).when(accessLevelFacadeLocal).edit(any());
+
+        doAnswer(invocationOnMock -> {
+            accessLevels1.add(employeeAccessLevel);
+            return null;
+        }).when(accessLevelFacadeLocal).create(any());
 
         accountManager.addAccessLevel(a1.getLogin(), "random");
         assertTrue(accessLevels1.get(0).getActive());
@@ -204,6 +213,13 @@ public class AccountManagerTest {
         accountManager.addAccessLevel(a1.getLogin(), levelAdmin);
         assertTrue(accessLevels1.get(0).getActive());
         assertTrue(accessLevels1.get(1).getActive());
+
+        accountManager.addAccessLevel(a1.getLogin(), levelEmployee);
+        assertEquals(3, accessLevels1.size());
+        assertTrue(accessLevels1.get(0).getActive());
+        assertTrue(accessLevels1.get(1).getActive());
+        assertTrue(accessLevels1.get(2).getActive());
+        assertEquals(a1, accessLevels1.get(2).getAccount());
     }
 
     @Test
