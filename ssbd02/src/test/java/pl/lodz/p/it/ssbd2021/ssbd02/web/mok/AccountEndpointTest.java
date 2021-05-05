@@ -45,7 +45,7 @@ class AccountEndpointTest {
         MockitoAnnotations.openMocks(this);
         account = createAccount();
         passwordDTO = new PasswordDTO();
-        passwordDTO.setOldPassword("oldPassword");
+        passwordDTO.setOldPassword("P@ssword");
         passwordDTO.setNewPassword("newPassword");
     }
 
@@ -130,6 +130,7 @@ class AccountEndpointTest {
     void changePasswordTest() {
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn(account.getLogin());
+
         doAnswer(invocationOnMock -> {
             account.setPassword(invocationOnMock.getArgument(2));
             return null;
