@@ -11,8 +11,6 @@ import { Router } from '@angular/router';
 })
 export class UsersTableComponent {
 
-    accountGeneralList: AccountGeneral[] = [];
-
     constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
         this.getAccounts();
     }
@@ -20,7 +18,11 @@ export class UsersTableComponent {
 
     getAccounts(): void {
         this.accountGeneralService.getAccounts().subscribe(
-            (response: AccountGeneral[]) => this.accountGeneralList = response);
+            (response: AccountGeneral[]) => this.accountGeneralService.accountGeneralList = response);
+    }
+
+    listAccounts(): AccountGeneral[] {
+        return this.accountGeneralService.accountGeneralList;
     }
 
     setUser(login: string): void {
