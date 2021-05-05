@@ -95,13 +95,13 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void changeActivity(String login, boolean newActivity, Account modifiedBy) {
+    public void changeActivity(String login, boolean newActivity, String modifiedBy) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setActive(newActivity);
-        account.setModifiedBy(modifiedBy);
+        account.setModifiedBy(accountFacadeLocal.findByLogin(modifiedBy));
         account.setModificationDate(new Timestamp(new Date().getTime()));
         accountFacadeLocal.edit(account);
 
-        EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());
+        //EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());
     }
 }

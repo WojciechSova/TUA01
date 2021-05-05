@@ -58,5 +58,5 @@ public interface AccountManagerLocal {
      *
      * @param login Login użytkownika
      */
-    void changeActivity(String login, boolean newActivity, Account modifiedBy);
+    void changeActivity(String login, boolean newActivity, String modifiedBy);
 }
