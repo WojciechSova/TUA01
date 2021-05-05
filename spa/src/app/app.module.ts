@@ -18,7 +18,8 @@ import { UsersTableComponent } from './ferrytales/users-table/users-table.compon
 import { AccountDetailsComponent } from './ferrytales/account-details/account-details.component';
 import {IdentityService} from './services/utils/identity.service';
 import { AccessLevelTableComponent } from './ferrytales/account-details/access-level-table/access-level-table.component';
-import {RegistrationService} from "./services/registration.service";
+import {RegistrationService} from './services/registration.service';
+import { AccessLevelFormComponent } from './ferrytales/access-level-form/access-level-form/access-level-form.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import {RegistrationService} from "./services/registration.service";
         OfferComponent,
         AccountDetailsComponent,
         AccessLevelTableComponent,
-        UsersTableComponent
+        UsersTableComponent,
+        AccessLevelFormComponent
     ],
     imports: [
         BrowserModule,

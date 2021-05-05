@@ -104,16 +104,10 @@
       </trans-unit>
       <trans-unit id="2006180768975064443" datatype="html">
         <source>Zarejestruj</source><target state="final">Zarejestruj</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
-          <context context-type="linenumber">15</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
-          <context context-type="linenumber">72</context>
-        </context-group>
+
+
         <note priority="1" from="meaning">Sign up</note>
-      </trans-unit>
+      <context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context><context context-type="linenumber">15</context></context-group><context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context><context context-type="linenumber">74</context></context-group></trans-unit>
       <trans-unit id="6447901693423282654" datatype="html">
         <source>Administrator</source><target state="final">Administrator</target>
         <context-group purpose="location">
@@ -297,19 +291,44 @@
       </trans-unit>
       <trans-unit id="4220759193116209203" datatype="html">
         <source>Masz już konto? Zaloguj się!</source><target state="final">Masz już konto? Zaloguj się!</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
-          <context context-type="linenumber">75</context>
-        </context-group>
+
         <note priority="1" from="description">Signing in in case of having an account</note>
         <note priority="1" from="meaning">Sign in if having an account</note>
-      </trans-unit><trans-unit id="7362151090434011899" datatype="html">
-        <source>Login</source><target state="final">Login</target>
+      <context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context><context context-type="linenumber">77</context></context-group></trans-unit><trans-unit id="5076304164594354657" datatype="html">
+        <source> Wybierz poziomy dostępu: </source><target state="final"> Wybierz poziomy dostępu: </target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
-          <context context-type="linenumber">4</context>
+          <context context-type="sourcefile">src/app/ferrytales/access-level-form/access-level-form/access-level-form.component.html</context>
+          <context context-type="linenumber">4,5</context>
         </context-group>
-        <note priority="1" from="meaning">Login</note>
+        <note priority="1" from="meaning">Choose access level</note>
+      </trans-unit><trans-unit id="6751045926453901738" datatype="html">
+        <source>Administrator <x id="TAG_INPUT" ctype="x-input" equiv-text="&lt;input type=&quot;checkbox&quot;  name=&quot;radio&quot;>"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;checkmark admin&quot;>"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span>"/></source><target state="final">Administrator <x id="TAG_INPUT" ctype="x-input" equiv-text="&lt;input type=&quot;checkbox&quot;  name=&quot;radio&quot;>"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;checkmark admin&quot;>"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span>"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/access-level-form/access-level-form/access-level-form.component.html</context>
+          <context context-type="linenumber">7,9</context>
+        </context-group>
+        <note priority="1" from="meaning">Administrator</note>
+      </trans-unit><trans-unit id="7559272545817297340" datatype="html">
+        <source>Pracownik <x id="TAG_INPUT" ctype="x-input" equiv-text="&lt;input type=&quot;checkbox&quot; name=&quot;radio&quot;>"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;checkmark employee&quot;>"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span>"/></source><target state="final">Pracownik <x id="TAG_INPUT" ctype="x-input" equiv-text="&lt;input type=&quot;checkbox&quot; name=&quot;radio&quot;>"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;checkmark employee&quot;>"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span>"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/access-level-form/access-level-form/access-level-form.component.html</context>
+          <context context-type="linenumber">11,13</context>
+        </context-group>
+        <note priority="1" from="meaning">Employee</note>
+      </trans-unit><trans-unit id="9020345755588559366" datatype="html">
+        <source>Klient <x id="TAG_INPUT" ctype="x-input" equiv-text="&lt;input type=&quot;checkbox&quot; name=&quot;radio&quot;>"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;checkmark client&quot;>"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span>"/></source><target state="final">Klient <x id="TAG_INPUT" ctype="x-input" equiv-text="&lt;input type=&quot;checkbox&quot; name=&quot;radio&quot;>"/><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;checkmark client&quot;>"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span>"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/access-level-form/access-level-form/access-level-form.component.html</context>
+          <context context-type="linenumber">15,17</context>
+        </context-group>
+        <note priority="1" from="meaning">Client</note>
+      </trans-unit><trans-unit id="5029292966111799760" datatype="html">
+        <source>Zatwierdź</source><target state="final">Zatwierdź</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/access-level-form/access-level-form/access-level-form.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <note priority="1" from="meaning">Confirm</note>
       </trans-unit><trans-unit id="5065846871546310253" datatype="html">
         <source>Imię</source><target state="final">Imię</target>
         <context-group purpose="location">
@@ -340,29 +359,24 @@
         <note priority="1" from="meaning">Unblock/Block</note>
       </trans-unit><trans-unit id="8420268270827593822" datatype="html">
         <source>Szczegóły</source><target state="final">Szczegóły</target>
+
+
+        <note priority="1" from="meaning">Details</note>
+      <context-group purpose="location"><context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context><context context-type="linenumber">10</context></context-group><context-group purpose="location"><context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context><context context-type="linenumber">35</context></context-group></trans-unit><trans-unit id="3223369467475636838" datatype="html">
+        <source>Odblokuj</source><target state="final">Odblokuj</target>
+
+        <note priority="1" from="meaning">Unblock</note>
+      <context-group purpose="location"><context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context><context context-type="linenumber">25</context></context-group></trans-unit><trans-unit id="5594175483540179462" datatype="html">
+        <source>Zablokuj</source><target state="final">Zablokuj</target>
+
+        <note priority="1" from="meaning">Block</note>
+      <context-group purpose="location"><context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context><context context-type="linenumber">28</context></context-group></trans-unit><trans-unit id="2637171209093153517" datatype="html">
+        <source>Edytuj</source><target state="final">Edytuj</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">32</context>
         </context-group>
         <note priority="1" from="meaning">Details</note>
-      </trans-unit><trans-unit id="3223369467475636838" datatype="html">
-        <source>Odblokuj</source><target state="final">Odblokuj</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
-          <context context-type="linenumber">24</context>
-        </context-group>
-        <note priority="1" from="meaning">Unblock</note>
-      </trans-unit><trans-unit id="5594175483540179462" datatype="html">
-        <source>Zablokuj</source><target state="final">Zablokuj</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
-          <context context-type="linenumber">27</context>
-        </context-group>
-        <note priority="1" from="meaning">Block</note>
       </trans-unit>
       <trans-unit id="953969179322728927" datatype="html">
         <source>Przeprawy promowe jak z bajki</source><target state="final">Przeprawy promowe jak z bajki</target>

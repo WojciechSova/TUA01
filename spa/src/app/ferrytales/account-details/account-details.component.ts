@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AccountDetails } from '../../model/mok/AccountDetails';
-import { IdentityService } from '../../services/utils/identity.service';
-import { AccessLevel } from '../../model/mok/AccessLevel';
-import { AccountDetailsService } from '../../services/account-details.service';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {AccountDetails} from '../../model/mok/AccountDetails';
+import {IdentityService} from '../../services/utils/identity.service';
+import {AccessLevel} from '../../model/mok/AccessLevel';
+import {AccountDetailsService} from '../../services/account-details.service';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -19,6 +19,8 @@ export class AccountDetailsComponent implements OnInit {
         this.getAccount();
     }
 
+    isAccessLevelFormVisible = false;
+
     ngOnInit(): void {
     }
 
@@ -33,5 +35,9 @@ export class AccountDetailsComponent implements OnInit {
         }
         this.accountDetailsService.getAccountDetails(login).subscribe(
             (accountDetails: AccountDetails) => this.accountDetailsService.account = accountDetails);
+    }
+
+    changeAccessLevelFormVisible(visible: boolean): void {
+        this.isAccessLevelFormVisible = visible;
     }
 }

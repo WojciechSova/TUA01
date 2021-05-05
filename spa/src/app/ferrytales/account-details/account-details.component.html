@@ -1,6 +1,9 @@
 <div class="outer-div">
     <div class="account-details">
-        <button class="edit-button">Edytuj konto</button>
+        <div class="button-container">
+            <button class="edit-button" >Edytuj konto</button>
+            <button class="edit-button" (click)="changeAccessLevelFormVisible(true)">Edytuj poziomy dostępu</button>
+        </div>
         <div class="col">
             <div class="row">
                 <label>Login:</label>
@@ -79,3 +82,6 @@
         </div>
     </div>
 </div>
+<app-access-level-form *ngIf="isAccessLevelFormVisible" (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)">
+
+</app-access-level-form>

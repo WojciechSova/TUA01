@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { AccountGeneral } from '../../model/mok/AccountGeneral';
-import { AccountGeneralService } from '../../services/account-general.service';
-import { Router } from '@angular/router';
+import {Component, EventEmitter, Output} from '@angular/core';
+import {AccountGeneral} from '../../model/mok/AccountGeneral';
+import {AccountGeneralService} from '../../services/account-general.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -15,6 +15,10 @@ export class UsersTableComponent {
         this.getAccounts();
     }
 
+    accountGeneralList: AccountGeneral[] = [];
+
+    isAccessLevelFormVisible = false;
+
 
     getAccounts(): void {
         this.accountGeneralService.getAccounts().subscribe(
@@ -27,5 +31,10 @@ export class UsersTableComponent {
 
     setUser(login: string): void {
         this.router.navigate(['/ferrytales/accounts', login]);
+    }
+
+
+    changeAccessLevelFormVisible(visible: boolean): void {
+        this.isAccessLevelFormVisible = visible;
     }
 }
