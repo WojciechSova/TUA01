@@ -14,6 +14,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,6 +76,20 @@ public class AccountManager implements AccountManagerLocal {
         accessLevelFacadeLocal.create(accessLevel);
 
         EmailSender.sendRegistrationEmail(account.getFirstName(), account.getEmail(), "link");
+    }
+
+    @Override
+    public void registerBadLogin(String login, String clientAddress) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        account.setLastKnownBadLogin(Timestamp.from(Instant.now()));
+        account.setLastKnownBadLoginIp(clientAddress);
+    }
+
+    @Override
+    public void registerGoodLogin(String login, String clientAddress) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        account.setLastKnownGoodLogin(Timestamp.from(Instant.now()));
+        account.setLastKnownGoodLoginIp(clientAddress);
     }
 
     //TODO: method that will handle account confirmation
