@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Assertions;
@@ -9,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
@@ -17,11 +20,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import javax.ws.rs.WebApplicationException;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AccountManagerTest {
 
@@ -53,6 +55,9 @@ public class AccountManagerTest {
     private final String login4 = "a4login";
     private final String email4 = "a4Email@domain.com";
     private final String level = "CLIENT";
+    private final String oldPassword = "oldPassword";
+    private final String newPassword = "newPassword";
+    private final String invalidPassword = "invalidPassword";
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
     private final AccessLevel al3 = new AccessLevel();
@@ -158,7 +163,7 @@ public class AccountManagerTest {
     }
 
     @Test
-    void getAccountWithLogin() {
+    void getAccountWithLoginTest() {
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
         assertEquals(Pair.of(a1, accessLevels1), accountManager.getAccountWithLogin(login1));
@@ -166,5 +171,42 @@ public class AccountManagerTest {
         assertEquals(a1, accountManager.getAccountWithLogin(login1).getKey());
         assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getRight());
         assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getValue());
+    }
+
+    @Test
+    void changePasswordTest() {
+        a1.setPassword(DigestUtils.sha512Hex(oldPassword));
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        doAnswer(invocationOnMock -> {
+            Account account = invocationOnMock.getArgument(0);
+            account.setPassword(DigestUtils.sha512Hex(newPassword));
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        assertDoesNotThrow(() -> accountManager.changePassword(login1, oldPassword, newPassword));
+        verify(accountFacadeLocal).edit(a1);
+        assertEquals(DigestUtils.sha512Hex(newPassword), a1.getPassword());
+        assertEquals(DigestUtils.sha512Hex(newPassword), accounts.get(0).getPassword());
+    }
+
+    @Test
+    void changePasswordExceptionTest() {
+        a1.setPassword(DigestUtils.sha512Hex(oldPassword));
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        try {
+            accountManager.changePassword(login1, invalidPassword, newPassword);
+        } catch (WebApplicationException ex) {
+            assertEquals("The provided password is invalid", ex.getMessage());
+            assertEquals(406, ex.getResponse().getStatus());
+        }
+
+        try {
+            accountManager.changePassword(login1, oldPassword, oldPassword);
+        } catch (WebApplicationException ex) {
+            assertEquals("The new password is the same as the old password", ex.getMessage());
+            assertEquals(409, ex.getResponse().getStatus());
+        }
     }
 }
