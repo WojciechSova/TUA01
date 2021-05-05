@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { AccountDetails } from "../model/mok/AccountDetails";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AccountDetails } from '../model/mok/AccountDetails';
 
 @Injectable({
     providedIn: 'root'

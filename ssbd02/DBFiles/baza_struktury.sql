@@ -38,7 +38,7 @@ CREATE TABLE Personal_data
     email                    varchar(70)                         NOT NULL,
     phone_number             varchar(11),
     language                 varchar(5),
-    time_zone                varchar(10),
+    time_zone                varchar(50),
     modification_date        timestamp,
     modified_by              bigint,
     creation_date            timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,

@@ -24,7 +24,7 @@ export class AccountDetailsService implements OnDestroy {
     private readonly url: string;
 
     constructor(private http: HttpClient) {
-        this.url = 'https://localhost:8181/ssbd02/accounts/';
+        this.url = 'https://studapp.it.p.lodz.pl:8402/ssbd02/accounts/';
     }
 
     getAccountDetails(login: string): Observable<AccountDetails> {

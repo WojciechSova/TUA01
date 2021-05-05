@@ -12,7 +12,7 @@ export class AccountGeneralService implements OnDestroy {
 
 
     constructor(private http: HttpClient) {
-        this.url = 'https://localhost:8181/ssbd02/accounts';
+        this.url = 'https://studapp.it.p.lodz.pl:8402/ssbd02/accounts';
     }
 
     getAccounts(): any {
