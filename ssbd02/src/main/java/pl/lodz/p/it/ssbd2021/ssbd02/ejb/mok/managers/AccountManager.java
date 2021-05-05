@@ -84,6 +84,18 @@ public class AccountManager implements AccountManagerLocal {
         Account account = accountFacadeLocal.findByLogin(login);
         List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
 
+        if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
+            return;
+        }
+
+        if (accessLevels.stream().noneMatch(x -> x.getLevel().equals(accessLevel))) {
+            AccessLevel newAccessLevel = new AccessLevel();
+            newAccessLevel.setAccount(account);
+            newAccessLevel.setLevel(accessLevel);
+            accessLevelFacadeLocal.create(newAccessLevel);
+            return;
+        }
+
         accessLevels.forEach(x -> {
             if (x.getLevel().equals(accessLevel) && !x.getActive()) {
                 x.setActive(true);
