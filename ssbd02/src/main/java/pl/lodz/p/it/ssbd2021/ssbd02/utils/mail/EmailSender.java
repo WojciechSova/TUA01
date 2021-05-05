@@ -61,6 +61,26 @@ public class EmailSender {
     }
 
     /**
+     * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu jego konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     */
+    public static void sendRemovalEmail(String recipientName, String recipientEmailAddress) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
+
+            prop.load(input);
+
+            String htmlText = prop.getProperty("mail.info.removal.text");
+            String subject = prop.getProperty("mail.info.removal.subject");
+            sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
      * Metoda wysyłająca wiadomość email.
      *
      * @param recipientName         Imię odbiorcy wiadomości.
