@@ -14,6 +14,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,9 +95,11 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void changeActivity(String login, boolean newActivity) {
+    public void changeActivity(String login, boolean newActivity, Account modifiedBy) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setActive(newActivity);
+        account.setModifiedBy(modifiedBy);
+        account.setModificationDate(new Timestamp(new Date().getTime()));
         accountFacadeLocal.edit(account);
 
         EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());

@@ -214,14 +214,16 @@ public class AccountManagerTest {
         a1.setEmail(email1);
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
 
-        accountManager.changeActivity(login1, false);
+        accountManager.changeActivity(login1, false, a2);
         verify(accountFacadeLocal).edit(a1);
         assertFalse(a1.getActive());
+        assertEquals(a2, a1.getModifiedBy());
         assertFalse(accounts.get(0).getActive());
 
-        accountManager.changeActivity(login1, true);
+        accountManager.changeActivity(login1, true, a3);
         verify(accountFacadeLocal, times(2)).edit(a1);
         assertTrue(a1.getActive());
+        assertEquals(a3, a1.getModifiedBy());
         assertTrue(accounts.get(0).getActive());
     }
 }
