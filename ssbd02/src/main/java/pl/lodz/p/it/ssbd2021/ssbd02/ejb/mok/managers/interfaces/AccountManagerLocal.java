@@ -44,16 +44,18 @@ public interface AccountManagerLocal {
     /**
      * Metoda dołączająca poziom dostępu do konta o podanym loginie
      *
-     * @param login Login użytkownika
+     * @param login Login użytkownika, który nadaje poziom dostępu
+     * @param targetLogin Login użytkownika
      * @param accessLevel Poziom dostępu jaki ma zostać dołączony
      */
-    void addAccessLevel(String login, String accessLevel);
+    void addAccessLevel(String login, String targetLogin, String accessLevel);
 
     /**
      * Metoda odłączająca poziom dostępu do konta o podanym loginie
      *
-     * @param login Login użytkownika
+     * @param login Login użytkownika, który dokonuje usunięcia poziomu dostępu
+     * @param targetLogin Login użytkownika
      * @param accessLevel Poziom dostępu jaki ma zostać odłączony
      */
-    void removeAccessLevel(String login, String accessLevel);
+    void removeAccessLevel(String login, String targetLogin, String accessLevel);
 }

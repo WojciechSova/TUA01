@@ -14,6 +14,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,12 +82,12 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void addAccessLevel(String login, String accessLevel) {
+    public void addAccessLevel(String login, String targetLogin, String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
             return;
         }
 
-        Account account = accountFacadeLocal.findByLogin(login);
+        Account account = accountFacadeLocal.findByLogin(targetLogin);
         List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
 
         if (accessLevels.stream().noneMatch(x -> x.getLevel().equals(accessLevel))) {
@@ -93,6 +95,7 @@ public class AccountManager implements AccountManagerLocal {
             newAccessLevel.setAccount(account);
             newAccessLevel.setLevel(accessLevel);
             newAccessLevel.setActive(true);
+            newAccessLevel.setCreatedBy(accountFacadeLocal.findByLogin(login));
             accessLevelFacadeLocal.create(newAccessLevel);
             EmailSender.sendAddAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
             return;
@@ -101,6 +104,8 @@ public class AccountManager implements AccountManagerLocal {
         accessLevels.forEach(x -> {
             if (x.getLevel().equals(accessLevel) && !x.getActive()) {
                 x.setActive(true);
+                x.setModifiedBy(accountFacadeLocal.findByLogin(login));
+                x.setModificationDate(Timestamp.from(Instant.now()));
                 accessLevelFacadeLocal.edit(x);
                 EmailSender.sendAddAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
             }
@@ -109,12 +114,12 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void removeAccessLevel(String login, String accessLevel) {
+    public void removeAccessLevel(String login, String targetLogin, String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
             return;
         }
 
-        Account account = accountFacadeLocal.findByLogin(login);
+        Account account = accountFacadeLocal.findByLogin(targetLogin);
         List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
 
         if (accessLevels.stream().noneMatch(x -> x.getLevel().equals(accessLevel))) {
@@ -124,6 +129,8 @@ public class AccountManager implements AccountManagerLocal {
         accessLevels.forEach(x -> {
             if (x.getLevel().equals(accessLevel) && x.getActive()) {
                 x.setActive(false);
+                x.setModifiedBy(accountFacadeLocal.findByLogin(login));
+                x.setModificationDate(Timestamp.from(Instant.now()));
                 accessLevelFacadeLocal.edit(x);
                 EmailSender.sendRemoveAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
             }
