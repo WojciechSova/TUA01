@@ -82,10 +82,17 @@ public class AccountManager implements AccountManagerLocal {
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void updateAccount(Account account) throws WebApplicationException {
         List<Account> allAccounts = accountFacadeLocal.findAll();
-        if (allAccounts.stream()
-                .filter(x -> !account.getLogin().equals(x.getLogin()))
-                .anyMatch(x -> account.getEmail().equals(x.getEmail()))) {
-            throw new WebApplicationException("Such email exists", 409);
+        if (account.getLogin() == null || account.getLogin().equals("")) {
+            throw new WebApplicationException("Login not given", 406);
+        }
+        if (account.getEmail() != null) {
+            if (account.getEmail().isEmpty()) {
+                account.setEmail(null);
+            } else if (allAccounts.stream()
+                    .filter(x -> !account.getLogin().equals(x.getLogin()))
+                    .anyMatch(x -> account.getEmail().equals(x.getEmail()))) {
+                throw new WebApplicationException("Such email exists", 409);
+            }
         } else if (account.getPhoneNumber() != null) {
             if (account.getPhoneNumber().isEmpty()) {
                 account.setPhoneNumber(null);
