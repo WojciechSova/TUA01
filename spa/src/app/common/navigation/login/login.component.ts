@@ -19,13 +19,15 @@ export class LoginComponent {
 
     login = '';
     password = '';
+    error = false;
 
     auth(): void {
         this.authService.auth(this.login, this.password).subscribe(
             (response: string) => {
                 this.authService.setSession(response);
                 this.closeComponent();
-            }
+            },
+            () => this.error = true
         );
     }
 
