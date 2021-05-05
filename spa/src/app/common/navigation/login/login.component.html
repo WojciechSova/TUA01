@@ -3,7 +3,7 @@
         <img class="circle" src="assets/login-register-circle.png" alt=""/>
         <img class="logo" (click)="closeComponent()" src="assets/logo_primary_color.png" alt=""/>
         <div class="validation-error login-error" *ngIf="error">
-            <p i18n="Invalid login or password|">Podany login lub hasło są nieprawidłowe.</p>
+            <p id="invalidCredentialsLabel" i18n="Invalid login or password|">Podany login lub hasło są nieprawidłowe.</p>
         </div>
         <form action="">
             <label for="login"></label>
@@ -12,7 +12,7 @@
             <label for="password"></label>
             <input [(ngModel)]="password" type="password" id="password" name="Password"
                    placeholder="*Hasło" i18n-placeholder="Password|" required><br><br>
-            <button (click)="auth()" class="form-button"
+            <button (click)="auth()" class="form-button" id="loginFormBtn"
                     i18n="Sign in|">Zaloguj</button>
         </form>
         <div class="column-nav">
