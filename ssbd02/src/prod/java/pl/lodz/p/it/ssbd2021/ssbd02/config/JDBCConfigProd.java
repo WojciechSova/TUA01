@@ -1,4 +1,4 @@
-package pl.lodz.p.it.ssbd2021.ssbd02.utils.config;
+package pl.lodz.p.it.ssbd2021.ssbd02.config;
 
 import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.Stateless;
@@ -51,7 +51,7 @@ import java.sql.Connection;
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED
 )
 @Stateless
-public class JDBCConfig {
+public class JDBCConfigProd {
     @PersistenceContext(unitName = "ssbd02adminPU")
     EntityManager entityManager;
 }
