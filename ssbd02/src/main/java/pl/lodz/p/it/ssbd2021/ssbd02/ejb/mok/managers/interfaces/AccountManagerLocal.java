@@ -47,8 +47,9 @@ public interface AccountManagerLocal {
      * @param login Login użytkownika
      * @param oldPassword Dotychczasowe hasło użytkownika do konta
      * @param newPassword Nowe hasło użytkownika do konta
-     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 406 w przypadku, gdy podane dotychczasowe hasło do konta
-     * jest nieprawidłowe lub kod odpowiedzi 409 gdy podane nowe hasło jest identyczne jak hasło poprzednie
+     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi:
+     * 406 w przypadku, gdy podane dotychczasowe hasło do konta jest nieprawidłowe,
+     * 409 gdy podane nowe hasło jest identyczne jak hasło poprzednie
      */
     void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException;
 }
