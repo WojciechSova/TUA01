@@ -25,7 +25,7 @@ CREATE TABLE Account
 ALTER TABLE Account
     OWNER TO ssbd02admin;
 
-GRANT SELECT, INSERT, UPDATE ON TABLE Account TO ssbd02mok;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Account TO ssbd02mok;
 GRANT SELECT ON TABLE Account TO ssbd02mop;
 
 CREATE INDEX account_login ON Account USING btree (login);
@@ -57,7 +57,7 @@ CREATE TABLE Personal_data
 ALTER TABLE Personal_data
     OWNER TO ssbd02admin;
 
-GRANT SELECT, INSERT, UPDATE ON TABLE Personal_data TO ssbd02mok;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Personal_data TO ssbd02mok;
 GRANT SELECT ON TABLE Personal_data TO ssbd02mop;
 
 CREATE INDEX personal_data_id ON Personal_data USING btree (id);
@@ -86,7 +86,7 @@ CREATE TABLE Access_level
 ALTER TABLE Access_level
     OWNER TO ssbd02admin;
 
-GRANT SELECT, INSERT, UPDATE ON TABLE Access_level TO ssbd02mok;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Access_level TO ssbd02mok;
 GRANT SELECT ON TABLE Access_level TO ssbd02mop;
 
 CREATE INDEX access_level_account ON Access_level USING btree (account);
