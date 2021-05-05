@@ -79,21 +79,9 @@ public class AccountManager implements AccountManagerLocal {
     //TODO: method that will handle account confirmation
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void updateAccount(Account account) throws WebApplicationException {
         List<Account> allAccounts = accountFacadeLocal.findAll();
-        if (account.getLogin() == null || account.getLogin().equals("")) {
-            throw new WebApplicationException("Login not given", 406);
-        }
-        if (account.getEmail() != null) {
-            if (account.getEmail().isEmpty()) {
-                account.setEmail(null);
-            } else if (allAccounts.stream()
-                    .filter(x -> !account.getLogin().equals(x.getLogin()))
-                    .anyMatch(x -> account.getEmail().equals(x.getEmail()))) {
-                throw new WebApplicationException("Such email exists", 409);
-            }
-        } else if (account.getPhoneNumber() != null) {
+        if (account.getPhoneNumber() != null) {
             if (account.getPhoneNumber().isEmpty()) {
                 account.setPhoneNumber(null);
             } else if (allAccounts.stream()
@@ -105,27 +93,45 @@ public class AccountManager implements AccountManagerLocal {
 
         Account accountFromDB = accountFacadeLocal.findByLogin(account.getLogin());
 
-        //TODO: "W sytuacji zmiany adresu e-mail przypisanego do konta musi nastąpić jej autoryzacja
-        // poprzez indywidualny adres URL udostępniony jako hiperłącze przesłane na adres email przypisany
-        // do konta (każdy zastosowany adres URL zapewnia tylko jednokrotne wykonanie akcji)."
-//        if (account.getEmail() != null && !account.getEmail().isEmpty()) {
-//            accountFromDB.setEmail(account.getEmail());
-//        }
+        Account acc = new Account();
+        acc.setVersion(account.getVersion());
+        acc.setId(accountFromDB.getId());
+        acc.setLogin(accountFromDB.getLogin());
+        acc.setPassword(accountFromDB.getPassword());
+        acc.setActive(accountFromDB.getActive());
+        acc.setConfirmed(accountFromDB.getConfirmed());
+        acc.setFirstName(accountFromDB.getFirstName());
+        acc.setLastName(accountFromDB.getLastName());
+        acc.setEmail(accountFromDB.getEmail());
+        acc.setPhoneNumber(accountFromDB.getPhoneNumber());
+        acc.setLanguage(accountFromDB.getLanguage());
+        acc.setTimeZone(accountFromDB.getTimeZone());
+        acc.setModificationDate(accountFromDB.getModificationDate());
+        acc.setModifiedBy(accountFromDB.getModifiedBy());
+        acc.setCreationDate(accountFromDB.getCreationDate());
+        acc.setLastKnownGoodLogin(accountFromDB.getLastKnownGoodLogin());
+        acc.setLastKnownGoodLoginIp(accountFromDB.getLastKnownGoodLoginIp());
+        acc.setLastKnownBadLogin(accountFromDB.getLastKnownBadLogin());
+        acc.setLastKnownBadLoginIp(accountFromDB.getLastKnownBadLoginIp());
+        acc.setNumberOfBadLogins(accountFromDB.getNumberOfBadLogins());
+
         if (account.getPhoneNumber() != null) {
-            accountFromDB.setPhoneNumber(account.getPhoneNumber());
+            acc.setPhoneNumber(account.getPhoneNumber());
         }
         if (account.getFirstName() != null && !account.getFirstName().isEmpty()) {
-            accountFromDB.setFirstName(account.getFirstName());
+            acc.setFirstName(account.getFirstName());
         }
         if (account.getLastName() != null && !account.getLastName().isEmpty()) {
-            accountFromDB.setLastName(account.getLastName());
+            acc.setLastName(account.getLastName());
         }
         if (account.getTimeZone() != null && !account.getTimeZone().isEmpty()) {
-            accountFromDB.setTimeZone(account.getTimeZone());
+            acc.setTimeZone(account.getTimeZone());
         }
         if (account.getLanguage() != null && !account.getLanguage().isEmpty()) {
-            accountFromDB.setLanguage(account.getLanguage());
+            acc.setLanguage(account.getLanguage());
         }
+
+        accountFacadeLocal.edit(acc);
 
         EmailSender.sendModificationEmail(account.getFirstName(), accountFromDB.getEmail());
     }

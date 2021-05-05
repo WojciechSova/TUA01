@@ -16,7 +16,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -189,8 +192,17 @@ public class AccountManagerTest {
         updateAcc.setLastName("Piotrowski");
         updateAcc.setTimeZone("en-US");
         updateAcc.setLanguage("EN");
-        accountManager.updateAccount(updateAcc);
 
+        doAnswer(invocation -> {
+            account.setPhoneNumber("123");
+            account.setFirstName("Edward");
+            account.setLastName("Piotrowski");
+            account.setTimeZone("en-US");
+            account.setLanguage("EN");
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        accountManager.updateAccount(updateAcc);
 
         assertEquals("123", account.getPhoneNumber());
         assertEquals("Edward", account.getFirstName());
@@ -225,25 +237,14 @@ public class AccountManagerTest {
     void updateAccountExceptionTest() {
         Account account = createAccount();
 
-        when(a2.getLogin()).thenReturn("Test");
-        when(a2.getEmail()).thenReturn("example@example.com");
-
-        when(a3.getLogin()).thenReturn("Test");
-        when(a3.getPhoneNumber()).thenReturn("48123456788");
+        when(a1.getLogin()).thenReturn("Test");
+        when(a1.getPhoneNumber()).thenReturn("48123456788");
 
         when(accountFacadeLocal.findByLogin(anyString())).thenReturn(account);
-        when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(account, a1, a2, a3));
+        when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(account, a1));
         WebApplicationException exceptionA1 = assertThrows(WebApplicationException.class, () -> accountManager.updateAccount(a1));
-        WebApplicationException exceptionA2 = assertThrows(WebApplicationException.class, () -> accountManager.updateAccount(a2));
-        WebApplicationException exceptionA3 = assertThrows(WebApplicationException.class, () -> accountManager.updateAccount(a3));
 
-        assertEquals(406, exceptionA1.getResponse().getStatus());
-        assertEquals("Login not given", exceptionA1.getMessage());
-
-        assertEquals(409, exceptionA2.getResponse().getStatus());
-        assertEquals("Such email exists", exceptionA2.getMessage());
-
-        assertEquals(409, exceptionA3.getResponse().getStatus());
-        assertEquals("Such phone number exists", exceptionA3.getMessage());
+        assertEquals(409, exceptionA1.getResponse().getStatus());
+        assertEquals("Such phone number exists", exceptionA1.getMessage());
     }
 }
