@@ -84,18 +84,12 @@ public class AccountManager implements AccountManagerLocal {
         Account account = accountFacadeLocal.findByLogin(login);
         List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
 
-        if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
-            return;
-        }
-
-        if (accessLevels.stream().anyMatch(x -> x.getLevel().equals(accessLevel))) {
-            return;
-        }
-
-        AccessLevel newAccessLevel = new AccessLevel();
-        newAccessLevel.setLevel(accessLevel);
-        newAccessLevel.setAccount(account);
-        accessLevelFacadeLocal.create(newAccessLevel);
+        accessLevels.forEach(x -> {
+            if (x.getLevel().equals(accessLevel) && !x.getActive()) {
+                x.setActive(true);
+                accessLevelFacadeLocal.edit(x);
+            }
+        });
 
         EmailSender.sendModificationEmail(account.getFirstName(), account.getEmail());
     }
@@ -106,14 +100,12 @@ public class AccountManager implements AccountManagerLocal {
         Account account = accountFacadeLocal.findByLogin(login);
         List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
 
-        List<AccessLevel> removeAccessLevels = accessLevels.stream()
-                .filter(x -> x.getLevel().equals(accessLevel)).collect(Collectors.toList());
-
-        if (removeAccessLevels.isEmpty()) {
-            return;
-        }
-
-        removeAccessLevels.forEach(x -> accessLevelFacadeLocal.remove(x));
+        accessLevels.forEach(x -> {
+            if (x.getLevel().equals(accessLevel) && x.getActive()) {
+                x.setActive(false);
+                accessLevelFacadeLocal.edit(x);
+            }
+        });
 
         EmailSender.sendModificationEmail(account.getFirstName(), account.getEmail());
     }

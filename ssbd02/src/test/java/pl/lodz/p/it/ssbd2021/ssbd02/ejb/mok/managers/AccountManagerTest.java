@@ -55,7 +55,6 @@ public class AccountManagerTest {
     private final String email4 = "a4Email@domain.com";
     private final String levelClient = "CLIENT";
     private final String levelAdmin = "ADMIN";
-    private final String levelEmployee = "EMPLOYEE";
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
     private final AccessLevel al3 = new AccessLevel();
@@ -174,65 +173,70 @@ public class AccountManagerTest {
 
     @Test
     void addAccessLevel() {
-        AccessLevel accessLevelClient = new AccessLevel();
-        accessLevelClient.setLevel(levelClient);
-
-        AccessLevel accessLevelAdmin = new AccessLevel();
-        accessLevelAdmin.setLevel(levelAdmin);
-
-        accessLevels1.clear();
-        accessLevels1.add(accessLevelClient);
-
         a1.setLogin(login1);
         a1.setEmail(email1);
+
+        al1.setAccount(a1);
+        al1.setLevel(levelClient);
+        al1.setActive(true);
+
+        al2.setAccount(a1);
+        al2.setLevel(levelAdmin);
+        al2.setActive(false);
+
 
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
 
-        doAnswer(invocationOnMock ->
-                accessLevels1.add(accessLevelAdmin)).when(accessLevelFacadeLocal).create(any());
+        doAnswer(invocationOnMock -> {
+            accessLevels1.get(1).setActive(true);
+            return null;
+        }).when(accessLevelFacadeLocal).edit(any());
 
         accountManager.addAccessLevel(a1.getLogin(), "random");
-        assertEquals(1, accessLevels1.size());
+        assertTrue(accessLevels1.get(0).getActive());
+        assertFalse(accessLevels1.get(1).getActive());
 
         accountManager.addAccessLevel(a1.getLogin(), levelClient);
-        assertEquals(1, accessLevels1.size());
-        assertEquals(levelClient, accessLevels1.get(0).getLevel());
+        assertTrue(accessLevels1.get(0).getActive());
+        assertFalse(accessLevels1.get(1).getActive());
 
         accountManager.addAccessLevel(a1.getLogin(), levelAdmin);
-        assertEquals(2, accessLevels1.size());
-        assertTrue(accessLevels1.stream().anyMatch(x -> x.getLevel().equals(levelClient)));
-        assertTrue(accessLevels1.stream().anyMatch(x -> x.getLevel().equals(levelAdmin)));
+        assertTrue(accessLevels1.get(0).getActive());
+        assertTrue(accessLevels1.get(1).getActive());
     }
 
     @Test
     void removeAccessLevel() {
-        AccessLevel accessLevelClient = new AccessLevel();
-        accessLevelClient.setLevel(levelClient);
-
-        AccessLevel accessLevelAdmin = new AccessLevel();
-        accessLevelAdmin.setLevel(levelAdmin);
-
-        accessLevels1.clear();
-        accessLevels1.add(accessLevelClient);
-        accessLevels1.add(accessLevelAdmin);
-
         a1.setLogin(login1);
         a1.setEmail(email1);
+
+        al1.setAccount(a1);
+        al1.setLevel(levelClient);
+        al1.setActive(false);
+
+        al2.setAccount(a1);
+        al2.setLevel(levelAdmin);
+        al2.setActive(true);
 
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
 
-        doAnswer(invocationOnMock -> accessLevels1.remove(accessLevelAdmin)).when(accessLevelFacadeLocal).remove(any());
-
-        accountManager.removeAccessLevel(a1.getLogin(), levelEmployee);
-        assertEquals(2, accessLevels1.size());
+        doAnswer(invocationOnMock -> {
+            accessLevels1.get(1).setActive(false);
+            return null;
+        }).when(accessLevelFacadeLocal).edit(any());
 
         accountManager.removeAccessLevel(a1.getLogin(), "random");
-        assertEquals(2, accessLevels1.size());
+        assertFalse(accessLevels1.get(0).getActive());
+        assertTrue(accessLevels1.get(1).getActive());
+
+        accountManager.removeAccessLevel(a1.getLogin(), levelClient);
+        assertFalse(accessLevels1.get(0).getActive());
+        assertTrue(accessLevels1.get(1).getActive());
 
         accountManager.removeAccessLevel(a1.getLogin(), levelAdmin);
-        assertEquals(1, accessLevels1.size());
-        assertEquals(levelClient, accessLevels1.get(0).getLevel());
+        assertFalse(accessLevels1.get(0).getActive());
+        assertFalse(accessLevels1.get(1).getActive());
     }
 }
