@@ -93,9 +93,9 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void changeActivity(String login) {
+    public void changeActivity(String login, boolean newActivity) {
         Account account = accountFacadeLocal.findByLogin(login);
-        account.setActive(!account.getActive());
+        account.setActive(newActivity);
         accountFacadeLocal.edit(account);
 
         EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());
