@@ -77,4 +77,49 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     //TODO: method that will handle account confirmation
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void updateAccount(Account account) throws WebApplicationException {
+        List<Account> allAccounts = accountFacadeLocal.findAll();
+        if (allAccounts.stream()
+                .filter(x -> !account.getLogin().equals(x.getLogin()))
+                .anyMatch(x -> account.getEmail().equals(x.getEmail()))) {
+            throw new WebApplicationException("Such email exists", 409);
+        } else if (account.getPhoneNumber() != null) {
+            if (account.getPhoneNumber().isEmpty()) {
+                account.setPhoneNumber(null);
+            } else if (allAccounts.stream()
+                    .filter(x -> !account.getLogin().equals(x.getLogin()))
+                    .anyMatch(x -> account.getPhoneNumber().equals(x.getPhoneNumber()))) {
+                throw new WebApplicationException("Such phone number exists", 409);
+            }
+        }
+
+        Account accountFromDB = accountFacadeLocal.findByLogin(account.getLogin());
+
+        //TODO: "W sytuacji zmiany adresu e-mail przypisanego do konta musi nastąpić jej autoryzacja
+        // poprzez indywidualny adres URL udostępniony jako hiperłącze przesłane na adres email przypisany
+        // do konta (każdy zastosowany adres URL zapewnia tylko jednokrotne wykonanie akcji)."
+//        if (account.getEmail() != null && !account.getEmail().isEmpty()) {
+//            accountFromDB.setEmail(account.getEmail());
+//        }
+        if (account.getPhoneNumber() != null) {
+            accountFromDB.setPhoneNumber(account.getPhoneNumber());
+        }
+        if (account.getFirstName() != null && !account.getFirstName().isEmpty()) {
+            accountFromDB.setFirstName(account.getFirstName());
+        }
+        if (account.getLastName() != null && !account.getLastName().isEmpty()) {
+            accountFromDB.setLastName(account.getLastName());
+        }
+        if (account.getTimeZone() != null && !account.getTimeZone().isEmpty()) {
+            accountFromDB.setTimeZone(account.getTimeZone());
+        }
+        if (account.getLanguage() != null && !account.getLanguage().isEmpty()) {
+            accountFromDB.setLanguage(account.getLanguage());
+        }
+
+        EmailSender.sendModificationEmail(account.getFirstName(), accountFromDB.getEmail());
+    }
 }

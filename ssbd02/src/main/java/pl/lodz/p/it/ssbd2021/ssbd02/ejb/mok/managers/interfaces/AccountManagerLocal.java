@@ -40,4 +40,13 @@ public interface AccountManagerLocal {
      * o podanym loginie, emailu bądź numerze telefonu
      */
     void createAccount(Account account) throws WebApplicationException;
+
+    /**
+     * Metoda aktualizuje konto o podanym loginie
+     *
+     * @param account Encja typu {@link Account}
+     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
+     * o podanym emailu bądź numerze telefonu
+     */
+    void updateAccount(Account account) throws WebApplicationException;
 }
