@@ -26,4 +26,17 @@ export class IdentityService {
     getAllRolesAsString(): string {
         return localStorage.getItem('accessLevel') as string;
     }
+
+    getCurrentRole(): string {
+        return localStorage.getItem('currentAccessLevel') as string;
+    }
+
+    getAllRolesAsArray(): string[] {
+        let levels = this.getAllRolesAsString();
+        return levels.split(',');
+    }
+
+    setCurrentRole(level: string): void {
+        localStorage.setItem("currentAccessLevel", level);
+    }
 }
