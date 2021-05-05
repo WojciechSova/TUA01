@@ -43,4 +43,12 @@ export class LinksComponent {
             }
         );
     }
+
+    getAccessLevels(): string[] {
+        return this.identityService.getAllRolesAsString().split(',');
+    }
+
+    setCurrentAccessLevel(level: string): void {
+        this.identityService.setCurrentRole(level);
+    }
 }
