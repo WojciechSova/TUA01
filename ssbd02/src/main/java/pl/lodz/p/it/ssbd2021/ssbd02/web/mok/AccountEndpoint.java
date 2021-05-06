@@ -71,7 +71,7 @@ public class AccountEndpoint {
      * Punkt dostępowy udostępniający informacje o koncie uwierzytelnionego uzytkownika.
      * Tylko użytkownicy uwierzytelnieni mogą skorzystać z tego punktu dostępowego.
      *
-     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkwnika.
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
      * @return Szczegóły konta aktualnie uwierzytelnionego użytkownika.
      */
     @GET
@@ -101,6 +101,26 @@ public class AccountEndpoint {
         }
         accountManager.createAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO));
         return Response.accepted()
+                .build();
+    }
+
+    /**
+     * Metoda umożliwiająca użytkownikowi aktualizowanie konta w aplikacji.
+     *
+     * @param accountDTO Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta.
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @return Kod 200 w przypadku poprawnej aktualizacji.
+     */
+    @PUT
+    @Path("update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateAccount(AccountDetailsDTO accountDTO, @Context SecurityContext securityContext) {
+        if (accountDTO.getLogin() == null || accountDTO.getVersion() == null) {
+            throw new WebApplicationException("Not all required fields were provided", 400);
+        }
+        accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO),
+                securityContext.getUserPrincipal().getName());
+        return Response.ok()
                 .build();
     }
 }

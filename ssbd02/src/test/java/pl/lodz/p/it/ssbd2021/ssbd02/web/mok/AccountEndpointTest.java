@@ -134,4 +134,47 @@ class AccountEndpointTest {
         assertEquals(400, emailException.getResponse().getStatus());
         assertEquals("Not all required fields were provided", emailException.getMessage());
     }
+
+    @Test
+    void updateAccountTest() {
+        doAnswer(invocationOnMock -> {
+            accounts.set(0, account);
+            return null;
+        }).when(accountManager).updateAccount(any(), any());
+
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+
+        accounts.clear();
+        account.setVersion(0L);
+        accounts.add(account);
+
+        assertEquals(0L, accounts.get(0).getVersion());
+
+        account.setVersion(1L);
+        Response response = accountEndpoint.updateAccount(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())), securityContext);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(1L, accounts.get(0).getVersion());
+    }
+
+    @Test
+    void updateAccountExceptionTest() {
+        Account accountWithoutLogin = createAccount();
+        accountWithoutLogin.setLogin(null);
+        Account accountWithoutVersion = createAccount();
+        accountWithoutVersion.setVersion(null);
+
+        WebApplicationException loginException = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                        .of(accountWithoutLogin, Collections.emptyList())), any()));
+        WebApplicationException versionException = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                        .of(accountWithoutVersion, Collections.emptyList())), any()));
+
+        assertEquals(400, loginException.getResponse().getStatus());
+        assertEquals("Not all required fields were provided", loginException.getMessage());
+
+        assertEquals(400, versionException.getResponse().getStatus());
+        assertEquals("Not all required fields were provided", versionException.getMessage());
+    }
 }
