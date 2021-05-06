@@ -42,6 +42,17 @@ public interface AccountManagerLocal {
     void createAccount(Account account) throws WebApplicationException;
 
     /**
+     * Metoda aktualizuje konto o loginie zawartym w encji {@link Account} oraz ustawia konto w polu modifiedBy na konto
+     * użytkownika dokonującego zmiany
+     *
+     * @param account Encja typu {@link Account}
+     * @param modifiedBy Login użytkownika, który edytuje encje
+     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
+     * o podanym emailu bądź numerze telefonu, kod odpowiedzi 406 w przypadku, gdy nie podano loginu
+     */
+    void updateAccount(Account account, String modifiedBy) throws WebApplicationException;
+
+    /**
      * Metoda zmieniająca hasło użytkownika do konta
      *
      * @param login Login użytkownika

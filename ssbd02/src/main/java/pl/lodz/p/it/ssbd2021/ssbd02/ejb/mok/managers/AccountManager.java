@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
@@ -8,13 +9,13 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLo
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
-
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -79,6 +80,49 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     //TODO: method that will handle account confirmation
+
+    @Override
+    public void updateAccount(Account account, String modifiedBy) throws WebApplicationException {
+        List<Account> allAccounts = accountFacadeLocal.findAll();
+        if (account.getPhoneNumber() != null) {
+            if (account.getPhoneNumber().isEmpty()) {
+                account.setPhoneNumber(null);
+            } else if (allAccounts.stream()
+                    .filter(x -> !account.getLogin().equals(x.getLogin()))
+                    .anyMatch(x -> account.getPhoneNumber().equals(x.getPhoneNumber()))) {
+                throw new WebApplicationException("Such phone number exists", 409);
+            }
+        }
+
+        Account accountFromDB = accountFacadeLocal.findByLogin(account.getLogin());
+        Account acc = SerializationUtils.clone(accountFromDB);
+
+        acc.setVersion(account.getVersion());
+
+        if (account.getPhoneNumber() != null) {
+            acc.setPhoneNumber(account.getPhoneNumber());
+        }
+        if (account.getFirstName() != null && !account.getFirstName().isEmpty()) {
+            acc.setFirstName(account.getFirstName());
+        }
+        if (account.getLastName() != null && !account.getLastName().isEmpty()) {
+            acc.setLastName(account.getLastName());
+        }
+        if (account.getTimeZone() != null && !account.getTimeZone().isEmpty()) {
+            acc.setTimeZone(account.getTimeZone());
+        }
+        if (account.getLanguage() != null && !account.getLanguage().isEmpty()) {
+            acc.setLanguage(account.getLanguage());
+        }
+        acc.setModificationDate(Timestamp.from(Instant.now()));
+
+        Account accModifiedBy = accountFacadeLocal.findByLogin(modifiedBy);
+        acc.setModifiedBy(accModifiedBy);
+
+        accountFacadeLocal.edit(acc);
+
+        EmailSender.sendModificationEmail(account.getFirstName(), accountFromDB.getEmail());
+    }
 
     public void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException {
         Account account = accountFacadeLocal.findByLogin(login);
