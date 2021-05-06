@@ -198,4 +198,21 @@ class AccountEndpointTest {
         assertEquals(400, newPasswordNull.getResponse().getStatus());
         assertEquals("Required fields are missing", newPasswordNull.getMessage());
     }
+
+    @Test
+    void unblockAccountTest() {
+        account.setLogin("Login");
+
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("ExampleLogin");
+
+        doAnswer(invocationOnMock -> {
+            account.setActive(true);
+            return null;
+        }).when(accountManager).changeActivity(account.getLogin(), true, "ExampleLogin");
+
+        Response response = accountEndpoint.unblockAccount(account.getLogin(), securityContext);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertTrue(account.getActive());
+    }
 }

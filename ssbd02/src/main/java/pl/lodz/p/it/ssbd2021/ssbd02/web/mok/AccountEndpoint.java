@@ -121,4 +121,20 @@ public class AccountEndpoint {
         return Response.ok()
                 .build();
     }
+
+    /**
+     * Metoda umożliwiająca odblokowanie konta użytkownika.
+     *
+     * @param login Login odblokowywanego konta
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @return Kod 200 w przypadku poprawnego odblokowania konta
+     */
+    @PUT
+    @RolesAllowed({"ADMIN"})
+    @Path("unblock/{login}")
+    public Response unblockAccount(@PathParam("login") String login, @Context SecurityContext securityContext) {
+        accountManager.changeActivity(login, true, securityContext.getUserPrincipal().getName());
+
+        return Response.ok().build();
+    }
 }
