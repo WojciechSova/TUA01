@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * Manager systemu
  *
- * @author Daniel Łondka
+ * @author Artur Madaj
  */
 
 @Singleton
@@ -41,8 +41,8 @@ public class SystemManager implements SystemManagerLocal {
     @Override
     @Schedule(hour = "*/1", persistent = false)
     public void removeUnconfirmedAccounts() {
-        long removalTime = 0;
-        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("system.properties")) {
+        long removalTime = 86400000;
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
 
             prop.load(input);
             removalTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
