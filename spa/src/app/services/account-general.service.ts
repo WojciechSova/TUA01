@@ -1,6 +1,7 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {AccountGeneral} from '../model/mok/AccountGeneral';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AccountGeneral } from '../model/mok/AccountGeneral';
+
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,9 @@ export class AccountGeneralService implements OnDestroy {
 
 
     constructor(private http: HttpClient) {
+
         this.url = 'https://localhost:8181/ssbd02/accounts';
+
     }
 
     getAccounts(): any {
@@ -21,6 +24,14 @@ export class AccountGeneralService implements OnDestroy {
 
     blockAccount(login: string): any {
         return this.http.put(this.url + '/block/' + login,  {}, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+    }
+
+    unblockAccount(login: string): any {
+        return this.http.put(this.url + '/unblock/' + login,  {}, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }

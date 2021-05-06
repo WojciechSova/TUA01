@@ -35,4 +35,11 @@ export class UsersTableComponent {
             this.listAccounts();
         });
     }
+
+    unblockUser(login: string): void {
+        this.accountGeneralService.unblockAccount(login).subscribe(() => {
+            this.getAccounts();
+            this.listAccounts();
+        });
+    }
 }

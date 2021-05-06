@@ -21,7 +21,7 @@
             <td>
                 <div *ngIf="user.active; then block else unblock">{{user['active']}}</div>
                 <ng-template #unblock>
-                    <button class="button-user-table button-unblock" i18n="Unblock|">Odblokuj</button>
+                    <button class="button-user-table button-unblock" (click)="unblockUser(user.login)" i18n="Unblock|">Odblokuj</button>
                 </ng-template>
                 <ng-template #block>
                     <button class="button-user-table button-block" (click)="blockUser(user.login)" i18n="Block|">Zablokuj</button>
