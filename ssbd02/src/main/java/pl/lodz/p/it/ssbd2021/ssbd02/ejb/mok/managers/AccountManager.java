@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
@@ -8,12 +9,13 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLo
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
-
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,7 +81,7 @@ public class AccountManager implements AccountManagerLocal {
     //TODO: method that will handle account confirmation
 
     @Override
-    public void updateAccount(Account account) throws WebApplicationException {
+    public void updateAccount(Account account, String modifiedBy) throws WebApplicationException {
         List<Account> allAccounts = accountFacadeLocal.findAll();
         if (account.getPhoneNumber() != null) {
             if (account.getPhoneNumber().isEmpty()) {
@@ -92,28 +94,9 @@ public class AccountManager implements AccountManagerLocal {
         }
 
         Account accountFromDB = accountFacadeLocal.findByLogin(account.getLogin());
+        Account acc = SerializationUtils.clone(accountFromDB);
 
-        Account acc = new Account();
         acc.setVersion(account.getVersion());
-        acc.setId(accountFromDB.getId());
-        acc.setLogin(accountFromDB.getLogin());
-        acc.setPassword(accountFromDB.getPassword());
-        acc.setActive(accountFromDB.getActive());
-        acc.setConfirmed(accountFromDB.getConfirmed());
-        acc.setFirstName(accountFromDB.getFirstName());
-        acc.setLastName(accountFromDB.getLastName());
-        acc.setEmail(accountFromDB.getEmail());
-        acc.setPhoneNumber(accountFromDB.getPhoneNumber());
-        acc.setLanguage(accountFromDB.getLanguage());
-        acc.setTimeZone(accountFromDB.getTimeZone());
-        acc.setModificationDate(accountFromDB.getModificationDate());
-        acc.setModifiedBy(accountFromDB.getModifiedBy());
-        acc.setCreationDate(accountFromDB.getCreationDate());
-        acc.setLastKnownGoodLogin(accountFromDB.getLastKnownGoodLogin());
-        acc.setLastKnownGoodLoginIp(accountFromDB.getLastKnownGoodLoginIp());
-        acc.setLastKnownBadLogin(accountFromDB.getLastKnownBadLogin());
-        acc.setLastKnownBadLoginIp(accountFromDB.getLastKnownBadLoginIp());
-        acc.setNumberOfBadLogins(accountFromDB.getNumberOfBadLogins());
 
         if (account.getPhoneNumber() != null) {
             acc.setPhoneNumber(account.getPhoneNumber());
@@ -130,6 +113,10 @@ public class AccountManager implements AccountManagerLocal {
         if (account.getLanguage() != null && !account.getLanguage().isEmpty()) {
             acc.setLanguage(account.getLanguage());
         }
+        acc.setModificationDate(Timestamp.from(Instant.now()));
+
+        Account accModifiedBy = accountFacadeLocal.findByLogin(modifiedBy);
+        acc.setModifiedBy(accModifiedBy);
 
         accountFacadeLocal.edit(acc);
 
