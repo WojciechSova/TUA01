@@ -1,4 +1,4 @@
-package pl.lodz.p.it.ssbd2021.ssbd02.config;
+package pl.lodz.p.it.ssbd2021.ssbd02.utils.config;
 
 import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.Stateless;
