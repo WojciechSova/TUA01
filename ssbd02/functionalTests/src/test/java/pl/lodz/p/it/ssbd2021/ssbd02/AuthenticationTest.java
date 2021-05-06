@@ -12,10 +12,18 @@ public class AuthenticationTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private WebDriver driver;
+    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
     private final String login = "admin";
     private final String incorrectLogin = "nieprawidlowe";
     private final String password = "password?";
+    private final String loginFormButtonId = "loginFormBtn";
+    private final String loginMainButtonId = "loginMainBtn";
+    private final String currentAccessLevelId = "currentLevel";
+    private final String currentUsernameId = "usernameMain";
+    private final String errorMessageId = "invalidCredentialsLabel";
+    private final String loginField = "login";
+    private final String passwordField = "password";
+    private WebDriver driver;
 
     @BeforeAll
     static void initAll() {
@@ -29,51 +37,45 @@ public class AuthenticationTest {
     @BeforeEach
     public void initEach() {
         driver = new ChromeDriver(options);
-        driver.get("https://localhost:8181/");
+        driver.get(url);
 
         driverWait = new WebDriverWait(driver, 10);
     }
 
     @Test
     public void authenticationCompletedTest() {
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/div[2]/a[4]"))
+        driver.findElement(By.id(loginMainButtonId))
                 .click();
 
-        Assertions.assertEquals(driver.getCurrentUrl(), "https://localhost:8181/login");
-
-        driver.findElement(By.id("login"))
+        driver.findElement(By.id(loginField))
                 .sendKeys(login);
-        driver.findElement(By.id("password"))
+        driver.findElement(By.id(passwordField))
                 .sendKeys(password);
-        driver.findElement(By.xpath("/html/body/app-root/app-login/div/div/form/button"))
+        driver.findElement(By.id(loginFormButtonId))
                 .click();
 
-        driverWait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("login"))));
+        driverWait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id(loginField))));
 
-        Assertions.assertEquals("https://localhost:8181/", driver.getCurrentUrl());
+        final String currentRole = driver.findElement(By.id(currentAccessLevelId)).getText();
+        final String currentLogin = driver.findElement(By.id(currentUsernameId)).getText();
 
-        final String role = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/div[2]/div/a[1]")).getText();
-        final String login = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/div[2]/div/a[2]")).getText();
-
-        Assertions.assertEquals("administrator", role.toLowerCase());
-        Assertions.assertEquals("admin", login.toLowerCase());
+        Assertions.assertEquals("administrator", currentRole.toLowerCase());
+        Assertions.assertEquals("admin", currentLogin.toLowerCase());
     }
 
     @Test
     public void authenticationUncompletedTest() {
-        driver.findElement(By.xpath("/html/body/app-root/div/div[2]/div[2]/a[4]"))
+        driver.findElement(By.id(loginMainButtonId))
                 .click();
 
-        Assertions.assertEquals("https://localhost:8181/login", driver.getCurrentUrl());
-
-        driver.findElement(By.id("login"))
+        driver.findElement(By.id(loginField))
                 .sendKeys(incorrectLogin);
-        driver.findElement(By.id("password"))
+        driver.findElement(By.id(passwordField))
                 .sendKeys(password);
-        driver.findElement(By.xpath("/html/body/app-root/app-login/div/div/form/button"))
+        driver.findElement(By.id(loginFormButtonId))
                 .click();
 
-        Assertions.assertEquals("https://localhost:8181/login", driver.getCurrentUrl());
+        Assertions.assertTrue(driver.findElement(By.id(errorMessageId)).isDisplayed());
     }
 
     @AfterEach
