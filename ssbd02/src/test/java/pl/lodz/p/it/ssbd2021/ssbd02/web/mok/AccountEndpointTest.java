@@ -76,14 +76,14 @@ class AccountEndpointTest {
     void getAllAccountGenerals() {
         List<Pair<Account, List<AccessLevel>>> accountAccessPairList =
                 Collections.singletonList(Pair.of(account, Collections.emptyList()));
-        List<AccountGeneralDTO> expectedAccountPairList = accountAccessPairList.stream()
+        List<AccountGeneralDTO> expectedDTOList = accountAccessPairList.stream()
                 .map(AccountMapper::createAccountGeneralDTOFromEntities)
                 .collect(Collectors.toList());
         when(accountManager.getAllAccountsWithAccessLevels()).thenReturn(accountAccessPairList);
 
         Response response = accountEndpoint.getAllAccountGenerals();
 
-        assertEquals(expectedAccountPairList, response.getEntity());
+        assertEquals(expectedDTOList, response.getEntity());
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
