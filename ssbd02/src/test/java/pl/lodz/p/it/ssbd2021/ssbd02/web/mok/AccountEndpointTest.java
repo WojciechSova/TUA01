@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
@@ -120,5 +119,22 @@ class AccountEndpointTest {
 
         assertEquals(400, emailException.getResponse().getStatus());
         assertEquals("Not all required fields were provided", emailException.getMessage());
+    }
+
+    @Test
+    void blockAccountTest(){
+        account.setLogin("Login");
+
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("ExampleLogin");
+
+        doAnswer(invocationOnMock -> {
+            account.setActive(false);
+            return null;
+        }).when(accountManager).changeActivity(account.getLogin(), false, "ExampleLogin");
+
+        Response response = accountEndpoint.blockAccount(account.getLogin(), securityContext);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertFalse(account.getActive());
     }
 }
