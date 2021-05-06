@@ -18,9 +18,13 @@ import javax.ws.rs.WebApplicationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class AccountManagerTest {
@@ -169,6 +173,88 @@ public class AccountManagerTest {
         assertEquals(a1, accountManager.getAccountWithLogin(login1).getKey());
         assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getRight());
         assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getValue());
+    }
+
+    @Test
+    void updateAccountTest() {
+        Account account = createAccount();
+        a1.setLogin("testLogin");
+        when(accountFacadeLocal.findByLogin("ExampleLogin")).thenReturn(account);
+        when(accountFacadeLocal.findAll()).thenReturn(Collections.singletonList(account));
+        when(accountFacadeLocal.findByLogin("testLogin")).thenReturn(a1);
+
+        assertEquals("48123456788", account.getPhoneNumber());
+        assertEquals("Annabelle", account.getFirstName());
+        assertEquals("Washington", account.getLastName());
+        assertEquals("PL", account.getTimeZone());
+        assertEquals("PL", account.getLanguage());
+
+        Account updateAcc = new Account();
+        updateAcc.setLogin("ExampleLogin");
+        updateAcc.setPhoneNumber("123");
+        updateAcc.setFirstName("Edward");
+        updateAcc.setLastName("Piotrowski");
+        updateAcc.setTimeZone("en-US");
+        updateAcc.setLanguage("EN");
+
+        doAnswer(invocation -> {
+            account.setPhoneNumber("123");
+            account.setFirstName("Edward");
+            account.setLastName("Piotrowski");
+            account.setTimeZone("en-US");
+            account.setLanguage("EN");
+            account.setModificationDate(Timestamp.from(Instant.now()));
+            account.setModifiedBy(a1);
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        accountManager.updateAccount(updateAcc, "testLogin");
+
+        assertEquals("123", account.getPhoneNumber());
+        assertEquals("Edward", account.getFirstName());
+        assertEquals("Piotrowski", account.getLastName());
+        assertEquals("en-US", account.getTimeZone());
+        assertEquals("EN", account.getLanguage());
+        assertTrue(account.getModificationDate().compareTo(Timestamp.from(Instant.now())) < 10000);
+        assertEquals(a1, account.getModifiedBy());
+    }
+
+    private Account createAccount() {
+        Account acc = new Account();
+        acc.setLogin("ExampleLogin");
+        acc.setPassword("P@ssword");
+        acc.setActive(true);
+        acc.setConfirmed(true);
+        acc.setFirstName("Annabelle");
+        acc.setLastName("Washington");
+        acc.setEmail("example@example.com");
+        acc.setPhoneNumber("48123456788");
+        acc.setLanguage("PL");
+        acc.setTimeZone("PL");
+        acc.setModificationDate(Timestamp.from(Instant.now()));
+        acc.setCreationDate(Timestamp.valueOf("2020-03-21 11:21:15"));
+        acc.setLastKnownGoodLogin(Timestamp.valueOf("2020-03-25 11:21:15"));
+        acc.setLastKnownGoodLoginIp("111.111.111.111");
+        acc.setLastKnownBadLogin(Timestamp.valueOf("2020-03-26 11:21:15"));
+        acc.setLastKnownBadLoginIp("222.222.222.222");
+        acc.setNumberOfBadLogins(2);
+        return acc;
+    }
+
+    @Test
+    void updateAccountExceptionTest() {
+        Account account = createAccount();
+
+        when(a1.getLogin()).thenReturn("Test");
+        when(a1.getPhoneNumber()).thenReturn("48123456788");
+
+        when(accountFacadeLocal.findByLogin(anyString())).thenReturn(account);
+        when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(account, a1));
+        WebApplicationException exceptionA1 = assertThrows(WebApplicationException.class,
+                () -> accountManager.updateAccount(a1, "test"));
+
+        assertEquals(409, exceptionA1.getResponse().getStatus());
+        assertEquals("Such phone number exists", exceptionA1.getMessage());
     }
 
     @Test
