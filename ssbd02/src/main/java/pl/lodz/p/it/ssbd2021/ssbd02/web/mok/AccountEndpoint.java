@@ -102,6 +102,22 @@ public class AccountEndpoint {
     }
 
     /**
+     * Metoda umożliwiająca zablokowanie konta użytkownika.
+     *
+     * @param login Login blokowanego konta
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @return Kod 200 w przypadku poprawnego zablokowania konta
+     */
+    @PUT
+    @RolesAllowed({"ADMIN"})
+    @Path("block/{login}")
+    public Response blockAccount(@PathParam("login") String login, @Context SecurityContext securityContext) {
+        accountManager.changeActivity(login, false, securityContext.getUserPrincipal().getName());
+
+        return Response.ok().build();
+    }
+
+    /**
      * Metoda umożliwiająca uwierzytelnionemu użytkownikowi zmianę hasła do konta
      *
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika

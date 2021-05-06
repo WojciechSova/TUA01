@@ -140,6 +140,23 @@ class AccountEndpointTest {
     }
 
     @Test
+    void blockAccountTest() {
+        account.setLogin("Login");
+
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("ExampleLogin");
+
+        doAnswer(invocationOnMock -> {
+            account.setActive(false);
+            return null;
+        }).when(accountManager).changeActivity(account.getLogin(), false, "ExampleLogin");
+
+        Response response = accountEndpoint.blockAccount(account.getLogin(), securityContext);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertFalse(account.getActive());
+    }
+
+    @Test
     void changePasswordTest() {
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn(account.getLogin());
