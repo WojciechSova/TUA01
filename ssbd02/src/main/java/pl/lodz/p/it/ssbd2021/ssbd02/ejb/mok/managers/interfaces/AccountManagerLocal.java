@@ -58,4 +58,34 @@ public interface AccountManagerLocal {
      * @param clientAddress Adres IP, z którego się uwierzytelniono.
      */
     void registerGoodLogin(String login, String clientAddress);
+
+    /**
+     * Metoda aktualizuje konto o loginie zawartym w encji {@link Account} oraz ustawia konto w polu modifiedBy na konto
+     * użytkownika dokonującego zmiany
+     *
+     * @param account Encja typu {@link Account}
+     * @param modifiedBy Login użytkownika, który edytuje encje
+     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
+     * o podanym emailu bądź numerze telefonu, kod odpowiedzi 406 w przypadku, gdy nie podano loginu
+     */
+    void updateAccount(Account account, String modifiedBy) throws WebApplicationException;
+
+    /**
+     * Metoda zmieniająca hasło użytkownika do konta
+     *
+     * @param login Login użytkownika
+     * @param oldPassword Dotychczasowe hasło użytkownika do konta
+     * @param newPassword Nowe hasło użytkownika do konta
+     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi:
+     * 406 w przypadku, gdy podane dotychczasowe hasło do konta jest nieprawidłowe,
+     * 409 gdy podane nowe hasło jest identyczne jak hasło poprzednie
+     */
+    void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException;
+
+    /**
+     * Metoda zmieniająca aktywność użytkownika
+     *
+     * @param login Login użytkownika
+     */
+    void changeActivity(String login, boolean newActivity, String modifiedBy);
 }

@@ -41,37 +41,42 @@
             <trans-unit id="1020891841134351406" datatype="html">
                 <source>Wyloguj</source>
                 <target>Sign out</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
-                    <context context-type="linenumber">13</context>
-                </context-group>
+
                 <note priority="1" from="meaning">Sign out</note>
-            </trans-unit>
-            <trans-unit id="8639678513181231800" datatype="html">
-                <source>Zaloguj</source>
-                <target>Sign in</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
                     <context context-type="linenumber">14</context>
                 </context-group>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/common/navigation/login/login.component.html</context>
-                    <context context-type="linenumber">13</context>
-                </context-group>
-                <note priority="1" from="meaning">Sign in</note>
             </trans-unit>
-            <trans-unit id="2006180768975064443" datatype="html">
-                <source>Zarejestruj</source>
-                <target>Sign up</target>
+            <trans-unit id="8639678513181231800" datatype="html">
+                <source>Zaloguj</source>
+                <target>Sign in</target>
+                <note priority="1" from="meaning">Sign in</note>
+
+
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
                     <context context-type="linenumber">15</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
-                    <context context-type="linenumber">72</context>
+                    <context context-type="sourcefile">src/app/common/navigation/login/login.component.html</context>
+                    <context context-type="linenumber">16</context>
                 </context-group>
+            </trans-unit>
+            <trans-unit id="2006180768975064443" datatype="html">
+                <source>Zarejestruj</source>
+                <target>Sign up</target>
                 <note priority="1" from="meaning">Sign up</note>
+
+
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
+                    <context context-type="linenumber">17</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
+                    <context context-type="linenumber">74</context>
+                </context-group>
             </trans-unit>
 
 
@@ -80,16 +85,20 @@
                 <target>Administrator</target>
 
                 <note priority="1" from="meaning">Administrator</note>
+
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
-                    <context context-type="linenumber">17</context>
+                    <context context-type="linenumber">22</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
+                    <context context-type="linenumber">28</context>
                 </context-group>
             </trans-unit>
 
             <trans-unit id="5905157044748325477" datatype="html">
                 <source>Rezerwacje</source>
                 <target>Bookings</target>
-
 
 
                 <note priority="1" from="meaning">Bookings header</note>
@@ -107,51 +116,79 @@
                 <target>Client</target>
 
                 <note priority="1" from="meaning">Client</note>
+
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
-                    <context context-type="linenumber">19</context>
+                    <context context-type="linenumber">24</context>
                 </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
+                    <context context-type="linenumber">29</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="1436425457556994694" datatype="html">
+                <source>Podany login lub hasło są nieprawidłowe.</source>
+                <target>Invalid login or password</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/common/navigation/login/login.component.html</context>
+                    <context context-type="linenumber">6</context>
+                </context-group>
+                <note priority="1" from="meaning">Invalid login or password</note>
             </trans-unit>
             <trans-unit id="2192899570325939562" datatype="html">
                 <source>*Login</source>
                 <target>*Login</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/common/navigation/login/login.component.html</context>
-                    <context context-type="linenumber">8</context>
-                </context-group>
                 <note priority="1" from="meaning">Login</note>
-            </trans-unit>
-            <trans-unit id="6950773726570265388" datatype="html">
-                <source>*Hasło</source>
-                <target>*Password</target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/login/login.component.html</context>
                     <context context-type="linenumber">11</context>
                 </context-group>
+            </trans-unit>
+            <trans-unit id="6950773726570265388" datatype="html">
+                <source>*Hasło</source>
+                <target>*Password</target>
                 <note priority="1" from="meaning">Password</note>
+
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/common/navigation/login/login.component.html</context>
+                    <context context-type="linenumber">14</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/change-password-form/change-password-form.component.html</context>
+                    <context context-type="linenumber">8</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="3617037095143248101" datatype="html">
                 <source>Nie masz konta? Zarejestruj się</source>
                 <target>New here? Sign up!</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/common/navigation/login/login.component.html</context>
-                    <context context-type="linenumber">17</context>
-                </context-group>
                 <note priority="1" from="description">Signing up in case of not having an account</note>
                 <note priority="1" from="meaning">Sign up if no account</note>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/common/navigation/login/login.component.html</context>
+                    <context context-type="linenumber">20</context>
+                </context-group>
             </trans-unit>
             <trans-unit id="4219959828699291298" datatype="html">
                 <source>*Login</source>
                 <target>*Login</target>
+
+                <note priority="1" from="meaning">*Login</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">8</context>
                 </context-group>
-                <note priority="1" from="meaning">*Login</note>
             </trans-unit>
             <trans-unit id="3782291210363001523" datatype="html">
                 <source>Pole wymagane</source>
                 <target>Field required</target>
+
+
+
+
+
+
+
+                <note priority="1" from="meaning">Field required</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">11</context>
@@ -180,20 +217,23 @@
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">63</context>
                 </context-group>
-                <note priority="1" from="meaning">Field required</note>
             </trans-unit>
             <trans-unit id="884406148141223477" datatype="html">
                 <source>*Adres e-mail</source>
                 <target>*E-mail address</target>
+
+                <note priority="1" from="meaning">*Email address</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">15</context>
                 </context-group>
-                <note priority="1" from="meaning">*Email address</note>
             </trans-unit>
             <trans-unit id="3080636135766240238" datatype="html">
                 <source>Niepoprawny format</source>
                 <target>Invalid format</target>
+
+
+                <note priority="1" from="meaning">Invalid format</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">20</context>
@@ -202,173 +242,433 @@
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">70</context>
                 </context-group>
-                <note priority="1" from="meaning">Invalid format</note>
             </trans-unit>
             <trans-unit id="3057031773183945348" datatype="html">
                 <source>*Powtórz adres e-mail</source>
                 <target>*Repeat e-mail</target>
+
+                <note priority="1" from="meaning">Repeat email</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">24</context>
                 </context-group>
-                <note priority="1" from="meaning">Repeat email</note>
             </trans-unit>
             <trans-unit id="2621694618944597941" datatype="html">
                 <source>Adresy nie są takie same</source>
                 <target>E-mails are different</target>
+
+                <note priority="1" from="meaning">Emails differ</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">30</context>
                 </context-group>
-                <note priority="1" from="meaning">Emails differ</note>
             </trans-unit>
             <trans-unit id="267263667638212026" datatype="html">
                 <source>*Hasło</source>
                 <target>*Password</target>
+
+                <note priority="1" from="meaning">*Password</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">34</context>
                 </context-group>
-                <note priority="1" from="meaning">*Password</note>
             </trans-unit>
             <trans-unit id="985681574438108563" datatype="html">
                 <source>Hasło za krótkie</source>
                 <target>Password too short</target>
+
+                <note priority="1" from="meaning">Short password</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">39</context>
                 </context-group>
-                <note priority="1" from="meaning">Short password</note>
             </trans-unit>
             <trans-unit id="6036391633631446120" datatype="html">
                 <source>*Powtórz hasło</source>
                 <target>*Repeat password</target>
+
+                <note priority="1" from="meaning">Repeat password</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">43</context>
                 </context-group>
-                <note priority="1" from="meaning">Repeat password</note>
             </trans-unit>
             <trans-unit id="4845464839969239287" datatype="html">
                 <source>Hasła nie są takie same</source>
                 <target>Passwords are different</target>
+
+                <note priority="1" from="meaning">Passwords differ</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">47</context>
                 </context-group>
-                <note priority="1" from="meaning">Passwords differ</note>
             </trans-unit>
             <trans-unit id="4210693717422784455" datatype="html">
                 <source>*Imię</source>
                 <target>*First name</target>
+
+                <note priority="1" from="meaning">*First name</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">53</context>
                 </context-group>
-                <note priority="1" from="meaning">*First name</note>
             </trans-unit>
             <trans-unit id="7315338548274370971" datatype="html">
                 <source>*Nazwisko</source>
                 <target>*Last name</target>
+
+                <note priority="1" from="meaning">*Last name</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">60</context>
                 </context-group>
-                <note priority="1" from="meaning">*Last name</note>
             </trans-unit>
             <trans-unit id="4405266889024864607" datatype="html">
                 <source>Numer telefonu</source>
                 <target>Phone number</target>
+
+                <note priority="1" from="meaning">Phone number</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
                     <context context-type="linenumber">67</context>
                 </context-group>
-                <note priority="1" from="meaning">Phone number</note>
             </trans-unit>
             <trans-unit id="4220759193116209203" datatype="html">
                 <source>Masz już konto? Zaloguj się!</source>
                 <target>Already have an account? Sign in!</target>
-                <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
-                    <context context-type="linenumber">75</context>
-                </context-group>
+
                 <note priority="1" from="description">Signing in in case of having an account</note>
                 <note priority="1" from="meaning">Sign in if having an account</note>
+
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context>
+                    <context context-type="linenumber">77</context>
+                </context-group>
+            </trans-unit>
+            <trans-unit id="754840792862672971" datatype="html">
+                <source>Edytuj konto</source>
+                <target>Edytuj konto</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">3</context>
+                </context-group>
+                <note priority="1" from="meaning">Edit account</note>
+            </trans-unit>
+            <trans-unit id="5387432413120702909" datatype="html">
+                <source>Zmień hasło</source>
+                <target>Change password</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">4</context>
+                </context-group>
+                <note priority="1" from="meaning">Change password</note>
+            </trans-unit>
+            <trans-unit id="2360445413992657261" datatype="html">
+                <source>Login:</source>
+                <target>Login:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">7</context>
+                </context-group>
+                <note priority="1" from="meaning">Login</note>
+            </trans-unit>
+            <trans-unit id="1130246643933111340" datatype="html">
+                <source>Imię:</source>
+                <target>Name:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">11</context>
+                </context-group>
+                <note priority="1" from="meaning">Name</note>
+            </trans-unit>
+            <trans-unit id="1754886455948070906" datatype="html">
+                <source>Nazwisko:</source>
+                <target>Last name:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">15</context>
+                </context-group>
+                <note priority="1" from="meaning">Last name</note>
+            </trans-unit>
+            <trans-unit id="4313776456609346140" datatype="html">
+                <source>Adres email:</source>
+                <target>E-mail address:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">19</context>
+                </context-group>
+                <note priority="1" from="meaning">E-mail address</note>
+            </trans-unit>
+            <trans-unit id="4823251184887321890" datatype="html">
+                <source>Numer telefonu:</source>
+                <target>Phone number:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">23</context>
+                </context-group>
+                <note priority="1" from="meaning">Phone number</note>
+            </trans-unit>
+            <trans-unit id="3679346143689080193" datatype="html">
+                <source>Język:</source>
+                <target>Language:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">27</context>
+                </context-group>
+                <note priority="1" from="meaning">Language</note>
+            </trans-unit>
+            <trans-unit id="2136593724165220781" datatype="html">
+                <source>Strefa czasowa:</source>
+                <target>Timezone:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">31</context>
+                </context-group>
+                <note priority="1" from="meaning">Timezone</note>
+            </trans-unit>
+            <trans-unit id="93522483168119504" datatype="html">
+                <source>Aktywne:</source>
+                <target>Active:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">36</context>
+                </context-group>
+                <note priority="1" from="meaning">Active</note>
+            </trans-unit>
+            <trans-unit id="7222957154665434862" datatype="html">
+                <source>Potwierdzone:</source>
+                <target>Confirmed:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">40</context>
+                </context-group>
+                <note priority="1" from="meaning">Confirmed</note>
+            </trans-unit>
+            <trans-unit id="2403182584053896352" datatype="html">
+                <source>Data ostatniej modyfikacji:</source>
+                <target>Last modification date:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">44</context>
+                </context-group>
+                <note priority="1" from="meaning">Last modification date</note>
+            </trans-unit>
+            <trans-unit id="8800526621286636155" datatype="html">
+                <source>Autor ostatniej modyfikacji:</source>
+                <target>Modified by:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">48</context>
+                </context-group>
+                <note priority="1" from="meaning">Modified by</note>
+            </trans-unit>
+            <trans-unit id="2569436982404813195" datatype="html">
+                <source>Data utworzenia:</source>
+                <target>Creation date:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">52</context>
+                </context-group>
+                <note priority="1" from="meaning">Creation date</note>
+            </trans-unit>
+            <trans-unit id="9197632647433479394" datatype="html">
+                <source>Data ostatniej udanej próby logowania:</source>
+                <target>Last known good login:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">56</context>
+                </context-group>
+                <note priority="1" from="meaning">Last known good login</note>
+            </trans-unit>
+            <trans-unit id="5811669222804852370" datatype="html">
+                <source>Adres ip ostatniej udanej próby logowania:</source>
+                <target>Last known good login ip:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">60</context>
+                </context-group>
+                <note priority="1" from="meaning">Last known good login ip</note>
+            </trans-unit>
+            <trans-unit id="4470407271732216506" datatype="html">
+                <source>Data ostatniej nieudanej próby logowania:</source>
+                <target>Last known bad login:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">64</context>
+                </context-group>
+                <note priority="1" from="meaning">Last known bad login</note>
+            </trans-unit>
+            <trans-unit id="1937928519011519146" datatype="html">
+                <source>Adres ip ostatniej nieudanej próby logowania:</source>
+                <target>Last known bad login ip:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">68</context>
+                </context-group>
+                <note priority="1" from="meaning">Last known bad login ip</note>
+            </trans-unit>
+            <trans-unit id="8647136829530190539" datatype="html">
+                <source>Liczba nieudanych prób logowania:</source>
+                <target>Bad login attempts:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">72</context>
+                </context-group>
+                <note priority="1" from="meaning">Number of bad logins</note>
+            </trans-unit>
+            <trans-unit id="646232716849070647" datatype="html">
+                <source>Poziomy dostępu:</source>
+                <target>Access levels:</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+                    <context context-type="linenumber">78</context>
+                </context-group>
+                <note priority="1" from="meaning">Access levels</note>
+            </trans-unit>
+            <trans-unit id="5680017982017140283" datatype="html">
+                <source>Pole wymagane</source>
+                <target>Required field</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/change-password-form/change-password-form.component.html</context>
+                    <context context-type="linenumber">11,12</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/change-password-form/change-password-form.component.html</context>
+                    <context context-type="linenumber">20,21</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/change-password-form/change-password-form.component.html</context>
+                    <context context-type="linenumber">37,38</context>
+                </context-group>
+                <note priority="1" from="meaning">Field required</note>
+            </trans-unit>
+            <trans-unit id="8978689118428273751" datatype="html">
+                <source>*Nowe hasło</source>
+                <target>*New password</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/change-password-form/change-password-form.component.html</context>
+                    <context context-type="linenumber">16</context>
+                </context-group>
+                <note priority="1" from="meaning">New password</note>
+            </trans-unit>
+            <trans-unit id="8194650224034283736" datatype="html">
+                <source>Hasło za krótkie </source>
+                <target>Provided password is too short</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/change-password-form/change-password-form.component.html</context>
+                    <context context-type="linenumber">24,25</context>
+                </context-group>
+                <note priority="1" from="meaning">Short password</note>
+            </trans-unit>
+            <trans-unit id="8641335801615451370" datatype="html">
+                <source>*Powtórz nowe hasło</source>
+                <target>*Repeat new password</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/change-password-form/change-password-form.component.html</context>
+                    <context context-type="linenumber">29</context>
+                </context-group>
+                <note priority="1" from="meaning">Repeat new password</note>
+            </trans-unit>
+            <trans-unit id="2532685696842433959" datatype="html">
+                <source>Hasła nie są takie same</source>
+                <target>Passwords are not the same</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/change-password-form/change-password-form.component.html</context>
+                    <context context-type="linenumber">33,34</context>
+                </context-group>
+                <note priority="1" from="meaning">Passwords differ</note>
+            </trans-unit>
+            <trans-unit id="4309841339916893359" datatype="html">
+                <source>Potwierdź</source>
+                <target>Confirm</target>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/ferrytales/change-password-form/change-password-form.component.html</context>
+                    <context context-type="linenumber">42,43</context>
+                </context-group>
+                <note priority="1" from="meaning">Confirm</note>
             </trans-unit>
             <trans-unit id="5065846871546310253" datatype="html">
                 <source>Imię</source>
                 <target>First name</target>
+
+                <note priority="1" from="meaning">First name</note>
+
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">5</context>
                 </context-group>
-                <note priority="1" from="meaning">First name</note>
             </trans-unit>
             <trans-unit id="6409515600829802653" datatype="html">
                 <source>Nazwisko</source>
                 <target>Last name</target>
+
+                <note priority="1" from="meaning">Last name</note>
+
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">6</context>
                 </context-group>
-                <note priority="1" from="meaning">Last name</note>
             </trans-unit>
             <trans-unit id="786683128280404394" datatype="html">
                 <source>Poziomy dostępu</source>
                 <target>Access levels</target>
+
+                <note priority="1" from="meaning">Access levels</note>
+
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">7</context>
                 </context-group>
-                <note priority="1" from="meaning">Access levels</note>
             </trans-unit>
             <trans-unit id="5281815555181327638" datatype="html">
                 <source>Odblokuj/Zablokuj</source>
                 <target>Unblock/Block</target>
+
+                <note priority="1" from="meaning">Unblock/Block</note>
+
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">8</context>
                 </context-group>
-                <note priority="1" from="meaning">Unblock/Block</note>
             </trans-unit>
             <trans-unit id="8420268270827593822" datatype="html">
                 <source>Szczegóły</source>
                 <target>Details</target>
+
+
+                <note priority="1" from="meaning">Details</note>
+
+
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">9</context>
                 </context-group>
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">31</context>
                 </context-group>
-                <note priority="1" from="meaning">Details</note>
             </trans-unit>
             <trans-unit id="3223369467475636838" datatype="html">
                 <source>Odblokuj</source>
                 <target>Unblock</target>
+
+                <note priority="1" from="meaning">Unblock</note>
+
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">24</context>
                 </context-group>
-                <note priority="1" from="meaning">Unblock</note>
             </trans-unit>
             <trans-unit id="5594175483540179462" datatype="html">
                 <source>Zablokuj</source>
                 <target>Block</target>
+
+                <note priority="1" from="meaning">Block</note>
+
                 <context-group purpose="location">
-                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html
-                    </context>
+                    <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
                     <context context-type="linenumber">27</context>
                 </context-group>
-                <note priority="1" from="meaning">Block</note>
             </trans-unit>
             <trans-unit id="6115414182435908328" datatype="html">
                 <source>Promy</source>
@@ -415,9 +715,14 @@
                 <target>Employee</target>
 
                 <note priority="1" from="meaning">Employee</note>
+
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
-                    <context context-type="linenumber">18</context>
+                    <context context-type="linenumber">23</context>
+                </context-group>
+                <context-group purpose="location">
+                    <context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context>
+                    <context context-type="linenumber">27</context>
                 </context-group>
             </trans-unit>
             <trans-unit id="1409395019116492725" datatype="html">
@@ -429,8 +734,6 @@
                     <context context-type="linenumber">2</context>
                 </context-group>
             </trans-unit>
-
-
 
 
             <trans-unit id="953969179322728927" datatype="html">
@@ -472,7 +775,8 @@
             </trans-unit>
             <trans-unit id="4941191834559462049" datatype="html">
                 <source>Już od <x id="INTERPOLATION" equiv-text="{{159.99}}"/>zł od osoby</source>
-                <target>Starting at <x id="INTERPOLATION" equiv-text="{{159.99}}"/>PLN per person</target>
+                <target>Starting at<x id="INTERPOLATION" equiv-text="{{159.99}}"/>PLN per person
+                </target>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/main/popular-offers/offer/offer.component.html</context>
                     <context context-type="linenumber">5</context>
@@ -482,14 +786,9 @@
             </trans-unit>
 
 
-
-
             <trans-unit id="6267725038581870503" datatype="html">
                 <source>Zarezerwuj</source>
                 <target>Book</target>
-
-
-
 
 
                 <note priority="1" from="meaning">Book</note>
@@ -501,11 +800,12 @@
             <trans-unit id="2884152189995748590" datatype="html">
                 <source>Najpopularniejsze trasy</source>
                 <target>Popular routes</target>
+
+                <note priority="1" from="meaning">Popular routes</note>
                 <context-group purpose="location">
                     <context context-type="sourcefile">src/app/main/popular-offers/popular-offers.component.html</context>
                     <context context-type="linenumber">1</context>
                 </context-group>
-                <note priority="1" from="meaning">Popular routes</note>
             </trans-unit>
         </body>
     </file>

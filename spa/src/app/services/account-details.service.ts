@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AccountDetails } from '../model/mok/AccountDetails';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +25,7 @@ export class AccountDetailsService implements OnDestroy {
     private readonly url: string;
 
     constructor(private http: HttpClient) {
-        this.url = 'https://localhost:8181/ssbd02/accounts/';
+        this.url = environment.appUrl + '/accounts';
     }
 
     getAccountDetails(login: string): Observable<AccountDetails> {
@@ -43,7 +44,7 @@ export class AccountDetailsService implements OnDestroy {
             });
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.account = {} as any;
     }
 }
