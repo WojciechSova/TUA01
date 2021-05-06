@@ -344,6 +344,14 @@
         </context-group>
         <note priority="1" from="meaning">Confirm</note>
       </trans-unit>
+      <trans-unit id="1061287691196637878" datatype="html">
+        <source>Edytuj poziomy dostępu</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/account-details/account-details.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <note priority="1" from="meaning">Edit access levels</note>
+      </trans-unit>
       <trans-unit id="5065846871546310253" datatype="html">
         <source>Imię</source>
         <context-group purpose="location">
@@ -365,6 +373,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
           <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
+          <context context-type="linenumber">9</context>
         </context-group>
         <note priority="1" from="meaning">Access levels</note>
       </trans-unit>
@@ -404,13 +416,13 @@
         </context-group>
         <note priority="1" from="meaning">Block</note>
       </trans-unit>
-      <trans-unit id="2637171209093153517" datatype="html">
+      <trans-unit id="5194220749716873858" datatype="html">
         <source>Edytuj</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/ferrytales/users-table/users-table.component.html</context>
           <context context-type="linenumber">32</context>
         </context-group>
-        <note priority="1" from="meaning">Details</note>
+        <note priority="1" from="meaning">Edit</note>
       </trans-unit>
       <trans-unit id="953969179322728927" datatype="html">
         <source>Przeprawy promowe jak z bajki</source>

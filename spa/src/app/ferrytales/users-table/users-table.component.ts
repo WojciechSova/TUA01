@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component} from '@angular/core';
 import {AccountGeneral} from '../../model/mok/AccountGeneral';
 import {AccountGeneralService} from '../../services/account-general.service';
 import {Router} from '@angular/router';
