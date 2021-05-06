@@ -181,7 +181,6 @@ public class AccountManagerTest {
         a1.setLogin("testLogin");
         when(accountFacadeLocal.findByLogin("ExampleLogin")).thenReturn(account);
         when(accountFacadeLocal.findAll()).thenReturn(Collections.singletonList(account));
-        when(accountFacadeLocal.findAll()).thenReturn(Collections.singletonList(account));
         when(accountFacadeLocal.findByLogin("testLogin")).thenReturn(a1);
 
         assertEquals("48123456788", account.getPhoneNumber());

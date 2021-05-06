@@ -42,7 +42,8 @@ public interface AccountManagerLocal {
     void createAccount(Account account) throws WebApplicationException;
 
     /**
-     * Metoda aktualizuje konto o podanym loginie
+     * Metoda aktualizuje konto o loginie zawartym w encji {@link Account} oraz ustawia konto w polu modifiedBy na konto
+     * użytkownika dokonującego zmiany
      *
      * @param account Encja typu {@link Account}
      * @param modifiedBy Login użytkownika, który edytuje encje
