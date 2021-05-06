@@ -29,17 +29,20 @@ export class UsersTableComponent {
         this.router.navigate(['/ferrytales/accounts', login]);
     }
 
-    blockUser(login: string): void {
+    blockAccount(login: string): void {
         this.accountGeneralService.blockAccount(login).subscribe(() => {
-            this.getAccounts();
-            this.listAccounts();
+            this.refreshList();
         });
     }
 
-    unblockUser(login: string): void {
+    unblockAccount(login: string): void {
         this.accountGeneralService.unblockAccount(login).subscribe(() => {
-            this.getAccounts();
-            this.listAccounts();
+            this.refreshList();
         });
+    }
+
+    refreshList(): void {
+        this.getAccounts();
+        this.listAccounts();
     }
 }
