@@ -12,7 +12,7 @@ export class AuthService {
 
     constructor(private http: HttpClient) {
 
-        this.url = 'https://localhost:8181/ssbd02/auth';
+        this.url = environment.appUrl + '/auth';
     }
 
     auth(login: string, password: string): any {
