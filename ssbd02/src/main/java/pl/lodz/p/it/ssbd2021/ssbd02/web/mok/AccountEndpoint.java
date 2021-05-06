@@ -103,4 +103,22 @@ public class AccountEndpoint {
         return Response.accepted()
                 .build();
     }
+
+    /**
+     * Metoda umożliwiająca odebranie poziomu dostępu użytkownikowi o podanym loginie.
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @param login Login użytkownika któremu odebrany zostanie poziom dostępu.
+     * @param accessLevel Poziom dostępu, który ma zostać odebrany.
+     * @return Kod 200 w przypadku poprawnego odebrania dostępu.
+     */
+    @PUT
+    @Path("removeaccesslevel/{login}")
+    @RolesAllowed({"ADMIN"})
+    public Response removeAccessLevel(@Context SecurityContext securityContext, @PathParam("login") String login, String accessLevel) {
+        accountManager.removeAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
+
+        return Response.ok()
+                .build();
+    }
 }
