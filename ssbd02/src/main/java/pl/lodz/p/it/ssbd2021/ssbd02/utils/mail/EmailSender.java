@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.mail;
 
-import org.simplejavamail.api.email.*;
+import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.api.mailer.config.TransportStrategy;
 import org.simplejavamail.email.EmailBuilder;
@@ -62,6 +62,46 @@ public class EmailSender {
     }
 
     /**
+     * Metoda wysyłająca wiadomość email informującą użytkownika o dodaniu poziomu dostępu jego konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     */
+    public static void sendAddAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
+        try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
+
+            prop.load(input);
+
+            String htmlText = prop.getProperty("mail.modification.add.access.level.text").replace("ACCESS_LEVEL", accessLevel);
+            String subject = prop.getProperty("mail.info.modification.subject");
+            sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu poziomu dostępu jego konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     */
+    public static void sendRemoveAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
+        try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
+
+            prop.load(input);
+
+            String htmlText = prop.getProperty("mail.modification.remove.access.level.text").replace("ACCESS_LEVEL", accessLevel);
+            String subject = prop.getProperty("mail.info.modification.subject");
+            sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
      * Metoda wysyłająca wiadomość email.
      *
      * @param recipientName         Imię odbiorcy wiadomości.
@@ -69,7 +109,7 @@ public class EmailSender {
      * @param subject               Temat wiadomości.
      * @param text                  Treść wiadomości.
      */
-    public static void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
+    private static void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
         try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
 
             prop.load(input);
