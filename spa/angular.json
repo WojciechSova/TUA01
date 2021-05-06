@@ -98,8 +98,11 @@
                         "browserTarget": "spa:build"
                     },
                     "configurations": {
-                        "production": {
-                            "browserTarget": "spa:build:production"
+                        "prod": {
+                            "browserTarget": "spa:build:prod"
+                        },
+                        "dev": {
+                            "browserTarget": "spa:build:dev"
                         },
                         "en": {
                             "browserTarget": "spa:build:en"
