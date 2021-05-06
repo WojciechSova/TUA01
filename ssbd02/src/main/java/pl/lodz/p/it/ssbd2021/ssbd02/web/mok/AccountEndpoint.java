@@ -105,7 +105,7 @@ public class AccountEndpoint {
      * Metoda umożliwiająca zablokowanie konta użytkownika.
      *
      * @param login Login blokowanego konta
-     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkwnika.
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
      * @return Kod 200 w przypadku poprawnego zablokowania konta
      */
     @PUT
