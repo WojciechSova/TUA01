@@ -3,6 +3,7 @@ import { AuthService } from '../../../services/auth.service';
 import { IdentityService } from '../../../services/utils/identity.service';
 import { AccountDetailsService } from '../../../services/account-details.service';
 import { Router } from '@angular/router';
+import { AccountGeneralService } from "../../../services/account-general.service";
 
 @Component({
     selector: 'app-links',
@@ -14,6 +15,7 @@ export class LinksComponent {
     constructor(private authService: AuthService,
                 public identityService: IdentityService,
                 private accountDetailsService: AccountDetailsService,
+                private accountGeneralService: AccountGeneralService,
                 private router: Router) {
     }
 
@@ -25,6 +27,8 @@ export class LinksComponent {
 
     signOut(): void {
         this.authService.signOut();
+        this.accountDetailsService.ngOnDestroy();
+        this.accountGeneralService.ngOnDestroy();
     }
 
     changeLoginVisible(visible: boolean): void {
@@ -42,5 +46,13 @@ export class LinksComponent {
                 this.router.navigateByUrl('/ferrytales/account');
             }
         );
+    }
+
+    getAccessLevels(): string[] {
+        return this.identityService.getAllRolesAsString().split(',');
+    }
+
+    setCurrentAccessLevel(level: string): void {
+        this.identityService.setCurrentRole(level);
     }
 }

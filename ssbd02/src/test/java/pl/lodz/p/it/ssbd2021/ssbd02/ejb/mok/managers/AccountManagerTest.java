@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AccountManagerTest {
 
@@ -53,6 +53,10 @@ public class AccountManagerTest {
     private final String phoneNumber3 = "333333333";
     private final String login4 = "a4login";
     private final String email4 = "a4Email@domain.com";
+    private final String level = "CLIENT";
+    private final String oldPassword = "oldPassword";
+    private final String newPassword = "newPassword";
+    private final String invalidPassword = "invalidPassword";
     private final String levelClient = "CLIENT";
     private final String levelAdmin = "ADMIN";
     private final String levelEmployee = "EMPLOYEE";
@@ -162,7 +166,7 @@ public class AccountManagerTest {
     }
 
     @Test
-    void getAccountWithLogin() {
+    void getAccountWithLoginTest() {
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
         assertEquals(Pair.of(a1, accessLevels1), accountManager.getAccountWithLogin(login1));
@@ -255,5 +259,65 @@ public class AccountManagerTest {
         accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), levelAdmin);
         assertFalse(accessLevels1.get(0).getActive());
         assertFalse(accessLevels1.get(1).getActive());
+    }
+
+    @Test
+    void changePasswordTest() {
+        a1.setPassword(DigestUtils.sha512Hex(oldPassword));
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        doAnswer(invocationOnMock -> {
+            Account account = invocationOnMock.getArgument(0);
+            account.setPassword(DigestUtils.sha512Hex(newPassword));
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        assertDoesNotThrow(() -> accountManager.changePassword(login1, oldPassword, newPassword));
+        verify(accountFacadeLocal).edit(a1);
+        assertEquals(DigestUtils.sha512Hex(newPassword), a1.getPassword());
+        assertEquals(DigestUtils.sha512Hex(newPassword), accounts.get(0).getPassword());
+    }
+
+    @Test
+    void changePasswordExceptionTest() {
+        a1.setPassword(DigestUtils.sha512Hex(oldPassword));
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        try {
+            accountManager.changePassword(login1, invalidPassword, newPassword);
+        } catch (WebApplicationException ex) {
+            assertEquals("The provided password is invalid", ex.getMessage());
+            assertEquals(406, ex.getResponse().getStatus());
+        }
+
+        try {
+            accountManager.changePassword(login1, oldPassword, oldPassword);
+        } catch (WebApplicationException ex) {
+            assertEquals("The new password is the same as the old password", ex.getMessage());
+            assertEquals(409, ex.getResponse().getStatus());
+        }
+    }
+
+    @Test
+    void changeActivityTest(){
+        a1.setLogin(login1);
+        a1.setEmail(email1);
+        a2.setLogin(login2);
+        a3.setLogin(login4);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accountFacadeLocal.findByLogin(login2)).thenReturn(a2);
+        when(accountFacadeLocal.findByLogin(login4)).thenReturn(a3);
+
+        accountManager.changeActivity(login1, false, login2);
+        verify(accountFacadeLocal).edit(a1);
+        assertFalse(a1.getActive());
+        assertEquals(a2, a1.getModifiedBy());
+        assertFalse(accounts.get(0).getActive());
+
+        accountManager.changeActivity(login1, true, login4);
+        verify(accountFacadeLocal, times(2)).edit(a1);
+        assertTrue(a1.getActive());
+        assertEquals(a3, a1.getModifiedBy());
+        assertTrue(accounts.get(0).getActive());
     }
 }

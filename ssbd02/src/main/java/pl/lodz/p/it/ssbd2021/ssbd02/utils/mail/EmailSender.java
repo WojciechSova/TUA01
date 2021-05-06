@@ -6,7 +6,6 @@ import org.simplejavamail.api.mailer.config.TransportStrategy;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -28,12 +27,40 @@ public class EmailSender {
      * @param link                  Jednorazowy adres url, który służy do potwierdzenia konta przez użytkownika.
      */
     public static void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link) {
-        try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
             String htmlText = prop.getProperty("mail.registration.text").replace("CONFIRMATION_LINK", link);
             String subject = prop.getProperty("mail.registration.subject");
+            sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Metoda wysyłająca wiadomość email z informacją o zmianie aktywności konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     * @param active                Aktualny status aktywności konta.
+     */
+    public static void sendChangedActivityEmail(String recipientName, String recipientEmailAddress, boolean active) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
+
+            prop.load(input);
+
+            String htmlText;
+
+            if(active){
+                htmlText = prop.getProperty("mail.activity.text").replace("AKTUALNA_AKTYWNOSC", "AKTYWNE");
+            }
+            else{
+                htmlText = prop.getProperty("mail.activity.text").replace("AKTUALNA_AKTYWNOSC", "ZABLOKOWANE");
+            }
+            String subject = prop.getProperty("mail.activity.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -48,7 +75,7 @@ public class EmailSender {
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
     public static void sendModificationEmail(String recipientName, String recipientEmailAddress) {
-        try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
@@ -88,7 +115,7 @@ public class EmailSender {
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
     public static void sendRemoveAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
-        try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
@@ -109,8 +136,8 @@ public class EmailSender {
      * @param subject               Temat wiadomości.
      * @param text                  Treść wiadomości.
      */
-    private static void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
-        try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
+    public static void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
