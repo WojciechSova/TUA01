@@ -112,7 +112,7 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca dodanie poziomu dostępu użytkownikowi o podanym loginie.
      *
-     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkwnika.
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
      * @param login Login użytkownika do którego dodany zostanie poziom dostępu.
      * @param accessLevel Poziom dostępu, który ma zostać dodany do konta.
      * @return Kod 200 w przypadku poprawnego dodania dostępu.
