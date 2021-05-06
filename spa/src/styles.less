@@ -8,8 +8,8 @@
 @primary-color-green: #DFEAE2;
 @secondary-color-green: #6BAF92;
 
-body{
-    margin:0;
+body {
+    margin: 0;
     font-size: 62.5%;
 }
 
@@ -84,7 +84,7 @@ hr {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-@media screen and (max-height: 750px){
+@media screen and (max-height: 750px) {
     .overlay {
         overflow-y: scroll;
     }
@@ -145,7 +145,7 @@ form {
     text-align: center;
 }
 
-@media screen and (max-height: 750px){
+@media screen and (max-height: 750px) {
     form {
         margin-top: 15px;
         margin-bottom: 7.5px;
@@ -166,13 +166,13 @@ input {
     outline: none;
 }
 
-input::placeholder{
+input::placeholder {
     font: lighter 1.8rem Source Sans Pro;
     color: @footer-accent-color;
     outline: none;
 }
 
-@media screen and (max-height: 750px){
+@media screen and (max-height: 750px) {
     input {
         margin-top: 3.75px;
         margin-bottom: 3.75px;
@@ -183,7 +183,8 @@ input::placeholder{
         outline: none;
 
     }
-    input::placeholder{
+
+    input::placeholder {
         font: lighter 22.5px Source Sans Pro;
         color: @footer-accent-color;
         outline: none;
@@ -217,8 +218,8 @@ input::placeholder{
     }
 }
 
-@media screen and (max-height: 750px){
-    .form-button{
+@media screen and (max-height: 750px) {
+    .form-button {
         height: 36px;
         font: lighter 22.5px Source Sans Pro;
     }
@@ -243,33 +244,30 @@ input::placeholder{
     outline-width: 0;
 }
 
-.is-invalid{
+.is-invalid {
     border-color: @secondary-color-red;
     -moz-box-shadow: 0 0 5px @secondary-color-red;
     -webkit-box-shadow: 0 0 5px @secondary-color-red;
     box-shadow: 0 0 5px @secondary-color-red;
 }
 
-.validation-error{
+.validation-error {
     position: absolute;
     z-index: 1;
     left: 76.5%;
     display: block;
-    margin-top: -5.5vh;
-    padding: 1vh calc(0.2vw + 1px);
+    margin-top: -5.7vh;
+    padding: 7.5px;
     height: auto;
     width: max-content;
     background-color: @primary-color-red;
     border-radius: 10px;
     color: @secondary-color-red;
-    font: normal 1.4rem Source Sans Pro;
+    font: normal 1rem Source Sans Pro;
 }
 
-@media screen and (max-height: 750px){
-    .validation-error{
-        padding: 7.5px ;
-        margin-top: -41.25px;
-        margin-bottom: -41.25px;
-        font: normal 12.75px Source Sans Pro;
+@media screen and (max-height: 750px) {
+    .validation-error {
+        margin-top: -44px;
     }
 }

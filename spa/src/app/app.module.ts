@@ -16,9 +16,9 @@ import { PopularOffersComponent } from './main/popular-offers/popular-offers.com
 import { OfferComponent } from './main/popular-offers/offer/offer.component';
 import { UsersTableComponent } from './ferrytales/users-table/users-table.component';
 import { AccountDetailsComponent } from './ferrytales/account-details/account-details.component';
-import {IdentityService} from './services/utils/identity.service';
+import { IdentityService } from './services/utils/identity.service';
 import { AccessLevelTableComponent } from './ferrytales/account-details/access-level-table/access-level-table.component';
-import {RegistrationService} from "./services/registration.service";
+import { ChangePasswordFormComponent } from './ferrytales/change-password-form/change-password-form.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +36,8 @@ import {RegistrationService} from "./services/registration.service";
         OfferComponent,
         AccountDetailsComponent,
         AccessLevelTableComponent,
-        UsersTableComponent
+        UsersTableComponent,
+        ChangePasswordFormComponent
     ],
     imports: [
         BrowserModule,
