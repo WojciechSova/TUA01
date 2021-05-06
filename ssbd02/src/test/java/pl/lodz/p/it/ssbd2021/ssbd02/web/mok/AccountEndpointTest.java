@@ -69,6 +69,19 @@ class AccountEndpointTest {
     }
 
     @Test
+    void getAccountWithLogin() {
+        String testLogin = "TestLogin";
+        when(accountManager.getAccountWithLogin(testLogin))
+                .thenReturn(Pair.of(account, Collections.emptyList()));
+
+        Response response = accountEndpoint.getAccountWithLogin(testLogin);
+
+        assertEquals(AccountMapper.createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())),
+                response.getEntity());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
     void getProfile() {
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn("ExampleLogin");
