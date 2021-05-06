@@ -41,19 +41,6 @@
 
             <tr class="edit-content">
                 <td>
-                    <label for="edit-email">{{user.email}}</label>
-                </td>
-                <td>
-                    <input #newEmail type="text" id="edit-email" formControlName="email"
-                           placeholder="E-mail"
-                           [ngClass]="{'is-invalid': form.controls.email.touched && form.controls.email.invalid}">
-                    <div class="edit-validation-error" *ngIf="form.controls.email.hasError('email') && form.controls.email.touched"
-                         i18n="Invalid format|">Niepoprawny format</div>
-                </td>
-            </tr>
-
-            <tr class="edit-content">
-                <td>
                     <label for="edit-language">{{user.language}}</label>
                 </td>
                 <td>
@@ -76,7 +63,7 @@
             </tr>
         </table>
         <button class="edit-button" id="saveBtn"
-                (click)="editUser(newFirstName.value, newLastName.value, newPhoneNumber.value, newEmail.value, newLanguage.value, newTimeZone.value)"
+                (click)="editUser(newFirstName.value, newLastName.value, newPhoneNumber.value, newLanguage.value, newTimeZone.value)"
                 [disabled]="form.invalid" i18n="Save|">Zapisz</button>
     </form>
 </div>
