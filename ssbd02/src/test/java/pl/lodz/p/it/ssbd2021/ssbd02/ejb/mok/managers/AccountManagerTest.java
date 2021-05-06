@@ -207,4 +207,27 @@ public class AccountManagerTest {
             assertEquals(409, ex.getResponse().getStatus());
         }
     }
+
+    @Test
+    void changeActivityTest(){
+        a1.setLogin(login1);
+        a1.setEmail(email1);
+        a2.setLogin(login2);
+        a3.setLogin(login4);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accountFacadeLocal.findByLogin(login2)).thenReturn(a2);
+        when(accountFacadeLocal.findByLogin(login4)).thenReturn(a3);
+
+        accountManager.changeActivity(login1, false, login2);
+        verify(accountFacadeLocal).edit(a1);
+        assertFalse(a1.getActive());
+        assertEquals(a2, a1.getModifiedBy());
+        assertFalse(accounts.get(0).getActive());
+
+        accountManager.changeActivity(login1, true, login4);
+        verify(accountFacadeLocal, times(2)).edit(a1);
+        assertTrue(a1.getActive());
+        assertEquals(a3, a1.getModifiedBy());
+        assertTrue(accounts.get(0).getActive());
+    }
 }
