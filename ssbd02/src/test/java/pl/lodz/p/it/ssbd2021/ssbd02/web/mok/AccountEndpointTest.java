@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 
@@ -20,8 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
@@ -133,5 +133,27 @@ class AccountEndpointTest {
 
         assertEquals(400, emailException.getResponse().getStatus());
         assertEquals("Not all required fields were provided", emailException.getMessage());
+    }
+
+    @Test
+    void addAccessLevel() {
+        AccessLevel accessLevel = new AccessLevel();
+        accessLevel.setAccount(account);
+        accessLevel.setLevel("Admin");
+        accessLevel.setActive(false);
+
+        account.setLogin("login");
+
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("Admin");
+
+        doAnswer(invocationOnMock -> {
+            accessLevel.setActive(true);
+            return null;
+        }).when(accountManager).addAccessLevel("Admin", "login", "ADMIN");
+
+        Response response = accountEndpoint.addAccessLevel(securityContext, "login", "ADMIN");
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertTrue(accessLevel.getActive());
     }
 }
