@@ -95,7 +95,7 @@ public class EmailSender {
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
     public static void sendAddAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
-        try (InputStream input = new FileInputStream("src/main/resources/mail.properties")) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
