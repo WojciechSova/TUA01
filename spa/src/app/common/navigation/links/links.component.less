@@ -1,5 +1,38 @@
 @import '../../../../styles.less';
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: fixed;
+    flex-direction: column;
+    box-shadow: 0px 8px 16px 0px #0F084B;
+    background: #dddddd;
+    margin-left: -2vw;
+    margin-top: 1.5vw;
+    align-items: center;
+    width: auto;
+}
+
+.dropdown-content a {
+    padding: 12px 16px;
+    width: -webkit-fill-available;
+    margin-left: 0;
+    text-align: center;
+    text-shadow: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #BDBDBD;
+}
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
+
 .login-access-level {
     display: flex;
     flex-direction: column;

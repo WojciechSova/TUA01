@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -121,5 +122,30 @@ public class AccountManager implements AccountManagerLocal {
         accountFacadeLocal.edit(acc);
 
         EmailSender.sendModificationEmail(account.getFirstName(), accountFromDB.getEmail());
+    }
+
+    public void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException {
+        Account account = accountFacadeLocal.findByLogin(login);
+        String hashedOldPassword = DigestUtils.sha512Hex(oldPassword);
+        if (!hashedOldPassword.equals(account.getPassword())) {
+            throw new WebApplicationException("The provided password is invalid", 406);
+        } else if (newPassword.equals(oldPassword)) {
+            throw new WebApplicationException("The new password is the same as the old password", 409);
+        }
+
+        account.setPassword(DigestUtils.sha512Hex(newPassword));
+        accountFacadeLocal.edit(account);
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void changeActivity(String login, boolean newActivity, String modifiedBy) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        account.setActive(newActivity);
+        account.setModifiedBy(accountFacadeLocal.findByLogin(modifiedBy));
+        account.setModificationDate(new Timestamp(new Date().getTime()));
+        accountFacadeLocal.edit(account);
+
+        EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());
     }
 }

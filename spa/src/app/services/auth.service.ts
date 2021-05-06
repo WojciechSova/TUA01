@@ -10,7 +10,7 @@ export class AuthService {
     private readonly url: string;
 
     constructor(private http: HttpClient) {
-        this.url = 'https://localhost:8181/ssbd02/auth';
+        this.url = 'https://studapp.it.p.lodz.pl:8402/ssbd02/auth';
     }
 
     auth(login: string, password: string): any {

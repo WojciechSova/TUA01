@@ -34,7 +34,7 @@ public class Cabin extends AbstractEntity implements Serializable {
 
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "ferry", nullable = false, updatable = true, referencedColumnName = "id")
+    @JoinColumn(name = "ferry", nullable = false, updatable = false, referencedColumnName = "id")
     private Ferry ferry;
 
     @NotNull
