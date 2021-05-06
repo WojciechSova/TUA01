@@ -112,6 +112,7 @@ public class AccountEndpoint {
      * @return Kod 200 w przypadku poprawnej aktualizacji.
      */
     @PUT
+    @RolesAllowed({"ADMIN"})
     @Path("update")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAccount(AccountDetailsDTO accountDTO, @Context SecurityContext securityContext) {
