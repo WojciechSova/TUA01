@@ -72,7 +72,7 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "language", nullable = true, updatable = true, length = 5, table = "Personal_data")
     private String language;
 
-    @Column(name = "time_zone", nullable = true, updatable = true, length = 10, table = "Personal_data")
+    @Column(name = "time_zone", nullable = true, updatable = true, length = 50, table = "Personal_data")
     private String timeZone;
 
     @Column(name = "modification_date", nullable = true, updatable = true, table = "Personal_data")

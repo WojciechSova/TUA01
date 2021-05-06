@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { MokService } from '../../services/mok.service';
 import { AccountGeneral } from '../../model/mok/AccountGeneral';
+import { AccountGeneralService } from '../../services/account-general.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -10,10 +11,21 @@ import { AccountGeneral } from '../../model/mok/AccountGeneral';
 })
 export class UsersTableComponent {
 
-    constructor(private mokService: MokService) {
+    constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
+        this.getAccounts();
     }
 
-    getAccounts(): AccountGeneral[] {
-        return this.mokService.getAccounts();
+
+    getAccounts(): void {
+        this.accountGeneralService.getAccounts().subscribe(
+            (response: AccountGeneral[]) => this.accountGeneralService.accountGeneralList = response);
+    }
+
+    listAccounts(): AccountGeneral[] {
+        return this.accountGeneralService.accountGeneralList;
+    }
+
+    setUser(login: string): void {
+        this.router.navigate(['/ferrytales/accounts', login]);
     }
 }

@@ -1,6 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validateEmail, validatePassword } from './matching.validator';
+import { RegistrationService } from '../../../services/registration.service';
+import { AccountDetails } from '../../../model/mok/AccountDetails';
+import { getTimezone } from 'countries-and-timezones';
 
 @Component({
     selector: 'app-register',
@@ -9,7 +12,10 @@ import { validateEmail, validatePassword } from './matching.validator';
 })
 export class RegisterComponent implements OnInit {
 
-    constructor() {
+    private registrationService: RegistrationService;
+
+    constructor(registrationService: RegistrationService) {
+        this.registrationService = registrationService;
     }
 
     @Output()
@@ -40,5 +46,30 @@ export class RegisterComponent implements OnInit {
     openLogin(): void {
         this.isLoginVisibleChange.emit(true);
         this.isRegisterVisibleChange.emit(false);
+    }
+
+    register(login: string, password: string, firstName: string, lastName: string, email: string, phoneNumber?: string): void {
+        const account: AccountDetails = {
+            login,
+            password,
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+            active: true,
+            confirmed: false,
+            accessLevel: [
+                {
+                    level: 'CLIENT',
+                    active: true,
+                    creationDate: new Date()
+                },
+                ],
+            language: navigator.language || window.navigator.language,
+            timeZone: getTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)?.name,
+            creationDate: new Date(),
+            numberOfBadLogins: 0
+        };
+        this.registrationService.register(account);
     }
 }
