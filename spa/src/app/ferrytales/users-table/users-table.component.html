@@ -24,7 +24,7 @@
                     <button class="button-user-table button-unblock" i18n="Unblock|">Odblokuj</button>
                 </ng-template>
                 <ng-template #block>
-                    <button class="button-user-table button-block" i18n="Block|">Zablokuj</button>
+                    <button class="button-user-table button-block" (click)="blockUser(user.login)" i18n="Block|">Zablokuj</button>
                 </ng-template>
             </td>
             <td>

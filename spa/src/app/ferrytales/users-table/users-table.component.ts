@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { AccountGeneral } from '../../model/mok/AccountGeneral';
-import { AccountGeneralService } from '../../services/account-general.service';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {AccountGeneral} from '../../model/mok/AccountGeneral';
+import {AccountGeneralService} from '../../services/account-general.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -27,5 +27,12 @@ export class UsersTableComponent {
 
     setUser(login: string): void {
         this.router.navigate(['/ferrytales/accounts', login]);
+    }
+
+    blockUser(login: string): void {
+        this.accountGeneralService.blockAccount(login).subscribe(() => {
+            this.getAccounts();
+            this.listAccounts();
+        });
     }
 }

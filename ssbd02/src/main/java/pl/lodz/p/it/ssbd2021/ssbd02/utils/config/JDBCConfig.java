@@ -11,9 +11,9 @@ import java.sql.Connection;
         className = "org.postgresql.ds.PGSimpleDataSource",
         user = "ssbd02admin",
         password = "admin_password",
-        serverName = "studdev.it.p.lodz.pl",
+        serverName = "localhost",
         portNumber = 5432,
-        databaseName = "ssbd02",
+        databaseName = "ssbd02_local",
         initialPoolSize = 1,
         minPoolSize = 0,
         maxPoolSize = 1,
@@ -24,18 +24,18 @@ import java.sql.Connection;
         className = "org.postgresql.ds.PGSimpleDataSource",
         user = "ssbd02auth",
         password = "auth_password",
-        serverName = "studdev.it.p.lodz.pl",
+        serverName = "localhost",
         portNumber = 5432,
-        databaseName = "ssbd02"
+        databaseName = "ssbd02_local"
 )
 @DataSourceDefinition(
         name = "java:app/jdbc/ssbd02mok",
         className = "org.postgresql.ds.PGSimpleDataSource",
         user = "ssbd02mok",
         password = "mok_password",
-        serverName = "studdev.it.p.lodz.pl",
+        serverName = "localhost",
         portNumber = 5432,
-        databaseName = "ssbd02",
+        databaseName = "ssbd02_local",
         transactional = true,
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED
 )
@@ -44,9 +44,9 @@ import java.sql.Connection;
         className = "org.postgresql.ds.PGSimpleDataSource",
         user = "ssbd02mop",
         password = "mop_password",
-        serverName = "studdev.it.p.lodz.pl",
+        serverName = "localhost",
         portNumber = 5432,
-        databaseName = "ssbd02",
+        databaseName = "ssbd02_local",
         transactional = true,
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED
 )
