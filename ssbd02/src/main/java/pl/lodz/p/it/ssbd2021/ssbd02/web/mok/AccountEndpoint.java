@@ -126,7 +126,7 @@ public class AccountEndpoint {
      * Metoda umożliwiająca odblokowanie konta użytkownika.
      *
      * @param login Login odblokowywanego konta
-     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego odblokowania konta
      */
     @PUT

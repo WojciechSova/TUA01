@@ -202,6 +202,7 @@ class AccountEndpointTest {
     @Test
     void unblockAccountTest() {
         account.setLogin("Login");
+        account.setActive(false);
 
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn("ExampleLogin");
