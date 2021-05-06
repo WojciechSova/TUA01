@@ -17,8 +17,8 @@ export class ChangePasswordFormComponent implements OnInit {
 
     form = new FormGroup({
         oldPassword: new FormControl('', [Validators.required, validatePassword]),
-        newPassword: new FormControl('', [Validators.required, Validators.minLength(8), validatePassword]),
-        newPasswordRepeat: new FormControl('', [Validators.required, validatePassword]),
+        password: new FormControl('', [Validators.required, Validators.minLength(8), validatePassword]),
+        passwordRepeat: new FormControl('', [Validators.required, validatePassword]),
     });
 
     ngOnInit(): void {
@@ -27,5 +27,4 @@ export class ChangePasswordFormComponent implements OnInit {
     closeComponent(): void {
         this.isChangePasswordFormVisibleChange.emit(false);
     }
-
 }
