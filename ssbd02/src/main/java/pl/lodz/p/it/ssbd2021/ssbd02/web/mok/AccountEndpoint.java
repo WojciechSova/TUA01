@@ -121,10 +121,9 @@ public class AccountEndpoint {
     @Path("addaccesslevel/{login}")
     @RolesAllowed({"ADMIN"})
     public Response addAccessLevel(@Context SecurityContext securityContext, @PathParam("login") String login, String accessLevel) {
-        Date now = new Date();
         accountManager.addAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
 
-        return Response.ok((new Date()).getTime() - now.getTime())
+        return Response.ok()
                 .build();
     }
 }
