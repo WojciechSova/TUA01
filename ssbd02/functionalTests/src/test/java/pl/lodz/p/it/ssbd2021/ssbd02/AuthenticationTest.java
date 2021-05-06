@@ -12,7 +12,7 @@ public class AuthenticationTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private final String url = "https://localhost:8181/#";
+    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
     private final String login = "admin";
     private final String incorrectLogin = "nieprawidlowe";
     private final String password = "password?";
