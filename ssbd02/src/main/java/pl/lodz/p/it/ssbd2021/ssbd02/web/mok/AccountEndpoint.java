@@ -109,6 +109,7 @@ public class AccountEndpoint {
      * @return Kod 200 w przypadku poprawnej zmiany hasła
      */
     @PUT
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
     @Path("password")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changePassword(@Context SecurityContext securityContext, PasswordDTO passwordDTO) {
