@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {AccountGeneral} from '../../model/mok/AccountGeneral';
-import {AccountGeneralService} from '../../services/account-general.service';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { AccountGeneral } from '../../model/mok/AccountGeneral';
+import { AccountGeneralService } from '../../services/account-general.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,18 +31,14 @@ export class UsersTableComponent {
 
     blockAccount(login: string): void {
         this.accountGeneralService.blockAccount(login).subscribe(() => {
-            this.refreshList();
+            this.getAccounts();
         });
     }
 
     unblockAccount(login: string): void {
         this.accountGeneralService.unblockAccount(login).subscribe(() => {
-            this.refreshList();
+            this.getAccounts();
         });
     }
 
-    refreshList(): void {
-        this.getAccounts();
-        this.listAccounts();
-    }
 }
