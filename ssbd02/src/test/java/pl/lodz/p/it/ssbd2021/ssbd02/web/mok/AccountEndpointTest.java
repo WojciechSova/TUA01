@@ -12,6 +12,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLo
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -155,6 +156,75 @@ class AccountEndpointTest {
 
         assertEquals(400, emailException.getResponse().getStatus());
         assertEquals("Not all required fields were provided", emailException.getMessage());
+    }
+
+    @Test
+    void updateAccountTest() {
+        doAnswer(invocationOnMock -> {
+            account.setVersion(1L);
+            accounts.set(0, account);
+            return null;
+        }).when(accountManager).updateAccount(any(), any());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+
+        accounts.clear();
+        account.setVersion(0L);
+        accounts.add(account);
+
+        String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())));
+
+        assertEquals(0L, accounts.get(0).getVersion());
+
+        Response response = accountEndpoint.updateAccount(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())), securityContext, tag);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(1L, accounts.get(0).getVersion());
+    }
+
+    @Test
+    void updateAccountExceptionTest() {
+        doAnswer(invocationOnMock -> {
+            account.setVersion(1L);
+            return null;
+        }).when(accountManager).updateAccount(any(), any());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+
+        Account accountWithoutLogin = createAccount();
+        accountWithoutLogin.setLogin(null);
+        Account accountWithoutVersion = createAccount();
+        accountWithoutVersion.setVersion(null);
+        account.setVersion(0L);
+        String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())));
+
+        WebApplicationException loginException = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                        .of(accountWithoutLogin, Collections.emptyList())), securityContext, "notETag"));
+        WebApplicationException versionException = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                        .of(accountWithoutVersion, Collections.emptyList())), securityContext, "notETag"));
+
+        Response responseTag = accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                .of(account, Collections.emptyList())), securityContext, tag);
+
+        account.setVersion(2L);
+
+        WebApplicationException tagException = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                        .of(account, Collections.emptyList())), any(), tag));
+
+        assertEquals(400, loginException.getResponse().getStatus());
+        assertEquals("Not all required fields were provided", loginException.getMessage());
+
+        assertEquals(400, versionException.getResponse().getStatus());
+        assertEquals("Not all required fields were provided", versionException.getMessage());
+
+        assertEquals(200, responseTag.getStatus());
+
+        assertEquals(412, tagException.getResponse().getStatus());
+        assertEquals("Not valid tag", tagException.getMessage());
     }
 
     @Test
