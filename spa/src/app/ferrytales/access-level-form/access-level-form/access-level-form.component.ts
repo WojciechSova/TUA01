@@ -26,9 +26,6 @@ export class AccessLevelFormComponent implements OnChanges {
 
     constructor(public identityService: IdentityService,
                 public accessLevelService: AccessLevelService) {
-        setInterval(() => {
-            console.log(this.loginToChangeAccessLevel, this.loginAccessLevels);
-        }, 1000);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
