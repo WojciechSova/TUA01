@@ -17,8 +17,8 @@ public class GetAllAccountsTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private final String url = "https://localhost:8181/#";
     private WebDriver driver;
+    private final String url = "https://localhost:8181/#";
     private final String adminLogin = "admin";
     private final String adminPassword = "password?";
 
@@ -63,7 +63,7 @@ public class GetAllAccountsTest {
     }
 
     @AfterEach
-    void end() {
+    void tearDown() {
         driver.quit();
     }
 }

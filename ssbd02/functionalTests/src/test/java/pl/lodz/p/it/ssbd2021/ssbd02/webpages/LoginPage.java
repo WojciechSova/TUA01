@@ -6,12 +6,10 @@ import org.openqa.selenium.WebDriver;
 public class LoginPage {
 
     protected WebDriver driver;
-    private static String url = "https://studapp.it.p.lodz.pl:8402/#";
-    private By loginField = By.id("login");
-    private By passwordField = By.id("password");
-    private By loginButton = By.id("loginFormBtn");
-
-
+    private final By loginField = By.id("login");
+    private final By passwordField = By.id("password");
+    private final By loginButton = By.id("loginFormBtn");
+    
     public LoginPage(WebDriver driver) {
         this.driver = driver;
     }
