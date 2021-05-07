@@ -15,16 +15,15 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ws.rs.WebApplicationException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class AccountManagerTest {
@@ -315,5 +314,39 @@ public class AccountManagerTest {
         assertTrue(a1.getActive());
         assertEquals(a3, a1.getModifiedBy());
         assertTrue(accounts.get(0).getActive());
+    }
+
+    @Test
+    void registerBadLogin() {
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        String address = "192.168.1.1";
+
+        assertNull(a1.getLastKnownBadLogin());
+        assertNull(a1.getLastKnownBadLoginIp());
+
+        Timestamp before = Timestamp.from(Instant.now());
+        accountManager.registerBadLogin(login1, address);
+        Timestamp after = Timestamp.from(Instant.now());
+
+        assertTrue(a1.getLastKnownBadLogin().getTime() >= before.getTime());
+        assertTrue(a1.getLastKnownBadLogin().getTime() <= after.getTime());
+        assertEquals(address, a1.getLastKnownBadLoginIp());
+    }
+
+    @Test
+    void registerGoodLogin() {
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        String address = "192.168.1.1";
+
+        assertNull(a1.getLastKnownGoodLogin());
+        assertNull(a1.getLastKnownGoodLoginIp());
+
+        Timestamp before = Timestamp.from(Instant.now());
+        accountManager.registerGoodLogin(login1, address);
+        Timestamp after = Timestamp.from(Instant.now());
+
+        assertTrue(a1.getLastKnownGoodLogin().getTime() >= before.getTime());
+        assertTrue(a1.getLastKnownGoodLogin().getTime() <= after.getTime());
+        assertEquals(address, a1.getLastKnownGoodLoginIp());
     }
 }

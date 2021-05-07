@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import jwtDecode from 'jwt-decode';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,7 @@ export class AuthService {
     private readonly url: string;
 
     constructor(private http: HttpClient) {
-        this.url = 'https://studapp.it.p.lodz.pl:8402/ssbd02/auth';
+        this.url = environment.appUrl + '/auth';
     }
 
     auth(login: string, password: string): any {

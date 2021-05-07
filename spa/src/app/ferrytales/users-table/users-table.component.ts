@@ -28,4 +28,8 @@ export class UsersTableComponent {
     setUser(login: string): void {
         this.router.navigate(['/ferrytales/accounts', login]);
     }
+
+    editUser(login: string): void {
+        this.router.navigate(['ferrytales/accounts/edit', login]);
+    }
 }
