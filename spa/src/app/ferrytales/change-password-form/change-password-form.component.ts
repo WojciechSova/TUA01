@@ -1,15 +1,16 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validatePassword } from '../../common/navigation/register/matching.validator';
+import { ChangePasswordService } from '../../services/change-password.service';
 
 @Component({
     selector: 'app-change-password-form',
     templateUrl: './change-password-form.component.html',
     styleUrls: ['./change-password-form.component.less']
 })
-export class ChangePasswordFormComponent implements OnInit {
+export class ChangePasswordFormComponent {
 
-    constructor() {
+    constructor(private changePasswordService: ChangePasswordService) {
     }
 
     @Output()
@@ -21,10 +22,11 @@ export class ChangePasswordFormComponent implements OnInit {
         passwordRepeat: new FormControl('', [Validators.required, validatePassword]),
     });
 
-    ngOnInit(): void {
-    }
-
     closeComponent(): void {
         this.isChangePasswordFormVisibleChange.emit(false);
+    }
+
+    changePassword(oldPassword: string, newPassword: string): void {
+        this.changePasswordService.changePassword(oldPassword, newPassword).subscribe();
     }
 }

@@ -18,7 +18,7 @@ import { UsersTableComponent } from './ferrytales/users-table/users-table.compon
 import { AccountDetailsComponent } from './ferrytales/account-details/account-details.component';
 import { IdentityService } from './services/utils/identity.service';
 import { AccessLevelTableComponent } from './ferrytales/account-details/access-level-table/access-level-table.component';
-import { RegistrationService } from "./services/registration.service";
+import { RegistrationService } from './services/registration.service';
 import { EditUserComponent } from './ferrytales/edit-user/edit-user.component';
 import { ChangePasswordFormComponent } from './ferrytales/change-password-form/change-password-form.component';
 
@@ -39,7 +39,7 @@ import { ChangePasswordFormComponent } from './ferrytales/change-password-form/c
         AccountDetailsComponent,
         AccessLevelTableComponent,
         UsersTableComponent,
-        EditUserComponent
+        EditUserComponent,
         ChangePasswordFormComponent
     ],
     imports: [

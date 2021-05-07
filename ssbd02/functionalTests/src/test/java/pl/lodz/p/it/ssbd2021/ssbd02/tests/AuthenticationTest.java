@@ -1,4 +1,4 @@
-package pl.lodz.p.it.ssbd2021.ssbd02;
+package pl.lodz.p.it.ssbd2021.ssbd02.tests;
 
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
