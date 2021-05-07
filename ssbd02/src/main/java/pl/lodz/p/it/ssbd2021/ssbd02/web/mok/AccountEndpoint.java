@@ -10,13 +10,18 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -101,6 +106,24 @@ public class AccountEndpoint {
         }
         accountManager.createAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO));
         return Response.accepted()
+                .build();
+    }
+
+    /**
+     * Metoda umożliwiająca dodanie poziomu dostępu użytkownikowi o podanym loginie.
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @param login Login użytkownika do którego dodany zostanie poziom dostępu.
+     * @param accessLevel Poziom dostępu, który ma zostać dodany do konta.
+     * @return Kod 200 w przypadku poprawnego dodania dostępu.
+     */
+    @PUT
+    @Path("addaccesslevel/{login}")
+    @RolesAllowed({"ADMIN"})
+    public Response addAccessLevel(@Context SecurityContext securityContext, @PathParam("login") String login, String accessLevel) {
+        accountManager.addAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
+
+        return Response.ok()
                 .build();
     }
 
