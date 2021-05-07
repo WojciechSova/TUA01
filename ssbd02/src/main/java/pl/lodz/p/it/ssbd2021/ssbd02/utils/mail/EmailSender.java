@@ -126,7 +126,6 @@ public class EmailSender {
                     .replace("IP_ADDRESS", clientAddress)
                     .replace("TIME", date);
             String subject = prop.getProperty("mail.info.admin.auth.subject");
-            System.out.println(htmlText);
 
             sendEmail(firstName, email, subject, htmlText);
         } catch (IOException ex) {
