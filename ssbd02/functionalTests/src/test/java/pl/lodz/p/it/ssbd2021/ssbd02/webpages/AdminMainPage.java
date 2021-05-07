@@ -31,4 +31,10 @@ public class AdminMainPage {
         driver.findElement(accountsLink).click();
         return new AccountsListPage(driver);
     }
+
+    public OwnProfileDetailsPage openOwnProfileDetails() {
+        driver.switchTo().defaultContent();
+        driver.findElement(currentUser).click();
+        return new OwnProfileDetailsPage(driver);
+    }
 }
