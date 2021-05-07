@@ -3,7 +3,7 @@ import { AccountDetails } from '../../model/mok/AccountDetails';
 import { IdentityService } from '../../services/utils/identity.service';
 import { AccessLevel } from '../../model/mok/AccessLevel';
 import { AccountDetailsService } from '../../services/account-details.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +15,8 @@ export class AccountDetailsComponent implements OnInit {
 
     constructor(public identityService: IdentityService,
                 public accountDetailsService: AccountDetailsService,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private router: Router) {
         this.getAccount();
     }
 
@@ -39,5 +40,9 @@ export class AccountDetailsComponent implements OnInit {
 
     changeChangePasswordFormVisible(visible: boolean): void {
         this.isChangePasswordFormVisible = visible;
+    }
+
+    editUser(login: string): void {
+        this.router.navigate(['ferrytales/accounts/edit', login]);
     }
 }
