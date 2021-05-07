@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacadeInterface;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Local;
+import java.util.List;
 
 /**
  * Interfejs encji modułu obsługi kont.
@@ -30,4 +31,12 @@ public interface AccountFacadeLocal extends AbstractFacadeInterface<Account> {
      * @return Obiekt typu {@link Account} o przekazanym adresie email.
      */
     Account findByEmail(String email);
+
+    /**
+     * Metoda wyszukująca listę encji typu {@link Account} o przekazanym stanie potwierdzenia konta.
+     *
+     * @param confirmed Wartość typu {@link Boolean} informująca o stanie potwierdzenia konta.
+     * @return Lista obiektów typu {@link Account}.
+     */
+    List<Account> findByConfirmed(boolean confirmed);
 }
