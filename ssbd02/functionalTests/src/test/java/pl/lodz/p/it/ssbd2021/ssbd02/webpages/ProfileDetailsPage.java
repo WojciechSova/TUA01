@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class OwnProfileDetailsPage {
+public class ProfileDetailsPage {
 
     protected WebDriver driver;
     private final By profileTable = By.id("detailedTable");
@@ -21,7 +21,7 @@ public class OwnProfileDetailsPage {
     private final By phoneNumberField = By.id("phoneNumber");
     private final By label = By.tagName("label");
 
-    public OwnProfileDetailsPage(WebDriver driver) {
+    public ProfileDetailsPage(WebDriver driver) {
         this.driver = driver;
     }
 
