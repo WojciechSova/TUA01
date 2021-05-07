@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLo
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
+
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -77,6 +78,20 @@ public class AccountManager implements AccountManagerLocal {
         accessLevelFacadeLocal.create(accessLevel);
 
         EmailSender.sendRegistrationEmail(account.getFirstName(), account.getEmail(), "link");
+    }
+
+    @Override
+    public void registerBadLogin(String login, String clientAddress) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        account.setLastKnownBadLogin(Timestamp.from(Instant.now()));
+        account.setLastKnownBadLoginIp(clientAddress);
+    }
+
+    @Override
+    public void registerGoodLogin(String login, String clientAddress) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        account.setLastKnownGoodLogin(Timestamp.from(Instant.now()));
+        account.setLastKnownGoodLoginIp(clientAddress);
     }
 
     //TODO: method that will handle account confirmation

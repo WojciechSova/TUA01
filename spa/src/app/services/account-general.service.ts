@@ -20,7 +20,13 @@ export class AccountGeneralService implements OnDestroy {
     }
 
     getAccounts(): any {
-        return this.http.get<any>(this.url, {observe: 'body', responseType: 'json'});
+        return this.http.get<any>(this.url, {
+            observe: 'body',
+            responseType: 'json',
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        });
     }
 
     blockAccount(login: string): any {

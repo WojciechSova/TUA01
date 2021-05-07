@@ -42,6 +42,24 @@ public interface AccountManagerLocal {
     void createAccount(Account account) throws WebApplicationException;
 
     /**
+     * Metoda rejestrująca niepoprawne uwierzytelnienie użytkownika.
+     * W bazie danych zapisywana jest data oraz adres IP, z którego próbowano się uwierzytelnić.
+     *
+     * @param login Login użytkownika, na którego konto próbowano się uwierzytelnić.
+     * @param clientAddress Adres IP, z którego próbowano się uwierzytelnić.
+     */
+    void registerBadLogin(String login, String clientAddress);
+
+    /**
+     * Metoda rejestrująca poprawne uwierzytelnienie użytkownika.
+     * W bazie danych zapisywana jest data oraz adres IP, z którego się uwierzytelniono.
+     *
+     * @param login Login użytkownika, który się uwierzytelnił.
+     * @param clientAddress Adres IP, z którego się uwierzytelniono.
+     */
+    void registerGoodLogin(String login, String clientAddress);
+
+    /**
      * Metoda aktualizuje konto o loginie zawartym w encji {@link Account} oraz ustawia konto w polu modifiedBy na konto
      * użytkownika dokonującego zmiany
      *

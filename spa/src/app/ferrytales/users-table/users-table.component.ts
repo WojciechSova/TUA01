@@ -29,6 +29,10 @@ export class UsersTableComponent {
         this.router.navigate(['/ferrytales/accounts', login]);
     }
 
+    editUser(login: string): void {
+        this.router.navigate(['ferrytales/accounts/edit', login]);
+    }
+
     blockAccount(login: string): void {
         this.accountGeneralService.blockAccount(login).subscribe(() => {
             this.getAccounts();
