@@ -61,6 +61,10 @@ public class AuthEndpoint {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
+        if (result.getCallerGroups().contains("ADMIN")) {
+            accountManagerLocal.notifyAdminAboutLogin(result.getCallerPrincipal().getName(), clientAddress);
+        }
+
         accountManagerLocal.registerGoodLogin(credentialsDTO.getLogin(), clientAddress);
         return Response.accepted()
                 .type("application/jwt")
