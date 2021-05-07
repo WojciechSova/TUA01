@@ -25,7 +25,7 @@ public class ShowProfileTest {
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
     private static WebDriver driver;
-    private final String url = "https://localhost:8181/#";
+    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
     private final String adminLogin = "admin";
     private final String adminPassword = "password?";
     private final String adminFirstName = "Kazimierz";

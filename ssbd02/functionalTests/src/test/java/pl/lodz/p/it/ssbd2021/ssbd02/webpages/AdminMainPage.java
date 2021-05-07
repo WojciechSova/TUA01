@@ -9,6 +9,7 @@ public class AdminMainPage {
     private final By currentUser = By.id("usernameMain");
     private final By currentUsersLevel = By.id("currentLevel");
     private final By accountsLink = By.id("accountsLink");
+    private final By errorMessageId = By.id("invalidCredentialsLabel");
 
     public AdminMainPage(WebDriver driver) {
         this.driver = driver;
@@ -36,5 +37,14 @@ public class AdminMainPage {
         driver.switchTo().defaultContent();
         driver.findElement(currentUser).click();
         return new OwnProfileDetailsPage(driver);
+    }
+
+    public boolean isLoginErrorMessageDisplayed() {
+        driver.switchTo().defaultContent();
+        return driver.findElement(errorMessageId).isDisplayed();
+    }
+
+    public By getErrorMessageId() {
+        return errorMessageId;
     }
 }
