@@ -128,6 +128,7 @@ public class AccountEndpoint {
     @PUT
     @Path("addaccesslevel/{login}")
     @RolesAllowed({"ADMIN"})
+    @Consumes(MediaType.TEXT_PLAIN)
     public Response addAccessLevel(@Context SecurityContext securityContext, @PathParam("login") String login, String accessLevel) {
         accountManager.addAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
 
@@ -146,6 +147,7 @@ public class AccountEndpoint {
     @PUT
     @Path("removeaccesslevel/{login}")
     @RolesAllowed({"ADMIN"})
+    @Consumes(MediaType.TEXT_PLAIN)
     public Response removeAccessLevel(@Context SecurityContext securityContext, @PathParam("login") String login, String accessLevel) {
         accountManager.removeAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
 
