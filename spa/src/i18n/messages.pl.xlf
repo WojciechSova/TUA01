@@ -84,7 +84,7 @@
       </trans-unit>
       <trans-unit id="1020891841134351406" datatype="html">
         <source>Wyloguj</source><target state="final">Wyloguj</target>
-        
+
         <note priority="1" from="meaning">Sign out</note>
       <context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context><context context-type="linenumber">14</context></context-group></trans-unit>
       <trans-unit id="8639678513181231800" datatype="html">
@@ -101,17 +101,17 @@
       <context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context><context context-type="linenumber">17</context></context-group><context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/register/register.component.html</context><context context-type="linenumber">74</context></context-group></trans-unit>
       <trans-unit id="6447901693423282654" datatype="html">
         <source>Administrator</source><target state="final">Administrator</target>
-        
+
         <note priority="1" from="meaning">Administrator</note>
       <context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context><context context-type="linenumber">22</context></context-group><context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context><context context-type="linenumber">28</context></context-group></trans-unit>
       <trans-unit id="5687313820786677974" datatype="html">
         <source>Pracownik</source><target state="final">Pracownik</target>
-        
+
         <note priority="1" from="meaning">Employee</note>
       <context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context><context context-type="linenumber">23</context></context-group><context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context><context context-type="linenumber">27</context></context-group></trans-unit>
       <trans-unit id="4561104884193876464" datatype="html">
         <source>Klient</source><target state="final">Klient</target>
-        
+
         <note priority="1" from="meaning">Client</note>
       <context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context><context context-type="linenumber">24</context></context-group><context-group purpose="location"><context context-type="sourcefile">src/app/common/navigation/links/links.component.html</context><context context-type="linenumber">29</context></context-group></trans-unit><trans-unit id="1436425457556994694" datatype="html">
         <source>Podany login lub hasło są nieprawidłowe.</source><target state="final">Podany login lub hasło są nieprawidłowe.</target>

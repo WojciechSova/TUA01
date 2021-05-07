@@ -7,6 +7,7 @@
             <th i18n="Access levels|">Poziomy dostępu</th>
             <th i18n="Unblock/Block|">Odblokuj/Zablokuj</th>
             <th i18n="Details|">Szczegóły</th>
+            <th i18n="Edit|">Edytuj</th>
         </tr>
 
         <tr *ngFor="let user of listAccounts()">
@@ -21,14 +22,17 @@
             <td>
                 <div *ngIf="user.active; then block else unblock">{{user['active']}}</div>
                 <ng-template #unblock>
-                    <button class="button-user-table button-unblock" i18n="Unblock|">Odblokuj</button>
+                    <button class="button-user-table button-unblock" (click)="unblockAccount(user.login)" i18n="Unblock|">Odblokuj</button>
                 </ng-template>
                 <ng-template #block>
-                    <button class="button-user-table button-block" i18n="Block|">Zablokuj</button>
+                    <button class="button-user-table button-block" (click)="blockAccount(user.login)" i18n="Block|">Zablokuj</button>
                 </ng-template>
             </td>
             <td>
                 <button class="button-user-table" (click)="setUser(user.login)" i18n="Details|">Szczegóły</button>
+            </td>
+            <td>
+                <button class="button-user-table" (click)="editUser(user.login)" i18n="Edit|">Edytuj</button>
             </td>
         </tr>
     </table>

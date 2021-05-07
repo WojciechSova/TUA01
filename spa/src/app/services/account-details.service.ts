@@ -29,12 +29,18 @@ export class AccountDetailsService implements OnDestroy {
     }
 
     getAccountDetails(login: string): Observable<AccountDetails> {
-        return this.http.get<AccountDetails>(this.url + encodeURIComponent(login),
-            {observe: 'body', responseType: 'json'});
+        return this.http.get<AccountDetails>(this.url + '/' + encodeURIComponent(login),
+            {
+                observe: 'body',
+                responseType: 'json',
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            });
     }
 
     getProfile(): Observable<AccountDetails> {
-        return this.http.get<AccountDetails>(this.url + 'profile',
+        return this.http.get<AccountDetails>(this.url + '/profile',
             {
                 observe: 'body',
                 responseType: 'json',
