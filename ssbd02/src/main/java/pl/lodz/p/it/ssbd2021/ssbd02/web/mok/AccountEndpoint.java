@@ -125,11 +125,11 @@ public class AccountEndpoint {
     @DTOSignatureValidatorFilterBinding
     public Response updateAccount(AccountDetailsDTO accountDTO, @Context SecurityContext securityContext,
                                   @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
-        if(!DTOIdentitySignerVerifier.validateDTOSignature(eTag)) {
-            throw new WebApplicationException("Not valid tag", 412);
-        }
         if (accountDTO.getLogin() == null || accountDTO.getVersion() == null) {
             throw new WebApplicationException("Not all required fields were provided", 400);
+        }
+        if(!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, accountDTO)) {
+            throw new WebApplicationException("Not valid tag", 412);
         }
         accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO),
                 securityContext.getUserPrincipal().getName());
