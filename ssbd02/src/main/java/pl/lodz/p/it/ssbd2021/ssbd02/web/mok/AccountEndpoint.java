@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -36,6 +37,7 @@ public class AccountEndpoint {
      * @return Lista kont zawierających zestaw ogólnych informacji o użytkownikach.
      */
     @GET
+    @RolesAllowed("ADMIN")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllAccountGenerals() {
         List<AccountGeneralDTO> accountGeneralDTOList = accountManager.getAllAccountsWithAccessLevels().stream()
@@ -53,6 +55,7 @@ public class AccountEndpoint {
      * @return Szczegółowe informacje o koncie
      */
     @GET
+    @RolesAllowed({"ADMIN"})
     @Path("{login}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAccountWithLogin(@PathParam("login") String login) {
@@ -90,6 +93,7 @@ public class AccountEndpoint {
      * @return Kod 202 w przypadku poprawnej rejestracji.
      */
     @POST
+    @PermitAll
     @Path("register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAccount(AccountDetailsDTO accountDTO) {
