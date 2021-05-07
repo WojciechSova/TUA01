@@ -10,6 +10,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 /**
  * Klasa rozszerzająca abstrakcyjną klasę {@link AbstractFacade}.
@@ -44,5 +45,12 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail", Account.class);
         typedQuery.setParameter("email", email);
         return typedQuery.getSingleResult();
+    }
+
+    @Override
+    public List<Account> findByConfirmed(boolean confirmed) {
+        TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByConfirmed", Account.class);
+        typedQuery.setParameter("confirmed", confirmed);
+        return typedQuery.getResultList();
     }
 }

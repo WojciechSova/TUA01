@@ -2,17 +2,15 @@ package pl.lodz.p.it.ssbd2021.ssbd02.web.mok;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,6 +37,7 @@ public class AccountEndpoint {
      * @return Lista kont zawierających zestaw ogólnych informacji o użytkownikach.
      */
     @GET
+    @RolesAllowed("ADMIN")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllAccountGenerals() {
         List<AccountGeneralDTO> accountGeneralDTOList = accountManager.getAllAccountsWithAccessLevels().stream()
@@ -56,6 +55,7 @@ public class AccountEndpoint {
      * @return Szczegółowe informacje o koncie
      */
     @GET
+    @RolesAllowed({"ADMIN"})
     @Path("{login}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAccountWithLogin(@PathParam("login") String login) {
@@ -93,6 +93,7 @@ public class AccountEndpoint {
      * @return Kod 202 w przypadku poprawnej rejestracji.
      */
     @POST
+    @PermitAll
     @Path("register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAccount(AccountDetailsDTO accountDTO) {
@@ -102,5 +103,58 @@ public class AccountEndpoint {
         accountManager.createAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO));
         return Response.accepted()
                 .build();
+    }
+
+    /**
+     * Metoda umożliwiająca zablokowanie konta użytkownika.
+     *
+     * @param login Login blokowanego konta
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @return Kod 200 w przypadku poprawnego zablokowania konta
+     */
+    @PUT
+    @RolesAllowed({"ADMIN"})
+    @Path("block/{login}")
+    public Response blockAccount(@PathParam("login") String login, @Context SecurityContext securityContext) {
+        accountManager.changeActivity(login, false, securityContext.getUserPrincipal().getName());
+
+        return Response.ok().build();
+    }
+
+    /**
+     * Metoda umożliwiająca uwierzytelnionemu użytkownikowi zmianę hasła do konta
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param passwordDTO     Obiekt typu {@link PasswordDTO} przchowujący aktualne oraz nowe hasło do konta
+     * @return Kod 200 w przypadku poprawnej zmiany hasła
+     */
+    @PUT
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
+    @Path("password")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response changePassword(@Context SecurityContext securityContext, PasswordDTO passwordDTO) {
+        if (passwordDTO.getOldPassword() == null || passwordDTO.getOldPassword().isBlank() ||
+                passwordDTO.getNewPassword() == null || passwordDTO.getNewPassword().isBlank()) {
+            throw new WebApplicationException("Required fields are missing", 400);
+        }
+        accountManager.changePassword(securityContext.getUserPrincipal().getName(), passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
+        return Response.ok()
+                .build();
+    }
+
+    /**
+     * Metoda umożliwiająca odblokowanie konta użytkownika.
+     *
+     * @param login Login odblokowywanego konta
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego odblokowania konta
+     */
+    @PUT
+    @RolesAllowed({"ADMIN"})
+    @Path("unblock/{login}")
+    public Response unblockAccount(@PathParam("login") String login, @Context SecurityContext securityContext) {
+        accountManager.changeActivity(login, true, securityContext.getUserPrincipal().getName());
+
+        return Response.ok().build();
     }
 }

@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 
@@ -19,9 +22,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
@@ -38,11 +41,15 @@ class AccountEndpointTest {
     @InjectMocks
     private AccountEndpoint accountEndpoint;
     private Account account;
+    private PasswordDTO passwordDTO;
 
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
         account = createAccount();
+        passwordDTO = new PasswordDTO();
+        passwordDTO.setOldPassword("P@ssword");
+        passwordDTO.setNewPassword("newPassword");
     }
 
     private Account createAccount() {
@@ -66,6 +73,34 @@ class AccountEndpointTest {
         acc.setLastKnownBadLoginIp("222.222.222.222");
         acc.setNumberOfBadLogins(2);
         return acc;
+    }
+
+    @Test
+    void getAllAccountGenerals() {
+        List<Pair<Account, List<AccessLevel>>> accountAccessPairList =
+                Collections.singletonList(Pair.of(account, Collections.emptyList()));
+        List<AccountGeneralDTO> expectedDTOList = accountAccessPairList.stream()
+                .map(AccountMapper::createAccountGeneralDTOFromEntities)
+                .collect(Collectors.toList());
+        when(accountManager.getAllAccountsWithAccessLevels()).thenReturn(accountAccessPairList);
+
+        Response response = accountEndpoint.getAllAccountGenerals();
+
+        assertEquals(expectedDTOList, response.getEntity());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    void getAccountWithLogin() {
+        String testLogin = "TestLogin";
+        when(accountManager.getAccountWithLogin(testLogin))
+                .thenReturn(Pair.of(account, Collections.emptyList()));
+
+        Response response = accountEndpoint.getAccountWithLogin(testLogin);
+
+        assertEquals(AccountMapper.createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())),
+                response.getEntity());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
@@ -120,5 +155,100 @@ class AccountEndpointTest {
 
         assertEquals(400, emailException.getResponse().getStatus());
         assertEquals("Not all required fields were provided", emailException.getMessage());
+    }
+
+    @Test
+    void blockAccountTest() {
+        account.setLogin("Login");
+
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("ExampleLogin");
+
+        doAnswer(invocationOnMock -> {
+            account.setActive(false);
+            return null;
+        }).when(accountManager).changeActivity(account.getLogin(), false, "ExampleLogin");
+
+        Response response = accountEndpoint.blockAccount(account.getLogin(), securityContext);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertFalse(account.getActive());
+    }
+
+    @Test
+    void changePasswordTest() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn(account.getLogin());
+
+        doAnswer(invocationOnMock -> {
+            account.setPassword(invocationOnMock.getArgument(2));
+            return null;
+        }).when(accountManager).changePassword(account.getLogin(), passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
+
+        Response response = assertDoesNotThrow(() -> accountEndpoint.changePassword(securityContext, passwordDTO));
+        assertEquals("newPassword", account.getPassword());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    void changePasswordExceptionTest() {
+        passwordDTO.setOldPassword("");
+        WebApplicationException oldPasswordEmpty = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
+
+        assertEquals(400, oldPasswordEmpty.getResponse().getStatus());
+        assertEquals("Required fields are missing", oldPasswordEmpty.getMessage());
+
+        passwordDTO.setNewPassword("");
+        WebApplicationException newPasswordEmpty = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
+
+        assertEquals(400, newPasswordEmpty.getResponse().getStatus());
+        assertEquals("Required fields are missing", newPasswordEmpty.getMessage());
+
+        passwordDTO.setOldPassword(" ");
+        WebApplicationException oldPasswordBlank = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
+
+        assertEquals(400, oldPasswordBlank.getResponse().getStatus());
+        assertEquals("Required fields are missing", oldPasswordBlank.getMessage());
+
+        passwordDTO.setNewPassword(" ");
+        WebApplicationException newPasswordBlank = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
+
+        assertEquals(400, newPasswordBlank.getResponse().getStatus());
+        assertEquals("Required fields are missing", newPasswordBlank.getMessage());
+
+        passwordDTO.setOldPassword(null);
+        WebApplicationException oldPasswordNull = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
+
+        assertEquals(400, oldPasswordNull.getResponse().getStatus());
+        assertEquals("Required fields are missing", oldPasswordNull.getMessage());
+
+        passwordDTO.setNewPassword(null);
+        WebApplicationException newPasswordNull = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
+
+        assertEquals(400, newPasswordNull.getResponse().getStatus());
+        assertEquals("Required fields are missing", newPasswordNull.getMessage());
+    }
+
+    @Test
+    void unblockAccountTest() {
+        account.setLogin("Login");
+        account.setActive(false);
+
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("ExampleLogin");
+
+        doAnswer(invocationOnMock -> {
+            account.setActive(true);
+            return null;
+        }).when(accountManager).changeActivity(account.getLogin(), true, "ExampleLogin");
+
+        Response response = accountEndpoint.unblockAccount(account.getLogin(), securityContext);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertTrue(account.getActive());
     }
 }
