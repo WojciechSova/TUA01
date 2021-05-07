@@ -3,7 +3,6 @@ import { AccountGeneral } from '../../model/mok/AccountGeneral';
 import { AccountGeneralService } from '../../services/account-general.service';
 import { Router } from '@angular/router';
 
-
 @Component({
     selector: 'app-users-table',
     templateUrl: './users-table.component.html',
@@ -15,6 +14,15 @@ export class UsersTableComponent {
         this.getAccounts();
     }
 
+    isAccessLevelFormVisible = false;
+
+    loginToChangeAccessLevel = '';
+    loginAccessLevels = [''];
+
+    setAccessLevel(login: string, accessLevels: string[]): void {
+        this.loginToChangeAccessLevel = login;
+        this.loginAccessLevels = accessLevels;
+    }
 
     getAccounts(): void {
         this.accountGeneralService.getAccounts().subscribe(
@@ -28,7 +36,6 @@ export class UsersTableComponent {
     setUser(login: string): void {
         this.router.navigate(['/ferrytales/accounts', login]);
     }
-
 
     changeAccessLevelFormVisible(visible: boolean): void {
         this.isAccessLevelFormVisible = visible;
