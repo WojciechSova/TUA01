@@ -5,12 +5,14 @@ import { ExampleComponentComponent } from './ferrytales/example-component/exampl
 import { FerrytalesComponent } from './ferrytales/ferrytales/ferrytales.component';
 import { AccountDetailsComponent } from './ferrytales/account-details/account-details.component';
 import { UsersTableComponent } from './ferrytales/users-table/users-table.component';
+import { EditUserComponent } from "./ferrytales/edit-user/edit-user.component";
 
 const ferrytalesChildren: Routes = [
     { path: 'example-component', component: ExampleComponentComponent },
     { path: 'account', component: AccountDetailsComponent },
     { path: 'accounts', component: UsersTableComponent },
-    { path: 'accounts/:login', component: AccountDetailsComponent }
+    { path: 'accounts/:login', component: AccountDetailsComponent },
+    { path: 'accounts/edit/:login', component: EditUserComponent }
 ];
 
 

@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AccountGeneral } from "../model/mok/AccountGeneral";
+import { AccountGeneral } from '../model/mok/AccountGeneral';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -12,11 +13,17 @@ export class AccountGeneralService implements OnDestroy {
 
 
     constructor(private http: HttpClient) {
-        this.url = 'https://localhost:8181/ssbd02/accounts';
+        this.url = environment.appUrl + '/accounts';
     }
 
     getAccounts(): any {
-        return this.http.get<any>(this.url, {observe: 'body', responseType: 'json'});
+        return this.http.get<any>(this.url, {
+            observe: 'body',
+            responseType: 'json',
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        });
     }
 
     ngOnDestroy(): void {

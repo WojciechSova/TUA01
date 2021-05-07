@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validateEmail, validatePassword } from './matching.validator';
-import { RegistrationService } from "../../../services/registration.service";
-import { AccountDetails } from "../../../model/mok/AccountDetails";
+import { RegistrationService } from '../../../services/registration.service';
+import { AccountDetails } from '../../../model/mok/AccountDetails';
+import { getTimezone } from 'countries-and-timezones';
 
 @Component({
     selector: 'app-register',
@@ -49,12 +50,12 @@ export class RegisterComponent implements OnInit {
 
     register(login: string, password: string, firstName: string, lastName: string, email: string, phoneNumber?: string): void {
         const account: AccountDetails = {
-            login: login,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phoneNumber: phoneNumber,
+            login,
+            password,
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
             active: true,
             confirmed: false,
             accessLevel: [
@@ -64,9 +65,11 @@ export class RegisterComponent implements OnInit {
                     creationDate: new Date()
                 },
                 ],
+            language: navigator.language || window.navigator.language,
+            timeZone: getTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)?.name,
             creationDate: new Date(),
             numberOfBadLogins: 0
-        }
+        };
         this.registrationService.register(account);
     }
 }

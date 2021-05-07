@@ -41,6 +41,34 @@ public class EmailSender {
     }
 
     /**
+     * Metoda wysyłająca wiadomość email z informacją o zmianie aktywności konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     * @param active                Aktualny status aktywności konta.
+     */
+    public static void sendChangedActivityEmail(String recipientName, String recipientEmailAddress, boolean active) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
+
+            prop.load(input);
+
+            String htmlText;
+
+            if(active){
+                htmlText = prop.getProperty("mail.activity.text").replace("AKTUALNA_AKTYWNOSC", "AKTYWNE");
+            }
+            else{
+                htmlText = prop.getProperty("mail.activity.text").replace("AKTUALNA_AKTYWNOSC", "ZABLOKOWANE");
+            }
+            String subject = prop.getProperty("mail.activity.subject");
+            sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
      * Metoda wysyłająca wiadomość email informującą użytkownika o modyfikacji danych jego konta.
      *
      * @param recipientName         Imię odbiorcy wiadomości.
@@ -53,6 +81,26 @@ public class EmailSender {
 
             String htmlText = prop.getProperty("mail.info.modification.text");
             String subject = prop.getProperty("mail.info.modification.subject");
+            sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu jego konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     */
+    public static void sendRemovalEmail(String recipientName, String recipientEmailAddress) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
+
+            prop.load(input);
+
+            String htmlText = prop.getProperty("mail.info.removal.text");
+            String subject = prop.getProperty("mail.info.removal.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
