@@ -8,7 +8,7 @@ public class AdminMainPage {
     protected WebDriver driver;
     private final By currentUser = By.id("usernameMain");
     private final By currentUsersLevel = By.id("currentLevel");
-    private final By accountsButton = By.xpath("/html/body/app-root/app-main-page/div/div/app-navigation/div[1]/div[2]/app-links/div/a[1]");
+    private final By accountsLink = By.id("accountsLink");
 
     public AdminMainPage(WebDriver driver) {
         this.driver = driver;
@@ -28,7 +28,7 @@ public class AdminMainPage {
 
     public AccountsListPage openAccountsList() {
         driver.switchTo().defaultContent();
-        driver.findElement(accountsButton).click();
+        driver.findElement(accountsLink).click();
         return new AccountsListPage(driver);
     }
 }

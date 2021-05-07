@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class MainPage {
 
     protected WebDriver driver;
-    private final By loginButton = By.id("loginMainBtn");
+    private final By loginButton = By.id("loginLink");
     //TODO: Add other main page web elements required for further testing
 
     public MainPage(WebDriver driver) {
