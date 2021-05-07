@@ -29,6 +29,11 @@ export class UsersTableComponent {
         this.router.navigate(['/ferrytales/accounts', login]);
     }
 
+
+    changeAccessLevelFormVisible(visible: boolean): void {
+        this.isAccessLevelFormVisible = visible;
+    }
+
     editUser(login: string): void {
         this.router.navigate(['ferrytales/accounts/edit', login]);
     }
