@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AccountDetails } from '../model/mok/AccountDetails';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +11,7 @@ export class RegistrationService {
     private readonly url: string;
 
     constructor(private http: HttpClient) {
-        this.url = 'https://studapp.it.p.lodz.pl:8402/ssbd02/accounts/register';
+        this.url = environment.appUrl + '/accounts/register';
     }
 
     register(account: AccountDetails): void {

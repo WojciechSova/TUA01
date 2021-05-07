@@ -1,0 +1,69 @@
+<div class="user-edit-container">
+    <form [formGroup]="form">
+        <table class="user-edit">
+            <tr class="edit-headers">
+                <th i18n="Current|">Aktualne</th>
+                <th i18n="New|">Nowe</th>
+            </tr>
+
+            <tr class="edit-content">
+                <td>
+                    <label for="edit-firstName">{{user.firstName}}</label>
+                </td>
+                <td>
+                    <input #newFirstName type="text" id="edit-firstName" formControlName="firstName"
+                           placeholder="Imię" i18n-placeholder="First name|"/>
+                </td>
+            </tr>
+
+            <tr class="edit-content">
+                <td>
+                    <label for="edit-lastName">{{user.lastName}}</label>
+                </td>
+                <td>
+                    <input #newLastName type="text" id="edit-lastName" formControlName="lastName"
+                           placeholder="Nazwisko" i18n-placeholder="Last name|"/>
+                </td>
+            </tr>
+
+            <tr class="edit-content">
+                <td>
+                    <label for="edit-phoneNumber">{{user.phoneNumber}}</label>
+                </td>
+                <td>
+                    <input #newPhoneNumber type="text" id="edit-phoneNumber" formControlName="phoneNumber"
+                           placeholder="Numer telefonu" i18n-placeholder="Phone number|"
+                           [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}">
+                    <div class="edit-validation-error" *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
+                         i18n="Invalid format|">Niepoprawny format</div>
+                </td>
+            </tr>
+
+            <tr class="edit-content">
+                <td>
+                    <label for="edit-language">{{user.language}}</label>
+                </td>
+                <td>
+                    <select class="edit-content-select" #newLanguage id="edit-language" formControlName="language">
+                        <option id="pl" [selected]="user.language === 'pl'" i18n="Polish language|">język polski</option>
+                        <option id="en" [selected]="user.language === 'en'" i18n="English language|">język angielski</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr class="edit-content">
+                <td>
+                    <label for="edit-timeZone">{{user.timeZone}}</label>
+                </td>
+                <td>
+                    <select class="edit-content-select" #newTimeZone id="edit-timeZone">
+                        <option *ngFor="let zone of timezones" [value]="zone" [selected]="zone === user.timeZone" id="{{zone}}">Strefa {{zone}}</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <button class="edit-button" id="saveBtn"
+                (click)="editUser(newFirstName.value, newLastName.value, newPhoneNumber.value, newLanguage.value, newTimeZone.value)"
+                [disabled]="form.invalid" i18n="Save|">Zapisz</button>
+    </form>
+</div>
