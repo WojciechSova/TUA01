@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { AccountDetails } from "../model/mok/AccountDetails";
@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
 @Injectable({
     providedIn: 'root'
 })
-export class UpdateAccountService {
+export class UpdateAccountService implements OnDestroy {
 
     private readonly url: string;
     public eTag = "";
@@ -37,5 +37,9 @@ export class UpdateAccountService {
                     'If-Match': this.eTag.substring(1, this.eTag.length)
                 }
             });
+    }
+
+    ngOnDestroy(): void {
+        this.eTag = {} as any;
     }
 }
