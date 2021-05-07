@@ -13,7 +13,7 @@ import java.sql.Connection;
         password = "admin_password",
         serverName = "localhost",
         portNumber = 5432,
-        databaseName = "ssbd02_local",
+        databaseName = "ssbd02local",
         initialPoolSize = 1,
         minPoolSize = 0,
         maxPoolSize = 1,
@@ -26,7 +26,7 @@ import java.sql.Connection;
         password = "auth_password",
         serverName = "localhost",
         portNumber = 5432,
-        databaseName = "ssbd02_local"
+        databaseName = "ssbd02local"
 )
 @DataSourceDefinition(
         name = "java:app/jdbc/ssbd02mok",
@@ -35,7 +35,7 @@ import java.sql.Connection;
         password = "mok_password",
         serverName = "localhost",
         portNumber = 5432,
-        databaseName = "ssbd02_local",
+        databaseName = "ssbd02local",
         transactional = true,
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED
 )
@@ -46,7 +46,7 @@ import java.sql.Connection;
         password = "mop_password",
         serverName = "localhost",
         portNumber = 5432,
-        databaseName = "ssbd02_local",
+        databaseName = "ssbd02local",
         transactional = true,
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED
 )
