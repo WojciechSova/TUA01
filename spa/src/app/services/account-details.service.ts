@@ -29,7 +29,7 @@ export class AccountDetailsService implements OnDestroy {
     }
 
     getAccountDetails(login: string): Observable<AccountDetails> {
-        return this.http.get<AccountDetails>(this.url + encodeURIComponent(login),
+        return this.http.get<AccountDetails>(this.url + '/' + encodeURIComponent(login),
             {
                 observe: 'body',
                 responseType: 'json',
@@ -40,7 +40,7 @@ export class AccountDetailsService implements OnDestroy {
     }
 
     getProfile(): Observable<AccountDetails> {
-        return this.http.get<AccountDetails>(this.url + 'profile',
+        return this.http.get<AccountDetails>(this.url + '/profile',
             {
                 observe: 'body',
                 responseType: 'json',
