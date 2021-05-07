@@ -6,8 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 
@@ -20,6 +22,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -70,6 +73,21 @@ class AccountEndpointTest {
         acc.setLastKnownBadLoginIp("222.222.222.222");
         acc.setNumberOfBadLogins(2);
         return acc;
+    }
+
+    @Test
+    void getAllAccountGenerals() {
+        List<Pair<Account, List<AccessLevel>>> accountAccessPairList =
+                Collections.singletonList(Pair.of(account, Collections.emptyList()));
+        List<AccountGeneralDTO> expectedDTOList = accountAccessPairList.stream()
+                .map(AccountMapper::createAccountGeneralDTOFromEntities)
+                .collect(Collectors.toList());
+        when(accountManager.getAllAccountsWithAccessLevels()).thenReturn(accountAccessPairList);
+
+        Response response = accountEndpoint.getAllAccountGenerals();
+
+        assertEquals(expectedDTOList, response.getEntity());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
     @Test
