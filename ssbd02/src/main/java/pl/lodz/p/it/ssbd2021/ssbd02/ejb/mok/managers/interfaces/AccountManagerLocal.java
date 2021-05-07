@@ -42,6 +42,35 @@ public interface AccountManagerLocal {
     void createAccount(Account account) throws WebApplicationException;
 
     /**
+     * Metoda rejestrująca niepoprawne uwierzytelnienie użytkownika.
+     * W bazie danych zapisywana jest data oraz adres IP, z którego próbowano się uwierzytelnić.
+     *
+     * @param login Login użytkownika, na którego konto próbowano się uwierzytelnić.
+     * @param clientAddress Adres IP, z którego próbowano się uwierzytelnić.
+     */
+    void registerBadLogin(String login, String clientAddress);
+
+    /**
+     * Metoda rejestrująca poprawne uwierzytelnienie użytkownika.
+     * W bazie danych zapisywana jest data oraz adres IP, z którego się uwierzytelniono.
+     *
+     * @param login Login użytkownika, który się uwierzytelnił.
+     * @param clientAddress Adres IP, z którego się uwierzytelniono.
+     */
+    void registerGoodLogin(String login, String clientAddress);
+
+    /**
+     * Metoda aktualizuje konto o loginie zawartym w encji {@link Account} oraz ustawia konto w polu modifiedBy na konto
+     * użytkownika dokonującego zmiany
+     *
+     * @param account Encja typu {@link Account}
+     * @param modifiedBy Login użytkownika, który edytuje encje
+     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
+     * o podanym emailu bądź numerze telefonu, kod odpowiedzi 406 w przypadku, gdy nie podano loginu
+     */
+    void updateAccount(Account account, String modifiedBy) throws WebApplicationException;
+
+    /**
      * Metoda zmieniająca hasło użytkownika do konta
      *
      * @param login Login użytkownika
@@ -52,4 +81,11 @@ public interface AccountManagerLocal {
      * 409 gdy podane nowe hasło jest identyczne jak hasło poprzednie
      */
     void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException;
+
+    /**
+     * Metoda zmieniająca aktywność użytkownika
+     *
+     * @param login Login użytkownika
+     */
+    void changeActivity(String login, boolean newActivity, String modifiedBy);
 }
