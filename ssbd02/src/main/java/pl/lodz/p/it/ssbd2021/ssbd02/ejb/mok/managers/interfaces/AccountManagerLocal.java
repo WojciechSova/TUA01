@@ -88,4 +88,12 @@ public interface AccountManagerLocal {
      * @param login Login użytkownika
      */
     void changeActivity(String login, boolean newActivity, String modifiedBy);
+
+    /**
+     * Metoda powiadamjająca administratora o logowaniu na jego konto.
+     *
+     * @param login Login administratora
+     * @param clientAddress Adres IP, z którego nastapiło logowanie
+     */
+    void notifyAdminAboutLogin(String login, String clientAddress);
 }

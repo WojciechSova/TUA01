@@ -163,4 +163,11 @@ public class AccountManager implements AccountManagerLocal {
 
         EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());
     }
+
+    @Override
+    public void notifyAdminAboutLogin(String login, String clientAddress) {
+        Account account = accountFacadeLocal.findByLogin(login);
+
+        EmailSender.sendAdminAuthenticationEmail(account.getFirstName(), account.getEmail(), clientAddress);
+    }
 }
