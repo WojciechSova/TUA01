@@ -31,7 +31,7 @@
             </td>
             <td>
                 <button class="button-user-table"
-                        (click)="setAccessLevel(user.login, user.accessLevel); changeAccessLevelFormVisible(true)"
+                        (click)="setLoginAccessLevels(user.login, user.accessLevel); changeAccessLevelFormVisible(true)"
                         i18n="Edit|">Edytuj
                 </button>
             </td>
@@ -47,5 +47,4 @@
 <app-access-level-form *ngIf="isAccessLevelFormVisible"
                        (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"
                        [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels">
-
 </app-access-level-form>

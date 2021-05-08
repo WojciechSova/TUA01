@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AccountDetails } from '../../model/mok/AccountDetails';
 import { IdentityService } from '../../services/utils/identity.service';
 import { AccessLevel } from '../../model/mok/AccessLevel';
 import { AccountDetailsService } from '../../services/account-details.service';
 import { ActivatedRoute } from '@angular/router';
 
-
 @Component({
     selector: 'app-account-details',
     templateUrl: './account-details.component.html',
     styleUrls: ['./account-details.component.less']
 })
-export class AccountDetailsComponent implements OnInit {
+export class AccountDetailsComponent {
 
     constructor(public identityService: IdentityService,
                 public accountDetailsService: AccountDetailsService,
@@ -23,7 +22,13 @@ export class AccountDetailsComponent implements OnInit {
 
     isAccessLevelFormVisible = false;
 
-    ngOnInit(): void {
+    loginToChangeAccessLevel = '';
+    loginAccessLevels = [''];
+
+    setLoginAccessLevels(login: string, accessLevels: AccessLevel[]): void {
+        const accessLevelsStringTab = accessLevels.map((accessLevel) => accessLevel.level);
+        this.loginToChangeAccessLevel = login;
+        this.loginAccessLevels = accessLevelsStringTab;
     }
 
     hasClientAccessLevel(accessLevel: AccessLevel): boolean {

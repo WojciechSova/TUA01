@@ -19,7 +19,7 @@ export class UsersTableComponent {
     loginToChangeAccessLevel = '';
     loginAccessLevels = [''];
 
-    setAccessLevel(login: string, accessLevels: string[]): void {
+    setLoginAccessLevels(login: string, accessLevels: string[]): void {
         this.loginToChangeAccessLevel = login;
         this.loginAccessLevels = accessLevels;
     }
@@ -39,6 +39,7 @@ export class UsersTableComponent {
 
     changeAccessLevelFormVisible(visible: boolean): void {
         this.isAccessLevelFormVisible = visible;
+        this.getAccounts();
     }
 
     editUser(login: string): void {

@@ -5,15 +5,15 @@
         </div>
         <div class="checkbox-container">
             <label class="container admin" i18n="Administrator|">Administrator
-                <input type="checkbox"  name="radio" [ngModel]="accessLevel.admin">
+                <input type="checkbox"  name="radio" [(ngModel)]="accessLevel.admin">
                 <span class="checkmark admin"></span>
             </label>
             <label class="container employee" i18n="Employee|">Pracownik
-                <input type="checkbox" name="radio" [ngModel]="accessLevel.employee">
+                <input type="checkbox" name="radio" [(ngModel)]="accessLevel.employee">
                 <span class="checkmark employee"></span>
             </label>
             <label class="container client" i18n="Client|">Klient
-                <input type="checkbox" name="radio" [ngModel]="accessLevel.client">
+                <input type="checkbox" name="radio" [(ngModel)]="accessLevel.client">
                 <span class="checkmark client"></span>
             </label>
             <button class="form-button" (click)="confirm()" i18n="Confirm|">Zatwierdź</button>
