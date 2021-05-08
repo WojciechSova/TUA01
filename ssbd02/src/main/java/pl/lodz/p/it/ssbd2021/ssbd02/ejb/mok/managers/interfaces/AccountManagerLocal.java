@@ -44,6 +44,8 @@ public interface AccountManagerLocal {
     /**
      * Metoda rejestrująca niepoprawne uwierzytelnienie użytkownika.
      * W bazie danych zapisywana jest data oraz adres IP, z którego próbowano się uwierzytelnić.
+     * Inkrementuje licznik nieudanych logowań konta.
+     * W przypadku przekroczenia ustalonej liczby nieudanych prób uwierzytelnienia konto zostaje zablokowane.
      *
      * @param login Login użytkownika, na którego konto próbowano się uwierzytelnić.
      * @param clientAddress Adres IP, z którego próbowano się uwierzytelnić.
@@ -53,6 +55,7 @@ public interface AccountManagerLocal {
     /**
      * Metoda rejestrująca poprawne uwierzytelnienie użytkownika.
      * W bazie danych zapisywana jest data oraz adres IP, z którego się uwierzytelniono.
+     * Ustawia licznik nieudanych logowań konta na 0.
      *
      * @param login Login użytkownika, który się uwierzytelnił.
      * @param clientAddress Adres IP, z którego się uwierzytelniono.
@@ -83,7 +86,8 @@ public interface AccountManagerLocal {
     void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException;
 
     /**
-     * Metoda zmieniająca aktywność użytkownika
+     * Metoda zmieniająca aktywność użytkownika.
+     * Podczas odblokowania konta ustawia jego licznik nieudanych logowań na 0.
      *
      * @param login Login użytkownika
      */
