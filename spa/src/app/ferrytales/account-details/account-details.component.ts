@@ -22,6 +22,8 @@ export class AccountDetailsComponent implements OnInit {
 
     isChangePasswordFormVisible = false;
 
+    isAccessLevelFormVisible = false;
+
     ngOnInit(): void {
     }
 
@@ -40,6 +42,10 @@ export class AccountDetailsComponent implements OnInit {
 
     changeChangePasswordFormVisible(visible: boolean): void {
         this.isChangePasswordFormVisible = visible;
+    }
+
+    changeAccessLevelFormVisible(visible: boolean): void {
+        this.isAccessLevelFormVisible = visible;
     }
 
     editUser(login: string): void {

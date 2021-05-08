@@ -21,6 +21,7 @@ import { AccessLevelTableComponent } from './ferrytales/account-details/access-l
 import { RegistrationService } from './services/registration.service';
 import { EditUserComponent } from './ferrytales/edit-user/edit-user.component';
 import { ChangePasswordFormComponent } from './ferrytales/change-password-form/change-password-form.component';
+import { AccessLevelFormComponent } from './ferrytales/access-level-form/access-level-form/access-level-form.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { ChangePasswordFormComponent } from './ferrytales/change-password-form/c
         AccessLevelTableComponent,
         UsersTableComponent,
         EditUserComponent,
-        ChangePasswordFormComponent
+        ChangePasswordFormComponent,
+        AccessLevelFormComponent
     ],
     imports: [
         BrowserModule,

@@ -2,6 +2,7 @@
     <div class="account-details">
         <button class="edit-button" (click)="editUser(accountDetailsService.account.login)" i18n="Edit account|">Edytuj konto</button>
         <button class="edit-button" (click)="changeChangePasswordFormVisible(true)" i18n="Change password|">Zmień hasło</button>
+        <button class="edit-button" (click)="changeAccessLevelFormVisible(true)" i18n="Edit access levels|">Edytuj poziomy dostępu</button>
         <div class="col">
             <div class="row">
                 <label i18n="Login|">Login:</label>
@@ -81,5 +82,5 @@
     </div>
 </div>
 <app-change-password-form *ngIf="isChangePasswordFormVisible"
-                          (isChangePasswordFormVisibleChange)="changeChangePasswordFormVisible($event)">
-</app-change-password-form>
+                          (isChangePasswordFormVisibleChange)="changeChangePasswordFormVisible($event)"></app-change-password-form>
+<app-access-level-form *ngIf="isAccessLevelFormVisible" (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"></app-access-level-form>
