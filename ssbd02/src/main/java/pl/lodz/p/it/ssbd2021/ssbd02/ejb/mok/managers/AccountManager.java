@@ -15,10 +15,13 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +39,8 @@ public class AccountManager implements AccountManagerLocal {
 
     @Inject
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
+
+    private static final Properties prop = new Properties();
 
     @Override
     public List<Pair<Account, List<AccessLevel>>> getAllAccountsWithAccessLevels() {
@@ -86,6 +91,22 @@ public class AccountManager implements AccountManagerLocal {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setLastKnownBadLogin(Timestamp.from(Instant.now()));
         account.setLastKnownBadLoginIp(clientAddress);
+        int badLogins = account.getNumberOfBadLogins() + 1;
+        int badLoginsThreshold = 3;
+
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            badLoginsThreshold = Integer.parseInt(prop.getProperty("system.login.incorrect.threshold"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        account.setNumberOfBadLogins(badLogins);
+
+        if (badLogins >= badLoginsThreshold) {
+            changeActivity(account.getLogin(), false, null);
+        }
+
     }
 
     @Override
@@ -93,6 +114,7 @@ public class AccountManager implements AccountManagerLocal {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setLastKnownGoodLogin(Timestamp.from(Instant.now()));
         account.setLastKnownGoodLoginIp(clientAddress);
+        account.setNumberOfBadLogins(0);
     }
 
     //TODO: method that will handle account confirmation
@@ -215,10 +237,24 @@ public class AccountManager implements AccountManagerLocal {
     public void changeActivity(String login, boolean newActivity, String modifiedBy) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setActive(newActivity);
-        account.setModifiedBy(accountFacadeLocal.findByLogin(modifiedBy));
+        if (modifiedBy == null) {
+            account.setModifiedBy(null);
+        } else {
+            account.setModifiedBy(accountFacadeLocal.findByLogin(modifiedBy));
+        }
+        if (newActivity) {
+            account.setNumberOfBadLogins(0);
+        }
         account.setModificationDate(new Timestamp(new Date().getTime()));
         accountFacadeLocal.edit(account);
 
         EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());
+    }
+
+    @Override
+    public void notifyAdminAboutLogin(String login, String clientAddress) {
+        Account account = accountFacadeLocal.findByLogin(login);
+
+        EmailSender.sendAdminAuthenticationEmail(account.getFirstName(), account.getEmail(), clientAddress);
     }
 }

@@ -388,6 +388,8 @@ public class AccountManagerTest {
         a1.setLogin(login1);
         a1.setEmail(email1);
         a2.setLogin(login2);
+        a2.setEmail(email3);
+        a2.setModifiedBy(a1);
         a3.setLogin(login4);
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
         when(accountFacadeLocal.findByLogin(login2)).thenReturn(a2);
@@ -404,15 +406,25 @@ public class AccountManagerTest {
         assertTrue(a1.getActive());
         assertEquals(a3, a1.getModifiedBy());
         assertTrue(accounts.get(0).getActive());
+
+
+        a2.setNumberOfBadLogins(2);
+        accountManager.changeActivity(login2, true, null);
+        assertEquals(0, a2.getNumberOfBadLogins());
+        assertNull(a2.getModifiedBy());
     }
 
     @Test
     void registerBadLogin() {
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        a1.setLogin(login1);
+        a1.setEmail(email1);
         String address = "192.168.1.1";
 
         assertNull(a1.getLastKnownBadLogin());
         assertNull(a1.getLastKnownBadLoginIp());
+        assertEquals(0, a1.getNumberOfBadLogins());
+        assertTrue(a1.getActive());
 
         Timestamp before = Timestamp.from(Instant.now());
         accountManager.registerBadLogin(login1, address);
@@ -421,12 +433,24 @@ public class AccountManagerTest {
         assertTrue(a1.getLastKnownBadLogin().getTime() >= before.getTime());
         assertTrue(a1.getLastKnownBadLogin().getTime() <= after.getTime());
         assertEquals(address, a1.getLastKnownBadLoginIp());
+
+        assertEquals(1, a1.getNumberOfBadLogins());
+        assertTrue(a1.getActive());
+
+        accountManager.registerBadLogin(login1, address);
+        assertEquals(2, a1.getNumberOfBadLogins());
+        assertTrue(a1.getActive());
+
+        accountManager.registerBadLogin(login1, address);
+        assertEquals(3, a1.getNumberOfBadLogins());
+        assertFalse(a1.getActive());
     }
 
     @Test
     void registerGoodLogin() {
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
         String address = "192.168.1.1";
+        a1.setNumberOfBadLogins(2);
 
         assertNull(a1.getLastKnownGoodLogin());
         assertNull(a1.getLastKnownGoodLoginIp());
@@ -438,5 +462,6 @@ public class AccountManagerTest {
         assertTrue(a1.getLastKnownGoodLogin().getTime() >= before.getTime());
         assertTrue(a1.getLastKnownGoodLogin().getTime() <= after.getTime());
         assertEquals(address, a1.getLastKnownGoodLoginIp());
+        assertEquals(0, a1.getNumberOfBadLogins());
     }
 }
