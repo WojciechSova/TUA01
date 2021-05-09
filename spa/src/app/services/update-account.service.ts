@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient, HttpResponse } from "@angular/common/http";
-import { environment } from "../../environments/environment";
-import { AccountDetails } from "../model/mok/AccountDetails";
-import { Observable } from "rxjs";
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { AccountDetails } from '../model/mok/AccountDetails';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 export class UpdateAccountService implements OnDestroy {
 
     private readonly url: string;
-    public eTag = "";
+    public eTag = '';
 
     constructor(private http: HttpClient) {
         this.url = environment.appUrl + '/accounts';
