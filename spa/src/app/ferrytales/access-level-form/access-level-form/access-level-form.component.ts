@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { IdentityService } from '../../../services/utils/identity.service';
 import { AccessLevelService } from '../../../services/access-level.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-access-level-form',
@@ -47,19 +48,19 @@ export class AccessLevelFormComponent implements OnChanges {
     }
 
     confirm(): void {
-        this.accessLevel.admin ?
-            this.accessLevelService.addAccessLevel(this.loginToChangeAccessLevel, 'ADMIN').subscribe() :
-            this.accessLevelService.removeAccessLevel(this.loginToChangeAccessLevel, 'ADMIN').subscribe();
-
-        this.accessLevel.employee ?
-            this.accessLevelService.addAccessLevel(this.loginToChangeAccessLevel, 'EMPLOYEE').subscribe() :
-            this.accessLevelService.removeAccessLevel(this.loginToChangeAccessLevel, 'EMPLOYEE').subscribe();
-
-        this.accessLevel.client ?
-            this.accessLevelService.addAccessLevel(this.loginToChangeAccessLevel, 'CLIENT').subscribe() :
-            this.accessLevelService.removeAccessLevel(this.loginToChangeAccessLevel, 'CLIENT').subscribe();
-
-        this.closeComponent();
+        forkJoin(
+            {
+                admin:  this.accessLevel.admin ?
+                    this.accessLevelService.addAccessLevel(this.loginToChangeAccessLevel, 'ADMIN') :
+                    this.accessLevelService.removeAccessLevel(this.loginToChangeAccessLevel, 'ADMIN'),
+                employee: this.accessLevel.employee ?
+                    this.accessLevelService.addAccessLevel(this.loginToChangeAccessLevel, 'EMPLOYEE') :
+                    this.accessLevelService.removeAccessLevel(this.loginToChangeAccessLevel, 'EMPLOYEE'),
+                client: this.accessLevel.client ?
+                    this.accessLevelService.addAccessLevel(this.loginToChangeAccessLevel, 'CLIENT') :
+                    this.accessLevelService.removeAccessLevel(this.loginToChangeAccessLevel, 'CLIENT'),
+            }
+        ).subscribe(() => this.closeComponent());
     }
 
     closeComponent(): void {
