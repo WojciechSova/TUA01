@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class UsersTableComponent {
 
     isAccessLevelFormVisible = false;
+    searchedValue: string = '';
 
     constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
         this.getAccounts();

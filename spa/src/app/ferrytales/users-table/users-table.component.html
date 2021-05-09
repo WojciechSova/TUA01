@@ -1,6 +1,10 @@
 <div class="button-container">
     <button class="button-user-table" (click)="getAccounts()" i18n="Refresh|">Odśwież</button>
+    <form class="filter">
+        <input [(ngModel)]="searchedValue" i18n-placeholder="Enter your search|" placeholder="Wpisz szukaną frazę..." id="search" name="search"/>
+    </form>
 </div>
+
 <div class="users-list-container">
     <table id="users">
         <tr>
@@ -14,7 +18,7 @@
             <th i18n="Edit|">Edytuj</th>
         </tr>
 
-        <tr *ngFor="let user of listAccounts()">
+        <tr *ngFor="let user of listAccounts() | searchFilter: searchedValue">
             <td>{{user['login']}}</td>
             <td>{{user['firstName']}}</td>
             <td>{{user['lastName']}}</td>
