@@ -33,10 +33,6 @@ export class UsersTableComponent {
         this.isAccessLevelFormVisible = visible;
     }
 
-    editUser(login: string): void {
-        this.router.navigate(['ferrytales/accounts/edit', login]);
-    }
-
     blockAccount(login: string): void {
         this.accountGeneralService.blockAccount(login).subscribe(() => {
             this.getAccounts();
