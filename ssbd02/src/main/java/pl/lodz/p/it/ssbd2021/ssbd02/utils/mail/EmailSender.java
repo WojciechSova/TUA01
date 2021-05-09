@@ -8,6 +8,8 @@ import org.simplejavamail.mailer.MailerBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -143,6 +145,29 @@ public class EmailSender {
             String subject = prop.getProperty("mail.info.removal.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Metoda wysyłająca wiadomość email informującą administratora o logowaniu na jego konto.
+     *
+     * @param firstName Imię administratora
+     * @param email Adres email administratora
+     * @param clientAddress Adres IP, z którego nastąpiło logowanie
+     */
+    public static void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
+
+            prop.load(input);
+            String date = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(new Date());
+            String htmlText = prop.getProperty("mail.info.admin.auth.text")
+                    .replace("IP_ADDRESS", clientAddress)
+                    .replace("TIME", date);
+            String subject = prop.getProperty("mail.info.admin.auth.subject");
+
+            sendEmail(firstName, email, subject, htmlText);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

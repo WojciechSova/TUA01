@@ -9,6 +9,7 @@
                 (click)="setLoginAccessLevels(accountDetailsService.account.login, accountDetailsService.account.accessLevel); changeAccessLevelFormVisible(true)"
                 i18n="Edit access levels|">Edytuj poziomy dostępu
         </button>
+        <button class="edit-button" (click)="getAccount()" i18n="Refresh|">Odśwież</button>
         <div class="col">
             <div class="row">
                 <label i18n="Login|">Login:</label>

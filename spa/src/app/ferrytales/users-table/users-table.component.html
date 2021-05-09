@@ -1,3 +1,6 @@
+<div class="button-container">
+    <button class="button-user-table" (click)="getAccounts()" i18n="Refresh|">Odśwież</button>
+</div>
 <div class="users-list-container">
     <table id="users">
         <tr>
@@ -6,7 +9,7 @@
             <th i18n="Last name|">Nazwisko</th>
             <th i18n="Access levels|">Poziomy dostępu</th>
             <th i18n="Unblock/Block|">Odblokuj/Zablokuj</th>
-            <th i18n="Access levels|">Poziomy dostępu</th>
+            <th i18n="Manage|">Zarządzaj</th>
             <th i18n="Details|">Szczegóły</th>
             <th i18n="Edit|">Edytuj</th>
         </tr>
@@ -32,7 +35,7 @@
             <td>
                 <button class="button-user-table"
                         (click)="setLoginAccessLevels(user.login, user.accessLevel); changeAccessLevelFormVisible(true)"
-                        i18n="Edit|">Edytuj
+                        i18n="Access levels|">Poziomy dostępu
                 </button>
             </td>
             <td>
