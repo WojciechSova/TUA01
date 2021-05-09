@@ -315,14 +315,16 @@ CREATE INDEX booking_number ON Booking USING btree (number);
 
 CREATE TABLE One_time_url
 (
+    id          bigint     NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
     url         char(32)   NOT NULL,
     account     bigint     NOT NULL,
     action_type varchar(6) NOT NULL,
     new_email   varchar(70),
     expire_date timestamp  NOT NULL,
-    PRIMARY KEY (url),
+    PRIMARY KEY (id),
     CONSTRAINT expire_date_in_future CHECK (expire_date > CURRENT_TIMESTAMP),
     CONSTRAINT fk_account_id FOREIGN KEY (account) REFERENCES Account (id),
+    CONSTRAINT one_time_url_url_unique UNIQUE (url),
     CONSTRAINT one_time_url_account_action_type_unique UNIQUE (account, action_type)
 );
 
@@ -330,3 +332,5 @@ ALTER TABLE One_time_url
     OWNER TO ssbd02admin;
 
 GRANT SELECT, INSERT, DELETE ON TABLE One_time_url TO ssbd02mok;
+
+CREATE INDEX one_time_url_url ON One_time_url USING btree (url);
