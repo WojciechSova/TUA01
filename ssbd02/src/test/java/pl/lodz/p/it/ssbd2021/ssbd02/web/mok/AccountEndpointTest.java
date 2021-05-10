@@ -213,7 +213,7 @@ class AccountEndpointTest {
 
         WebApplicationException tagException = assertThrows(WebApplicationException.class,
                 () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
-                        .of(account, Collections.emptyList())), any(), tag));
+                        .of(account, Collections.emptyList())), securityContext, tag));
 
         assertEquals(400, loginException.getResponse().getStatus());
         assertEquals("Not all required fields were provided", loginException.getMessage());

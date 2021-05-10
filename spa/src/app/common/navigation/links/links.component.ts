@@ -3,7 +3,8 @@ import { AuthService } from '../../../services/auth.service';
 import { IdentityService } from '../../../services/utils/identity.service';
 import { AccountDetailsService } from '../../../services/account-details.service';
 import { Router } from '@angular/router';
-import { AccountGeneralService } from "../../../services/account-general.service";
+import { AccountGeneralService } from '../../../services/account-general.service';
+import { UpdateAccountService } from '../../../services/update-account.service';
 
 @Component({
     selector: 'app-links',
@@ -16,6 +17,7 @@ export class LinksComponent {
                 public identityService: IdentityService,
                 private accountDetailsService: AccountDetailsService,
                 private accountGeneralService: AccountGeneralService,
+                private updateAccountService: UpdateAccountService,
                 private router: Router) {
     }
 
@@ -29,6 +31,7 @@ export class LinksComponent {
         this.authService.signOut();
         this.accountDetailsService.ngOnDestroy();
         this.accountGeneralService.ngOnDestroy();
+        this.updateAccountService.ngOnDestroy();
     }
 
     changeLoginVisible(visible: boolean): void {
