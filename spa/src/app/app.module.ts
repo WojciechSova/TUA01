@@ -22,6 +22,7 @@ import { RegistrationService } from './services/registration.service';
 import { EditUserComponent } from './ferrytales/edit-user/edit-user.component';
 import { ChangePasswordFormComponent } from './ferrytales/change-password-form/change-password-form.component';
 import { AccessLevelFormComponent } from './ferrytales/access-level-form/access-level-form/access-level-form.component';
+import { SearchFilterPipe } from './ferrytales/users-table/searchFilter.pipe';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { AccessLevelFormComponent } from './ferrytales/access-level-form/access-
         UsersTableComponent,
         EditUserComponent,
         ChangePasswordFormComponent,
-        AccessLevelFormComponent
+        AccessLevelFormComponent,
+        SearchFilterPipe
     ],
     imports: [
         BrowserModule,

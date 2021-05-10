@@ -10,14 +10,15 @@ import { Router } from '@angular/router';
 })
 export class UsersTableComponent {
 
-    constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
-        this.getAccounts();
-    }
-
+    searchedValue = '';
     isAccessLevelFormVisible = false;
 
     loginToChangeAccessLevel = '';
     loginAccessLevels = [''];
+
+    constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
+        this.getAccounts();
+    }
 
     setLoginAccessLevels(login: string, accessLevels: string[]): void {
         this.loginToChangeAccessLevel = login;
@@ -40,10 +41,6 @@ export class UsersTableComponent {
     changeAccessLevelFormVisible(visible: boolean): void {
         this.isAccessLevelFormVisible = visible;
         this.getAccounts();
-    }
-
-    editUser(login: string): void {
-        this.router.navigate(['ferrytales/accounts/edit', login]);
     }
 
     blockAccount(login: string): void {
