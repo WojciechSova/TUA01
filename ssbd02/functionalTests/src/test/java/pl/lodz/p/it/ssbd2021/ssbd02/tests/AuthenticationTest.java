@@ -1,28 +1,25 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.tests;
 
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.LoginPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
+
+import java.util.Locale;
 
 public class AuthenticationTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
     private final String url = "https://studapp.it.p.lodz.pl:8402/#";
-    private final String login = "admin";
+    private final String adminLogin = "admin";
+    private final String adminPassword = "password?";
     private final String incorrectLogin = "nieprawidlowe";
-    private final String password = "password?";
-    private final String loginFormButtonId = "loginFormBtn";
-    private final String loginMainButtonId = "loginMainBtn";
-    private final String currentAccessLevelId = "currentLevel";
-    private final String currentUsernameId = "usernameMain";
-    private final String errorMessageId = "invalidCredentialsLabel";
-    private final String loginField = "login";
-    private final String passwordField = "password";
     private WebDriver driver;
 
     @BeforeAll
@@ -39,43 +36,28 @@ public class AuthenticationTest {
         driver = new ChromeDriver(options);
         driver.get(url);
 
-        driverWait = new WebDriverWait(driver, 10);
+        driverWait = new WebDriverWait(driver, 25);
     }
 
     @Test
     public void authenticationCompletedTest() {
-        driver.findElement(By.id(loginMainButtonId))
-                .click();
+        MainPage mainPage = new MainPage(driver);
+        LoginPage loginPage = mainPage.openLoginForm();
+        AdminMainPage adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
 
-        driver.findElement(By.id(loginField))
-                .sendKeys(login);
-        driver.findElement(By.id(passwordField))
-                .sendKeys(password);
-        driver.findElement(By.id(loginFormButtonId))
-                .click();
+        driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 
-        driverWait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id(loginField))));
-
-        final String currentRole = driver.findElement(By.id(currentAccessLevelId)).getText();
-        final String currentLogin = driver.findElement(By.id(currentUsernameId)).getText();
-
-        Assertions.assertEquals("administrator", currentRole.toLowerCase());
-        Assertions.assertEquals("admin", currentLogin.toLowerCase());
+        Assertions.assertEquals("administrator", adminMainPage.getLoggedInUserAccessLevel().toLowerCase(Locale.ROOT));
+        Assertions.assertEquals("admin", adminMainPage.getLoggedInUserLogin().toLowerCase(Locale.ROOT));
     }
 
     @Test
     public void authenticationUncompletedTest() {
-        driver.findElement(By.id(loginMainButtonId))
-                .click();
-
-        driver.findElement(By.id(loginField))
-                .sendKeys(incorrectLogin);
-        driver.findElement(By.id(passwordField))
-                .sendKeys(password);
-        driver.findElement(By.id(loginFormButtonId))
-                .click();
-
-        Assertions.assertTrue(driver.findElement(By.id(errorMessageId)).isDisplayed());
+        MainPage mainPage = new MainPage(driver);
+        LoginPage loginPage = mainPage.openLoginForm();
+        AdminMainPage adminMainPage = loginPage.loginValidAdmin(incorrectLogin, adminPassword);
+        driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getErrorMessageId()));
+        Assertions.assertTrue(adminMainPage.isLoginErrorMessageDisplayed());
     }
 
     @AfterEach

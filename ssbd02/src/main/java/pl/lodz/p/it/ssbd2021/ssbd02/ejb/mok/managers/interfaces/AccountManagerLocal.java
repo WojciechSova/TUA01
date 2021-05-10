@@ -17,12 +17,12 @@ import java.util.List;
 public interface AccountManagerLocal {
 
     /**
-     * Metoda wyszukująca wszystkie konta wraz z ich poziomami dostępu.
+     * Metoda wyszukująca wszystkie konta wraz z ich aktywnymi poziomami dostępu.
      *
      * @return Lista par kont {@link Account} i listy poziomów dostępu {@link AccessLevel} reprezentująca konta
      * i ich poziomy dostępu.
      */
-    List<Pair<Account, List<AccessLevel>>> getAllAccountsWithAccessLevels();
+    List<Pair<Account, List<AccessLevel>>> getAllAccountsWithActiveAccessLevels();
 
     /**
      * Metoda wyszukująca konto o podanym loginie wraz z jego poziomami dostępu
@@ -72,6 +72,24 @@ public interface AccountManagerLocal {
      * o podanym emailu bądź numerze telefonu, kod odpowiedzi 406 w przypadku, gdy nie podano loginu
      */
     void updateAccount(Account account, String modifiedBy) throws WebApplicationException;
+
+    /**
+     * Metoda dołączająca poziom dostępu do konta o podanym loginie
+     *
+     * @param login Login użytkownika, który nadaje poziom dostępu
+     * @param targetLogin Login użytkownika
+     * @param accessLevel Poziom dostępu jaki ma zostać dołączony
+     */
+    void addAccessLevel(String login, String targetLogin, String accessLevel);
+
+    /**
+     * Metoda odłączająca poziom dostępu do konta o podanym loginie
+     *
+     * @param login Login użytkownika, który dokonuje usunięcia poziomu dostępu
+     * @param targetLogin Login użytkownika
+     * @param accessLevel Poziom dostępu jaki ma zostać odłączony
+     */
+    void removeAccessLevel(String login, String targetLogin, String accessLevel);
 
     /**
      * Metoda zmieniająca hasło użytkownika do konta
