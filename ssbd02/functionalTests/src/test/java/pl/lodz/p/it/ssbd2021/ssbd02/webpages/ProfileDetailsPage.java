@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 public class ProfileDetailsPage {
 
     protected WebDriver driver;
-    private final By profileTable = By.id("detailedTable");
+    private final By profileTable = By.id("accountDetails");
     private final By loginField = By.id("login");
     private final By firstNameField = By.id("firstName");
     private final By lastNameField = By.id("lastName");
