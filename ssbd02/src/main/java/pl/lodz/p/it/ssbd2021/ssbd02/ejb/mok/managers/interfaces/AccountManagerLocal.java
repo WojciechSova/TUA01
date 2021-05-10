@@ -17,12 +17,12 @@ import java.util.List;
 public interface AccountManagerLocal {
 
     /**
-     * Metoda wyszukująca wszystkie konta wraz z ich poziomami dostępu.
+     * Metoda wyszukująca wszystkie konta wraz z ich aktywnymi poziomami dostępu.
      *
      * @return Lista par kont {@link Account} i listy poziomów dostępu {@link AccessLevel} reprezentująca konta
      * i ich poziomy dostępu.
      */
-    List<Pair<Account, List<AccessLevel>>> getAllAccountsWithAccessLevels();
+    List<Pair<Account, List<AccessLevel>>> getAllAccountsWithActiveAccessLevels();
 
     /**
      * Metoda wyszukująca konto o podanym loginie wraz z jego poziomami dostępu
