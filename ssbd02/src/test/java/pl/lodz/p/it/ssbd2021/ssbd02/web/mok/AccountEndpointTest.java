@@ -83,7 +83,7 @@ class AccountEndpointTest {
         List<AccountGeneralDTO> expectedDTOList = accountAccessPairList.stream()
                 .map(AccountMapper::createAccountGeneralDTOFromEntities)
                 .collect(Collectors.toList());
-        when(accountManager.getAllAccountsWithAccessLevels()).thenReturn(accountAccessPairList);
+        when(accountManager.getAllAccountsWithActiveAccessLevels()).thenReturn(accountAccessPairList);
 
         Response response = accountEndpoint.getAllAccountGenerals();
 
