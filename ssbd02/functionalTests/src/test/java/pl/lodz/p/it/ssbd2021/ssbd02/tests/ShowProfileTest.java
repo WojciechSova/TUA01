@@ -46,7 +46,7 @@ public class ShowProfileTest {
         driver = new ChromeDriver(options);
         driver.get(url);
 
-        driverWait = new WebDriverWait(driver, 10);
+        driverWait = new WebDriverWait(driver, 25);
     }
 
     @Test

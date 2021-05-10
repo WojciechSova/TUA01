@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.tests;
 
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -37,7 +36,7 @@ public class AuthenticationTest {
         driver = new ChromeDriver(options);
         driver.get(url);
 
-        driverWait = new WebDriverWait(driver, 10);
+        driverWait = new WebDriverWait(driver, 25);
     }
 
     @Test
