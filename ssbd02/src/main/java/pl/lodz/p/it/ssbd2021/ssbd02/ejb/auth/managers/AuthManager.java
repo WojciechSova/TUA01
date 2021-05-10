@@ -16,7 +16,7 @@ import java.util.List;
  * @author Julia Kołodziej
  */
 @Stateful
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class AuthManager implements AuthManagerLocal {
 
     @Inject

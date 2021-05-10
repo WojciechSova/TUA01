@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Singleton
 @Startup
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class SystemManager implements SystemManagerLocal {
 
     private static final Properties prop = new Properties();

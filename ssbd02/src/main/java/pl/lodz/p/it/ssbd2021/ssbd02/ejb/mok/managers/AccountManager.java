@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @author Daniel Łondka
  */
 @Stateful
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class AccountManager implements AccountManagerLocal {
 
     @Inject
@@ -57,7 +57,6 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createAccount(Account account) throws WebApplicationException {
         List<Account> allAccounts = accountFacadeLocal.findAll();
         if (allAccounts.stream()
@@ -231,7 +230,6 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void changeActivity(String login, boolean newActivity, String modifiedBy) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setActive(newActivity);
