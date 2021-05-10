@@ -6,17 +6,37 @@
     justify-content: center;
 }
 
+.button-container{
+    position: relative;
+    padding: 1%;
+    width: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
 .edit-button {
-    margin-top: 1vw;
-    align-self: center;
+    position: relative;
+    padding-right: 0.6rem;
+    padding-left: 0.6rem;
+    margin-left: 1%;
+    transition: 0.3s;
+    height: 2.5rem;
+    width: auto;
     border: none;
-    background: #43BCCD;
-    border-radius: 2vw;
-    width: fit-content;
-    font: 1.4rem Source Sans Pro;
-    padding: 1% 2% 1% 2%;
+    border-radius: 35px;
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, @primary-color 0%, @secondary-color 100%);
+    font: lighter 1.3rem Source Sans Pro;
+    color: @primary-text-color;
+    text-align: center;
+
     &:hover {
-        background: #0ba9bc;
+        background-position: right center;
+        cursor: pointer;
     }
 }
 

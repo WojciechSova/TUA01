@@ -3,7 +3,6 @@ import { AccountGeneral } from '../../model/mok/AccountGeneral';
 import { AccountGeneralService } from '../../services/account-general.service';
 import { Router } from '@angular/router';
 
-
 @Component({
     selector: 'app-users-table',
     templateUrl: './users-table.component.html',
@@ -11,10 +10,12 @@ import { Router } from '@angular/router';
 })
 export class UsersTableComponent {
 
+    isAccessLevelFormVisible = false;
+    searchedValue: string = '';
+
     constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
         this.getAccounts();
     }
-
 
     getAccounts(): void {
         this.accountGeneralService.getAccounts().subscribe(
@@ -29,8 +30,8 @@ export class UsersTableComponent {
         this.router.navigate(['/ferrytales/accounts', login]);
     }
 
-    editUser(login: string): void {
-        this.router.navigate(['ferrytales/accounts/edit', login]);
+    changeAccessLevelFormVisible(visible: boolean): void {
+        this.isAccessLevelFormVisible = visible;
     }
 
     blockAccount(login: string): void {
