@@ -12,6 +12,9 @@ public class AccountsListPage {
     protected WebDriver driver;
     private final By usersTable = By.id("users");
     private final By tableHeader = By.tagName("th");
+    private final By tableRow = By.tagName("tr");
+    private final By tableDataLogin = By.xpath("./td[1]");
+    private final By blockUnblockButton = By.xpath("./td[5]/button");
 
     public AccountsListPage(WebDriver driver) {
         this.driver = driver;
@@ -23,5 +26,43 @@ public class AccountsListPage {
 
     public List<String> getTableHeaders() {
         return driver.findElements(tableHeader).stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public List<WebElement> getTableRows() {
+        List<WebElement> elements = driver.findElements(tableRow);
+        elements.remove(0);
+        return elements;
+    }
+
+    public String getActiveUserLogin() {
+        System.out.println();
+        WebElement element = getTableRows()
+                .stream()
+                .filter(row -> row.findElement(blockUnblockButton).getText().equals("Zablokuj")).findFirst().get();
+
+        return element.findElement(tableDataLogin).getText();
+    }
+
+    public WebElement getUserWithLogin(String login){
+        return getTableRows()
+                .stream()
+                .filter(row -> row.findElement(tableDataLogin).getText().equals(login))
+                .findFirst()
+                .get();
+    }
+
+    public void blockUser(String login) {
+        WebElement element = getUserWithLogin(login);
+        element.findElement(blockUnblockButton).click();
+    }
+
+    public By getBlockUnblockButton() {
+        return blockUnblockButton;
+    }
+
+    public boolean isUserActive(String login) {
+        WebElement element = getUserWithLogin(login);
+        System.out.println("Stan:" + element.findElement(blockUnblockButton).getText());
+        return element.findElement(blockUnblockButton).getText().equals("Zablokuj");
     }
 }
