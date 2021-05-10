@@ -32,4 +32,13 @@ public interface AccessLevelFacadeLocal extends AbstractFacadeInterface<AccessLe
      * @return Lista obiektów typu {@link AccessLevel}, z dowiązaniem do przekazanego konta
      */
     List<AccessLevel> findAllByAccount(Account account);
+
+     /**
+     * Metoda wyszukująca encje typu {@link AccessLevel}, reprezentujące aktywne poziomy dostępu,
+     * w których znajduje się dowiązanie do przekazanej encji typu {@link Account}
+     *
+     * @param account Konto którego poziomy dostępu wyszukujemy
+     * @return Lista obiektów typu {@link AccessLevel}, z dowiązaniem do przekazanego konta
+     */
+    List<AccessLevel> findAllActiveByAccount(Account account);
 }

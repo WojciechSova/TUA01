@@ -43,9 +43,9 @@ public class AccountManager implements AccountManagerLocal {
     private static final Properties prop = new Properties();
 
     @Override
-    public List<Pair<Account, List<AccessLevel>>> getAllAccountsWithAccessLevels() {
+    public List<Pair<Account, List<AccessLevel>>> getAllAccountsWithActiveAccessLevels() {
         return accountFacadeLocal.findAll().stream()
-                .map(account -> Pair.of(account, accessLevelFacadeLocal.findAllByAccount(account)))
+                .map(account -> Pair.of(account, accessLevelFacadeLocal.findAllActiveByAccount(account)))
                 .collect(Collectors.toList());
     }
 

@@ -66,6 +66,7 @@ public class AccountManagerTest {
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
     private final AccessLevel al3 = new AccessLevel();
+    private final AccessLevel al5 = new AccessLevel();
     @Spy
     private final List<AccessLevel> accessLevels1 = new ArrayList<>();
     private final List<AccessLevel> accessLevels2 = new ArrayList<>();
@@ -76,9 +77,13 @@ public class AccountManagerTest {
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
+
+        al5.setActive(false);
+
         accessLevels1.add(al1);
         accessLevels1.add(al2);
         accessLevels2.add(al3);
+        accessLevels2.add(al5);
 
         accounts = new ArrayList<>();
         accounts.add(a1);
@@ -90,10 +95,12 @@ public class AccountManagerTest {
     @Test
     void getAllAccountsWithAccessLevelsTest() {
         when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(a1, a2));
-        when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
-        when(accessLevelFacadeLocal.findAllByAccount(a2)).thenReturn(accessLevels2);
+        when(accessLevelFacadeLocal.findAllActiveByAccount(a1)).thenReturn(accessLevels1);
+        when(accessLevelFacadeLocal.findAllActiveByAccount(a2)).thenReturn(accessLevels2);
 
-        List<Pair<Account, List<AccessLevel>>> testedPairList = accountManager.getAllAccountsWithAccessLevels();
+        pairList.get(1).getValue().remove(al5); // Remove al5 from compared list cause it's inactive
+
+        List<Pair<Account, List<AccessLevel>>> testedPairList = accountManager.getAllAccountsWithActiveAccessLevels();
 
         assertEquals(pairList, testedPairList);
         assertEquals(2, testedPairList.size());
@@ -103,6 +110,8 @@ public class AccountManagerTest {
         assertEquals(accessLevels2, testedPairList.get(1).getValue());
         assertEquals(a1, testedPairList.get(0).getKey());
         assertEquals(a2, testedPairList.get(1).getKey());
+        assertTrue(testedPairList.get(1).getValue().stream()
+                .noneMatch(accessLevel -> accessLevel.equals(al5)));
     }
 
     @Test
