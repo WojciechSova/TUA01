@@ -35,10 +35,11 @@ public class AccountsListPage {
     }
 
     public String getActiveUserLogin() {
-        System.out.println();
         WebElement element = getTableRows()
                 .stream()
-                .filter(row -> row.findElement(blockUnblockButton).getText().equals("Zablokuj")).findFirst().get();
+                .filter(row -> row.findElement(blockUnblockButton).getText().equals("Zablokuj"))
+                .findFirst()
+                .get();
 
         return element.findElement(tableDataLogin).getText();
     }
@@ -52,8 +53,7 @@ public class AccountsListPage {
     }
 
     public void blockUser(String login) {
-        WebElement element = getUserWithLogin(login);
-        element.findElement(blockUnblockButton).click();
+        getUserWithLogin(login).findElement(blockUnblockButton).click();
     }
 
     public By getBlockUnblockButton() {
@@ -61,8 +61,7 @@ public class AccountsListPage {
     }
 
     public boolean isUserActive(String login) {
-        WebElement element = getUserWithLogin(login);
-        System.out.println("Stan:" + element.findElement(blockUnblockButton).getText());
-        return element.findElement(blockUnblockButton).getText().equals("Zablokuj");
+        return getUserWithLogin(login)
+                .findElement(blockUnblockButton).getText().equals("Zablokuj");
     }
 }
