@@ -10,11 +10,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.LoginPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.OwnProfileDetailsPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,10 +58,10 @@ public class ShowProfileTest {
         assertEquals("ADMIN", adminMainPage.getLoggedInUserLogin());
         assertEquals("ADMINISTRATOR", adminMainPage.getLoggedInUserAccessLevel());
 
-        OwnProfileDetailsPage ownProfileDetailsPage = adminMainPage.openOwnProfileDetails();
+        ProfileDetailsPage profileDetailsPage = adminMainPage.openOwnProfileDetails();
         driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/account")));
-        assertTrue(ownProfileDetailsPage.areProperFieldsDisplayed("ADMIN"));
-        List<String> adminData = ownProfileDetailsPage.getData();
+        assertTrue(profileDetailsPage.areProperFieldsDisplayed("ADMIN"));
+        List<String> adminData = profileDetailsPage.getData();
         assertAll(
                 () -> assertEquals(adminData.get(0), adminLogin),
                 () -> assertEquals(adminData.get(1), adminFirstName),
@@ -72,7 +70,31 @@ public class ShowProfileTest {
                 () -> assertEquals(adminData.get(6), Boolean.TRUE.toString().toLowerCase(Locale.ROOT)),
                 () -> assertEquals(adminData.get(7), Boolean.TRUE.toString().toLowerCase(Locale.ROOT))
         );
-        assertThrows(NoSuchElementException.class, () -> ownProfileDetailsPage.areProperFieldsDisplayed("CLIENT"));
+        assertThrows(NoSuchElementException.class, () -> profileDetailsPage.areProperFieldsDisplayed("CLIENT"));
+    }
+
+    @Test
+    public void showAnotherUserProfile() {
+        MainPage mainPage = new MainPage(driver);
+        LoginPage loginPage = mainPage.openLoginForm();
+        AdminMainPage adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
+
+        driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
+
+        assertEquals("ADMIN", adminMainPage.getLoggedInUserLogin());
+        assertEquals("ADMINISTRATOR", adminMainPage.getLoggedInUserAccessLevel());
+
+        AccountsListPage accountsListPage = adminMainPage.openAccountsList();
+        driverWait.until(ExpectedConditions.presenceOfElementLocated(accountsListPage.getUsersTable()));
+
+        List<String> tableData = accountsListPage.getTableData();
+        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts")));
+        driverWait.until(ExpectedConditions.presenceOfElementLocated(accountsListPage.getUsersTable()));
+
+        ProfileDetailsPage profileDetailsPage = accountsListPage.openAnotherUserProfileDetails();
+        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts/").concat(tableData.get(0))));
+
+        assertTrue(profileDetailsPage.areProperFieldsDisplayed(Arrays.stream(tableData.get(3).split("\n")).findFirst().get()));
     }
 
     @AfterEach

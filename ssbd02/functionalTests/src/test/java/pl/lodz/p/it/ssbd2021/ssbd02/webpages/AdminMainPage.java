@@ -33,10 +33,10 @@ public class AdminMainPage {
         return new AccountsListPage(driver);
     }
 
-    public OwnProfileDetailsPage openOwnProfileDetails() {
+    public ProfileDetailsPage openOwnProfileDetails() {
         driver.switchTo().defaultContent();
         driver.findElement(currentUser).click();
-        return new OwnProfileDetailsPage(driver);
+        return new ProfileDetailsPage(driver);
     }
 
     public boolean isLoginErrorMessageDisplayed() {
