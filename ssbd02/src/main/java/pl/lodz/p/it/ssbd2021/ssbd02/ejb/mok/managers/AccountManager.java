@@ -163,7 +163,6 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void addAccessLevel(String login, String targetLogin, String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
             return;
@@ -195,7 +194,6 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void removeAccessLevel(String login, String targetLogin, String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
             return;
