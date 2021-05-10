@@ -36,7 +36,10 @@
                 </ng-template>
             </td>
             <td>
-                <button class="button-user-table" (click)="changeAccessLevelFormVisible(true)" i18n="Access levels|">Poziomy dostępu</button>
+                <button class="button-user-table"
+                        (click)="setLoginAccessLevels(user.login, user.accessLevel); changeAccessLevelFormVisible(true)"
+                        i18n="Access levels|">Poziomy dostępu
+                </button>
             </td>
             <td>
                 <button class="button-user-table" (click)="setUser(user.login)" i18n="Details|">Szczegóły</button>
@@ -44,6 +47,7 @@
         </tr>
     </table>
 </div>
-<app-access-level-form *ngIf="isAccessLevelFormVisible" (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)">
-
+<app-access-level-form *ngIf="isAccessLevelFormVisible"
+                       (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"
+                       [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels">
 </app-access-level-form>

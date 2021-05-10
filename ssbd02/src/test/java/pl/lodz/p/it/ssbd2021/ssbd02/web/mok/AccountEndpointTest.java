@@ -228,6 +228,50 @@ class AccountEndpointTest {
     }
 
     @Test
+    void addAccessLevel() {
+        AccessLevel accessLevel = new AccessLevel();
+        accessLevel.setAccount(account);
+        accessLevel.setLevel("Admin");
+        accessLevel.setActive(false);
+
+        account.setLogin("login");
+
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("Admin");
+
+        doAnswer(invocationOnMock -> {
+            accessLevel.setActive(true);
+            return null;
+        }).when(accountManager).addAccessLevel("Admin", "login", "ADMIN");
+
+        Response response = accountEndpoint.addAccessLevel(securityContext, "login", "ADMIN");
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertTrue(accessLevel.getActive());
+    }
+
+    @Test
+    void removeAccessLevel() {
+        AccessLevel accessLevel = new AccessLevel();
+        accessLevel.setAccount(account);
+        accessLevel.setLevel("Admin");
+        accessLevel.setActive(true);
+
+        account.setLogin("login");
+
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("Admin");
+
+        doAnswer(invocationOnMock -> {
+            accessLevel.setActive(false);
+            return null;
+        }).when(accountManager).removeAccessLevel("Admin", "login", "ADMIN");
+
+        Response response = accountEndpoint.removeAccessLevel(securityContext, "login", "ADMIN");
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertFalse(accessLevel.getActive());
+    }
+
+    @Test
     void blockAccountTest() {
         account.setLogin("Login");
 

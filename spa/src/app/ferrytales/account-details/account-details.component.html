@@ -1,9 +1,17 @@
 <div class="outer-div">
     <div class="account-details" id="accountDetails">
         <div class="button-container">
-            <button class="edit-button" (click)="editUser(accountDetailsService.account.login)" i18n="Edit account|">Edytuj konto</button>
-            <button class="edit-button" (click)="changeChangePasswordFormVisible(true)" i18n="Change password|">Zmień hasło</button>
-            <button class="edit-button" (click)="changeAccessLevelFormVisible(true)" i18n="Edit access levels|">Edytuj poziomy dostępu</button>
+            <button class="edit-button"
+                    (click)="editUser(accountDetailsService.account.login)"
+                    i18n="Edit account|">Edytuj konto</button>
+            <button class="edit-button"
+                    (click)="changeChangePasswordFormVisible(true)"
+                    i18n="Change password|">Zmień hasło
+            </button>
+            <button class="edit-button"
+                    (click)="setLoginAccessLevels(accountDetailsService.account.login, accountDetailsService.account.accessLevel); changeAccessLevelFormVisible(true)"
+                    i18n="Edit access levels|">Edytuj poziomy dostępu
+            </button>
             <button class="edit-button" (click)="getAccount()" i18n="Refresh|">Odśwież</button>
         </div>
         <div class="col">
@@ -86,4 +94,7 @@
 </div>
 <app-change-password-form *ngIf="isChangePasswordFormVisible"
                           (isChangePasswordFormVisibleChange)="changeChangePasswordFormVisible($event)"></app-change-password-form>
-<app-access-level-form *ngIf="isAccessLevelFormVisible" (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"></app-access-level-form>
+<app-access-level-form *ngIf="isAccessLevelFormVisible"
+                       (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"
+                       [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels">
+</app-access-level-form>

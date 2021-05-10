@@ -91,6 +91,46 @@ public class EmailSender {
     }
 
     /**
+     * Metoda wysyłająca wiadomość email informującą użytkownika o dodaniu poziomu dostępu jego konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     */
+    public static void sendAddAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
+
+            prop.load(input);
+
+            String htmlText = prop.getProperty("mail.modification.add.access.level.text").replace("ACCESS_LEVEL", accessLevel);
+            String subject = prop.getProperty("mail.info.modification.subject");
+            sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu poziomu dostępu jego konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     */
+    public static void sendRemoveAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
+
+            prop.load(input);
+
+            String htmlText = prop.getProperty("mail.modification.remove.access.level.text").replace("ACCESS_LEVEL", accessLevel);
+            String subject = prop.getProperty("mail.info.modification.subject");
+            sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
      * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu jego konta.
      *
      * @param recipientName         Imię odbiorcy wiadomości.

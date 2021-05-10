@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * Manager kont
+ import java.util.Date;
  *
  * @author Daniel Łondka
  */
@@ -159,6 +160,61 @@ public class AccountManager implements AccountManagerLocal {
         accountFacadeLocal.edit(acc);
 
         EmailSender.sendModificationEmail(account.getFirstName(), accountFromDB.getEmail());
+    }
+
+    @Override
+    public void addAccessLevel(String login, String targetLogin, String accessLevel) {
+        if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
+            return;
+        }
+
+        Account account = accountFacadeLocal.findByLogin(targetLogin);
+        List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
+
+        if (accessLevels.stream().noneMatch(x -> x.getLevel().equals(accessLevel))) {
+            AccessLevel newAccessLevel = new AccessLevel();
+            newAccessLevel.setAccount(account);
+            newAccessLevel.setLevel(accessLevel);
+            newAccessLevel.setActive(true);
+            newAccessLevel.setCreatedBy(accountFacadeLocal.findByLogin(login));
+            accessLevelFacadeLocal.create(newAccessLevel);
+            EmailSender.sendAddAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
+            return;
+        }
+
+        accessLevels.forEach(x -> {
+            if (x.getLevel().equals(accessLevel) && !x.getActive()) {
+                x.setActive(true);
+                x.setModifiedBy(accountFacadeLocal.findByLogin(login));
+                x.setModificationDate(Timestamp.from(Instant.now()));
+                accessLevelFacadeLocal.edit(x);
+                EmailSender.sendAddAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
+            }
+        });
+    }
+
+    @Override
+    public void removeAccessLevel(String login, String targetLogin, String accessLevel) {
+        if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
+            return;
+        }
+
+        Account account = accountFacadeLocal.findByLogin(targetLogin);
+        List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllByAccount(account);
+
+        if (accessLevels.stream().noneMatch(x -> x.getLevel().equals(accessLevel))) {
+            return;
+        }
+
+        accessLevels.forEach(x -> {
+            if (x.getLevel().equals(accessLevel) && x.getActive()) {
+                x.setActive(false);
+                x.setModifiedBy(accountFacadeLocal.findByLogin(login));
+                x.setModificationDate(Timestamp.from(Instant.now()));
+                accessLevelFacadeLocal.edit(x);
+                EmailSender.sendRemoveAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
+            }
+        });
     }
 
     public void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException {
