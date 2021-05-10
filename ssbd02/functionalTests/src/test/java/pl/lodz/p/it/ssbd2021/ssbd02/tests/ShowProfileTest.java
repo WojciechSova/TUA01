@@ -44,7 +44,7 @@ public class ShowProfileTest {
         driver = new ChromeDriver(options);
         driver.get(url);
 
-        driverWait = new WebDriverWait(driver, 10);
+        driverWait = new WebDriverWait(driver, 25);
     }
 
     @Test
@@ -87,8 +87,9 @@ public class ShowProfileTest {
         AccountsListPage accountsListPage = adminMainPage.openAccountsList();
         driverWait.until(ExpectedConditions.presenceOfElementLocated(accountsListPage.getUsersTable()));
 
-        List<String> tableData =  accountsListPage.getTableData();
+        List<String> tableData = accountsListPage.getTableData();
         driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts")));
+        driverWait.until(ExpectedConditions.presenceOfElementLocated(accountsListPage.getUsersTable()));
 
         ProfileDetailsPage profileDetailsPage = accountsListPage.openAnotherUserProfileDetails();
         driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts/").concat(tableData.get(0))));
