@@ -44,7 +44,7 @@ public class AccountsListPage {
         return element.findElement(tableDataLogin).getText();
     }
 
-    public WebElement getUserWithLogin(String login){
+    public WebElement getUserWithLogin(String login) {
         return getTableRows()
                 .stream()
                 .filter(row -> row.findElement(tableDataLogin).getText().equals(login))

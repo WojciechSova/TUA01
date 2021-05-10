@@ -25,7 +25,7 @@ public class BlockAccountTest {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
-//        options.setHeadless(true);
+        options.setHeadless(true);
     }
 
     @BeforeEach
