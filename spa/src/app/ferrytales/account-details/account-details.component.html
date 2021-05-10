@@ -1,5 +1,5 @@
 <div class="outer-div">
-    <div class="account-details">
+    <div class="account-details" id="accountDetails">
         <div class="button-container">
             <button class="edit-button" (click)="editUser(accountDetailsService.account.login)" i18n="Edit account|">Edytuj konto</button>
             <button class="edit-button" (click)="changeChangePasswordFormVisible(true)" i18n="Change password|">Zmień hasło</button>
@@ -9,23 +9,23 @@
         <div class="col">
             <div class="row">
                 <label i18n="Login|">Login:</label>
-                <label>{{accountDetailsService.account.login}}</label>
+                <label id="login">{{accountDetailsService.account.login}}</label>
             </div>
             <div class="row">
                 <label i18n="Name|">Imię:</label>
-                <label>{{accountDetailsService.account.firstName}}</label>
+                <label id="firstName">{{accountDetailsService.account.firstName}}</label>
             </div>
             <div class="row">
                 <label i18n="Last name|">Nazwisko:</label>
-                <label>{{accountDetailsService.account.lastName}}</label>
+                <label id="lastName">{{accountDetailsService.account.lastName}}</label>
             </div>
             <div class="row">
                 <label i18n="E-mail address|">Adres email:</label>
-                <label>{{accountDetailsService.account.email}}</label>
+                <label id="email">{{accountDetailsService.account.email}}</label>
             </div>
             <div class="row" *ngIf="accountDetailsService.account.accessLevel.some(hasClientAccessLevel)">
                 <label i18n="Phone number|">Numer telefonu:</label>
-                <label>{{accountDetailsService.account.phoneNumber}}</label>
+                <label id="phoneNumber">{{accountDetailsService.account.phoneNumber}}</label>
             </div>
             <div class="row">
                 <label i18n="Language|">Język:</label>
@@ -35,7 +35,7 @@
                 <label i18n="Timezone|">Strefa czasowa:</label>
                 <label>{{accountDetailsService.account.timeZone}}</label>
             </div>
-            <div *ngIf="identityService.isAdmin()">
+            <div id="adminFields" *ngIf="identityService.isAdmin()">
                 <div class="row">
                     <label i18n="Active|">Aktywne:</label>
                     <label>{{accountDetailsService.account.active}}</label>
@@ -80,7 +80,7 @@
         </div>
         <div>
             <label i18n="Access levels|">Poziomy dostępu:</label>
-            <app-access-level-table [accessLevels]="accountDetailsService.account.accessLevel"></app-access-level-table>
+            <app-access-level-table id="accessLevels" [accessLevels]="accountDetailsService.account.accessLevel"></app-access-level-table>
         </div>
     </div>
 </div>
