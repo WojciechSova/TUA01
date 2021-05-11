@@ -182,6 +182,10 @@ public class EmailSender {
      * @param text                  Treść wiadomości.
      */
     public static void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
+        if (System.getProperty("should_send_emails") != null) {
+            return;
+        }
+
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
