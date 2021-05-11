@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AccountDetails } from '../../model/mok/AccountDetails';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AccountDetailsService } from '../../services/account-details.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UpdateAccountService } from '../../services/update-account.service';
+import {Component, OnInit} from '@angular/core';
+import {AccountDetails} from '../../model/mok/AccountDetails';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AccountDetailsService} from '../../services/account-details.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UpdateAccountService} from '../../services/update-account.service';
 
 
 @Component({
@@ -46,11 +46,8 @@ export class EditUserComponent implements OnInit {
         'UTC+10',
         'UTC+11',
         'UTC+12'
-    ]
+    ];
     private updating = false;
-    isUpdating(): boolean {
-        return this.updating;
-    }
 
     form = new FormGroup({
         firstName: new FormControl(''),
@@ -59,6 +56,14 @@ export class EditUserComponent implements OnInit {
         language: new FormControl(''),
         timeZone: new FormControl('')
     });
+
+    setUser(login: string): void {
+        this.router.navigate(['/ferrytales/accounts', login]);
+    }
+
+    isUpdating(): boolean {
+        return this.updating;
+    }
 
     getAccount(): void {
         const login = (this.route.snapshot.paramMap.get('login') as string);
@@ -72,25 +77,25 @@ export class EditUserComponent implements OnInit {
     }
 
     editUser(firstName?: string, lastName?: string, phoneNumber?: string, language?: string, timeZone?: string): void {
-        let acc: AccountDetails = this.accountDetailsService.account;
-        if (firstName!=null) {
+        const acc: AccountDetails = this.accountDetailsService.account;
+        if (firstName != null) {
             acc.firstName = firstName;
         }
-        if (lastName!=null) {
+        if (lastName != null) {
             acc.lastName = lastName;
         }
-        if (lastName!=null) {
+        if (lastName != null) {
             acc.phoneNumber = phoneNumber;
         }
-        if (lastName!=null) {
+        if (lastName != null) {
             acc.language = language;
         }
-        if (lastName!=null) {
+        if (lastName != null) {
             acc.timeZone = timeZone;
         }
 
-        this.updateAccountService.updateAccount(acc).subscribe(() => this.router.navigate(['ferrytales/accounts/'+ acc.login]));
-        this.updating = true
+        this.updateAccountService.updateAccount(acc).subscribe(() => this.router.navigate(['ferrytales/accounts/' + acc.login]));
+        this.updating = true;
     }
 
     ngOnInit(): void {

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {IdentityService} from '../../services/utils/identity.service';
 
 @Component({
     selector: 'app-navigation',
@@ -16,7 +17,7 @@ export class NavigationComponent implements AfterViewInit {
     @ViewChild('navigation')
     private navigation: ElementRef;
 
-    constructor() {
+    constructor(public identityService: IdentityService) {
         this.logo = new ElementRef('logo');
         this.navigation = new ElementRef('navigation');
     }
@@ -39,7 +40,7 @@ export class NavigationComponent implements AfterViewInit {
 
     showNavbarOnScroll(entries: any): void {
         if (!this.isSticky) {
-            if (!entries[0].isIntersecting) {
+            if (!entries[ 0 ].isIntersecting) {
                 this.navigation?.nativeElement.classList.add('nav-sticky');
                 this.navigation?.nativeElement.classList.remove('nav-non-sticky');
             } else {
