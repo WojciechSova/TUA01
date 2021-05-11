@@ -21,6 +21,7 @@ import javax.validation.constraints.Size;
 public class PasswordDTO {
 
     @NotBlank
+    @Size(min = 8, message = "Password must not have less than 8 characters")
     private String oldPassword;
 
     @NotBlank
