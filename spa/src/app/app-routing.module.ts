@@ -19,7 +19,7 @@ const ferrytalesChildren: Routes = [
 const routes: Routes = [
     { path: '', component: MainPageComponent },
     { path: 'ferrytales', component: FerrytalesComponent, children: ferrytalesChildren },
-    { path: 'confirm/account/:url', component: ConfirmAccountComponent },
+    { path: 'confirm/account/:url', component: ConfirmAccountComponent }
 ];
 
 @NgModule({
