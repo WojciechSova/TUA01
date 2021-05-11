@@ -20,6 +20,7 @@ import java.util.Properties;
 public class EmailSender {
 
     private static final Properties prop = new Properties();
+    private static final String registrationLink = "http://studapp.it.p.lodz.pl:8402/#/confirm/account/";
 
     /**
      * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie nowo założonego konta.
@@ -33,7 +34,7 @@ public class EmailSender {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.registration.text").replace("CONFIRMATION_LINK", link);
+            String htmlText = prop.getProperty("mail.registration.text").replace("CONFIRMATION_LINK", registrationLink + link);
             String subject = prop.getProperty("mail.registration.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -56,10 +57,9 @@ public class EmailSender {
 
             String htmlText;
 
-            if(active){
+            if (active) {
                 htmlText = prop.getProperty("mail.activity.text").replace("AKTUALNA_AKTYWNOSC", "AKTYWNE");
-            }
-            else{
+            } else {
                 htmlText = prop.getProperty("mail.activity.text").replace("AKTUALNA_AKTYWNOSC", "ZABLOKOWANE");
             }
             String subject = prop.getProperty("mail.activity.subject");
@@ -153,8 +153,8 @@ public class EmailSender {
     /**
      * Metoda wysyłająca wiadomość email informującą administratora o logowaniu na jego konto.
      *
-     * @param firstName Imię administratora
-     * @param email Adres email administratora
+     * @param firstName     Imię administratora
+     * @param email         Adres email administratora
      * @param clientAddress Adres IP, z którego nastąpiło logowanie
      */
     public static void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
