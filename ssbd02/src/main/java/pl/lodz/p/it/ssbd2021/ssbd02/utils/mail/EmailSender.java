@@ -57,10 +57,16 @@ public class EmailSender {
             String htmlText;
 
             if(active){
-                htmlText = prop.getProperty("mail.activity.text").replace("AKTUALNA_AKTYWNOSC", "AKTYWNE");
+                htmlText = prop.getProperty("mail.template")
+                        .replace("TITLE", prop.getProperty("mail.activity.title"))
+                        .replace("TEXT", prop.getProperty("mail.activity.text")
+                                .replace("AKTUALNA_AKTYWNOSC", "AKTYWNE"));
             }
             else{
-                htmlText = prop.getProperty("mail.activity.text").replace("AKTUALNA_AKTYWNOSC", "ZABLOKOWANE");
+                htmlText = prop.getProperty("mail.template")
+                        .replace("TITLE", prop.getProperty("mail.activity.title"))
+                        .replace("TEXT", prop.getProperty("mail.activity.text")
+                                .replace("AKTUALNA_AKTYWNOSC", "ZABLOKOWANE"));
             }
             String subject = prop.getProperty("mail.activity.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
@@ -81,7 +87,9 @@ public class EmailSender {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.info.modification.text");
+            String htmlText = prop.getProperty("mail.template")
+                    .replace("TITLE", prop.getProperty("mail.info.modification.title"))
+                    .replace("TEXT", prop.getProperty("mail.info.modification.text"));
             String subject = prop.getProperty("mail.info.modification.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -101,7 +109,10 @@ public class EmailSender {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.modification.add.access.level.text").replace("ACCESS_LEVEL", accessLevel);
+            String htmlText = prop.getProperty("mail.template")
+                    .replace("TITLE", prop.getProperty("mail.modification.add.access.level.title"))
+                    .replace("TEXT", prop.getProperty("mail.modification.add.access.level.text")
+                            .replace("ACCESS_LEVEL", accessLevel));
             String subject = prop.getProperty("mail.info.modification.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -121,7 +132,10 @@ public class EmailSender {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.modification.remove.access.level.text").replace("ACCESS_LEVEL", accessLevel);
+            String htmlText = prop.getProperty("mail.template")
+                    .replace("TITLE", prop.getProperty("mail.modification.remove.access.level.title"))
+                    .replace("TEXT", prop.getProperty("mail.modification.remove.access.level.text")
+                            .replace("ACCESS_LEVEL", accessLevel));
             String subject = prop.getProperty("mail.info.modification.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -141,7 +155,9 @@ public class EmailSender {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.info.removal.text");
+            String htmlText = prop.getProperty("mail.template")
+                    .replace("TITLE", prop.getProperty("mail.info.removal.title"))
+                    .replace("TEXT", prop.getProperty("mail.info.removal.text"));
             String subject = prop.getProperty("mail.info.removal.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -162,9 +178,11 @@ public class EmailSender {
 
             prop.load(input);
             String date = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(new Date());
-            String htmlText = prop.getProperty("mail.info.admin.auth.text")
-                    .replace("IP_ADDRESS", clientAddress)
-                    .replace("TIME", date);
+            String htmlText = prop.getProperty("mail.template")
+                    .replace("TITLE", prop.getProperty("mail.info.admin.auth.title"))
+                    .replace("TEXT", prop.getProperty("mail.info.admin.auth.text")
+                            .replace("IP_ADDRESS", clientAddress)
+                            .replace("TIME", date));
             String subject = prop.getProperty("mail.info.admin.auth.subject");
 
             sendEmail(firstName, email, subject, htmlText);
