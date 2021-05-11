@@ -33,7 +33,11 @@ public class EmailSender {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.registration.text").replace("CONFIRMATION_LINK", link);
+            String htmlText = prop.getProperty("mail.template.with.button")
+                    .replace("TITLE", prop.getProperty("mail.registration.title"))
+                    .replace("TEXT", prop.getProperty("mail.registration.text"))
+                    .replace("BUTTON", prop.getProperty("mail.registration.button")
+                            .replace("CONFIRMATION_LINK", link));
             String subject = prop.getProperty("mail.registration.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -60,13 +64,13 @@ public class EmailSender {
                 htmlText = prop.getProperty("mail.template")
                         .replace("TITLE", prop.getProperty("mail.activity.title"))
                         .replace("TEXT", prop.getProperty("mail.activity.text")
-                                .replace("AKTUALNA_AKTYWNOSC", "AKTYWNE"));
+                                .replace("CURRENT_ACTIVITY", "AKTYWNE"));
             }
             else{
                 htmlText = prop.getProperty("mail.template")
                         .replace("TITLE", prop.getProperty("mail.activity.title"))
                         .replace("TEXT", prop.getProperty("mail.activity.text")
-                                .replace("AKTUALNA_AKTYWNOSC", "ZABLOKOWANE"));
+                                .replace("CURRENT_ACTIVITY", "ZABLOKOWANE"));
             }
             String subject = prop.getProperty("mail.activity.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
