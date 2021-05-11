@@ -21,7 +21,9 @@ import java.time.Instant;
         @NamedQuery(name = "AccessLevel.findById", query = "SELECT l FROM AccessLevel l WHERE l.id = :id"),
         @NamedQuery(name = "AccessLevel.findByLevel", query = "SELECT l FROM AccessLevel l WHERE l.level = :level"),
         @NamedQuery(name = "AccessLevel.findByAccount", query = "SELECT l FROM AccessLevel l WHERE l.account = :account"),
-        @NamedQuery(name = "AccessLevel.findByLogin", query = "SELECT l FROM AccessLevel l WHERE l.account.login = :login")
+        @NamedQuery(name = "AccessLevel.findByLogin", query = "SELECT l FROM AccessLevel l WHERE l.account.login = :login"),
+        @NamedQuery(name = "AccessLevel.findAllActiveByAccount",
+                query = "SELECT l FROM AccessLevel l WHERE l.active = true AND l.account = :account")
 })
 @Data
 @NoArgsConstructor

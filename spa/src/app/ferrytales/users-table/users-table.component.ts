@@ -10,11 +10,19 @@ import { Router } from '@angular/router';
 })
 export class UsersTableComponent {
 
+    searchedValue = '';
     isAccessLevelFormVisible = false;
-    searchedValue: string = '';
+
+    loginToChangeAccessLevel = '';
+    loginAccessLevels = [''];
 
     constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
         this.getAccounts();
+    }
+
+    setLoginAccessLevels(login: string, accessLevels: string[]): void {
+        this.loginToChangeAccessLevel = login;
+        this.loginAccessLevels = accessLevels;
     }
 
     getAccounts(): void {
@@ -32,6 +40,7 @@ export class UsersTableComponent {
 
     changeAccessLevelFormVisible(visible: boolean): void {
         this.isAccessLevelFormVisible = visible;
+        this.getAccounts();
     }
 
     blockAccount(login: string): void {

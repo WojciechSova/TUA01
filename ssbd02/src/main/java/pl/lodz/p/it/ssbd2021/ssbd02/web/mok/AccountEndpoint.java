@@ -15,6 +15,13 @@ import javax.inject.Inject;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -44,7 +51,7 @@ public class AccountEndpoint {
     @RolesAllowed("ADMIN")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllAccountGenerals() {
-        List<AccountGeneralDTO> accountGeneralDTOList = accountManager.getAllAccountsWithAccessLevels().stream()
+        List<AccountGeneralDTO> accountGeneralDTOList = accountManager.getAllAccountsWithActiveAccessLevels().stream()
                 .map(AccountMapper::createAccountGeneralDTOFromEntities)
                 .collect(Collectors.toList());
         return Response.ok()
@@ -107,6 +114,44 @@ public class AccountEndpoint {
         }
         accountManager.createAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO));
         return Response.accepted()
+                .build();
+    }
+
+    /**
+     * Metoda umożliwiająca dodanie poziomu dostępu użytkownikowi o podanym loginie.
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @param login Login użytkownika do którego dodany zostanie poziom dostępu.
+     * @param accessLevel Poziom dostępu, który ma zostać dodany do konta.
+     * @return Kod 200 w przypadku poprawnego dodania dostępu.
+     */
+    @PUT
+    @Path("addaccesslevel/{login}")
+    @RolesAllowed({"ADMIN"})
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response addAccessLevel(@Context SecurityContext securityContext, @PathParam("login") String login, String accessLevel) {
+        accountManager.addAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
+
+        return Response.ok()
+                .build();
+    }
+
+    /**
+     * Metoda umożliwiająca odebranie poziomu dostępu użytkownikowi o podanym loginie.
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @param login Login użytkownika któremu odebrany zostanie poziom dostępu.
+     * @param accessLevel Poziom dostępu, który ma zostać odebrany.
+     * @return Kod 200 w przypadku poprawnego odebrania dostępu.
+     */
+    @PUT
+    @Path("removeaccesslevel/{login}")
+    @RolesAllowed({"ADMIN"})
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response removeAccessLevel(@Context SecurityContext securityContext, @PathParam("login") String login, String accessLevel) {
+        accountManager.removeAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
+
+        return Response.ok()
                 .build();
     }
 
