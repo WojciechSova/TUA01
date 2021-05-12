@@ -239,7 +239,7 @@ public class AccountEndpoint {
      * Metoda umożliwiająca potwierdzenie nowo zarejestrowanego konta.
      *
      * @param url Kod służący do potwierdzenia konta
-     * @return Kod 200 w przypadku poprawnego potwierdzenia konta
+     * @return Kod 200 w przypadku poprawnego potwierdzenia konta, w przeciwnym razie kod 400
      */
     @PUT
     @PermitAll
