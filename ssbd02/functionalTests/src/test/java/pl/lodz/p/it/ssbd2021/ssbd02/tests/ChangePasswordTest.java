@@ -84,8 +84,6 @@ public class ChangePasswordTest {
         changePassword(adminPassword, newPassword, newPassword.concat("1234"));
         driver.findElement(changePasswordPage.getOldPassword()).sendKeys(Keys.SHIFT);
 
-        //driverWait.until(ExpectedConditions.presenceOfElementLocated(changePasswordPage.getDifferentPasswordsError()));
-
         assertFalse(driver.findElement(changePasswordPage.getConfirm()).isEnabled());
         assertTrue(driver.findElement(changePasswordPage.getForm()).isDisplayed());
         assertTrue(driver.findElement(changePasswordPage.getDifferentPasswordsError()).isDisplayed());
