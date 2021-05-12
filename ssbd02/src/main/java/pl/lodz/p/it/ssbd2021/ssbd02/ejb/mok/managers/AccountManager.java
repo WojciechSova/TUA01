@@ -304,6 +304,10 @@ public class AccountManager implements AccountManagerLocal {
             return false;
         }
 
+        if(!oneTimeUrl.getActionType().equals("e-mail") || oneTimeUrl.getExpireDate().compareTo(Timestamp.from(Instant.now())) > 0){
+            return false;
+        }
+
         if (url.equals(oneTimeUrl.getUrl())) {
             Account account = accountFacadeLocal.findByLogin(oneTimeUrl.getAccount().getLogin());
             account.setEmail(oneTimeUrl.getNewEmail());
