@@ -6,9 +6,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -40,7 +40,7 @@ public class AccountManager implements AccountManagerLocal {
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
 
     @Inject
-    private EmailSender emailSender;
+    private EmailSenderLocal emailSender;
 
     private static final Properties prop = new Properties();
 

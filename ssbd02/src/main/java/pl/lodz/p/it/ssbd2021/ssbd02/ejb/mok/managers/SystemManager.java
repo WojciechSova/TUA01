@@ -3,9 +3,9 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.SystemManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
 
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -39,7 +39,7 @@ public class SystemManager implements SystemManagerLocal {
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
 
     @Inject
-    private EmailSender emailSender;
+    private EmailSenderLocal emailSender;
 
     @Override
     @Schedule(hour = "*/1", persistent = false)

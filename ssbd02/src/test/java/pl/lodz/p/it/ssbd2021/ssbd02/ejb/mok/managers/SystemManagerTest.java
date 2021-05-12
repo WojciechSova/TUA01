@@ -8,9 +8,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -46,7 +46,7 @@ class SystemManagerTest {
     @Mock
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
     @Mock
-    private EmailSender emailSender;
+    private EmailSenderLocal emailSender;
     @InjectMocks
     private SystemManager systemManager;
     private List<AccessLevel> accessLevels;
@@ -57,7 +57,13 @@ class SystemManagerTest {
     void initMocks() {
         MockitoAnnotations.openMocks(this);
 
-        doNothing().when(emailSender).sendEmail(anyString(), anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRegistrationEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendChangedActivityEmail(anyString(), anyString(), anyBoolean());
+        doNothing().when(emailSender).sendModificationEmail(anyString(), anyString());
+        doNothing().when(emailSender).sendAddAccessLevelEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRemoveAccessLevelEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRemovalEmail(anyString(), anyString());
+        doNothing().when(emailSender).sendAdminAuthenticationEmail(anyString(), anyString(), anyString());
 
         accessLevels = new ArrayList<>();
         accounts = new ArrayList<>();
