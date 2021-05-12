@@ -18,11 +18,11 @@ import { UsersTableComponent } from './ferrytales/users-table/users-table.compon
 import { AccountDetailsComponent } from './ferrytales/account-details/account-details.component';
 import { IdentityService } from './services/utils/identity.service';
 import { AccessLevelTableComponent } from './ferrytales/account-details/access-level-table/access-level-table.component';
-import { RegistrationService } from './services/registration.service';
 import { EditUserComponent } from './ferrytales/edit-user/edit-user.component';
 import { ChangePasswordFormComponent } from './ferrytales/change-password-form/change-password-form.component';
 import { AccessLevelFormComponent } from './ferrytales/access-level-form/access-level-form/access-level-form.component';
 import { SearchFilterPipe } from './ferrytales/users-table/searchFilter.pipe';
+import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-account.component';
 
 @NgModule({
     declarations: [
@@ -44,7 +44,8 @@ import { SearchFilterPipe } from './ferrytales/users-table/searchFilter.pipe';
         EditUserComponent,
         ChangePasswordFormComponent,
         AccessLevelFormComponent,
-        SearchFilterPipe
+        SearchFilterPipe,
+        ConfirmAccountComponent
     ],
     imports: [
         BrowserModule,
