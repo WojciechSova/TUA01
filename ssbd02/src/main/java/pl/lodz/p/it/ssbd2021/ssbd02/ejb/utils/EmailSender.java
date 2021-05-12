@@ -1,11 +1,13 @@
-package pl.lodz.p.it.ssbd2021.ssbd02.utils.mail;
+package pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils;
 
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.api.mailer.config.TransportStrategy;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 
+import javax.ejb.Stateless;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -17,19 +19,13 @@ import java.util.Properties;
  *
  * @author Karolina Kowalczyk
  */
-public class EmailSender {
+@Stateless
+public class EmailSender implements EmailSenderLocal {
 
     private static final Properties prop = new Properties();
     private static final String registrationLink = "http://studapp.it.p.lodz.pl:8402/#/confirm/account/";
 
-    /**
-     * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie zmiany adresu email przypisanego do konta.
-     *
-     * @param recipientName         Imię odbiorcy wiadomości.
-     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
-     * @param link                  Jednorazowy adres url, który służy do potwierdzenia zmiany adresu email przez użytkownika.
-     */
-    public static void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link) {
+    public void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -47,14 +43,7 @@ public class EmailSender {
         }
     }
 
-    /**
-     * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie nowo założonego konta.
-     *
-     * @param recipientName         Imię odbiorcy wiadomości.
-     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
-     * @param link                  Jednorazowy adres url, który służy do potwierdzenia konta przez użytkownika.
-     */
-    public static void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link) {
+    public void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -72,14 +61,7 @@ public class EmailSender {
         }
     }
 
-    /**
-     * Metoda wysyłająca wiadomość email z informacją o zmianie aktywności konta.
-     *
-     * @param recipientName         Imię odbiorcy wiadomości.
-     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
-     * @param active                Aktualny status aktywności konta.
-     */
-    public static void sendChangedActivityEmail(String recipientName, String recipientEmailAddress, boolean active) {
+    public void sendChangedActivityEmail(String recipientName, String recipientEmailAddress, boolean active) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -106,13 +88,7 @@ public class EmailSender {
         }
     }
 
-    /**
-     * Metoda wysyłająca wiadomość email informującą użytkownika o modyfikacji danych jego konta.
-     *
-     * @param recipientName         Imię odbiorcy wiadomości.
-     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
-     */
-    public static void sendModificationEmail(String recipientName, String recipientEmailAddress) {
+    public void sendModificationEmail(String recipientName, String recipientEmailAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -128,13 +104,7 @@ public class EmailSender {
         }
     }
 
-    /**
-     * Metoda wysyłająca wiadomość email informującą użytkownika o dodaniu poziomu dostępu jego konta.
-     *
-     * @param recipientName         Imię odbiorcy wiadomości.
-     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
-     */
-    public static void sendAddAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
+    public void sendAddAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -151,13 +121,7 @@ public class EmailSender {
         }
     }
 
-    /**
-     * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu poziomu dostępu jego konta.
-     *
-     * @param recipientName         Imię odbiorcy wiadomości.
-     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
-     */
-    public static void sendRemoveAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
+    public void sendRemoveAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -174,13 +138,7 @@ public class EmailSender {
         }
     }
 
-    /**
-     * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu jego konta.
-     *
-     * @param recipientName         Imię odbiorcy wiadomości.
-     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
-     */
-    public static void sendRemovalEmail(String recipientName, String recipientEmailAddress) {
+    public void sendRemovalEmail(String recipientName, String recipientEmailAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -196,14 +154,7 @@ public class EmailSender {
         }
     }
 
-    /**
-     * Metoda wysyłająca wiadomość email informującą administratora o logowaniu na jego konto.
-     *
-     * @param firstName     Imię administratora
-     * @param email         Adres email administratora
-     * @param clientAddress Adres IP, z którego nastąpiło logowanie
-     */
-    public static void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
+    public void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -221,8 +172,6 @@ public class EmailSender {
         }
     }
 
-
-
     /**
      * Metoda wysyłająca wiadomość email.
      *
@@ -231,8 +180,12 @@ public class EmailSender {
      * @param subject               Temat wiadomości.
      * @param text                  Treść wiadomości.
      */
-    public static void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
+    private void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
+
+            if (prop.getProperty("mail.send.flag").equals("false")) {   // Depending on profile dont send mails
+                return;
+            }
 
             prop.load(input);
 

@@ -10,6 +10,7 @@ import org.mockito.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.OneTimeUrlFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
@@ -17,7 +18,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,6 +34,8 @@ public class AccountManagerTest {
     private AccountFacadeLocal accountFacadeLocal;
     @Mock
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
+    @Mock
+    private EmailSenderLocal emailSender;
     @Mock
     private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
     @InjectMocks
@@ -85,6 +87,14 @@ public class AccountManagerTest {
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
+
+        doNothing().when(emailSender).sendRegistrationEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendChangedActivityEmail(anyString(), anyString(), anyBoolean());
+        doNothing().when(emailSender).sendModificationEmail(anyString(), anyString());
+        doNothing().when(emailSender).sendAddAccessLevelEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRemoveAccessLevelEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRemovalEmail(anyString(), anyString());
+        doNothing().when(emailSender).sendAdminAuthenticationEmail(anyString(), anyString(), anyString());
 
         al5.setActive(false);
 

@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
@@ -18,8 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class SystemManagerTest {
 
@@ -45,6 +45,8 @@ class SystemManagerTest {
     private AccountFacadeLocal accountFacadeLocal;
     @Mock
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
+    @Mock
+    private EmailSenderLocal emailSender;
     @InjectMocks
     private SystemManager systemManager;
     private List<AccessLevel> accessLevels;
@@ -54,6 +56,14 @@ class SystemManagerTest {
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
+
+        doNothing().when(emailSender).sendRegistrationEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendChangedActivityEmail(anyString(), anyString(), anyBoolean());
+        doNothing().when(emailSender).sendModificationEmail(anyString(), anyString());
+        doNothing().when(emailSender).sendAddAccessLevelEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRemoveAccessLevelEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRemovalEmail(anyString(), anyString());
+        doNothing().when(emailSender).sendAdminAuthenticationEmail(anyString(), anyString(), anyString());
 
         accessLevels = new ArrayList<>();
         accounts = new ArrayList<>();
