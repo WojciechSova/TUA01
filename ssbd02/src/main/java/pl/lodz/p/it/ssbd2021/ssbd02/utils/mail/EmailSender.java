@@ -53,7 +53,7 @@ public class EmailSender {
                     .replace("TITLE", prop.getProperty("mail.email.change.title" + messageLanguage))
                     .replace("TEXT", prop.getProperty("mail.email.change.text" + messageLanguage))
                     .replace("LINK", prop.getProperty("mail.email.change.url") + link)
-                    .replace("BUTTON_TEXT", prop.getProperty("mail.email.change.button.text" + messageLanguage));
+                    .replace("BUTTON_CAPTION", prop.getProperty("mail.email.change.button.text" + messageLanguage));
             String subject = prop.getProperty("mail.email.change.subject" + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -79,7 +79,7 @@ public class EmailSender {
                         .replace("TITLE", prop.getProperty("mail.registration.title." + messageLanguage))
                         .replace("TEXT", prop.getProperty("mail.registration.text." + messageLanguage))
                         .replace("LINK", registrationLink + link)
-                        .replace("BUTTON_TEXT", prop.getProperty("mail.registration.button.text." + messageLanguage));
+                        .replace("BUTTON_CAPTION", prop.getProperty("mail.registration.button.text." + messageLanguage));
             String subject = prop.getProperty("mail.registration.subject." + messageLanguage);
 
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
