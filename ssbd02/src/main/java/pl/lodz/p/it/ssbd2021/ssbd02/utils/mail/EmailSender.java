@@ -38,7 +38,7 @@ public class EmailSender {
                     .replace("TITLE", prop.getProperty("mail.registration.title"))
                     .replace("TEXT", prop.getProperty("mail.registration.text"))
                     .replace("LINK", registrationLink + link)
-                    .replace("CAPTION", prop.getProperty("mail.registration.button.caption"));
+                    .replace("BUTTON_TEXT", prop.getProperty("mail.registration.button.text"));
             String subject = prop.getProperty("mail.registration.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
