@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.HOURS;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -499,6 +500,8 @@ public class AccountManagerTest {
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
         oneTimeUrl.setUrl(randomUrl);
         oneTimeUrl.setAccount(a1);
+        oneTimeUrl.setActionType("verify");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
 
         when(oneTimeUrlFacadeLocal.findByUrl(randomUrl)).thenReturn(oneTimeUrl);
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
@@ -508,11 +511,20 @@ public class AccountManagerTest {
             return null;
         }).when(accountFacadeLocal).edit(any());
 
+        assertTrue(accountManager.confirmAccount(randomUrl));
+        assertTrue(a1.getActive());
+
         assertFalse(accountManager.confirmAccount(null));
 
         assertFalse(accountManager.confirmAccount("invalidUrl"));
 
-        assertTrue(accountManager.confirmAccount(randomUrl));
-        assertTrue(a1.getActive());
+        oneTimeUrl.setActionType("invalid");
+
+        assertFalse(accountManager.confirmAccount(randomUrl));
+
+        oneTimeUrl.setActionType("verify");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().minus(1, HOURS)));
+
+        assertFalse(accountManager.confirmAccount(randomUrl));
     }
 }
