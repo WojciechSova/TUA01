@@ -194,12 +194,16 @@ public class AccountEndpoint {
     @Path("/profile/update")
     @Consumes(MediaType.APPLICATION_JSON)
     @DTOSignatureValidatorFilterBinding
-    public Response updateOwnAccount(AccountDetailsDTO accountDTO, @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
+    public Response updateOwnAccount(AccountDetailsDTO accountDTO, @Context SecurityContext securityContext,
+                                     @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
         if (accountDTO.getLogin() == null || accountDTO.getVersion() == null) {
             throw new WebApplicationException("Not all required fields were provided", 400);
         }
         if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, accountDTO)) {
             throw new WebApplicationException("ETag not valid", 412);
+        }
+        if (!accountDTO.getLogin().equals(securityContext.getUserPrincipal().getName())) {
+            throw new WebApplicationException("You can not chang not your own account", 412);
         }
         accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO), accountDTO.getLogin());
 

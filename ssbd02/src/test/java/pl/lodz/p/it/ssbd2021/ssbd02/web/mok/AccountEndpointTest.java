@@ -235,6 +235,8 @@ class AccountEndpointTest {
             accounts.set(0, account);
             return null;
         }).when(accountManager).updateAccount(any(), anyString());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+
 
         accounts.clear();
         account.setVersion(0L);
@@ -246,7 +248,7 @@ class AccountEndpointTest {
         assertEquals(0L, accounts.get(0).getVersion());
 
         Response response = accountEndpoint.updateOwnAccount(AccountMapper
-                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())), tag);
+                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())), securityContext, tag);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals(1L, accounts.get(0).getVersion());
@@ -259,6 +261,7 @@ class AccountEndpointTest {
             account.setVersion(1L);
             return null;
         }).when(accountManager).updateAccount(any(), anyString());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
 
         Account accountNoLogin = createAccount();
         accountNoLogin.setLogin(null);
@@ -271,18 +274,18 @@ class AccountEndpointTest {
 
         WebApplicationException noLoginException = assertThrows(WebApplicationException.class,
                 () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
-                        .of(accountNoLogin, Collections.emptyList())), tag));
+                        .of(accountNoLogin, Collections.emptyList())), securityContext, tag));
         WebApplicationException noVersionException = assertThrows(WebApplicationException.class,
                 () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
-                        .of(accountNoVersion, Collections.emptyList())), tag));
+                        .of(accountNoVersion, Collections.emptyList())), securityContext, tag));
         WebApplicationException invalidTagException = assertThrows(WebApplicationException.class,
-                () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
                         .of(account, Collections.emptyList())), securityContext, "notAValidTag"));
 
         account.setVersion(5L);
 
         WebApplicationException outdatedTagException = assertThrows(WebApplicationException.class,
-                () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
                         .of(account, Collections.emptyList())), securityContext, tag));
 
         assertEquals(400, noLoginException.getResponse().getStatus());
@@ -292,10 +295,10 @@ class AccountEndpointTest {
         assertEquals("Not all required fields were provided", noVersionException.getMessage());
 
         assertEquals(412, invalidTagException.getResponse().getStatus());
-        assertEquals("Not valid tag", invalidTagException.getMessage());
+        assertEquals("ETag not valid", invalidTagException.getMessage());
 
         assertEquals(412, outdatedTagException.getResponse().getStatus());
-        assertEquals("Not valid tag", outdatedTagException.getMessage());
+        assertEquals("ETag not valid", outdatedTagException.getMessage());
     }
 
     @Test
