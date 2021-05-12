@@ -100,7 +100,7 @@ public class AccountManager implements AccountManagerLocal {
         accessLevelFacadeLocal.create(accessLevel);
         oneTimeUrlFacadeLocal.create(oneTimeUrl);
 
-        emailSender.sendRegistrationEmail(account.getFirstName(), account.getEmail(), "link");
+        emailSender.sendRegistrationEmail(account.getFirstName(), account.getEmail(), oneTimeUrl.getUrl());
     }
 
     @Override
