@@ -23,6 +23,20 @@ public class EmailSender {
     private static final String registrationLink = "http://studapp.it.p.lodz.pl:8402/#/confirm/account/";
 
     /**
+     * Metoda pomocnicza, która zwraca dwuliterowy string w zależności jaki język posiada konto.
+     *
+     * @param accountLanguage Język przypisany do konta, na który ma zostać wysłany e-mail.
+     * @return String "pl" jeśli do konta jest przypisany język polski, w przeciwnym wypadku zwraca "en".
+     */
+    private static String getMessageLanguage(String accountLanguage) {
+        if (accountLanguage.toLowerCase().contains("pl")) {
+            return "pl";
+        } else {
+            return "en";
+        }
+    }
+
+    /**
      * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie zmiany adresu email przypisanego do konta.
      *
      * @param recipientName         Imię odbiorcy wiadomości.
@@ -34,12 +48,7 @@ public class EmailSender {
 
             prop.load(input);
 
-            String messageLanguage;
-            if (language.equalsIgnoreCase("pl")) {
-                messageLanguage = "pl";
-            } else {
-                messageLanguage = "en";
-            }
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template.with.button")
                     .replace("TITLE", prop.getProperty("mail.email.change.title" + messageLanguage))
                     .replace("TEXT", prop.getProperty("mail.email.change.text" + messageLanguage))
@@ -65,12 +74,7 @@ public class EmailSender {
 
             prop.load(input);
 
-            String messageLanguage;
-            if (language.equalsIgnoreCase("pl")) {
-                messageLanguage = "pl";
-            } else {
-                messageLanguage = "en";
-            }
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template.with.button")
                         .replace("TITLE", prop.getProperty("mail.registration.title." + messageLanguage))
                         .replace("TEXT", prop.getProperty("mail.registration.text." + messageLanguage))
@@ -99,12 +103,7 @@ public class EmailSender {
 
             String htmlText;
 
-            String messageLanguage;
-            if (language.equalsIgnoreCase("pl")) {
-                messageLanguage = "pl";
-            } else {
-                messageLanguage = "en";
-            }
+            String messageLanguage = getMessageLanguage(language);
             if (active) {
                 htmlText = prop.getProperty("mail.template")
                         .replace("TITLE", prop.getProperty("mail.activity.title." + messageLanguage))
@@ -135,12 +134,7 @@ public class EmailSender {
 
             prop.load(input);
 
-            String messageLanguage;
-            if (language.equalsIgnoreCase("pl")) {
-                messageLanguage = "pl";
-            } else {
-                messageLanguage = "en";
-            }
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
                     .replace("TITLE", prop.getProperty("mail.info.modification.title." + messageLanguage))
                     .replace("TEXT", prop.getProperty("mail.info.modification.text." + messageLanguage));
@@ -163,12 +157,7 @@ public class EmailSender {
 
             prop.load(input);
 
-            String messageLanguage;
-            if (language.equalsIgnoreCase("pl")) {
-                messageLanguage = "pl";
-            } else {
-                messageLanguage = "en";
-            }
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
                     .replace("TITLE", prop.getProperty("mail.modification.add.access.level.title" + messageLanguage))
                     .replace("TEXT", prop.getProperty("mail.modification.add.access.level.text" + messageLanguage)
@@ -192,12 +181,7 @@ public class EmailSender {
 
             prop.load(input);
 
-            String messageLanguage;
-            if (language.equalsIgnoreCase("pl")) {
-                messageLanguage = "pl";
-            } else {
-                messageLanguage = "en";
-            }
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
                     .replace("TITLE", prop.getProperty("mail.modification.remove.access.level.title" + messageLanguage))
                     .replace("TEXT", prop.getProperty("mail.modification.remove.access.level.text" + messageLanguage)
@@ -221,12 +205,7 @@ public class EmailSender {
 
             prop.load(input);
 
-            String messageLanguage;
-            if (language.equalsIgnoreCase("pl")) {
-                messageLanguage = "pl";
-            } else {
-                messageLanguage = "en";
-            }
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
                     .replace("TITLE", prop.getProperty("mail.info.removal.title" + messageLanguage))
                     .replace("TEXT", prop.getProperty("mail.info.removal.text" + messageLanguage));
@@ -250,12 +229,7 @@ public class EmailSender {
 
             prop.load(input);
 
-            String messageLanguage;
-            if (language.equalsIgnoreCase("pl")) {
-                messageLanguage = "pl";
-            } else {
-                messageLanguage = "en";
-            }
+            String messageLanguage = getMessageLanguage(language);
             String date = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(new Date());
             String htmlText = prop.getProperty("mail.template")
                     .replace("TITLE", prop.getProperty("mail.info.admin.auth.title" + messageLanguage))
