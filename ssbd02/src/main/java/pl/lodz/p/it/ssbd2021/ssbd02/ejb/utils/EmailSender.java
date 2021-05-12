@@ -154,13 +154,6 @@ public class EmailSender implements EmailSenderLocal {
         }
     }
 
-    /**
-     * Metoda wysyłająca wiadomość email informującą administratora o logowaniu na jego konto.
-     *
-     * @param firstName     Imię administratora
-     * @param email         Adres email administratora
-     * @param clientAddress Adres IP, z którego nastąpiło logowanie
-     */
     public void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
