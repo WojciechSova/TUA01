@@ -26,6 +26,7 @@ export class LinksComponent {
 
     isLoginVisible = false;
     isRegisterVisible = false;
+    isResetPasswordVisible = false;
 
     signOut(): void {
         this.authService.signOut();
@@ -40,6 +41,10 @@ export class LinksComponent {
 
     changeRegisterVisible(visible: boolean): void {
         this.isRegisterVisible = visible;
+    }
+
+    changeResetPasswordVisible(visible: boolean): void {
+        this.isResetPasswordVisible = visible;
     }
 
     getProfile(): void {

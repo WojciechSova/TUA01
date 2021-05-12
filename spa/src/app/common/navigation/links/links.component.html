@@ -32,7 +32,13 @@
         </div>
     </div>
 </div>
-<app-login *ngIf="isLoginVisible" (isLoginVisibleChange)="changeLoginVisible($event)"
-           (isRegisterVisibleChange)="changeRegisterVisible($event)"></app-login>
-<app-register *ngIf="isRegisterVisible" (isLoginVisibleChange)="changeLoginVisible($event)"
+<app-login *ngIf="isLoginVisible"
+           (isLoginVisibleChange)="changeLoginVisible($event)"
+           (isRegisterVisibleChange)="changeRegisterVisible($event)"
+           (isResetPasswordVisibleChange)="changeResetPasswordVisible($event)"></app-login>
+<app-register *ngIf="isRegisterVisible"
+              (isLoginVisibleChange)="changeLoginVisible($event)"
               (isRegisterVisibleChange)="changeRegisterVisible($event)"></app-register>
+<app-reset-password *ngIf="isResetPasswordVisible"
+                    (isLoginVisibleChange)="changeLoginVisible($event)"
+                    (isResetPasswordVisibleChange)="changeResetPasswordVisible($event)"></app-reset-password>
