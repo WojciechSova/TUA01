@@ -1,0 +1,33 @@
+<div class="overlay">
+    <div class="box-container">
+        <div class="top-center" i18n="Enter new e-mail address|">
+            Podaj nowy adres e-mail:
+        </div>
+        <form class="edit-form" [formGroup]="form">
+            <label for="email"></label>
+            <input type="text" id="email" name="Email"
+                   placeholder="*Adres e-mail" i18n-placeholder="*Email address|" formControlName="email"
+                   [ngClass]="{'is-invalid': form.controls.email.touched && form.controls.email.invalid}">
+
+            <div class="validation-error" *ngIf="form.controls.email.hasError('required') && form.controls.email.touched"
+                 i18n="Field required|">Pole wymagane</div>
+            <div class="validation-error" *ngIf="form.controls.email.hasError('email') && form.controls.email.touched"
+                 i18n="Invalid format|">Niepoprawny format</div>
+
+            <label for="email-repeat"></label>
+            <input type="text" id="email-repeat" name="Email-repeat"
+                   placeholder="*Powtórz adres e-mail" i18n-placeholder="Repeat email|" formControlName="emailRepeat"
+                   [ngClass]="{'is-invalid': form.controls.emailRepeat.touched && form.controls.emailRepeat.invalid}">
+
+            <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('required') && form.controls.emailRepeat.touched"
+                 i18n="Field required|">Pole wymagane</div>
+            <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('notMatching') && form.controls.emailRepeat.touched
+            && !form.controls.emailRepeat.hasError('required')"
+                 i18n="Emails differ|">Adresy nie są takie same</div>
+        </form>
+        <div class="bottom-center">
+            <button class="form-button" i18n="Confirm|">Zatwierdź</button>
+            <img class="return-arrow" (click)="closeComponent()" src="assets/back-arrow.png" alt=""/>
+        </div>
+    </div>
+</div>
