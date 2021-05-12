@@ -8,20 +8,20 @@
 
 .button-container{
     position: relative;
-    padding: 1%;
+    padding: 1% 0;
     width: auto;
     left: 50%;
     transform: translateX(-50%);
     align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: right;
+    justify-content: flex-end;
 }
 
 .edit-button {
     position: relative;
-    padding-right: 0.6rem;
-    padding-left: 0.6rem;
+    padding-right: 1.2rem;
+    padding-left: 1.2rem;
     margin-left: 1%;
     transition: 0.3s;
     height: 2.5rem;
@@ -42,21 +42,36 @@
 
 .account-details {
     width: 60%;
-    background-color: @secondary-color;
-    color: @primary-text-color;
+    background-color: white;
+    color: black;
     font: 1.2rem Source Sans Pro;
     margin-top: 5%;
-    border-radius: 3vw;
+    border-radius: 1.2vw;
+    border: #ddd 1px solid;
     padding-left: 4%;
     padding-right: 4%;
     padding-bottom: 4%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    box-shadow: 0 1px 3px 2px #eee;
+    font-weight: lighter;
 
     label {
         margin-top: 2%;
     }
+}
+
+.uppercase{
+    color: @secondary-color;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.uppercase-access{
+    color: @primary-color;
+    font-weight: normal;
+    text-transform: uppercase;
 }
 
 .even-columns {
@@ -77,4 +92,11 @@
     > * {
         width: 100%;
     }
+}
+
+hr{
+    width: 100%;
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+    border: 1px solid #43BCCD;
 }

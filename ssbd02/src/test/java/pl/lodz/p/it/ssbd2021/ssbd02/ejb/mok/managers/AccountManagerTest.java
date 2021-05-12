@@ -1,28 +1,29 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 
 import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.HOURS;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -35,9 +36,12 @@ public class AccountManagerTest {
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
     @Mock
     private EmailSenderLocal emailSender;
+    @Mock
+    private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
     @InjectMocks
     private AccountManager accountManager;
-
+    @Captor
+    private ArgumentCaptor<OneTimeUrl> urlCaptor;
     @Spy
     private final Account a1 = new Account();
     @Spy
@@ -48,6 +52,8 @@ public class AccountManagerTest {
     private final Account a4 = new Account();
     @Spy
     private final AccessLevel al4 = new AccessLevel();
+    @Spy
+    private final OneTimeUrl oneTimeUrl = new OneTimeUrl();
     private final String login1 = "a1Login";
     private final String email1 = "a1Email@domain.com";
     private final String phoneNumber1 = "111111111";
@@ -66,6 +72,7 @@ public class AccountManagerTest {
     private final String levelClient = "CLIENT";
     private final String levelAdmin = "ADMIN";
     private final String levelEmployee = "EMPLOYEE";
+    private final String randomUrl = RandomStringUtils.randomAlphanumeric(32);
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
     private final AccessLevel al3 = new AccessLevel();
@@ -74,8 +81,8 @@ public class AccountManagerTest {
     private final List<AccessLevel> accessLevels1 = new ArrayList<>();
     private final List<AccessLevel> accessLevels2 = new ArrayList<>();
     private final List<Pair<Account, List<AccessLevel>>> pairList = new ArrayList<>();
+    private final List<OneTimeUrl> oneTimeUrls = new ArrayList<>();
     private List<Account> accounts;
-
 
     @BeforeEach
     void initMocks() {
@@ -137,11 +144,18 @@ public class AccountManagerTest {
             return null;
         }).when(accessLevelFacadeLocal).create(any());
 
+        doAnswer(invocationOnMock -> {
+            oneTimeUrl.setUrl(randomUrl);
+            oneTimeUrls.add(oneTimeUrl);
+            return null;
+        }).when(oneTimeUrlFacadeLocal).create(any());
+
         when(al4.getAccount()).thenReturn(a3);
         when(al4.getLevel()).thenReturn(levelClient);
         when(a3.getEmail()).thenReturn(email3);
         when(a3.getPassword()).thenReturn(password3);
         when(a3.getPhoneNumber()).thenReturn(phoneNumber3);
+        when(oneTimeUrl.getAccount()).thenReturn(a3);
 
         assertEquals(2, accounts.size());
         assertEquals(2, accessLevels1.size());
@@ -153,6 +167,8 @@ public class AccountManagerTest {
         assertEquals(a3.hashCode(), accounts.get(2).hashCode());
         assertEquals(al4.getAccount(), accessLevels1.get(2).getAccount());
         assertEquals(al4.getLevel(), accessLevels1.get(2).getLevel());
+        assertEquals(randomUrl, oneTimeUrls.get(0).getUrl());
+        assertEquals(oneTimeUrl.getAccount(), oneTimeUrls.get(0).getAccount());
     }
 
     @Test
@@ -404,7 +420,7 @@ public class AccountManagerTest {
     }
 
     @Test
-    void changeActivityTest(){
+    void changeActivityTest() {
         a1.setLogin(login1);
         a1.setEmail(email1);
         a2.setLogin(login2);
@@ -483,5 +499,88 @@ public class AccountManagerTest {
         assertTrue(a1.getLastKnownGoodLogin().getTime() <= after.getTime());
         assertEquals(address, a1.getLastKnownGoodLoginIp());
         assertEquals(0, a1.getNumberOfBadLogins());
+    }
+
+    @Test
+    void confirmAccount() {
+        a1.setActive(false);
+        a1.setLogin(login1);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(randomUrl);
+        oneTimeUrl.setAccount(a1);
+
+        when(oneTimeUrlFacadeLocal.findByUrl(randomUrl)).thenReturn(oneTimeUrl);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        doAnswer(invocationOnMock -> {
+            a1.setActive(true);
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        assertFalse(accountManager.confirmAccount(null));
+
+        assertFalse(accountManager.confirmAccount("invalidUrl"));
+
+        assertTrue(accountManager.confirmAccount(randomUrl));
+        assertTrue(a1.getActive());
+    }
+
+    @Test
+    void changeEmailAddress() {
+        a1.setEmail("stary@mail.com");
+        a1.setLogin(login1);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(randomUrl);
+        oneTimeUrl.setAccount(a1);
+        oneTimeUrl.setNewEmail("nowy@mail.com");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+        oneTimeUrl.setActionType("e-mail");
+
+        when(oneTimeUrlFacadeLocal.findByUrl(randomUrl)).thenReturn(oneTimeUrl);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        doAnswer(invocationOnMock -> {
+            a1.setEmail("nowy@mail.com");
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        assertFalse(accountManager.changeEmailAddress("invalidUrl"));
+
+        assertTrue(accountManager.changeEmailAddress(randomUrl));
+        assertEquals("nowy@mail.com", a1.getEmail());
+
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().minus(1, HOURS)));
+        assertFalse(accountManager.changeEmailAddress(randomUrl));
+
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+        oneTimeUrl.setActionType("invalid");
+        assertFalse(accountManager.changeEmailAddress(randomUrl));
+    }
+
+    @Test
+    void sendChangeEmailAddressUrl() {
+        a1.setLogin(login1);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(randomUrl);
+        oneTimeUrl.setAccount(a1);
+        oneTimeUrl.setNewEmail("nowy@mail.com");
+
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(a1.getLogin()).thenReturn(login1);
+
+        accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "nowy@mail.com");
+
+        verify(oneTimeUrlFacadeLocal).create(urlCaptor.capture());
+
+        OneTimeUrl url = urlCaptor.getValue();
+
+        assertEquals(oneTimeUrl.getAccount(), url.getAccount());
+        assertEquals("e-mail", url.getActionType());
+        assertEquals(oneTimeUrl.getNewEmail(), url.getNewEmail());
+
+
     }
 }

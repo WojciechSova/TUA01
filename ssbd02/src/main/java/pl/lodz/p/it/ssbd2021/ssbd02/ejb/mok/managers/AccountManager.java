@@ -1,14 +1,17 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.OneTimeUrlFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -24,13 +27,15 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import static java.time.temporal.ChronoUnit.HOURS;
+
 /**
  * Manager kont
  *
  * @author Daniel Łondka
  */
 @Stateful
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class AccountManager implements AccountManagerLocal {
 
     @Inject
@@ -41,6 +46,9 @@ public class AccountManager implements AccountManagerLocal {
 
     @Inject
     private EmailSenderLocal emailSender;
+
+    @Inject
+    private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
 
     private static final Properties prop = new Properties();
 
@@ -59,7 +67,6 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void createAccount(Account account) throws WebApplicationException {
         List<Account> allAccounts = accountFacadeLocal.findAll();
         if (allAccounts.stream()
@@ -82,8 +89,16 @@ public class AccountManager implements AccountManagerLocal {
         AccessLevel accessLevel = new AccessLevel();
         accessLevel.setLevel("CLIENT");
         accessLevel.setAccount(account);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
+        oneTimeUrl.setAccount(account);
+        oneTimeUrl.setActionType("verify");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+
         accountFacadeLocal.create(account);
         accessLevelFacadeLocal.create(accessLevel);
+        oneTimeUrlFacadeLocal.create(oneTimeUrl);
 
         emailSender.sendRegistrationEmail(account.getFirstName(), account.getEmail(), "link");
     }
@@ -233,7 +248,6 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void changeActivity(String login, boolean newActivity, String modifiedBy) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setActive(newActivity);
@@ -256,5 +270,70 @@ public class AccountManager implements AccountManagerLocal {
         Account account = accountFacadeLocal.findByLogin(login);
 
         emailSender.sendAdminAuthenticationEmail(account.getFirstName(), account.getEmail(), clientAddress);
+    }
+
+    @Override
+    public boolean confirmAccount(String url) {
+        if (url == null) {
+            return false;
+        }
+
+        OneTimeUrl oneTimeUrl = oneTimeUrlFacadeLocal.findByUrl(url);
+
+        if (oneTimeUrl == null) {
+            return false;
+        }
+
+        if (url.equals(oneTimeUrl.getUrl())) {
+            Account account = accountFacadeLocal.findByLogin(oneTimeUrl.getAccount().getLogin());
+            account.setActive(true);
+            accountFacadeLocal.edit(account);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean changeEmailAddress(String url) {
+        if (url == null) {
+            return false;
+        }
+
+        OneTimeUrl oneTimeUrl = oneTimeUrlFacadeLocal.findByUrl(url);
+
+        if (oneTimeUrl == null) {
+            return false;
+        }
+
+        if(!oneTimeUrl.getActionType().equals("e-mail") || Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())){
+            return false;
+        }
+
+        if (url.equals(oneTimeUrl.getUrl())) {
+            Account account = accountFacadeLocal.findByLogin(oneTimeUrl.getAccount().getLogin());
+            account.setEmail(oneTimeUrl.getNewEmail());
+            accountFacadeLocal.edit(account);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void sendChangeEmailAddressUrl(String login, String newEmailAddress) {
+        Account account = accountFacadeLocal.findByLogin(login);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
+        oneTimeUrl.setAccount(account);
+        oneTimeUrl.setNewEmail(newEmailAddress);
+        oneTimeUrl.setActionType("e-mail");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+
+        oneTimeUrlFacadeLocal.create(oneTimeUrl);
+
+        emailSender.sendEmailChangeConfirmationEmail(account.getFirstName(), newEmailAddress, oneTimeUrl.getUrl());
+
     }
 }

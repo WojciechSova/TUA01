@@ -23,13 +23,43 @@ import java.util.Properties;
 public class EmailSender implements EmailSenderLocal {
 
     private static final Properties prop = new Properties();
+    private static final String registrationLink = "http://studapp.it.p.lodz.pl:8402/#/confirm/account/";
+
+    /**
+     * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie zmiany adresu email przypisanego do konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     * @param link                  Jednorazowy adres url, który służy do potwierdzenia zmiany adresu email przez użytkownika.
+     */
+    public static void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
+
+            prop.load(input);
+
+            String htmlText = prop.getProperty("mail.template.with.button")
+                    .replace("TITLE", prop.getProperty("mail.email.change.title"))
+                    .replace("TEXT", prop.getProperty("mail.email.change.text"))
+                    .replace("LINK", prop.getProperty("mail.email.change.url") + link)
+                    .replace("BUTTON_TEXT", prop.getProperty("mail.email.change.button.text"));
+            String subject = prop.getProperty("mail.email.change.subject");
+            sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.registration.text").replace("CONFIRMATION_LINK", link);
+            String htmlText = prop.getProperty("mail.template.with.button")
+                    .replace("TITLE", prop.getProperty("mail.registration.title"))
+                    .replace("TEXT", prop.getProperty("mail.registration.text"))
+                    .replace("LINK", registrationLink + link)
+                    .replace("BUTTON_TEXT", prop.getProperty("mail.registration.button.text"));
             String subject = prop.getProperty("mail.registration.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -45,11 +75,17 @@ public class EmailSender implements EmailSenderLocal {
 
             String htmlText;
 
-            if(active){
-                htmlText = prop.getProperty("mail.activity.text").replace("AKTUALNA_AKTYWNOSC", "AKTYWNE");
+            if (active) {
+                htmlText = prop.getProperty("mail.template")
+                        .replace("TITLE", prop.getProperty("mail.activity.title"))
+                        .replace("TEXT", prop.getProperty("mail.activity.text")
+                                .replace("CURRENT_ACTIVITY", "AKTYWNE"));
             }
-            else{
-                htmlText = prop.getProperty("mail.activity.text").replace("AKTUALNA_AKTYWNOSC", "ZABLOKOWANE");
+            else {
+                htmlText = prop.getProperty("mail.template")
+                        .replace("TITLE", prop.getProperty("mail.activity.title"))
+                        .replace("TEXT", prop.getProperty("mail.activity.text")
+                                .replace("CURRENT_ACTIVITY", "ZABLOKOWANE"));
             }
             String subject = prop.getProperty("mail.activity.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
@@ -64,7 +100,9 @@ public class EmailSender implements EmailSenderLocal {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.info.modification.text");
+            String htmlText = prop.getProperty("mail.template")
+                    .replace("TITLE", prop.getProperty("mail.info.modification.title"))
+                    .replace("TEXT", prop.getProperty("mail.info.modification.text"));
             String subject = prop.getProperty("mail.info.modification.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -78,7 +116,10 @@ public class EmailSender implements EmailSenderLocal {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.modification.add.access.level.text").replace("ACCESS_LEVEL", accessLevel);
+            String htmlText = prop.getProperty("mail.template")
+                    .replace("TITLE", prop.getProperty("mail.modification.add.access.level.title"))
+                    .replace("TEXT", prop.getProperty("mail.modification.add.access.level.text")
+                            .replace("ACCESS_LEVEL", accessLevel));
             String subject = prop.getProperty("mail.info.modification.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -92,7 +133,10 @@ public class EmailSender implements EmailSenderLocal {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.modification.remove.access.level.text").replace("ACCESS_LEVEL", accessLevel);
+            String htmlText = prop.getProperty("mail.template")
+                    .replace("TITLE", prop.getProperty("mail.modification.remove.access.level.title"))
+                    .replace("TEXT", prop.getProperty("mail.modification.remove.access.level.text")
+                            .replace("ACCESS_LEVEL", accessLevel));
             String subject = prop.getProperty("mail.info.modification.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -106,7 +150,9 @@ public class EmailSender implements EmailSenderLocal {
 
             prop.load(input);
 
-            String htmlText = prop.getProperty("mail.info.removal.text");
+            String htmlText = prop.getProperty("mail.template")
+                    .replace("TITLE", prop.getProperty("mail.info.removal.title"))
+                    .replace("TEXT", prop.getProperty("mail.info.removal.text"));
             String subject = prop.getProperty("mail.info.removal.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
@@ -115,14 +161,24 @@ public class EmailSender implements EmailSenderLocal {
         }
     }
 
+    /**
+     * Metoda wysyłająca wiadomość email informującą administratora o logowaniu na jego konto.
+     *
+     * @param firstName     Imię administratora
+     * @param email         Adres email administratora
+     * @param clientAddress Adres IP, z którego nastąpiło logowanie
+     */
+    public static void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
     public void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
             String date = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(new Date());
-            String htmlText = prop.getProperty("mail.info.admin.auth.text")
-                    .replace("IP_ADDRESS", clientAddress)
-                    .replace("TIME", date);
+            String htmlText = prop.getProperty("mail.template")
+                    .replace("TITLE", prop.getProperty("mail.info.admin.auth.title"))
+                    .replace("TEXT", prop.getProperty("mail.info.admin.auth.text")
+                            .replace("IP_ADDRESS", clientAddress)
+                            .replace("TIME", date));
             String subject = prop.getProperty("mail.info.admin.auth.subject");
 
             sendEmail(firstName, email, subject, htmlText);

@@ -118,4 +118,28 @@ public interface AccountManagerLocal {
      * @param clientAddress Adres IP, z którego nastapiło logowanie
      */
     void notifyAdminAboutLogin(String login, String clientAddress);
+
+    /**
+     * Metoda aktywująca zarejestrowanego użytkownika.
+     *
+     * @param url Kod potwierdzający konto użytkownika
+     * @return Prawda, jeżeli uda się potwierdzić użytkownika, w przeciwnym wypadku fałsz
+     */
+    boolean confirmAccount(String url);
+
+    /**
+     * Metoda zmieniająca adres email użytkownika.
+     *
+     * @param url Kod potwierdzający nowy adres email
+     * @return Prawda jeżeli uda się potwierdzić adres email, w przeciwnym wypadku fałsz
+     */
+    boolean changeEmailAddress(String url);
+
+    /**
+     * Metoda wysyłająca wiadomość na nowy adres email z linkiem potwierdzającym jego zmianę.
+     *
+     * @param login Login użytkownika, którego adres email ma ulec zmianie
+     * @param newEmailAddress Nowy adres email
+     */
+    void sendChangeEmailAddressUrl(String login, String newEmailAddress);
 }
