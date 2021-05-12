@@ -304,7 +304,7 @@ public class AccountManager implements AccountManagerLocal {
             return false;
         }
 
-        if(!oneTimeUrl.getActionType().equals("e-mail") || oneTimeUrl.getExpireDate().compareTo(Timestamp.from(Instant.now())) > 0){
+        if(!oneTimeUrl.getActionType().equals("e-mail") || Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())){
             return false;
         }
 

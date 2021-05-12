@@ -17,11 +17,13 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.HOURS;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -523,6 +525,8 @@ public class AccountManagerTest {
         oneTimeUrl.setUrl(randomUrl);
         oneTimeUrl.setAccount(a1);
         oneTimeUrl.setNewEmail("nowy@mail.com");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+        oneTimeUrl.setActionType("e-mail");
 
         when(oneTimeUrlFacadeLocal.findByUrl(randomUrl)).thenReturn(oneTimeUrl);
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
@@ -536,6 +540,13 @@ public class AccountManagerTest {
 
         assertTrue(accountManager.changeEmailAddress(randomUrl));
         assertEquals("nowy@mail.com", a1.getEmail());
+
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().minus(1, HOURS)));
+        assertFalse(accountManager.changeEmailAddress(randomUrl));
+
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+        oneTimeUrl.setActionType("invalid");
+        assertFalse(accountManager.changeEmailAddress(randomUrl));
     }
 
     @Test
