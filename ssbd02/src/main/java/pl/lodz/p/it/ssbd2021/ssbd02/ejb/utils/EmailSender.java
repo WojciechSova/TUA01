@@ -45,11 +45,11 @@ public class EmailSender implements EmailSenderLocal {
 
             String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template.with.button")
-                    .replace("TITLE", prop.getProperty("mail.email.change.title" + messageLanguage))
-                    .replace("TEXT", prop.getProperty("mail.email.change.text" + messageLanguage))
+                    .replace("TITLE", prop.getProperty("mail.email.change.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.email.change.text." + messageLanguage))
                     .replace("LINK", prop.getProperty("mail.email.change.url") + link)
-                    .replace("BUTTON_CAPTION", prop.getProperty("mail.email.change.button.text" + messageLanguage));
-            String subject = prop.getProperty("mail.email.change.subject" + messageLanguage);
+                    .replace("BUTTON_CAPTION", prop.getProperty("mail.email.change.button.text." + messageLanguage));
+            String subject = prop.getProperty("mail.email.change.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -93,9 +93,9 @@ public class EmailSender implements EmailSenderLocal {
                 htmlText = prop.getProperty("mail.template")
                         .replace("TITLE", prop.getProperty("mail.activity.title." + messageLanguage))
                         .replace("TEXT", prop.getProperty("mail.activity.text." + messageLanguage)
-                                .replace("CURRENT_ACTIVITY.", prop.getProperty("mail.activity.blocked." + messageLanguage)));
+                                .replace("CURRENT_ACTIVITY", prop.getProperty("mail.activity.blocked." + messageLanguage)));
             }
-            String subject = prop.getProperty("mail.activity.subject");
+            String subject = prop.getProperty("mail.activity.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -127,10 +127,10 @@ public class EmailSender implements EmailSenderLocal {
 
             String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
-                    .replace("TITLE", prop.getProperty("mail.modification.add.access.level.title" + messageLanguage))
-                    .replace("TEXT", prop.getProperty("mail.modification.add.access.level.text" + messageLanguage)
+                    .replace("TITLE", prop.getProperty("mail.modification.add.access.level.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.modification.add.access.level.text." + messageLanguage)
                             .replace("ACCESS_LEVEL", accessLevel));
-            String subject = prop.getProperty("mail.info.modification.subject" + messageLanguage);
+            String subject = prop.getProperty("mail.info.modification.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -145,10 +145,10 @@ public class EmailSender implements EmailSenderLocal {
 
             String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
-                    .replace("TITLE", prop.getProperty("mail.modification.remove.access.level.title" + messageLanguage))
-                    .replace("TEXT", prop.getProperty("mail.modification.remove.access.level.text" + messageLanguage)
+                    .replace("TITLE", prop.getProperty("mail.modification.remove.access.level.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.modification.remove.access.level.text." + messageLanguage)
                             .replace("ACCESS_LEVEL", accessLevel));
-            String subject = prop.getProperty("mail.info.modification.subject" + messageLanguage);
+            String subject = prop.getProperty("mail.info.modification.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -163,9 +163,9 @@ public class EmailSender implements EmailSenderLocal {
 
             String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
-                    .replace("TITLE", prop.getProperty("mail.info.removal.title" + messageLanguage))
-                    .replace("TEXT", prop.getProperty("mail.info.removal.text" + messageLanguage));
-            String subject = prop.getProperty("mail.info.removal.subject" + messageLanguage);
+                    .replace("TITLE", prop.getProperty("mail.info.removal.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.info.removal.text." + messageLanguage));
+            String subject = prop.getProperty("mail.info.removal.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -181,11 +181,11 @@ public class EmailSender implements EmailSenderLocal {
 
             String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
-                    .replace("TITLE", prop.getProperty("mail.info.admin.auth.title" + messageLanguage))
-                    .replace("TEXT", prop.getProperty("mail.info.admin.auth.text" + messageLanguage)
+                    .replace("TITLE", prop.getProperty("mail.info.admin.auth.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.info.admin.auth.text." + messageLanguage)
                             .replace("IP_ADDRESS", clientAddress)
                             .replace("TIME", date));
-            String subject = prop.getProperty("mail.info.admin.auth.subject" + messageLanguage);
+            String subject = prop.getProperty("mail.info.admin.auth.subject." + messageLanguage);
 
             sendEmail(firstName, email, subject, htmlText);
         } catch (IOException ex) {
