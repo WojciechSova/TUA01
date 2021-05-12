@@ -1,21 +1,35 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmService } from '../../services/confirm.service';
 
 @Component({
-  selector: 'app-confirm-account',
-  templateUrl: './confirm-account.component.html',
-  styleUrls: ['./confirm-account.component.less']
+    selector: 'app-confirm-account',
+    templateUrl: './confirm-account.component.html',
+    styleUrls: ['./confirm-account.component.less']
 })
 export class ConfirmAccountComponent {
 
+    timeout = 5000;
     success = false;
+    visible = false;
     url = '';
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-      this.url = this.route.snapshot.paramMap.get('url') as string;
+    constructor(private route: ActivatedRoute,
+                private router: Router,
+                private confirmService: ConfirmService) {
+        this.url = this.route.snapshot.paramMap.get('url') as string;
 
-      // TODO Change to observable after add confirm-account service
-      this.url === 'invalid' ? this.success = false : this.success = true;
-      setTimeout(() => this.router.navigateByUrl('/'), 5000);
-  }
+        this.confirmService.confirmAccount(this.url).subscribe(
+            () => {
+                this.visible = true;
+                this.success = true;
+                setTimeout(() => this.router.navigateByUrl('/'), this.timeout);
+            },
+            () => {
+                this.visible = true;
+                this.success = false;
+                setTimeout(() => this.router.navigateByUrl('/'), this.timeout);
+            }
+        );
+    }
 }

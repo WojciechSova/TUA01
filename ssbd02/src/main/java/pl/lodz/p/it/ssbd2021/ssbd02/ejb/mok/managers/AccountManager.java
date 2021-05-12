@@ -280,13 +280,15 @@ public class AccountManager implements AccountManagerLocal {
 
         OneTimeUrl oneTimeUrl = oneTimeUrlFacadeLocal.findByUrl(url);
 
-        if (oneTimeUrl == null) {
+        if (oneTimeUrl == null
+                || !oneTimeUrl.getActionType().equals("verify")
+                || Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())) {
             return false;
         }
 
         if (url.equals(oneTimeUrl.getUrl())) {
             Account account = accountFacadeLocal.findByLogin(oneTimeUrl.getAccount().getLogin());
-            account.setActive(true);
+            account.setConfirmed(true);
             accountFacadeLocal.edit(account);
             return true;
         }

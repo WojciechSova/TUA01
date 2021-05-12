@@ -23,7 +23,6 @@ import java.util.Properties;
 public class EmailSender implements EmailSenderLocal {
 
     private static final Properties prop = new Properties();
-    private static final String registrationLink = "http://studapp.it.p.lodz.pl:8402/#/confirm/account/";
 
     public void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
@@ -51,7 +50,7 @@ public class EmailSender implements EmailSenderLocal {
             String htmlText = prop.getProperty("mail.template.with.button")
                     .replace("TITLE", prop.getProperty("mail.registration.title"))
                     .replace("TEXT", prop.getProperty("mail.registration.text"))
-                    .replace("LINK", registrationLink + link)
+                    .replace("LINK", prop.getProperty("mail.registration.url") + link)
                     .replace("BUTTON_TEXT", prop.getProperty("mail.registration.button.text"));
             String subject = prop.getProperty("mail.registration.subject");
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
