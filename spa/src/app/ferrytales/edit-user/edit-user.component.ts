@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {AccountDetails} from '../../model/mok/AccountDetails';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AccountDetailsService} from '../../services/account-details.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {UpdateAccountService} from '../../services/update-account.service';
+import { Component, OnInit } from '@angular/core';
+import { AccountDetails } from '../../model/mok/AccountDetails';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AccountDetailsService } from '../../services/account-details.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UpdateAccountService } from '../../services/update-account.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class EditUserComponent implements OnInit {
         this.getAccount();
     }
 
+    public existingPhoneNumber = false;
     public timezones: string[] = [
         'UTC-12',
         'UTC-11',
@@ -94,8 +96,18 @@ export class EditUserComponent implements OnInit {
             acc.timeZone = timeZone;
         }
 
-        this.updateAccountService.updateAccount(acc).subscribe(() => this.router.navigate(['ferrytales/accounts/' + acc.login]));
-        this.updating = true;
+        this.updateAccountService.updateAccount(acc).subscribe(
+            () => {
+                this.router.navigate(['ferrytales/accounts/' + acc.login]);
+                this.updating = true;
+            },
+            (err: HttpErrorResponse) => {
+                if (err.status === 409) {
+                    this.existingPhoneNumber = true;
+                    this.getAccount();
+                }
+            }
+        );
     }
 
     ngOnInit(): void {

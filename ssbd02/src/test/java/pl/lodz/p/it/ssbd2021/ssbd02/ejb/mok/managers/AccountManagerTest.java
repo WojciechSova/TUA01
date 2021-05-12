@@ -562,17 +562,20 @@ public class AccountManagerTest {
     @Test
     void sendChangeEmailAddressUrl() {
         a1.setLogin(login1);
-
+        a1.setEmail("stary@mail.com");
+        accounts.add(a1);
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
         oneTimeUrl.setUrl(randomUrl);
         oneTimeUrl.setAccount(a1);
-        oneTimeUrl.setNewEmail("nowy@mail.com");
+        oneTimeUrl.setNewEmail("niepowtarzalny@mail.com");
 
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accountFacadeLocal.findAll()).thenReturn(accounts);
         when(a1.getLogin()).thenReturn(login1);
 
-        accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "nowy@mail.com");
-
+        accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "niepowtarzalny@mail.com");
+        a1.setEmail("powtarzalny@mail.com");
+        assertThrows(WebApplicationException.class, () -> accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "powtarzalny@mail.com"));
         verify(oneTimeUrlFacadeLocal).create(urlCaptor.capture());
 
         OneTimeUrl url = urlCaptor.getValue();

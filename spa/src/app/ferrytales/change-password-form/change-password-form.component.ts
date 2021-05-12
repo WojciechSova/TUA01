@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validatePassword } from '../../common/navigation/register/matching.validator';
 import { ChangePasswordService } from '../../services/change-password.service';
-import { HttpErrorResponse } from "@angular/common/http";
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-change-password-form',
@@ -11,8 +11,8 @@ import { HttpErrorResponse } from "@angular/common/http";
 })
 export class ChangePasswordFormComponent {
 
-    public samePassword: boolean = false;
-    public incorrectPassword: boolean = false;
+    public samePassword = false;
+    public incorrectPassword = false;
 
     constructor(private changePasswordService: ChangePasswordService) {
     }
@@ -34,12 +34,13 @@ export class ChangePasswordFormComponent {
 
     changePassword(oldPassword: string, newPassword: string): void {
         this.changePasswordService.changePassword(oldPassword, newPassword).subscribe(
-            () => {this.closeComponent()},
+            () => {
+                this.closeComponent();
+            },
             (err: HttpErrorResponse) => {
                 if (err.status === 406) {
                     this.incorrectPassword = true;
-                }
-                else if (err.status === 409) {
+                } else if (err.status === 409) {
                     this.samePassword = true;
                 }
             }
