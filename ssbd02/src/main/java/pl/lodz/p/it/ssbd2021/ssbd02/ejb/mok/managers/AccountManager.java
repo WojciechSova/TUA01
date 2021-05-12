@@ -1,13 +1,16 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.OneTimeUrlFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
 
 import javax.ejb.Stateful;
@@ -24,6 +27,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import static java.time.temporal.ChronoUnit.HOURS;
+
 /**
  * Manager kont
  import java.util.Date;
@@ -39,6 +44,9 @@ public class AccountManager implements AccountManagerLocal {
 
     @Inject
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
+
+    @Inject
+    private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
 
     private static final Properties prop = new Properties();
 
@@ -79,10 +87,18 @@ public class AccountManager implements AccountManagerLocal {
         AccessLevel accessLevel = new AccessLevel();
         accessLevel.setLevel("CLIENT");
         accessLevel.setAccount(account);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
+        oneTimeUrl.setAccount(account);
+        oneTimeUrl.setActionType("verify");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+
         accountFacadeLocal.create(account);
         accessLevelFacadeLocal.create(accessLevel);
+        oneTimeUrlFacadeLocal.create(oneTimeUrl);
 
-        EmailSender.sendRegistrationEmail(account.getFirstName(), account.getEmail(), "link");
+        EmailSender.sendRegistrationEmail(account.getFirstName(), account.getEmail(), oneTimeUrl.getUrl());
     }
 
     @Override

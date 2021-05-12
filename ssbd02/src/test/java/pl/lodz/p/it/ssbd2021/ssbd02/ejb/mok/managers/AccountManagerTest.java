@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +12,10 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.OneTimeUrlFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 
 import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
@@ -32,6 +35,8 @@ public class AccountManagerTest {
     private AccountFacadeLocal accountFacadeLocal;
     @Mock
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
+    @Mock
+    private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
     @InjectMocks
     private AccountManager accountManager;
 
@@ -45,6 +50,8 @@ public class AccountManagerTest {
     private final Account a4 = new Account();
     @Spy
     private final AccessLevel al4 = new AccessLevel();
+    @Spy
+    private final OneTimeUrl oneTimeUrl = new OneTimeUrl();
     private final String login1 = "a1Login";
     private final String email1 = "a1Email@domain.com";
     private final String phoneNumber1 = "111111111";
@@ -63,6 +70,7 @@ public class AccountManagerTest {
     private final String levelClient = "CLIENT";
     private final String levelAdmin = "ADMIN";
     private final String levelEmployee = "EMPLOYEE";
+    private final String randomUrl = RandomStringUtils.randomAlphanumeric(32);
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
     private final AccessLevel al3 = new AccessLevel();
@@ -71,8 +79,8 @@ public class AccountManagerTest {
     private final List<AccessLevel> accessLevels1 = new ArrayList<>();
     private final List<AccessLevel> accessLevels2 = new ArrayList<>();
     private final List<Pair<Account, List<AccessLevel>>> pairList = new ArrayList<>();
+    private final List<OneTimeUrl> oneTimeUrls = new ArrayList<>();
     private List<Account> accounts;
-
 
     @BeforeEach
     void initMocks() {
@@ -126,11 +134,18 @@ public class AccountManagerTest {
             return null;
         }).when(accessLevelFacadeLocal).create(any());
 
+        doAnswer(invocationOnMock -> {
+            oneTimeUrl.setUrl(randomUrl);
+            oneTimeUrls.add(oneTimeUrl);
+            return null;
+        }).when(oneTimeUrlFacadeLocal).create(any());
+
         when(al4.getAccount()).thenReturn(a3);
         when(al4.getLevel()).thenReturn(levelClient);
         when(a3.getEmail()).thenReturn(email3);
         when(a3.getPassword()).thenReturn(password3);
         when(a3.getPhoneNumber()).thenReturn(phoneNumber3);
+        when(oneTimeUrl.getAccount()).thenReturn(a3);
 
         assertEquals(2, accounts.size());
         assertEquals(2, accessLevels1.size());
@@ -142,6 +157,8 @@ public class AccountManagerTest {
         assertEquals(a3.hashCode(), accounts.get(2).hashCode());
         assertEquals(al4.getAccount(), accessLevels1.get(2).getAccount());
         assertEquals(al4.getLevel(), accessLevels1.get(2).getLevel());
+        assertEquals(randomUrl, oneTimeUrls.get(0).getUrl());
+        assertEquals(oneTimeUrl.getAccount(), oneTimeUrls.get(0).getAccount());
     }
 
     @Test
@@ -393,7 +410,7 @@ public class AccountManagerTest {
     }
 
     @Test
-    void changeActivityTest(){
+    void changeActivityTest() {
         a1.setLogin(login1);
         a1.setEmail(email1);
         a2.setLogin(login2);
