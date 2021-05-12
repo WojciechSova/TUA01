@@ -3,9 +3,9 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.SystemManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
 
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -33,10 +33,13 @@ public class SystemManager implements SystemManagerLocal {
 
 
     @Inject
-    AccountFacadeLocal accountFacadeLocal;
+    private AccountFacadeLocal accountFacadeLocal;
 
     @Inject
-    AccessLevelFacadeLocal accessLevelFacadeLocal;
+    private AccessLevelFacadeLocal accessLevelFacadeLocal;
+
+    @Inject
+    private EmailSenderLocal emailSender;
 
     @Override
     @Schedule(hour = "*/1", persistent = false)
@@ -65,6 +68,6 @@ public class SystemManager implements SystemManagerLocal {
                 .forEach(accessLevel -> accessLevelFacadeLocal.remove(accessLevel));
         accountsToDelete.forEach(account -> accountFacadeLocal.remove(account));
 
-        accountsToDelete.forEach(account -> EmailSender.sendRemovalEmail(account.getLanguage() ,account.getFirstName(), account.getEmail()));
+        accountsToDelete.forEach(account -> emailSender.sendRemovalEmail(account.getLanguage() ,account.getFirstName(), account.getEmail()));
     }
 }

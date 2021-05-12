@@ -48,6 +48,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <angular.environment.script>runDev.bat</angular.environment.script>
         <jdbc.config.src>src/dev/java</jdbc.config.src>
+        <mail.flag>true</mail.flag>
     </properties>
 
     <dependencies>
@@ -129,6 +130,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -156,6 +163,12 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>no-email</id>
+            <properties>
+                <mail.flag>false</mail.flag>
+            </properties>
+        </profile>
         <profile>
             <!-- ATTENTION profiles dev and prod need to be defined in pom before with-spa profile -->
             <id>dev</id>
