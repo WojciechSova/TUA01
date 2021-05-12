@@ -16,6 +16,10 @@ export class UsersTableComponent {
     loginToChangeAccessLevel = '';
     loginAccessLevels = [''];
 
+    byLogin = true;
+    byFirstName = false;
+    byLastName = false;
+
     constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
         this.getAccounts();
     }
@@ -27,11 +31,55 @@ export class UsersTableComponent {
 
     getAccounts(): void {
         this.accountGeneralService.getAccounts().subscribe(
-            (response: AccountGeneral[]) => this.accountGeneralService.accountGeneralList = response);
+            (response: AccountGeneral[]) => {
+                this.byLogin && this.sortByLogin();
+                this.byFirstName && this.sortByFirstName();
+                this.byLastName && this.sortByLastName();
+                this.accountGeneralService.accountGeneralList = response;
+            });
     }
 
     listAccounts(): AccountGeneral[] {
+        this.byLogin && this.sortByLogin();
+        this.byFirstName && this.sortByFirstName();
+        this.byLastName && this.sortByLastName();
         return this.accountGeneralService.accountGeneralList;
+    }
+
+    sortByLogin(): void {
+        this.accountGeneralService.accountGeneralList.sort((a, b) => {
+            if (a.login < b.login) {
+                return -1;
+            }
+            if (a.login > b.login) {
+                return 1;
+            }
+            return 0;
+        });
+    }
+
+    sortByFirstName(): void {
+        this.accountGeneralService.accountGeneralList.sort((a, b) => {
+            if (a.firstName < b.firstName) {
+                return -1;
+            }
+            if (a.firstName > b.firstName) {
+                return 1;
+            }
+            return 0;
+        });
+    }
+
+    sortByLastName(): void {
+        this.accountGeneralService.accountGeneralList.sort((a, b) => {
+            if (a.lastName < b.lastName) {
+                return -1;
+            }
+            if (a.lastName > b.lastName) {
+                return 1;
+            }
+            return 0;
+        });
     }
 
     setUser(login: string): void {
