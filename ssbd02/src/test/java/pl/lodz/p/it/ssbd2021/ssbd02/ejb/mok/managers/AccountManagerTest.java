@@ -490,4 +490,29 @@ public class AccountManagerTest {
         assertEquals(address, a1.getLastKnownGoodLoginIp());
         assertEquals(0, a1.getNumberOfBadLogins());
     }
+
+    @Test
+    void confirmAccount() {
+        a1.setActive(false);
+        a1.setLogin(login1);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(randomUrl);
+        oneTimeUrl.setAccount(a1);
+
+        when(oneTimeUrlFacadeLocal.findByUrl(randomUrl)).thenReturn(oneTimeUrl);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        doAnswer(invocationOnMock -> {
+            a1.setActive(true);
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        assertFalse(accountManager.confirmAccount(null));
+
+        assertFalse(accountManager.confirmAccount("invalidUrl"));
+
+        assertTrue(accountManager.confirmAccount(randomUrl));
+        assertTrue(a1.getActive());
+    }
 }
