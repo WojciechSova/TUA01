@@ -98,7 +98,7 @@ public class AccountManager implements AccountManagerLocal {
         accessLevelFacadeLocal.create(accessLevel);
         oneTimeUrlFacadeLocal.create(oneTimeUrl);
 
-        EmailSender.sendRegistrationEmail(account.getFirstName(), account.getEmail(), oneTimeUrl.getUrl());
+        EmailSender.sendRegistrationEmail(account.getLanguage() ,account.getFirstName(), account.getEmail(), oneTimeUrl.getUrl());
     }
 
     @Override
@@ -174,7 +174,7 @@ public class AccountManager implements AccountManagerLocal {
 
         accountFacadeLocal.edit(acc);
 
-        EmailSender.sendModificationEmail(account.getFirstName(), accountFromDB.getEmail());
+        EmailSender.sendModificationEmail(acc.getLanguage(), account.getFirstName(), accountFromDB.getEmail());
     }
 
     @Override
@@ -193,7 +193,7 @@ public class AccountManager implements AccountManagerLocal {
             newAccessLevel.setActive(true);
             newAccessLevel.setCreatedBy(accountFacadeLocal.findByLogin(login));
             accessLevelFacadeLocal.create(newAccessLevel);
-            EmailSender.sendAddAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
+            EmailSender.sendAddAccessLevelEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), accessLevel);
             return;
         }
 
@@ -203,7 +203,7 @@ public class AccountManager implements AccountManagerLocal {
                 x.setModifiedBy(accountFacadeLocal.findByLogin(login));
                 x.setModificationDate(Timestamp.from(Instant.now()));
                 accessLevelFacadeLocal.edit(x);
-                EmailSender.sendAddAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
+                EmailSender.sendAddAccessLevelEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), accessLevel);
             }
         });
     }
@@ -227,7 +227,7 @@ public class AccountManager implements AccountManagerLocal {
                 x.setModifiedBy(accountFacadeLocal.findByLogin(login));
                 x.setModificationDate(Timestamp.from(Instant.now()));
                 accessLevelFacadeLocal.edit(x);
-                EmailSender.sendRemoveAccessLevelEmail(account.getFirstName(), account.getEmail(), accessLevel);
+                EmailSender.sendRemoveAccessLevelEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), accessLevel);
             }
         });
     }
@@ -260,14 +260,14 @@ public class AccountManager implements AccountManagerLocal {
         account.setModificationDate(new Timestamp(new Date().getTime()));
         accountFacadeLocal.edit(account);
 
-        EmailSender.sendChangedActivityEmail(account.getFirstName(), account.getEmail(), account.getActive());
+        EmailSender.sendChangedActivityEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), account.getActive());
     }
 
     @Override
     public void notifyAdminAboutLogin(String login, String clientAddress) {
         Account account = accountFacadeLocal.findByLogin(login);
 
-        EmailSender.sendAdminAuthenticationEmail(account.getFirstName(), account.getEmail(), clientAddress);
+        EmailSender.sendAdminAuthenticationEmail(account.getLanguage() ,account.getFirstName(), account.getEmail(), clientAddress);
     }
 
     @Override
