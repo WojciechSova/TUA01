@@ -29,17 +29,23 @@ public class EmailSender {
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      * @param link                  Jednorazowy adres url, który służy do potwierdzenia zmiany adresu email przez użytkownika.
      */
-    public static void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link) {
+    public static void sendEmailChangeConfirmationEmail(String language, String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
+            String messageLanguage;
+            if (language.equalsIgnoreCase("pl")) {
+                messageLanguage = "pl";
+            } else {
+                messageLanguage = "en";
+            }
             String htmlText = prop.getProperty("mail.template.with.button")
-                    .replace("TITLE", prop.getProperty("mail.email.change.title"))
-                    .replace("TEXT", prop.getProperty("mail.email.change.text"))
+                    .replace("TITLE", prop.getProperty("mail.email.change.title" + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.email.change.text" + messageLanguage))
                     .replace("LINK", prop.getProperty("mail.email.change.url") + link)
-                    .replace("BUTTON_TEXT", prop.getProperty("mail.email.change.button.text"));
-            String subject = prop.getProperty("mail.email.change.subject");
+                    .replace("BUTTON_TEXT", prop.getProperty("mail.email.change.button.text" + messageLanguage));
+            String subject = prop.getProperty("mail.email.change.subject" + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {

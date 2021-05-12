@@ -331,7 +331,7 @@ public class AccountManager implements AccountManagerLocal {
 
         oneTimeUrlFacadeLocal.create(oneTimeUrl);
 
-        EmailSender.sendEmailChangeConfirmationEmail(account.getFirstName(), newEmailAddress, oneTimeUrl.getUrl());
+        EmailSender.sendEmailChangeConfirmationEmail(account.getLanguage(), account.getFirstName(), newEmailAddress, oneTimeUrl.getUrl());
 
     }
 }
