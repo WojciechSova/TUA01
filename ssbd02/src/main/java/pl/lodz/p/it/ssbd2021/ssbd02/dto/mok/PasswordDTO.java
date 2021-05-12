@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * Klasa DTO zawierająca stare i nowe hasło użytkownika.
  * Używana przy ustawianiu hasła dla konta.
@@ -17,7 +20,11 @@ import lombok.Setter;
 @Setter
 public class PasswordDTO {
 
+    @NotBlank
+    @Size(min = 8, message = "Password must not have less than 8 characters")
     private String oldPassword;
 
+    @NotBlank
+    @Size(min = 8, message = "Password must not have less than 8 characters")
     private String newPassword;
 }

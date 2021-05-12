@@ -4,6 +4,7 @@ import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.SignableDTO;
 
 import javax.json.bind.annotation.JsonbTransient;
+import javax.validation.constraints.PositiveOrZero;
 
 /**
  * Abstrakcyjna klasa DTO zawierająca wersję.
@@ -22,5 +23,7 @@ public abstract class AbstractDTO implements SignableDTO {
     public Long getSignablePayload() {
         return version;
     }
+
+    @PositiveOrZero
     private Long version;
 }
