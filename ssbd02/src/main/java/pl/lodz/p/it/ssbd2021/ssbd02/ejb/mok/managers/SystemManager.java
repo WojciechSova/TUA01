@@ -33,10 +33,13 @@ public class SystemManager implements SystemManagerLocal {
 
 
     @Inject
-    AccountFacadeLocal accountFacadeLocal;
+    private AccountFacadeLocal accountFacadeLocal;
 
     @Inject
-    AccessLevelFacadeLocal accessLevelFacadeLocal;
+    private AccessLevelFacadeLocal accessLevelFacadeLocal;
+
+    @Inject
+    private EmailSender emailSender;
 
     @Override
     @Schedule(hour = "*/1", persistent = false)
@@ -65,6 +68,6 @@ public class SystemManager implements SystemManagerLocal {
                 .forEach(accessLevel -> accessLevelFacadeLocal.remove(accessLevel));
         accountsToDelete.forEach(account -> accountFacadeLocal.remove(account));
 
-        accountsToDelete.forEach(account -> EmailSender.sendRemovalEmail(account.getFirstName(), account.getEmail()));
+        accountsToDelete.forEach(account -> emailSender.sendRemovalEmail(account.getFirstName(), account.getEmail()));
     }
 }

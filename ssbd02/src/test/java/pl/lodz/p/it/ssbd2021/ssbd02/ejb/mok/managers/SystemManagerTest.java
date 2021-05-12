@@ -10,6 +10,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacade
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -18,8 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class SystemManagerTest {
 
@@ -45,6 +45,8 @@ class SystemManagerTest {
     private AccountFacadeLocal accountFacadeLocal;
     @Mock
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
+    @Mock
+    private EmailSender emailSender;
     @InjectMocks
     private SystemManager systemManager;
     private List<AccessLevel> accessLevels;
@@ -54,6 +56,8 @@ class SystemManagerTest {
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
+
+        doNothing().when(emailSender).sendEmail(anyString(), anyString(), anyString(), anyString());
 
         accessLevels = new ArrayList<>();
         accounts = new ArrayList<>();

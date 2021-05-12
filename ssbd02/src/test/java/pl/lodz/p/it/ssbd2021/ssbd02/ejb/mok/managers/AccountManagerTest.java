@@ -13,6 +13,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacade
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mail.EmailSender;
 
 import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
@@ -32,6 +33,8 @@ public class AccountManagerTest {
     private AccountFacadeLocal accountFacadeLocal;
     @Mock
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
+    @Mock
+    private EmailSender emailSender;
     @InjectMocks
     private AccountManager accountManager;
 
@@ -77,6 +80,8 @@ public class AccountManagerTest {
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
+
+        doNothing().when(emailSender).sendEmail(anyString(), anyString(), anyString(), anyString());
 
         al5.setActive(false);
 

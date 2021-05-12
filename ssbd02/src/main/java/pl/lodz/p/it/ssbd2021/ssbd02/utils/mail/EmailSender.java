@@ -6,6 +6,7 @@ import org.simplejavamail.api.mailer.config.TransportStrategy;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
 
+import javax.ejb.Stateless;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -17,6 +18,7 @@ import java.util.Properties;
  *
  * @author Karolina Kowalczyk
  */
+@Stateless
 public class EmailSender {
 
     private static final Properties prop = new Properties();
@@ -28,7 +30,7 @@ public class EmailSender {
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      * @param link                  Jednorazowy adres url, który służy do potwierdzenia konta przez użytkownika.
      */
-    public static void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link) {
+    public void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -49,7 +51,7 @@ public class EmailSender {
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      * @param active                Aktualny status aktywności konta.
      */
-    public static void sendChangedActivityEmail(String recipientName, String recipientEmailAddress, boolean active) {
+    public void sendChangedActivityEmail(String recipientName, String recipientEmailAddress, boolean active) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -76,7 +78,7 @@ public class EmailSender {
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
-    public static void sendModificationEmail(String recipientName, String recipientEmailAddress) {
+    public void sendModificationEmail(String recipientName, String recipientEmailAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -96,7 +98,7 @@ public class EmailSender {
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
-    public static void sendAddAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
+    public void sendAddAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -116,7 +118,7 @@ public class EmailSender {
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
-    public static void sendRemoveAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
+    public void sendRemoveAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -136,7 +138,7 @@ public class EmailSender {
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
-    public static void sendRemovalEmail(String recipientName, String recipientEmailAddress) {
+    public void sendRemovalEmail(String recipientName, String recipientEmailAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -157,7 +159,7 @@ public class EmailSender {
      * @param email Adres email administratora
      * @param clientAddress Adres IP, z którego nastąpiło logowanie
      */
-    public static void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
+    public void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -181,7 +183,7 @@ public class EmailSender {
      * @param subject               Temat wiadomości.
      * @param text                  Treść wiadomości.
      */
-    public static void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
+    public void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             if (prop.getProperty("mail.send.flag").equals("false")) {   // Depending on profile dont send mails
