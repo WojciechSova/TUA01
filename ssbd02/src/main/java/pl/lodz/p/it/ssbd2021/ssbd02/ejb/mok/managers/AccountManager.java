@@ -269,4 +269,26 @@ public class AccountManager implements AccountManagerLocal {
 
         EmailSender.sendAdminAuthenticationEmail(account.getFirstName(), account.getEmail(), clientAddress);
     }
+
+    @Override
+    public boolean confirmAccount(String url) {
+        if (url == null) {
+            return false;
+        }
+
+        OneTimeUrl oneTimeUrl = oneTimeUrlFacadeLocal.findByUrl(url);
+
+        if (oneTimeUrl == null) {
+            return false;
+        }
+
+        if (url.equals(oneTimeUrl.getUrl())) {
+            Account account = accountFacadeLocal.findByLogin(oneTimeUrl.getAccount().getLogin());
+            account.setActive(true);
+            accountFacadeLocal.edit(account);
+            return true;
+        }
+
+        return false;
+    }
 }
