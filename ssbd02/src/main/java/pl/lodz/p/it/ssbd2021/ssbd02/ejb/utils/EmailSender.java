@@ -25,14 +25,7 @@ public class EmailSender implements EmailSenderLocal {
     private static final Properties prop = new Properties();
     private static final String registrationLink = "http://studapp.it.p.lodz.pl:8402/#/confirm/account/";
 
-    /**
-     * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie zmiany adresu email przypisanego do konta.
-     *
-     * @param recipientName         Imię odbiorcy wiadomości.
-     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
-     * @param link                  Jednorazowy adres url, który służy do potwierdzenia zmiany adresu email przez użytkownika.
-     */
-    public static void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link) {
+    public void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
@@ -168,7 +161,6 @@ public class EmailSender implements EmailSenderLocal {
      * @param email         Adres email administratora
      * @param clientAddress Adres IP, z którego nastąpiło logowanie
      */
-    public static void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
     public void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 

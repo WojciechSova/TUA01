@@ -9,6 +9,15 @@ import javax.ejb.Local;
 public interface EmailSenderLocal {
 
     /**
+     * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie zmiany adresu email przypisanego do konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     * @param link                  Jednorazowy adres url, który służy do potwierdzenia zmiany adresu email przez użytkownika.
+     */
+    void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link);
+
+    /**
      * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie nowo założonego konta.
      *
      * @param recipientName         Imię odbiorcy wiadomości.
@@ -61,8 +70,8 @@ public interface EmailSenderLocal {
     /**
      * Metoda wysyłająca wiadomość email informującą administratora o logowaniu na jego konto.
      *
-     * @param firstName Imię administratora
-     * @param email Adres email administratora
+     * @param firstName     Imię administratora
+     * @param email         Adres email administratora
      * @param clientAddress Adres IP, z którego nastąpiło logowanie
      */
     void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress);
