@@ -15,7 +15,7 @@ public interface EmailSenderLocal {
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      * @param link                  Jednorazowy adres url, który służy do potwierdzenia zmiany adresu email przez użytkownika.
      */
-    void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link);
+    void sendEmailChangeConfirmationEmail(String language, String recipientName, String recipientEmailAddress, String link);
 
     /**
      * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie nowo założonego konta.
@@ -24,7 +24,7 @@ public interface EmailSenderLocal {
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      * @param link                  Jednorazowy adres url, który służy do potwierdzenia konta przez użytkownika.
      */
-    void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link);
+    void sendRegistrationEmail(String language, String recipientName, String recipientEmailAddress, String link);
 
     /**
      * Metoda wysyłająca wiadomość email z informacją o zmianie aktywności konta.
@@ -33,7 +33,7 @@ public interface EmailSenderLocal {
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      * @param active                Aktualny status aktywności konta.
      */
-    void sendChangedActivityEmail(String recipientName, String recipientEmailAddress, boolean active);
+    void sendChangedActivityEmail(String language, String recipientName, String recipientEmailAddress, boolean active);
 
     /**
      * Metoda wysyłająca wiadomość email informującą użytkownika o modyfikacji danych jego konta.
@@ -41,7 +41,7 @@ public interface EmailSenderLocal {
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
-    void sendModificationEmail(String recipientName, String recipientEmailAddress);
+    void sendModificationEmail(String language, String recipientName, String recipientEmailAddress);
 
     /**
      * Metoda wysyłająca wiadomość email informującą użytkownika o dodaniu poziomu dostępu jego konta.
@@ -49,7 +49,7 @@ public interface EmailSenderLocal {
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
-    void sendAddAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel);
+    void sendAddAccessLevelEmail(String language, String recipientName, String recipientEmailAddress, String accessLevel);
 
     /**
      * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu poziomu dostępu jego konta.
@@ -57,7 +57,7 @@ public interface EmailSenderLocal {
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
-    void sendRemoveAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel);
+    void sendRemoveAccessLevelEmail(String language, String recipientName, String recipientEmailAddress, String accessLevel);
 
     /**
      * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu jego konta.
@@ -65,7 +65,7 @@ public interface EmailSenderLocal {
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
-    void sendRemovalEmail(String recipientName, String recipientEmailAddress);
+    void sendRemovalEmail(String language, String recipientName, String recipientEmailAddress);
 
     /**
      * Metoda wysyłająca wiadomość email informującą administratora o logowaniu na jego konto.
@@ -74,5 +74,5 @@ public interface EmailSenderLocal {
      * @param email         Adres email administratora
      * @param clientAddress Adres IP, z którego nastąpiło logowanie
      */
-    void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress);
+    void sendAdminAuthenticationEmail(String language, String firstName, String email, String clientAddress);
 }
