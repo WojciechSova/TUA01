@@ -123,7 +123,7 @@ public interface AccountManagerLocal {
      * Metoda aktywująca zarejestrowanego użytkownika.
      *
      * @param url Kod potwierdzający konto użytkownika
-     * @return Prawda jeżeli uda się potwierdzić użytkownika, w przeciwnym wypadku fałsz
+     * @return Prawda, jeżeli uda się potwierdzić użytkownika, w przeciwnym wypadku fałsz
      */
     boolean confirmAccount(String url);
 }

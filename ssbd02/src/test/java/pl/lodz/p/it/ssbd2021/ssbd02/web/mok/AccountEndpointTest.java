@@ -365,4 +365,18 @@ class AccountEndpointTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertTrue(account.getActive());
     }
+
+    @Test
+    void confirmAccount() {
+        Response response;
+        String url = "url";
+
+        when(accountManager.confirmAccount(url)).thenReturn(true);
+
+        response = accountEndpoint.confirmAccount(url);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+
+        response = accountEndpoint.confirmAccount("invalid");
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
 }

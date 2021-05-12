@@ -234,4 +234,21 @@ public class AccountEndpoint {
 
         return Response.ok().build();
     }
+
+    /**
+     * Metoda umożliwiająca potwierdzenie nowo zarejestrowanego konta.
+     *
+     * @param url Kod służący do potwierdzenia konta
+     * @return Kod 200 w przypadku poprawnego potwierdzenia konta, w przeciwnym razie kod 400
+     */
+    @PUT
+    @PermitAll
+    @Path("confirm/account/{url}")
+    public Response confirmAccount(@PathParam("url") String url) {
+        if (accountManager.confirmAccount(url)) {
+            return Response.ok().build();
+        }
+
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    }
 }
