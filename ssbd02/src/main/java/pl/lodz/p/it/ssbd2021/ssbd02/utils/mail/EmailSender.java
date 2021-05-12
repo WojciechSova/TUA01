@@ -23,6 +23,31 @@ public class EmailSender {
     private static final String registrationLink = "http://studapp.it.p.lodz.pl:8402/#/confirm/account/";
 
     /**
+     * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie zmiany adresu email przypisanego do konta.
+     *
+     * @param recipientName         Imię odbiorcy wiadomości.
+     * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     * @param link                  Jednorazowy adres url, który służy do potwierdzenia zmiany adresu email przez użytkownika.
+     */
+    public static void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link) {
+        try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
+
+            prop.load(input);
+
+            String htmlText = prop.getProperty("mail.template.with.button")
+                    .replace("TITLE", prop.getProperty("mail.email.change.title"))
+                    .replace("TEXT", prop.getProperty("mail.email.change.text"))
+                    .replace("LINK", prop.getProperty("mail.email.change.url") + link)
+                    .replace("BUTTON_TEXT", prop.getProperty("mail.email.change.button.text"));
+            String subject = prop.getProperty("mail.email.change.subject");
+            sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
      * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie nowo założonego konta.
      *
      * @param recipientName         Imię odbiorcy wiadomości.
@@ -195,6 +220,8 @@ public class EmailSender {
             ex.printStackTrace();
         }
     }
+
+
 
     /**
      * Metoda wysyłająca wiadomość email.

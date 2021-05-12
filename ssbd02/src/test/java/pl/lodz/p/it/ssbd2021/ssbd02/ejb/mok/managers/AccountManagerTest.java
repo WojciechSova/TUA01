@@ -6,10 +6,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.OneTimeUrlFacadeLocal;
@@ -39,7 +36,8 @@ public class AccountManagerTest {
     private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
     @InjectMocks
     private AccountManager accountManager;
-
+    @Captor
+    private ArgumentCaptor<OneTimeUrl> urlCaptor;
     @Spy
     private final Account a1 = new Account();
     @Spy
@@ -514,5 +512,54 @@ public class AccountManagerTest {
 
         assertTrue(accountManager.confirmAccount(randomUrl));
         assertTrue(a1.getActive());
+    }
+
+    @Test
+    void changeEmailAddress() {
+        a1.setEmail("stary@mail.com");
+        a1.setLogin(login1);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(randomUrl);
+        oneTimeUrl.setAccount(a1);
+        oneTimeUrl.setNewEmail("nowy@mail.com");
+
+        when(oneTimeUrlFacadeLocal.findByUrl(randomUrl)).thenReturn(oneTimeUrl);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        doAnswer(invocationOnMock -> {
+            a1.setEmail("nowy@mail.com");
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        assertFalse(accountManager.changeEmailAddress("invalidUrl"));
+
+        assertTrue(accountManager.changeEmailAddress(randomUrl));
+        assertEquals("nowy@mail.com", a1.getEmail());
+    }
+
+    @Test
+    void sendChangeEmailAddressUrl() {
+        a1.setLogin(login1);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(randomUrl);
+        oneTimeUrl.setAccount(a1);
+        oneTimeUrl.setNewEmail("nowy@mail.com");
+
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(a1.getLogin()).thenReturn(login1);
+
+        accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "nowy@mail.com");
+
+        verify(oneTimeUrlFacadeLocal).create(urlCaptor.capture());
+
+        OneTimeUrl url = urlCaptor.getValue();
+
+        assertEquals(oneTimeUrl.getAccount(), url.getAccount());
+        assertEquals("e-mail", url.getActionType());
+        assertEquals(oneTimeUrl.getNewEmail(), url.getNewEmail());
+
+
     }
 }

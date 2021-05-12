@@ -291,4 +291,43 @@ public class AccountManager implements AccountManagerLocal {
 
         return false;
     }
+
+    @Override
+    public boolean changeEmailAddress(String url) {
+        if (url == null) {
+            return false;
+        }
+
+        OneTimeUrl oneTimeUrl = oneTimeUrlFacadeLocal.findByUrl(url);
+
+        if (oneTimeUrl == null) {
+            return false;
+        }
+
+        if (url.equals(oneTimeUrl.getUrl())) {
+            Account account = accountFacadeLocal.findByLogin(oneTimeUrl.getAccount().getLogin());
+            account.setEmail(oneTimeUrl.getNewEmail());
+            accountFacadeLocal.edit(account);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void sendChangeEmailAddressUrl(String login, String newEmailAddress) {
+        Account account = accountFacadeLocal.findByLogin(login);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
+        oneTimeUrl.setAccount(account);
+        oneTimeUrl.setNewEmail(newEmailAddress);
+        oneTimeUrl.setActionType("e-mail");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+
+        oneTimeUrlFacadeLocal.create(oneTimeUrl);
+
+        EmailSender.sendEmailChangeConfirmationEmail(account.getFirstName(), newEmailAddress, oneTimeUrl.getUrl());
+
+    }
 }
