@@ -396,6 +396,15 @@ class AccountEndpointTest {
         assertEquals("login", loginCaptor.getValue());
         assertEquals("nowy@mail.com", emailCaptor.getValue());
 
+        response = accountEndpoint.sendChangeEmailAddressUrl("nowy", securityContext);
+        assertEquals(Response.Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
+
+        response = accountEndpoint.sendChangeEmailAddressUrl("nowy@", securityContext);
+        assertEquals(Response.Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
+
+        response = accountEndpoint.sendChangeEmailAddressUrl("nowy@j.", securityContext);
+        assertEquals(Response.Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
+
     }
 
     @Test

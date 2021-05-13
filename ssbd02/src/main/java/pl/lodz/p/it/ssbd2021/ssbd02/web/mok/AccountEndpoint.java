@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mok;
 
+import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
@@ -13,6 +14,7 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.mail.internet.InternetAddress;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -261,10 +263,15 @@ public class AccountEndpoint {
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
      */
     @POST
-    @Path("changeemail")
+    @Path("profile/email")
     @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendChangeEmailAddressUrl(String newEmailAddress, @Context SecurityContext securityContext) {
+
+        if (!EmailAddressValidator.isValid(newEmailAddress)) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
+
         accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress);
 
         return Response.ok().build();
@@ -273,7 +280,7 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca zmianę adresu e-mail przypisanego do konta
      *
-     * @param url Kod służący do potwierdzenia zmiany adresu e-mail
+     * @param url             Kod służący do potwierdzenia zmiany adresu e-mail
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego potwierdzenia zmiany adresu e-mail, w przeciwnym razie kod 400
      */
