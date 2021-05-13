@@ -9,6 +9,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
 import javax.security.enterprise.identitystore.CredentialValidationResult;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -42,6 +43,30 @@ public class JWTGenerator {
 
             return signedJWT.serialize();
         } catch (JOSEException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    public static String updateJWT(String serializedJWT) {
+        try {
+            JWSSigner jwsSigner = new MACSigner(SecurityConstants.SECRET);
+            JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
+
+            SignedJWT previousSignedJWT = SignedJWT.parse(serializedJWT);
+            JWTClaimsSet previousJWTClaimsSet = previousSignedJWT.getJWTClaimsSet();
+            JWTClaimsSet newJWTClaimsSet = new JWTClaimsSet.Builder()
+                    .subject(previousJWTClaimsSet.getSubject())
+                    .claim(SecurityConstants.AUTH, previousJWTClaimsSet.getClaim(SecurityConstants.AUTH))
+                    .issuer(previousJWTClaimsSet.getIssuer())
+                    .expirationTime(new Date(new Date().getTime() + SecurityConstants.EXPIRATION_TIME))
+                    .build();
+
+            SignedJWT signedJWT = new SignedJWT(jwsHeader, newJWTClaimsSet);
+            signedJWT.sign(jwsSigner);
+            return signedJWT.serialize();
+        } catch (JOSEException | ParseException e) {
             e.printStackTrace();
         }
 

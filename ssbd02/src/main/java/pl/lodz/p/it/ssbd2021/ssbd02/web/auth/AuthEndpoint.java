@@ -1,8 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.auth;
 
+import com.nimbusds.jwt.SignedJWT;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTGenerator;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
 
 import javax.annotation.security.PermitAll;
 import javax.enterprise.context.RequestScoped;
@@ -12,13 +14,11 @@ import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.ParseException;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
@@ -70,6 +70,26 @@ public class AuthEndpoint {
                 .type("application/jwt")
                 .entity(JWTGenerator.generateJWT(result))
                 .build();
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response updateJWT(@Context HttpServletRequest httpServletRequest) {
+        String authHeader = httpServletRequest.getHeader(SecurityConstants.AUTHORIZATION);
+        String serializedJWT = authHeader.substring(SecurityConstants.BEARER.length()).trim();
+        String login;
+        try {
+            login = SignedJWT.parse(serializedJWT).getJWTClaimsSet().getSubject();
+            if (accountManagerLocal.getAccountWithLogin(login).getKey().getActive()) {
+                return Response.accepted()
+                        .entity(JWTGenerator.updateJWT(serializedJWT))
+                        .build();
+            } else {
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
+        } catch (ParseException e) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
     }
 
     private String getClientIp(HttpServletRequest req) {
