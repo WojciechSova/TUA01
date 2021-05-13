@@ -290,6 +290,7 @@ public class AccountEndpoint {
      * @param newEmailAddress Nowy adres e-mail
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
+     *         Kod 406 w przypadku niepoprawnej walidacji adresu
      */
     @POST
     @Path("profile/email")
