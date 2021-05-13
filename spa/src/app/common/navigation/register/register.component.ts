@@ -66,7 +66,7 @@ export class RegisterComponent implements OnInit {
                 },
                 ],
             language: navigator.language || window.navigator.language,
-            timeZone: getTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)?.name,
+            timeZone: getTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)?.utcOffsetStr,
             creationDate: new Date(),
             numberOfBadLogins: 0
         };
