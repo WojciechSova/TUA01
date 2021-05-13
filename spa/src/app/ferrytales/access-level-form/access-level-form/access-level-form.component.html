@@ -16,7 +16,7 @@
                 <input type="checkbox" name="radio" [(ngModel)]="accessLevel.client">
                 <span class="checkmark client"></span>
             </label>
-            <button class="form-button" (click)="confirm()" i18n="Confirm|">Zatwierdź</button>
+            <button class="form-button" id="confirmButton" (click)="confirm()" i18n="Confirm|">Zatwierdź</button>
             <img class="return-arrow" (click)="closeComponent()" src="assets/back-arrow.png" alt=""/>
         </div>
     </div>

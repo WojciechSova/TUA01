@@ -60,6 +60,11 @@ public class AddRemoveAccessLevelTest {
         changeAccessLevelsPage.changeAccessLevel("EMPLOYEE");
 
         driverWait.until(ExpectedConditions.invisibilityOfElementLocated(changeAccessLevelsPage.getCheckboxContainer()));
+
+        Assertions.assertAll(
+                () -> Assertions.assertTrue(accountsListPage.getAccessLevels(adminLogin).contains("ADMIN")),
+                () -> Assertions.assertFalse(accountsListPage.getAccessLevels(adminLogin).contains("EMPLOYEE"))
+        );
     }
 
     @AfterEach
