@@ -51,7 +51,7 @@ public class AccountDetailsDTO extends AbstractDTO {
     @Size(max = 5)
     private String language;
 
-    @Size(max = 50)
+    @Size(max = 6, min = 6)
     private String timeZone;
 
     private Timestamp modificationDate;

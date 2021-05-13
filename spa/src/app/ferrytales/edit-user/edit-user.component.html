@@ -52,7 +52,7 @@
                         </option>
                         <option *ngFor="let zone of timezones" [value]="zone"
                                 [selected]="zone === accountDetailsService.account.timeZone" id="{{zone}}">
-                            Strefa {{zone}}</option>
+                            Strefa UTC {{zone}}</option>
                     </select>
                 </div>
             </div>
