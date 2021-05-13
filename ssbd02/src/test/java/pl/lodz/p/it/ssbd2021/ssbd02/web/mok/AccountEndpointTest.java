@@ -3,14 +3,13 @@ package pl.lodz.p.it.ssbd2021.ssbd02.web.mok;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
@@ -27,8 +26,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class AccountEndpointTest {
 
@@ -39,6 +37,10 @@ class AccountEndpointTest {
     private SecurityContext securityContext;
     @Mock
     private UserPrincipal userPrincipal;
+    @Captor
+    private ArgumentCaptor<String> loginCaptor;
+    @Captor
+    private ArgumentCaptor<String> emailCaptor;
     @InjectMocks
     private AccountEndpoint accountEndpoint;
     private Account account;
@@ -377,6 +379,48 @@ class AccountEndpointTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 
         response = accountEndpoint.confirmAccount("invalid");
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    void sendChangeEmailAddressUrl() {
+        Response response;
+
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("login");
+
+        response = accountEndpoint.sendChangeEmailAddressUrl("nowy@mail.com", securityContext);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+
+        verify(accountManager).sendChangeEmailAddressUrl(loginCaptor.capture(), emailCaptor.capture());
+        assertEquals("login", loginCaptor.getValue());
+        assertEquals("nowy@mail.com", emailCaptor.getValue());
+
+    }
+
+    @Test
+    void changeEmailAddress() {
+        account.setLogin("login");
+        account.setEmail("stary@mail.com");
+        Response response;
+        String url = "url";
+
+        when(accountManager.changeEmailAddress(url, account.getLogin())).thenReturn(true);
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("login");
+
+        doAnswer(invocationOnMock -> {
+            account.setEmail("nowy@mail.com");
+            account.setModifiedBy(account);
+            return true;
+        }).when(accountManager).changeEmailAddress(url, "login");
+
+        response = accountEndpoint.changeEmailAddress(url, securityContext);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals("nowy@mail.com", account.getEmail());
+        assertEquals(account, account.getModifiedBy());
+
+        response = accountEndpoint.changeEmailAddress("invalid", securityContext);
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 }

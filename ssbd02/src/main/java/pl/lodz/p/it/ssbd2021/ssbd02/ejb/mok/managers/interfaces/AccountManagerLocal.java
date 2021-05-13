@@ -133,7 +133,7 @@ public interface AccountManagerLocal {
      * @param url Kod potwierdzający nowy adres email
      * @return Prawda jeżeli uda się potwierdzić adres email, w przeciwnym wypadku fałsz
      */
-    boolean changeEmailAddress(String url);
+    boolean changeEmailAddress(String url, String modifiedBy);
 
     /**
      * Metoda wysyłająca wiadomość na nowy adres email z linkiem potwierdzającym jego zmianę.

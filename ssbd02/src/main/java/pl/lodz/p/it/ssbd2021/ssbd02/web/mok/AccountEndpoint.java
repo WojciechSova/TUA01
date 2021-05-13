@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOSignatureValidatorFilterBinding;
@@ -121,8 +122,8 @@ public class AccountEndpoint {
      * Metoda umożliwiająca dodanie poziomu dostępu użytkownikowi o podanym loginie.
      *
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
-     * @param login Login użytkownika do którego dodany zostanie poziom dostępu.
-     * @param accessLevel Poziom dostępu, który ma zostać dodany do konta.
+     * @param login           Login użytkownika do którego dodany zostanie poziom dostępu.
+     * @param accessLevel     Poziom dostępu, który ma zostać dodany do konta.
      * @return Kod 200 w przypadku poprawnego dodania dostępu.
      */
     @PUT
@@ -140,8 +141,8 @@ public class AccountEndpoint {
      * Metoda umożliwiająca odebranie poziomu dostępu użytkownikowi o podanym loginie.
      *
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
-     * @param login Login użytkownika któremu odebrany zostanie poziom dostępu.
-     * @param accessLevel Poziom dostępu, który ma zostać odebrany.
+     * @param login           Login użytkownika któremu odebrany zostanie poziom dostępu.
+     * @param accessLevel     Poziom dostępu, który ma zostać odebrany.
      * @return Kod 200 w przypadku poprawnego odebrania dostępu.
      */
     @PUT
@@ -158,9 +159,9 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca użytkownikowi aktualizowanie konta w aplikacji.
      *
-     * @param accountDTO Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta.
+     * @param accountDTO      Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta.
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
-     * @param eTag ETag podawany w zawartości nagłówka "If-Match"
+     * @param eTag            ETag podawany w zawartości nagłówka "If-Match"
      * @return Kod 200 w przypadku poprawnej aktualizacji.
      */
     @PUT
@@ -173,7 +174,7 @@ public class AccountEndpoint {
         if (accountDTO.getLogin() == null || accountDTO.getVersion() == null) {
             throw new WebApplicationException("Not all required fields were provided", 400);
         }
-        if(!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, accountDTO)) {
+        if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, accountDTO)) {
             throw new WebApplicationException("Not valid tag", 412);
         }
         accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO),
@@ -185,7 +186,7 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca zablokowanie konta użytkownika.
      *
-     * @param login Login blokowanego konta
+     * @param login           Login blokowanego konta
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
      * @return Kod 200 w przypadku poprawnego zablokowania konta
      */
@@ -222,7 +223,7 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca odblokowanie konta użytkownika.
      *
-     * @param login Login odblokowywanego konta
+     * @param login           Login odblokowywanego konta
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego odblokowania konta
      */
@@ -249,6 +250,40 @@ public class AccountEndpoint {
             return Response.ok().build();
         }
 
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    /**
+     * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiay adresu e-mail
+     *
+     * @param newEmailAddress Nowy adres e-mail
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
+     */
+    @POST
+    @Path("changeemail")
+    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response sendChangeEmailAddressUrl(String newEmailAddress, @Context SecurityContext securityContext) {
+        accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress);
+
+        return Response.ok().build();
+    }
+
+    /**
+     * Metoda umożliwiająca zmianę adresu e-mail przypisanego do konta
+     *
+     * @param url Kod służący do potwierdzenia zmiany adresu e-mail
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego potwierdzenia zmiany adresu e-mail, w przeciwnym razie kod 400
+     */
+    @PUT
+    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
+    @Path("confirm/email/{url}")
+    public Response changeEmailAddress(@PathParam("url") String url, @Context SecurityContext securityContext) {
+        if (accountManager.changeEmailAddress(url, securityContext.getUserPrincipal().getName())) {
+            return Response.ok().build();
+        }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 }
