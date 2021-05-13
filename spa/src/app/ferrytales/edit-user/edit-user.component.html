@@ -24,12 +24,14 @@
                     <label for="edit-phoneNumber">{{accountDetailsService.account.phoneNumber}}</label>
                     <input #newPhoneNumber type="text" id="edit-phoneNumber" formControlName="phoneNumber"
                            placeholder="Numer telefonu" i18n-placeholder="Phone number|"
-                           [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}">
-
+                           [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}"
+                           (ngModelChange)="existingPhoneNumber = false">
                 </div>
                 <div class="edit-validation-error"
                      *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
                      i18n="Invalid format|">Niepoprawny format
+                </div>
+                <div class="edit-validation-error" *ngIf="existingPhoneNumber" i18n="Provided phone number already exists|">Podany numer telefonu już istnieje
                 </div>
 
                 <div class="row">
@@ -52,7 +54,7 @@
                         </option>
                         <option *ngFor="let zone of timezones" [value]="zone"
                                 [selected]="zone === accountDetailsService.account.timeZone" id="{{zone}}">
-                            Strefa {{zone}}</option>
+                            Strefa UTC {{zone}}</option>
                     </select>
                 </div>
             </div>

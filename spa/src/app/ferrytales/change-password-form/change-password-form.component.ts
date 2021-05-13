@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {validatePassword} from '../../common/navigation/register/matching.validator';
-import {ChangePasswordService} from '../../services/change-password.service';
-import {HttpErrorResponse} from '@angular/common/http';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { validatePassword } from '../../common/navigation/register/matching.validator';
+import { ChangePasswordService } from '../../services/change-password.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-change-password-form',

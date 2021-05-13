@@ -554,36 +554,41 @@ public class AccountManagerTest {
 
         doAnswer(invocationOnMock -> {
             a1.setEmail("nowy@mail.com");
+            a1.setModifiedBy(a1);
             return null;
         }).when(accountFacadeLocal).edit(any());
 
-        assertFalse(accountManager.changeEmailAddress("invalidUrl"));
+        assertFalse(accountManager.changeEmailAddress("invalidUrl", a1.getLogin()));
 
-        assertTrue(accountManager.changeEmailAddress(randomUrl));
+        assertTrue(accountManager.changeEmailAddress(randomUrl, a1.getLogin()));
         assertEquals("nowy@mail.com", a1.getEmail());
+        assertEquals(a1, a1.getModifiedBy());
 
         oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().minus(1, HOURS)));
-        assertFalse(accountManager.changeEmailAddress(randomUrl));
+        assertFalse(accountManager.changeEmailAddress(randomUrl, a1.getLogin()));
 
         oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
         oneTimeUrl.setActionType("invalid");
-        assertFalse(accountManager.changeEmailAddress(randomUrl));
+        assertFalse(accountManager.changeEmailAddress(randomUrl, a1.getLogin()));
     }
 
     @Test
     void sendChangeEmailAddressUrl() {
         a1.setLogin(login1);
-
+        a1.setEmail("stary@mail.com");
+        accounts.add(a1);
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
         oneTimeUrl.setUrl(randomUrl);
         oneTimeUrl.setAccount(a1);
-        oneTimeUrl.setNewEmail("nowy@mail.com");
+        oneTimeUrl.setNewEmail("niepowtarzalny@mail.com");
 
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accountFacadeLocal.findAll()).thenReturn(accounts);
         when(a1.getLogin()).thenReturn(login1);
 
-        accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "nowy@mail.com");
-
+        accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "niepowtarzalny@mail.com");
+        a1.setEmail("powtarzalny@mail.com");
+        assertThrows(WebApplicationException.class, () -> accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "powtarzalny@mail.com"));
         verify(oneTimeUrlFacadeLocal).create(urlCaptor.capture());
 
         OneTimeUrl url = urlCaptor.getValue();

@@ -297,7 +297,7 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
-    public boolean changeEmailAddress(String url) {
+    public boolean changeEmailAddress(String url, String modifiedBy) {
         if (url == null) {
             return false;
         }
@@ -315,6 +315,7 @@ public class AccountManager implements AccountManagerLocal {
         if (url.equals(oneTimeUrl.getUrl())) {
             Account account = accountFacadeLocal.findByLogin(oneTimeUrl.getAccount().getLogin());
             account.setEmail(oneTimeUrl.getNewEmail());
+            account.setModifiedBy(accountFacadeLocal.findByLogin(modifiedBy));
             accountFacadeLocal.edit(account);
             return true;
         }
@@ -325,6 +326,10 @@ public class AccountManager implements AccountManagerLocal {
     @Override
     public void sendChangeEmailAddressUrl(String login, String newEmailAddress) {
         Account account = accountFacadeLocal.findByLogin(login);
+
+        if(accountFacadeLocal.findAll().stream().anyMatch(a -> newEmailAddress.equals(a.getEmail()))){
+            throw new WebApplicationException("Provided email already exists in the database", 409);
+        }
 
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
         oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));

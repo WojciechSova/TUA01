@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {AccountDetails} from '../../model/mok/AccountDetails';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AccountDetailsService} from '../../services/account-details.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {UpdateAccountService} from '../../services/update-account.service';
-
+import { Component, OnInit } from '@angular/core';
+import { AccountDetails } from '../../model/mok/AccountDetails';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AccountDetailsService } from '../../services/account-details.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UpdateAccountService } from '../../services/update-account.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-edit-user',
@@ -20,32 +20,35 @@ export class EditUserComponent implements OnInit {
         this.getAccount();
     }
 
+    public existingPhoneNumber = false;
     public timezones: string[] = [
-        'UTC-12',
-        'UTC-11',
-        'UTC-10',
-        'UTC-9',
-        'UTC-8',
-        'UTC-7',
-        'UTC-6',
-        'UTC-5',
-        'UTC-4',
-        'UTC-3',
-        'UTC-2',
-        'UTC-1',
-        'UTC+0',
-        'UTC+1',
-        'UTC+2',
-        'UTC+3',
-        'UTC+4',
-        'UTC+5',
-        'UTC+6',
-        'UTC+7',
-        'UTC+8',
-        'UTC+9',
-        'UTC+10',
-        'UTC+11',
-        'UTC+12'
+        '-12:00',
+        '-11:00',
+        '-10:00',
+        '-09:00',
+        '-08:00',
+        '-07:00',
+        '-06:00',
+        '-05:00',
+        '-04:00',
+        '-03:00',
+        '-02:00',
+        '-01:00',
+        '+00:00',
+        '+01:00',
+        '+02:00',
+        '+03:00',
+        '+04:00',
+        '+05:00',
+        '+06:00',
+        '+07:00',
+        '+08:00',
+        '+09:00',
+        '+10:00',
+        '+11:00',
+        '+12:00',
+        '+13:00',
+        '+14:00'
     ];
     private updating = false;
 
@@ -94,8 +97,18 @@ export class EditUserComponent implements OnInit {
             acc.timeZone = timeZone;
         }
 
-        this.updateAccountService.updateAccount(acc).subscribe(() => this.router.navigate(['ferrytales/accounts/' + acc.login]));
-        this.updating = true;
+        this.updateAccountService.updateAccount(acc).subscribe(
+            () => {
+                this.router.navigate(['ferrytales/accounts/' + acc.login]);
+                this.updating = true;
+            },
+            (err: HttpErrorResponse) => {
+                if (err.status === 409) {
+                    this.existingPhoneNumber = true;
+                    this.getAccount();
+                }
+            }
+        );
     }
 
     ngOnInit(): void {
