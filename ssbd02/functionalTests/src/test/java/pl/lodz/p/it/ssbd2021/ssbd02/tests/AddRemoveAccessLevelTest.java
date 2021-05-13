@@ -42,6 +42,8 @@ public class AddRemoveAccessLevelTest {
 
         AccountsListPage accountsListPage = adminMainPage.openAccountsList();
 
+        driverWait.until(ExpectedConditions.visibilityOfElementLocated(accountsListPage.getUsersTable()));
+
         Assertions.assertEquals("ADMIN", accountsListPage.getAccessLevels(adminLogin));
 
         ChangeAccessLevelsPage changeAccessLevelsPage = accountsListPage.openChangeAccessLevelsForm(adminLogin);
