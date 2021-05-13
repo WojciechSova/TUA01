@@ -79,10 +79,10 @@ public interface EmailSenderLocal {
     /**
      * Metoda wysyłająca wiadomość email zawierającą adres url służący resetowaniu hasła użytkownika.
      *
-     * @param language Język użytkownika
+     * @param language  Język użytkownika
      * @param firstName Imię użytkownika
-     * @param email Adres email uzytkownika
-     * @param url Jednorazowy adres url, który służy do resetowania hasła
+     * @param email     Adres email uzytkownika
+     * @param url       Jednorazowy adres url, który służy do resetowania hasła
      */
     void sendPasswordResetEmail(String language, String firstName, String email, String url);
 }

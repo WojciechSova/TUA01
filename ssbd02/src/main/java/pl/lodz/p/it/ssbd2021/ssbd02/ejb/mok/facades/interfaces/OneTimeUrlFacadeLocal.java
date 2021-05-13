@@ -29,7 +29,7 @@ public interface OneTimeUrlFacadeLocal extends AbstractFacadeInterface<OneTimeUr
      * Metoda wyszukująca listę encji typu {@link OneTimeUrl} o przekazanym koncie.
      *
      * @param account Konto którego adresów URL szukamy
-     * @return Lista obiektów typu {@link OneTimeUrl} o przekazanym koncie
+     * @return Lista obiektów typu {@link OneTimeUrl} z przekazanym koncie
      */
     List<OneTimeUrl> findByAccount(Account account);
 }
