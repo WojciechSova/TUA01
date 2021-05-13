@@ -188,7 +188,7 @@ public class AccountEndpoint {
      * @param   accountDTO Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta
      * @param   eTag ETag podawany w zawartości nagłówka "If-Match"
      * @return  Kod 200 w przypadku poprawnej aktualizacji konta
-     *          Kod 400 w przypadku gdy przesyłane dane nie zawierają loginu lub versji
+     *          Kod 400 w przypadku gdy przesyłane dane nie zawierają loginu lub wersji
      *          Kod 412 w przypadku gdy eTag nie jest ważny lub próbujemy zmienić nie swoje konto
      */
     @PUT
