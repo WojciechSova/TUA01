@@ -183,6 +183,37 @@ public class AccountEndpoint {
     }
 
     /**
+     * Metoda umożliwiająca użytkownikowi aktualizowanie swojego konta w aplikacji.
+     *
+     * @param   accountDTO Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta
+     * @param   eTag ETag podawany w zawartości nagłówka "If-Match"
+     * @return  Kod 200 w przypadku poprawnej aktualizacji konta
+     *          Kod 400 w przypadku gdy przesyłane dane nie zawierają loginu lub wersji
+     *          Kod 412 w przypadku gdy eTag nie jest ważny lub próbujemy zmienić nie swoje konto
+     */
+    @PUT
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
+    @Path("/profile/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @DTOSignatureValidatorFilterBinding
+    public Response updateOwnAccount(AccountDetailsDTO accountDTO, @Context SecurityContext securityContext,
+                                     @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
+        if (accountDTO.getLogin() == null || accountDTO.getVersion() == null) {
+            throw new WebApplicationException("Not all required fields were provided", 400);
+        }
+        if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, accountDTO)) {
+            throw new WebApplicationException("ETag not valid", 412);
+        }
+        if (!accountDTO.getLogin().equals(securityContext.getUserPrincipal().getName())) {
+            throw new WebApplicationException("You can not change not your own account", 412);
+        }
+        accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO), accountDTO.getLogin());
+
+        return Response.ok()
+                .build();
+    }
+
+    /**
      * Metoda umożliwiająca zablokowanie konta użytkownika.
      *
      * @param login Login blokowanego konta
