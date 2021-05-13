@@ -1,3 +1,10 @@
+<div class="button-container">
+    <button class="button-user-table" (click)="getAccounts()" i18n="Refresh|">Odśwież</button>
+    <form class="filter">
+        <input [(ngModel)]="searchedValue" i18n-placeholder="Enter your search|" placeholder="Wpisz szukaną frazę..." id="search" name="search"/>
+    </form>
+</div>
+
 <div class="users-list-container">
     <table id="users">
         <tr>
@@ -6,10 +13,11 @@
             <th i18n="Last name|">Nazwisko</th>
             <th i18n="Access levels|">Poziomy dostępu</th>
             <th i18n="Unblock/Block|">Odblokuj/Zablokuj</th>
+            <th i18n="Manage|">Zarządzaj</th>
             <th i18n="Details|">Szczegóły</th>
         </tr>
 
-        <tr *ngFor="let user of listAccounts()">
+        <tr *ngFor="let user of listAccounts() | searchFilter: searchedValue">
             <td>{{user['login']}}</td>
             <td>{{user['firstName']}}</td>
             <td>{{user['lastName']}}</td>
@@ -21,15 +29,25 @@
             <td>
                 <div *ngIf="user.active; then block else unblock">{{user['active']}}</div>
                 <ng-template #unblock>
-                    <button class="button-user-table button-unblock" i18n="Unblock|">Odblokuj</button>
+                    <button class="button-user-table button-unblock" (click)="unblockAccount(user.login)" i18n="Unblock|">Odblokuj</button>
                 </ng-template>
                 <ng-template #block>
-                    <button class="button-user-table button-block" i18n="Block|">Zablokuj</button>
+                    <button class="button-user-table button-block" (click)="blockAccount(user.login)" i18n="Block|">Zablokuj</button>
                 </ng-template>
             </td>
             <td>
-                <button class="button-user-table" (click)="setUser(user.login)" i18n="Details|">Szczegóły</button>
+                <button class="button-user-table"
+                        (click)="setLoginAccessLevels(user.login, user.accessLevel); changeAccessLevelFormVisible(true)"
+                        i18n="Access levels|">Poziomy dostępu
+                </button>
+            </td>
+            <td>
+                <button id="details" class="button-user-table" (click)="setUser(user.login)" i18n="Details|">Szczegóły</button>
             </td>
         </tr>
     </table>
 </div>
+<app-access-level-form *ngIf="isAccessLevelFormVisible"
+                       (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"
+                       [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels">
+</app-access-level-form>

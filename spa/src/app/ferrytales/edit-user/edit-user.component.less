@@ -1,0 +1,106 @@
+@import '../../../styles.less';
+@import '../account-details/account-details.component.less';
+
+.edit-validation-error {
+    .validation-error;
+    position: relative;
+    width: 30%;
+    left: 101%;
+    transform: translateY(-25%);
+}
+
+
+.updating-text {
+    text-align: center;
+    font: lighter 1.75rem Source Sans Pro;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.edit-form {
+    .account-details;
+    padding: 1%;
+    position: relative;
+    top: revert;
+    left: revert;
+    transform: revert;
+
+    label {
+        margin-top: 0;
+    }
+}
+
+.edit-button {
+    width: 17%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: 0;
+    margin-top: 1vh;
+}
+
+input {
+    position: relative;
+    height: 30px;
+    font-size: 1.4rem;
+}
+
+input::placeholder {
+    font: lighter 1.4rem Source Sans Pro;
+}
+
+label {
+    height: 30px;
+    font-size: 1.4rem;
+}
+
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+
+    > * {
+        width: 100%;
+        margin: 0 0 1.2vh 0;
+        padding: 4px 0 4px 7px;
+    }
+
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+select {
+    position: relative;
+    width: 45%;
+    border: @footer-accent-color 0.2px solid;
+    border-radius: 35px;
+    font: lighter 1.4rem Source Sans Pro;
+    background-color: transparent;
+    color: @footer-accent-color;
+    outline: none;
+    height: 5vh;
+    padding: 4px calc(0.5vw + 15px);
+}
+
+option {
+    color: @primary-color;
+}
+
+.headers {
+    margin-bottom: 1vw;
+}
+
+.return-arrow {
+    .return-arrow-base;
+    margin-top: 2vh;
+    position: relative;
+    height: auto;
+    width: 4%;
+}
+

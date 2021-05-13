@@ -9,7 +9,10 @@
 
 <div [ngClass]="isSticky ? 'nav-sticky' : 'nav-non-sticky'" class="flex-container fixed" #navigation>
     <div class=left>
-        <img src="assets/logo_primary_color_basic.png" alt="Beautiful logo">
+        <img *ngIf="identityService.isGuest()" src="assets/logo_primary_color_basic.png" alt="Beautiful logo">
+        <img *ngIf="identityService.isAdmin()" src="assets/logo_red_basic.png" alt="Beautiful logo">
+        <img *ngIf="identityService.isEmployee()" src="assets/logo_orange_basic.png" alt="Beautiful logo">
+        <img *ngIf="identityService.isClient()" src="assets/logo_secondary_color_basic.png" alt="Beautiful logo">
     </div>
     <div class="right">
         <app-links [stickyStyles]="true"></app-links>

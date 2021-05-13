@@ -1,24 +1,29 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.OneTimeUrlFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 
 import javax.ws.rs.WebApplicationException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.HOURS;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -29,9 +34,14 @@ public class AccountManagerTest {
     private AccountFacadeLocal accountFacadeLocal;
     @Mock
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
+    @Mock
+    private EmailSenderLocal emailSender;
+    @Mock
+    private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
     @InjectMocks
     private AccountManager accountManager;
-
+    @Captor
+    private ArgumentCaptor<OneTimeUrl> urlCaptor;
     @Spy
     private final Account a1 = new Account();
     @Spy
@@ -42,9 +52,12 @@ public class AccountManagerTest {
     private final Account a4 = new Account();
     @Spy
     private final AccessLevel al4 = new AccessLevel();
+    @Spy
+    private final OneTimeUrl oneTimeUrl = new OneTimeUrl();
     private final String login1 = "a1Login";
     private final String email1 = "a1Email@domain.com";
     private final String phoneNumber1 = "111111111";
+    private final String password1 = "a1Password";
     private final String login2 = "a2Login";
     private final String phoneNumber2 = "222222222";
     private final String email3 = "a3Email@domain.com";
@@ -56,21 +69,39 @@ public class AccountManagerTest {
     private final String oldPassword = "oldPassword";
     private final String newPassword = "newPassword";
     private final String invalidPassword = "invalidPassword";
+    private final String levelClient = "CLIENT";
+    private final String levelAdmin = "ADMIN";
+    private final String levelEmployee = "EMPLOYEE";
+    private final String randomUrl = RandomStringUtils.randomAlphanumeric(32);
     private final AccessLevel al1 = new AccessLevel();
     private final AccessLevel al2 = new AccessLevel();
     private final AccessLevel al3 = new AccessLevel();
+    private final AccessLevel al5 = new AccessLevel();
+    @Spy
     private final List<AccessLevel> accessLevels1 = new ArrayList<>();
     private final List<AccessLevel> accessLevels2 = new ArrayList<>();
     private final List<Pair<Account, List<AccessLevel>>> pairList = new ArrayList<>();
+    private final List<OneTimeUrl> oneTimeUrls = new ArrayList<>();
     private List<Account> accounts;
-
 
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
+
+        doNothing().when(emailSender).sendRegistrationEmail(anyString(), anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendChangedActivityEmail(anyString(), anyString(), anyString(), anyBoolean());
+        doNothing().when(emailSender).sendModificationEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendAddAccessLevelEmail(anyString(), anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRemoveAccessLevelEmail(anyString(), anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRemovalEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendAdminAuthenticationEmail(anyString(), anyString(), anyString(), anyString());
+
+        al5.setActive(false);
+
         accessLevels1.add(al1);
         accessLevels1.add(al2);
         accessLevels2.add(al3);
+        accessLevels2.add(al5);
 
         accounts = new ArrayList<>();
         accounts.add(a1);
@@ -82,10 +113,12 @@ public class AccountManagerTest {
     @Test
     void getAllAccountsWithAccessLevelsTest() {
         when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(a1, a2));
-        when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
-        when(accessLevelFacadeLocal.findAllByAccount(a2)).thenReturn(accessLevels2);
+        when(accessLevelFacadeLocal.findAllActiveByAccount(a1)).thenReturn(accessLevels1);
+        when(accessLevelFacadeLocal.findAllActiveByAccount(a2)).thenReturn(accessLevels2);
 
-        List<Pair<Account, List<AccessLevel>>> testedPairList = accountManager.getAllAccountsWithAccessLevels();
+        pairList.get(1).getValue().remove(al5); // Remove al5 from compared list cause it's inactive
+
+        List<Pair<Account, List<AccessLevel>>> testedPairList = accountManager.getAllAccountsWithActiveAccessLevels();
 
         assertEquals(pairList, testedPairList);
         assertEquals(2, testedPairList.size());
@@ -95,6 +128,8 @@ public class AccountManagerTest {
         assertEquals(accessLevels2, testedPairList.get(1).getValue());
         assertEquals(a1, testedPairList.get(0).getKey());
         assertEquals(a2, testedPairList.get(1).getKey());
+        assertTrue(testedPairList.get(1).getValue().stream()
+                .noneMatch(accessLevel -> accessLevel.equals(al5)));
     }
 
     @Test
@@ -109,11 +144,18 @@ public class AccountManagerTest {
             return null;
         }).when(accessLevelFacadeLocal).create(any());
 
+        doAnswer(invocationOnMock -> {
+            oneTimeUrl.setUrl(randomUrl);
+            oneTimeUrls.add(oneTimeUrl);
+            return null;
+        }).when(oneTimeUrlFacadeLocal).create(any());
+
         when(al4.getAccount()).thenReturn(a3);
-        when(al4.getLevel()).thenReturn(level);
+        when(al4.getLevel()).thenReturn(levelClient);
         when(a3.getEmail()).thenReturn(email3);
         when(a3.getPassword()).thenReturn(password3);
         when(a3.getPhoneNumber()).thenReturn(phoneNumber3);
+        when(oneTimeUrl.getAccount()).thenReturn(a3);
 
         assertEquals(2, accounts.size());
         assertEquals(2, accessLevels1.size());
@@ -125,6 +167,8 @@ public class AccountManagerTest {
         assertEquals(a3.hashCode(), accounts.get(2).hashCode());
         assertEquals(al4.getAccount(), accessLevels1.get(2).getAccount());
         assertEquals(al4.getLevel(), accessLevels1.get(2).getLevel());
+        assertEquals(randomUrl, oneTimeUrls.get(0).getUrl());
+        assertEquals(oneTimeUrl.getAccount(), oneTimeUrls.get(0).getAccount());
     }
 
     @Test
@@ -172,6 +216,173 @@ public class AccountManagerTest {
     }
 
     @Test
+    void addAccessLevel() {
+        AccessLevel employeeAccessLevel = new AccessLevel();
+        employeeAccessLevel.setAccount(a1);
+        employeeAccessLevel.setLevel(levelEmployee);
+
+        a1.setLogin(login1);
+        a1.setEmail(email1);
+
+        al1.setAccount(a1);
+        al1.setLevel(levelClient);
+        al1.setActive(true);
+
+        al2.setAccount(a1);
+        al2.setLevel(levelAdmin);
+        al2.setActive(false);
+
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+
+        doAnswer(invocationOnMock -> {
+            accessLevels1.get(1).setActive(true);
+            return null;
+        }).when(accessLevelFacadeLocal).edit(any());
+
+        doAnswer(invocationOnMock -> {
+            accessLevels1.add(employeeAccessLevel);
+            return null;
+        }).when(accessLevelFacadeLocal).create(any());
+
+        accountManager.addAccessLevel(a2.getLogin(), a1.getLogin(), "random");
+        assertTrue(accessLevels1.get(0).getActive());
+        assertFalse(accessLevels1.get(1).getActive());
+
+        accountManager.addAccessLevel(a2.getLogin(), a1.getLogin(), levelClient);
+        assertTrue(accessLevels1.get(0).getActive());
+        assertFalse(accessLevels1.get(1).getActive());
+
+        accountManager.addAccessLevel(a2.getLogin(), a1.getLogin(), levelAdmin);
+        assertTrue(accessLevels1.get(0).getActive());
+        assertTrue(accessLevels1.get(1).getActive());
+
+        accountManager.addAccessLevel(a2.getLogin(), a1.getLogin(), levelEmployee);
+        assertEquals(3, accessLevels1.size());
+        assertTrue(accessLevels1.get(0).getActive());
+        assertTrue(accessLevels1.get(1).getActive());
+        assertTrue(accessLevels1.get(2).getActive());
+        assertEquals(a1, accessLevels1.get(2).getAccount());
+    }
+
+    @Test
+    void removeAccessLevel() {
+        a1.setLogin(login1);
+        a1.setEmail(email1);
+
+        al1.setAccount(a1);
+        al1.setLevel(levelClient);
+        al1.setActive(false);
+
+        al2.setAccount(a1);
+        al2.setLevel(levelAdmin);
+        al2.setActive(true);
+
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accountFacadeLocal.findByLogin(login2)).thenReturn(a2);
+        when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+
+        doAnswer(invocationOnMock -> {
+            accessLevels1.get(1).setActive(false);
+            return null;
+        }).when(accessLevelFacadeLocal).edit(any());
+
+        accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), "random");
+        assertFalse(accessLevels1.get(0).getActive());
+        assertTrue(accessLevels1.get(1).getActive());
+
+        accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), levelClient);
+        assertFalse(accessLevels1.get(0).getActive());
+        assertTrue(accessLevels1.get(1).getActive());
+
+        accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), levelAdmin);
+        assertFalse(accessLevels1.get(0).getActive());
+        assertFalse(accessLevels1.get(1).getActive());
+    }
+
+    @Test
+    void updateAccountTest() {
+        Account account = createAccount();
+        a1.setLogin("testLogin");
+        when(accountFacadeLocal.findByLogin("ExampleLogin")).thenReturn(account);
+        when(accountFacadeLocal.findAll()).thenReturn(Collections.singletonList(account));
+        when(accountFacadeLocal.findByLogin("testLogin")).thenReturn(a1);
+
+        assertEquals("48123456788", account.getPhoneNumber());
+        assertEquals("Annabelle", account.getFirstName());
+        assertEquals("Washington", account.getLastName());
+        assertEquals("PL", account.getTimeZone());
+        assertEquals("PL", account.getLanguage());
+
+        Account updateAcc = new Account();
+        updateAcc.setLogin("ExampleLogin");
+        updateAcc.setPhoneNumber("123");
+        updateAcc.setFirstName("Edward");
+        updateAcc.setLastName("Piotrowski");
+        updateAcc.setTimeZone("en-US");
+        updateAcc.setLanguage("EN");
+
+        doAnswer(invocation -> {
+            account.setPhoneNumber("123");
+            account.setFirstName("Edward");
+            account.setLastName("Piotrowski");
+            account.setTimeZone("en-US");
+            account.setLanguage("EN");
+            account.setModificationDate(Timestamp.from(Instant.now()));
+            account.setModifiedBy(a1);
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        accountManager.updateAccount(updateAcc, "testLogin");
+
+        assertEquals("123", account.getPhoneNumber());
+        assertEquals("Edward", account.getFirstName());
+        assertEquals("Piotrowski", account.getLastName());
+        assertEquals("en-US", account.getTimeZone());
+        assertEquals("EN", account.getLanguage());
+        assertTrue(account.getModificationDate().compareTo(Timestamp.from(Instant.now())) < 10000);
+        assertEquals(a1, account.getModifiedBy());
+    }
+
+    private Account createAccount() {
+        Account acc = new Account();
+        acc.setLogin("ExampleLogin");
+        acc.setPassword("P@ssword");
+        acc.setActive(true);
+        acc.setConfirmed(true);
+        acc.setFirstName("Annabelle");
+        acc.setLastName("Washington");
+        acc.setEmail("example@example.com");
+        acc.setPhoneNumber("48123456788");
+        acc.setLanguage("PL");
+        acc.setTimeZone("PL");
+        acc.setModificationDate(Timestamp.from(Instant.now()));
+        acc.setCreationDate(Timestamp.valueOf("2020-03-21 11:21:15"));
+        acc.setLastKnownGoodLogin(Timestamp.valueOf("2020-03-25 11:21:15"));
+        acc.setLastKnownGoodLoginIp("111.111.111.111");
+        acc.setLastKnownBadLogin(Timestamp.valueOf("2020-03-26 11:21:15"));
+        acc.setLastKnownBadLoginIp("222.222.222.222");
+        acc.setNumberOfBadLogins(2);
+        return acc;
+    }
+
+    @Test
+    void updateAccountExceptionTest() {
+        Account account = createAccount();
+
+        when(a1.getLogin()).thenReturn("Test");
+        when(a1.getPhoneNumber()).thenReturn("48123456788");
+
+        when(accountFacadeLocal.findByLogin(anyString())).thenReturn(account);
+        when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(account, a1));
+        WebApplicationException exceptionA1 = assertThrows(WebApplicationException.class,
+                () -> accountManager.updateAccount(a1, "test"));
+
+        assertEquals(409, exceptionA1.getResponse().getStatus());
+        assertEquals("Such phone number exists", exceptionA1.getMessage());
+    }
+
+    @Test
     void changePasswordTest() {
         a1.setPassword(DigestUtils.sha512Hex(oldPassword));
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
@@ -206,5 +417,181 @@ public class AccountManagerTest {
             assertEquals("The new password is the same as the old password", ex.getMessage());
             assertEquals(409, ex.getResponse().getStatus());
         }
+    }
+
+    @Test
+    void changeActivityTest() {
+        a1.setLogin(login1);
+        a1.setEmail(email1);
+        a2.setLogin(login2);
+        a2.setEmail(email3);
+        a2.setModifiedBy(a1);
+        a3.setLogin(login4);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accountFacadeLocal.findByLogin(login2)).thenReturn(a2);
+        when(accountFacadeLocal.findByLogin(login4)).thenReturn(a3);
+
+        accountManager.changeActivity(login1, false, login2);
+        verify(accountFacadeLocal).edit(a1);
+        assertFalse(a1.getActive());
+        assertEquals(a2, a1.getModifiedBy());
+        assertFalse(accounts.get(0).getActive());
+
+        accountManager.changeActivity(login1, true, login4);
+        verify(accountFacadeLocal, times(2)).edit(a1);
+        assertTrue(a1.getActive());
+        assertEquals(a3, a1.getModifiedBy());
+        assertTrue(accounts.get(0).getActive());
+
+
+        a2.setNumberOfBadLogins(2);
+        accountManager.changeActivity(login2, true, null);
+        assertEquals(0, a2.getNumberOfBadLogins());
+        assertNull(a2.getModifiedBy());
+    }
+
+    @Test
+    void registerBadLogin() {
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        a1.setLogin(login1);
+        a1.setEmail(email1);
+        String address = "192.168.1.1";
+
+        assertNull(a1.getLastKnownBadLogin());
+        assertNull(a1.getLastKnownBadLoginIp());
+        assertEquals(0, a1.getNumberOfBadLogins());
+        assertTrue(a1.getActive());
+
+        Timestamp before = Timestamp.from(Instant.now());
+        accountManager.registerBadLogin(login1, address);
+        Timestamp after = Timestamp.from(Instant.now());
+
+        assertTrue(a1.getLastKnownBadLogin().getTime() >= before.getTime());
+        assertTrue(a1.getLastKnownBadLogin().getTime() <= after.getTime());
+        assertEquals(address, a1.getLastKnownBadLoginIp());
+
+        assertEquals(1, a1.getNumberOfBadLogins());
+        assertTrue(a1.getActive());
+
+        accountManager.registerBadLogin(login1, address);
+        assertEquals(2, a1.getNumberOfBadLogins());
+        assertTrue(a1.getActive());
+
+        accountManager.registerBadLogin(login1, address);
+        assertEquals(3, a1.getNumberOfBadLogins());
+        assertFalse(a1.getActive());
+    }
+
+    @Test
+    void registerGoodLogin() {
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        String address = "192.168.1.1";
+        a1.setNumberOfBadLogins(2);
+
+        assertNull(a1.getLastKnownGoodLogin());
+        assertNull(a1.getLastKnownGoodLoginIp());
+
+        Timestamp before = Timestamp.from(Instant.now());
+        accountManager.registerGoodLogin(login1, address);
+        Timestamp after = Timestamp.from(Instant.now());
+
+        assertTrue(a1.getLastKnownGoodLogin().getTime() >= before.getTime());
+        assertTrue(a1.getLastKnownGoodLogin().getTime() <= after.getTime());
+        assertEquals(address, a1.getLastKnownGoodLoginIp());
+        assertEquals(0, a1.getNumberOfBadLogins());
+    }
+
+    @Test
+    void confirmAccount() {
+        a1.setActive(false);
+        a1.setLogin(login1);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(randomUrl);
+        oneTimeUrl.setAccount(a1);
+        oneTimeUrl.setActionType("verify");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+
+        when(oneTimeUrlFacadeLocal.findByUrl(randomUrl)).thenReturn(oneTimeUrl);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        doAnswer(invocationOnMock -> {
+            a1.setActive(true);
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        assertTrue(accountManager.confirmAccount(randomUrl));
+        assertTrue(a1.getActive());
+
+        assertFalse(accountManager.confirmAccount(null));
+
+        assertFalse(accountManager.confirmAccount("invalidUrl"));
+
+        oneTimeUrl.setActionType("invalid");
+
+        assertFalse(accountManager.confirmAccount(randomUrl));
+
+        oneTimeUrl.setActionType("verify");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().minus(1, HOURS)));
+
+        assertFalse(accountManager.confirmAccount(randomUrl));
+    }
+
+    @Test
+    void changeEmailAddress() {
+        a1.setEmail("stary@mail.com");
+        a1.setLogin(login1);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(randomUrl);
+        oneTimeUrl.setAccount(a1);
+        oneTimeUrl.setNewEmail("nowy@mail.com");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+        oneTimeUrl.setActionType("e-mail");
+
+        when(oneTimeUrlFacadeLocal.findByUrl(randomUrl)).thenReturn(oneTimeUrl);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+
+        doAnswer(invocationOnMock -> {
+            a1.setEmail("nowy@mail.com");
+            return null;
+        }).when(accountFacadeLocal).edit(any());
+
+        assertFalse(accountManager.changeEmailAddress("invalidUrl"));
+
+        assertTrue(accountManager.changeEmailAddress(randomUrl));
+        assertEquals("nowy@mail.com", a1.getEmail());
+
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().minus(1, HOURS)));
+        assertFalse(accountManager.changeEmailAddress(randomUrl));
+
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+        oneTimeUrl.setActionType("invalid");
+        assertFalse(accountManager.changeEmailAddress(randomUrl));
+    }
+
+    @Test
+    void sendChangeEmailAddressUrl() {
+        a1.setLogin(login1);
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setUrl(randomUrl);
+        oneTimeUrl.setAccount(a1);
+        oneTimeUrl.setNewEmail("nowy@mail.com");
+
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(a1.getLogin()).thenReturn(login1);
+
+        accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "nowy@mail.com");
+
+        verify(oneTimeUrlFacadeLocal).create(urlCaptor.capture());
+
+        OneTimeUrl url = urlCaptor.getValue();
+
+        assertEquals(oneTimeUrl.getAccount(), url.getAccount());
+        assertEquals("e-mail", url.getActionType());
+        assertEquals(oneTimeUrl.getNewEmail(), url.getNewEmail());
+
+
     }
 }

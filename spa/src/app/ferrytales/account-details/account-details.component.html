@@ -1,81 +1,101 @@
 <div class="outer-div">
-    <div class="account-details">
-        <button class="edit-button">Edytuj konto</button>
+    <div class="account-details" id="accountDetails">
+        <div class="button-container">
+            <button class="edit-button"
+                    (click)="editUser(accountDetailsService.account.login)"
+                    i18n="Edit account|">Edytuj konto</button>
+            <button class="edit-button"
+                    (click)="changeChangePasswordFormVisible(true)"
+                    i18n="Change password|">Zmień hasło
+            </button>
+            <button class="edit-button"
+                    (click)="setLoginAccessLevels(accountDetailsService.account.login, accountDetailsService.account.accessLevel); changeAccessLevelFormVisible(true)"
+                    i18n="Edit access levels|">Edytuj poziomy dostępu
+            </button>
+            <button class="edit-button" (click)="getAccount()" i18n="Refresh|">Odśwież</button>
+        </div>
         <div class="col">
             <div class="row">
-                <label>Login:</label>
-                <label>{{accountDetailsService.account.login}}</label>
+                <label class="uppercase" i18n="Login|">Login:</label>
+                <label id="login">{{accountDetailsService.account.login}}</label>
             </div>
             <div class="row">
-                <label>Imię:</label>
-                <label>{{accountDetailsService.account.firstName}}</label>
+                <label class="uppercase" i18n="Name|">Imię:</label>
+                <label id="firstName">{{accountDetailsService.account.firstName}}</label>
             </div>
             <div class="row">
-                <label>Nazwisko:</label>
-                <label>{{accountDetailsService.account.lastName}}</label>
+                <label class="uppercase" i18n="Last name|">Nazwisko:</label>
+                <label id="lastName">{{accountDetailsService.account.lastName}}</label>
             </div>
             <div class="row">
-                <label>Adres email:</label>
-                <label>{{accountDetailsService.account.email}}</label>
-            </div>
-            <div class="row" *ngIf="accountDetailsService.account.accessLevel.some(hasClientAccessLevel)">
-                <label>Numer telefonu:</label>
-                <label>{{accountDetailsService.account.phoneNumber}}</label>
+                <label class="uppercase" i18n="E-mail address|">Adres email:</label>
+                <label id="email">{{accountDetailsService.account.email}}</label>
             </div>
             <div class="row">
-                <label>Język:</label>
+                <label class="uppercase" i18n="Phone number|">Numer telefonu:</label>
+                <label id="phoneNumber">{{accountDetailsService.account.phoneNumber}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" i18n="Language|">Język:</label>
                 <label>{{accountDetailsService.account.language}}</label>
             </div>
             <div class="row">
-                <label>Strefa czasowa:</label>
+                <label class="uppercase" i18n="Timezone|">Strefa czasowa:</label>
                 <label>{{accountDetailsService.account.timeZone}}</label>
             </div>
-            <div *ngIf="identityService.isAdmin()">
+            <div id="adminFields" *ngIf="identityService.isAdmin()">
                 <div class="row">
-                    <label>Aktywne:</label>
+                    <label class="uppercase" i18n="Active|">Aktywne:</label>
                     <label>{{accountDetailsService.account.active}}</label>
                 </div>
                 <div class="row">
-                    <label>Potwierdzone:</label>
+                    <label class="uppercase" i18n="Confirmed|">Potwierdzone:</label>
                     <label>{{accountDetailsService.account.confirmed}}</label>
                 </div>
                 <div class="row">
-                    <label>Data ostatniej modyfikacji:</label>
+                    <label class="uppercase" i18n="Last modification date|">Data ostatniej modyfikacji:</label>
                     <label>{{accountDetailsService.account.modificationDate}}</label>
                 </div>
                 <div class="row">
-                    <label>Autor ostatniej modyfikacji:</label>
-                    <label>{{accountDetailsService.account.modifiedBy}}</label>
+                    <label class="uppercase" i18n="Modified by|">Autor ostatniej modyfikacji:</label>
+                    <label>{{accountDetailsService.account.modifiedBy?.login}}</label>
                 </div>
                 <div class="row">
-                    <label>Data utworzenia:</label>
+                    <label class="uppercase" i18n="Creation date|">Data utworzenia:</label>
                     <label>{{accountDetailsService.account.creationDate}}</label>
                 </div>
                 <div class="row">
-                    <label>Data ostatniej udanej próby logowania:</label>
+                    <label class="uppercase" i18n="Last known good login|">Data ostatniej udanej próby logowania:</label>
                     <label>{{accountDetailsService.account.lastKnownGoodLogin}}</label>
                 </div>
                 <div class="row">
-                    <label>Adres ip ostatniej udanej próby logowania:</label>
+                    <label class="uppercase" i18n="Last known good login ip|">Adres ip ostatniej udanej próby logowania:</label>
                     <label>{{accountDetailsService.account.lastKnownGoodLoginIp}}</label>
                 </div>
                 <div class="row">
-                    <label>Data ostatniej nieudanej próby logowania:</label>
+                    <label class="uppercase" i18n="Last known bad login|">Data ostatniej nieudanej próby logowania:</label>
                     <label>{{accountDetailsService.account.lastKnownBadLogin}}</label>
                 </div>
                 <div class="row">
-                    <label>Adres ip ostatniej nieudanej próby logowania:</label>
+                    <label class="uppercase" i18n="Last known bad login ip|">Adres ip ostatniej nieudanej próby logowania:</label>
                     <label>{{accountDetailsService.account.lastKnownBadLoginIp}}</label>
                 </div>
                 <div class="row">
-                    <label>Liczba nieudanych prób logowania:</label>
+                    <label class="uppercase" i18n="Number of bad logins|">Liczba nieudanych prób logowania:</label>
                     <label>{{accountDetailsService.account.numberOfBadLogins}}</label>
                 </div>
             </div>
         </div>
-        <div>
-            <label>Poziomy dostępu:</label>
-            <app-access-level-table [accessLevels]="accountDetailsService.account.accessLevel"></app-access-level-table>
+        <hr/>
+        <div class="access-levels">
+            <label class="uppercase-access" i18n="Access levels|">Poziomy dostępu:</label>
+            <app-access-level-table id="accessLevels" [accessLevels]="accountDetailsService.account.accessLevel"></app-access-level-table>
         </div>
     </div>
 </div>
+<app-change-password-form *ngIf="isChangePasswordFormVisible"
+                          (isChangePasswordFormVisibleChange)="changeChangePasswordFormVisible($event)"></app-change-password-form>
+<app-access-level-form *ngIf="isAccessLevelFormVisible"
+                       (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"
+                       [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels">
+</app-access-level-form>

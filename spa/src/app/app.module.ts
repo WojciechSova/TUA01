@@ -16,9 +16,13 @@ import { PopularOffersComponent } from './main/popular-offers/popular-offers.com
 import { OfferComponent } from './main/popular-offers/offer/offer.component';
 import { UsersTableComponent } from './ferrytales/users-table/users-table.component';
 import { AccountDetailsComponent } from './ferrytales/account-details/account-details.component';
-import {IdentityService} from './services/utils/identity.service';
+import { IdentityService } from './services/utils/identity.service';
 import { AccessLevelTableComponent } from './ferrytales/account-details/access-level-table/access-level-table.component';
-import {RegistrationService} from "./services/registration.service";
+import { EditUserComponent } from './ferrytales/edit-user/edit-user.component';
+import { ChangePasswordFormComponent } from './ferrytales/change-password-form/change-password-form.component';
+import { AccessLevelFormComponent } from './ferrytales/access-level-form/access-level-form/access-level-form.component';
+import { SearchFilterPipe } from './ferrytales/users-table/searchFilter.pipe';
+import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-account.component';
 
 @NgModule({
     declarations: [
@@ -36,7 +40,12 @@ import {RegistrationService} from "./services/registration.service";
         OfferComponent,
         AccountDetailsComponent,
         AccessLevelTableComponent,
-        UsersTableComponent
+        UsersTableComponent,
+        EditUserComponent,
+        ChangePasswordFormComponent,
+        AccessLevelFormComponent,
+        SearchFilterPipe,
+        ConfirmAccountComponent
     ],
     imports: [
         BrowserModule,

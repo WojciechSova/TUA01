@@ -6,7 +6,7 @@
         <th>Autor ostatniej modyfikacji</th>
         <th>Data utworzenia</th>
     </tr>
-    <tr *ngFor="let accessLvl of accessLevels">
+    <tr class="access-tr" *ngFor="let accessLvl of accessLevels">
         <td>{{accessLvl.level}}</td>
         <td>{{accessLvl.active}}</td>
         <td>{{accessLvl.modificationDate}}</td>

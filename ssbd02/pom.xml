@@ -6,7 +6,7 @@
 
     <groupId>pl.lodz.p.it.ssbd2021.ssbd02</groupId>
     <artifactId>ssbd02</artifactId>
-    <version>v0.6.0</version>
+    <version>v0.7.0</version>
     <packaging>war</packaging>
 
     <name>ssbd02</name>
@@ -46,6 +46,9 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <angular.environment.script>runDev.bat</angular.environment.script>
+        <jdbc.config.src>src/dev/java</jdbc.config.src>
+        <mail.flag>true</mail.flag>
     </properties>
 
     <dependencies>
@@ -105,6 +108,11 @@
             <version>2.14.1</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.simplejavamail</groupId>
             <artifactId>simple-java-mail</artifactId>
             <version>6.5.2</version>
@@ -122,16 +130,62 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${jdbc.config.src}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
+        <profile>
+            <id>no-email</id>
+            <properties>
+                <mail.flag>false</mail.flag>
+            </properties>
+        </profile>
+        <profile>
+            <!-- ATTENTION profiles dev and prod need to be defined in pom before with-spa profile -->
+            <id>dev</id>
+            <properties>
+                <angular.environment.script>runDev.bat</angular.environment.script>
+                <jdbc.config.src>src/dev/java</jdbc.config.src>
+            </properties>
+        </profile>
+        <profile>
+            <!-- ATTENTION profiles dev and prod need to be defined in pom before with-spa profile -->
+            <id>prod</id>
+            <properties>
+                <angular.environment.script>runProd.bat</angular.environment.script>
+                <jdbc.config.src>src/prod/java</jdbc.config.src>
+            </properties>
+        </profile>
+
         <profile>
             <id>without-spa</id>
         </profile>
@@ -153,7 +207,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <executable>run.bat</executable>
+                            <executable>${angular.environment.script}</executable>
                             <workingDirectory>../scripts</workingDirectory>
                         </configuration>
                     </plugin>

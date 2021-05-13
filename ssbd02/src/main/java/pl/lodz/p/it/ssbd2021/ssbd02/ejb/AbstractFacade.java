@@ -44,8 +44,8 @@ public abstract class AbstractFacade<T> {
     }
 
     /**
-     * Metoda synchronizująca stan obiektu w kontekście utrwalania, opowiada za utworzenie kopii przekazanej encji,
-     * i dołączenie jej do kontektu utrwalania
+     * Metoda synchronizująca stan obiektu w kontekście utrwalania, odpowiada za utworzenie kopii przekazanej encji,
+     * i dołączenie jej do kontekstu utrwalania
      *
      * @param entity Encja typu T
      */
@@ -78,7 +78,7 @@ public abstract class AbstractFacade<T> {
      * Metoda pobierająca encje danego typu z podanego przedziału
      *
      * @param start Początek przedziału
-     * @param end Koniec przedziału (włącznie)
+     * @param end   Koniec przedziału (włącznie)
      * @return Kolekcja encji typu T z przekazanego przedziału
      */
     public List<T> findInRange(int start, int end) {

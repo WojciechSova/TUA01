@@ -49,4 +49,11 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> implements Ac
         typedQuery.setParameter("account", account);
         return typedQuery.getResultList();
     }
+
+    @Override
+    public List<AccessLevel> findAllActiveByAccount(Account account) {
+        TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findAllActiveByAccount", AccessLevel.class);
+        typedQuery.setParameter("account", account);
+        return typedQuery.getResultList();
+    }
 }

@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS Cruise CASCADE;
 DROP TABLE IF EXISTS Booking CASCADE;
 DROP TABLE IF EXISTS Cabin_type CASCADE;
 DROP TABLE IF EXISTS Vehicle_type CASCADE;
+DROP TABLE IF EXISTS One_time_url CASCADE;
 
 CREATE TABLE Account
 (
@@ -43,9 +44,9 @@ CREATE TABLE Personal_data
     modified_by              bigint,
     creation_date            timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     last_known_good_login    timestamp,
-    last_known_good_login_ip varchar(15),
+    last_known_good_login_ip varchar(39),
     last_known_bad_login     timestamp,
-    last_known_bad_login_ip  varchar(15),
+    last_known_bad_login_ip  varchar(39),
     number_of_bad_logins     int       DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
@@ -312,3 +313,26 @@ CREATE INDEX booking_account ON Booking USING btree (account);
 CREATE INDEX booking_cabin ON Booking USING btree (cabin);
 CREATE INDEX booking_vehicle_type ON Booking USING btree (vehicle_type);
 CREATE INDEX booking_number ON Booking USING btree (number);
+
+CREATE TABLE One_time_url
+(
+    id          bigint     NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    url         char(32)   NOT NULL,
+    account     bigint     NOT NULL,
+    action_type varchar(6) NOT NULL,
+    new_email   varchar(70),
+    expire_date timestamp  NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT expire_date_in_future CHECK (expire_date > CURRENT_TIMESTAMP),
+    CONSTRAINT fk_account_id FOREIGN KEY (account) REFERENCES Account (id),
+    CONSTRAINT one_time_url_url_unique UNIQUE (url),
+    CONSTRAINT one_time_url_account_action_type_unique UNIQUE (account, action_type)
+);
+
+ALTER TABLE One_time_url
+    OWNER TO ssbd02admin;
+
+GRANT SELECT, INSERT, DELETE ON TABLE One_time_url TO ssbd02mok;
+
+CREATE INDEX one_time_url_url ON One_time_url USING btree (url);
+CREATE INDEX one_time_url_account ON One_time_url USING btree (account);
