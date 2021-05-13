@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.HOURS;
+import static java.time.temporal.ChronoUnit.MINUTES;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -593,5 +594,58 @@ public class AccountManagerTest {
         assertEquals(oneTimeUrl.getNewEmail(), url.getNewEmail());
 
 
+    }
+
+    @Test
+    void sendPasswordResetAddressUrl() {
+        when(accountFacadeLocal.findByEmail(email3)).thenReturn(a3);
+        when(oneTimeUrlFacadeLocal.findByAccount(a3)).thenReturn(Collections.EMPTY_LIST);
+        a3.setLanguage("pl");
+        a3.setFirstName("Marek");
+
+        Timestamp before = Timestamp.from(Instant.now().plus(20, MINUTES));
+        accountManager.sendPasswordResetAddressUrl(email3);
+        Timestamp after = Timestamp.from(Instant.now().plus(20, MINUTES));
+
+        verify(oneTimeUrlFacadeLocal).create(urlCaptor.capture());
+
+        OneTimeUrl url = urlCaptor.getValue();
+
+        assertEquals(32, url.getUrl().length());
+        assertEquals("passwd", url.getActionType());
+        assertEquals(a3, url.getAccount());
+        assertNull(url.getNewEmail());
+        assertTrue(url.getExpireDate().getTime() >= before.getTime());
+        assertTrue(url.getExpireDate().getTime() <= after.getTime());
+
+        verify(emailSender).sendPasswordResetEmail("pl", "Marek", email3, url.getUrl());
+
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setActionType("passwd");
+        a3.setFirstName("Bartek");
+        when(oneTimeUrlFacadeLocal.findByAccount(a3)).thenReturn(List.of(oneTimeUrl));
+
+        before = Timestamp.from(Instant.now().plus(20, MINUTES));
+        accountManager.sendPasswordResetAddressUrl(email3);
+        after = Timestamp.from(Instant.now().plus(20, MINUTES));
+
+        assertTrue(oneTimeUrl.getExpireDate().getTime() >= before.getTime());
+        assertTrue(oneTimeUrl.getExpireDate().getTime() <= after.getTime());
+
+        verify(emailSender).sendPasswordResetEmail("pl", "Bartek", email3, oneTimeUrl.getUrl());
+    }
+
+    @Test
+    void resetPassword() {
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        oneTimeUrl.setActionType("passwd");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(10, MINUTES)));
+        a3.setPassword("pass");
+        oneTimeUrl.setAccount(a3);
+        when(oneTimeUrlFacadeLocal.findByUrl("testUrl")).thenReturn(oneTimeUrl);
+
+        accountManager.resetPassword("testUrl", "newPass");
+
+        assertEquals(DigestUtils.sha512Hex("newPass"), a3.getPassword());
     }
 }

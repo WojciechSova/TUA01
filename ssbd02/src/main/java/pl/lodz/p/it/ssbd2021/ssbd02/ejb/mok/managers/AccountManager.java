@@ -100,7 +100,7 @@ public class AccountManager implements AccountManagerLocal {
         accessLevelFacadeLocal.create(accessLevel);
         oneTimeUrlFacadeLocal.create(oneTimeUrl);
 
-        emailSender.sendRegistrationEmail(account.getLanguage() ,account.getFirstName(), account.getEmail(), oneTimeUrl.getUrl());
+        emailSender.sendRegistrationEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), oneTimeUrl.getUrl());
     }
 
     @Override
@@ -267,7 +267,7 @@ public class AccountManager implements AccountManagerLocal {
     public void notifyAdminAboutLogin(String login, String clientAddress) {
         Account account = accountFacadeLocal.findByLogin(login);
 
-        emailSender.sendAdminAuthenticationEmail(account.getLanguage() ,account.getFirstName(), account.getEmail(), clientAddress);
+        emailSender.sendAdminAuthenticationEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), clientAddress);
     }
 
     @Override
@@ -306,7 +306,7 @@ public class AccountManager implements AccountManagerLocal {
             return false;
         }
 
-        if(!oneTimeUrl.getActionType().equals("e-mail") || Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())){
+        if (!oneTimeUrl.getActionType().equals("e-mail") || Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())) {
             return false;
         }
 
@@ -350,9 +350,9 @@ public class AccountManager implements AccountManagerLocal {
             e.printStackTrace();
         }
 
-         List<OneTimeUrl> oneTimeUrls = oneTimeUrlFacadeLocal.findByAccount(account).stream()
-                 .filter(oneTimeUrl -> oneTimeUrl.getActionType().equals("passwd"))
-                 .collect(Collectors.toList());
+        List<OneTimeUrl> oneTimeUrls = oneTimeUrlFacadeLocal.findByAccount(account).stream()
+                .filter(oneTimeUrl -> oneTimeUrl.getActionType().equals("passwd"))
+                .collect(Collectors.toList());
 
         OneTimeUrl oneTimeUrl;
 
@@ -368,5 +368,20 @@ public class AccountManager implements AccountManagerLocal {
         oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
 
         emailSender.sendPasswordResetEmail(account.getLanguage(), account.getFirstName(), email, oneTimeUrl.getUrl());
+    }
+
+    @Override
+    public boolean resetPassword(String url, String newPassword) {
+        OneTimeUrl oneTimeUrl = oneTimeUrlFacadeLocal.findByUrl(url);
+
+        if (oneTimeUrl == null
+                || oneTimeUrl.getExpireDate().before(Timestamp.from(Instant.now()))
+                || !oneTimeUrl.getActionType().equals("passwd")) {
+            return false;
+        }
+
+        oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(newPassword));
+
+        return true;
     }
 }
