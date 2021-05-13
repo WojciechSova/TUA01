@@ -327,6 +327,10 @@ public class AccountManager implements AccountManagerLocal {
     public void sendChangeEmailAddressUrl(String login, String newEmailAddress) {
         Account account = accountFacadeLocal.findByLogin(login);
 
+        if(accountFacadeLocal.findAll().stream().anyMatch(a -> newEmailAddress.equals(a.getEmail()))){
+            throw new WebApplicationException("Provided email already exists in the database", 409);
+        }
+
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
         oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
         oneTimeUrl.setAccount(account);
