@@ -17,6 +17,9 @@ export class LoginComponent {
     @Output()
     isRegisterVisibleChange = new EventEmitter<boolean>();
 
+    @Output()
+    isResetPasswordVisibleChange = new EventEmitter<boolean>();
+
     login = '';
     password = '';
     error = false;
@@ -39,5 +42,10 @@ export class LoginComponent {
     openRegister(): void {
         this.isLoginVisibleChange.emit(false);
         this.isRegisterVisibleChange.emit(true);
+    }
+
+    openResetPassword(): void {
+        this.isLoginVisibleChange.emit(false);
+        this.isResetPasswordVisibleChange.emit(true);
     }
 }

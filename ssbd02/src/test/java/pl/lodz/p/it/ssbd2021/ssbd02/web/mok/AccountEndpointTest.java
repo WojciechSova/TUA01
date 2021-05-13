@@ -27,6 +27,9 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 
 class AccountEndpointTest {
 
@@ -228,6 +231,150 @@ class AccountEndpointTest {
         assertEquals(412, tagException.getResponse().getStatus());
         assertEquals("Not valid tag", tagException.getMessage());
     }
+
+    //region Update own account tests
+    @Test
+    void updateOwnAccountTest() {
+        doAnswer(invocationOnMock -> {
+            account.setVersion(1L);
+            accounts.set(0, account);
+            return null;
+        }).when(accountManager).updateAccount(any(), anyString());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("ExampleLogin");
+
+        accounts.clear();
+        account.setVersion(0L);
+        accounts.add(account);
+
+        String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())));
+
+        assertEquals(0L, accounts.get(0).getVersion());
+
+        Response response = accountEndpoint.updateOwnAccount(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())), securityContext, tag);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(1L, accounts.get(0).getVersion());
+        assertEquals(account.getLogin(), accounts.get(0).getLogin());
+    }
+
+    @Test
+    void updateOwnAccountExceptionNoLoginTest() {
+        Account accountNoLogin = createAccount();
+        accountNoLogin.setLogin(null);
+        accountNoLogin.setVersion(0L);
+
+        doAnswer(invocationOnMock -> {
+            accountNoLogin.setVersion(1L);
+            return null;
+        }).when(accountManager).updateAccount(any(), anyString());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("ExampleLogin");
+
+        String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(accountNoLogin, Collections.emptyList())));
+
+        WebApplicationException noLoginException = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                        .of(accountNoLogin, Collections.emptyList())), securityContext, tag));
+
+        assertEquals(400, noLoginException.getResponse().getStatus());
+        assertEquals("Not all required fields were provided", noLoginException.getMessage());
+    }
+
+    @Test
+    void updateOwnAccountExceptionNoVersionTest() {
+        Account accountNoVersion = createAccount();
+        accountNoVersion.setVersion(null);
+
+        doAnswer(invocationOnMock -> {
+            accountNoVersion.setVersion(1L);
+            return null;
+        }).when(accountManager).updateAccount(any(), anyString());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("ExampleLogin");
+
+        String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(accountNoVersion, Collections.emptyList())));
+
+        WebApplicationException noVersionException = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                        .of(accountNoVersion, Collections.emptyList())), securityContext, tag));
+
+        assertEquals(400, noVersionException.getResponse().getStatus());
+        assertEquals("Not all required fields were provided", noVersionException.getMessage());
+    }
+
+    @Test
+    void updateOwnAccountExceptionInvalidTagTest() {
+        doAnswer(invocationOnMock -> {
+            account.setVersion(1L);
+            return null;
+        }).when(accountManager).updateAccount(any(), anyString());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("ExampleLogin");
+
+        account.setVersion(0L);
+
+        String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())));
+
+        WebApplicationException invalidTagException = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                        .of(account, Collections.emptyList())), securityContext, "notAValidTag"));
+
+        assertEquals(412, invalidTagException.getResponse().getStatus());
+        assertEquals("ETag not valid", invalidTagException.getMessage());
+    }
+
+    @Test
+    void updateOwnAccountExceptionOutdatedTagTest() {
+        doAnswer(invocationOnMock -> {
+            account.setVersion(1L);
+            return null;
+        }).when(accountManager).updateAccount(any(), anyString());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("ExampleLogin");
+
+        account.setVersion(0L);
+
+        String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())));
+
+        account.setVersion(5L);
+
+        WebApplicationException invalidTagException = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                        .of(account, Collections.emptyList())), securityContext, tag));
+
+        assertEquals(412, invalidTagException.getResponse().getStatus());
+        assertEquals("ETag not valid", invalidTagException.getMessage());
+    }
+
+    @Test
+    void updateOwnAccountExceptionIdentityMismatchTest() {
+        doAnswer(invocationOnMock -> {
+            account.setVersion(1L);
+            return null;
+        }).when(accountManager).updateAccount(any(), anyString());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("DifferentLogin");
+
+        account.setVersion(0L);
+
+        String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
+                .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())));
+
+        WebApplicationException invalidTagException = assertThrows(WebApplicationException.class,
+                () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
+                        .of(account, Collections.emptyList())), securityContext, tag));
+
+        assertEquals(412, invalidTagException.getResponse().getStatus());
+        assertEquals("You can not change not your own account", invalidTagException.getMessage());
+    }
+    //endregion
 
     @Test
     void addAccessLevel() {

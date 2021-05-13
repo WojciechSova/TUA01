@@ -88,13 +88,13 @@ public class AccountManagerTest {
     void initMocks() {
         MockitoAnnotations.openMocks(this);
 
-        doNothing().when(emailSender).sendRegistrationEmail(anyString(), anyString(), anyString());
-        doNothing().when(emailSender).sendChangedActivityEmail(anyString(), anyString(), anyBoolean());
-        doNothing().when(emailSender).sendModificationEmail(anyString(), anyString());
-        doNothing().when(emailSender).sendAddAccessLevelEmail(anyString(), anyString(), anyString());
-        doNothing().when(emailSender).sendRemoveAccessLevelEmail(anyString(), anyString(), anyString());
-        doNothing().when(emailSender).sendRemovalEmail(anyString(), anyString());
-        doNothing().when(emailSender).sendAdminAuthenticationEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRegistrationEmail(anyString(), anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendChangedActivityEmail(anyString(), anyString(), anyString(), anyBoolean());
+        doNothing().when(emailSender).sendModificationEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendAddAccessLevelEmail(anyString(), anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRemoveAccessLevelEmail(anyString(), anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendRemovalEmail(anyString(), anyString(), anyString());
+        doNothing().when(emailSender).sendAdminAuthenticationEmail(anyString(), anyString(), anyString(), anyString());
 
         al5.setActive(false);
 
@@ -509,6 +509,8 @@ public class AccountManagerTest {
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
         oneTimeUrl.setUrl(randomUrl);
         oneTimeUrl.setAccount(a1);
+        oneTimeUrl.setActionType("verify");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
 
         when(oneTimeUrlFacadeLocal.findByUrl(randomUrl)).thenReturn(oneTimeUrl);
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
@@ -518,12 +520,21 @@ public class AccountManagerTest {
             return null;
         }).when(accountFacadeLocal).edit(any());
 
+        assertTrue(accountManager.confirmAccount(randomUrl));
+        assertTrue(a1.getActive());
+
         assertFalse(accountManager.confirmAccount(null));
 
         assertFalse(accountManager.confirmAccount("invalidUrl"));
 
-        assertTrue(accountManager.confirmAccount(randomUrl));
-        assertTrue(a1.getActive());
+        oneTimeUrl.setActionType("invalid");
+
+        assertFalse(accountManager.confirmAccount(randomUrl));
+
+        oneTimeUrl.setActionType("verify");
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().minus(1, HOURS)));
+
+        assertFalse(accountManager.confirmAccount(randomUrl));
     }
 
     @Test
