@@ -24,17 +24,32 @@ public class EmailSender implements EmailSenderLocal {
 
     private static final Properties prop = new Properties();
 
-    public void sendEmailChangeConfirmationEmail(String recipientName, String recipientEmailAddress, String link) {
+    /**
+     * Metoda pomocnicza, która zwraca dwuliterowy string w zależności jaki język posiada konto.
+     *
+     * @param accountLanguage Język przypisany do konta, na który ma zostać wysłany e-mail.
+     * @return String "pl" jeśli do konta jest przypisany język polski, w przeciwnym wypadku zwraca "en".
+     */
+    private static String getMessageLanguage(String accountLanguage) {
+        if (accountLanguage.toLowerCase().contains("pl")) {
+            return "pl";
+        } else {
+            return "en";
+        }
+    }
+
+    public void sendEmailChangeConfirmationEmail(String language, String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template.with.button")
-                    .replace("TITLE", prop.getProperty("mail.email.change.title"))
-                    .replace("TEXT", prop.getProperty("mail.email.change.text"))
+                    .replace("TITLE", prop.getProperty("mail.email.change.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.email.change.text." + messageLanguage))
                     .replace("LINK", prop.getProperty("mail.email.change.url") + link)
-                    .replace("BUTTON_TEXT", prop.getProperty("mail.email.change.button.text"));
-            String subject = prop.getProperty("mail.email.change.subject");
+                    .replace("BUTTON_CAPTION", prop.getProperty("mail.email.change.button.text." + messageLanguage));
+            String subject = prop.getProperty("mail.email.change.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -42,17 +57,18 @@ public class EmailSender implements EmailSenderLocal {
         }
     }
 
-    public void sendRegistrationEmail(String recipientName, String recipientEmailAddress, String link) {
+    public void sendRegistrationEmail(String language, String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template.with.button")
-                    .replace("TITLE", prop.getProperty("mail.registration.title"))
-                    .replace("TEXT", prop.getProperty("mail.registration.text"))
+                    .replace("TITLE", prop.getProperty("mail.registration.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.registration.text." + messageLanguage))
                     .replace("LINK", prop.getProperty("mail.registration.url") + link)
-                    .replace("BUTTON_TEXT", prop.getProperty("mail.registration.button.text"));
-            String subject = prop.getProperty("mail.registration.subject");
+                    .replace("BUTTON_CAPTION", prop.getProperty("mail.registration.button.text." + messageLanguage));
+            String subject = prop.getProperty("mail.registration.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -60,26 +76,26 @@ public class EmailSender implements EmailSenderLocal {
         }
     }
 
-    public void sendChangedActivityEmail(String recipientName, String recipientEmailAddress, boolean active) {
+    public void sendChangedActivityEmail(String language, String recipientName, String recipientEmailAddress, boolean active) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
             String htmlText;
 
+            String messageLanguage = getMessageLanguage(language);
             if (active) {
                 htmlText = prop.getProperty("mail.template")
-                        .replace("TITLE", prop.getProperty("mail.activity.title"))
-                        .replace("TEXT", prop.getProperty("mail.activity.text")
-                                .replace("CURRENT_ACTIVITY", "AKTYWNE"));
-            }
-            else {
+                        .replace("TITLE", prop.getProperty("mail.activity.title." + messageLanguage))
+                        .replace("TEXT", prop.getProperty("mail.activity.text." + messageLanguage)
+                                .replace("CURRENT_ACTIVITY", prop.getProperty("mail.activity.active." + messageLanguage)));
+            } else {
                 htmlText = prop.getProperty("mail.template")
-                        .replace("TITLE", prop.getProperty("mail.activity.title"))
-                        .replace("TEXT", prop.getProperty("mail.activity.text")
-                                .replace("CURRENT_ACTIVITY", "ZABLOKOWANE"));
+                        .replace("TITLE", prop.getProperty("mail.activity.title." + messageLanguage))
+                        .replace("TEXT", prop.getProperty("mail.activity.text." + messageLanguage)
+                                .replace("CURRENT_ACTIVITY", prop.getProperty("mail.activity.blocked." + messageLanguage)));
             }
-            String subject = prop.getProperty("mail.activity.subject");
+            String subject = prop.getProperty("mail.activity.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -87,15 +103,16 @@ public class EmailSender implements EmailSenderLocal {
         }
     }
 
-    public void sendModificationEmail(String recipientName, String recipientEmailAddress) {
+    public void sendModificationEmail(String language, String recipientName, String recipientEmailAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
-                    .replace("TITLE", prop.getProperty("mail.info.modification.title"))
-                    .replace("TEXT", prop.getProperty("mail.info.modification.text"));
-            String subject = prop.getProperty("mail.info.modification.subject");
+                    .replace("TITLE", prop.getProperty("mail.info.modification.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.info.modification.text." + messageLanguage));
+            String subject = prop.getProperty("mail.info.modification.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -103,16 +120,17 @@ public class EmailSender implements EmailSenderLocal {
         }
     }
 
-    public void sendAddAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
+    public void sendAddAccessLevelEmail(String language, String recipientName, String recipientEmailAddress, String accessLevel) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
-                    .replace("TITLE", prop.getProperty("mail.modification.add.access.level.title"))
-                    .replace("TEXT", prop.getProperty("mail.modification.add.access.level.text")
+                    .replace("TITLE", prop.getProperty("mail.modification.add.access.level.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.modification.add.access.level.text." + messageLanguage)
                             .replace("ACCESS_LEVEL", accessLevel));
-            String subject = prop.getProperty("mail.info.modification.subject");
+            String subject = prop.getProperty("mail.info.modification.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -120,16 +138,17 @@ public class EmailSender implements EmailSenderLocal {
         }
     }
 
-    public void sendRemoveAccessLevelEmail(String recipientName, String recipientEmailAddress, String accessLevel) {
+    public void sendRemoveAccessLevelEmail(String language, String recipientName, String recipientEmailAddress, String accessLevel) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
-                    .replace("TITLE", prop.getProperty("mail.modification.remove.access.level.title"))
-                    .replace("TEXT", prop.getProperty("mail.modification.remove.access.level.text")
+                    .replace("TITLE", prop.getProperty("mail.modification.remove.access.level.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.modification.remove.access.level.text." + messageLanguage)
                             .replace("ACCESS_LEVEL", accessLevel));
-            String subject = prop.getProperty("mail.info.modification.subject");
+            String subject = prop.getProperty("mail.info.modification.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -137,15 +156,16 @@ public class EmailSender implements EmailSenderLocal {
         }
     }
 
-    public void sendRemovalEmail(String recipientName, String recipientEmailAddress) {
+    public void sendRemovalEmail(String language, String recipientName, String recipientEmailAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
 
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
-                    .replace("TITLE", prop.getProperty("mail.info.removal.title"))
-                    .replace("TEXT", prop.getProperty("mail.info.removal.text"));
-            String subject = prop.getProperty("mail.info.removal.subject");
+                    .replace("TITLE", prop.getProperty("mail.info.removal.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.info.removal.text." + messageLanguage));
+            String subject = prop.getProperty("mail.info.removal.subject." + messageLanguage);
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
@@ -153,17 +173,19 @@ public class EmailSender implements EmailSenderLocal {
         }
     }
 
-    public void sendAdminAuthenticationEmail(String firstName, String email, String clientAddress) {
+    public void sendAdminAuthenticationEmail(String language, String firstName, String email, String clientAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
             String date = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(new Date());
+
+            String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
-                    .replace("TITLE", prop.getProperty("mail.info.admin.auth.title"))
-                    .replace("TEXT", prop.getProperty("mail.info.admin.auth.text")
+                    .replace("TITLE", prop.getProperty("mail.info.admin.auth.title." + messageLanguage))
+                    .replace("TEXT", prop.getProperty("mail.info.admin.auth.text." + messageLanguage)
                             .replace("IP_ADDRESS", clientAddress)
                             .replace("TIME", date));
-            String subject = prop.getProperty("mail.info.admin.auth.subject");
+            String subject = prop.getProperty("mail.info.admin.auth.subject." + messageLanguage);
 
             sendEmail(firstName, email, subject, htmlText);
         } catch (IOException ex) {

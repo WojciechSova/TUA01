@@ -68,6 +68,6 @@ public class SystemManager implements SystemManagerLocal {
                 .forEach(accessLevel -> accessLevelFacadeLocal.remove(accessLevel));
         accountsToDelete.forEach(account -> accountFacadeLocal.remove(account));
 
-        accountsToDelete.forEach(account -> emailSender.sendRemovalEmail(account.getFirstName(), account.getEmail()));
+        accountsToDelete.forEach(account -> emailSender.sendRemovalEmail(account.getLanguage() ,account.getFirstName(), account.getEmail()));
     }
 }
