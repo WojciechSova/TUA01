@@ -290,6 +290,7 @@ public class AccountManager implements AccountManagerLocal {
             Account account = accountFacadeLocal.findByLogin(oneTimeUrl.getAccount().getLogin());
             account.setConfirmed(true);
             accountFacadeLocal.edit(account);
+            oneTimeUrlFacadeLocal.remove(oneTimeUrl);
             return true;
         }
 
