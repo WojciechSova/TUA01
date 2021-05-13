@@ -203,7 +203,7 @@ public class AccountEndpoint {
             throw new WebApplicationException("ETag not valid", 412);
         }
         if (!accountDTO.getLogin().equals(securityContext.getUserPrincipal().getName())) {
-            throw new WebApplicationException("You can not chang not your own account", 412);
+            throw new WebApplicationException("You can not change not your own account", 412);
         }
         accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO), accountDTO.getLogin());
 
