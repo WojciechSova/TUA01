@@ -12,6 +12,10 @@
                     (click)="setLoginAccessLevels(accountDetailsService.account.login, accountDetailsService.account.accessLevel); changeAccessLevelFormVisible(true)"
                     i18n="Edit access levels|">Edytuj poziomy dostępu
             </button>
+            <button class="edit-button"
+                    (click)="changeEmailFormVisible(true)"
+                    i18n="Change e-mail address|">Zmień adres e-mail
+            </button>
             <button class="edit-button" (click)="getAccount()" i18n="Refresh|">Odśwież</button>
         </div>
         <div class="col">
@@ -97,5 +101,6 @@
                           (isChangePasswordFormVisibleChange)="changeChangePasswordFormVisible($event)"></app-change-password-form>
 <app-access-level-form *ngIf="isAccessLevelFormVisible"
                        (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"
-                       [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels">
-</app-access-level-form>
+                       [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels"></app-access-level-form>
+<app-change-email-form *ngIf="isChangeEmailFormVisible"
+                       (isChangeEmailFormVisible)="changeEmailFormVisible($event)"></app-change-email-form>

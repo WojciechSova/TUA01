@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { AccountDetails } from '../../model/mok/AccountDetails';
-import { IdentityService } from '../../services/utils/identity.service';
-import { AccessLevel } from '../../model/mok/AccessLevel';
-import { AccountDetailsService } from '../../services/account-details.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {AccountDetails} from '../../model/mok/AccountDetails';
+import {IdentityService} from '../../services/utils/identity.service';
+import {AccessLevel} from '../../model/mok/AccessLevel';
+import {AccountDetailsService} from '../../services/account-details.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-account-details',
@@ -20,6 +20,8 @@ export class AccountDetailsComponent {
     }
 
     isChangePasswordFormVisible = false;
+
+    isChangeEmailFormVisible = false;
 
     isAccessLevelFormVisible = false;
 
@@ -47,6 +49,10 @@ export class AccountDetailsComponent {
 
     changeChangePasswordFormVisible(visible: boolean): void {
         this.isChangePasswordFormVisible = visible;
+    }
+
+    changeEmailFormVisible(visible: boolean): void {
+        this.isChangeEmailFormVisible = visible;
     }
 
     changeAccessLevelFormVisible(visible: boolean): void {

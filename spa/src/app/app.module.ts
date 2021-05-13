@@ -20,10 +20,11 @@ import { IdentityService } from './services/utils/identity.service';
 import { AccessLevelTableComponent } from './ferrytales/account-details/access-level-table/access-level-table.component';
 import { EditUserComponent } from './ferrytales/edit-user/edit-user.component';
 import { ChangePasswordFormComponent } from './ferrytales/change-password-form/change-password-form.component';
-import { AccessLevelFormComponent } from './ferrytales/access-level-form/access-level-form/access-level-form.component';
+import { AccessLevelFormComponent } from './ferrytales/access-level-form/access-level-form.component';
 import { SearchFilterPipe } from './ferrytales/users-table/searchFilter.pipe';
 import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-account.component';
 import { ResetPasswordComponent } from './common/navigation/reset-password/reset-password.component';
+import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-email-form.component';
 
 @NgModule({
     declarations: [
@@ -47,7 +48,8 @@ import { ResetPasswordComponent } from './common/navigation/reset-password/reset
         AccessLevelFormComponent,
         SearchFilterPipe,
         ConfirmAccountComponent,
-        ResetPasswordComponent
+        ResetPasswordComponent,
+        ChangeEmailFormComponent
     ],
     imports: [
         BrowserModule,
