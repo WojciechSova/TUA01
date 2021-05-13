@@ -13,11 +13,13 @@ public class AccountsListPage {
     protected WebDriver driver;
     private final By usersTable = By.id("users");
     private final By tableHeader = By.tagName("th");
-    private final By detailsBtn = By.id("details");
+    private final By detailsButton = By.id("details");
     private final By tableData = By.tagName("td");
     private final By tableRow = By.tagName("tr");
     private final By tableDataLogin = By.xpath("./td[1]");
     private final By blockUnblockButton = By.xpath("./td[5]/button");
+    private final By tableDataAccessLevels = By.xpath("./td[4]");
+    private final By tableDataAccessLevelsButton = By.xpath("./td[6]/button");
 
     public AccountsListPage(WebDriver driver) {
         this.driver = driver;
@@ -33,8 +35,13 @@ public class AccountsListPage {
 
     public ProfileDetailsPage openAnotherUserProfileDetails() {
         driver.switchTo().defaultContent();
-        driver.findElement(detailsBtn).click();
+        driver.findElement(detailsButton).click();
         return new ProfileDetailsPage(driver);
+    }
+
+    public ChangeAccessLevelsPage openChangeAccessLevelsForm(String login) {
+        getUserWithLogin(login).findElement(tableDataAccessLevelsButton).click();
+        return new ChangeAccessLevelsPage(driver);
     }
 
     public List<String> getTableData() {
@@ -91,5 +98,9 @@ public class AccountsListPage {
     public boolean isUserActive(String login) {
         return getUserWithLogin(login)
                 .findElement(blockUnblockButton).getText().equals("Zablokuj");
+    }
+
+    public String getAccessLevels(String login) {
+        return getUserWithLogin(login).findElement(tableDataAccessLevels).getText();
     }
 }

@@ -23,6 +23,7 @@ import { ChangePasswordFormComponent } from './ferrytales/change-password-form/c
 import { AccessLevelFormComponent } from './ferrytales/access-level-form/access-level-form.component';
 import { SearchFilterPipe } from './ferrytales/users-table/searchFilter.pipe';
 import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-account.component';
+import { ResetPasswordComponent } from './common/navigation/reset-password/reset-password.component';
 import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-email-form.component';
 
 @NgModule({
@@ -47,6 +48,7 @@ import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-
         AccessLevelFormComponent,
         SearchFilterPipe,
         ConfirmAccountComponent,
+        ResetPasswordComponent,
         ChangeEmailFormComponent
     ],
     imports: [
