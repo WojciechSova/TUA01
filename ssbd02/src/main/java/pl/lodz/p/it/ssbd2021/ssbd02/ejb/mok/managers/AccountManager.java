@@ -297,7 +297,7 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
-    public boolean changeEmailAddress(String url) {
+    public boolean changeEmailAddress(String url, String modifiedBy) {
         if (url == null) {
             return false;
         }
@@ -315,6 +315,7 @@ public class AccountManager implements AccountManagerLocal {
         if (url.equals(oneTimeUrl.getUrl())) {
             Account account = accountFacadeLocal.findByLogin(oneTimeUrl.getAccount().getLogin());
             account.setEmail(oneTimeUrl.getNewEmail());
+            account.setModifiedBy(accountFacadeLocal.findByLogin(modifiedBy));
             accountFacadeLocal.edit(account);
             return true;
         }
