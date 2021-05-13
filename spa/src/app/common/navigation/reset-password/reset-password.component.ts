@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-reset-password',
@@ -35,7 +35,6 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     openLogin(): void {
-        console.log('a');
         this.isResetPasswordVisibleChange.emit(false);
         this.isLoginVisibleChange.emit(true);
     }
