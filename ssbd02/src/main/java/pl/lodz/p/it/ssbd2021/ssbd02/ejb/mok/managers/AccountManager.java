@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import static java.time.temporal.ChronoUnit.HOURS;
+import static java.time.temporal.ChronoUnit.*;
 
 /**
  * Manager kont
@@ -133,8 +133,6 @@ public class AccountManager implements AccountManagerLocal {
         account.setLastKnownGoodLoginIp(clientAddress);
         account.setNumberOfBadLogins(0);
     }
-
-    //TODO: method that will handle account confirmation
 
     @Override
     public void updateAccount(Account account, String modifiedBy) throws WebApplicationException {
@@ -337,5 +335,38 @@ public class AccountManager implements AccountManagerLocal {
 
         emailSender.sendEmailChangeConfirmationEmail(account.getLanguage(), account.getFirstName(), newEmailAddress, oneTimeUrl.getUrl());
 
+    }
+
+    @Override
+    public void sendPasswordResetAddressUrl(String email) {
+        Account account = accountFacadeLocal.findByEmail(email);
+
+        long expirationTime = 20 * 60 * 1000;
+
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            expirationTime = Long.parseLong(prop.getProperty("system.time.password.reset"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+         List<OneTimeUrl> oneTimeUrls = oneTimeUrlFacadeLocal.findByAccount(account).stream()
+                 .filter(oneTimeUrl -> oneTimeUrl.getActionType().equals("passwd"))
+                 .collect(Collectors.toList());
+
+        OneTimeUrl oneTimeUrl;
+
+        if (!oneTimeUrls.isEmpty()) {
+            oneTimeUrl = oneTimeUrls.get(0);
+        } else {
+            oneTimeUrl = new OneTimeUrl();
+            oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
+            oneTimeUrl.setAccount(account);
+            oneTimeUrl.setActionType("passwd");
+            oneTimeUrlFacadeLocal.create(oneTimeUrl);
+        }
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
+
+        emailSender.sendPasswordResetEmail(account.getLanguage(), account.getFirstName(), email, oneTimeUrl.getUrl());
     }
 }

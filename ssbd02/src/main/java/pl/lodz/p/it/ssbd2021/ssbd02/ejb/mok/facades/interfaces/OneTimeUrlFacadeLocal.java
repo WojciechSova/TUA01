@@ -1,9 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacadeInterface;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 
 import javax.ejb.Local;
+import java.util.List;
 
 /**
  * Interfejs encji modułu obsługi kont.
@@ -22,4 +24,12 @@ public interface OneTimeUrlFacadeLocal extends AbstractFacadeInterface<OneTimeUr
      * @return Obiekt typu {@link OneTimeUrl} o przekazanym adresie URL
      */
     OneTimeUrl findByUrl(String url);
+
+    /**
+     * Metoda wyszukująca listę encji typu {@link OneTimeUrl} o przekazanym koncie.
+     *
+     * @param account Konto którego adresów URL szukamy
+     * @return Lista obiektów typu {@link OneTimeUrl} o przekazanym koncie
+     */
+    List<OneTimeUrl> findByAccount(Account account);
 }

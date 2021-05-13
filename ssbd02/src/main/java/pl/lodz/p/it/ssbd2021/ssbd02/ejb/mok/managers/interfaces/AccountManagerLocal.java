@@ -142,4 +142,15 @@ public interface AccountManagerLocal {
      * @param newEmailAddress Nowy adres email
      */
     void sendChangeEmailAddressUrl(String login, String newEmailAddress);
+
+    /**
+     * Metoda wysyłająca wiadomość email z adresem służącym do resetowania hasła.
+     * W przypadku, kiedy w bazie danych znajduje się już adres URL przypisany do tej akcji,
+     * nie jest tworzony nowy adres URL a w wiadomości email znajduje się poprzednio wygenerowany adres,
+     * którego okres ważności jest resetowany.
+     * Okres ważności pobierany jest z pliku system.properties a domyślna wartość to 20 minut.
+     *
+     * @param email Adres email użytkownika, którego hasło ma zostać zresetowane
+     */
+    void sendPasswordResetAddressUrl(String email);
 }
