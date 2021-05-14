@@ -10,6 +10,7 @@ public class AdminMainPage {
     private final By currentUsersLevel = By.id("currentLevel");
     private final By accountsLink = By.id("accountsLink");
     private final By errorMessageId = By.id("invalidCredentialsLabel");
+    private final By logOutLink = By.id("logoutLink");
 
     public AdminMainPage(WebDriver driver) {
         this.driver = driver;
@@ -46,5 +47,17 @@ public class AdminMainPage {
 
     public By getErrorMessageId() {
         return errorMessageId;
+    }
+
+    public AccountDetailsPage openAccountDetails() {
+        driver.switchTo().defaultContent();
+        driver.findElement(currentUser).click();
+        return new AccountDetailsPage(driver);
+    }
+
+    public MainPage logOut() {
+        driver.switchTo().defaultContent();
+        driver.findElement(logOutLink).click();
+        return new MainPage(driver);
     }
 }
