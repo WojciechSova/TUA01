@@ -53,6 +53,7 @@ public class JWTGenerator {
      * Metoda aktualizująca token JWT
      *
      * @param serializedJWT Aktualny token JWT
+     * @param accessLevels  Aktualne poziomy dostępu użytkownika
      * @return Zaktualizowany token JWT
      */
     public static String updateJWT(String serializedJWT, String accessLevels) {
