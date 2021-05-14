@@ -139,10 +139,9 @@ public interface AccountManagerLocal {
      * Metoda zmieniająca adres email użytkownika.
      *
      * @param url Kod potwierdzający nowy adres email
-     * @param modifiedBy Login użytkownika, który edytuje encję
      * @return Prawda jeżeli uda się potwierdzić adres email, w przeciwnym wypadku fałsz
      */
-    boolean changeEmailAddress(String url, String modifiedBy);
+    boolean changeEmailAddress(String url);
 
     /**
      * Metoda wysyłająca wiadomość na nowy adres email z linkiem potwierdzającym jego zmianę.

@@ -7,6 +7,7 @@ import { AccountDetailsComponent } from './ferrytales/account-details/account-de
 import { UsersTableComponent } from './ferrytales/users-table/users-table.component';
 import { EditUserComponent } from './ferrytales/edit-user/edit-user.component';
 import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-account.component';
+import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'example-component', component: ExampleComponentComponent },
@@ -19,7 +20,8 @@ const ferrytalesChildren: Routes = [
 const routes: Routes = [
     { path: '', component: MainPageComponent },
     { path: 'ferrytales', component: FerrytalesComponent, children: ferrytalesChildren },
-    { path: 'confirm/account/:url', component: ConfirmAccountComponent }
+    { path: 'confirm/account/:url', component: ConfirmAccountComponent },
+    { path: 'confirm/email/:url', component: ConfirmEmailChangeComponent }
 ];
 
 @NgModule({

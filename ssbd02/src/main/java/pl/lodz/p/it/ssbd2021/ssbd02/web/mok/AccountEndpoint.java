@@ -310,15 +310,14 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca zmianę adresu e-mail przypisanego do konta
      *
-     * @param url             Kod służący do potwierdzenia zmiany adresu e-mail
-     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param url Kod służący do potwierdzenia zmiany adresu e-mail
      * @return Kod 200 w przypadku poprawnego potwierdzenia zmiany adresu e-mail, w przeciwnym razie kod 400
      */
     @PUT
-    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
+    @PermitAll
     @Path("confirm/email/{url}")
-    public Response changeEmailAddress(@PathParam("url") String url, @Context SecurityContext securityContext) {
-        if (accountManager.changeEmailAddress(url, securityContext.getUserPrincipal().getName())) {
+    public Response changeEmailAddress(@PathParam("url") String url) {
+        if (accountManager.changeEmailAddress(url)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
