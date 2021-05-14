@@ -32,8 +32,6 @@ public class ProfileDetailsPage {
                         driver.findElement(adminFields).isDisplayed() &&
                         driver.findElement(accessLevelsField).isDisplayed();
             case "CLIENT":
-                return areCommonFieldsDisplayed() &&
-                        driver.findElement(phoneNumberField).isDisplayed();
             case "EMPLOYEE":
                 return areCommonFieldsDisplayed();
         }
@@ -45,7 +43,8 @@ public class ProfileDetailsPage {
                 driver.findElement(loginField).isDisplayed() &&
                 driver.findElement(firstNameField).isDisplayed() &&
                 driver.findElement(lastNameField).isDisplayed() &&
-                driver.findElement(emailField).isDisplayed();
+                driver.findElement(emailField).isDisplayed() &&
+                driver.findElement(phoneNumberField).isDisplayed();
     }
 
     public List<String> getData() {

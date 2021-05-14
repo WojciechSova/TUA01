@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -67,10 +66,10 @@ public class ShowProfileTest {
                 () -> assertEquals(adminData.get(1), adminFirstName),
                 () -> assertEquals(adminData.get(2), adminLastName),
                 () -> assertEquals(adminData.get(3), adminEmail),
-                () -> assertEquals(adminData.get(6), Boolean.TRUE.toString().toLowerCase(Locale.ROOT)),
-                () -> assertEquals(adminData.get(7), Boolean.TRUE.toString().toLowerCase(Locale.ROOT))
+                () -> assertEquals(adminData.get(7), Boolean.TRUE.toString().toLowerCase(Locale.ROOT)),
+                () -> assertEquals(adminData.get(8), Boolean.TRUE.toString().toLowerCase(Locale.ROOT))
         );
-        assertThrows(NoSuchElementException.class, () -> profileDetailsPage.areProperFieldsDisplayed("CLIENT"));
+        assertDoesNotThrow(() -> profileDetailsPage.areProperFieldsDisplayed("ADMIN"));
     }
 
     @Test
