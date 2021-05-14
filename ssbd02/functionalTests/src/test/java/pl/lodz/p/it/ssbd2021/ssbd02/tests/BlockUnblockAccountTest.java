@@ -36,7 +36,7 @@ public class BlockUnblockAccountTest {
     }
 
     @Test
-    public void blockUnblockAccountTest() throws InterruptedException {
+    public void blockUnblockAccountTest() {
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.openLoginForm();
         AdminMainPage adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
