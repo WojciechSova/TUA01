@@ -347,6 +347,10 @@ public class AccountManager implements AccountManagerLocal {
     public void sendPasswordResetAddressUrl(String email) {
         Account account = accountFacadeLocal.findByEmail(email);
 
+        if (account == null) {
+            return;
+        }
+
         long expirationTime = 20 * 60 * 1000;
 
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
@@ -364,14 +368,15 @@ public class AccountManager implements AccountManagerLocal {
 
         if (!oneTimeUrls.isEmpty()) {
             oneTimeUrl = oneTimeUrls.get(0);
+            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
         } else {
             oneTimeUrl = new OneTimeUrl();
             oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
             oneTimeUrl.setAccount(account);
             oneTimeUrl.setActionType("passwd");
+            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
             oneTimeUrlFacadeLocal.create(oneTimeUrl);
         }
-        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
 
         emailSender.sendPasswordResetEmail(account.getLanguage(), account.getFirstName(), email, oneTimeUrl.getUrl());
     }
@@ -387,7 +392,10 @@ public class AccountManager implements AccountManagerLocal {
         }
 
         oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(newPassword));
+        oneTimeUrl.getAccount().setModifiedBy(null);
+        oneTimeUrl.getAccount().setModificationDate(Timestamp.from(Instant.now()));
 
+        oneTimeUrlFacadeLocal.remove(oneTimeUrl);
         return true;
     }
 }

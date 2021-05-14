@@ -579,4 +579,64 @@ class AccountEndpointTest {
         response = accountEndpoint.changeEmailAddress("invalid", securityContext);
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
+
+    @Test
+    void sendPasswordResetAddressUrl() {
+        String email1 = "email@a.com";
+        Response response;
+
+        response = accountEndpoint.sendPasswordResetAddressUrl(email1);
+
+        verify(accountManager).sendPasswordResetAddressUrl(email1);
+        assertEquals(200, response.getStatus());
+
+        try {
+            accountEndpoint.sendPasswordResetAddressUrl("wrongEmail");
+        } catch (WebApplicationException e) {
+            assertEquals(400, e.getResponse().getStatus());
+            assertEquals("Invalid email format", e.getLocalizedMessage());
+        }
+
+        try {
+            accountEndpoint.sendPasswordResetAddressUrl("  ");
+        } catch (WebApplicationException e) {
+            assertEquals(400, e.getResponse().getStatus());
+            assertEquals("No email provided", e.getLocalizedMessage());
+        }
+
+
+        try {
+            accountEndpoint.sendPasswordResetAddressUrl(null);
+        } catch (WebApplicationException e) {
+            assertEquals(400, e.getResponse().getStatus());
+            assertEquals("No email provided", e.getLocalizedMessage());
+        }
+
+    }
+
+    @Test
+    void resetPassword() {
+        String url = "RkbuoN5REPt6TzMvBcUHWQmtKcBaDO4c";
+        String newPassword = "newPassword";
+
+        Response response = accountEndpoint.resetPassword(url, newPassword);
+
+        verify(accountManager).resetPassword(url, newPassword);
+
+        assertEquals(200, response.getStatus());
+
+        try {
+            accountEndpoint.resetPassword("shortUrl", newPassword);
+        } catch (WebApplicationException e) {
+            assertEquals(400, e.getResponse().getStatus());
+            assertEquals("Invalid URL", e.getLocalizedMessage());
+        }
+
+        try {
+            accountEndpoint.resetPassword(url, "new");
+        } catch (WebApplicationException e) {
+            assertEquals(406, e.getResponse().getStatus());
+            assertEquals("New password too short", e.getLocalizedMessage());
+        }
+    }
 }
