@@ -4,6 +4,7 @@ import { IdentityService } from '../../services/utils/identity.service';
 import { AccessLevel } from '../../model/mok/AccessLevel';
 import { AccountDetailsService } from '../../services/account-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-account-details',
@@ -16,7 +17,6 @@ export class AccountDetailsComponent {
                 public accountDetailsService: AccountDetailsService,
                 private route: ActivatedRoute,
                 private router: Router) {
-        this.getAccount();
     }
 
     isChangePasswordFormVisible = false;
@@ -32,17 +32,15 @@ export class AccountDetailsComponent {
         this.loginAccessLevels = accessLevelsStringTab;
     }
 
-    hasClientAccessLevel(accessLevel: AccessLevel): boolean {
-        return accessLevel.level === 'CLIENT';
-    }
-
     getAccount(): void {
         const login = (this.route.snapshot.paramMap.get('login') as string);
         if (!login) {
             return;
         }
         this.accountDetailsService.getAccountDetails(login).subscribe(
-            (accountDetails: AccountDetails) => this.accountDetailsService.account = accountDetails);
+            (response: HttpResponse<AccountDetails>) => {
+                this.accountDetailsService.readAccountAndEtagFromResponse(response);
+            });
     }
 
     changeChangePasswordFormVisible(visible: boolean): void {

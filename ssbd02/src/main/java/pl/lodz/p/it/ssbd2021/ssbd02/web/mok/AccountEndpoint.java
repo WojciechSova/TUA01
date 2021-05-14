@@ -95,7 +95,9 @@ public class AccountEndpoint {
         AccountDetailsDTO account = AccountMapper.createAccountDetailsDTOFromEntities(
                 accountManager.getAccountWithLogin(securityContext.getUserPrincipal().getName())
         );
-        return Response.ok(account)
+        return Response.ok()
+                .entity(account)
+                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(account))
                 .build();
     }
 

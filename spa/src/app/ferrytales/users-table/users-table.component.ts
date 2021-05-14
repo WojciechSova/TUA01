@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AccountGeneral } from '../../model/mok/AccountGeneral';
 import { AccountGeneralService } from '../../services/account-general.service';
 import { Router } from '@angular/router';
+import { AccountDetailsService } from '../../services/account-details.service';
+import {AccountDetails} from '../../model/mok/AccountDetails';
 
 @Component({
     selector: 'app-users-table',
@@ -16,7 +18,9 @@ export class UsersTableComponent {
     loginToChangeAccessLevel = '';
     loginAccessLevels = [''];
 
-    constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
+    constructor(private accountGeneralService: AccountGeneralService,
+                private accountDetailsService: AccountDetailsService,
+                private router: Router) {
         this.getAccounts();
     }
 
@@ -34,8 +38,13 @@ export class UsersTableComponent {
         return this.accountGeneralService.accountGeneralList;
     }
 
-    setUser(login: string): void {
-        this.router.navigate(['/ferrytales/accounts', login]);
+    showUserDetails(login: string): void {
+        this.accountDetailsService.getAccountDetails(login).subscribe(
+            (response) => {
+                this.accountDetailsService.readAccountAndEtagFromResponse(response);
+                this.router.navigate(['/ferrytales/accounts', login]);
+            }
+        );
     }
 
     changeAccessLevelFormVisible(visible: boolean): void {

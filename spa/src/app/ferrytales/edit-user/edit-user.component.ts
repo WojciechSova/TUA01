@@ -5,6 +5,8 @@ import { AccountDetailsService } from '../../services/account-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateAccountService } from '../../services/update-account.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { IdentityService } from '../../services/utils/identity.service';
 
 @Component({
     selector: 'app-edit-user',
@@ -16,8 +18,8 @@ export class EditUserComponent implements OnInit {
     constructor(public accountDetailsService: AccountDetailsService,
                 private route: ActivatedRoute,
                 private updateAccountService: UpdateAccountService,
-                private router: Router) {
-        this.getAccount();
+                private router: Router,
+                private identityService: IdentityService) {
     }
 
     public existingPhoneNumber = false;
@@ -73,10 +75,11 @@ export class EditUserComponent implements OnInit {
         if (!login) {
             return;
         }
-        this.updateAccountService.getAccountETag(login).subscribe(resp => {
-            this.updateAccountService.eTag = resp.headers.get('ETag') as string;
-            this.accountDetailsService.account = resp.body as AccountDetails;
-        });
+        if (!(this.identityService.getLogin() === this.accountDetailsService.account.login)) {
+            this.updateAccountService.getAccountETag(login).subscribe(resp => {
+                this.accountDetailsService.readAccountAndEtagFromResponse(resp);
+            });
+        }
     }
 
     editUser(firstName?: string, lastName?: string, phoneNumber?: string, language?: string, timeZone?: string): void {
@@ -97,7 +100,7 @@ export class EditUserComponent implements OnInit {
             acc.timeZone = timeZone;
         }
 
-        this.updateAccountService.updateAccount(acc).subscribe(
+        this.sendEditRequest(acc).subscribe(
             () => {
                 this.router.navigate(['ferrytales/accounts/' + acc.login]);
                 this.updating = true;
@@ -109,6 +112,14 @@ export class EditUserComponent implements OnInit {
                 }
             }
         );
+    }
+
+    sendEditRequest(acc: AccountDetails): Observable<object> {
+        if (localStorage.getItem('login') === acc.login) {
+            return this.updateAccountService.updateOwnAccount(acc);
+        } else {
+            return this.updateAccountService.updateAccount(acc);
+        }
     }
 
     ngOnInit(): void {
