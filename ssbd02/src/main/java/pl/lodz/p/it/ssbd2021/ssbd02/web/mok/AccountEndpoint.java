@@ -353,7 +353,8 @@ public class AccountEndpoint {
      *
      * @param url         Jednorazowy adres url potwierdzający możliwość zmiany hasła.
      * @param newPassword Nowe hasło użytkownika.
-     * @return Kod 200 w przypadku poprawnie skonstruowanego żądania. Kod 400 w przypadku nieprawidłowej długości url lub hasła.
+     * @return Kod 200 w przypadku poprawnie skonstruowanego żądania.
+     * Kod 400 w przypadku nieprawidłowej długości url lub 406 w przypadku niepoprawnej dłuygości nowego hasła.
      */
     @PUT
     @PermitAll

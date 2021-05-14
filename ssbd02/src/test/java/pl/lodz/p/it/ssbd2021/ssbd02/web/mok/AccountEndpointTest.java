@@ -635,7 +635,7 @@ class AccountEndpointTest {
         try {
             accountEndpoint.resetPassword(url, "new");
         } catch (WebApplicationException e) {
-            assertEquals(400, e.getResponse().getStatus());
+            assertEquals(406, e.getResponse().getStatus());
             assertEquals("New password too short", e.getLocalizedMessage());
         }
     }
