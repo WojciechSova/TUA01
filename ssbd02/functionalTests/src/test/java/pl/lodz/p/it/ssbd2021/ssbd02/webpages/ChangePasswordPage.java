@@ -49,7 +49,6 @@ public class ChangePasswordPage {
     }
 
     public void changePassword(String oldPassword, String newPassword, String newPasswordRepeat) {
-        driver.switchTo().defaultContent();
         driver.findElement(this.oldPassword).sendKeys(oldPassword);
         driver.findElement(this.newPassword).sendKeys(newPassword);
         driver.findElement(this.newPasswordRepeat).sendKeys(newPasswordRepeat);

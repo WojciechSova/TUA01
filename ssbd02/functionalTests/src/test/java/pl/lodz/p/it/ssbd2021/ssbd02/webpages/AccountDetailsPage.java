@@ -13,7 +13,6 @@ public class AccountDetailsPage {
     }
 
     public ChangePasswordPage openChangePasswordPage() {
-        driver.switchTo().defaultContent();
         driver.findElement(changePasswordBtn).click();
         return new ChangePasswordPage(driver);
     }

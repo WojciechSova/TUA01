@@ -40,16 +40,13 @@ public class ChangePasswordTest {
     public void initEach() {
         driver = new ChromeDriver(options);
         driver.get(url);
-        driverWait = new WebDriverWait(driver, 5);
+        driverWait = new WebDriverWait(driver, 25);
     }
 
     @Test
     public void changePasswordTest() {
         logIn(adminPassword);
         changePassword(adminPassword, newPassword, newPassword);
-
-        driver.switchTo().defaultContent();
-        assertThrows(Exception.class, () -> driver.findElement(changePasswordPage.getForm()).isDisplayed());
 
         mainPage = adminMainPage.logOut();
 
