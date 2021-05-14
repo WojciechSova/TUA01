@@ -27,11 +27,13 @@
                            [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}"
                            (ngModelChange)="existingPhoneNumber = false">
                 </div>
-                <div class="edit-validation-error"
+                <div id="invalid-number-error"
+                    class="edit-validation-error"
                      *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
                      i18n="Invalid format|">Niepoprawny format
                 </div>
-                <div class="edit-validation-error" *ngIf="existingPhoneNumber" i18n="Provided phone number already exists|">Podany numer telefonu już istnieje
+                <div id="existing-number-error"
+                    class="edit-validation-error" *ngIf="existingPhoneNumber" i18n="Provided phone number already exists|">Podany numer telefonu już istnieje
                 </div>
 
                 <div class="row">
