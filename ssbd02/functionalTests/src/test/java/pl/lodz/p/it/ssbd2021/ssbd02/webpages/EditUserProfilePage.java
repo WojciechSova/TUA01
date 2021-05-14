@@ -10,6 +10,8 @@ public class EditUserProfilePage {
     private By lastNameEdit = By.id("edit-lastName");
     private By phoneNumberEdit = By.id("edit-phoneNumber");
     private By saveBtn = By.id("saveBtn");
+    private By invalidNumberError = By.id("invalid-number-error");
+    private By existingNumberError = By.id("existing-number-error");
 
     public EditUserProfilePage(WebDriver driver) {
         this.driver = driver;
@@ -22,5 +24,17 @@ public class EditUserProfilePage {
         driver.findElement(saveBtn).click();
 
         return new ProfileDetailsPage(driver);
+    }
+
+    public By getInvalidNumberError() {
+        return invalidNumberError;
+    }
+
+    public By getExistingNumberError() {
+        return existingNumberError;
+    }
+
+    public By getFirstNameEdit() {
+        return firstNameEdit;
     }
 }

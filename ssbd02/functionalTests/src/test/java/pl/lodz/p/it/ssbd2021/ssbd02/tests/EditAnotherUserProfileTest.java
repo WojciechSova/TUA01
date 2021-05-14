@@ -1,7 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.tests;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,29 +16,31 @@ import pl.lodz.p.it.ssbd2021.ssbd02.webpages.*;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EditAnotherUserProfileTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private WebDriver driver;
-    private final String url = "https://localhost:8181/#";
+    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
     private final String adminLogin = "admin";
     private final String adminPassword = "password?";
     private final String newFirstName = "noweImie";
     private final String newLastName = "noweNazwisko";
     private final String newPhoneNumber = "48000000000";
+    private final String existingPhoneNumber = "48123456789";
+    private WebDriver driver;
+    private String userLogin;
     private ProfileDetailsPage profileDetailsPage;
     private EditUserProfilePage editUserProfilePage;
+    private AdminMainPage adminMainPage;
 
     @BeforeAll
     static void initAll() {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
-        //options.setHeadless(true);
+        options.setHeadless(true);
     }
 
     @BeforeEach
@@ -46,22 +52,7 @@ public class EditAnotherUserProfileTest {
 
     @Test
     public void editUserTest() {
-        MainPage mainPage = new MainPage(driver);
-        LoginPage loginPage = mainPage.openLoginForm();
-        AdminMainPage adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
-
-        driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
-
-        AccountsListPage accountsListPage = adminMainPage.openAccountsList();
-
-        driver.navigate().refresh();
-        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts")));
-
-        List<WebElement> tableData = accountsListPage.getTableContent();
-        String userLogin = tableData.get(0).getText();
-        profileDetailsPage = accountsListPage.openAnotherUserProfileDetails(tableData.get(6));
-
-        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts/").concat(userLogin)));
+        logInAndOpenDetails();
 
         String firstName = driver.findElement(profileDetailsPage.getFirstNameField()).getText();
         String lastName = driver.findElement(profileDetailsPage.getLastNameField()).getText();
@@ -82,6 +73,43 @@ public class EditAnotherUserProfileTest {
         );
 
         editData(firstName, lastName, phoneNumber);
+    }
+
+    @Test
+    public void invalidPhoneNumberErrorTest() {
+        logInAndOpenDetails();
+
+        editData(newFirstName, newLastName, newPhoneNumber.substring(0, 5));
+        driver.findElement(editUserProfilePage.getFirstNameEdit()).sendKeys(Keys.SHIFT);
+        assertTrue(driver.findElement(editUserProfilePage.getInvalidNumberError()).isDisplayed());
+    }
+
+    @Test
+    public void existingPhoneNumberErrorTest() {
+        logInAndOpenDetails();
+
+        editData(newFirstName, newLastName, existingPhoneNumber);
+        driver.findElement(editUserProfilePage.getFirstNameEdit()).sendKeys(Keys.SHIFT);
+        assertTrue(driver.findElement(editUserProfilePage.getExistingNumberError()).isDisplayed());
+    }
+
+    private void logInAndOpenDetails() {
+        MainPage mainPage = new MainPage(driver);
+        LoginPage loginPage = mainPage.openLoginForm();
+        adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
+
+        driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
+
+        AccountsListPage accountsListPage = adminMainPage.openAccountsList();
+
+        driver.navigate().refresh();
+        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts")));
+
+        List<WebElement> tableData = accountsListPage.getTableContent();
+        userLogin = tableData.get(0).getText();
+        profileDetailsPage = accountsListPage.openAnotherUserProfileDetails(tableData.get(6));
+
+        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts/").concat(userLogin)));
     }
 
     private void editData(String firstName, String lastName, String phoneNumber) {
