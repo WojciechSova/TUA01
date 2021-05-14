@@ -1,20 +1,14 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTGenerator;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
 
 import javax.security.enterprise.CallerPrincipal;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
-
 import java.util.Base64;
 import java.util.Collections;
 
@@ -60,7 +54,7 @@ class JWTGeneratorTest {
     @Test
     void updateJWT() {
         String jwt = JWTGenerator.generateJWT(credentialValidationResult);
-        String updatedJwt = JWTGenerator.updateJWT(jwt);
+        String updatedJwt = JWTGenerator.updateJWT(jwt, "current");
 
         String[] separatedUpdatedJwt = updatedJwt.split("\\.");
         String updatedJwtHeader = new String(Base64.getDecoder().decode(separatedUpdatedJwt[0]));
@@ -69,6 +63,6 @@ class JWTGeneratorTest {
         Assertions.assertTrue(updatedJwtHeader.contains(algorithm));
         Assertions.assertTrue(updatedJwtPayload.contains(issuer));
         Assertions.assertTrue(updatedJwtPayload.contains(subject));
-        Assertions.assertTrue(updatedJwtPayload.contains(auth));
+        Assertions.assertTrue(updatedJwtPayload.contains("current"));
     }
 }

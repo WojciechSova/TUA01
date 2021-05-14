@@ -49,16 +49,23 @@ public class JWTGenerator {
         return "";
     }
 
-    public static String updateJWT(String serializedJWT) {
+    /**
+     * Metoda aktualizująca token JWT
+     *
+     * @param serializedJWT Aktualny token JWT
+     * @return Zaktualizowany token JWT
+     */
+    public static String updateJWT(String serializedJWT, String accessLevels) {
         try {
             JWSSigner jwsSigner = new MACSigner(SecurityConstants.SECRET);
             JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
 
             SignedJWT previousSignedJWT = SignedJWT.parse(serializedJWT);
             JWTClaimsSet previousJWTClaimsSet = previousSignedJWT.getJWTClaimsSet();
+
             JWTClaimsSet newJWTClaimsSet = new JWTClaimsSet.Builder()
                     .subject(previousJWTClaimsSet.getSubject())
-                    .claim(SecurityConstants.AUTH, previousJWTClaimsSet.getClaim(SecurityConstants.AUTH))
+                    .claim(SecurityConstants.AUTH, accessLevels)
                     .issuer(previousJWTClaimsSet.getIssuer())
                     .expirationTime(new Date(new Date().getTime() + SecurityConstants.EXPIRATION_TIME))
                     .build();
