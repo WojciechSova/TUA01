@@ -365,7 +365,7 @@ public class AccountEndpoint {
         }
 
         if (newPassword.length() < 8) {
-            throw new WebApplicationException("New password too short", 400);
+            throw new WebApplicationException("New password too short", 406);
         }
 
         accountManager.resetPassword(url, newPassword);

@@ -395,6 +395,7 @@ public class AccountManager implements AccountManagerLocal {
         oneTimeUrl.getAccount().setModifiedBy(null);
         oneTimeUrl.getAccount().setModificationDate(Timestamp.from(Instant.now()));
 
+        oneTimeUrlFacadeLocal.remove(oneTimeUrl);
         return true;
     }
 }
