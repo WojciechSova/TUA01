@@ -46,10 +46,10 @@ export class UsersTableComponent {
 
     sortByLogin(): void {
         this.accountGeneralService.accountGeneralList.sort((a, b) => {
-            if (a.login < b.login) {
+            if (a.login.toLowerCase() < b.login.toLowerCase()) {
                 return -1;
             }
-            if (a.login > b.login) {
+            if (a.login.toLowerCase() > b.login.toLowerCase()) {
                 return 1;
             }
             return 0;
@@ -58,10 +58,10 @@ export class UsersTableComponent {
 
     sortByFirstName(): void {
         this.accountGeneralService.accountGeneralList.sort((a, b) => {
-            if (a.firstName < b.firstName) {
+            if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
                 return -1;
             }
-            if (a.firstName > b.firstName) {
+            if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) {
                 return 1;
             }
             return 0;
@@ -70,10 +70,10 @@ export class UsersTableComponent {
 
     sortByLastName(): void {
         this.accountGeneralService.accountGeneralList.sort((a, b) => {
-            if (a.lastName < b.lastName) {
+            if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
                 return -1;
             }
-            if (a.lastName > b.lastName) {
+            if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
                 return 1;
             }
             return 0;
