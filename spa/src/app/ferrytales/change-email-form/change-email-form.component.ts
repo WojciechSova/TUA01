@@ -38,7 +38,7 @@ export class ChangeEmailFormComponent implements OnInit {
                 this.closeComponent();
             },
             (err: HttpErrorResponse) => {
-                if (err.status === 406) {
+                if (err.status === 409) {
                     this.existingEmail = true;
                 }
             }
