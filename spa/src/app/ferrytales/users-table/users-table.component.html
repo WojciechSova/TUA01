@@ -29,10 +29,10 @@
             <td>
                 <div *ngIf="user.active; then block else unblock">{{user['active']}}</div>
                 <ng-template #unblock>
-                    <button class="button-user-table button-unblock" (click)="unblockAccount(user.login)" i18n="Unblock|">Odblokuj</button>
+                    <button class="button-user-table button-unblock" id="unblockButton" (click)="unblockAccount(user.login)" i18n="Unblock|">Odblokuj</button>
                 </ng-template>
                 <ng-template #block>
-                    <button class="button-user-table button-block" (click)="blockAccount(user.login)" i18n="Block|">Zablokuj</button>
+                    <button class="button-user-table button-block" id="blockButton" (click)="blockAccount(user.login)" i18n="Block|">Zablokuj</button>
                 </ng-template>
             </td>
             <td>

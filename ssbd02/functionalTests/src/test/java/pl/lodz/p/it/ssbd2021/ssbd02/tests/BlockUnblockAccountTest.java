@@ -36,7 +36,7 @@ public class BlockUnblockAccountTest {
     }
 
     @Test
-    public void blockUnblockAccountTest() {
+    public void blockUnblockAccountTest() throws InterruptedException {
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.openLoginForm();
         AdminMainPage adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
@@ -44,21 +44,22 @@ public class BlockUnblockAccountTest {
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 
         AccountsListPage accountsListPage = adminMainPage.openAccountsList();
-        String activeUserLogin = accountsListPage.getActiveUserLogin();
-        accountsListPage.changeUserActivity(activeUserLogin);
+
+        driverWait.until(ExpectedConditions.visibilityOfElementLocated(accountsListPage.getUsersTable()));
+
+        String login = accountsListPage.getActiveUserLogin();
+        accountsListPage.changeUserActivity(login);
 
         driverWait.until(ExpectedConditions
-                .invisibilityOf(accountsListPage.getUserWithLogin(activeUserLogin).findElement(accountsListPage.getBlockUnblockButton())));
+                .invisibilityOf(accountsListPage.getUserWithLogin(login).findElement(accountsListPage.getBlockUnblockButton())));
 
-        Assertions.assertFalse(accountsListPage.isUserActive(activeUserLogin));
-
-        String inactiveUserLogin = accountsListPage.getInactiveUserLogin();
-        accountsListPage.changeUserActivity(inactiveUserLogin);
+        Assertions.assertFalse(accountsListPage.isUserActive(login));
+        accountsListPage.changeUserActivity(login);
 
         driverWait.until(ExpectedConditions
-                .invisibilityOf(accountsListPage.getUserWithLogin(inactiveUserLogin).findElement(accountsListPage.getBlockUnblockButton())));
+                .invisibilityOf(accountsListPage.getUserWithLogin(login).findElement(accountsListPage.getBlockUnblockButton())));
 
-        Assertions.assertTrue(accountsListPage.isUserActive(inactiveUserLogin));
+        Assertions.assertTrue(accountsListPage.isUserActive(login));
     }
 
     @AfterEach
