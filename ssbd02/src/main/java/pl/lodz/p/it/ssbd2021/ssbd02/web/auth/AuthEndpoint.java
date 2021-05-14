@@ -74,12 +74,11 @@ public class AuthEndpoint {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response updateJWT(@Context HttpServletRequest httpServletRequest) {
+    public Response refreshToken(@Context HttpServletRequest httpServletRequest) {
         String authHeader = httpServletRequest.getHeader(SecurityConstants.AUTHORIZATION);
         String serializedJWT = authHeader.substring(SecurityConstants.BEARER.length()).trim();
-        String login;
         try {
-            login = SignedJWT.parse(serializedJWT).getJWTClaimsSet().getSubject();
+            String login = SignedJWT.parse(serializedJWT).getJWTClaimsSet().getSubject();
             if (accountManagerLocal.getAccountWithLogin(login).getKey().getActive()) {
                 return Response.accepted()
                         .entity(JWTGenerator.updateJWT(serializedJWT))

@@ -1,5 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,5 +55,20 @@ class JWTGeneratorTest {
         Assertions.assertTrue(payload.contains(issuer));
         Assertions.assertTrue(payload.contains(subject));
         Assertions.assertTrue(payload.contains(auth));
+    }
+
+    @Test
+    void updateJWT() {
+        String jwt = JWTGenerator.generateJWT(credentialValidationResult);
+        String updatedJwt = JWTGenerator.updateJWT(jwt);
+
+        String[] separatedUpdatedJwt = updatedJwt.split("\\.");
+        String updatedJwtHeader = new String(Base64.getDecoder().decode(separatedUpdatedJwt[0]));
+        String updatedJwtPayload = new String(Base64.getDecoder().decode(separatedUpdatedJwt[1]));
+
+        Assertions.assertTrue(updatedJwtHeader.contains(algorithm));
+        Assertions.assertTrue(updatedJwtPayload.contains(issuer));
+        Assertions.assertTrue(updatedJwtPayload.contains(subject));
+        Assertions.assertTrue(updatedJwtPayload.contains(auth));
     }
 }
