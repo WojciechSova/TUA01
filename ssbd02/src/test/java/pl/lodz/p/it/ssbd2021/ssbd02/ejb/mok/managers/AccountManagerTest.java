@@ -646,11 +646,18 @@ public class AccountManagerTest {
         oneTimeUrl.setActionType("passwd");
         oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(10, MINUTES)));
         a3.setPassword("pass");
+        a3.setModifiedBy(a1);
         oneTimeUrl.setAccount(a3);
         when(oneTimeUrlFacadeLocal.findByUrl("testUrl")).thenReturn(oneTimeUrl);
 
+        Timestamp before = Timestamp.from(Instant.now());
         accountManager.resetPassword("testUrl", "newPass");
+        Timestamp after = Timestamp.from(Instant.now());
+
 
         assertEquals(DigestUtils.sha512Hex("newPass"), a3.getPassword());
+        assertTrue(a3.getModificationDate().getTime() >= before.getTime());
+        assertTrue(a3.getModificationDate().getTime() <= after.getTime());
+        assertNull(a3.getModifiedBy());
     }
 }

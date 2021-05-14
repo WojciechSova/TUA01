@@ -332,7 +332,7 @@ CREATE TABLE One_time_url
 ALTER TABLE One_time_url
     OWNER TO ssbd02admin;
 
-GRANT SELECT, INSERT, DELETE ON TABLE One_time_url TO ssbd02mok;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE One_time_url TO ssbd02mok;
 
 CREATE INDEX one_time_url_url ON One_time_url USING btree (url);
 CREATE INDEX one_time_url_account ON One_time_url USING btree (account);
