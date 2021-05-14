@@ -32,10 +32,8 @@ export class UsersTableComponent {
     getAccounts(): void {
         this.accountGeneralService.getAccounts().subscribe(
             (response: AccountGeneral[]) => {
-                this.byLogin && this.sortByLogin();
-                this.byFirstName && this.sortByFirstName();
-                this.byLastName && this.sortByLastName();
                 this.accountGeneralService.accountGeneralList = response;
+                this.listAccounts();
             });
     }
 
