@@ -559,18 +559,17 @@ public class AccountManagerTest {
             return null;
         }).when(accountFacadeLocal).edit(any());
 
-        assertFalse(accountManager.changeEmailAddress("invalidUrl", a1.getLogin()));
+        assertFalse(accountManager.changeEmailAddress("invalidUrl"));
 
-        assertTrue(accountManager.changeEmailAddress(randomUrl, a1.getLogin()));
+        assertTrue(accountManager.changeEmailAddress(randomUrl));
         assertEquals("nowy@mail.com", a1.getEmail());
-        assertEquals(a1, a1.getModifiedBy());
 
         oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().minus(1, HOURS)));
-        assertFalse(accountManager.changeEmailAddress(randomUrl, a1.getLogin()));
+        assertFalse(accountManager.changeEmailAddress(randomUrl));
 
         oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
         oneTimeUrl.setActionType("invalid");
-        assertFalse(accountManager.changeEmailAddress(randomUrl, a1.getLogin()));
+        assertFalse(accountManager.changeEmailAddress(randomUrl));
     }
 
     @Test

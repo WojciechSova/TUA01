@@ -5,7 +5,7 @@
         </div>
         <form class="edit-form" [formGroup]="form">
             <label for="email"></label>
-            <input type="text" id="email" name="Email"
+            <input type="text" id="email" name="Email" #email
                    placeholder="*Adres e-mail" i18n-placeholder="*Email address|" formControlName="email"
                    [ngClass]="{'is-invalid': form.controls.email.touched && form.controls.email.invalid}">
 
@@ -13,6 +13,8 @@
                  i18n="Field required|">Pole wymagane</div>
             <div class="validation-error" *ngIf="form.controls.email.hasError('email') && form.controls.email.touched"
                  i18n="Invalid format|">Niepoprawny format</div>
+            <div class="validation-error" *ngIf="existingEmail" i18n="Provided email already exists|">Podany adres e-mail już istnieje
+            </div>
 
             <label for="email-repeat"></label>
             <input type="text" id="email-repeat" name="Email-repeat"
@@ -26,7 +28,7 @@
                  i18n="Emails differ|">Adresy nie są takie same</div>
         </form>
         <div class="bottom-center">
-            <button class="form-button" i18n="Confirm|">Zatwierdź</button>
+            <button class="form-button" [disabled]="form.invalid" (click)="changeEmail(email.value)" i18n="Confirm|">Zatwierdź</button>
             <img class="return-arrow" (click)="closeComponent()" src="assets/back-arrow.png" alt=""/>
         </div>
     </div>

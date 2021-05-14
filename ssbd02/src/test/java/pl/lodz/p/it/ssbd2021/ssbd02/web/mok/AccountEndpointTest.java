@@ -536,12 +536,12 @@ class AccountEndpointTest {
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn("login");
 
-        response = accountEndpoint.sendChangeEmailAddressUrl("nowy@mail.com", securityContext);
+        response = accountEndpoint.sendChangeEmailAddressUrl("email@mail.pl", securityContext);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 
         verify(accountManager).sendChangeEmailAddressUrl(loginCaptor.capture(), emailCaptor.capture());
         assertEquals("login", loginCaptor.getValue());
-        assertEquals("nowy@mail.com", emailCaptor.getValue());
+        assertEquals("email@mail.pl", emailCaptor.getValue());
 
         response = accountEndpoint.sendChangeEmailAddressUrl("nowy", securityContext);
         assertEquals(Response.Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
@@ -561,7 +561,7 @@ class AccountEndpointTest {
         Response response;
         String url = "url";
 
-        when(accountManager.changeEmailAddress(url, account.getLogin())).thenReturn(true);
+        when(accountManager.changeEmailAddress(url)).thenReturn(true);
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn("login");
 
@@ -569,14 +569,13 @@ class AccountEndpointTest {
             account.setEmail("nowy@mail.com");
             account.setModifiedBy(account);
             return true;
-        }).when(accountManager).changeEmailAddress(url, "login");
+        }).when(accountManager).changeEmailAddress(url);
 
-        response = accountEndpoint.changeEmailAddress(url, securityContext);
+        response = accountEndpoint.changeEmailAddress(url);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("nowy@mail.com", account.getEmail());
-        assertEquals(account, account.getModifiedBy());
 
-        response = accountEndpoint.changeEmailAddress("invalid", securityContext);
+        response = accountEndpoint.changeEmailAddress("invalid");
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 }
