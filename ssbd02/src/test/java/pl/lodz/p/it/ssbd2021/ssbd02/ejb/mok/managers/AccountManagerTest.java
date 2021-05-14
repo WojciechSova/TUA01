@@ -112,7 +112,7 @@ public class AccountManagerTest {
     }
 
     @Test
-    void getAllAccountsWithAccessLevelsTest() {
+    void getAllAccountsWithActiveAccessLevelsTest() {
         when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(a1, a2));
         when(accessLevelFacadeLocal.findAllActiveByAccount(a1)).thenReturn(accessLevels1);
         when(accessLevelFacadeLocal.findAllActiveByAccount(a2)).thenReturn(accessLevels2);
@@ -131,6 +131,28 @@ public class AccountManagerTest {
         assertEquals(a2, testedPairList.get(1).getKey());
         assertTrue(testedPairList.get(1).getValue().stream()
                 .noneMatch(accessLevel -> accessLevel.equals(al5)));
+    }
+
+    @Test
+    void getAccountWithLoginTest() {
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
+        assertEquals(Pair.of(a1, accessLevels1), accountManager.getAccountWithLogin(login1));
+        assertEquals(a1, accountManager.getAccountWithLogin(login1).getLeft());
+        assertEquals(a1, accountManager.getAccountWithLogin(login1).getKey());
+        assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getRight());
+        assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getValue());
+    }
+
+    @Test
+    void getAccountWithActiveAccessLevels() {
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accessLevelFacadeLocal.findAllActiveByAccount(a1)).thenReturn(accessLevels1);
+        assertEquals(Pair.of(a1, accessLevels1), accountManager.getAccountWithActiveAccessLevels(login1));
+        assertEquals(a1, accountManager.getAccountWithActiveAccessLevels(login1).getLeft());
+        assertEquals(a1, accountManager.getAccountWithActiveAccessLevels(login1).getKey());
+        assertEquals(accessLevels1, accountManager.getAccountWithActiveAccessLevels(login1).getRight());
+        assertEquals(accessLevels1, accountManager.getAccountWithActiveAccessLevels(login1).getValue());
     }
 
     @Test
@@ -203,17 +225,6 @@ public class AccountManagerTest {
 
         assertEquals(409, exceptionA4.getResponse().getStatus());
         assertEquals("Such phone number exists", exceptionA4.getMessage());
-    }
-
-    @Test
-    void getAccountWithLoginTest() {
-        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
-        when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
-        assertEquals(Pair.of(a1, accessLevels1), accountManager.getAccountWithLogin(login1));
-        assertEquals(a1, accountManager.getAccountWithLogin(login1).getLeft());
-        assertEquals(a1, accountManager.getAccountWithLogin(login1).getKey());
-        assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getRight());
-        assertEquals(accessLevels1, accountManager.getAccountWithLogin(login1).getValue());
     }
 
     @Test

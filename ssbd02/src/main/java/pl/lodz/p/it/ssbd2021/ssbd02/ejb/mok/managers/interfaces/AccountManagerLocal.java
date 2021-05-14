@@ -33,6 +33,14 @@ public interface AccountManagerLocal {
     Pair<Account, List<AccessLevel>> getAccountWithLogin(String login);
 
     /**
+     * Metoda wyszukująca konto wraz z jego aktywnymi poziomami dostępu.
+     *
+     * @param login Login konta, które chcemy wyszukać
+     * @return Para reprezentująca konto, składająca się z klucza typu {@link Account} i wartości będącej listą obiektów typu {@link AccessLevel}
+     */
+    Pair<Account, List<AccessLevel>> getAccountWithActiveAccessLevels(String login);
+
+    /**
      * Metoda tworząca konto wraz z początkowym poziomem dostępu klienta
      *
      * @param account Encja typu {@link Account}
