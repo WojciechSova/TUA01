@@ -21,6 +21,8 @@ export class AccountDetailsComponent {
 
     isChangePasswordFormVisible = false;
 
+    isChangeEmailFormVisible = false;
+
     isAccessLevelFormVisible = false;
 
     loginToChangeAccessLevel = '';
@@ -30,6 +32,10 @@ export class AccountDetailsComponent {
         const accessLevelsStringTab = accessLevels.map((accessLevel) => accessLevel.level);
         this.loginToChangeAccessLevel = login;
         this.loginAccessLevels = accessLevelsStringTab;
+    }
+
+    hasClientAccessLevel(accessLevel: AccessLevel): boolean {
+        return accessLevel.level === 'CLIENT';
     }
 
     getAccount(): void {
@@ -45,6 +51,10 @@ export class AccountDetailsComponent {
 
     changeChangePasswordFormVisible(visible: boolean): void {
         this.isChangePasswordFormVisible = visible;
+    }
+
+    changeEmailFormVisible(visible: boolean): void {
+        this.isChangeEmailFormVisible = visible;
     }
 
     changeAccessLevelFormVisible(visible: boolean): void {

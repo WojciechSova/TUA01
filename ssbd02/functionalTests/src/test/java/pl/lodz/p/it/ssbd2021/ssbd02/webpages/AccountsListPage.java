@@ -72,7 +72,7 @@ public class AccountsListPage {
     public String getActiveUserLogin() {
         WebElement element = getTableRows()
                 .stream()
-                .filter(row -> row.findElement(blockUnblockButton).getText().equals("Zablokuj"))
+                .filter(row -> row.findElement(blockUnblockButton).getAttribute("id").equals("blockButton"))
                 .findFirst()
                 .get();
 
@@ -87,7 +87,7 @@ public class AccountsListPage {
                 .get();
     }
 
-    public void blockUser(String login) {
+    public void changeUserActivity(String login) {
         getUserWithLogin(login).findElement(blockUnblockButton).click();
     }
 
@@ -97,7 +97,7 @@ public class AccountsListPage {
 
     public boolean isUserActive(String login) {
         return getUserWithLogin(login)
-                .findElement(blockUnblockButton).getText().equals("Zablokuj");
+                .findElement(blockUnblockButton).getAttribute("id").equals("blockButton");
     }
 
     public String getAccessLevels(String login) {

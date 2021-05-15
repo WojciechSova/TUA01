@@ -1,10 +1,16 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.auth;
 
+import com.nimbusds.jwt.SignedJWT;
+import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTGenerator;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;
@@ -12,13 +18,13 @@ import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.ParseException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
@@ -70,6 +76,37 @@ public class AuthEndpoint {
                 .type("application/jwt")
                 .entity(JWTGenerator.generateJWT(result))
                 .build();
+    }
+
+    /**
+     * Metoda obsługująca odświeżanie tokenu na podstawie aktualnego tokenu.
+     *
+     * @param httpServletRequest Obiekt reprezentujący żądanie
+     * @return Gdy konto jest aktywne, zwraca w odpowiedzi zaktualizowany token JWT,
+     * gdy konto jest nieaktywne, zwraca odpowiedź o kodzie błędu HTTP 403 - Forbidden,
+     * w przypadku wystąpienia wyjątku ParseException, zwraca odpowiedź o kodzie błędu HTTP 400 - Bad request
+     */
+    @GET
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response refreshToken(@Context HttpServletRequest httpServletRequest) {
+        String authHeader = httpServletRequest.getHeader(SecurityConstants.AUTHORIZATION);
+        String serializedJWT = authHeader.substring(SecurityConstants.BEARER.length()).trim();
+        try {
+            String login = SignedJWT.parse(serializedJWT).getJWTClaimsSet().getSubject();
+            Pair<Account, List<AccessLevel>> account = accountManagerLocal.getAccountWithActiveAccessLevels(login);
+            String accessLevels = account.getValue().stream().map(AccessLevel::getLevel)
+                    .collect(Collectors.joining(SecurityConstants.GROUP_SPLIT_CONSTANT));
+            if (account.getKey().getActive()) {
+                return Response.accepted()
+                        .entity(JWTGenerator.updateJWT(serializedJWT, accessLevels))
+                        .build();
+            } else {
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
+        } catch (ParseException e) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
     }
 
     private String getClientIp(HttpServletRequest req) {

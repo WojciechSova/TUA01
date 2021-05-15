@@ -536,12 +536,12 @@ class AccountEndpointTest {
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn("login");
 
-        response = accountEndpoint.sendChangeEmailAddressUrl("nowy@mail.com", securityContext);
+        response = accountEndpoint.sendChangeEmailAddressUrl("email@mail.pl", securityContext);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 
         verify(accountManager).sendChangeEmailAddressUrl(loginCaptor.capture(), emailCaptor.capture());
         assertEquals("login", loginCaptor.getValue());
-        assertEquals("nowy@mail.com", emailCaptor.getValue());
+        assertEquals("email@mail.pl", emailCaptor.getValue());
 
         response = accountEndpoint.sendChangeEmailAddressUrl("nowy", securityContext);
         assertEquals(Response.Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
@@ -561,7 +561,7 @@ class AccountEndpointTest {
         Response response;
         String url = "url";
 
-        when(accountManager.changeEmailAddress(url, account.getLogin())).thenReturn(true);
+        when(accountManager.changeEmailAddress(url)).thenReturn(true);
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn("login");
 
@@ -569,14 +569,73 @@ class AccountEndpointTest {
             account.setEmail("nowy@mail.com");
             account.setModifiedBy(account);
             return true;
-        }).when(accountManager).changeEmailAddress(url, "login");
+        }).when(accountManager).changeEmailAddress(url);
 
-        response = accountEndpoint.changeEmailAddress(url, securityContext);
+        response = accountEndpoint.changeEmailAddress(url);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("nowy@mail.com", account.getEmail());
-        assertEquals(account, account.getModifiedBy());
 
-        response = accountEndpoint.changeEmailAddress("invalid", securityContext);
+        response = accountEndpoint.changeEmailAddress("invalid");
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    void sendPasswordResetAddressUrl() {
+        String email1 = "email@a.com";
+        Response response;
+
+        response = accountEndpoint.sendPasswordResetAddressUrl(email1);
+
+        verify(accountManager).sendPasswordResetAddressUrl(email1);
+        assertEquals(200, response.getStatus());
+
+        try {
+            accountEndpoint.sendPasswordResetAddressUrl("wrongEmail");
+        } catch (WebApplicationException e) {
+            assertEquals(400, e.getResponse().getStatus());
+            assertEquals("Invalid email format", e.getLocalizedMessage());
+        }
+
+        try {
+            accountEndpoint.sendPasswordResetAddressUrl("  ");
+        } catch (WebApplicationException e) {
+            assertEquals(400, e.getResponse().getStatus());
+            assertEquals("No email provided", e.getLocalizedMessage());
+        }
+
+
+        try {
+            accountEndpoint.sendPasswordResetAddressUrl(null);
+        } catch (WebApplicationException e) {
+            assertEquals(400, e.getResponse().getStatus());
+            assertEquals("No email provided", e.getLocalizedMessage());
+        }
+
+    }
+
+    @Test
+    void resetPassword() {
+        String url = "RkbuoN5REPt6TzMvBcUHWQmtKcBaDO4c";
+        String newPassword = "newPassword";
+
+        Response response = accountEndpoint.resetPassword(url, newPassword);
+
+        verify(accountManager).resetPassword(url, newPassword);
+
+        assertEquals(200, response.getStatus());
+
+        try {
+            accountEndpoint.resetPassword("shortUrl", newPassword);
+        } catch (WebApplicationException e) {
+            assertEquals(400, e.getResponse().getStatus());
+            assertEquals("Invalid URL", e.getLocalizedMessage());
+        }
+
+        try {
+            accountEndpoint.resetPassword(url, "new");
+        } catch (WebApplicationException e) {
+            assertEquals(406, e.getResponse().getStatus());
+            assertEquals("New password too short", e.getLocalizedMessage());
+        }
     }
 }

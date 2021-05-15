@@ -11,7 +11,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.LoginPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 
-public class BlockAccountTest {
+public class BlockUnblockAccountTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
@@ -32,11 +32,11 @@ public class BlockAccountTest {
     public void initEach() {
         driver = new ChromeDriver(options);
         driver.get(url);
-        driverWait = new WebDriverWait(driver, 10);
+        driverWait = new WebDriverWait(driver, 12);
     }
 
     @Test
-    public void blockAccountTest() {
+    public void blockUnblockAccountTest() {
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.openLoginForm();
         AdminMainPage adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
@@ -44,13 +44,22 @@ public class BlockAccountTest {
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 
         AccountsListPage accountsListPage = adminMainPage.openAccountsList();
+
+        driverWait.until(ExpectedConditions.visibilityOfElementLocated(accountsListPage.getUsersTable()));
+
         String login = accountsListPage.getActiveUserLogin();
-        accountsListPage.blockUser(login);
+        accountsListPage.changeUserActivity(login);
 
         driverWait.until(ExpectedConditions
                 .invisibilityOf(accountsListPage.getUserWithLogin(login).findElement(accountsListPage.getBlockUnblockButton())));
 
         Assertions.assertFalse(accountsListPage.isUserActive(login));
+        accountsListPage.changeUserActivity(login);
+
+        driverWait.until(ExpectedConditions
+                .invisibilityOf(accountsListPage.getUserWithLogin(login).findElement(accountsListPage.getBlockUnblockButton())));
+
+        Assertions.assertTrue(accountsListPage.isUserActive(login));
     }
 
     @AfterEach

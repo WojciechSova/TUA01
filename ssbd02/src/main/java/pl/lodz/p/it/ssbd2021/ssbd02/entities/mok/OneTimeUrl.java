@@ -49,7 +49,7 @@ public class OneTimeUrl implements Serializable {
     private String newEmail;
 
     @NotNull
-    @Column(name = "expire_date", nullable = false, updatable = false)
+    @Column(name = "expire_date", nullable = false, updatable = true)
     private Timestamp expireDate;
 }
 

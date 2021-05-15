@@ -188,11 +188,11 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca użytkownikowi aktualizowanie swojego konta w aplikacji.
      *
-     * @param   accountDTO Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta
-     * @param   eTag ETag podawany w zawartości nagłówka "If-Match"
-     * @return  Kod 200 w przypadku poprawnej aktualizacji konta
-     *          Kod 400 w przypadku gdy przesyłane dane nie zawierają loginu lub wersji
-     *          Kod 412 w przypadku gdy eTag nie jest ważny lub próbujemy zmienić nie swoje konto
+     * @param accountDTO Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta
+     * @param eTag       ETag podawany w zawartości nagłówka "If-Match"
+     * @return Kod 200 w przypadku poprawnej aktualizacji konta
+     * Kod 400 w przypadku gdy przesyłane dane nie zawierają loginu lub wersji
+     * Kod 412 w przypadku gdy eTag nie jest ważny lub próbujemy zmienić nie swoje konto
      */
     @PUT
     @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
@@ -292,7 +292,7 @@ public class AccountEndpoint {
      * @param newEmailAddress Nowy adres e-mail
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
-     *         Kod 406 w przypadku niepoprawnej walidacji adresu
+     * Kod 406 w przypadku niepoprawnej walidacji adresu
      */
     @POST
     @Path("profile/email")
@@ -312,17 +312,66 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca zmianę adresu e-mail przypisanego do konta
      *
-     * @param url             Kod służący do potwierdzenia zmiany adresu e-mail
-     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param url Kod służący do potwierdzenia zmiany adresu e-mail
      * @return Kod 200 w przypadku poprawnego potwierdzenia zmiany adresu e-mail, w przeciwnym razie kod 400
      */
     @PUT
-    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
+    @PermitAll
     @Path("confirm/email/{url}")
-    public Response changeEmailAddress(@PathParam("url") String url, @Context SecurityContext securityContext) {
-        if (accountManager.changeEmailAddress(url, securityContext.getUserPrincipal().getName())) {
+    public Response changeEmailAddress(@PathParam("url") String url) {
+        if (accountManager.changeEmailAddress(url)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    /**
+     * Metoda obsługująca żądanie resetowania hasła.
+     *
+     * @param email Email użytkownika, którego hasło ma zostać zresetowane
+     * @return Kod 200 w przypoadku poprawnego formatu adresu email, w przeciwnym razie 400.
+     * Aplikacja nie powiadamia użytkownika czy podany email znajduje się w bazie danych.
+     */
+    @POST
+    @PermitAll
+    @Path("reset/password")
+    public Response sendPasswordResetAddressUrl(String email) {
+        if (email == null || "".equals(email.trim())) {
+            throw new WebApplicationException("No email provided", 400);
+        }
+
+        if (!EmailAddressValidator.isValid(email)) {
+            throw new WebApplicationException("Invalid email format", 400);
+        }
+
+        accountManager.sendPasswordResetAddressUrl(email);
+
+        return Response.ok().build();
+    }
+
+    /**
+     * Metoda zmieniająca hasło użytkownika na podstawie dostarczonego wcześniej jednorazowego adresu URL.
+     *
+     * @param url         Jednorazowy adres url potwierdzający możliwość zmiany hasła.
+     * @param newPassword Nowe hasło użytkownika.
+     * @return Kod 200 w przypadku poprawnie skonstruowanego żądania.
+     * Kod 400 w przypadku nieprawidłowej długości url lub 406 w przypadku niepoprawnej dłuygości nowego hasła.
+     */
+    @PUT
+    @PermitAll
+    @Path("reset/password/{url}")
+    public Response resetPassword(@PathParam("url") String url, String newPassword) {
+
+        if (url.length() != 32) {
+            throw new WebApplicationException("Invalid URL", 400);
+        }
+
+        if (newPassword.length() < 8) {
+            throw new WebApplicationException("New password too short", 406);
+        }
+
+        accountManager.resetPassword(url, newPassword);
+
+        return Response.ok().build();
     }
 }
