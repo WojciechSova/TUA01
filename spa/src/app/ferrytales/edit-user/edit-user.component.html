@@ -62,7 +62,7 @@
                     (click)="editUser(newFirstName.value, newLastName.value, newPhoneNumber.value, newLanguage.value, newTimeZone.value)"
                     [disabled]="form.invalid" i18n="Save|">Zapisz
             </button>
-            <img class="return-arrow" (click)="setUser(accountDetailsService.account.login)" src="assets/back-arrow.png"
+            <img class="return-arrow" (click)="showUser(accountDetailsService.account.login)" src="assets/back-arrow.png"
                  alt=""/>
         </form>
 

@@ -62,7 +62,7 @@ export class EditUserComponent implements OnInit {
         timeZone: new FormControl('')
     });
 
-    setUser(login: string): void {
+    showUser(login: string): void {
         this.router.navigate(['/ferrytales/accounts', login]);
     }
 
@@ -75,10 +75,14 @@ export class EditUserComponent implements OnInit {
         if (!login) {
             return;
         }
-        if (!(this.identityService.getLogin() === this.accountDetailsService.account.login)) {
-            this.updateAccountService.getAccountETag(login).subscribe(resp => {
-                this.accountDetailsService.readAccountAndEtagFromResponse(resp);
-            });
+        if ((this.identityService.getLogin() === this.accountDetailsService.account.login)) {
+            this.accountDetailsService.getProfile().subscribe(response =>
+                this.accountDetailsService.readAccountAndEtagFromResponse(response)
+            );
+        } else {
+            this.accountDetailsService.getAccountDetails(login).subscribe(response =>
+                this.accountDetailsService.readAccountAndEtagFromResponse(response)
+            );
         }
     }
 
@@ -104,6 +108,7 @@ export class EditUserComponent implements OnInit {
             () => {
                 this.router.navigate(['ferrytales/accounts/' + acc.login]);
                 this.updating = true;
+                this.getAccount();
             },
             (err: HttpErrorResponse) => {
                 if (err.status === 409) {
