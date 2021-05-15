@@ -51,7 +51,7 @@ public class AccountDetailsDTO extends AbstractDTO {
     @Pattern(regexp = "[a-z]{2}|[a-z]{2}-[A-Z]{2}")
     private String language;
 
-    @Pattern(regexp = "[+-]0[0-9]:00|[+-]1[0-2]:00")
+    @Pattern(regexp = "[+-]0[0-9]:00|-1[0-2]:00|[+]1[0-4]:00")
     private String timeZone;
 
     private Timestamp modificationDate;
