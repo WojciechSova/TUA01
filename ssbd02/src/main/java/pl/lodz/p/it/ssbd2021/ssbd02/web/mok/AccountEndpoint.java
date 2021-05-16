@@ -316,7 +316,7 @@ public class AccountEndpoint {
      * Kod 406 w przypadku niepoprawnej walidacji adresu
      */
     @POST
-    @Path("profile/email/{login}")
+    @Path("email/{login}")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.TEXT_PLAIN)
     public Response sendChangeEmailAddressUrl(String newEmailAddress, @PathParam("login") String login) {
