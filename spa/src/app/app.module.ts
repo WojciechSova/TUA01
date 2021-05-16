@@ -11,7 +11,6 @@ import { LinksComponent } from './common/navigation/links/links.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { MainPageComponent } from './main/main-page/main-page.component';
 import { FerrytalesComponent } from './ferrytales/ferrytales/ferrytales.component';
-import { ExampleComponentComponent } from './ferrytales/example-component/example-component.component';
 import { PopularOffersComponent } from './main/popular-offers/popular-offers.component';
 import { OfferComponent } from './main/popular-offers/offer/offer.component';
 import { UsersTableComponent } from './ferrytales/users-table/users-table.component';
@@ -38,7 +37,6 @@ import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/
         LinksComponent,
         MainPageComponent,
         FerrytalesComponent,
-        ExampleComponentComponent,
         PopularOffersComponent,
         OfferComponent,
         AccountDetailsComponent,
