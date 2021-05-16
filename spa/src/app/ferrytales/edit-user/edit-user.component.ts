@@ -58,7 +58,6 @@ export class EditUserComponent implements OnInit {
         firstName: new FormControl(''),
         lastName: new FormControl(''),
         phoneNumber: new FormControl('', [Validators.pattern('[0-9]{11}')]),
-        language: new FormControl(''),
         timeZone: new FormControl('')
     });
 
