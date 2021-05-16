@@ -71,6 +71,15 @@ public interface AccountManagerLocal {
     void registerGoodLogin(String login, String clientAddress);
 
     /**
+     * Metoda aktualizuje język użytkownika przy każdym uwierzytelnieniu.
+     * W bazie danych zapisywany jest preferowany przez przeglądarkę język wyświetlania strony.
+     *
+     * @param login    Login użytkownika, który się uwierzytelnił.
+     * @param language Preferowany język wyświetlania strony.
+     */
+    void updateLanguage(String login, String language);
+
+    /**
      * Metoda aktualizuje konto o loginie zawartym w encji {@link Account} oraz ustawia konto w polu modifiedBy na konto
      * użytkownika dokonującego zmiany
      *
