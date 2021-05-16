@@ -6,6 +6,8 @@
         "start": "ng serve",
         "start-en": "ng serve --configuration=en",
         "build": "ng build",
+        "build-prod": "ng build --configuration=prod",
+        "build-dev": "ng build --configuration=dev",
         "build-en": "ng build --configuration=en",
         "test": "ng test",
         "lint": "ng lint",
