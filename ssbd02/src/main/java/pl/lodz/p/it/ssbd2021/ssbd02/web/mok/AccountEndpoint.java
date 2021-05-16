@@ -310,6 +310,29 @@ public class AccountEndpoint {
     }
 
     /**
+     * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiany adresu e-mail użytkownika o podanym loginie.
+     *
+     * @param newEmailAddress Nowy adres e-mail.
+     * @param login Login użytkownika, któremy ma zostać zmieniony adres e-mail.
+     * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
+     * Kod 406 w przypadku niepoprawnej walidacji adresu
+     */
+    @POST
+    @Path("email/{login}")
+    @RolesAllowed({"ADMIN"})
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response sendChangeEmailAddressUrl(String newEmailAddress, @PathParam("login") String login) {
+
+        if (!EmailAddressValidator.isValid(newEmailAddress)) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
+
+        accountManager.sendChangeEmailAddressUrl(login, newEmailAddress);
+
+        return Response.ok().build();
+    }
+
+    /**
      * Metoda umożliwiająca zmianę adresu e-mail przypisanego do konta
      *
      * @param url Kod służący do potwierdzenia zmiany adresu e-mail
