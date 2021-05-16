@@ -30,7 +30,10 @@ public class AccountsListPage {
     }
 
     public List<String> getTableHeaders() {
-        return driver.findElements(tableHeader).stream().map(WebElement::getText).collect(Collectors.toList());
+        return driver.findElements(tableHeader).stream()
+                .map(WebElement::getText)
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
     }
 
     public ProfileDetailsPage openAnotherUserProfileDetails() {

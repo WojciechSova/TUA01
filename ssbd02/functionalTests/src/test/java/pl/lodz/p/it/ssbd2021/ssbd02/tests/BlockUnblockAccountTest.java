@@ -1,9 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.tests;
 
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
@@ -19,6 +21,8 @@ public class BlockUnblockAccountTest {
     private final String url = "https://studapp.it.p.lodz.pl:8402/#";
     private final String adminLogin = "admin";
     private final String adminPassword = "password?";
+    private AccountsListPage accountsListPage;
+    private String login;
 
     @BeforeAll
     static void initAll() {
@@ -43,23 +47,33 @@ public class BlockUnblockAccountTest {
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 
-        AccountsListPage accountsListPage = adminMainPage.openAccountsList();
+        accountsListPage = adminMainPage.openAccountsList();
 
         driverWait.until(ExpectedConditions.visibilityOfElementLocated(accountsListPage.getUsersTable()));
 
-        String login = accountsListPage.getActiveUserLogin();
+        login = accountsListPage.getActiveUserLogin();
         accountsListPage.changeUserActivity(login);
-
-        driverWait.until(ExpectedConditions
-                .invisibilityOf(accountsListPage.getUserWithLogin(login).findElement(accountsListPage.getBlockUnblockButton())));
+        waitForButtonChanging();
 
         Assertions.assertFalse(accountsListPage.isUserActive(login));
         accountsListPage.changeUserActivity(login);
-
-        driverWait.until(ExpectedConditions
-                .invisibilityOf(accountsListPage.getUserWithLogin(login).findElement(accountsListPage.getBlockUnblockButton())));
+        waitForButtonChanging();
 
         Assertions.assertTrue(accountsListPage.isUserActive(login));
+    }
+
+    private void waitForButtonChanging() {
+        driverWait.until((ExpectedCondition<Boolean>) driver -> {
+            try {
+                accountsListPage.getUserWithLogin(login);
+            }
+            catch (StaleElementReferenceException ex) {
+                return true;
+            }
+            return false;
+        });
+        driverWait.until(ExpectedConditions
+                .presenceOfNestedElementLocatedBy(accountsListPage.getUserWithLogin(login), accountsListPage.getBlockUnblockButton()));
     }
 
     @AfterEach
