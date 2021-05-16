@@ -49,9 +49,9 @@ export class LinksComponent {
 
     getProfile(): void {
         this.accountDetailsService.getProfile().subscribe(
-            (acc) => {
-                this.accountDetailsService.account = acc;
-                this.router.navigateByUrl('/ferrytales/account');
+            (response) => {
+                this.accountDetailsService.readAccountAndEtagFromResponse(response);
+                this.router.navigate(['/ferrytales/accounts', response.body?.login]);
             }
         );
     }

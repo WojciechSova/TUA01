@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
-import {AccountDetails} from '../../model/mok/AccountDetails';
-import {IdentityService} from '../../services/utils/identity.service';
-import {AccessLevel} from '../../model/mok/AccessLevel';
-import {AccountDetailsService} from '../../services/account-details.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { AccountDetails } from '../../model/mok/AccountDetails';
+import { IdentityService } from '../../services/utils/identity.service';
+import { AccessLevel } from '../../model/mok/AccessLevel';
+import { AccountDetailsService } from '../../services/account-details.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-account-details',
@@ -16,7 +17,6 @@ export class AccountDetailsComponent {
                 public accountDetailsService: AccountDetailsService,
                 private route: ActivatedRoute,
                 private router: Router) {
-        this.getAccount();
     }
 
     isChangePasswordFormVisible = false;
@@ -44,7 +44,9 @@ export class AccountDetailsComponent {
             return;
         }
         this.accountDetailsService.getAccountDetails(login).subscribe(
-            (accountDetails: AccountDetails) => this.accountDetailsService.account = accountDetails);
+            (response: HttpResponse<AccountDetails>) => {
+                this.accountDetailsService.readAccountAndEtagFromResponse(response);
+            });
     }
 
     changeChangePasswordFormVisible(visible: boolean): void {

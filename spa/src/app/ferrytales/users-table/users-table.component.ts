@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AccountGeneral } from '../../model/mok/AccountGeneral';
 import { AccountGeneralService } from '../../services/account-general.service';
 import { Router } from '@angular/router';
+import { AccountDetailsService } from '../../services/account-details.service';
 
 @Component({
     selector: 'app-users-table',
@@ -20,7 +21,9 @@ export class UsersTableComponent {
     byFirstName = false;
     byLastName = false;
 
-    constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
+    constructor(private accountGeneralService: AccountGeneralService,
+                private accountDetailsService: AccountDetailsService,
+                private router: Router) {
         this.getAccounts();
     }
 
@@ -42,6 +45,15 @@ export class UsersTableComponent {
         this.byFirstName && this.sortByFirstName();
         this.byLastName && this.sortByLastName();
         return this.accountGeneralService.accountGeneralList;
+    }
+
+    showUserDetails(login: string): void {
+        this.accountDetailsService.getAccountDetails(login).subscribe(
+            (response) => {
+                this.accountDetailsService.readAccountAndEtagFromResponse(response);
+                this.router.navigate(['/ferrytales/accounts', login]);
+            }
+        );
     }
 
     sortByLogin(): void {
