@@ -59,5 +59,6 @@ export class AccountDetailsService implements OnDestroy {
 
     ngOnDestroy(): void {
         this.account = {} as any;
+        this.eTag = '';
     }
 }

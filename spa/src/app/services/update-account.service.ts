@@ -11,7 +11,6 @@ import { AccountDetailsService } from './account-details.service';
 export class UpdateAccountService implements OnDestroy {
 
     private readonly url: string;
-    public eTag = '';
 
     constructor(private http: HttpClient,
                 private accountDetailsService: AccountDetailsService) {
@@ -50,7 +49,5 @@ export class UpdateAccountService implements OnDestroy {
             });
     }
 
-    ngOnDestroy(): void {
-        this.eTag = {} as any;
-    }
+    ngOnDestroy(): void {}
 }
