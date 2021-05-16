@@ -171,9 +171,6 @@ public class AccountManager implements AccountManagerLocal {
         if (account.getTimeZone() != null && !account.getTimeZone().isEmpty()) {
             acc.setTimeZone(account.getTimeZone());
         }
-        if (account.getLanguage() != null && !account.getLanguage().isEmpty()) {
-            acc.setLanguage(account.getLanguage());
-        }
         acc.setModificationDate(Timestamp.from(Instant.now()));
 
         Account accModifiedBy = accountFacadeLocal.findByLogin(modifiedBy);
