@@ -37,19 +37,6 @@
                 </div>
 
                 <div class="row">
-                    <label for="edit-language">{{accountDetailsService.account.language}}</label>
-                    <select class="edit-content-select" #newLanguage id="edit-language" formControlName="language">
-                        <option value="" disabled selected hidden i18n="Choose a language|">Wybierz język</option>
-                        <option id="pl" [selected]="accountDetailsService.account.language === 'pl'" value="pl"
-                                i18n="Polish language|">język polski
-                        </option>
-                        <option id="en" [selected]="accountDetailsService.account.language === 'en'" value="en"
-                                i18n="English language|">język angielski
-                        </option>
-                    </select>
-                </div>
-
-                <div class="row">
                     <label for="edit-timeZone">{{accountDetailsService.account.timeZone}}</label>
                     <select class="edit-content-select" #newTimeZone id="edit-timeZone">
                         <option value="" disabled selected hidden i18n="Choose a time zone|">Wybierz strefę czasową
@@ -61,7 +48,7 @@
                 </div>
             </div>
             <button class="edit-button" id="saveBtn"
-                    (click)="editUser(newFirstName.value, newLastName.value, newPhoneNumber.value, newLanguage.value, newTimeZone.value)"
+                    (click)="editUser(newFirstName.value, newLastName.value, newPhoneNumber.value, newTimeZone.value)"
                     [disabled]="form.invalid" i18n="Save|">Zapisz
             </button>
             <img class="return-arrow" (click)="showUser(accountDetailsService.account.login)" src="assets/back-arrow.png"

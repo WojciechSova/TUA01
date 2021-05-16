@@ -86,7 +86,7 @@ export class EditUserComponent implements OnInit {
         }
     }
 
-    editUser(firstName?: string, lastName?: string, phoneNumber?: string, language?: string, timeZone?: string): void {
+    editUser(firstName?: string, lastName?: string, phoneNumber?: string, timeZone?: string): void {
         const acc: AccountDetails = this.accountDetailsService.account;
         if (firstName != null) {
             acc.firstName = firstName;
@@ -96,9 +96,6 @@ export class EditUserComponent implements OnInit {
         }
         if (lastName != null) {
             acc.phoneNumber = phoneNumber;
-        }
-        if (lastName != null) {
-            acc.language = language;
         }
         if (lastName != null) {
             acc.timeZone = timeZone;
