@@ -20,6 +20,7 @@ public class ProfileDetailsPage {
     private final By accessLevelsField = By.id("accessLevels");
     private final By phoneNumberField = By.id("phoneNumber");
     private final By label = By.tagName("label");
+    private final By editBtn = By.id("edit-button");
 
     public ProfileDetailsPage(WebDriver driver) {
         this.driver = driver;
@@ -56,5 +57,22 @@ public class ProfileDetailsPage {
                 .mapToObj(allLabels::get)
                 .map(String::toString)
                 .collect(Collectors.toList());
+    }
+
+    public EditUserProfilePage editUser() {
+        driver.findElement(editBtn).click();
+        return new EditUserProfilePage(driver);
+    }
+
+    public By getFirstNameField() {
+        return firstNameField;
+    }
+
+    public By getLastNameField() {
+        return lastNameField;
+    }
+
+    public By getPhoneNumberField() {
+        return phoneNumberField;
     }
 }

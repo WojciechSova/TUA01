@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -42,6 +43,11 @@ public class AccountsListPage {
         return new ProfileDetailsPage(driver);
     }
 
+    public ProfileDetailsPage openAnotherUserProfileDetails(WebElement element) {
+        element.click();
+        return new ProfileDetailsPage(driver);
+    }
+
     public ChangeAccessLevelsPage openChangeAccessLevelsForm(String login) {
         getUserWithLogin(login).findElement(tableDataAccessLevelsButton).click();
         return new ChangeAccessLevelsPage(driver);
@@ -56,6 +62,10 @@ public class AccountsListPage {
                 .mapToObj(allTds::get)
                 .map(String::toString)
                 .collect(Collectors.toList());
+    }
+
+    public List<WebElement> getTableContent() {
+        return new ArrayList<>(driver.findElements(tableData));
     }
 
     private int getNumberOfColumns() {
