@@ -10,8 +10,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import javax.ejb.Stateless;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -185,14 +183,12 @@ public class EmailSender implements EmailSenderLocal {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
             prop.load(input);
-            String date = new SimpleDateFormat("HH:mm dd/MM/yyyy").format(new Date());
 
             String messageLanguage = getMessageLanguage(language);
             String htmlText = prop.getProperty("mail.template")
                     .replace("TITLE", prop.getProperty("mail.info.admin.auth.title." + messageLanguage))
                     .replace("TEXT", prop.getProperty("mail.info.admin.auth.text." + messageLanguage)
-                            .replace("IP_ADDRESS", clientAddress)
-                            .replace("TIME", date));
+                            .replace("IP_ADDRESS", clientAddress));
             String subject = prop.getProperty("mail.info.admin.auth.subject." + messageLanguage);
 
             sendEmail(firstName, email, subject, htmlText);
