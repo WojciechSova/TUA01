@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ResetPasswordService } from '../../../services/reset-password.service';
 
 @Component({
     selector: 'app-reset-password',
@@ -8,6 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ResetPasswordComponent implements OnInit {
 
+    private resetPasswordService: ResetPasswordService;
 
     @Output()
     isLoginVisibleChange = new EventEmitter<boolean>();
@@ -20,7 +22,8 @@ export class ResetPasswordComponent implements OnInit {
         emailFormControl: new FormControl('', [Validators.required, Validators.email]),
     });
 
-    constructor() {
+    constructor(resetPasswordService: ResetPasswordService) {
+        this.resetPasswordService = resetPasswordService;
     }
 
     ngOnInit(): void {
@@ -31,7 +34,9 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     reset(): void {
-        return;
+        this.resetPasswordService.resetPassword(this.email).subscribe(
+            () => this.closeComponent()
+        );
     }
 
     openLogin(): void {
