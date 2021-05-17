@@ -17,9 +17,6 @@ public class GetAllAccountsTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
-    private final String adminLogin = "admin";
-    private final String adminPassword = "password?";
     private WebDriver driver;
 
     @BeforeAll
@@ -33,15 +30,13 @@ public class GetAllAccountsTest {
     @BeforeEach
     public void initEach() {
         driver = new ChromeDriver(options);
-        driver.get(url);
+        driver.get(TestUtils.url);
         driverWait = new WebDriverWait(driver, 25);
     }
 
     @Test
     public void getAllAccountsList() {
-        MainPage mainPage = new MainPage(driver);
-        LoginPage loginPage = mainPage.openLoginForm();
-        AdminMainPage adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
+        AdminMainPage adminMainPage = TestUtils.logInAsAdmin(driver);
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 

@@ -18,7 +18,6 @@ public class ChangePasswordTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
     private final String adminLogin = "admin";
     private final String adminPassword = "password?";
     private final String newPassword = "password??";
@@ -39,7 +38,7 @@ public class ChangePasswordTest {
     @BeforeEach
     public void initEach() {
         driver = new ChromeDriver(options);
-        driver.get(url);
+        driver.get(TestUtils.url);
         driverWait = new WebDriverWait(driver, 25);
     }
 
@@ -105,7 +104,7 @@ public class ChangePasswordTest {
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
         AccountDetailsPage accountDetailsPage = adminMainPage.openAccountDetails();
 
-        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/account")));
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/account")));
         changePasswordPage = accountDetailsPage.openChangePasswordPage();
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(changePasswordPage.getForm()));

@@ -16,7 +16,6 @@ public class AuthenticationTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
     private final String adminLogin = "admin";
     private final String adminPassword = "password?";
     private final String incorrectLogin = "nieprawidlowe";
@@ -34,16 +33,14 @@ public class AuthenticationTest {
     @BeforeEach
     public void initEach() {
         driver = new ChromeDriver(options);
-        driver.get(url);
+        driver.get(TestUtils.url);
 
         driverWait = new WebDriverWait(driver, 25);
     }
 
     @Test
     public void authenticationCompletedTest() {
-        MainPage mainPage = new MainPage(driver);
-        LoginPage loginPage = mainPage.openLoginForm();
-        AdminMainPage adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
+        AdminMainPage adminMainPage = TestUtils.logInAsAdmin(driver);
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 

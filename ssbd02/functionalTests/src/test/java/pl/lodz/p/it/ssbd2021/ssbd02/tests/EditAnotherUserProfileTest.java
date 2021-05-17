@@ -22,7 +22,6 @@ public class EditAnotherUserProfileTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
     private final String adminLogin = "admin";
     private final String adminPassword = "password?";
     private final String newFirstName = "noweImie";
@@ -46,7 +45,7 @@ public class EditAnotherUserProfileTest {
     @BeforeEach
     public void initEach() {
         driver = new ChromeDriver(options);
-        driver.get(url);
+        driver.get(TestUtils.url);
         driverWait = new WebDriverWait(driver, 25);
     }
 
@@ -60,7 +59,7 @@ public class EditAnotherUserProfileTest {
 
         editData(newFirstName, newLastName, newPhoneNumber);
 
-        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts/").concat(userLogin)));
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts/").concat(userLogin)));
 
         By editedFirstName = profileDetailsPage.getFirstNameField();
         By editedLastName = profileDetailsPage.getLastNameField();
@@ -103,13 +102,13 @@ public class EditAnotherUserProfileTest {
         AccountsListPage accountsListPage = adminMainPage.openAccountsList();
 
         driver.navigate().refresh();
-        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts")));
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts")));
 
         List<WebElement> tableData = accountsListPage.getTableContent();
         userLogin = tableData.get(0).getText();
         profileDetailsPage = accountsListPage.openAnotherUserProfileDetails(tableData.get(6));
 
-        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts/").concat(userLogin)));
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts/").concat(userLogin)));
     }
 
     private void editData(String firstName, String lastName, String phoneNumber) {

@@ -18,9 +18,6 @@ public class BlockUnblockAccountTest {
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
     private WebDriver driver;
-    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
-    private final String adminLogin = "admin";
-    private final String adminPassword = "password?";
     private AccountsListPage accountsListPage;
     private String login;
 
@@ -35,15 +32,13 @@ public class BlockUnblockAccountTest {
     @BeforeEach
     public void initEach() {
         driver = new ChromeDriver(options);
-        driver.get(url);
+        driver.get(TestUtils.url);
         driverWait = new WebDriverWait(driver, 12);
     }
 
     @Test
     public void blockUnblockAccountTest() {
-        MainPage mainPage = new MainPage(driver);
-        LoginPage loginPage = mainPage.openLoginForm();
-        AdminMainPage adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
+        AdminMainPage adminMainPage = TestUtils.logInAsAdmin(driver);
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 
