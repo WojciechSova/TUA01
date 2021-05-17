@@ -67,7 +67,7 @@
                    placeholder="Numer telefonu" i18n-placeholder="Phone number|" formControlName="phoneNumber"
                    [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}">
             <div class="validation-error" *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
-                 i18n="Invalid format|">Niepoprawny format</div><br><br>
+                 i18n="Invalid format|">Niepoprawny format, nr telefonu powinien zawierać <br />międzynarodowy numer kierunkowy bez znaku plusa</div><br><br>
 
             <button class="form-button"
                     (click)="register(login.value, password.value, firstname.value, lastName.value, email.value, phoneNumber?.value)"
