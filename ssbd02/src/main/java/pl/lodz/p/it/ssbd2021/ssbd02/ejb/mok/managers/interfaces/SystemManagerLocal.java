@@ -19,4 +19,10 @@ public interface SystemManagerLocal {
      * Metoda jest wywoływana automatycznie co godzinę.
      */
     void removeInactiveUrl();
+
+    /**
+     * Metoda umożliwiająca automatyczne, ponowne wysłanie wiadomości e-mail i url aktywującym konto.
+     * Metoda jest wywoływana automatycznie co godzinę.
+     */
+    void resendConfirmAccountEmail();
 }

@@ -9,7 +9,11 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 
-import javax.ejb.*;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,5 +88,35 @@ public class SystemManager implements SystemManagerLocal {
         expired.forEach(
                 oneTimeUrl -> oneTimeUrlFacadeLocal.remove(oneTimeUrl)
         );
+    }
+
+    @Override
+    @Schedule(minute = "30", hour = "*", persistent = false)
+    public void resendConfirmAccountEmail() {
+        long removalTime = 86_400_000 / 2L;
+        long hour = 3_600_000;
+
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+
+            prop.load(input);
+            removalTime = Long.parseLong(prop.getProperty("system.time.account.confirmation")) / 2;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long finalRemovalTime = removalTime;
+
+        List<OneTimeUrl> oneTimeUrls = oneTimeUrlFacadeLocal.findAll().stream()
+                .filter(oneTimeUrl ->
+                        "verify".equals(oneTimeUrl.getActionType()) &&
+                                ((oneTimeUrl.getExpireDate()).getTime() - Timestamp.from(Instant.now()).getTime() <= finalRemovalTime) &&
+                                ((oneTimeUrl.getExpireDate()).getTime() - Timestamp.from(Instant.now()).getTime() > finalRemovalTime - hour))
+                .collect(Collectors.toList());
+
+        oneTimeUrls.forEach(oneTimeUrl -> emailSender.sendRegistrationEmail(oneTimeUrl.getAccount().getLanguage(),
+                                oneTimeUrl.getAccount().getFirstName(),
+                                oneTimeUrl.getAccount().getEmail(),
+                                oneTimeUrl.getUrl()));
     }
 }
