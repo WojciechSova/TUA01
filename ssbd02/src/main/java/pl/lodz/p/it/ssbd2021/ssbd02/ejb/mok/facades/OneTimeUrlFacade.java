@@ -49,4 +49,10 @@ public class OneTimeUrlFacade extends AbstractFacade<OneTimeUrl> implements OneT
         typedQuery.setParameter("account", account);
         return typedQuery.getResultList();
     }
+
+    @Override
+    public List<OneTimeUrl> findExpired() {
+        TypedQuery<OneTimeUrl> typedQuery = entityManager.createNamedQuery("OneTimeUrl.findExpiredUrl", OneTimeUrl.class);
+        return typedQuery.getResultList();
+    }
 }

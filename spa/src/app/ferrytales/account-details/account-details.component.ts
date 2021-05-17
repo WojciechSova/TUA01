@@ -40,13 +40,18 @@ export class AccountDetailsComponent {
 
     getAccount(): void {
         const login = (this.route.snapshot.paramMap.get('login') as string);
-        if (!login) {
-            return;
+        if (this.accountDetailsService.account.login === login) {
+            this.accountDetailsService.getProfile().subscribe(
+                (response: HttpResponse<AccountDetails>) => {
+                    this.accountDetailsService.readAccountAndEtagFromResponse(response);
+                });
         }
-        this.accountDetailsService.getAccountDetails(login).subscribe(
-            (response: HttpResponse<AccountDetails>) => {
-                this.accountDetailsService.readAccountAndEtagFromResponse(response);
-            });
+        else {
+            this.accountDetailsService.getAccountDetails(login).subscribe(
+                (response: HttpResponse<AccountDetails>) => {
+                    this.accountDetailsService.readAccountAndEtagFromResponse(response);
+                });
+        }
     }
 
     changeChangePasswordFormVisible(visible: boolean): void {

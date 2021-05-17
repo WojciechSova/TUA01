@@ -56,11 +56,11 @@ public class AuthEndpoint {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.TEXT_PLAIN})
     public Response auth(@Context HttpServletRequest req, CredentialsDTO credentialsDTO) {
-
         Credential credential = new UsernamePasswordCredential(credentialsDTO.getLogin(), credentialsDTO.getPassword());
         CredentialValidationResult result = identityStoreHandler.validate(credential);
 
         String clientAddress = getClientIp(req);
+        String language = getLanguage(req);
 
         if (result.getStatus() != CredentialValidationResult.Status.VALID) {
             accountManagerLocal.registerBadLogin(credentialsDTO.getLogin(), clientAddress);
@@ -72,6 +72,7 @@ public class AuthEndpoint {
         }
 
         accountManagerLocal.registerGoodLogin(credentialsDTO.getLogin(), clientAddress);
+        accountManagerLocal.updateLanguage(credentialsDTO.getLogin(), language);
         return Response.accepted()
                 .type("application/jwt")
                 .entity(JWTGenerator.generateJWT(result))
@@ -115,5 +116,22 @@ public class AuthEndpoint {
             return req.getRemoteAddr();
         }
         return xForwardedFor.contains(",") ? xForwardedFor.split(",")[0] : xForwardedFor;
+    }
+
+    private String getLanguage(HttpServletRequest req) {
+        String acceptLanguage = req.getHeader("Accept-Language");
+        if (acceptLanguage == null || "".equals(acceptLanguage.trim())) {
+            return "en";
+        }
+        String[] languages = acceptLanguage.split(",");
+        for (String language : languages) {
+            if (language.contains("en")) {
+                return "en";
+            }
+            if (language.contains("pl")) {
+                return "pl";
+            }
+        }
+        return "en";
     }
 }

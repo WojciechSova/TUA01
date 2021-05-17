@@ -13,4 +13,10 @@ public interface SystemManagerLocal {
      * Metoda jest wywoływana automatycznie co godzinę.
      */
     void removeUnconfirmedAccounts();
+
+    /**
+     * Metoda umożliwiająca automatyczne usunięcie nieaktywnych adresów URL z bazy danych.
+     * Metoda jest wywoływana automatycznie co godzinę.
+     */
+    void removeInactiveUrl();
 }
