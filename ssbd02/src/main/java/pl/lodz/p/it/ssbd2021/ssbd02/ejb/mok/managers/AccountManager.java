@@ -51,6 +51,7 @@ public class AccountManager implements AccountManagerLocal {
     private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
 
     private static final Properties prop = new Properties();
+    private long expirationTime;
 
     @Override
     public List<Pair<Account, List<AccessLevel>>> getAllAccountsWithActiveAccessLevels() {
@@ -97,12 +98,11 @@ public class AccountManager implements AccountManagerLocal {
         accessLevel.setLevel("CLIENT");
         accessLevel.setAccount(account);
 
-        long expirationTime = 86400000;
-
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
         } catch (IOException e) {
+            expirationTime = 86400000;
             e.printStackTrace();
         }
 
@@ -345,12 +345,11 @@ public class AccountManager implements AccountManagerLocal {
             throw new WebApplicationException("Provided email already exists in the database", 409);
         }
 
-        long expirationTime = 86400000;
-
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
         } catch (IOException e) {
+            expirationTime = 86400000;
             e.printStackTrace();
         }
 
