@@ -151,6 +151,12 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
+    public void updateLanguage(String login, String language) {
+        Account account = accountFacadeLocal.findByLogin(login);
+        account.setLanguage(language);
+    }
+
+    @Override
     public void updateAccount(Account account, String modifiedBy) throws WebApplicationException {
         List<Account> allAccounts = accountFacadeLocal.findAll();
         if (account.getPhoneNumber() != null) {
