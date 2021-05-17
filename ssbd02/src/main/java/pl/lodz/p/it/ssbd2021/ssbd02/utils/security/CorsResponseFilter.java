@@ -12,8 +12,9 @@ public class CorsResponseFilter implements ContainerResponseFilter {
     @Override
     public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) {
         final MultivaluedMap<String, Object> headers = containerResponseContext.getHeaders();
-        headers.add("Access-Control-Allow-Origin", "http://localhost:4200");
+        headers.add("Access-Control-Allow-Origin", "https://localhost:4200");
         headers.add("Access-Control-Allow-Headers", "*");
-        headers.add("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
+        headers.add("Access-Control-Expose-Headers", "etag");
+        headers.add("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
     }
 }
