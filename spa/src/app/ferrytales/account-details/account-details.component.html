@@ -9,7 +9,7 @@
                     (click)="changeChangePasswordFormVisible(true)"
                     i18n="Change password|">Zmień hasło
             </button>
-            <button class="edit-button"
+            <button class="edit-button" *ngIf="identityService.isAdmin()"
                     (click)="setLoginAccessLevels(accountDetailsService.account.login, accountDetailsService.account.accessLevel); changeAccessLevelFormVisible(true)"
                     i18n="Edit access levels|">Edytuj poziomy dostępu
             </button>
