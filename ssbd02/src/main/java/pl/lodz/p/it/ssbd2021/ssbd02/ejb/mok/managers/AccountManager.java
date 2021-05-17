@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import static java.time.temporal.ChronoUnit.*;
+import static java.time.temporal.ChronoUnit.MILLIS;
 
 /**
  * Manager kont
@@ -51,6 +51,7 @@ public class AccountManager implements AccountManagerLocal {
     private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
 
     private static final Properties prop = new Properties();
+    private long expirationTime;
 
     @Override
     public List<Pair<Account, List<AccessLevel>>> getAllAccountsWithActiveAccessLevels() {
@@ -97,11 +98,19 @@ public class AccountManager implements AccountManagerLocal {
         accessLevel.setLevel("CLIENT");
         accessLevel.setAccount(account);
 
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
+        } catch (IOException e) {
+            expirationTime = 86400000;
+            e.printStackTrace();
+        }
+
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
         oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
         oneTimeUrl.setAccount(account);
         oneTimeUrl.setActionType("verify");
-        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
 
         accountFacadeLocal.create(account);
         accessLevelFacadeLocal.create(accessLevel);
@@ -332,8 +341,16 @@ public class AccountManager implements AccountManagerLocal {
     public void sendChangeEmailAddressUrl(String login, String newEmailAddress) {
         Account account = accountFacadeLocal.findByLogin(login);
 
-        if(accountFacadeLocal.findAll().stream().anyMatch(a -> newEmailAddress.equals(a.getEmail()))){
+        if (accountFacadeLocal.findAll().stream().anyMatch(a -> newEmailAddress.equals(a.getEmail()))) {
             throw new WebApplicationException("Provided email already exists in the database", 409);
+        }
+
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
+        } catch (IOException e) {
+            expirationTime = 86400000;
+            e.printStackTrace();
         }
 
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
@@ -341,7 +358,7 @@ public class AccountManager implements AccountManagerLocal {
         oneTimeUrl.setAccount(account);
         oneTimeUrl.setNewEmail(newEmailAddress);
         oneTimeUrl.setActionType("e-mail");
-        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
 
         oneTimeUrlFacadeLocal.create(oneTimeUrl);
 

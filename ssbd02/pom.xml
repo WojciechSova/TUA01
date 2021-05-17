@@ -46,7 +46,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <angular.environment.script>runDev.bat</angular.environment.script>
+        <project.environment>prod</project.environment>
         <jdbc.config.src>src/dev/java</jdbc.config.src>
         <mail.flag>true</mail.flag>
     </properties>
@@ -127,6 +127,11 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.30</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <version>1.12.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -142,6 +147,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
             </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -159,6 +165,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 
@@ -173,7 +180,7 @@
             <!-- ATTENTION profiles dev and prod need to be defined in pom before with-spa profile -->
             <id>dev</id>
             <properties>
-                <angular.environment.script>runDev.bat</angular.environment.script>
+                <project.environment>dev</project.environment>
                 <jdbc.config.src>src/dev/java</jdbc.config.src>
             </properties>
         </profile>
@@ -181,7 +188,7 @@
             <!-- ATTENTION profiles dev and prod need to be defined in pom before with-spa profile -->
             <id>prod</id>
             <properties>
-                <angular.environment.script>runProd.bat</angular.environment.script>
+                <project.environment>prod</project.environment>
                 <jdbc.config.src>src/prod/java</jdbc.config.src>
             </properties>
         </profile>
@@ -194,24 +201,47 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>3.0.0</version>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <version>1.12.0</version>
                         <executions>
                             <execution>
-                                <id>Build spa</id>
-                                <phase>compile</phase>
+                                <id>install node and npm</id>
                                 <goals>
-                                    <goal>exec</goal>
+                                    <goal>install-node-and-npm</goal>
                                 </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <nodeVersion>v14.17.0</nodeVersion>
+<!--                                <npmVersion>6.14.13</npmVersion> This is the default version provided by nodejs 14.17.0 -->
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>npm install</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>ng build</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <arguments>run build-${project.environment}</arguments>
+                                </configuration>
                             </execution>
                         </executions>
+
                         <configuration>
-                            <executable>${angular.environment.script}</executable>
-                            <workingDirectory>../scripts</workingDirectory>
+                            <workingDirectory>../spa</workingDirectory>
                         </configuration>
                     </plugin>
-
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-war-plugin</artifactId>
