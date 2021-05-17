@@ -4,12 +4,9 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "start-en": "ng serve --configuration=en",
         "build": "ng build",
-        "build-en": "ng build --configuration=en",
         "test": "ng test",
-        "lint": "ng lint",
-        "extract-i18n": "ng extract-i18n spa --i18n-format xlf --output-path src/i18n --i18n-locale pl && ng run spa:xliffmerge"
+        "lint": "ng lint"
     },
     "private": true,
     "dependencies": {
@@ -21,7 +18,8 @@
         "@angular/platform-browser": "~11.2.3",
         "@angular/platform-browser-dynamic": "~11.2.3",
         "@angular/router": "~11.2.3",
-        "@ngx-i18nsupport/tooling": "^8.0.3",
+        "@ngx-translate/core": "^13.0.0",
+        "@ngx-translate/http-loader": "^6.0.0",
         "jwt-decode": "^3.1.2",
         "rxjs": "~6.6.0",
         "tslib": "^2.0.0",
@@ -32,7 +30,6 @@
         "@angular/cli": "~11.2.2",
         "@angular/compiler-cli": "~11.2.3",
         "@angular/localize": "^11.2.6",
-        "@ngx-i18nsupport/ngx-i18nsupport": "^1.1.6",
         "@types/countries-and-timezones": "^2.0.3",
         "@types/node": "^12.11.1",
         "codelyzer": "^6.0.0",
