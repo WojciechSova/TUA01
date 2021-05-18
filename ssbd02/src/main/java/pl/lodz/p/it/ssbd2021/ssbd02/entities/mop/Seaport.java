@@ -6,7 +6,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -31,11 +34,13 @@ public class Seaport extends AbstractEntity implements Serializable {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @NotNull
+    @NotBlank
+    @Size(max = 30, message = "City can have a maximum of 30 characters")
     @Column(name = "city", nullable = false, unique = true, updatable = true, length = 30)
     private String city;
 
-    @NotNull
+    @NotBlank
+    @Pattern(regexp = "[A-Z]{3}", message = "Seaport code must be 3 capital letters")
     @Column(name = "code", nullable = false, unique = true, updatable = false, length = 3)
     private String code;
 

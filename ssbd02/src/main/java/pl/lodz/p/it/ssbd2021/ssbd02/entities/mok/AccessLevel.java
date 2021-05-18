@@ -4,7 +4,9 @@ import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -35,7 +37,8 @@ public class AccessLevel extends AbstractEntity implements Serializable {
     @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
-    @NotNull
+    @NotBlank
+    @Size(max = 16, message = "Level can have a maximum of 16 characters")
     @Column(name = "level", nullable = false, updatable = false, length = 16)
     private String level;
 

@@ -5,7 +5,9 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -51,7 +53,8 @@ public class Cruise extends AbstractEntity implements Serializable {
     @JoinColumn(name = "ferry", nullable = false, updatable = true, referencedColumnName = "id")
     private Ferry ferry;
 
-    @NotNull
+    @NotBlank
+    @Pattern(regexp = "[A-Z]{6}[0-9]{6}", message = "Cruise number must have 6 capital letters and 6 digits")
     @Column(name = "number", nullable = false, unique = true, updatable = false, length = 12)
     private String number;
 

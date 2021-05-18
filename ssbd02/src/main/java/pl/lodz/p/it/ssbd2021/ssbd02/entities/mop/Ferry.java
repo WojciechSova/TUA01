@@ -6,7 +6,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -31,15 +31,18 @@ public class Ferry extends AbstractEntity implements Serializable {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @NotNull
+    @NotBlank
+    @Size(max = 30, message = "Ferry name can have a maximum of 30 characters")
     @Column(name = "name", nullable = false, unique = true, updatable = false, length = 30)
     private String name;
 
     @NotNull
+    @PositiveOrZero(message = "Ferry vehicle capacity must be positive or zero")
     @Column(name = "vehicle_capacity", nullable = false, updatable = true)
     private Integer vehicleCapacity;
 
     @NotNull
+    @Positive(message = "Ferry on deck capacity must be positive")
     @Column(name = "on_deck_capacity", nullable = false, updatable = true)
     private Integer onDeckCapacity;
 

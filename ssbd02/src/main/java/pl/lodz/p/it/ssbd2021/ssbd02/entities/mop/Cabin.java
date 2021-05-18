@@ -5,7 +5,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -38,6 +41,7 @@ public class Cabin extends AbstractEntity implements Serializable {
     private Ferry ferry;
 
     @NotNull
+    @Positive(message = "Cabin capacity must be positive")
     @Column(name = "capacity", nullable = false, updatable = true)
     private Integer capacity;
 
@@ -46,7 +50,7 @@ public class Cabin extends AbstractEntity implements Serializable {
     @JoinColumn(name = "cabin_type", nullable = false, updatable = true, referencedColumnName = "id")
     private CabinType cabinType;
 
-    @NotNull
+    @Pattern(regexp = "[A-Z]+[0-9]{3}", message = "Cabin number must be a capital letter and 3 digits")
     @Column(name = "number", nullable = false, updatable = false, length = 4)
     private String number;
 

@@ -5,7 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -42,6 +42,8 @@ public class Booking extends AbstractEntity implements Serializable {
     private Account account;
 
     @NotNull
+    @Min(value = 1, message = "Number of people must be positive")
+    @Max(value = 128, message = "Number of people must be below 128")
     @Column(name = "number_of_people", nullable = false, updatable = false)
     private Integer numberOfPeople;
 
@@ -55,10 +57,12 @@ public class Booking extends AbstractEntity implements Serializable {
     private VehicleType vehicleType;
 
     @NotNull
+    @Positive(message = "Price must be positive")
     @Column(name = "price", nullable = false, updatable = false)
     private Double price;
 
-    @NotNull
+    @NotBlank
+    @Pattern(regexp = "[0-9]{10}", message = "Booking number must be 10 digits")
     @Column(name = "number", nullable = false, unique = true, updatable = false, length = 10)
     private String number;
 
