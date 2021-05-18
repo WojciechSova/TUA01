@@ -1,34 +1,34 @@
 <div class="overlay">
     <div class="box-container">
-        <div class="top-center" i18n="Enter new e-mail address|">
-            Podaj nowy adres e-mail:
+        <div class="top-center" translate>
+            change-email-form.enter_new_email_address
         </div>
         <form class="edit-form" [formGroup]="form">
             <label for="email"></label>
             <input type="text" id="email" name="Email" #email
-                   placeholder="*Adres e-mail" i18n-placeholder="*Email address|" formControlName="email"
+                   placeholder="{{'form.required_email_address' | translate}}" formControlName="email"
                    [ngClass]="{'is-invalid': form.controls.email.touched && form.controls.email.invalid}">
 
             <div class="validation-error" *ngIf="form.controls.email.hasError('required') && form.controls.email.touched"
-                 i18n="Field required|">Pole wymagane</div>
+                 translate>form.field_required</div>
             <div class="validation-error" *ngIf="form.controls.email.hasError('email') && form.controls.email.touched"
-                 i18n="Invalid format|">Niepoprawny format</div>
-            <div class="validation-error" *ngIf="existingEmail" i18n="Provided email already exists|">Podany adres e-mail już istnieje
+                 translate>form.invalid_format</div>
+            <div class="validation-error" *ngIf="existingEmail" translate>ERROR.EMAIL_UNIQUE
             </div>
 
             <label for="email-repeat"></label>
             <input type="text" id="email-repeat" name="Email-repeat"
-                   placeholder="*Powtórz adres e-mail" i18n-placeholder="Repeat email|" formControlName="emailRepeat"
+                   placeholder="{{'form.required_repeat_email_address' | translate}}" formControlName="emailRepeat"
                    [ngClass]="{'is-invalid': form.controls.emailRepeat.touched && form.controls.emailRepeat.invalid}">
 
             <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('required') && form.controls.emailRepeat.touched"
-                 i18n="Field required|">Pole wymagane</div>
+                 translate>form.field_required</div>
             <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('notMatching') && form.controls.emailRepeat.touched
             && !form.controls.emailRepeat.hasError('required')"
-                 i18n="Emails differ|">Adresy nie są takie same</div>
+                 translate>form.email_differ</div>
         </form>
         <div class="bottom-center">
-            <button class="form-button" [disabled]="form.invalid" (click)="changeEmail(email.value)" i18n="Confirm|">Zatwierdź</button>
+            <button class="form-button" [disabled]="form.invalid" (click)="changeEmail(email.value)" translate>form.confirm</button>
             <img class="return-arrow" (click)="closeComponent()" src="assets/back-arrow.png" alt=""/>
         </div>
     </div>

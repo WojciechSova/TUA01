@@ -3,23 +3,23 @@
         <img class="circle" src="assets/login-register-circle.png" alt=""/>
         <img class="logo" (click)="closeComponent()" src="assets/logo_primary_color.png" alt=""/>
         <div class="validation-error login-error" *ngIf="error">
-            <p id="invalidCredentialsLabel" i18n="Invalid login or password|">Podany login lub hasło są nieprawidłowe.</p>
+            <p id="invalidCredentialsLabel" translate>ERROR.INVALID_LOGIN_OR_PASSWORD</p>
         </div>
         <form action="">
             <label for="login"></label>
             <input [(ngModel)]="login" type="text" id="login" name="Login"
-                   placeholder="*Login" i18n-placeholder="Login|" required><br>
+                   placeholder="*Login" required><br>
             <label for="password"></label>
             <input [(ngModel)]="password" type="password" id="password" name="Password"
-                   placeholder="*Hasło" i18n-placeholder="Password|" required><br><br>
+                   placeholder="{{'form.required_password' | translate}}" required><br><br>
             <button (click)="auth()" class="form-button" id="loginFormBtn"
-                    i18n="Sign in|">Zaloguj</button>
+                    translate>links.sing_in</button>
         </form>
         <div class="column-nav">
             <a (click)="openResetPassword()"
-               i18n="Forgot password|">Zapomniałeś hasła?</a>
+               translate>login.forgot_password</a>
             <a (click)="openRegister()"
-               i18n="Sign up if no account|Signing up in case of not having an account">Nie masz konta? Zarejestruj się</a>
+               translate>login.sign_up_if_no_account</a>
         </div>
         <img class="return-arrow" (click)="closeComponent()" src="assets/back-arrow.png" alt=""/>
     </div>
