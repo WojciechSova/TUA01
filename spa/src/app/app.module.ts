@@ -25,6 +25,7 @@ import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-a
 import { ResetPasswordComponent } from './common/navigation/reset-password/reset-password.component';
 import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-email-form.component';
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
+import { ConfirmResetComponent } from './ferrytales/account-details/confirm-reset/confirm-reset.component';
 
 @NgModule({
     declarations: [
@@ -49,14 +50,15 @@ import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/
         ConfirmAccountComponent,
         ResetPasswordComponent,
         ChangeEmailFormComponent,
-        ConfirmEmailChangeComponent
+        ConfirmEmailChangeComponent,
+        ConfirmResetComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
     providers: [IdentityService],
     bootstrap: [AppComponent]

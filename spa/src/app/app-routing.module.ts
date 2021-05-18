@@ -11,7 +11,7 @@ import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
     { path: 'accounts/:login', component: AccountDetailsComponent },
-    { path: 'accounts/edit/:login', component: EditUserComponent }
+    { path: 'accounts/edit/:login', component: EditUserComponent },
 ];
 
 const routes: Routes = [

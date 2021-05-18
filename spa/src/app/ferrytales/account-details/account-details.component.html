@@ -5,12 +5,16 @@
                     class="edit-button"
                     (click)="editUser(accountDetailsService.account.login)"
                     i18n="Edit account|">Edytuj konto</button>
-            <button class="edit-button" id="change-password"
-                    (click)="changeChangePasswordFormVisible(true)"
+            <button *ngIf="isOnOwnProfile()" class="edit-button" id="change-password"
+                    (click)="changePasswordFormVisible(true)"
                     i18n="Change password|">Zmień hasło
             </button>
+            <button *ngIf="identityService.isAdmin() && !isOnOwnProfile()" class="edit-button" id="reset-password"
+                    (click)="resetPasswordClick()" i18n="Reset password|">Zresetuj hasło
+            </button>
             <button class="edit-button" *ngIf="identityService.isAdmin()"
-                    (click)="setLoginAccessLevels(accountDetailsService.account.login, accountDetailsService.account.accessLevel); changeAccessLevelFormVisible(true)"
+                    (click)="setLoginAccessLevels(accountDetailsService.account.login, accountDetailsService.account.accessLevel);
+                    changeAccessLevelFormVisible(true)"
                     i18n="Edit access levels|">Edytuj poziomy dostępu
             </button>
             <button class="edit-button"
@@ -99,9 +103,11 @@
     </div>
 </div>
 <app-change-password-form *ngIf="isChangePasswordFormVisible"
-                          (isChangePasswordFormVisibleChange)="changeChangePasswordFormVisible($event)"></app-change-password-form>
+                          (isChangePasswordFormVisibleChange)="changePasswordFormVisible($event)"></app-change-password-form>
 <app-access-level-form *ngIf="isAccessLevelFormVisible"
                        (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"
                        [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels"></app-access-level-form>
 <app-change-email-form *ngIf="isChangeEmailFormVisible"
                        (isChangeEmailFormVisible)="changeEmailFormVisible($event)"></app-change-email-form>
+<app-confirm-reset *ngIf="isResetPasswordVisible"
+                   (isConfirmPasswordVisible)="changePasswordResetVisible($event)"></app-confirm-reset>

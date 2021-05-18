@@ -25,6 +25,8 @@ export class AccountDetailsComponent {
 
     isAccessLevelFormVisible = false;
 
+    isResetPasswordVisible = false;
+
     loginToChangeAccessLevel = '';
     loginAccessLevels = [''];
 
@@ -40,7 +42,7 @@ export class AccountDetailsComponent {
 
     getAccount(): void {
         const login = (this.route.snapshot.paramMap.get('login') as string);
-        if (this.accountDetailsService.account.login === login) {
+        if (this.identityService.getLogin() === login) {
             this.accountDetailsService.getProfile().subscribe(
                 (response: HttpResponse<AccountDetails>) => {
                     this.accountDetailsService.readAccountAndEtagFromResponse(response);
@@ -54,8 +56,12 @@ export class AccountDetailsComponent {
         }
     }
 
-    changeChangePasswordFormVisible(visible: boolean): void {
+    changePasswordFormVisible(visible: boolean): void {
         this.isChangePasswordFormVisible = visible;
+    }
+
+    resetPasswordClick(): void {
+        this.changePasswordResetVisible(true);
     }
 
     changeEmailFormVisible(visible: boolean): void {
@@ -66,7 +72,16 @@ export class AccountDetailsComponent {
         this.isAccessLevelFormVisible = visible;
     }
 
+    changePasswordResetVisible(visible: boolean): void {
+        this.getAccount();
+        this.isResetPasswordVisible = visible;
+    }
+
     editUser(login: string): void {
         this.router.navigate(['ferrytales/accounts/edit', login]);
+    }
+
+    isOnOwnProfile(): boolean {
+        return this.identityService.getLogin() === this.accountDetailsService.account.login;
     }
 }
