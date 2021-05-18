@@ -2,8 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.dto.mop;
 
 import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 
 import java.sql.Timestamp;
 
@@ -21,15 +20,15 @@ public class CabinDTO extends AbstractDTO {
 
     private Integer capacity;
 
-    private CabinType cabinType;
+    private CabinTypeDTO cabinType;
 
     private String number;
 
     private Timestamp modificationDate;
 
-    private Account modifiedBy;
+    private AccountGeneralDTO modifiedBy;
 
     private Timestamp creationDate;
 
-    private Account createdBy;
+    private AccountGeneralDTO createdBy;
 }

@@ -2,9 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.dto.mop;
 
 import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 
 import java.sql.Timestamp;
 
@@ -24,17 +22,17 @@ public class CruiseDTO extends AbstractDTO {
 
     private Timestamp endDate;
 
-    private Route route;
+    private RouteDTO route;
 
-    private Ferry ferry;
+    private FerryDTO ferry;
 
     private String number;
 
     private Timestamp modificationDate;
 
-    private Account modifiedBy;
+    private AccountGeneralDTO modifiedBy;
 
     private Timestamp creationDate;
 
-    private Account createdBy;
+    private AccountGeneralDTO createdBy;
 }

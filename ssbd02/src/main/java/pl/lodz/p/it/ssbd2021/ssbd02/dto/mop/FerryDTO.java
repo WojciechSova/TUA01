@@ -2,7 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.dto.mop;
 
 import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -29,9 +29,9 @@ public class FerryDTO extends AbstractDTO {
 
     private Timestamp modificationDate;
 
-    private Account modifiedBy;
+    private AccountGeneralDTO modifiedBy;
 
     private Timestamp creationDate;
 
-    private Account createdBy;
+    private AccountGeneralDTO createdBy;
 }

@@ -2,8 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.dto.mop;
 
 import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 
 import java.sql.Timestamp;
 
@@ -19,13 +18,13 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(callSuper = true)
 public class RouteDTO extends AbstractDTO {
 
-    private Seaport start;
+    private SeaportDTO start;
 
-    private Seaport destination;
+    private SeaportDTO destination;
 
     private String code;
 
     private Timestamp creationDate;
 
-    private Account createdBy;
+    private AccountGeneralDTO createdBy;
 }
