@@ -44,7 +44,7 @@ public class SystemManager implements SystemManagerLocal {
     private EmailSenderLocal emailSender;
 
     @Override
-    @Schedule(hour = "*", minute = "*", second = "*/20", persistent = false)
+    @Schedule(hour = "*", persistent = false)
     public void removeUnconfirmedAccounts() {
         int removalTime = 86400;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
