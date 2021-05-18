@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
  *
  * @author Artur Madaj
  */
-
 @Singleton
 @Startup
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -53,7 +52,7 @@ public class SystemManager implements SystemManagerLocal {
     @Override
     @Schedule(hour = "*", persistent = false)
     public void removeUnconfirmedAccounts() {
-        long removalTime = 86400000;
+        long removalTime = 86_400_000;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
 
             prop.load(input);
@@ -95,12 +94,11 @@ public class SystemManager implements SystemManagerLocal {
     public void resendConfirmAccountEmail() {
         long removalTime = 86_400_000 / 2L;
         long hour = 3_600_000;
+        long actualTime = Timestamp.from(Instant.now()).getTime() / hour * hour + (hour / 2);
 
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
-
             prop.load(input);
             removalTime = Long.parseLong(prop.getProperty("system.time.account.confirmation")) / 2;
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,8 +108,8 @@ public class SystemManager implements SystemManagerLocal {
         List<OneTimeUrl> oneTimeUrls = oneTimeUrlFacadeLocal.findAll().stream()
                 .filter(oneTimeUrl ->
                         "verify".equals(oneTimeUrl.getActionType()) &&
-                                ((oneTimeUrl.getExpireDate()).getTime() - Timestamp.from(Instant.now()).getTime() <= finalRemovalTime) &&
-                                ((oneTimeUrl.getExpireDate()).getTime() - Timestamp.from(Instant.now()).getTime() > finalRemovalTime - hour))
+                                ((oneTimeUrl.getExpireDate()).getTime() - actualTime <= finalRemovalTime) &&
+                                ((oneTimeUrl.getExpireDate()).getTime() - actualTime > finalRemovalTime - hour))
                 .collect(Collectors.toList());
 
         oneTimeUrls.forEach(oneTimeUrl -> emailSender.sendRegistrationEmail(oneTimeUrl.getAccount().getLanguage(),
