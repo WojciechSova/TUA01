@@ -32,11 +32,11 @@ export class IdentityService {
     }
 
     getAllRolesAsArray(): string[] {
-        let levels = this.getAllRolesAsString();
+        const levels = this.getAllRolesAsString();
         return levels.split(',');
     }
 
     setCurrentRole(level: string): void {
-        localStorage.setItem("currentAccessLevel", level);
+        localStorage.setItem('currentAccessLevel', level);
     }
 }

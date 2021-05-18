@@ -95,7 +95,8 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "spa:build"
+                        "browserTarget": "spa:build",
+                        "ssl": true
                     },
                     "configurations": {
                         "prod": {

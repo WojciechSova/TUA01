@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { AccountDetails } from '../model/mok/AccountDetails';
-import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -22,16 +22,29 @@ export class AccountDetailsService implements OnDestroy {
         password: ''
     };
 
+    eTag = '';
+
     private readonly url: string;
 
     constructor(private http: HttpClient) {
         this.url = environment.appUrl + '/accounts';
     }
 
-    getAccountDetails(login: string): Observable<AccountDetails> {
-        return this.http.get<AccountDetails>(this.url + '/' + encodeURIComponent(login),
+    getAccountDetails(login: string): Observable<HttpResponse<AccountDetails>> {
+        return this.generateAccountDetailsRequest(login);
+    }
+
+    getProfile(): Observable<HttpResponse<AccountDetails>> {
+        return this.generateAccountDetailsRequest();
+
+    }
+
+    private generateAccountDetailsRequest(login?: string): Observable<HttpResponse<AccountDetails>> {
+        const urlBuilder = this.url + ((login === undefined || login === null) ?
+            '/profile' : ('/' + encodeURIComponent(login as string)));
+        return this.http.get<AccountDetails>(urlBuilder,
             {
-                observe: 'body',
+                observe: 'response',
                 responseType: 'json',
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -39,18 +52,13 @@ export class AccountDetailsService implements OnDestroy {
             });
     }
 
-    getProfile(): Observable<AccountDetails> {
-        return this.http.get<AccountDetails>(this.url + '/profile',
-            {
-                observe: 'body',
-                responseType: 'json',
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
-            });
+    readAccountAndEtagFromResponse(response: HttpResponse<AccountDetails>): void {
+        this.account = response.body as AccountDetails;
+        this.eTag = (response.headers.get('etag') as string).slice(1, -1);
     }
 
     ngOnDestroy(): void {
         this.account = {} as any;
+        this.eTag = '';
     }
 }

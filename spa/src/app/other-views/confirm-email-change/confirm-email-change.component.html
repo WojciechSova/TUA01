@@ -1,0 +1,9 @@
+<div class="header">
+    <img src="./assets/logo_primary_color.png" alt="No img">
+</div>
+<div class="content" *ngIf="visible">
+    <h1 *ngIf="success" i18n="Email change successful|">Zmiana adres e-mail przypisanego do konta przebiegła pomyślnie</h1>
+    <h1 *ngIf="!success" i18n="Email change error|">Wystąpił błąd podczas zmiany adresu e-mail!</h1>
+    <h2 i18n="Go to main page|">Za chwilę nastąpi przekierowanie na stronę główną</h2>
+</div>
+

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { IdentityService } from '../../../services/utils/identity.service';
-import { AccessLevelService } from '../../../services/access-level.service';
+import { IdentityService } from '../../services/utils/identity.service';
+import { AccessLevelService } from '../../services/access-level.service';
 import { forkJoin } from 'rxjs';
 
 @Component({

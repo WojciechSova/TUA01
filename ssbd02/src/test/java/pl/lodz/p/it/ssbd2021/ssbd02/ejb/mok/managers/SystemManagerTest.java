@@ -8,9 +8,11 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.OneTimeUrlFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -45,6 +47,8 @@ class SystemManagerTest {
     private AccountFacadeLocal accountFacadeLocal;
     @Mock
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
+    @Mock
+    private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
     @Mock
     private EmailSenderLocal emailSender;
     @InjectMocks
@@ -128,5 +132,15 @@ class SystemManagerTest {
 
         assertEquals(a3, accounts.get(0));
         assertEquals(al3, accessLevels.get(0));
+    }
+
+    @Test
+    void removeInactiveUrl() {
+        OneTimeUrl oneTimeUrl = new OneTimeUrl();
+        when(oneTimeUrlFacadeLocal.findExpired()).thenReturn(List.of(oneTimeUrl));
+
+        systemManager.removeInactiveUrl();
+
+        verify(oneTimeUrlFacadeLocal).remove(oneTimeUrl);
     }
 }

@@ -17,10 +17,10 @@ public class GetAllAccountsTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private WebDriver driver;
-    private final String url = "https://localhost:8181/#";
+    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
     private final String adminLogin = "admin";
     private final String adminPassword = "password?";
+    private WebDriver driver;
 
     @BeforeAll
     static void initAll() {
@@ -53,12 +53,13 @@ public class GetAllAccountsTest {
 
         List<String> tableHeaders = accountsListPage.getTableHeaders();
         Assertions.assertAll(
-                () -> Assertions.assertTrue(tableHeaders.contains("Login")),
-                () -> Assertions.assertTrue(tableHeaders.contains("Imię")),
-                () -> Assertions.assertTrue(tableHeaders.contains("Nazwisko")),
-                () -> Assertions.assertTrue(tableHeaders.contains("Poziomy dostępu")),
-                () -> Assertions.assertTrue(tableHeaders.contains("Odblokuj/Zablokuj")),
-                () -> Assertions.assertTrue(tableHeaders.contains("Szczegóły"))
+                () -> Assertions.assertTrue(tableHeaders.contains("login")),
+                () -> Assertions.assertTrue(tableHeaders.contains("imię")),
+                () -> Assertions.assertTrue(tableHeaders.contains("nazwisko")),
+                () -> Assertions.assertTrue(tableHeaders.contains("poziomy dostępu")),
+                () -> Assertions.assertTrue(tableHeaders.contains("odblokuj/zablokuj")),
+                () -> Assertions.assertTrue(tableHeaders.contains("zarządzaj")),
+                () -> Assertions.assertTrue(tableHeaders.contains("szczegóły"))
         );
     }
 

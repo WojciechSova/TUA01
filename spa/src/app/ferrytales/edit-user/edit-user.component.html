@@ -24,25 +24,16 @@
                     <label for="edit-phoneNumber">{{accountDetailsService.account.phoneNumber}}</label>
                     <input #newPhoneNumber type="text" id="edit-phoneNumber" formControlName="phoneNumber"
                            placeholder="Numer telefonu" i18n-placeholder="Phone number|"
-                           [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}">
-
+                           [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}"
+                           (ngModelChange)="existingPhoneNumber = false">
                 </div>
-                <div class="edit-validation-error"
+                <div id="invalid-number-error"
+                    class="edit-validation-error"
                      *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
                      i18n="Invalid format|">Niepoprawny format
                 </div>
-
-                <div class="row">
-                    <label for="edit-language">{{accountDetailsService.account.language}}</label>
-                    <select class="edit-content-select" #newLanguage id="edit-language" formControlName="language">
-                        <option value="" disabled selected hidden i18n="Choose a language|">Wybierz język</option>
-                        <option id="pl" [selected]="accountDetailsService.account.language === 'pl'" value="pl"
-                                i18n="Polish language|">język polski
-                        </option>
-                        <option id="en" [selected]="accountDetailsService.account.language === 'en'" value="en"
-                                i18n="English language|">język angielski
-                        </option>
-                    </select>
+                <div id="existing-number-error"
+                    class="edit-validation-error" *ngIf="existingPhoneNumber" i18n="Provided phone number already exists|">Podany numer telefonu już istnieje
                 </div>
 
                 <div class="row">
@@ -52,15 +43,15 @@
                         </option>
                         <option *ngFor="let zone of timezones" [value]="zone"
                                 [selected]="zone === accountDetailsService.account.timeZone" id="{{zone}}">
-                            Strefa {{zone}}</option>
+                            Strefa UTC {{zone}}</option>
                     </select>
                 </div>
             </div>
             <button class="edit-button" id="saveBtn"
-                    (click)="editUser(newFirstName.value, newLastName.value, newPhoneNumber.value, newLanguage.value, newTimeZone.value)"
+                    (click)="editUser(newFirstName.value, newLastName.value, newPhoneNumber.value, newTimeZone.value)"
                     [disabled]="form.invalid" i18n="Save|">Zapisz
             </button>
-            <img class="return-arrow" (click)="setUser(accountDetailsService.account.login)" src="assets/back-arrow.png"
+            <img class="return-arrow" (click)="showUser(accountDetailsService.account.login)" src="assets/back-arrow.png"
                  alt=""/>
         </form>
 

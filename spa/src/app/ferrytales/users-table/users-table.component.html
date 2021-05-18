@@ -8,9 +8,33 @@
 <div class="users-list-container">
     <table id="users">
         <tr>
-            <th>Login</th>
-            <th i18n="First name|">Imię</th>
-            <th i18n="Last name|">Nazwisko</th>
+            <th i18n="Login|">Login
+                <div *ngIf="byLogin; then notSortByLoginTemplate else sortByLoginTemplate"></div>
+                <ng-template #sortByLoginTemplate>
+                    <img (click)="byLogin = true; byFirstName = false; byLastName = false; listAccounts()" src="assets/sort_arrow_white.png" alt=""/>
+                </ng-template>
+                <ng-template #notSortByLoginTemplate>
+                    <img src="assets/sort_arrow_purple.png" alt=""/>
+                </ng-template>
+            </th>
+            <th i18n="First name|">Imię
+                <div *ngIf="byFirstName; then notSortByFirstNameTemplate else sortByFirstNameTemplate"></div>
+                <ng-template #sortByFirstNameTemplate>
+                    <img (click)="byLogin = false; byFirstName = true; byLastName = false; listAccounts()" src="assets/sort_arrow_white.png" alt=""/>
+                </ng-template>
+                <ng-template #notSortByFirstNameTemplate>
+                    <img src="assets/sort_arrow_purple.png" alt=""/>
+                </ng-template>
+            </th>
+            <th i18n="Last name|">Nazwisko
+                <div *ngIf="byLastName; then notSortByLastNameTemplate else sortByLastNameTemplate"></div>
+                <ng-template #sortByLastNameTemplate>
+                    <img (click)="byLogin = false; byFirstName = false; byLastName = true; listAccounts()" src="assets/sort_arrow_white.png" alt=""/>
+                </ng-template>
+                <ng-template #notSortByLastNameTemplate>
+                    <img src="assets/sort_arrow_purple.png" alt=""/>
+                </ng-template>
+            </th>
             <th i18n="Access levels|">Poziomy dostępu</th>
             <th i18n="Unblock/Block|">Odblokuj/Zablokuj</th>
             <th i18n="Manage|">Zarządzaj</th>
@@ -29,10 +53,10 @@
             <td>
                 <div *ngIf="user.active; then block else unblock">{{user['active']}}</div>
                 <ng-template #unblock>
-                    <button class="button-user-table button-unblock" (click)="unblockAccount(user.login)" i18n="Unblock|">Odblokuj</button>
+                    <button class="button-user-table button-unblock" id="unblockButton" (click)="unblockAccount(user.login)" i18n="Unblock|">Odblokuj</button>
                 </ng-template>
                 <ng-template #block>
-                    <button class="button-user-table button-block" (click)="blockAccount(user.login)" i18n="Block|">Zablokuj</button>
+                    <button class="button-user-table button-block" id="blockButton" (click)="blockAccount(user.login)" i18n="Block|">Zablokuj</button>
                 </ng-template>
             </td>
             <td>
@@ -42,7 +66,7 @@
                 </button>
             </td>
             <td>
-                <button id="details" class="button-user-table" (click)="setUser(user.login)" i18n="Details|">Szczegóły</button>
+                <button id="details" class="button-user-table" (click)="showUserDetails(user.login)" i18n="Details|">Szczegóły</button>
             </td>
         </tr>
     </table>

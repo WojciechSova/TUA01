@@ -11,6 +11,7 @@ public interface EmailSenderLocal {
     /**
      * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie zmiany adresu email przypisanego do konta.
      *
+     * @param language              Język w którym ma zostać wysłana wiadomość e-mail.
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      * @param link                  Jednorazowy adres url, który służy do potwierdzenia zmiany adresu email przez użytkownika.
@@ -20,6 +21,7 @@ public interface EmailSenderLocal {
     /**
      * Metoda wysyłająca wiadomość email z linkiem pozwalającym na potwierdzenie nowo założonego konta.
      *
+     * @param language              Język w którym ma zostać wysłana wiadomość e-mail.
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      * @param link                  Jednorazowy adres url, który służy do potwierdzenia konta przez użytkownika.
@@ -29,6 +31,7 @@ public interface EmailSenderLocal {
     /**
      * Metoda wysyłająca wiadomość email z informacją o zmianie aktywności konta.
      *
+     * @param language              Język w którym ma zostać wysłana wiadomość e-mail.
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      * @param active                Aktualny status aktywności konta.
@@ -38,6 +41,7 @@ public interface EmailSenderLocal {
     /**
      * Metoda wysyłająca wiadomość email informującą użytkownika o modyfikacji danych jego konta.
      *
+     * @param language              Język w którym ma zostać wysłana wiadomość e-mail.
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
@@ -46,22 +50,27 @@ public interface EmailSenderLocal {
     /**
      * Metoda wysyłająca wiadomość email informującą użytkownika o dodaniu poziomu dostępu jego konta.
      *
+     * @param language              Język w którym ma zostać wysłana wiadomość e-mail.
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     * @param accessLevel           Aktywowany poziom dostępu
      */
     void sendAddAccessLevelEmail(String language, String recipientName, String recipientEmailAddress, String accessLevel);
 
     /**
      * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu poziomu dostępu jego konta.
      *
+     * @param language              Język w którym ma zostać wysłana wiadomość e-mail.
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
+     * @param accessLevel           Dezaktywowany poziom dostępu
      */
     void sendRemoveAccessLevelEmail(String language, String recipientName, String recipientEmailAddress, String accessLevel);
 
     /**
      * Metoda wysyłająca wiadomość email informującą użytkownika o usunięciu jego konta.
      *
+     * @param language              Język w którym ma zostać wysłana wiadomość e-mail.
      * @param recipientName         Imię odbiorcy wiadomości.
      * @param recipientEmailAddress Adres email odbiorcy wiadomości.
      */
@@ -70,9 +79,20 @@ public interface EmailSenderLocal {
     /**
      * Metoda wysyłająca wiadomość email informującą administratora o logowaniu na jego konto.
      *
+     * @param language      Język w którym ma zostać wysłana wiadomość e-mail.
      * @param firstName     Imię administratora
      * @param email         Adres email administratora
      * @param clientAddress Adres IP, z którego nastąpiło logowanie
      */
     void sendAdminAuthenticationEmail(String language, String firstName, String email, String clientAddress);
+
+    /**
+     * Metoda wysyłająca wiadomość email zawierającą adres url służący resetowaniu hasła użytkownika.
+     *
+     * @param language  Język użytkownika
+     * @param firstName Imię użytkownika
+     * @param email     Adres email uzytkownika
+     * @param url       Jednorazowy adres url, który służy do resetowania hasła
+     */
+    void sendPasswordResetEmail(String language, String firstName, String email, String url);
 }

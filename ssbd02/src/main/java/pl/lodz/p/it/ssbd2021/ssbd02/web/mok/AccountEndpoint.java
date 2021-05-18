@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mok;
 
+import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
@@ -94,7 +95,9 @@ public class AccountEndpoint {
         AccountDetailsDTO account = AccountMapper.createAccountDetailsDTOFromEntities(
                 accountManager.getAccountWithLogin(securityContext.getUserPrincipal().getName())
         );
-        return Response.ok(account)
+        return Response.ok()
+                .entity(account)
+                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(account))
                 .build();
     }
 
@@ -121,8 +124,8 @@ public class AccountEndpoint {
      * Metoda umożliwiająca dodanie poziomu dostępu użytkownikowi o podanym loginie.
      *
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
-     * @param login Login użytkownika do którego dodany zostanie poziom dostępu.
-     * @param accessLevel Poziom dostępu, który ma zostać dodany do konta.
+     * @param login           Login użytkownika do którego dodany zostanie poziom dostępu.
+     * @param accessLevel     Poziom dostępu, który ma zostać dodany do konta.
      * @return Kod 200 w przypadku poprawnego dodania dostępu.
      */
     @PUT
@@ -140,8 +143,8 @@ public class AccountEndpoint {
      * Metoda umożliwiająca odebranie poziomu dostępu użytkownikowi o podanym loginie.
      *
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
-     * @param login Login użytkownika któremu odebrany zostanie poziom dostępu.
-     * @param accessLevel Poziom dostępu, który ma zostać odebrany.
+     * @param login           Login użytkownika któremu odebrany zostanie poziom dostępu.
+     * @param accessLevel     Poziom dostępu, który ma zostać odebrany.
      * @return Kod 200 w przypadku poprawnego odebrania dostępu.
      */
     @PUT
@@ -158,9 +161,9 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca użytkownikowi aktualizowanie konta w aplikacji.
      *
-     * @param accountDTO Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta.
+     * @param accountDTO      Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta.
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
-     * @param eTag ETag podawany w zawartości nagłówka "If-Match"
+     * @param eTag            ETag podawany w zawartości nagłówka "If-Match"
      * @return Kod 200 w przypadku poprawnej aktualizacji.
      */
     @PUT
@@ -173,7 +176,7 @@ public class AccountEndpoint {
         if (accountDTO.getLogin() == null || accountDTO.getVersion() == null) {
             throw new WebApplicationException("Not all required fields were provided", 400);
         }
-        if(!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, accountDTO)) {
+        if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, accountDTO)) {
             throw new WebApplicationException("Not valid tag", 412);
         }
         accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO),
@@ -183,9 +186,40 @@ public class AccountEndpoint {
     }
 
     /**
+     * Metoda umożliwiająca użytkownikowi aktualizowanie swojego konta w aplikacji.
+     *
+     * @param accountDTO Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta
+     * @param eTag       ETag podawany w zawartości nagłówka "If-Match"
+     * @return Kod 200 w przypadku poprawnej aktualizacji konta
+     * Kod 400 w przypadku gdy przesyłane dane nie zawierają loginu lub wersji
+     * Kod 412 w przypadku gdy eTag nie jest ważny lub próbujemy zmienić nie swoje konto
+     */
+    @PUT
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
+    @Path("/profile/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @DTOSignatureValidatorFilterBinding
+    public Response updateOwnAccount(AccountDetailsDTO accountDTO, @Context SecurityContext securityContext,
+                                     @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
+        if (accountDTO.getLogin() == null || accountDTO.getVersion() == null) {
+            throw new WebApplicationException("Not all required fields were provided", 400);
+        }
+        if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, accountDTO)) {
+            throw new WebApplicationException("ETag not valid", 412);
+        }
+        if (!accountDTO.getLogin().equals(securityContext.getUserPrincipal().getName())) {
+            throw new WebApplicationException("You can not change not your own account", 412);
+        }
+        accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO), accountDTO.getLogin());
+
+        return Response.ok()
+                .build();
+    }
+
+    /**
      * Metoda umożliwiająca zablokowanie konta użytkownika.
      *
-     * @param login Login blokowanego konta
+     * @param login           Login blokowanego konta
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
      * @return Kod 200 w przypadku poprawnego zablokowania konta
      */
@@ -222,7 +256,7 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca odblokowanie konta użytkownika.
      *
-     * @param login Login odblokowywanego konta
+     * @param login           Login odblokowywanego konta
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego odblokowania konta
      */
@@ -250,5 +284,117 @@ public class AccountEndpoint {
         }
 
         return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    /**
+     * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiay adresu e-mail
+     *
+     * @param newEmailAddress Nowy adres e-mail
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
+     * Kod 406 w przypadku niepoprawnej walidacji adresu
+     */
+    @POST
+    @Path("profile/email")
+    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response sendChangeEmailAddressUrl(String newEmailAddress, @Context SecurityContext securityContext) {
+
+        if (!EmailAddressValidator.isValid(newEmailAddress)) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
+
+        accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress);
+
+        return Response.ok().build();
+    }
+
+    /**
+     * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiany adresu e-mail użytkownika o podanym loginie.
+     *
+     * @param newEmailAddress Nowy adres e-mail.
+     * @param login Login użytkownika, któremy ma zostać zmieniony adres e-mail.
+     * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
+     * Kod 406 w przypadku niepoprawnej walidacji adresu
+     */
+    @POST
+    @Path("email/{login}")
+    @RolesAllowed({"ADMIN"})
+    @Consumes(MediaType.TEXT_PLAIN)
+    public Response sendChangeEmailAddressUrl(String newEmailAddress, @PathParam("login") String login) {
+
+        if (!EmailAddressValidator.isValid(newEmailAddress)) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+        }
+
+        accountManager.sendChangeEmailAddressUrl(login, newEmailAddress);
+
+        return Response.ok().build();
+    }
+
+    /**
+     * Metoda umożliwiająca zmianę adresu e-mail przypisanego do konta
+     *
+     * @param url Kod służący do potwierdzenia zmiany adresu e-mail
+     * @return Kod 200 w przypadku poprawnego potwierdzenia zmiany adresu e-mail, w przeciwnym razie kod 400
+     */
+    @PUT
+    @PermitAll
+    @Path("confirm/email/{url}")
+    public Response changeEmailAddress(@PathParam("url") String url) {
+        if (accountManager.changeEmailAddress(url)) {
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    /**
+     * Metoda obsługująca żądanie resetowania hasła.
+     *
+     * @param email Email użytkownika, którego hasło ma zostać zresetowane
+     * @return Kod 200 w przypoadku poprawnego formatu adresu email, w przeciwnym razie 400.
+     * Aplikacja nie powiadamia użytkownika czy podany email znajduje się w bazie danych.
+     */
+    @POST
+    @PermitAll
+    @Path("reset/password")
+    public Response sendPasswordResetAddressUrl(String email) {
+        if (email == null || "".equals(email.trim())) {
+            throw new WebApplicationException("No email provided", 400);
+        }
+
+        if (!EmailAddressValidator.isValid(email)) {
+            throw new WebApplicationException("Invalid email format", 400);
+        }
+
+        accountManager.sendPasswordResetAddressUrl(email);
+
+        return Response.ok().build();
+    }
+
+    /**
+     * Metoda zmieniająca hasło użytkownika na podstawie dostarczonego wcześniej jednorazowego adresu URL.
+     *
+     * @param url         Jednorazowy adres url potwierdzający możliwość zmiany hasła.
+     * @param newPassword Nowe hasło użytkownika.
+     * @return Kod 200 w przypadku poprawnie skonstruowanego żądania.
+     * Kod 400 w przypadku nieprawidłowej długości url lub 406 w przypadku niepoprawnej dłuygości nowego hasła.
+     */
+    @PUT
+    @PermitAll
+    @Path("reset/password/{url}")
+    public Response resetPassword(@PathParam("url") String url, String newPassword) {
+
+        if (url.length() != 32) {
+            throw new WebApplicationException("Invalid URL", 400);
+        }
+
+        if (newPassword.length() < 8) {
+            throw new WebApplicationException("New password too short", 406);
+        }
+
+        accountManager.resetPassword(url, newPassword);
+
+        return Response.ok().build();
     }
 }

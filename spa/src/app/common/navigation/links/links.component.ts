@@ -26,6 +26,7 @@ export class LinksComponent {
 
     isLoginVisible = false;
     isRegisterVisible = false;
+    isResetPasswordVisible = false;
 
     signOut(): void {
         this.authService.signOut();
@@ -42,11 +43,15 @@ export class LinksComponent {
         this.isRegisterVisible = visible;
     }
 
+    changeResetPasswordVisible(visible: boolean): void {
+        this.isResetPasswordVisible = visible;
+    }
+
     getProfile(): void {
         this.accountDetailsService.getProfile().subscribe(
-            (acc) => {
-                this.accountDetailsService.account = acc;
-                this.router.navigateByUrl('/ferrytales/account');
+            (response) => {
+                this.accountDetailsService.readAccountAndEtagFromResponse(response);
+                this.router.navigate(['/ferrytales/accounts', response.body?.login]);
             }
         );
     }

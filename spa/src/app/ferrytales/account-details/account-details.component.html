@@ -1,16 +1,21 @@
 <div class="outer-div">
     <div class="account-details" id="accountDetails">
         <div class="button-container">
-            <button class="edit-button"
+            <button id="edit-button"
+                    class="edit-button"
                     (click)="editUser(accountDetailsService.account.login)"
                     i18n="Edit account|">Edytuj konto</button>
-            <button class="edit-button"
+            <button class="edit-button" id="change-password"
                     (click)="changeChangePasswordFormVisible(true)"
                     i18n="Change password|">Zmień hasło
             </button>
-            <button class="edit-button"
+            <button class="edit-button" *ngIf="identityService.isAdmin()"
                     (click)="setLoginAccessLevels(accountDetailsService.account.login, accountDetailsService.account.accessLevel); changeAccessLevelFormVisible(true)"
                     i18n="Edit access levels|">Edytuj poziomy dostępu
+            </button>
+            <button class="edit-button"
+                    (click)="changeEmailFormVisible(true)"
+                    i18n="Change e-mail address|">Zmień adres e-mail
             </button>
             <button class="edit-button" (click)="getAccount()" i18n="Refresh|">Odśwież</button>
         </div>
@@ -97,5 +102,6 @@
                           (isChangePasswordFormVisibleChange)="changeChangePasswordFormVisible($event)"></app-change-password-form>
 <app-access-level-form *ngIf="isAccessLevelFormVisible"
                        (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"
-                       [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels">
-</app-access-level-form>
+                       [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels"></app-access-level-form>
+<app-change-email-form *ngIf="isChangeEmailFormVisible"
+                       (isChangeEmailFormVisible)="changeEmailFormVisible($event)"></app-change-email-form>

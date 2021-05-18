@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AccountGeneral } from '../../model/mok/AccountGeneral';
 import { AccountGeneralService } from '../../services/account-general.service';
 import { Router } from '@angular/router';
+import { AccountDetailsService } from '../../services/account-details.service';
 
 @Component({
     selector: 'app-users-table',
@@ -16,7 +17,13 @@ export class UsersTableComponent {
     loginToChangeAccessLevel = '';
     loginAccessLevels = [''];
 
-    constructor(private accountGeneralService: AccountGeneralService, private router: Router) {
+    byLogin = true;
+    byFirstName = false;
+    byLastName = false;
+
+    constructor(private accountGeneralService: AccountGeneralService,
+                private accountDetailsService: AccountDetailsService,
+                private router: Router) {
         this.getAccounts();
     }
 
@@ -27,11 +34,62 @@ export class UsersTableComponent {
 
     getAccounts(): void {
         this.accountGeneralService.getAccounts().subscribe(
-            (response: AccountGeneral[]) => this.accountGeneralService.accountGeneralList = response);
+            (response: AccountGeneral[]) => {
+                this.accountGeneralService.accountGeneralList = response;
+                this.listAccounts();
+            });
     }
 
     listAccounts(): AccountGeneral[] {
+        this.byLogin && this.sortByLogin();
+        this.byFirstName && this.sortByFirstName();
+        this.byLastName && this.sortByLastName();
         return this.accountGeneralService.accountGeneralList;
+    }
+
+    showUserDetails(login: string): void {
+        this.accountDetailsService.getAccountDetails(login).subscribe(
+            (response) => {
+                this.accountDetailsService.readAccountAndEtagFromResponse(response);
+                this.router.navigate(['/ferrytales/accounts', login]);
+            }
+        );
+    }
+
+    sortByLogin(): void {
+        this.accountGeneralService.accountGeneralList.sort((a, b) => {
+            if (a.login.toLowerCase() < b.login.toLowerCase()) {
+                return -1;
+            }
+            if (a.login.toLowerCase() > b.login.toLowerCase()) {
+                return 1;
+            }
+            return 0;
+        });
+    }
+
+    sortByFirstName(): void {
+        this.accountGeneralService.accountGeneralList.sort((a, b) => {
+            if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
+                return -1;
+            }
+            if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) {
+                return 1;
+            }
+            return 0;
+        });
+    }
+
+    sortByLastName(): void {
+        this.accountGeneralService.accountGeneralList.sort((a, b) => {
+            if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
+                return -1;
+            }
+            if (a.lastName.toLowerCase() > b.lastName.toLowerCase()) {
+                return 1;
+            }
+            return 0;
+        });
     }
 
     setUser(login: string): void {
