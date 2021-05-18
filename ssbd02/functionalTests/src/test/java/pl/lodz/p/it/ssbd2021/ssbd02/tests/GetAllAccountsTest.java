@@ -22,6 +22,7 @@ public class GetAllAccountsTest {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
+        options.addArguments("−−lang=pl");
         options.setHeadless(true);
     }
 
