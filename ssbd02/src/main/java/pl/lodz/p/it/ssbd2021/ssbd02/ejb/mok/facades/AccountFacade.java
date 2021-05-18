@@ -53,4 +53,11 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
         typedQuery.setParameter("confirmed", confirmed);
         return typedQuery.getResultList();
     }
+
+    @Override
+    public List<Account> findByUnconfirmedAndExpired(int removalTime) {
+        TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByUnconfirmedAndExpired", Account.class);
+        typedQuery.setParameter("removalTime", removalTime);
+        return typedQuery.getResultList();
+    }
 }
