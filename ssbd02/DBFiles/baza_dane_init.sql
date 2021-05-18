@@ -13,9 +13,9 @@ VALUES (1, 'Kazimierz', 'Andrzejewski', 'nieistnieje@aaa.pl', 'pl', '+01:00'),
        (3, 'Jadwiga', 'Sokołowska', 'zmyslony2@aaa.pl', 'en', '+01:00');
 
 INSERT INTO Personal_data (id, first_name, last_name, email, phone_number, language, time_zone)
-VALUES (4, 'Patryk', 'Rutkowski', 'zmyslony3@aaa.pl', '123456789', 'pl', '+01:00'),
-       (5, 'Gabriela', 'Górska', 'zmyslony4@aaa.pl', '987654321', 'en', '+01:00'),
-       (6, 'Anastazy', 'Cieślak', 'zmyslony5@aaa.pl', '111111111', 'pl', '+01:00');
+VALUES (4, 'Patryk', 'Rutkowski', 'zmyslony3@aaa.pl', '48123456789', 'pl', '+01:00'),
+       (5, 'Gabriela', 'Górska', 'zmyslony4@aaa.pl', '48987654321', 'en', '+01:00'),
+       (6, 'Anastazy', 'Cieślak', 'zmyslony5@aaa.pl', '48111111111', 'pl', '+01:00');
 
 INSERT INTO Access_level (version, level, account, active)
 VALUES (1, 'ADMIN', 1, true),
