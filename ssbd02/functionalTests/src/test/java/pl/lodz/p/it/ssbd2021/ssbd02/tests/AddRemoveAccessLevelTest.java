@@ -6,14 +6,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.ChangeAccessLevelsPage;
 
 public class AddRemoveAccessLevelTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
     private WebDriver driver;
-    private final String adminLogin = "admin";
+    private final String login = "admin";
 
     @BeforeAll
     static void initAll() {
@@ -40,26 +42,26 @@ public class AddRemoveAccessLevelTest {
 
         driverWait.until(ExpectedConditions.visibilityOfElementLocated(accountsListPage.getUsersTable()));
 
-        Assertions.assertEquals("ADMIN", accountsListPage.getAccessLevels(adminLogin));
+        Assertions.assertEquals("ADMIN", accountsListPage.getAccessLevels(login));
 
-        ChangeAccessLevelsPage changeAccessLevelsPage = accountsListPage.openChangeAccessLevelsForm(adminLogin);
+        ChangeAccessLevelsPage changeAccessLevelsPage = accountsListPage.openChangeAccessLevelsForm(login);
         changeAccessLevelsPage.changeAccessLevel("EMPLOYEE");
 
         driverWait.until(ExpectedConditions.invisibilityOfElementLocated(changeAccessLevelsPage.getCheckboxContainer()));
 
         Assertions.assertAll(
-                () -> Assertions.assertTrue(accountsListPage.getAccessLevels(adminLogin).contains("ADMIN")),
-                () -> Assertions.assertTrue(accountsListPage.getAccessLevels(adminLogin).contains("EMPLOYEE"))
+                () -> Assertions.assertTrue(accountsListPage.getAccessLevels(login).contains("ADMIN")),
+                () -> Assertions.assertTrue(accountsListPage.getAccessLevels(login).contains("EMPLOYEE"))
         );
 
-        accountsListPage.openChangeAccessLevelsForm(adminLogin);
+        accountsListPage.openChangeAccessLevelsForm(login);
         changeAccessLevelsPage.changeAccessLevel("EMPLOYEE");
 
         driverWait.until(ExpectedConditions.invisibilityOfElementLocated(changeAccessLevelsPage.getCheckboxContainer()));
 
         Assertions.assertAll(
-                () -> Assertions.assertTrue(accountsListPage.getAccessLevels(adminLogin).contains("ADMIN")),
-                () -> Assertions.assertFalse(accountsListPage.getAccessLevels(adminLogin).contains("EMPLOYEE"))
+                () -> Assertions.assertTrue(accountsListPage.getAccessLevels(login).contains("ADMIN")),
+                () -> Assertions.assertFalse(accountsListPage.getAccessLevels(login).contains("EMPLOYEE"))
         );
     }
 

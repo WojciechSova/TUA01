@@ -8,8 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.LoginPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 
 import java.util.List;
 

@@ -10,8 +10,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.LoginPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 
 public class BlockUnblockAccountTest {
 
@@ -61,8 +59,7 @@ public class BlockUnblockAccountTest {
         driverWait.until((ExpectedCondition<Boolean>) driver -> {
             try {
                 accountsListPage.getUserWithLogin(login);
-            }
-            catch (StaleElementReferenceException ex) {
+            } catch (StaleElementReferenceException ex) {
                 return true;
             }
             return false;

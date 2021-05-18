@@ -19,6 +19,12 @@ public class TestUtils {
         return loginPage.loginValidAdmin(adminLogin, adminPassword);
     }
 
+    public static AdminMainPage logInAsAdmin(WebDriver driver, String login, String password) {
+        MainPage mainPage = new MainPage(driver);
+        LoginPage loginPage = mainPage.openLoginForm();
+        return loginPage.loginValidAdmin(login, password);
+    }
+
     public static EmployeeMainPage logInAsEmployee(WebDriver driver) {
         MainPage mainPage = new MainPage(driver);
         LoginPage loginPage = mainPage.openLoginForm();

@@ -12,7 +12,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.EditUserProfilePage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.ProfileDetailsPage;
 
 import java.util.List;
 
@@ -22,8 +25,6 @@ public class EditAnotherUserProfileTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private final String adminLogin = "admin";
-    private final String adminPassword = "password?";
     private final String newFirstName = "noweImie";
     private final String newLastName = "noweNazwisko";
     private final String newPhoneNumber = "48000000000";
@@ -93,9 +94,7 @@ public class EditAnotherUserProfileTest {
     }
 
     private void logInAndOpenDetails() {
-        MainPage mainPage = new MainPage(driver);
-        LoginPage loginPage = mainPage.openLoginForm();
-        adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
+        adminMainPage = TestUtils.logInAsAdmin(driver);
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 

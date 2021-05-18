@@ -9,7 +9,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.ProfileDetailsPage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +32,6 @@ public class ShowProfileTest {
     @BeforeAll
     static void initAll() {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
-
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
         options.setHeadless(true);
@@ -40,7 +41,6 @@ public class ShowProfileTest {
     public void initEach() {
         driver = new ChromeDriver(options);
         driver.get(TestUtils.url);
-
         driverWait = new WebDriverWait(driver, 25);
     }
 

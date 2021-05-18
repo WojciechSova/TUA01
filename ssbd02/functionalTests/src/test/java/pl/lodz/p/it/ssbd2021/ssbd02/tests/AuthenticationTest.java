@@ -7,8 +7,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.LoginPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 
 import java.util.Locale;
 
@@ -16,15 +14,13 @@ public class AuthenticationTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private final String adminLogin = "admin";
-    private final String adminPassword = "password?";
-    private final String incorrectLogin = "nieprawidlowe";
     private WebDriver driver;
+    private final String password = "password?";
+    private final String incorrectLogin = "nieprawidlowe";
 
     @BeforeAll
     static void initAll() {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
-
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
         options.setHeadless(true);
@@ -34,7 +30,6 @@ public class AuthenticationTest {
     public void initEach() {
         driver = new ChromeDriver(options);
         driver.get(TestUtils.url);
-
         driverWait = new WebDriverWait(driver, 25);
     }
 
@@ -50,9 +45,7 @@ public class AuthenticationTest {
 
     @Test
     public void authenticationUncompletedTest() {
-        MainPage mainPage = new MainPage(driver);
-        LoginPage loginPage = mainPage.openLoginForm();
-        AdminMainPage adminMainPage = loginPage.loginValidAdmin(incorrectLogin, adminPassword);
+        AdminMainPage adminMainPage = TestUtils.logInAsAdmin(driver, incorrectLogin, password);
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getErrorMessageId()));
         Assertions.assertTrue(adminMainPage.isLoginErrorMessageDisplayed());
     }
