@@ -56,7 +56,7 @@ export class AccountDetailsComponent {
         }
     }
 
-    changePasswordFormVisible(visible: boolean): void {
+    changeChangePasswordFormVisible(visible: boolean): void {
         this.isChangePasswordFormVisible = visible;
     }
 

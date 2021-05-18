@@ -1,0 +1,146 @@
+{
+    "general": {
+        "administrator": "Admin",
+        "employee": "Employee",
+        "client": "Client",
+        "refresh": "Refresh",
+        "details": "Details"
+    },
+    "form": {
+        "invalid_format": "Invalid format",
+        "field_required": "Field required",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "phone_number": "Phone number",
+        "required_first_name": "*First name",
+        "required_last_name": "*Last name",
+        "required_password": "*Password",
+        "required_repeat_password": "*Repeat password",
+        "required_email_address": "*E-mail address",
+        "required_repeat_email_address": "*Repeat e-mail address",
+        "email_differ": "E-mail address are not the same",
+        "passwords_differ": "Passwords are not the same",
+        "short_password": "Password too short",
+        "updating": "Updating...",
+        "save": "Save",
+        "confirm": "Confirm",
+        "yes": "Yes",
+        "no": "No"
+    },
+    "links": {
+        "about_us": "About us",
+        "contact": "Contact",
+        "routes": "Routes",
+        "ferries": "Ferries",
+        "harbors": "Harbors",
+        "bookings": "Bookings",
+        "my_bookings": "My bookings",
+        "current_cruises": "Current cruises",
+        "accounts": "Accounts",
+        "sing_in": "Sing in",
+        "sing_up": "Sing up",
+        "sing_out": "Sing out"
+    },
+    "login": {
+        "forgot_password": "Forgot password?",
+        "sign_up_if_no_account": "No account? Sign up"
+    },
+    "register": {
+        "sing_in_if_having_an_account": "Already have an account? Sign in!"
+    },
+    "change-password-form": {
+        "set_new_password": "Set a new password:",
+        "required_new_password": "*New password",
+        "required_repeat_new_password": "*Repeat new password",
+        "invalid_password": "The password you entered is incorrect."
+    },
+    "reset-password": {
+        "reset_password": "Reset password",
+        "required_enter_your_email_address": "*Enter your email address"
+    },
+    "change-email-form": {
+        "enter_new_email_address": "Enter your new email address:"
+    },
+    "access-level-form": {
+        "choose_access_level": "Select access levels:"
+    },
+    "edit-user": {
+        "actual": "Current",
+        "new": "New",
+        "choose_a_time_zone": "Select a time zone",
+        "UTC_time_zone": "UTC"
+    },
+    "users-table": {
+        "enter_your_search": "Enter your search...",
+        "access_levels": "Access levels",
+        "manage": "Manage",
+        "unblock_block": "Unblock/Block",
+        "unblock": "Unblock",
+        "block": "Block"
+    },
+    "account-details": {
+        "edit_account": "Edit account",
+        "change_password": "Change password",
+        "edit_access_levels": "Edit access levels",
+        "change_email_address": "Change e-mail address",
+        "first_name": "First name:",
+        "last_name": "Last name:",
+        "email_address": "E-mail address:",
+        "phone_number": "Phone number:",
+        "language": "Language:",
+        "timezone": "Time zone:",
+        "active": "Active:",
+        "confirmed": "Confirmed:",
+        "last_modification_date": "Date of last modification:",
+        "modified_by": "Author of last modification:",
+        "creation_date": "Date of creation:",
+        "last_known_good_login": "The date of the last successful login attempt:",
+        "last_known_good_login_ip": "The ip address of the last successful login attempt:",
+        "last_known_bad_login": "The date of the last failed login attempt:",
+        "last_known_bad_login_ip": "The ip address of the last failed login attempt:",
+        "number_of_bad_logins": "Number of failed login attempts:",
+        "access_levels": "Access levels:"
+    },
+    "access-level-table": {
+        "level": "Access level",
+        "active": "Active",
+        "last_modification_date": "Date of last modification:",
+        "modified_by": "Author of last modification:",
+        "creation_date": "Date of creation:"
+    },
+    "main-page": {
+        "advert": "Fairytale-like ferry crossings",
+        "check_now": "Check out now!",
+        "sign_in_to_book": "Sign in to book a ticket!"
+    },
+    "popular-offers": {
+        "popular_routes": "Popular routes"
+    },
+    "offer": {
+        "starting_at": "Starting at {{price}}PLN per person",
+        "book": "Book"
+    },
+    "cities": {
+        "warsaw": "Warsaw",
+        "ciechocinek": "Ciechocinek"
+    },
+    "confirm-account": {
+        "welcome_on_board": "Welcome on board!",
+        "account_confirm_error": "An error occurred during account verification!",
+        "go_to_main_page": "You will be taken to the home page in a moment"
+    },
+    "confirm-email-change": {
+        "email_change_successful": "Changing the email address associated with your account was successful",
+        "email_change_error": "An error occurred while changing your email address!",
+        "go_to_main_page": "You will be taken to the home page in a moment"
+    },
+    "confirm-reset": {
+        "reset_pwd_question": "Do you want to reset password?"
+    },
+    "ERROR":{
+        "PHONE_NUMBER_UNIQUE": "Provided phone number already exists",
+        "SAME_PASSWORD_AS_PREVIOUS": "The password provided is the same as the previous one",
+        "EMAIL_UNIQUE": "The e-mail address you entered already exists",
+        "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect"
+    }
+}

@@ -2,7 +2,7 @@
     <img src="./assets/logo_primary_color.png" alt="No img">
 </div>
 <div class="content" *ngIf="visible">
-    <h1 *ngIf="success" i18n="Welcome on board|">Witamy na pokładzie!</h1>
-    <h1 *ngIf="!success" i18n="Account confirm error|">Wystąpił błąd podczas weryfikacji konta!</h1>
-    <h2 i18n="Go to main page|">Za chwilę nastąpi przeniesienie na stronę główną</h2>
+    <h1 *ngIf="success" translate>confirm-account.welcome_on_board</h1>
+    <h1 *ngIf="!success" translate>confirm-account.account_confirm_error</h1>
+    <h2 translate>confirm-account.go_to_main_page</h2>
 </div>
