@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
         lastName: new FormControl('', Validators.required),
         email: new FormControl('', [Validators.required, Validators.email, validateEmail]),
         emailRepeat: new FormControl('', [Validators.required, validateEmail]),
-        phoneNumber: new FormControl('', Validators.pattern('[0-9]{11}') )
+        phoneNumber: new FormControl('', Validators.pattern('^[0-9]{3,15}$'))
     });
 
     ngOnInit(): void {
