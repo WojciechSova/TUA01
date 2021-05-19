@@ -6,7 +6,7 @@ import javax.ejb.Local;
 import java.util.List;
 
 /**
- * Lokalny interfejs managera typu kajuty
+ * Lokalny interfejs managera typów kajut
  *
  * @author Wojciech Sowa
  */

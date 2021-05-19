@@ -51,6 +51,14 @@ public interface BookingManagerLocal {
     Booking getBookingByNumber(String code);
 
     /**
+     * Metoda zwracająca potrzebne miejsce na promie na pojazd o podanej nazwie typu.
+     *
+     * @param name Nazwa typu pojazdu
+     * @return Wartość typu {@link Float}
+     */
+    Float getRequiredSpaceByVehicleTypeName(String name);
+
+    /**
      * Metoda tworząca rezerwacje.
      *
      * @param booking Encja typu {@link Booking}

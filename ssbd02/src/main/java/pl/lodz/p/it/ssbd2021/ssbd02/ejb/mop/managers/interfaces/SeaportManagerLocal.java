@@ -39,7 +39,7 @@ public interface SeaportManagerLocal {
      * Metoda aktualizuje port o kodzie zawartym w encji {@link Seaport} oraz ustawia konto w polu modifiedBy na konto
      * użytkownika dokonującego zmiany.
      *
-     * @param seaport      Encja typu {@link Seaport}
+     * @param seaport    Encja typu {@link Seaport}
      * @param modifiedBy Login użytkownika, który edytuje encje
      */
     void updateSeaport(Seaport seaport, String modifiedBy);

@@ -31,7 +31,7 @@ public interface CabinManagerLocal {
     /**
      * Metoda wyszukująca wszystkie kajuty, które znajdują się na promie o podanym kodzie i są wybranego typu.
      *
-     * @param code Kod promu, po którym chcemy wyszukać
+     * @param code      Kod promu, po którym chcemy wyszukać
      * @param cabinType Nazwa typu kajuty
      * @return Lista kajut {@link Cabin}, które znajdują się na promie o podanym kodzie i są wybranego typu
      */
