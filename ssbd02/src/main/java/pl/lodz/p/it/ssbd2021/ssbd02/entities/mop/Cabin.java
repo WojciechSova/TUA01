@@ -47,7 +47,7 @@ public class Cabin extends AbstractEntity implements Serializable {
     @JoinColumn(name = "cabin_type", nullable = false, updatable = true, referencedColumnName = "id")
     private CabinType cabinType;
 
-    @Pattern(regexp = "[A-Z]+[0-9]{3}", message = "Cabin number must be a capital letter and 3 digits")
+    @Pattern(regexp = "[A-Z][0-9]{3}", message = "Cabin number must be a capital letter and 3 digits")
     @Column(name = "number", nullable = false, updatable = false, length = 4)
     private String number;
 
