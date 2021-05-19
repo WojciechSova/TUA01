@@ -20,7 +20,7 @@ class JWTGeneratorTest {
     private final CallerPrincipal callerPrincipal;
 
     private final String algorithm = "\"alg\":\"HS256\"";
-    private final String issuer = "\"iss\":\"" + SecurityConstants.ISSUER + "\"";
+    private final String issuer = "\"iss\":\"ssbd02\"";
     private final String subject = "\"sub\":\"Test\"";
     private final String auth = "\"auth\":\"test-group\"";
 
