@@ -75,11 +75,11 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "phone_number", nullable = true, unique = true, updatable = true, length = 15, table = "Personal_data")
     private String phoneNumber;
 
-    @Size(min = 2, max = 5, message = "Language must have between 2 and 5 characters")
+    @Pattern(regexp = "[a-z]{2}-[A-Z]{2}|[a-z]{2}", message = "Language must be 2 lower case letters or 2 lower case letters, a \"-\" and 2 capital letters")
     @Column(name = "language", nullable = false, updatable = true, length = 5, table = "Personal_data")
     private String language = "en";
 
-    @Size(min = 6, max = 6, message = "Time zone must have 6 characters")
+    @Pattern(regexp = "[+-]0[0-9]:00|-1[0-2]:00|[+]1[0-4]:00", message = "Invalid time zone format, should be like \"+\\-00:00\"")
     @Column(name = "time_zone", nullable = false, updatable = true, length = 6, table = "Personal_data")
     private String timeZone = "+00:00";
 
