@@ -16,6 +16,7 @@ import java.util.List;
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class SeaportManager implements SeaportManagerLocal {
+
     @Override
     public List<Seaport> getAllSeaports() {
         return null;

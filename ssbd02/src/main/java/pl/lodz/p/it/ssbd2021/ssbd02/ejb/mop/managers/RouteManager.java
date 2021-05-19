@@ -16,6 +16,7 @@ import java.util.List;
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class RouteManager implements RouteManagerLocal {
+
     @Override
     public List<Route> getAllRoutes() {
         return null;

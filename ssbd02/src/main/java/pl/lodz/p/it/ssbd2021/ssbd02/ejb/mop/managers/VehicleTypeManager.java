@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.VehicleTypeFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.VehicleTypeManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.VehicleType;
 
 import javax.ejb.Stateful;
@@ -15,49 +16,10 @@ import java.util.List;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class VehicleTypeManager implements VehicleTypeFacadeLocal {
-    @Override
-    public void create(VehicleType entity) {
-
-    }
+public class VehicleTypeManager implements VehicleTypeManagerLocal {
 
     @Override
-    public VehicleType find(Object id) {
-        return null;
-    }
-
-    @Override
-    public void edit(VehicleType entity) {
-
-    }
-
-    @Override
-    public void remove(VehicleType entity) {
-
-    }
-
-    @Override
-    public List<VehicleType> findAll() {
-        return null;
-    }
-
-    @Override
-    public List<VehicleType> findInRange(int start, int end) {
-        return null;
-    }
-
-    @Override
-    public int count() {
-        return 0;
-    }
-
-    @Override
-    public List<VehicleType> findWithNamedQuery(String namedQuery) {
-        return null;
-    }
-
-    @Override
-    public List<VehicleType> findWithQuery(String query) {
+    public List<VehicleType> getAllVehicleTypes() {
         return null;
     }
 }

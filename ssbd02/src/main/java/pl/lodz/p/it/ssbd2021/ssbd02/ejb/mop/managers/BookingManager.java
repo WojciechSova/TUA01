@@ -16,6 +16,7 @@ import java.util.List;
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class BookingManager implements BookingManagerLocal {
+    
     @Override
     public List<Booking> getAllBookings() {
         return null;

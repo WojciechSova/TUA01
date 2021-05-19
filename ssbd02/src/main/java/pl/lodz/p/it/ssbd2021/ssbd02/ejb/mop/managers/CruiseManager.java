@@ -16,6 +16,7 @@ import java.util.List;
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class CruiseManager implements CruiseManagerLocal {
+
     @Override
     public List<Cruise> getAllCruises() {
         return null;

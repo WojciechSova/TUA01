@@ -16,6 +16,7 @@ import java.util.List;
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class CabinTypeManager implements CabinTypeManagerLocal {
+
     @Override
     public List<CabinType> getAllCabinTypes() {
         return null;
