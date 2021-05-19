@@ -9,8 +9,11 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
 import javax.security.enterprise.identitystore.CredentialValidationResult;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Properties;
 
 /**
  * Klasa generująca token JWT.
@@ -18,6 +21,10 @@ import java.util.Date;
  * @author Patryk Kolanek
  */
 public class JWTGenerator {
+
+    private static final Properties prop = new Properties();
+    private static int expirationTime;
+    private static String issuer;
 
     /**
      * Metoda generująca token JWT.
@@ -31,11 +38,21 @@ public class JWTGenerator {
 
             JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
 
+            try (InputStream input = JWTGenerator.class.getClassLoader().getResourceAsStream("security.properties")) {
+                prop.load(input);
+                expirationTime = Integer.parseInt(prop.getProperty("security.token.expiration.time"));
+                issuer = prop.getProperty("security.token.issuer");
+            } catch (IOException e) {
+                expirationTime = 600000;
+                issuer = "ssbd02";
+                e.printStackTrace();
+            }
+
             JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                     .subject(credentialValidationResult.getCallerPrincipal().getName())
                     .claim(SecurityConstants.AUTH, String.join(SecurityConstants.GROUP_SPLIT_CONSTANT, credentialValidationResult.getCallerGroups()))
-                    .issuer(SecurityConstants.ISSUER)
-                    .expirationTime(new Date(new Date().getTime() + SecurityConstants.EXPIRATION_TIME))
+                    .issuer(issuer)
+                    .expirationTime(new Date(new Date().getTime() + expirationTime))
                     .build();
 
             SignedJWT signedJWT = new SignedJWT(jwsHeader, jwtClaimsSet);
@@ -64,11 +81,19 @@ public class JWTGenerator {
             SignedJWT previousSignedJWT = SignedJWT.parse(serializedJWT);
             JWTClaimsSet previousJWTClaimsSet = previousSignedJWT.getJWTClaimsSet();
 
+            try (InputStream input = JWTGenerator.class.getClassLoader().getResourceAsStream("security.properties")) {
+                prop.load(input);
+                expirationTime = Integer.parseInt(prop.getProperty("security.token.expiration.time"));
+            } catch (IOException e) {
+                expirationTime = 600000;
+                e.printStackTrace();
+            }
+
             JWTClaimsSet newJWTClaimsSet = new JWTClaimsSet.Builder()
                     .subject(previousJWTClaimsSet.getSubject())
                     .claim(SecurityConstants.AUTH, accessLevels)
                     .issuer(previousJWTClaimsSet.getIssuer())
-                    .expirationTime(new Date(new Date().getTime() + SecurityConstants.EXPIRATION_TIME))
+                    .expirationTime(new Date(new Date().getTime() + expirationTime))
                     .build();
 
             SignedJWT signedJWT = new SignedJWT(jwsHeader, newJWTClaimsSet);
