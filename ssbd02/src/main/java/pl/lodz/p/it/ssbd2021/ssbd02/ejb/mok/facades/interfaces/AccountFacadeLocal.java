@@ -44,7 +44,8 @@ public interface AccountFacadeLocal extends AbstractFacadeInterface<Account> {
      * Metoda wyszukująca listę encji typu {@link Account}, które nie zostały jeszcze potwierdzone,
      * a czas ich potwierdzenia minął.
      *
-     * @param removalTime Wartość typu {@link Integer} informująca o liczbie sekund, po którym konto zostanie usunięte.
+     * @param removalTime Wartość typu {@link Integer} informująca o liczbie sekund, po której nastąpi usunięcie konta
+     *                    w przypadku braku jego aktywacji.
      * @return Lista obiektów typu {@link Account}.
      */
     List<Account> findByUnconfirmedAndExpired(int removalTime);

@@ -103,7 +103,7 @@ class SystemManagerTest {
         when(a3.getEmail()).thenReturn(mail3);
 
         doReturn(accounts.stream()
-                .filter(account -> Timestamp.from(Instant.now().minus(Duration.ofSeconds(account.getCreationDate().getTime() / 1000))).getTime() / 1000 > expirationTime)
+                .filter(account -> Timestamp.from(Instant.now().minus(Duration.ofMillis(account.getCreationDate().getTime()))).getTime() / 1000 > expirationTime)
                 .collect(Collectors.toList())).when(accountFacadeLocal).findByUnconfirmedAndExpired(expirationTime);
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(List.of(al1, al2));
         when(oneTimeUrlFacadeLocal.findByAccount(a1)).thenReturn(List.of(url1));
