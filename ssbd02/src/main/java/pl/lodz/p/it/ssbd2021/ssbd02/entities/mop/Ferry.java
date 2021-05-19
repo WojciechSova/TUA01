@@ -46,6 +46,7 @@ public class Ferry extends AbstractEntity implements Serializable {
     @Column(name = "on_deck_capacity", nullable = false, updatable = true)
     private Integer onDeckCapacity;
 
+    @PastOrPresent
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
 
@@ -53,6 +54,7 @@ public class Ferry extends AbstractEntity implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 
+    @PastOrPresent
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 

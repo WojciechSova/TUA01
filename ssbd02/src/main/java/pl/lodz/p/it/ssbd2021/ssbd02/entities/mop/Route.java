@@ -8,6 +8,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -51,6 +52,7 @@ public class Route extends AbstractEntity implements Serializable {
     @Column(name = "code", nullable = false, unique = true, updatable = false, length = 6)
     private String code;
 
+    @PastOrPresent
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 

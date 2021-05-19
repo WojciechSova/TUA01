@@ -5,10 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -54,6 +51,7 @@ public class Cabin extends AbstractEntity implements Serializable {
     @Column(name = "number", nullable = false, updatable = false, length = 4)
     private String number;
 
+    @PastOrPresent
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
 
@@ -61,6 +59,7 @@ public class Cabin extends AbstractEntity implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 
+    @PastOrPresent
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 

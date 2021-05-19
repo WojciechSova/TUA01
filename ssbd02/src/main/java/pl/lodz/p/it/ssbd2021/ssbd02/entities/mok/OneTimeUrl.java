@@ -5,10 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -54,6 +51,7 @@ public class OneTimeUrl implements Serializable {
     private String newEmail;
 
     @NotNull
+    @Future
     @Column(name = "expire_date", nullable = false, updatable = true)
     private Timestamp expireDate;
 }

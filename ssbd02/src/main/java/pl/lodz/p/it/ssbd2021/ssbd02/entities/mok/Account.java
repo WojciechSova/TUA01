@@ -84,6 +84,7 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "time_zone", nullable = false, updatable = true, length = 6, table = "Personal_data")
     private String timeZone = "+00:00";
 
+    @PastOrPresent
     @Column(name = "modification_date", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp modificationDate;
 
@@ -91,9 +92,11 @@ public class Account extends AbstractEntity implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id", table = "Personal_data")
     private Account modifiedBy;
 
+    @PastOrPresent
     @Column(name = "creation_date", nullable = false, updatable = false, table = "Personal_data")
     private Timestamp creationDate = Timestamp.from(Instant.now());
 
+    @PastOrPresent
     @Column(name = "last_known_good_login", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp lastKnownGoodLogin;
 
@@ -101,6 +104,7 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "last_known_good_login_ip", nullable = true, updatable = true, length = 15, table = "Personal_data")
     private String lastKnownGoodLoginIp;
 
+    @PastOrPresent
     @Column(name = "last_known_bad_login", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp lastKnownBadLogin;
 
@@ -108,6 +112,7 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "last_known_bad_login_ip", nullable = true, updatable = true, length = 15, table = "Personal_data")
     private String lastKnownBadLoginIp;
 
+    @PositiveOrZero
     @Column(name = "number_of_bad_logins", nullable = false, updatable = true, table = "Personal_data")
     private Integer numberOfBadLogins = 0;
     //endregion
