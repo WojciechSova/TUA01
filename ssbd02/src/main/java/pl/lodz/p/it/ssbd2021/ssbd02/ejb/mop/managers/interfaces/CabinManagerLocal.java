@@ -21,23 +21,40 @@ public interface CabinManagerLocal {
     List<Cabin> getAllCabins();
 
     /**
-     * Metoda wyszukująca kajutę o podanym kodzie
+     * Metoda wyszukująca wszystkie kajuty, które zawierają się na promie o podanym kodzie.
      *
-     * @param code Kod kajuty, którą chcemy wyszukać
-     * @return Encja typu {@link Cabin}
+     * @param code Kod promu, po którym chcemy wyszukać
+     * @return Lista kajut {@link Cabin}, które znajdują się na promie o podanym kodzie
      */
-    Cabin getCabinByCode(String code);
+    List<Cabin> getAllCabinsByFerryCode(String code);
 
     /**
-     * Metoda tworząca kajutę
+     * Metoda wyszukująca wszystkie kajuty, które znajdują się na promie o podanym kodzie i są wybranego typu.
+     *
+     * @param code Kod promu, po którym chcemy wyszukać
+     * @param cabinType Nazwa typu kajuty
+     * @return Lista kajut {@link Cabin}, które znajdują się na promie o podanym kodzie i są wybranego typu
+     */
+    List<Cabin> getAllCabinsByFerryCodeAndCabinType(String code, String cabinType);
+
+    /**
+     * Metoda wyszukująca kajutę o podanym numerze.
+     *
+     * @param number Numer kajuty, którą chcemy wyszukać
+     * @return Encja typu {@link Cabin}
+     */
+    Cabin getCabinByNumber(String number);
+
+    /**
+     * Metoda tworząca kajutę.
      *
      * @param cabin Encja typu {@link Cabin}
      */
     void createCabin(Cabin cabin);
 
     /**
-     * Metoda aktualizuje kajutę o kodzie zawartym w encji {@link Cabin} oraz ustawia konto w polu modifiedBy na konto
-     * użytkownika dokonującego zmiany
+     * Metoda aktualizuje kajutę o numerze zawartym w encji {@link Cabin} oraz ustawia konto w polu modifiedBy na konto
+     * użytkownika dokonującego zmiany.
      *
      * @param cabin      Encja typu {@link Cabin}
      * @param modifiedBy Login użytkownika, który edytuje encje
@@ -45,7 +62,7 @@ public interface CabinManagerLocal {
     void updateCabin(Cabin cabin, String modifiedBy);
 
     /**
-     * Metoda usuwa kajutę o kodzie zawartym w encji {@link Cabin}
+     * Metoda usuwa kajutę o numerze zawartym w encji {@link Cabin}.
      *
      * @param cabin Encja typu {@link Cabin}
      */

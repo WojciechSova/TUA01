@@ -21,7 +21,7 @@ public interface SeaportManagerLocal {
     List<Seaport> getAllSeaports();
 
     /**
-     * Metoda wyszukująca port o podanym kodzie
+     * Metoda wyszukująca port o podanym kodzie.
      *
      * @param code Kod portu, który chcemy wyszukać
      * @return Encja typu {@link Seaport}
@@ -29,7 +29,7 @@ public interface SeaportManagerLocal {
     Seaport getSeaportByCode(String code);
 
     /**
-     * Metoda tworząca port
+     * Metoda tworząca port.
      *
      * @param seaport Encja typu {@link Seaport}
      */
@@ -37,7 +37,7 @@ public interface SeaportManagerLocal {
 
     /**
      * Metoda aktualizuje port o kodzie zawartym w encji {@link Seaport} oraz ustawia konto w polu modifiedBy na konto
-     * użytkownika dokonującego zmiany
+     * użytkownika dokonującego zmiany.
      *
      * @param seaport      Encja typu {@link Seaport}
      * @param modifiedBy Login użytkownika, który edytuje encje
@@ -45,7 +45,7 @@ public interface SeaportManagerLocal {
     void updateSeaport(Seaport seaport, String modifiedBy);
 
     /**
-     * Metoda usuwa port o kodzie zawartym w encji {@link Seaport}
+     * Metoda usuwa port o kodzie zawartym w encji {@link Seaport}.
      *
      * @param seaport Encja typu {@link Seaport}
      */

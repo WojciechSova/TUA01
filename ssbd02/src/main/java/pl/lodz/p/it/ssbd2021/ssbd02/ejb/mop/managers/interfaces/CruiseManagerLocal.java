@@ -21,31 +21,61 @@ public interface CruiseManagerLocal {
     List<Cruise> getAllCruises();
 
     /**
-     * Metoda wyszukująca rejs o podanym kodzie
+     * Metoda wyszukująca wszystkie aktualne rejsy.
      *
-     * @param code Kod rejsu, który chcemy wyszukać
-     * @return Encja typu {@link Cruise}
+     * @return Lista aktualnych rejsów {@link Cruise}
      */
-    Cruise getCruiseByCode(String code);
+    List<Cruise> getAllCurrentCruises();
 
     /**
-     * Metoda tworząca rejs
+     * Metoda wyszukująca wszystkie zakończone rejsy.
+     *
+     * @return Lista zakończonych rejsów {@link Cruise}
+     */
+    List<Cruise> getAllCompletedCruises();
+
+    /**
+     * Metoda wyszukująca rejs o podanym numerze.
+     *
+     * @param number Numer rejsu, który chcemy wyszukać
+     * @return Encja typu {@link Cruise}
+     */
+    Cruise getCruiseByNumber(String number);
+
+    /**
+     * Metoda wyszukująca wszystkie rejsy, które zawierają trasę o podanym kodzie.
+     *
+     * @param code Kod trasy, po której chcemy wyszukać
+     * @return Lista rejsów {@link Cruise}, które zawierają trasę o podanym kodzie.
+     */
+    List<Cruise> getCruisesByRouteCode(String code);
+
+    /**
+     * Metoda wyszukująca wszystkie rejsy, które zawierają prom o podanej nazwie.
+     *
+     * @param name Nazwa promu, po której chcemy wyszukać
+     * @return Lista rejsów {@link Cruise}, które zawierają prom o podanej nazwie.
+     */
+    List<Cruise> getCruisesByFerryName(String name);
+
+    /**
+     * Metoda tworząca rejs.
      *
      * @param cruise Encja typu {@link Cruise}
      */
     void createCruise(Cruise cruise);
 
     /**
-     * Metoda aktualizuje rejs o kodzie zawartym w encji {@link Cruise} oraz ustawia konto w polu modifiedBy na konto
-     * użytkownika dokonującego zmiany
+     * Metoda aktualizuje rejs o numerze zawartym w encji {@link Cruise} oraz ustawia konto w polu modifiedBy na konto
+     * użytkownika dokonującego zmiany.
      *
-     * @param cruise      Encja typu {@link Cruise}
+     * @param cruise     Encja typu {@link Cruise}
      * @param modifiedBy Login użytkownika, który edytuje encje
      */
     void updateCruise(Cruise cruise, String modifiedBy);
 
     /**
-     * Metoda usuwa rejs o kodzie zawartym w encji {@link Cruise}
+     * Metoda usuwa rejs o numerze zawartym w encji {@link Cruise}.
      *
      * @param cruise Encja typu {@link Cruise}
      */

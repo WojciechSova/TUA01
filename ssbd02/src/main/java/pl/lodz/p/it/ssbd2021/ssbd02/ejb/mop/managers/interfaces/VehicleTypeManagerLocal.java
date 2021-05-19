@@ -19,4 +19,12 @@ public interface VehicleTypeManagerLocal {
      * @return Lista typów pojazdów {@link VehicleType}
      */
     List<VehicleType> getAllVehicleTypes();
+
+    /**
+     * Metoda zwracająca potrzebne miejsce na promie na pojazd o podanej nazwie.
+     *
+     * @param name Nazwa typu pojazdu
+     * @return Wartość typu {@link Float}
+     */
+    Float getRequiredSpaceByVehicleTypeName(String name);
 }

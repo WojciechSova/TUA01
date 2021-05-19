@@ -1,5 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces;
 
+import org.apache.commons.lang3.tuple.Pair;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 
 import javax.ejb.Local;
@@ -21,23 +25,31 @@ public interface FerryManagerLocal {
     List<Ferry> getAllFerries();
 
     /**
-     * Metoda wyszukująca prom o podanym kodzie
+     * Metoda wyszukująca prom o podanej nazwie.
      *
-     * @param code Kod promu, który chcemy wyszukać
+     * @param name Nazwa promu, który chcemy wyszukać
      * @return Encja typu {@link Ferry}
      */
-    Ferry getFerryByCode(String code);
+    Ferry getFerryByName(String name);
 
     /**
-     * Metoda tworząca prom
+     * Metoda wyszukująca prom o podanej nazwie wraz z jego kajutami.
+     *
+     * @param name Nazwa promu, który chcemy wyszukać
+     * @return Para reprezentująca prom, składająca się z klucza typu {@link Ferry} i wartości będącej listą obiektów typu {@link Cabin}
+     */
+    Pair<Ferry, List<Cabin>> getFerryAndCabinsByFerryName(String name);
+
+    /**
+     * Metoda tworząca prom.
      *
      * @param ferry Encja typu {@link Ferry}
      */
     void createFerry(Ferry ferry);
 
     /**
-     * Metoda aktualizuje prom o kodzie zawartym w encji {@link Ferry} oraz ustawia konto w polu modifiedBy na konto
-     * użytkownika dokonującego zmiany
+     * Metoda aktualizuje prom o nazwie zawartej w encji {@link Ferry} oraz ustawia konto w polu modifiedBy na konto
+     * użytkownika dokonującego zmiany.
      *
      * @param ferry    Encja typu {@link Ferry}
      * @param modifiedBy Login użytkownika, który edytuje encje
@@ -45,7 +57,7 @@ public interface FerryManagerLocal {
     void updateFerry(Ferry ferry, String modifiedBy);
 
     /**
-     * Metoda usuwa prom o kodzie zawartym w encji {@link Ferry}
+     * Metoda usuwa prom o nazwie zawartej w encji {@link Ferry}.
      *
      * @param ferry Encja typu {@link Ferry}
      */

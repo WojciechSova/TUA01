@@ -22,7 +22,7 @@ public interface RouteManagerLocal {
     List<Route> getAllRoutes();
 
     /**
-     * Metoda wyszukująca trasę o podanym kodzie
+     * Metoda wyszukująca trasę o podanym kodzie.
      *
      * @param code Kod trasy, którą chcemy wyszukać
      * @return Encja typu {@link Route}
@@ -30,23 +30,30 @@ public interface RouteManagerLocal {
     Route getRouteByCode(String code);
 
     /**
-     * Metoda tworząca trasę
+     * Metoda wyszukująca wszystkie trasy, które rozpoczynają się w podanym mieście.
+     *
+     * @param city Nazwa miasta, po którym chcemy wyszukać
+     * @return Lista tras {@link Route}, które rozpoczynają się w podanym mieście
+     */
+    List<Route> getRoutesByStart(String city);
+
+    /**
+     * Metoda wyszukująca wszystkie trasy, które kończą się w podanym mieście.
+     *
+     * @param city Nazwa miasta, po którym chcemy wyszukać
+     * @return Lista tras {@link Route}, które kończą się w podanym mieście
+     */
+    List<Route> getRoutesByDestination(String city);
+
+    /**
+     * Metoda tworząca trasę.
      *
      * @param route Encja typu {@link Route}
      */
     void createRoute(Route route);
-//
-//    /**
-//     * Metoda aktualizuje trasę o kodzie zawartym w encji {@link Route} oraz ustawia konto w polu modifiedBy na konto
-//     * użytkownika dokonującego zmiany
-//     *
-//     * @param route    Encja typu {@link Route}
-//     * @param modifiedBy Login użytkownika, który edytuje encje
-//     */
-//    void updateRoute(Route route, String modifiedBy);
 
     /**
-     * Metoda usuwa trasę o kodzie zawartym w encji {@link Route}
+     * Metoda usuwa trasę o kodzie zawartym w encji {@link Route}.
      *
      * @param route Encja typu {@link Route}
      */
