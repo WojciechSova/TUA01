@@ -4,52 +4,52 @@
         <form class="edit-form" [formGroup]="form">
             <div class="col">
                 <div class="row headers">
-                    <div class="uppercase" i18n="Current|">Aktualne</div>
-                    <div class="uppercase" i18n="New|">Nowe</div>
+                    <div class="uppercase" translate>edit-user.actual</div>
+                    <div class="uppercase" translate>edit-user.new</div>
                 </div>
 
                 <div class="row">
                     <label for="edit-firstName">{{accountDetailsService.account.firstName}}</label>
                     <input #newFirstName type="text" id="edit-firstName" formControlName="firstName"
-                           placeholder="Imię" i18n-placeholder="First name|"/>
+                           placeholder="{{'form.first_name' | translate}}"/>
                 </div>
 
                 <div class="row">
                     <label for="edit-lastName">{{accountDetailsService.account.lastName}}</label>
                     <input #newLastName type="text" id="edit-lastName" formControlName="lastName"
-                           placeholder="Nazwisko" i18n-placeholder="Last name|"/>
+                           placeholder="{{'form.last_name' | translate}}"/>
                 </div>
 
                 <div class="row">
                     <label for="edit-phoneNumber">{{accountDetailsService.account.phoneNumber}}</label>
                     <input #newPhoneNumber type="text" id="edit-phoneNumber" formControlName="phoneNumber"
-                           placeholder="Numer telefonu" i18n-placeholder="Phone number|"
+                           placeholder="{{'form.phone_number' | translate}}"
                            [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}"
                            (ngModelChange)="existingPhoneNumber = false">
                 </div>
                 <div id="invalid-number-error"
                     class="edit-validation-error"
                      *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
-                     i18n="Invalid format|">Niepoprawny format, nr telefonu powinien <br />zawierać od 3 do 15 cyfr
+                     translate>form.invalid_format
                 </div>
                 <div id="existing-number-error"
-                    class="edit-validation-error" *ngIf="existingPhoneNumber" i18n="Provided phone number already exists|">Podany numer telefonu już istnieje
+                    class="edit-validation-error" *ngIf="existingPhoneNumber" translate>ERROR.PHONE_NUMBER_UNIQUE
                 </div>
 
                 <div class="row">
                     <label for="edit-timeZone">{{accountDetailsService.account.timeZone}}</label>
                     <select class="edit-content-select" #newTimeZone id="edit-timeZone">
-                        <option value="" disabled selected hidden i18n="Choose a time zone|">Wybierz strefę czasową
+                        <option value="" disabled selected translate>edit-user.choose_a_time_zone
                         </option>
                         <option *ngFor="let zone of timezones" [value]="zone"
                                 [selected]="zone === accountDetailsService.account.timeZone" id="{{zone}}">
-                            Strefa UTC {{zone}}</option>
+                            {{'edit-user.UTC_time_zone' | translate}} {{zone}}</option>
                     </select>
                 </div>
             </div>
             <button class="edit-button" id="saveBtn"
                     (click)="editUser(newFirstName.value, newLastName.value, newPhoneNumber.value, newTimeZone.value)"
-                    [disabled]="form.invalid" i18n="Save|">Zapisz
+                    [disabled]="form.invalid" translate>form.save
             </button>
             <img class="return-arrow" (click)="showUser(accountDetailsService.account.login)" src="assets/back-arrow.png"
                  alt=""/>
@@ -57,8 +57,8 @@
 
     </ng-template>
     <ng-template #updating>
-        <div class="updating-text" i18n="Updating|">
-            Aktualizowanie...
+        <div class="updating-text" translate>
+            form.updating
         </div>
     </ng-template>
 </div>

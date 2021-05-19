@@ -60,6 +60,9 @@ class AuthEndpointTest {
         Mockito.when(httpServletRequest.getHeader("X-Forwarded-For"))
                 .thenReturn("192.168.1.1");
 
+        Mockito.when(httpServletRequest.getHeader("Accept-Language"))
+                .thenReturn("pl");
+
         Mockito.when(accountManagerLocal.getAccountWithActiveAccessLevels("admin")).thenReturn(accountPair);
         Mockito.when(accountPair.getKey()).thenReturn(account);
         Mockito.when(accountPair.getValue()).thenReturn(accessLevels);

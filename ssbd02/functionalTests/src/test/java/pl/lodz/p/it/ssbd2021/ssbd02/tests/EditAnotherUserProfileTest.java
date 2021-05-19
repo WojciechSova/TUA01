@@ -12,7 +12,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.EditUserProfilePage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.ProfileDetailsPage;
 
 import java.util.List;
 
@@ -22,9 +25,6 @@ public class EditAnotherUserProfileTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
-    private final String adminLogin = "admin";
-    private final String adminPassword = "password?";
     private final String newFirstName = "noweImie";
     private final String newLastName = "noweNazwisko";
     private final String newPhoneNumber = "48000000000";
@@ -40,13 +40,14 @@ public class EditAnotherUserProfileTest {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
+        options.addArguments("−−lang=pl");
         options.setHeadless(true);
     }
 
     @BeforeEach
     public void initEach() {
         driver = new ChromeDriver(options);
-        driver.get(url);
+        driver.get(TestUtils.url);
         driverWait = new WebDriverWait(driver, 25);
     }
 
@@ -60,7 +61,7 @@ public class EditAnotherUserProfileTest {
 
         editData(newFirstName, newLastName, newPhoneNumber);
 
-        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts/").concat(userLogin)));
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts/").concat(userLogin)));
 
         By editedFirstName = profileDetailsPage.getFirstNameField();
         By editedLastName = profileDetailsPage.getLastNameField();
@@ -94,22 +95,20 @@ public class EditAnotherUserProfileTest {
     }
 
     private void logInAndOpenDetails() {
-        MainPage mainPage = new MainPage(driver);
-        LoginPage loginPage = mainPage.openLoginForm();
-        adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
+        adminMainPage = TestUtils.logInAsAdmin(driver);
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 
         AccountsListPage accountsListPage = adminMainPage.openAccountsList();
 
         driver.navigate().refresh();
-        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts")));
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts")));
 
         List<WebElement> tableData = accountsListPage.getTableContent();
         userLogin = tableData.get(0).getText();
         profileDetailsPage = accountsListPage.openAnotherUserProfileDetails(tableData.get(6));
 
-        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/accounts/").concat(userLogin)));
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts/").concat(userLogin)));
     }
 
     private void editData(String firstName, String lastName, String phoneNumber) {

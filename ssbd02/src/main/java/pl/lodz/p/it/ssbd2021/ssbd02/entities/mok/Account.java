@@ -66,7 +66,7 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "email", nullable = false, unique = true, updatable = true, length = 70, table = "Personal_data")
     private String email;
 
-    @Column(name = "phone_number", nullable = true, unique = true, updatable = true, length = 11, table = "Personal_data")
+    @Column(name = "phone_number", nullable = true, unique = true, updatable = true, length = 15, table = "Personal_data")
     private String phoneNumber;
 
     @Column(name = "language", nullable = false, updatable = true, length = 5, table = "Personal_data")
