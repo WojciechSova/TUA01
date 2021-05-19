@@ -99,7 +99,7 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "last_known_good_login", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp lastKnownGoodLogin;
 
-    @Size(max = 39, message = "Last known good login IP can have a maximum of 30 characters")
+    @Size(max = 39, message = "Last known good login IP can have a maximum of 39 characters")
     @Column(name = "last_known_good_login_ip", nullable = true, updatable = true, length = 15, table = "Personal_data")
     private String lastKnownGoodLoginIp;
 
@@ -107,7 +107,7 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "last_known_bad_login", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp lastKnownBadLogin;
 
-    @Size(max = 39, message = "Last known bad login IP can have a maximum of 30 characters")
+    @Size(max = 39, message = "Last known bad login IP can have a maximum of 39 characters")
     @Column(name = "last_known_bad_login_ip", nullable = true, updatable = true, length = 15, table = "Personal_data")
     private String lastKnownBadLoginIp;
 
