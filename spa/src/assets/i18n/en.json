@@ -21,7 +21,7 @@
         "required_repeat_email_address": "*Repeat e-mail address",
         "email_differ": "E-mail address are not the same",
         "passwords_differ": "Passwords are not the same",
-        "short_password": "Password too short",
+        "short_password": "Password should have at least 8 characters",
         "updating": "Updating...",
         "save": "Save",
         "confirm": "Confirm"
