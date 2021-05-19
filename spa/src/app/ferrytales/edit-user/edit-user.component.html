@@ -30,7 +30,7 @@
                 <div id="invalid-number-error"
                     class="edit-validation-error"
                      *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
-                     i18n="Invalid format|">Niepoprawny format, nr telefonu powinien zawierać <br />międzynarodowy numer kierunkowy bez znaku plusa
+                     i18n="Invalid format|">Niepoprawny format, nr telefonu powinien <br />zawierać od 3 do 15 cyfr
                 </div>
                 <div id="existing-number-error"
                     class="edit-validation-error" *ngIf="existingPhoneNumber" i18n="Provided phone number already exists|">Podany numer telefonu już istnieje
