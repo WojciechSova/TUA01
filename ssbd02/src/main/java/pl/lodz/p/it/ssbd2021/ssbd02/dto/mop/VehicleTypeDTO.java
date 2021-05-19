@@ -1,7 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mop;
 
-import lombok.*;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Klasa DTO zawierająca typ pojazdu.
@@ -12,8 +14,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
-public class VehicleTypeDTO extends AbstractDTO {
+public class VehicleTypeDTO {
 
     private String vehicleTypeName;
 

@@ -1,7 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.dto.mop;
 
-import lombok.*;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Klasa DTO zawierająca typ kajut.
@@ -12,8 +14,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
-public class CabinTypeDTO extends AbstractDTO {
+public class CabinTypeDTO {
 
     private String cabinTypeName;
 }
