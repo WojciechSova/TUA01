@@ -57,7 +57,7 @@ export class EditUserComponent implements OnInit {
     form = new FormGroup({
         firstName: new FormControl(''),
         lastName: new FormControl(''),
-        phoneNumber: new FormControl('', [Validators.pattern('^[0-9]{3,15}$')]),
+        phoneNumber: new FormControl('', [Validators.pattern('[0-9]{3,15}')]),
         timeZone: new FormControl('')
     });
 
