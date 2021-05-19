@@ -137,5 +137,10 @@
         "SAME_PASSWORD_AS_PREVIOUS": "The password provided is the same as the previous one",
         "EMAIL_UNIQUE": "The e-mail address you entered already exists",
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect"
+    },
+    "error-page": {
+        "forbidden_code": "Error 403",
+        "forbidden_text": "You don't have access to this page",
+        "go_to_home_page": "Back to home page"
     }
 }

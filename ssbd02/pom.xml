@@ -254,6 +254,14 @@
                         <configuration>
                             <warSourceDirectory>../spa/dist/spa</warSourceDirectory>
                             <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                            <webResources>
+                                <resource>
+                                    <directory>../spa/src/error-pages</directory>
+                                    <includes>
+                                        <include>error403.html</include>
+                                    </includes>
+                                </resource>
+                            </webResources>
                         </configuration>
                         <version>3.3.0</version>
                     </plugin>
