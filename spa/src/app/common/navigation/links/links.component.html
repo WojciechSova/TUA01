@@ -1,30 +1,30 @@
 <div [ngClass]="stickyStyles ? 'sticky-links' : 'links'">
-    <a *ngIf="identityService.isGuest()" id="aboutUsLink" routerLink="" i18n="About us header|">O nas</a>
-    <a *ngIf="identityService.isGuest()" id="contactLink" routerLink="" i18n="Contact header|">Kontakt</a>
-    <a *ngIf="identityService.isEmployee()" id="routesLink" routerLink="" i18n="Routes header|">Trasy</a>
-    <a *ngIf="identityService.isEmployee()" id="ferriesLink" routerLink="" i18n="Ferries header|">Promy</a>
-    <a *ngIf="identityService.isEmployee()" id="harborLink" routerLink="" i18n="Harbors header|">Porty</a>
-    <a *ngIf="identityService.isEmployee()" id="bookingsLink" routerLink="" i18n="Bookings header|">Rezerwacje</a>
-    <a *ngIf="identityService.isClient()" id="myBookingsLink" routerLink="" i18n="My bookings header|">Moje rezerwacje</a>
-    <a *ngIf="identityService.isClient() || identityService.isGuest()" id="currentCruisesLink" routerLink="" i18n="Current cruises|">Aktualne rejsy</a>
-    <a *ngIf="identityService.isAdmin()" id="accountsLink" routerLink="/ferrytales/accounts" i18n="Accounts header|">Konta</a>
-    <a *ngIf="identityService.isGuest()" (click)="changeLoginVisible(!isLoginVisible)" id="loginLink" class="login-a" i18n="Sign in|">Zaloguj</a>
+    <a *ngIf="identityService.isGuest()" id="aboutUsLink" routerLink="" translate>links.about_us</a>
+    <a *ngIf="identityService.isGuest()" id="contactLink" routerLink="" translate>links.contact</a>
+    <a *ngIf="identityService.isEmployee()" id="routesLink" routerLink="" translate>links.routes</a>
+    <a *ngIf="identityService.isEmployee()" id="ferriesLink" routerLink="" translate>links.ferries</a>
+    <a *ngIf="identityService.isEmployee()" id="harborLink" routerLink="" translate>links.harbors</a>
+    <a *ngIf="identityService.isEmployee()" id="bookingsLink" routerLink="" translate>links.bookings</a>
+    <a *ngIf="identityService.isClient()" id="myBookingsLink" routerLink="" translate>links.my_bookings</a>
+    <a *ngIf="identityService.isClient() || identityService.isGuest()" id="currentCruisesLink" routerLink="" translate>links.current_cruises</a>
+    <a *ngIf="identityService.isAdmin()" id="accountsLink" routerLink="/ferrytales/accounts" translate>links.accounts</a>
+    <a *ngIf="identityService.isGuest()" (click)="changeLoginVisible(!isLoginVisible)" id="loginLink" class="login-a" translate>links.sing_in</a>
     <a *ngIf="identityService.isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" id="registerLink" class="login-a"
-       i18n="Sign up|">Zarejestruj</a>
+       translate>links.sing_up</a>
     <a *ngIf="!identityService.isGuest()" id="logoutLink" routerLink="/" (click)="signOut()" class="login-a"
-       i18n="Sign out|">Wyloguj</a>
+       translate>links.sing_out</a>
     <div class="login-access-level" *ngIf="!identityService.isGuest()">
         <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''"
            (click)="getProfile()" id="usernameMain" class="admin">{{ identityService.getLogin() }}</a>
         <div class="dropdown">
-            <a *ngIf="identityService.isAdmin()" id="currentLevel" routerLink="" class="admin" i18n="Administrator|">Administrator</a>
-            <a *ngIf="identityService.isEmployee()" id="currentLevel" routerLink="" class="employee" i18n="Employee|">Pracownik</a>
-            <a *ngIf="identityService.isClient()" id="currentLevel" routerLink="" class="client" i18n="Client|">Klient</a>
+            <a *ngIf="identityService.isAdmin()" id="currentLevel" routerLink="" class="admin" translate>general.administrator</a>
+            <a *ngIf="identityService.isEmployee()" id="currentLevel" routerLink="" class="employee" translate>general.employee</a>
+            <a *ngIf="identityService.isClient()" id="currentLevel" routerLink="" class="client" translate>general.client</a>
             <div class="dropdown-content">
                 <a *ngFor="let level of getAccessLevels()" routerLink="" (click)="setCurrentAccessLevel(level)">
-                    <div *ngIf="level === 'EMPLOYEE'" class="employee" i18n="Employee|">Pracownik</div>
-                    <div *ngIf="level === 'ADMIN'" class="admin" i18n="Administrator|">Administrator</div>
-                    <div *ngIf="level === 'CLIENT'" class="client" i18n="Client|">Klient</div>
+                    <div *ngIf="level === 'EMPLOYEE'" class="employee" translate>general.employee</div>
+                    <div *ngIf="level === 'ADMIN'" class="admin" translate>general.administrator</div>
+                    <div *ngIf="level === 'CLIENT'" class="client" translate>general.client</div>
                 </a>
             </div>
         </div>

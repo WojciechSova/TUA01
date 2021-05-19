@@ -10,7 +10,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountDetailsPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.ChangePasswordPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,12 +21,10 @@ public class ChangePasswordTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
     private final String adminLogin = "admin";
     private final String adminPassword = "password?";
     private final String newPassword = "password??";
     MainPage mainPage;
-    LoginPage loginPage;
     AdminMainPage adminMainPage;
     ChangePasswordPage changePasswordPage;
     private WebDriver driver;
@@ -33,24 +34,25 @@ public class ChangePasswordTest {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
+        options.addArguments("−−lang=pl");
         options.setHeadless(true);
     }
 
     @BeforeEach
     public void initEach() {
         driver = new ChromeDriver(options);
-        driver.get(url);
+        driver.get(TestUtils.url);
         driverWait = new WebDriverWait(driver, 25);
     }
 
     @Test
     public void changePasswordTest() {
-        logIn(adminPassword);
+        adminMainPage = TestUtils.logInAsAdmin(driver);
         changePassword(adminPassword, newPassword, newPassword);
 
         mainPage = adminMainPage.logOut();
 
-        logIn(newPassword);
+        adminMainPage = TestUtils.logInAsAdmin(driver, adminLogin, newPassword);
         changePassword(newPassword, adminPassword, adminPassword);
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
@@ -59,7 +61,7 @@ public class ChangePasswordTest {
 
     @Test
     public void incorrectPasswordErrorTest() {
-        logIn(adminPassword);
+        adminMainPage = TestUtils.logInAsAdmin(driver);
         changePassword(newPassword, newPassword, newPassword);
 
         assertTrue(driver.findElement(changePasswordPage.getForm()).isDisplayed());
@@ -68,7 +70,7 @@ public class ChangePasswordTest {
 
     @Test
     public void samePasswordErrorTest() {
-        logIn(adminPassword);
+        adminMainPage = TestUtils.logInAsAdmin(driver);
         changePassword(adminPassword, adminPassword, adminPassword);
 
         assertTrue(driver.findElement(changePasswordPage.getForm()).isDisplayed());
@@ -77,7 +79,7 @@ public class ChangePasswordTest {
 
     @Test
     public void differentPasswordsErrorTest() {
-        logIn(adminPassword);
+        adminMainPage = TestUtils.logInAsAdmin(driver);
         changePassword(adminPassword, newPassword, newPassword.concat("1234"));
         driver.findElement(changePasswordPage.getOldPassword()).sendKeys(Keys.SHIFT);
 
@@ -88,24 +90,18 @@ public class ChangePasswordTest {
 
     @Test
     public void shortPasswordErrorTest() {
-        logIn(adminPassword);
+        adminMainPage = TestUtils.logInAsAdmin(driver);
         changePassword(adminPassword, newPassword.substring(0, 5), newPassword.substring(0, 5));
 
         assertTrue(driver.findElement(changePasswordPage.getForm()).isDisplayed());
         assertTrue(driver.findElement(changePasswordPage.getShortPasswordError()).isDisplayed());
     }
 
-    private void logIn(String password) {
-        mainPage = new MainPage(driver);
-        loginPage = mainPage.openLoginForm();
-        adminMainPage = loginPage.loginValidAdmin(adminLogin, password);
-    }
-
     private void changePassword(String currentPassword, String newPassword, String newPasswordRepeat) {
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
         AccountDetailsPage accountDetailsPage = adminMainPage.openAccountDetails();
 
-        driverWait.until(ExpectedConditions.urlMatches(url.concat("/ferrytales/account")));
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/account")));
         changePasswordPage = accountDetailsPage.openChangePasswordPage();
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(changePasswordPage.getForm()));

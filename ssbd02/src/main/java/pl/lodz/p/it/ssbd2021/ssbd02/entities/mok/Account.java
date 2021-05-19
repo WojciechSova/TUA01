@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.entities.mok;
 
 import lombok.*;
-import lombok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 
 import javax.persistence.*;
@@ -73,7 +72,7 @@ public class Account extends AbstractEntity implements Serializable {
     private String email;
 
     @Size(min = 3, max = 15, message = "Phone number must have between 3 and 15 characters")
-    @Column(name = "phone_number", nullable = true, unique = true, updatable = true, length = 11, table = "Personal_data")
+    @Column(name = "phone_number", nullable = true, unique = true, updatable = true, length = 15, table = "Personal_data")
     private String phoneNumber;
 
     @Size(min = 2, max = 5, message = "Language must have between 2 and 5 characters")
