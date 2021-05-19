@@ -132,6 +132,9 @@
         "email_change_error": "Wystąpił błąd podczas zmiany adresu e-mail!",
         "go_to_main_page": "Za chwilę nastąpi przekierowanie na stronę główną"
     },
+    "new-password": {
+        "password_change_success": "Zmiana hasła przebiegła pomyślnie"
+    },
     "ERROR":{
         "PHONE_NUMBER_UNIQUE": "Podany numer telefonu już istnieje",
         "SAME_PASSWORD_AS_PREVIOUS": "Podane hasło jest takie samo jak wcześniejsze",

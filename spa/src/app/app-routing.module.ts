@@ -7,18 +7,20 @@ import { UsersTableComponent } from './ferrytales/users-table/users-table.compon
 import { EditUserComponent } from './ferrytales/edit-user/edit-user.component';
 import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-account.component';
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
+import { NewPasswordComponent } from './other-views/new-password/new-password.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
     { path: 'accounts/:login', component: AccountDetailsComponent },
-    { path: 'accounts/edit/:login', component: EditUserComponent }
+    { path: 'accounts/edit/:login', component: EditUserComponent },
 ];
 
 const routes: Routes = [
     { path: '', component: MainPageComponent },
     { path: 'ferrytales', component: FerrytalesComponent, children: ferrytalesChildren },
     { path: 'confirm/account/:url', component: ConfirmAccountComponent },
-    { path: 'confirm/email/:url', component: ConfirmEmailChangeComponent }
+    { path: 'confirm/email/:url', component: ConfirmEmailChangeComponent },
+    { path: 'reset/password/:url', component: NewPasswordComponent },
 ];
 
 @NgModule({

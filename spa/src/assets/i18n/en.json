@@ -132,6 +132,9 @@
         "email_change_error": "An error occurred while changing your email address!",
         "go_to_main_page": "You will be taken to the home page in a moment"
     },
+    "new-password": {
+        "password_change_success": "Password change was successful"
+    },
     "ERROR":{
         "PHONE_NUMBER_UNIQUE": "Provided phone number already exists",
         "SAME_PASSWORD_AS_PREVIOUS": "The password provided is the same as the previous one",

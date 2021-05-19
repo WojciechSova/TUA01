@@ -27,6 +27,7 @@ import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { TranslateLoader, TranslateModule, TranslateService } from "@ngx-translate/core";
+import { NewPasswordComponent } from './other-views/new-password/new-password.component';
 
 export function rootLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http)
@@ -55,7 +56,8 @@ export function rootLoaderFactory(http: HttpClient) {
         ConfirmAccountComponent,
         ResetPasswordComponent,
         ChangeEmailFormComponent,
-        ConfirmEmailChangeComponent
+        ConfirmEmailChangeComponent,
+        NewPasswordComponent
     ],
     imports: [
         BrowserModule,
