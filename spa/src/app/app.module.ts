@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './common/navigation/login/login.component';
 import { RegisterComponent } from './common/navigation/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NavigationComponent } from './common/navigation/navigation.component';
 import { LinksComponent } from './common/navigation/links/links.component';
 import { FooterComponent } from './common/footer/footer.component';
@@ -25,6 +25,12 @@ import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-a
 import { ResetPasswordComponent } from './common/navigation/reset-password/reset-password.component';
 import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-email-form.component';
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { TranslateLoader, TranslateModule, TranslateService } from "@ngx-translate/core";
+
+export function rootLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http)
+}
 
 @NgModule({
     declarations: [
@@ -56,9 +62,16 @@ import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/
         AppRoutingModule,
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: rootLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
-    providers: [IdentityService],
+    providers: [IdentityService, TranslateService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

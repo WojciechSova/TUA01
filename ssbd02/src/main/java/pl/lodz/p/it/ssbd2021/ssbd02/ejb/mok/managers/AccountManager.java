@@ -154,6 +154,8 @@ public class AccountManager implements AccountManagerLocal {
     public void updateLanguage(String login, String language) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setLanguage(language);
+        account.setModificationDate(Timestamp.from(Instant.now()));
+        account.setModifiedBy(null);
     }
 
     @Override
@@ -188,8 +190,12 @@ public class AccountManager implements AccountManagerLocal {
         }
         acc.setModificationDate(Timestamp.from(Instant.now()));
 
-        Account accModifiedBy = accountFacadeLocal.findByLogin(modifiedBy);
-        acc.setModifiedBy(accModifiedBy);
+        if (modifiedBy.equals(account.getLogin())) {
+            acc.setModifiedBy(null);
+        } else {
+            Account accModifiedBy = accountFacadeLocal.findByLogin(modifiedBy);
+            acc.setModifiedBy(accModifiedBy);
+        }
 
         accountFacadeLocal.edit(acc);
 
@@ -261,6 +267,8 @@ public class AccountManager implements AccountManagerLocal {
         }
 
         account.setPassword(DigestUtils.sha512Hex(newPassword));
+        account.setModifiedBy(null);
+        account.setModificationDate(Timestamp.from(Instant.now()));
         accountFacadeLocal.edit(account);
     }
 
@@ -268,7 +276,7 @@ public class AccountManager implements AccountManagerLocal {
     public void changeActivity(String login, boolean newActivity, String modifiedBy) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setActive(newActivity);
-        if (modifiedBy == null) {
+        if (modifiedBy == null || login.equals(modifiedBy)) {
             account.setModifiedBy(null);
         } else {
             account.setModifiedBy(accountFacadeLocal.findByLogin(modifiedBy));
@@ -306,6 +314,8 @@ public class AccountManager implements AccountManagerLocal {
         if (url.equals(oneTimeUrl.getUrl())) {
             Account account = accountFacadeLocal.findByLogin(oneTimeUrl.getAccount().getLogin());
             account.setConfirmed(true);
+            account.setModificationDate(Timestamp.from(Instant.now()));
+            account.setModifiedBy(null);
             accountFacadeLocal.edit(account);
             oneTimeUrlFacadeLocal.remove(oneTimeUrl);
             return true;

@@ -1,14 +1,14 @@
 <div class="button-container">
-    <button class="button-user-table" (click)="getAccounts()" i18n="Refresh|">Odśwież</button>
+    <button class="button-user-table" (click)="getAccounts()" translate>general.refresh</button>
     <form class="filter">
-        <input [(ngModel)]="searchedValue" i18n-placeholder="Enter your search|" placeholder="Wpisz szukaną frazę..." id="search" name="search"/>
+        <input [(ngModel)]="searchedValue" placeholder="{{'users-table.enter_your_search' | translate}}" id="search" name="search"/>
     </form>
 </div>
 
 <div class="users-list-container">
     <table id="users">
         <tr>
-            <th i18n="Login|">Login
+            <th>Login
                 <div *ngIf="byLogin; then notSortByLoginTemplate else sortByLoginTemplate"></div>
                 <ng-template #sortByLoginTemplate>
                     <img (click)="byLogin = true; byFirstName = false; byLastName = false; listAccounts()" src="assets/sort_arrow_white.png" alt=""/>
@@ -17,7 +17,7 @@
                     <img src="assets/sort_arrow_purple.png" alt=""/>
                 </ng-template>
             </th>
-            <th i18n="First name|">Imię
+            <th translate>form.first_name
                 <div *ngIf="byFirstName; then notSortByFirstNameTemplate else sortByFirstNameTemplate"></div>
                 <ng-template #sortByFirstNameTemplate>
                     <img (click)="byLogin = false; byFirstName = true; byLastName = false; listAccounts()" src="assets/sort_arrow_white.png" alt=""/>
@@ -26,7 +26,7 @@
                     <img src="assets/sort_arrow_purple.png" alt=""/>
                 </ng-template>
             </th>
-            <th i18n="Last name|">Nazwisko
+            <th translate>form.last_name
                 <div *ngIf="byLastName; then notSortByLastNameTemplate else sortByLastNameTemplate"></div>
                 <ng-template #sortByLastNameTemplate>
                     <img (click)="byLogin = false; byFirstName = false; byLastName = true; listAccounts()" src="assets/sort_arrow_white.png" alt=""/>
@@ -35,10 +35,10 @@
                     <img src="assets/sort_arrow_purple.png" alt=""/>
                 </ng-template>
             </th>
-            <th i18n="Access levels|">Poziomy dostępu</th>
-            <th i18n="Unblock/Block|">Odblokuj/Zablokuj</th>
-            <th i18n="Manage|">Zarządzaj</th>
-            <th i18n="Details|">Szczegóły</th>
+            <th translate>users-table.access_levels</th>
+            <th translate>users-table.unblock_block</th>
+            <th translate>users-table.manage</th>
+            <th translate>general.details</th>
         </tr>
 
         <tr *ngFor="let user of listAccounts() | searchFilter: searchedValue">
@@ -53,20 +53,20 @@
             <td>
                 <div *ngIf="user.active; then block else unblock">{{user['active']}}</div>
                 <ng-template #unblock>
-                    <button class="button-user-table button-unblock" id="unblockButton" (click)="unblockAccount(user.login)" i18n="Unblock|">Odblokuj</button>
+                    <button class="button-user-table button-unblock" id="unblockButton" (click)="unblockAccount(user.login)" translate>users-table.unblock</button>
                 </ng-template>
                 <ng-template #block>
-                    <button class="button-user-table button-block" id="blockButton" (click)="blockAccount(user.login)" i18n="Block|">Zablokuj</button>
+                    <button class="button-user-table button-block" id="blockButton" (click)="blockAccount(user.login)" translate>users-table.block</button>
                 </ng-template>
             </td>
             <td>
                 <button class="button-user-table"
                         (click)="setLoginAccessLevels(user.login, user.accessLevel); changeAccessLevelFormVisible(true)"
-                        i18n="Access levels|">Poziomy dostępu
+                        translate>users-table.access_levels
                 </button>
             </td>
             <td>
-                <button id="details" class="button-user-table" (click)="showUserDetails(user.login)" i18n="Details|">Szczegóły</button>
+                <button id="details" class="button-user-table" (click)="showUserDetails(user.login)" translate>general.details</button>
             </td>
         </tr>
     </table>
