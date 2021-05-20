@@ -13,6 +13,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -66,6 +67,7 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
     public Pair<Account, List<AccessLevel>> getAccountWithActiveAccessLevels(String login) {
         Account account = accountFacadeLocal.findByLogin(login);
         List<AccessLevel> accessLevels = accessLevelFacadeLocal.findAllActiveByAccount(account);
@@ -118,6 +120,7 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
+    @PermitAll
     public void registerBadLogin(String login, String clientAddress) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setLastKnownBadLogin(Timestamp.from(Instant.now()));
@@ -141,6 +144,7 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
+    @PermitAll
     public void registerGoodLogin(String login, String clientAddress) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setLastKnownGoodLogin(Timestamp.from(Instant.now()));
@@ -149,6 +153,7 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
+    @PermitAll
     public void updateLanguage(String login, String language) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setLanguage(language);
@@ -271,6 +276,7 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
+    @PermitAll
     public void changeActivity(String login, boolean newActivity, String modifiedBy) {
         Account account = accountFacadeLocal.findByLogin(login);
         account.setActive(newActivity);
@@ -289,6 +295,7 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
+    @PermitAll
     public void notifyAdminAboutLogin(String login, String clientAddress) {
         Account account = accountFacadeLocal.findByLogin(login);
 
