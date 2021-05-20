@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mok;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
@@ -42,6 +44,8 @@ public class AccountEndpoint {
 
     @Inject
     private AccountManagerLocal accountManager;
+
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Metoda udostępniająca ogólne informacje o kontach aplikacji.
@@ -395,6 +399,13 @@ public class AccountEndpoint {
 
         accountManager.resetPassword(url, newPassword);
 
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("accessLevel")
+    public Response informAboutAccessLevelChange(String accessLevel, @Context SecurityContext securityContext) {
+        logger.info("Użytkownik o loginie: {} zmienił poziom dostępu na {}", securityContext.getUserPrincipal().getName(), accessLevel);
         return Response.ok().build();
     }
 }
