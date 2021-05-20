@@ -26,10 +26,11 @@ import { ResetPasswordComponent } from './common/navigation/reset-password/reset
 import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-email-form.component';
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LocaleService } from './services/utils/locale.service';
 import '@angular/common/locales/global/pl';
 import '@angular/common/locales/global/en';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -58,7 +59,8 @@ export function rootLoaderFactory(http: HttpClient): any {
         ConfirmAccountComponent,
         ResetPasswordComponent,
         ChangeEmailFormComponent,
-        ConfirmEmailChangeComponent
+        ConfirmEmailChangeComponent,
+        ForbiddenComponent
     ],
     imports: [
         BrowserModule,
@@ -85,8 +87,4 @@ export function rootLoaderFactory(http: HttpClient): any {
     bootstrap: [AppComponent]
 })
 export class AppModule {
-    constructor() {
-
-
-    }
 }
