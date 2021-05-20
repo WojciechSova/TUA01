@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades.interfaces.AuthViewFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.auth.AuthView;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AuthViewFacade extends AbstractFacade<AuthView> implements AuthViewFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02authPU")

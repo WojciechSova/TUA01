@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacade
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AccessLevelFacade extends AbstractFacade<AccessLevel> implements AccessLevelFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mokPU")

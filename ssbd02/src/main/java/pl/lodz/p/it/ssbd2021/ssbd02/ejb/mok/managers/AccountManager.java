@@ -13,6 +13,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -36,6 +37,7 @@ import static java.time.temporal.ChronoUnit.SECONDS;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AccountManager implements AccountManagerLocal {
 
     private static final Properties prop = new Properties();

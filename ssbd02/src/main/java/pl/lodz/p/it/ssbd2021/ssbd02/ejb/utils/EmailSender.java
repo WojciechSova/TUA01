@@ -7,6 +7,7 @@ import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +19,7 @@ import java.util.Properties;
  * @author Karolina Kowalczyk
  */
 @Stateless
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class EmailSender implements EmailSenderLocal {
 
     private static final Properties prop = new Properties();

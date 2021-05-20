@@ -4,6 +4,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades.interfaces.AuthViewFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers.interfaces.AuthManagerLocal;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AuthManager implements AuthManagerLocal {
 
     @Inject

@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.FerryManagerLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class FerryManager implements FerryManagerLocal {
 
     @Override

@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 @Singleton
 @Startup
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class SystemManager implements SystemManagerLocal {
 
     private static final Properties prop = new Properties();
