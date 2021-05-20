@@ -17,12 +17,9 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 /**
  * Manager systemu
@@ -52,28 +49,30 @@ public class SystemManager implements SystemManagerLocal {
     @Override
     @Schedule(hour = "*", persistent = false)
     public void removeUnconfirmedAccounts() {
-        long removalTime = 86_400_000;
+        int removalTime = 86400;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
 
             prop.load(input);
-            removalTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
+            removalTime = Integer.parseInt(prop.getProperty("system.time.account.confirmation"));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        final long finalRemovalTime = removalTime;
-
-        List<Account> unconfirmedAccounts = accountFacadeLocal.findByConfirmed(false);
-        List<Account> accountsToDelete = unconfirmedAccounts.stream()
-                .filter(account -> Timestamp.from(Instant.now()).getTime() - (account.getCreationDate()).getTime() > finalRemovalTime)
-                .collect(Collectors.toList());
+        List<Account> accountsToDelete = accountFacadeLocal.findByUnconfirmedAndExpired(removalTime);
         List<List<AccessLevel>> accessLevelsToDelete = new ArrayList<>();
+        List<List<OneTimeUrl>> urlsToDelete = new ArrayList<>();
         accountsToDelete.forEach(
-                account -> accessLevelsToDelete.add(accessLevelFacadeLocal.findAllByAccount(account)));
+                account -> {
+                    accessLevelsToDelete.add(accessLevelFacadeLocal.findAllByAccount(account));
+                    urlsToDelete.add(oneTimeUrlFacadeLocal.findByAccount(account));
+                });
 
         accessLevelsToDelete.stream()
                 .flatMap(List::stream)
                 .forEach(accessLevel -> accessLevelFacadeLocal.remove(accessLevel));
+        urlsToDelete.stream()
+                .flatMap(List::stream)
+                .forEach(url -> oneTimeUrlFacadeLocal.remove(url));
         accountsToDelete.forEach(account -> accountFacadeLocal.remove(account));
 
         accountsToDelete.forEach(account -> emailSender.sendRemovalEmail(account.getLanguage(), account.getFirstName(), account.getEmail()));

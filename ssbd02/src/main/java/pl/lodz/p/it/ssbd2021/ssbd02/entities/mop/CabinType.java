@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -26,7 +28,8 @@ public class CabinType implements Serializable {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @NotNull
+    @NotBlank
+    @Size(max = 30, message = "Cabin type name can have a maximum of 30 characters")
     @Column(name = "cabin_type_name", nullable = false, updatable = false, length = 30)
     private String cabinTypeName;
 

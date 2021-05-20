@@ -1,8 +1,8 @@
 <div class="column">
     <img [src]=imgPath alt="Offer 1" class="offer-image"/>
     <div class="offer">
-        <div class="offer-text" i18n="Warsaw-Ciechocinek|">Warszawa - Ciechocinek</div>
-        <div class="offer-price" i18n="Starting at|Price per person">Już od {{159.99}}zł od osoby</div>
-        <button class="offer-btn" i18n="Book|">Zarezerwuj</button>
+        <div class="offer-text"><b translate>cities.warsaw</b><b> - </b><b translate>cities.ciechocinek</b></div>
+        <div class="offer-price" translate [translateParams]="{price: '159.99'}">offer.starting_at</div>
+        <button class="offer-btn" translate>offer.book</button>
     </div>
 </div>

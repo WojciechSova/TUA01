@@ -1,0 +1,147 @@
+{
+    "general": {
+        "administrator": "Administrator",
+        "employee": "Pracownik",
+        "client": "Klient",
+        "refresh": "Odśwież",
+        "details": "Szczegóły"
+    },
+    "form": {
+        "invalid_format": "Niepoprawny format",
+        "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
+        "field_required": "Pole wymagane",
+        "first_name": "Imię",
+        "last_name": "Nazwisko",
+        "phone_number": "Numer telefonu",
+        "required_first_name": "*Imię",
+        "required_last_name": "*Nazwisko",
+        "required_password": "*Hasło",
+        "required_repeat_password": "*Powtórz hasło",
+        "required_email_address": "*Adres e-mail",
+        "required_repeat_email_address": "*Powtórz adres e-mail",
+        "email_differ": "Adresy e-mail nie są takie same",
+        "passwords_differ": "Hasła nie są takie same",
+        "short_password": "Hasło powinno zawierać przynajmniej 8 znaków",
+        "updating": "Aktualizowanie...",
+        "save": "Zapisz",
+        "confirm": "Potwierdź"
+    },
+    "links": {
+        "about_us": "O nas",
+        "contact": "Kontakt",
+        "routes": "Trasy",
+        "ferries": "Promy",
+        "harbors": "Porty",
+        "bookings": "Rezerwacje",
+        "my_bookings": "Moje rezerwacje",
+        "current_cruises": "Aktualne rejsy",
+        "accounts": "Konta",
+        "sing_in": "Zaloguj",
+        "sing_up": "Zarejestruj",
+        "sing_out": "Wyloguj"
+    },
+    "login": {
+        "forgot_password": "Zapomniałeś hasła?",
+        "sign_up_if_no_account": "Nie masz konta? Zarejestruj się"
+    },
+    "register": {
+        "sing_in_if_having_an_account": "Masz już konto? Zaloguj się!"
+    },
+    "change-password-form": {
+        "set_new_password": "Ustal nowe hasło:",
+        "required_new_password": "*Nowe hasło",
+        "required_repeat_new_password": "*Powtórz nowe hasło",
+        "invalid_password": "Podane hasło jest nieprawidłowe."
+    },
+    "reset-password": {
+        "reset_password": "Resetuj hasło",
+        "required_enter_your_email_address": "*Podaj swój adres email"
+    },
+    "change-email-form": {
+        "enter_new_email_address": "Podaj nowy adres e-mail:"
+    },
+    "access-level-form": {
+        "choose_access_level": "Wybierz poziomy dostępu:"
+    },
+    "edit-user": {
+        "actual": "Aktualne",
+        "new": "Nowe",
+        "choose_a_time_zone": "Wybierz strefę czasową",
+        "UTC_time_zone": "Strefa UTC"
+    },
+    "users-table": {
+        "enter_your_search": "Wpisz szukaną frazę...",
+        "access_levels": "Poziomy dostępu",
+        "manage": "Zarządzaj",
+        "unblock_block": "Odblokuj/Zablokuj",
+        "unblock": "Odblokuj",
+        "block": "Zablokuj"
+    },
+    "account-details": {
+        "edit_account": "Edytuj konto",
+        "change_password": "Zmień hasło",
+        "edit_access_levels": "Edytuj poziomy dostępu",
+        "change_email_address": "Zmień adres e-mail",
+        "first_name": "Imię:",
+        "last_name": "Nazwisko:",
+        "email_address": "Adres e-mail:",
+        "phone_number": "Numer telefonu:",
+        "language": "Język:",
+        "timezone": "Strefa czasowa:",
+        "active": "Aktywne:",
+        "confirmed": "Potwierdzone:",
+        "last_modification_date": "Data ostatniej modyfikacji:",
+        "modified_by": "Autor ostatniej modyfikacji:",
+        "creation_date": "Data utworzenia:",
+        "last_known_good_login": "Data ostatniej udanej próby logowania:",
+        "last_known_good_login_ip": "Adres ip ostatniej udanej próby logowania:",
+        "last_known_bad_login": "Data ostatniej nieudanej próby logowania:",
+        "last_known_bad_login_ip": "Adres ip ostatniej nieudanej próby logowania:",
+        "number_of_bad_logins": "Liczba nieudanych prób logowania:",
+        "access_levels": "Poziomy dostępu:"
+    },
+    "access-level-table": {
+        "level": "Poziom",
+        "active": "Aktywne",
+        "last_modification_date": "Data ostatniej modyfikacji",
+        "modified_by": "Autor ostatniej modyfikacji",
+        "creation_date": "Data utworzenia"
+    },
+    "main-page": {
+        "advert": "Przeprawy promowe jak z bajki",
+        "check_now": "Sprawdź teraz!",
+        "sign_in_to_book": "Zaloguj się, aby zarezerwować bilet!"
+    },
+    "popular-offers": {
+        "popular_routes": "Najpopularniejsze trasy"
+    },
+    "offer": {
+        "starting_at": "Już od {{price}}zł od osoby",
+        "book": "Zarezerwuj"
+    },
+    "cities": {
+        "warsaw": "Warszawa",
+        "ciechocinek": "Ciechocinek"
+    },
+    "confirm-account": {
+        "welcome_on_board": "Witamy na pokładzie!",
+        "account_confirm_error": "Wystąpił błąd podczas weryfikacji konta!",
+        "go_to_main_page": "Za chwilę nastąpi przeniesienie na stronę główną"
+    },
+    "confirm-email-change": {
+        "email_change_successful": "Zmiana adres e-mail przypisanego do konta przebiegła pomyślnie",
+        "email_change_error": "Wystąpił błąd podczas zmiany adresu e-mail!",
+        "go_to_main_page": "Za chwilę nastąpi przekierowanie na stronę główną"
+    },
+    "ERROR":{
+        "PHONE_NUMBER_UNIQUE": "Podany numer telefonu już istnieje",
+        "SAME_PASSWORD_AS_PREVIOUS": "Podane hasło jest takie samo jak wcześniejsze",
+        "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
+        "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe"
+    },
+    "error-page": {
+        "forbidden_code": "Kod błędu 403",
+        "forbidden_text": "Nie masz dostępu do tej strony",
+        "go_to_home_page": "Powrót do strony głównej"
+    }
+}

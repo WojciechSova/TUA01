@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validateEmail } from '../../common/navigation/register/matching.validator';
 import { ChangeEmailService } from '../../services/change-email.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AccountDetailsService } from '../../services/account-details.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class ChangeEmailFormComponent implements OnInit {
         emailRepeat: new FormControl('', [Validators.required, validateEmail]),
     });
 
-    constructor( public changeEmailService: ChangeEmailService ) {
+    constructor(private changeEmailService: ChangeEmailService,
+                private accountDetailsService: AccountDetailsService) {
     }
 
     ngOnInit(): void {
@@ -33,16 +35,28 @@ export class ChangeEmailFormComponent implements OnInit {
     }
 
     changeEmail(newEmail: string): void {
-        this.changeEmailService.changeEmail(newEmail).subscribe(
-            () => {
-                this.closeComponent();
-            },
-            (err: HttpErrorResponse) => {
-                if (err.status === 409) {
-                    this.existingEmail = true;
+        if (this.accountDetailsService.account.login === localStorage.getItem('login')) {
+            this.changeEmailService.changeEmail(newEmail).subscribe(
+                () => {
+                    this.closeComponent();
+                },
+                (err: HttpErrorResponse) => {
+                    if (err.status === 409) {
+                        this.existingEmail = true;
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            this.changeEmailService.changeOtherAccountEmail(this.accountDetailsService.account.login, newEmail).subscribe(
+                () => {
+                    this.closeComponent();
+                },
+                (err: HttpErrorResponse) => {
+                    if (err.status === 409) {
+                        this.existingEmail = true;
+                    }
+                }
+            );
+        }
     }
-
 }
