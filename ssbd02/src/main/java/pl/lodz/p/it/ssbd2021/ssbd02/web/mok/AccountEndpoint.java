@@ -304,7 +304,8 @@ public class AccountEndpoint {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
-        accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress);
+        accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress,
+                securityContext.getUserPrincipal().getName());
 
         return Response.ok().build();
     }
@@ -321,13 +322,13 @@ public class AccountEndpoint {
     @Path("email/{login}")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response sendChangeEmailAddressUrl(String newEmailAddress, @PathParam("login") String login) {
+    public Response sendChangeEmailAddressUrl(String newEmailAddress, @PathParam("login") String login, @Context SecurityContext securityContext) {
 
         if (!EmailAddressValidator.isValid(newEmailAddress)) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
-        accountManager.sendChangeEmailAddressUrl(login, newEmailAddress);
+        accountManager.sendChangeEmailAddressUrl(login, newEmailAddress, securityContext.getUserPrincipal().getName());
 
         return Response.ok().build();
     }
@@ -358,7 +359,7 @@ public class AccountEndpoint {
     @POST
     @PermitAll
     @Path("reset/password")
-    public Response sendPasswordResetAddressUrl(String email) {
+    public Response sendPasswordResetAddressUrl(String email, @Context SecurityContext securityContext) {
         if (email == null || "".equals(email.trim())) {
             throw new WebApplicationException("No email provided", 400);
         }
@@ -367,7 +368,11 @@ public class AccountEndpoint {
             throw new WebApplicationException("Invalid email format", 400);
         }
 
-        accountManager.sendPasswordResetAddressUrl(email);
+        if (securityContext.getUserPrincipal() != null) {
+            accountManager.sendPasswordResetAddressUrl(email, securityContext.getUserPrincipal().getName());
+        } else {
+            accountManager.sendPasswordResetAddressUrl(email, null);
+        }
 
         return Response.ok().build();
     }

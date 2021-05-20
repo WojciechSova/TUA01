@@ -158,7 +158,7 @@ public interface AccountManagerLocal {
      * @param login           Login użytkownika, którego adres email ma ulec zmianie
      * @param newEmailAddress Nowy adres email
      */
-    void sendChangeEmailAddressUrl(String login, String newEmailAddress);
+    void sendChangeEmailAddressUrl(String login, String newEmailAddress, String requestedBy);
 
     /**
      * Metoda wysyłająca wiadomość email z adresem służącym do resetowania hasła.
@@ -169,7 +169,7 @@ public interface AccountManagerLocal {
      *
      * @param email Adres email użytkownika, którego hasło ma zostać zresetowane
      */
-    void sendPasswordResetAddressUrl(String email);
+    void sendPasswordResetAddressUrl(String email, String requestedBy);
 
     /**
      * Metoda resetująca hasło do konta.

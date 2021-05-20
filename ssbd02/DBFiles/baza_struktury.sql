@@ -38,8 +38,8 @@ CREATE TABLE Personal_data
     last_name                varchar(50)                         NOT NULL,
     email                    varchar(70)                         NOT NULL,
     phone_number             varchar(15),
-    language                 varchar(5)                          NOT NULL ,
-    time_zone                char(6)                             NOT NULL ,
+    language                 varchar(5)                          NOT NULL,
+    time_zone                char(6)                             NOT NULL,
     modification_date        timestamp,
     modified_by              bigint,
     creation_date            timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -316,14 +316,21 @@ CREATE INDEX booking_number ON Booking USING btree (number);
 
 CREATE TABLE One_time_url
 (
-    id          bigint     NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    url         char(32)   NOT NULL,
-    account     bigint     NOT NULL,
-    action_type varchar(6) NOT NULL,
-    new_email   varchar(70),
-    expire_date timestamp  NOT NULL,
+    id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    version           bigint                              NOT NULL,
+    url               char(32)                            NOT NULL,
+    account           bigint                              NOT NULL,
+    action_type       varchar(6)                          NOT NULL,
+    new_email         varchar(70),
+    expire_date       timestamp                           NOT NULL,
+    modification_date timestamp,
+    modified_by       bigint,
+    creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_by        bigint,
     PRIMARY KEY (id),
     CONSTRAINT expire_date_in_future CHECK (expire_date > CURRENT_TIMESTAMP),
+    CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
+    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id FOREIGN KEY (account) REFERENCES Account (id),
     CONSTRAINT one_time_url_url_unique UNIQUE (url),
     CONSTRAINT one_time_url_account_action_type_unique UNIQUE (account, action_type)
@@ -336,3 +343,5 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE One_time_url TO ssbd02mok;
 
 CREATE INDEX one_time_url_url ON One_time_url USING btree (url);
 CREATE INDEX one_time_url_account ON One_time_url USING btree (account);
+CREATE INDEX one_time_url_modified_by ON One_time_url USING btree (modified_by);
+CREATE INDEX one_time_url_created_by ON One_time_url USING btree (created_by);
