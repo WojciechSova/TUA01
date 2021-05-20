@@ -10,17 +10,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.LoginPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 
 public class BlockUnblockAccountTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
     private WebDriver driver;
-    private final String url = "https://studapp.it.p.lodz.pl:8402/#";
-    private final String adminLogin = "admin";
-    private final String adminPassword = "password?";
     private AccountsListPage accountsListPage;
     private String login;
 
@@ -29,21 +24,20 @@ public class BlockUnblockAccountTest {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
+        options.addArguments("−−lang=pl");
         options.setHeadless(true);
     }
 
     @BeforeEach
     public void initEach() {
         driver = new ChromeDriver(options);
-        driver.get(url);
+        driver.get(TestUtils.url);
         driverWait = new WebDriverWait(driver, 12);
     }
 
     @Test
     public void blockUnblockAccountTest() {
-        MainPage mainPage = new MainPage(driver);
-        LoginPage loginPage = mainPage.openLoginForm();
-        AdminMainPage adminMainPage = loginPage.loginValidAdmin(adminLogin, adminPassword);
+        AdminMainPage adminMainPage = TestUtils.logInAsAdmin(driver);
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 
@@ -66,8 +60,7 @@ public class BlockUnblockAccountTest {
         driverWait.until((ExpectedCondition<Boolean>) driver -> {
             try {
                 accountsListPage.getUserWithLogin(login);
-            }
-            catch (StaleElementReferenceException ex) {
+            } catch (StaleElementReferenceException ex) {
                 return true;
             }
             return false;
