@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import static java.time.temporal.ChronoUnit.MILLIS;
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 /**
  * Manager kont
@@ -38,19 +38,15 @@ import static java.time.temporal.ChronoUnit.MILLIS;
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class AccountManager implements AccountManagerLocal {
 
+    private static final Properties prop = new Properties();
     @Inject
     private AccountFacadeLocal accountFacadeLocal;
-
     @Inject
     private AccessLevelFacadeLocal accessLevelFacadeLocal;
-
     @Inject
     private EmailSenderLocal emailSender;
-
     @Inject
     private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
-
-    private static final Properties prop = new Properties();
     private long expirationTime;
 
     @Override
@@ -102,7 +98,7 @@ public class AccountManager implements AccountManagerLocal {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
         } catch (IOException e) {
-            expirationTime = 86400000;
+            expirationTime = 86400;
             e.printStackTrace();
         }
 
@@ -110,7 +106,7 @@ public class AccountManager implements AccountManagerLocal {
         oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
         oneTimeUrl.setAccount(account);
         oneTimeUrl.setActionType("verify");
-        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
+        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
 
         accountFacadeLocal.create(account);
         accessLevelFacadeLocal.create(accessLevel);
@@ -365,7 +361,7 @@ public class AccountManager implements AccountManagerLocal {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
         } catch (IOException e) {
-            expirationTime = 86400000;
+            expirationTime = 86400;
             e.printStackTrace();
         }
 
@@ -379,7 +375,7 @@ public class AccountManager implements AccountManagerLocal {
             oneTimeUrl = oneTimeUrls.get(0);
             oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
             oneTimeUrl.setNewEmail(newEmailAddress);
-            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
+            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
             oneTimeUrl.setModifiedBy(accountFacadeLocal.findByLogin(requestedBy));
             oneTimeUrl.setModificationDate(Timestamp.from(Instant.now()));
             oneTimeUrlFacadeLocal.edit(oneTimeUrl);
@@ -389,7 +385,7 @@ public class AccountManager implements AccountManagerLocal {
             oneTimeUrl.setAccount(account);
             oneTimeUrl.setNewEmail(newEmailAddress);
             oneTimeUrl.setActionType("e-mail");
-            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
+            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
             oneTimeUrl.setCreatedBy(accountFacadeLocal.findByLogin(requestedBy));
             oneTimeUrl.setCreationDate(Timestamp.from(Instant.now()));
             oneTimeUrlFacadeLocal.create(oneTimeUrl);
@@ -407,7 +403,7 @@ public class AccountManager implements AccountManagerLocal {
             return;
         }
 
-        long expirationTime = 20 * 60 * 1000;
+        long expirationTime = 20 * 60;
 
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
@@ -424,7 +420,7 @@ public class AccountManager implements AccountManagerLocal {
 
         if (!oneTimeUrls.isEmpty()) {
             oneTimeUrl = oneTimeUrls.get(0);
-            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
+            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
             if (requestedBy != null) {
                 oneTimeUrl.setModifiedBy(accountFacadeLocal.findByLogin(requestedBy));
             } else {
@@ -437,7 +433,7 @@ public class AccountManager implements AccountManagerLocal {
             oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
             oneTimeUrl.setAccount(account);
             oneTimeUrl.setActionType("passwd");
-            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, MILLIS)));
+            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
             if (requestedBy != null) {
                 oneTimeUrl.setCreatedBy(accountFacadeLocal.findByLogin(requestedBy));
             }

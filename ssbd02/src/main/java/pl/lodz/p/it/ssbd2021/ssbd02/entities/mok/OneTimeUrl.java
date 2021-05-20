@@ -4,7 +4,7 @@ import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -34,7 +34,7 @@ public class OneTimeUrl extends AbstractEntity implements Serializable {
     @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(name = "url", nullable = false, unique = true, updatable = false, length = 32)
     private String url;
 
@@ -43,14 +43,17 @@ public class OneTimeUrl extends AbstractEntity implements Serializable {
     @JoinColumn(name = "account", nullable = false, updatable = false, referencedColumnName = "id")
     private Account account;
 
-    @NotNull
+    @NotBlank
     @Column(name = "action_type", nullable = false, updatable = false, length = 6)
     private String actionType;
 
+    @Size(max = 70, message = "Email address can have a maximum of 70 characters")
+    @Email(message = "Provided email address is not valid")
     @Column(name = "new_email", nullable = true, updatable = true, length = 70)
     private String newEmail;
 
     @NotNull
+    @Future
     @Column(name = "expire_date", nullable = false, updatable = true)
     private Timestamp expireDate;
 
