@@ -24,7 +24,9 @@
         "short_password": "Hasło powinno zawierać przynajmniej 8 znaków",
         "updating": "Aktualizowanie...",
         "save": "Zapisz",
-        "confirm": "Potwierdź"
+        "confirm": "Potwierdź",
+        "yes": "Tak",
+        "no": "Nie"
     },
     "links": {
         "about_us": "O nas",
@@ -132,6 +134,15 @@
         "email_change_successful": "Zmiana adres e-mail przypisanego do konta przebiegła pomyślnie",
         "email_change_error": "Wystąpił błąd podczas zmiany adresu e-mail!",
         "go_to_main_page": "Za chwilę nastąpi przekierowanie na stronę główną"
+    },
+    "password-reset": {
+        "confirm": {
+            "reset_pwd_question": "Czy chcesz zresetować hasło?"
+        },
+        "reset": {
+            "successful": "Pomyślnie zresetowano hasło",
+            "failed": "Zresetowanie hasła nie powiodło się"
+        }
     },
     "ERROR":{
         "PHONE_NUMBER_UNIQUE": "Podany numer telefonu już istnieje",

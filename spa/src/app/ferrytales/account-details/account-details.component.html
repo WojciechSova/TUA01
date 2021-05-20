@@ -1,16 +1,28 @@
 <div class="outer-div">
+    <div *ngIf="(resetPasswordConnect.resetPasswordResponse) !== 'hide'" class="info-popup">
+        <p class="password-reset-success" *ngIf="(resetPasswordConnect.resetPasswordResponse) === 'success'
+            " id="resetSuccessfulParagraph" translate>password-reset.reset.successful</p>
+        <p class="password-reset-failure" *ngIf="(resetPasswordConnect.resetPasswordResponse) === 'failure'"
+            id="resetFailedParagraph" translate>password-reset.reset.failed</p>
+    </div>
     <div class="account-details" id="accountDetails">
         <div class="button-container">
             <button id="edit-button"
                     class="edit-button"
                     (click)="editUser(accountDetailsService.account.login)"
                     translate>account-details.edit_account</button>
-            <button class="edit-button" id="change-password"
+            <button *ngIf="isOnOwnProfile()"
+                    class="edit-button" id="change-password"
                     (click)="changeChangePasswordFormVisible(true)"
                     translate>account-details.change_password
             </button>
+            <button *ngIf="identityService.isAdmin() && !isOnOwnProfile()" class="edit-button" id="reset-password"
+                    (click)="resetPasswordClick()"
+                    translate>reset-password.reset_password
+            </button>
             <button class="edit-button" *ngIf="identityService.isAdmin()"
-                    (click)="setLoginAccessLevels(accountDetailsService.account.login, accountDetailsService.account.accessLevel); changeAccessLevelFormVisible(true)"
+                    (click)="setLoginAccessLevels(accountDetailsService.account.login, accountDetailsService.account.accessLevel);
+                    changeAccessLevelFormVisible(true)"
                     translate>account-details.edit_access_levels
             </button>
             <button class="edit-button"
@@ -105,3 +117,5 @@
                        [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels"></app-access-level-form>
 <app-change-email-form *ngIf="isChangeEmailFormVisible"
                        (isChangeEmailFormVisible)="changeEmailFormVisible($event)"></app-change-email-form>
+<app-confirm-reset *ngIf="resetPasswordConnect.isResetPasswordVisible"
+                   (isConfirmPasswordVisible)="changePasswordResetVisible($event)"></app-confirm-reset>
