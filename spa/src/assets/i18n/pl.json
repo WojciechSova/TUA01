@@ -135,15 +135,15 @@
         "email_change_error": "Wystąpił błąd podczas zmiany adresu e-mail!",
         "go_to_main_page": "Za chwilę nastąpi przekierowanie na stronę główną"
     },
-    "new-password": {
-        "enter_password": "Wprowadź nowe hasło",
-        "invalid_url": "Załączony url nie jest poprawny",
-        "password_too_short": "Podane hasło jest zbyt krótkie",
-        "password_change_success": "Pomyślnie zmieniono hasło"
-    },
     "password-reset": {
         "confirm": {
             "reset_pwd_question": "Czy chcesz zresetować hasło?"
+        },
+        "new": {
+            "enter_password": "Wprowadź nowe hasło",
+            "invalid_url": "Załączony url nie jest poprawny",
+            "password_too_short": "Podane hasło jest zbyt krótkie",
+            "password_change_success": "Pomyślnie zmieniono hasło"
         },
         "reset": {
             "successful": "Pomyślnie zresetowano hasło",

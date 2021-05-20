@@ -135,15 +135,15 @@
         "email_change_error": "An error occurred while changing your email address!",
         "go_to_main_page": "You will be taken to the home page in a moment"
     },
-    "new-password": {
-        "enter_password": "Enter your new password",
-        "invalid_url": "Provided url is not valid",
-        "password_too_short": "Provided password was too short",
-        "password_change_success": "Password change was successful"
-    },
     "password-reset": {
         "confirm": {
             "reset_pwd_question": "Do you want to reset password?"
+        },
+        "new": {
+            "enter_password": "Enter your new password",
+            "invalid_url": "Provided url is not valid",
+            "password_too_short": "Provided password was too short",
+            "password_change_success": "Password change was successful"
         },
         "reset": {
             "successful": "Password reset successful",
