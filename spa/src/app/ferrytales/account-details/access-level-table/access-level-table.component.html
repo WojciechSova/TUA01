@@ -9,8 +9,8 @@
     <tr class="access-tr" *ngFor="let accessLvl of accessLevels">
         <td>{{accessLvl.level}}</td>
         <td>{{accessLvl.active}}</td>
-        <td>{{accessLvl.modificationDate}}</td>
+        <td>{{accessLvl.modificationDate | date :'short':identityService.getTimezone()}}</td>
         <td>{{accessLvl.modifiedBy?.login}}</td>
-        <td>{{accessLvl.creationDate}}</td>
+        <td>{{accessLvl.creationDate | date :'short':identityService.getTimezone()}}</td>
     </tr>
 </table>
