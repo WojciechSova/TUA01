@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AccountDetails } from '../../model/mok/AccountDetails';
 import { IdentityService } from '../../services/utils/identity.service';
 import { AccessLevel } from '../../model/mok/AccessLevel';
@@ -11,13 +11,7 @@ import { HttpResponse } from '@angular/common/http';
     templateUrl: './account-details.component.html',
     styleUrls: ['./account-details.component.less']
 })
-export class AccountDetailsComponent {
-
-    constructor(public identityService: IdentityService,
-                public accountDetailsService: AccountDetailsService,
-                private route: ActivatedRoute,
-                private router: Router) {
-    }
+export class AccountDetailsComponent implements OnInit {
 
     isChangePasswordFormVisible = false;
 
@@ -34,6 +28,16 @@ export class AccountDetailsComponent {
 
     loginToChangeAccessLevel = '';
     loginAccessLevels = [''];
+
+    constructor(public identityService: IdentityService,
+                public accountDetailsService: AccountDetailsService,
+                private route: ActivatedRoute,
+                private router: Router) {
+    }
+
+    ngOnInit(): void {
+        this.getAccount();
+    }
 
     setLoginAccessLevels(login: string, accessLevels: AccessLevel[]): void {
         const accessLevelsStringTab = accessLevels.map((accessLevel) => accessLevel.level);
