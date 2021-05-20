@@ -8,6 +8,7 @@
     },
     "form": {
         "invalid_format": "Niepoprawny format",
+        "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
         "field_required": "Pole wymagane",
         "first_name": "Imię",
         "last_name": "Nazwisko",
@@ -20,7 +21,7 @@
         "required_repeat_email_address": "*Powtórz adres e-mail",
         "email_differ": "Adresy e-mail nie są takie same",
         "passwords_differ": "Hasła nie są takie same",
-        "short_password": "Hasło za krótkie",
+        "short_password": "Hasło powinno zawierać przynajmniej 8 znaków",
         "updating": "Aktualizowanie...",
         "save": "Zapisz",
         "confirm": "Potwierdź",
@@ -148,5 +149,10 @@
         "SAME_PASSWORD_AS_PREVIOUS": "Podane hasło jest takie samo jak wcześniejsze",
         "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe"
+    },
+    "error-page": {
+        "forbidden_code": "Kod błędu 403",
+        "forbidden_text": "Nie masz dostępu do tej strony",
+        "go_to_home_page": "Powrót do strony głównej"
     }
 }

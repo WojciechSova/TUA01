@@ -43,7 +43,7 @@ public class AccountDetailsDTO extends AbstractDTO {
     @Size(max = 70, message = "Email must have less than 70 characters")
     private String email;
 
-    @Size(min = 11, max = 11, message = "Phone number must have 11 characters")
+    @Size(min = 3, max = 15, message = "Phone number must have between 3 and 15 characters")
     private String phoneNumber;
 
     private List<AccessLevelDTO> accessLevel;

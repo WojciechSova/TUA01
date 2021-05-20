@@ -5,7 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -34,10 +34,12 @@ public class Cruise extends AbstractEntity implements Serializable {
     private Long id;
 
     @NotNull
+    @Future
     @Column(name = "start_date", nullable = false, updatable = true)
     private Timestamp startDate;
 
     @NotNull
+    @Future
     @Column(name = "end_date", nullable = false, updatable = true)
     private Timestamp endDate;
 
@@ -51,10 +53,12 @@ public class Cruise extends AbstractEntity implements Serializable {
     @JoinColumn(name = "ferry", nullable = false, updatable = true, referencedColumnName = "id")
     private Ferry ferry;
 
-    @NotNull
+    @NotBlank
+    @Pattern(regexp = "[A-Z]{6}[0-9]{6}", message = "Cruise number must have 6 capital letters and 6 digits")
     @Column(name = "number", nullable = false, unique = true, updatable = false, length = 12)
     private String number;
 
+    @PastOrPresent
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
 
@@ -62,6 +66,7 @@ public class Cruise extends AbstractEntity implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 
+    @PastOrPresent
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 

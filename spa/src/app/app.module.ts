@@ -28,11 +28,11 @@ import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ConfirmResetComponent } from './ferrytales/account-details/confirm-reset/confirm-reset.component';
+import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 
 export function rootLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
 }
-
 
 @NgModule({
     declarations: [
@@ -59,6 +59,8 @@ export function rootLoaderFactory(http: HttpClient) {
         ChangeEmailFormComponent,
         ConfirmEmailChangeComponent,
         ConfirmResetComponent,
+        ConfirmEmailChangeComponent,
+        ForbiddenComponent
     ],
     imports: [
         BrowserModule,

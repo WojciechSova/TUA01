@@ -37,7 +37,7 @@ CREATE TABLE Personal_data
     first_name               varchar(30)                         NOT NULL,
     last_name                varchar(50)                         NOT NULL,
     email                    varchar(70)                         NOT NULL,
-    phone_number             varchar(11),
+    phone_number             varchar(15),
     language                 varchar(5)                          NOT NULL ,
     time_zone                char(6)                             NOT NULL ,
     modification_date        timestamp,

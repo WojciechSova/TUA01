@@ -67,7 +67,7 @@
                    placeholder="{{'form.phone_number' | translate}}" formControlName="phoneNumber"
                    [ngClass]="{'is-invalid': form.controls.phoneNumber.touched && form.controls.phoneNumber.invalid}">
             <div class="validation-error" *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
-                 translate>form.invalid_format</div><br><br>
+                 translate>form.invalid_phone_number</div><br><br>
 
             <button class="form-button"
                     (click)="register(login.value, password.value, firstname.value, lastName.value, email.value, phoneNumber?.value)"
