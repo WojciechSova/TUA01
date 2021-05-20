@@ -353,7 +353,7 @@ public class AccountEndpoint {
      * Metoda obsługująca żądanie resetowania hasła.
      *
      * @param email Email użytkownika, którego hasło ma zostać zresetowane
-     * @return Kod 200 w przypoadku poprawnego formatu adresu email, w przeciwnym razie 400.
+     * @return Kod 200 w przypadku poprawnego formatu adresu email, w przeciwnym razie 400.
      * Aplikacja nie powiadamia użytkownika czy podany email znajduje się w bazie danych.
      */
     @POST
