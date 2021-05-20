@@ -1,8 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.FerryDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;

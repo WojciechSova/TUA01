@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.FerryDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportDTO;
 
 import javax.annotation.security.RolesAllowed;

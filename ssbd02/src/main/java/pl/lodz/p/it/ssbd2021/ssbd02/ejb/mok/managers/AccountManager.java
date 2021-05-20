@@ -17,7 +17,6 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.WebApplicationException;
 import java.io.IOException;
 import java.io.InputStream;
