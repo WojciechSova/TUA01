@@ -142,6 +142,8 @@
     "error-page": {
         "forbidden_code": "Kod błędu 403",
         "forbidden_text": "Nie masz dostępu do tej strony",
+        "internal_server_error_code": "Kod błędu 500",
+        "internal_server_error_message": "Ups, coś poszło nie tak :(",
         "go_to_home_page": "Powrót do strony głównej"
     }
 }

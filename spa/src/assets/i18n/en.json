@@ -142,6 +142,8 @@
     "error-page": {
         "forbidden_code": "Error 403",
         "forbidden_text": "You don't have access to this page",
-        "go_to_home_page": "Back to home page"
+        "internal_server_error_code": "Error 500",
+        "internal_server_error_message": "Oops, something went wrong :(",
+        "go_to_home_page": "Back to the home page"
     }
 }

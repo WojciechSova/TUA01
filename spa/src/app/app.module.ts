@@ -28,6 +28,7 @@ import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
+import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
 
 export function rootLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -57,7 +58,8 @@ export function rootLoaderFactory(http: HttpClient) {
         ResetPasswordComponent,
         ChangeEmailFormComponent,
         ConfirmEmailChangeComponent,
-        ForbiddenComponent
+        ForbiddenComponent,
+        InternalServerErrorComponent
     ],
     imports: [
         BrowserModule,
