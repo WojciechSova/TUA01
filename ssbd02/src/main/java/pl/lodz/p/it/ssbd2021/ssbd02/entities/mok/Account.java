@@ -1,5 +1,4 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.entities.mok;
-
 import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 
@@ -23,7 +22,10 @@ import java.time.Instant;
         @NamedQuery(name = "Account.findByFirstName", query = "SELECT a FROM Account a WHERE a.firstName = :firstName"),
         @NamedQuery(name = "Account.findByLastName", query = "SELECT a FROM Account a WHERE a.lastName = :lastName"),
         @NamedQuery(name = "Account.findByEmail", query = "SELECT a FROM Account a WHERE a.email = :email"),
-        @NamedQuery(name = "Account.findByConfirmed", query = "SELECT a FROM Account a WHERE a.confirmed = :confirmed")
+        @NamedQuery(name = "Account.findByConfirmed", query = "SELECT a FROM Account a WHERE a.confirmed = :confirmed"),
+        @NamedQuery(name = "Account.findByUnconfirmedAndExpired", query = "SELECT a FROM Account a WHERE a.confirmed = false " +
+                "AND EXTRACT(epoch FROM current_timestamp) - EXTRACT(epoch FROM a.creationDate) > :removalTime")
+
 })
 @Data
 @NoArgsConstructor
