@@ -17,9 +17,12 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 /**
  * Manager systemu
@@ -92,12 +95,12 @@ public class SystemManager implements SystemManagerLocal {
     @Schedule(minute = "30", hour = "*", persistent = false)
     public void resendConfirmAccountEmail() {
         long removalTime = 86_400_000 / 2L;
-        long hour = 3_600_000;
+        final long hour = 3_600_000;
         long actualTime = Timestamp.from(Instant.now()).getTime() / hour * hour + (hour / 2);
 
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
-            removalTime = Long.parseLong(prop.getProperty("system.time.account.confirmation")) / 2;
+            removalTime = Long.parseLong(prop.getProperty("system.time.account.confirmation")) * 1000 / 2;
         } catch (IOException e) {
             e.printStackTrace();
         }
