@@ -52,7 +52,7 @@ export class AccountDetailsComponent implements OnInit {
     getAccount(): void {
         this.resetPasswordConnect.resetPasswordResponse = 'hide';
         const login = (this.route.snapshot.paramMap.get('login') as string);
-        if (this.accountDetailsService.account.login === this.identityService.getLogin()) {
+        if (this.identityService.getLogin() === login) {
             this.accountDetailsService.getProfile().subscribe(
                 (response: HttpResponse<AccountDetails>) => {
                     this.accountDetailsService.readAccountAndEtagFromResponse(response);
