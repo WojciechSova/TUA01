@@ -22,7 +22,7 @@ const routes: Routes = [
     { path: 'confirm/account/:url', component: ConfirmAccountComponent },
     { path: 'confirm/email/:url', component: ConfirmEmailChangeComponent },
     { path: 'reset/password/:url', component: NewPasswordComponent },
-    { path: 'error/forbidden', component: ForbiddenComponent} ,
+    { path: 'error/forbidden', component: ForbiddenComponent },
 ];
 
 @NgModule({

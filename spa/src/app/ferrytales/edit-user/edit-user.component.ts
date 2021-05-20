@@ -116,7 +116,7 @@ export class EditUserComponent implements OnInit {
     }
 
     sendEditRequest(acc: AccountDetails): Observable<object> {
-        if (localStorage.getItem('login') === acc.login) {
+        if (this.identityService.getLogin() === acc.login) {
             return this.updateAccountService.updateOwnAccount(acc);
         } else {
             return this.updateAccountService.updateAccount(acc);

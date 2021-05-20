@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
@@ -21,5 +21,9 @@ export class ResetPasswordService {
     setNewPassword(oneTimeUrl: string, newPassword: string): Observable<HttpResponse<any>> {
         const completeUrl = this.url + '/' + oneTimeUrl;
         return this.http.put<any>(completeUrl, newPassword);
+    }
+
+    resetPasswordResponse(email: string): Observable<HttpResponse<any>> {
+        return this.http.post<any>(this.url, email);
     }
 }

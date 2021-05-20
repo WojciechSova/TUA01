@@ -28,6 +28,7 @@ import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/
 import { NewPasswordComponent } from './other-views/new-password/new-password.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ConfirmResetComponent } from './ferrytales/account-details/confirm-reset/confirm-reset.component';
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 
 export function rootLoaderFactory(http: HttpClient) {
@@ -40,7 +41,6 @@ export function rootLoaderFactory(http: HttpClient) {
         LoginComponent,
         RegisterComponent,
         FooterComponent,
-        RegisterComponent,
         NavigationComponent,
         LinksComponent,
         MainPageComponent,
@@ -58,6 +58,7 @@ export function rootLoaderFactory(http: HttpClient) {
         ResetPasswordComponent,
         ChangeEmailFormComponent,
         ConfirmEmailChangeComponent,
+        ConfirmResetComponent,
         NewPasswordComponent,
         ForbiddenComponent,
     ],

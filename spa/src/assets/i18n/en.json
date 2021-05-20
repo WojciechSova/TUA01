@@ -24,7 +24,9 @@
         "short_password": "Password should have at least 8 characters",
         "updating": "Updating...",
         "save": "Save",
-        "confirm": "Confirm"
+        "confirm": "Confirm",
+        "yes": "Yes",
+        "no": "No"
     },
     "links": {
         "about_us": "About us",
@@ -138,6 +140,15 @@
         "invalid_url": "Provided url is not valid",
         "password_too_short": "Provided password was too short",
         "password_change_success": "Password change was successful"
+    },
+    "password-reset": {
+        "confirm": {
+            "reset_pwd_question": "Do you want to reset password?"
+        },
+        "reset": {
+            "successful": "Password reset successful",
+            "failed": "Password reset failed"
+        }
     },
     "ERROR":{
         "PHONE_NUMBER_UNIQUE": "Provided phone number already exists",

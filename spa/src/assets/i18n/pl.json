@@ -24,7 +24,9 @@
         "short_password": "Hasło powinno zawierać przynajmniej 8 znaków",
         "updating": "Aktualizowanie...",
         "save": "Zapisz",
-        "confirm": "Potwierdź"
+        "confirm": "Potwierdź",
+        "yes": "Tak",
+        "no": "Nie"
     },
     "links": {
         "about_us": "O nas",
@@ -138,6 +140,15 @@
         "invalid_url": "Załączony url nie jest poprawny",
         "password_too_short": "Podane hasło jest zbyt krótkie",
         "password_change_success": "Pomyślnie zmieniono hasło"
+    },
+    "password-reset": {
+        "confirm": {
+            "reset_pwd_question": "Czy chcesz zresetować hasło?"
+        },
+        "reset": {
+            "successful": "Pomyślnie zresetowano hasło",
+            "failed": "Zresetowanie hasła nie powiodło się"
+        }
     },
     "ERROR":{
         "PHONE_NUMBER_UNIQUE": "Podany numer telefonu już istnieje",
