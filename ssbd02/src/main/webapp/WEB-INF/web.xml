@@ -24,4 +24,9 @@
         <role-name>CLIENT</role-name>
     </security-role>
 
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error403.html</location>
+    </error-page>
+
 </web-app>
