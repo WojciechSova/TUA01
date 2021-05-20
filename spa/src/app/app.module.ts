@@ -25,12 +25,13 @@ import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-a
 import { ResetPasswordComponent } from './common/navigation/reset-password/reset-password.component';
 import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-email-form.component';
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
-import { TranslateLoader, TranslateModule, TranslateService } from "@ngx-translate/core";
 import { NewPasswordComponent } from './other-views/new-password/new-password.component';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 
 export function rootLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http)
+    return new TranslateHttpLoader(http);
 }
 
 @NgModule({
@@ -57,7 +58,8 @@ export function rootLoaderFactory(http: HttpClient) {
         ResetPasswordComponent,
         ChangeEmailFormComponent,
         ConfirmEmailChangeComponent,
-        NewPasswordComponent
+        NewPasswordComponent,
+        ForbiddenComponent,
     ],
     imports: [
         BrowserModule,

@@ -8,6 +8,7 @@ import { EditUserComponent } from './ferrytales/edit-user/edit-user.component';
 import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-account.component';
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
 import { NewPasswordComponent } from './other-views/new-password/new-password.component';
+import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
     { path: 'confirm/account/:url', component: ConfirmAccountComponent },
     { path: 'confirm/email/:url', component: ConfirmEmailChangeComponent },
     { path: 'reset/password/:url', component: NewPasswordComponent },
+    { path: 'error/forbidden', component: ForbiddenComponent} ,
 ];
 
 @NgModule({

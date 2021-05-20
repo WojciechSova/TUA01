@@ -8,6 +8,7 @@
     },
     "form": {
         "invalid_format": "Invalid format",
+        "invalid_phone_number": "Phone number should have between 3 and 15 digits",
         "field_required": "Field required",
         "first_name": "First name",
         "last_name": "Last name",
@@ -20,7 +21,7 @@
         "required_repeat_email_address": "*Repeat e-mail address",
         "email_differ": "E-mail address are not the same",
         "passwords_differ": "Passwords are not the same",
-        "short_password": "Password too short",
+        "short_password": "Password should have at least 8 characters",
         "updating": "Updating...",
         "save": "Save",
         "confirm": "Confirm"
@@ -143,5 +144,10 @@
         "SAME_PASSWORD_AS_PREVIOUS": "The password provided is the same as the previous one",
         "EMAIL_UNIQUE": "The e-mail address you entered already exists",
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect"
+    },
+    "error-page": {
+        "forbidden_code": "Error 403",
+        "forbidden_text": "You don't have access to this page",
+        "go_to_home_page": "Back to home page"
     }
 }
