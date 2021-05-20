@@ -27,6 +27,11 @@ export class AccountDetailsComponent {
 
     isResetPasswordVisible = false;
 
+    resetPasswordConnect = {
+        isResetPasswordVisible: false,
+        resetPasswordResponse: 'hide'
+    };
+
     loginToChangeAccessLevel = '';
     loginAccessLevels = [''];
 
@@ -41,6 +46,7 @@ export class AccountDetailsComponent {
     }
 
     getAccount(): void {
+        this.resetPasswordConnect.resetPasswordResponse = 'hide';
         const login = (this.route.snapshot.paramMap.get('login') as string);
         if (this.identityService.getLogin() === login) {
             this.accountDetailsService.getProfile().subscribe(
@@ -61,7 +67,9 @@ export class AccountDetailsComponent {
     }
 
     resetPasswordClick(): void {
-        this.changePasswordResetVisible(true);
+        this.resetPasswordConnect.isResetPasswordVisible = true;
+        this.resetPasswordConnect.resetPasswordResponse = 'hide';
+        this.changePasswordResetVisible(this.resetPasswordConnect);
     }
 
     changeEmailFormVisible(visible: boolean): void {
@@ -72,9 +80,10 @@ export class AccountDetailsComponent {
         this.isAccessLevelFormVisible = visible;
     }
 
-    changePasswordResetVisible(visible: boolean): void {
+    changePasswordResetVisible(resetResponse: any): void {
         this.getAccount();
-        this.isResetPasswordVisible = visible;
+        this.resetPasswordConnect.isResetPasswordVisible = resetResponse.isResetPasswordVisible;
+        this.resetPasswordConnect.resetPasswordResponse = resetResponse.resetPasswordResponse;
     }
 
     editUser(login: string): void {

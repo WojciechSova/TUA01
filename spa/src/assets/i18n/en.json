@@ -134,8 +134,14 @@
         "email_change_error": "An error occurred while changing your email address!",
         "go_to_main_page": "You will be taken to the home page in a moment"
     },
-    "confirm-reset": {
-        "reset_pwd_question": "Do you want to reset password?"
+    "password-reset": {
+        "confirm": {
+            "reset_pwd_question": "Do you want to reset password?"
+        },
+        "reset": {
+            "successful": "Password reset successful",
+            "failed": "Password reset failed"
+        }
     },
     "ERROR":{
         "PHONE_NUMBER_UNIQUE": "Provided phone number already exists",

@@ -134,8 +134,14 @@
         "email_change_error": "Wystąpił błąd podczas zmiany adresu e-mail!",
         "go_to_main_page": "Za chwilę nastąpi przekierowanie na stronę główną"
     },
-    "confirm-reset": {
-        "reset_pwd_question": "Czy chcesz zresetować hasło?"
+    "password-reset": {
+        "confirm": {
+            "reset_pwd_question": "Czy chcesz zresetować hasło?"
+        },
+        "reset": {
+            "successful": "Pomyślnie zresetowano hasło",
+            "failed": "Zresetowanie hasła nie powiodło się"
+        }
     },
     "ERROR":{
         "PHONE_NUMBER_UNIQUE": "Podany numer telefonu już istnieje",

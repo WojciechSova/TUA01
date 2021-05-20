@@ -1,4 +1,10 @@
 <div class="outer-div">
+    <div *ngIf="(resetPasswordConnect.resetPasswordResponse) !== 'hide'" class="info-popup">
+        <p class="password-reset-success" *ngIf="(resetPasswordConnect.resetPasswordResponse) === 'success'
+            " id="resetSuccessfulParagraph" translate>password-reset.reset.successful</p>
+        <p class="password-reset-failure" *ngIf="(resetPasswordConnect.resetPasswordResponse) === 'failure'"
+            id="resetFailedParagraph" translate>password-reset.reset.failed</p>
+    </div>
     <div class="account-details" id="accountDetails">
         <div class="button-container">
             <button id="edit-button"
@@ -111,5 +117,5 @@
                        [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels"></app-access-level-form>
 <app-change-email-form *ngIf="isChangeEmailFormVisible"
                        (isChangeEmailFormVisible)="changeEmailFormVisible($event)"></app-change-email-form>
-<app-confirm-reset *ngIf="isResetPasswordVisible"
+<app-confirm-reset *ngIf="resetPasswordConnect.isResetPasswordVisible"
                    (isConfirmPasswordVisible)="changePasswordResetVisible($event)"></app-confirm-reset>

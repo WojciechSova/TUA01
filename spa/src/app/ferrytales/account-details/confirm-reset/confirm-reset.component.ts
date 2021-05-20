@@ -14,17 +14,32 @@ export class ConfirmResetComponent {
     }
 
     @Output()
-    isConfirmPasswordVisible = new EventEmitter<boolean>();
+    isConfirmPasswordVisible = new EventEmitter<any>();
+
+    resetPasswordConnect = {
+        isResetPasswordVisible: true,
+        resetPasswordResponse: 'hide'
+    };
 
     confirmPasswordReset(): void {
         this.resetPasswordService.resetPasswordResponse(this.accountDetailsService.account.email).subscribe(
-            () => this.closeComponent()
+            () => {
+                this.resetPasswordConnect.isResetPasswordVisible = false;
+                this.resetPasswordConnect.resetPasswordResponse = 'success';
+                this.isConfirmPasswordVisible.emit(this.resetPasswordConnect);
+            },
+            () => {
+                this.resetPasswordConnect.isResetPasswordVisible = false;
+                this.resetPasswordConnect.resetPasswordResponse = 'failure';
+                this.isConfirmPasswordVisible.emit(this.resetPasswordConnect);
+            }
         );
-        this.closeComponent();
     }
 
     closeComponent(): void {
-        this.isConfirmPasswordVisible.emit(false);
+        this.resetPasswordConnect.isResetPasswordVisible = false;
+        this.resetPasswordConnect.resetPasswordResponse = 'hide';
+        this.isConfirmPasswordVisible.emit(this.resetPasswordConnect);
     }
 
 }
