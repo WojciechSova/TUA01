@@ -8,6 +8,7 @@
     },
     "form": {
         "invalid_format": "Invalid format",
+        "invalid_phone_number": "Phone number should have between 3 and 15 digits",
         "field_required": "Field required",
         "first_name": "First name",
         "last_name": "Last name",
@@ -20,7 +21,7 @@
         "required_repeat_email_address": "*Repeat e-mail address",
         "email_differ": "E-mail address are not the same",
         "passwords_differ": "Passwords are not the same",
-        "short_password": "Password too short",
+        "short_password": "Password should have at least 8 characters",
         "updating": "Updating...",
         "save": "Save",
         "confirm": "Confirm"
