@@ -350,7 +350,7 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     @Override
-    public void sendChangeEmailAddressUrl(String login, String newEmailAddress) {
+    public void sendChangeEmailAddressUrl(String login, String newEmailAddress, String requestedBy) {
         Account account = accountFacadeLocal.findByLogin(login);
 
         if (accountFacadeLocal.findAll().stream().anyMatch(a -> newEmailAddress.equals(a.getEmail()))) {
@@ -365,21 +365,38 @@ public class AccountManager implements AccountManagerLocal {
             e.printStackTrace();
         }
 
-        OneTimeUrl oneTimeUrl = new OneTimeUrl();
-        oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
-        oneTimeUrl.setAccount(account);
-        oneTimeUrl.setNewEmail(newEmailAddress);
-        oneTimeUrl.setActionType("e-mail");
-        oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
+        List<OneTimeUrl> oneTimeUrls = oneTimeUrlFacadeLocal.findByAccount(account).stream()
+                .filter(oneTimeUrl -> oneTimeUrl.getActionType().equals("e-mail"))
+                .collect(Collectors.toList());
 
-        oneTimeUrlFacadeLocal.create(oneTimeUrl);
+        OneTimeUrl oneTimeUrl;
+
+        if (!oneTimeUrls.isEmpty()) {
+            oneTimeUrl = oneTimeUrls.get(0);
+            oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
+            oneTimeUrl.setNewEmail(newEmailAddress);
+            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
+            oneTimeUrl.setModifiedBy(accountFacadeLocal.findByLogin(requestedBy));
+            oneTimeUrl.setModificationDate(Timestamp.from(Instant.now()));
+            oneTimeUrlFacadeLocal.edit(oneTimeUrl);
+        } else {
+            oneTimeUrl = new OneTimeUrl();
+            oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
+            oneTimeUrl.setAccount(account);
+            oneTimeUrl.setNewEmail(newEmailAddress);
+            oneTimeUrl.setActionType("e-mail");
+            oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
+            oneTimeUrl.setCreatedBy(accountFacadeLocal.findByLogin(requestedBy));
+            oneTimeUrl.setCreationDate(Timestamp.from(Instant.now()));
+            oneTimeUrlFacadeLocal.create(oneTimeUrl);
+        }
 
         emailSender.sendEmailChangeConfirmationEmail(account.getLanguage(), account.getFirstName(), newEmailAddress, oneTimeUrl.getUrl());
 
     }
 
     @Override
-    public void sendPasswordResetAddressUrl(String email) {
+    public void sendPasswordResetAddressUrl(String email, String requestedBy) {
         Account account = accountFacadeLocal.findByEmail(email);
 
         if (account == null) {
@@ -404,12 +421,23 @@ public class AccountManager implements AccountManagerLocal {
         if (!oneTimeUrls.isEmpty()) {
             oneTimeUrl = oneTimeUrls.get(0);
             oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
+            if (requestedBy != null) {
+                oneTimeUrl.setModifiedBy(accountFacadeLocal.findByLogin(requestedBy));
+            } else {
+                oneTimeUrl.setModifiedBy(null);
+            }
+            oneTimeUrl.setModificationDate(Timestamp.from(Instant.now()));
+            oneTimeUrlFacadeLocal.edit(oneTimeUrl);
         } else {
             oneTimeUrl = new OneTimeUrl();
             oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
             oneTimeUrl.setAccount(account);
             oneTimeUrl.setActionType("passwd");
             oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
+            if (requestedBy != null) {
+                oneTimeUrl.setCreatedBy(accountFacadeLocal.findByLogin(requestedBy));
+            }
+            oneTimeUrl.setCreationDate(Timestamp.from(Instant.now()));
             oneTimeUrlFacadeLocal.create(oneTimeUrl);
         }
 

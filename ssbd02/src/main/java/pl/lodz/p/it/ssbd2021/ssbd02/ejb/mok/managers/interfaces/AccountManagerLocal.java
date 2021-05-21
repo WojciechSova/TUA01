@@ -157,8 +157,9 @@ public interface AccountManagerLocal {
      *
      * @param login           Login użytkownika, którego adres email ma ulec zmianie
      * @param newEmailAddress Nowy adres email
+     * @param requestedBy     Login użytkownika, który zlecił operację
      */
-    void sendChangeEmailAddressUrl(String login, String newEmailAddress);
+    void sendChangeEmailAddressUrl(String login, String newEmailAddress, String requestedBy);
 
     /**
      * Metoda wysyłająca wiadomość email z adresem służącym do resetowania hasła.
@@ -167,9 +168,10 @@ public interface AccountManagerLocal {
      * którego okres ważności jest resetowany.
      * Okres ważności pobierany jest z pliku system.properties a domyślna wartość to 20 minut.
      *
-     * @param email Adres email użytkownika, którego hasło ma zostać zresetowane
+     * @param email       Adres email użytkownika, którego hasło ma zostać zresetowane
+     * @param requestedBy Login użytkownika, który zlecił operację
      */
-    void sendPasswordResetAddressUrl(String email);
+    void sendPasswordResetAddressUrl(String email, String requestedBy);
 
     /**
      * Metoda resetująca hasło do konta.
