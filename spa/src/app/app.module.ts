@@ -33,6 +33,7 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { ConfirmResetComponent } from './ferrytales/account-details/confirm-reset/confirm-reset.component';
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
+import { SessionTimeoutComponent } from './common/navigation/session-timeout/session-timeout.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -65,7 +66,8 @@ export function rootLoaderFactory(http: HttpClient): any {
         ConfirmResetComponent,
         ConfirmEmailChangeComponent,
         ForbiddenComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        SessionTimeoutComponent
     ],
     imports: [
         BrowserModule,
