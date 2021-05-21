@@ -10,14 +10,14 @@ import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 
 const ferrytalesChildren: Routes = [
-    { path: 'accounts', component: UsersTableComponent },
-    { path: 'accounts/:login', component: AccountDetailsComponent },
-    { path: 'accounts/edit/:login', component: EditUserComponent },
+    { path: 'accounts', component: UsersTableComponent, data: { breadcrumb: 'Lista kont'} },
+    { path: 'accounts/:login', component: AccountDetailsComponent, data: { breadcrumb: 'Konto'} },
+    { path: 'accounts/edit/:login', component: EditUserComponent, data: { breadcrumb: 'Edycja konta'} },
 ];
 
 const routes: Routes = [
-    { path: '', component: MainPageComponent },
-    { path: 'ferrytales', component: FerrytalesComponent, children: ferrytalesChildren },
+    { path: '', component: MainPageComponent, data: { breadcrumb: 'Strona główna'} },
+    { path: 'ferrytales', component: FerrytalesComponent, data: { breadcrumb: 'Ferrytales'}, children: ferrytalesChildren },
     { path: 'confirm/account/:url', component: ConfirmAccountComponent },
     { path: 'confirm/email/:url', component: ConfirmEmailChangeComponent },
     { path: 'error/forbidden', component: ForbiddenComponent }

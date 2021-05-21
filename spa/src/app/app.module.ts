@@ -29,6 +29,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ConfirmResetComponent } from './ferrytales/account-details/confirm-reset/confirm-reset.component';
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
+import { BreadcrumbModule} from 'angular-crumbs';
 
 export function rootLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -74,7 +75,8 @@ export function rootLoaderFactory(http: HttpClient) {
                 useFactory: rootLoaderFactory,
                 deps: [HttpClient]
             }
-        })
+        }),
+        BreadcrumbModule
     ],
     providers: [IdentityService, TranslateService],
     bootstrap: [AppComponent]
