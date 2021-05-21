@@ -591,8 +591,6 @@ public class AccountManagerTest {
         Timestamp oldExpireDate = url.getExpireDate();
 
         a1.setEmail("powtarzalny@mail.com");
-        assertThrows(WebApplicationException.class, () -> accountManager.sendChangeEmailAddressUrl(a1.getLogin(),
-                "powtarzalny@mail.com", a1.getLogin()));
 
         oneTimeUrl.setActionType("e-mail");
         when(oneTimeUrlFacadeLocal.findByAccount(a1)).thenReturn(Collections.singletonList(oneTimeUrl));

@@ -347,7 +347,7 @@ public class AccountManager implements AccountManagerLocal {
             oneTimeUrl.setUrl(RandomStringUtils.randomAlphanumeric(32));
             oneTimeUrl.setNewEmail(newEmailAddress);
             oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
-            oneTimeUrl.setModifiedBy(accountFacadeLocal.findByLogin(requestedBy));
+            oneTimeUrl.setModifiedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(requestedBy)).orElseThrow(CommonExceptions::createNoResultException));
             oneTimeUrl.setModificationDate(Timestamp.from(Instant.now()));
             oneTimeUrlFacadeLocal.edit(oneTimeUrl);
         } else {
@@ -357,7 +357,7 @@ public class AccountManager implements AccountManagerLocal {
             oneTimeUrl.setNewEmail(newEmailAddress);
             oneTimeUrl.setActionType("e-mail");
             oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
-            oneTimeUrl.setCreatedBy(accountFacadeLocal.findByLogin(requestedBy));
+            oneTimeUrl.setCreatedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(requestedBy)).orElseThrow(CommonExceptions::createNoResultException));
             oneTimeUrl.setCreationDate(Timestamp.from(Instant.now()));
             oneTimeUrlFacadeLocal.create(oneTimeUrl);
         }
@@ -391,7 +391,7 @@ public class AccountManager implements AccountManagerLocal {
             oneTimeUrl = oneTimeUrls.get(0);
             oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
             if (requestedBy != null) {
-                oneTimeUrl.setModifiedBy(accountFacadeLocal.findByLogin(requestedBy));
+                oneTimeUrl.setModifiedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(requestedBy)).orElseThrow(CommonExceptions::createNoResultException));
             } else {
                 oneTimeUrl.setModifiedBy(null);
             }
@@ -404,7 +404,7 @@ public class AccountManager implements AccountManagerLocal {
             oneTimeUrl.setActionType("passwd");
             oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
             if (requestedBy != null) {
-                oneTimeUrl.setCreatedBy(accountFacadeLocal.findByLogin(requestedBy));
+                oneTimeUrl.setCreatedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(requestedBy)).orElseThrow(CommonExceptions::createNoResultException));
             }
             oneTimeUrl.setCreationDate(Timestamp.from(Instant.now()));
             oneTimeUrlFacadeLocal.create(oneTimeUrl);
