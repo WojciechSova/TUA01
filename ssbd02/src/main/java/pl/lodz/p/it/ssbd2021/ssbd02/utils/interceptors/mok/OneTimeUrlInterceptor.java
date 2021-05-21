@@ -18,7 +18,7 @@ public class OneTimeUrlInterceptor {
      *
      * @param ictx Kontekst wywołania.
      * @return Wynik wywołania metody, którą przechwycił interceptor.
-     * @throws Exception Wyjątek złapany w metodzie przechwyconej lub OneTimeUrlExceptions
+     * @throws Exception Wyjątek złapany w metodzie przechwyconej lub {@link OneTimeUrlExceptions}
      */
     @AroundInvoke
     public Object intercept(InvocationContext ictx) throws Exception {

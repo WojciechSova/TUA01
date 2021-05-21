@@ -23,7 +23,7 @@ public class PersistenceInterceptor {
      *
      * @param ictx Kontekst wywołania.
      * @return Wynik wywołania metody, którą przechwycił interceptor.
-     * @throws Exception Wyjątek złapany w metodzie przechwyconej lub CommonExceptions
+     * @throws Exception Wyjątek złapany w metodzie przechwyconej lub {@link CommonExceptions}
      */
     @AroundInvoke
     public Object intercept(InvocationContext ictx) throws Exception {
