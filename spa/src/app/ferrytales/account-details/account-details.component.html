@@ -6,16 +6,6 @@
             id="resetFailedParagraph" translate>password-reset.reset.failed</p>
     </div>
     <div class="account-details" id="accountDetails">
-        <breadcrumb #parent>
-            <ol class="breadcrumb">
-                <ng-template ngFor let-route [ngForOf]="parent.breadcrumbs">
-                    <li *ngIf="!route.terminal" class="breadcrumb-item">
-                        <a href="" [routerLink]="[route.url]"> {{route.displayName}} </a>
-                    </li>
-                    <li *ngIf="route.terminal" class="breadcrumb-item active"> {{route.displayName}} </li>
-                </ng-template>
-            </ol>
-        </breadcrumb>
         <div class="button-container">
             <button id="edit-button"
                     class="edit-button"
