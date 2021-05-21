@@ -8,7 +8,7 @@ export class IdentityService {
     private readonly url: string;
 
     constructor(private http: HttpClient) {
-        this.url = environment.appUrl + '/accounts/accessLevel';
+        this.url = environment.appUrl + '/accounts/change/accesslevel';
     }
 
     getLogin(): string {
@@ -46,7 +46,7 @@ export class IdentityService {
 
     setCurrentRole(level: string): void {
         localStorage.setItem('currentAccessLevel', level);
-        this.http.post(this.url, {level}, {
+        this.http.post(this.url, level, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }

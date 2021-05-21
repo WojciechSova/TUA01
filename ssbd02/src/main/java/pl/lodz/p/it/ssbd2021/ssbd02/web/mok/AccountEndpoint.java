@@ -403,9 +403,10 @@ public class AccountEndpoint {
     }
 
     @POST
-    @Path("accessLevel")
-    public Response informAboutAccessLevelChange(String accessLevel, @Context SecurityContext securityContext) {
-        logger.info("Użytkownik o loginie: {} zmienił poziom dostępu na {}", securityContext.getUserPrincipal().getName(), accessLevel);
+    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
+    @Path("change/accesslevel")
+    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, String accessLevel) {
+        logger.info("The user with login {} changed the access level to {}", securityContext.getUserPrincipal().getName(), accessLevel);
         return Response.ok().build();
     }
 }
