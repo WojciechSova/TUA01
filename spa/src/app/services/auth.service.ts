@@ -33,6 +33,7 @@ export class AuthService {
         localStorage.setItem('accessLevel', tokenInfo.auth);
         localStorage.setItem('timezone', tokenInfo.zoneinfo);
         localStorage.setItem('currentAccessLevel', tokenInfo.auth.split(',')[0]);
+        localStorage.setItem('expirationTime', tokenInfo.exp);
     }
 
     signOut(): void {
@@ -40,5 +41,6 @@ export class AuthService {
         localStorage.removeItem('login');
         localStorage.removeItem('currentAccessLevel');
         localStorage.removeItem('accessLevel');
+        localStorage.removeItem('expirationTime');
     }
 }
