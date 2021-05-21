@@ -25,8 +25,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static java.time.temporal.ChronoUnit.HOURS;
-import static java.time.temporal.ChronoUnit.MINUTES;
+import static java.time.temporal.ChronoUnit.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -583,28 +582,41 @@ public class AccountManagerTest {
         when(accountFacadeLocal.findAll()).thenReturn(accounts);
         when(a1.getLogin()).thenReturn(login1);
 
-        accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "niepowtarzalny@mail.com");
-        a1.setEmail("powtarzalny@mail.com");
+        accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "niepowtarzalny@mail.com", a1.getLogin());
         verify(oneTimeUrlFacadeLocal).create(urlCaptor.capture());
-
         OneTimeUrl url = urlCaptor.getValue();
-
         assertEquals(oneTimeUrl.getAccount(), url.getAccount());
         assertEquals("e-mail", url.getActionType());
         assertEquals(oneTimeUrl.getNewEmail(), url.getNewEmail());
+        Timestamp oldExpireDate = url.getExpireDate();
 
+        a1.setEmail("powtarzalny@mail.com");
+        assertThrows(WebApplicationException.class, () -> accountManager.sendChangeEmailAddressUrl(a1.getLogin(),
+                "powtarzalny@mail.com", a1.getLogin()));
 
+        oneTimeUrl.setActionType("e-mail");
+        when(oneTimeUrlFacadeLocal.findByAccount(a1)).thenReturn(Collections.singletonList(oneTimeUrl));
+        accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "niepowtarzalny@mail.com", a1.getLogin());
+        verify(oneTimeUrlFacadeLocal).edit(urlCaptor.capture());
+        url = urlCaptor.getValue();
+        assertEquals(oneTimeUrl.getAccount(), url.getAccount());
+        assertEquals("e-mail", url.getActionType());
+        assertEquals(oneTimeUrl.getNewEmail(), url.getNewEmail());
+        assertEquals(oneTimeUrl.getModifiedBy(), url.getModifiedBy());
+        assertTrue(oldExpireDate.before(url.getExpireDate()));
+        assertTrue(url.getCreationDate().before(url.getModificationDate()));
     }
 
     @Test
     void sendPasswordResetAddressUrl() {
         when(accountFacadeLocal.findByEmail(email3)).thenReturn(a3);
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a3);
         when(oneTimeUrlFacadeLocal.findByAccount(a3)).thenReturn(Collections.EMPTY_LIST);
         a3.setLanguage("pl");
         a3.setFirstName("Marek");
 
         Timestamp before = Timestamp.from(Instant.now().plus(20, MINUTES));
-        accountManager.sendPasswordResetAddressUrl(email3);
+        accountManager.sendPasswordResetAddressUrl(email3, login1);
         Timestamp after = Timestamp.from(Instant.now().plus(20, MINUTES));
 
         verify(oneTimeUrlFacadeLocal).create(urlCaptor.capture());
@@ -626,13 +638,19 @@ public class AccountManagerTest {
         when(oneTimeUrlFacadeLocal.findByAccount(a3)).thenReturn(List.of(oneTimeUrl));
 
         before = Timestamp.from(Instant.now().plus(20, MINUTES));
-        accountManager.sendPasswordResetAddressUrl(email3);
+        accountManager.sendPasswordResetAddressUrl(email3, login1);
         after = Timestamp.from(Instant.now().plus(20, MINUTES));
 
         assertTrue(oneTimeUrl.getExpireDate().getTime() >= before.getTime());
         assertTrue(oneTimeUrl.getExpireDate().getTime() <= after.getTime());
 
         verify(emailSender).sendPasswordResetEmail("pl", "Bartek", email3, oneTimeUrl.getUrl());
+
+        verify(oneTimeUrlFacadeLocal).edit(urlCaptor.capture());
+        OneTimeUrl url2 = urlCaptor.getValue();
+        assertEquals(a3, url2.getModifiedBy());
+        assertTrue(Timestamp.from(Instant.now().minus(10, SECONDS)).before(url2.getModificationDate()));
+        assertTrue(url.getExpireDate().before(url2.getExpireDate()));
     }
 
     @Test

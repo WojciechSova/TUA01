@@ -301,7 +301,8 @@ public class AccountEndpoint {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
-        accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress);
+        accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress,
+                securityContext.getUserPrincipal().getName());
 
         return Response.ok().build();
     }
@@ -318,13 +319,13 @@ public class AccountEndpoint {
     @Path("email/{login}")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response sendChangeEmailAddressUrl(String newEmailAddress, @PathParam("login") String login) {
+    public Response sendChangeEmailAddressUrl(String newEmailAddress, @PathParam("login") String login, @Context SecurityContext securityContext) {
 
         if (!EmailAddressValidator.isValid(newEmailAddress)) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
-        accountManager.sendChangeEmailAddressUrl(login, newEmailAddress);
+        accountManager.sendChangeEmailAddressUrl(login, newEmailAddress, securityContext.getUserPrincipal().getName());
 
         return Response.ok().build();
     }
@@ -347,13 +348,13 @@ public class AccountEndpoint {
      * Metoda obsługująca żądanie resetowania hasła.
      *
      * @param email Email użytkownika, którego hasło ma zostać zresetowane
-     * @return Kod 200 w przypoadku poprawnego formatu adresu email, w przeciwnym razie 400.
+     * @return Kod 200 w przypadku poprawnego formatu adresu email, w przeciwnym razie 400.
      * Aplikacja nie powiadamia użytkownika czy podany email znajduje się w bazie danych.
      */
     @POST
     @PermitAll
     @Path("reset/password")
-    public Response sendPasswordResetAddressUrl(String email) {
+    public Response sendPasswordResetAddressUrl(String email, @Context SecurityContext securityContext) {
         if (email == null || "".equals(email.trim())) {
             throw new WebApplicationException("No email provided", 400);
         }
@@ -362,7 +363,11 @@ public class AccountEndpoint {
             throw new WebApplicationException("Invalid email format", 400);
         }
 
-        accountManager.sendPasswordResetAddressUrl(email);
+        if (securityContext.getUserPrincipal() != null) {
+            accountManager.sendPasswordResetAddressUrl(email, securityContext.getUserPrincipal().getName());
+        } else {
+            accountManager.sendPasswordResetAddressUrl(email, null);
+        }
 
         return Response.ok().build();
     }

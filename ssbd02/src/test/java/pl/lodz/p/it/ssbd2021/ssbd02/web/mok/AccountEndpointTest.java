@@ -40,6 +40,8 @@ class AccountEndpointTest {
     @Captor
     private ArgumentCaptor<String> loginCaptor;
     @Captor
+    private ArgumentCaptor<String> requestedByCaptor;
+    @Captor
     private ArgumentCaptor<String> emailCaptor;
     @InjectMocks
     private AccountEndpoint accountEndpoint;
@@ -533,9 +535,10 @@ class AccountEndpointTest {
         response = accountEndpoint.sendChangeEmailAddressUrl("email@mail.pl", securityContext);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 
-        verify(accountManager).sendChangeEmailAddressUrl(loginCaptor.capture(), emailCaptor.capture());
+        verify(accountManager).sendChangeEmailAddressUrl(loginCaptor.capture(), emailCaptor.capture(), requestedByCaptor.capture());
         assertEquals("login", loginCaptor.getValue());
         assertEquals("email@mail.pl", emailCaptor.getValue());
+        assertEquals("login", requestedByCaptor.getValue());
 
         response = accountEndpoint.sendChangeEmailAddressUrl("nowy", securityContext);
         assertEquals(Response.Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
@@ -575,21 +578,23 @@ class AccountEndpointTest {
     void sendPasswordResetAddressUrl() {
         String email1 = "email@a.com";
         Response response;
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("login");
 
-        response = accountEndpoint.sendPasswordResetAddressUrl(email1);
+        response = accountEndpoint.sendPasswordResetAddressUrl(email1, securityContext);
 
-        verify(accountManager).sendPasswordResetAddressUrl(email1);
+        verify(accountManager).sendPasswordResetAddressUrl(email1, "login");
         assertEquals(200, response.getStatus());
 
         try {
-            accountEndpoint.sendPasswordResetAddressUrl("wrongEmail");
+            accountEndpoint.sendPasswordResetAddressUrl("wrongEmail", securityContext);
         } catch (WebApplicationException e) {
             assertEquals(400, e.getResponse().getStatus());
             assertEquals("Invalid email format", e.getLocalizedMessage());
         }
 
         try {
-            accountEndpoint.sendPasswordResetAddressUrl("  ");
+            accountEndpoint.sendPasswordResetAddressUrl("  ", securityContext);
         } catch (WebApplicationException e) {
             assertEquals(400, e.getResponse().getStatus());
             assertEquals("No email provided", e.getLocalizedMessage());
@@ -597,7 +602,7 @@ class AccountEndpointTest {
 
 
         try {
-            accountEndpoint.sendPasswordResetAddressUrl(null);
+            accountEndpoint.sendPasswordResetAddressUrl(null, securityContext);
         } catch (WebApplicationException e) {
             assertEquals(400, e.getResponse().getStatus());
             assertEquals("No email provided", e.getLocalizedMessage());

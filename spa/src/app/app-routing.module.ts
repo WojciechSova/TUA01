@@ -12,7 +12,7 @@ import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidde
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
     { path: 'accounts/:login', component: AccountDetailsComponent },
-    { path: 'accounts/edit/:login', component: EditUserComponent }
+    { path: 'accounts/edit/:login', component: EditUserComponent },
 ];
 
 const routes: Routes = [
@@ -20,7 +20,7 @@ const routes: Routes = [
     { path: 'ferrytales', component: FerrytalesComponent, children: ferrytalesChildren },
     { path: 'confirm/account/:url', component: ConfirmAccountComponent },
     { path: 'confirm/email/:url', component: ConfirmEmailChangeComponent },
-    { path: 'error/forbidden', component: ForbiddenComponent}
+    { path: 'error/forbidden', component: ForbiddenComponent }
 ];
 
 @NgModule({
