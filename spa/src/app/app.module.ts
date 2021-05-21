@@ -29,6 +29,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ConfirmResetComponent } from './ferrytales/account-details/confirm-reset/confirm-reset.component';
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
+import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
 
 export function rootLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -60,7 +61,8 @@ export function rootLoaderFactory(http: HttpClient) {
         ConfirmEmailChangeComponent,
         ConfirmResetComponent,
         ConfirmEmailChangeComponent,
-        ForbiddenComponent
+        ForbiddenComponent,
+        NotFoundComponent
     ],
     imports: [
         BrowserModule,
