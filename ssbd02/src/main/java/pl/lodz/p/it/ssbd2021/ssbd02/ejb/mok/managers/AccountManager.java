@@ -62,15 +62,15 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public Pair<Account, List<AccessLevel>> getAccountWithLogin(String login) throws CommonExceptions {
-        Account account = Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
-        List<AccessLevel> accessLevels = Optional.of(accessLevelFacadeLocal.findAllByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+        List<AccessLevel> accessLevels = Optional.ofNullable(accessLevelFacadeLocal.findAllByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
         return Pair.of(account, accessLevels);
     }
 
     @Override
     public Pair<Account, List<AccessLevel>> getAccountWithActiveAccessLevels(String login) throws CommonExceptions {
-        Account account = Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
-        List<AccessLevel> accessLevels = Optional.of(accessLevelFacadeLocal.findAllActiveByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+        List<AccessLevel> accessLevels = Optional.ofNullable(accessLevelFacadeLocal.findAllActiveByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
         return Pair.of(account, accessLevels);
     }
 
@@ -104,8 +104,8 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public void registerBadLogin(String login, String clientAddress) throws CommonExceptions {
-        Account account = Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
-        ;
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+
         account.setLastKnownBadLogin(Timestamp.from(Instant.now()));
         account.setLastKnownBadLoginIp(clientAddress);
         int badLogins = account.getNumberOfBadLogins() + 1;
@@ -128,7 +128,7 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public void registerGoodLogin(String login, String clientAddress) throws CommonExceptions {
-        Account account = Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         account.setLastKnownGoodLogin(Timestamp.from(Instant.now()));
         account.setLastKnownGoodLoginIp(clientAddress);
         account.setNumberOfBadLogins(0);
@@ -136,7 +136,7 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public void updateLanguage(String login, String language) throws CommonExceptions {
-        Account account = Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         account.setLanguage(language);
         account.setModificationDate(Timestamp.from(Instant.now()));
         account.setModifiedBy(null);
@@ -144,7 +144,7 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public void updateAccount(Account account, String modifiedBy) throws CommonExceptions {
-        Account accountFromDB = Optional.of(accountFacadeLocal.findByLogin(account.getLogin())).orElseThrow(CommonExceptions::createNoResultException);
+        Account accountFromDB = Optional.ofNullable(accountFacadeLocal.findByLogin(account.getLogin())).orElseThrow(CommonExceptions::createNoResultException);
         Account acc = SerializationUtils.clone(accountFromDB);
 
         acc.setVersion(account.getVersion());
@@ -166,7 +166,7 @@ public class AccountManager implements AccountManagerLocal {
         if (modifiedBy.equals(account.getLogin())) {
             acc.setModifiedBy(null);
         } else {
-            Account accModifiedBy = Optional.of(accountFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException);
+            Account accModifiedBy = Optional.ofNullable(accountFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException);
             acc.setModifiedBy(accModifiedBy);
         }
 
@@ -178,18 +178,18 @@ public class AccountManager implements AccountManagerLocal {
     @Override
     public void addAccessLevel(String login, String targetLogin, String accessLevel) throws CommonExceptions, AccessLevelExceptions {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
-            throw AccessLevelExceptions.createNotAcceptableException(accessLevel);
+            throw AccessLevelExceptions.createNotAcceptableException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
         }
 
-        Account account = Optional.of(accountFacadeLocal.findByLogin(targetLogin)).orElseThrow(CommonExceptions::createNoResultException);
-        List<AccessLevel> accessLevels = Optional.of(accessLevelFacadeLocal.findAllByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(targetLogin)).orElseThrow(CommonExceptions::createNoResultException);
+        List<AccessLevel> accessLevels = Optional.ofNullable(accessLevelFacadeLocal.findAllByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
 
         if (accessLevels.stream().noneMatch(x -> x.getLevel().equals(accessLevel))) {
             AccessLevel newAccessLevel = new AccessLevel();
             newAccessLevel.setAccount(account);
             newAccessLevel.setLevel(accessLevel);
             newAccessLevel.setActive(true);
-            newAccessLevel.setCreatedBy(Optional.of((accountFacadeLocal.findByLogin(login))).orElseThrow(CommonExceptions::createNoResultException));
+            newAccessLevel.setCreatedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException));
             accessLevelFacadeLocal.create(newAccessLevel);
             emailSender.sendAddAccessLevelEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), accessLevel);
             return;
@@ -198,7 +198,7 @@ public class AccountManager implements AccountManagerLocal {
         accessLevels.forEach(x -> {
             if (x.getLevel().equals(accessLevel) && !x.getActive()) {
                 x.setActive(true);
-                x.setModifiedBy(Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException));
+                x.setModifiedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException));
                 x.setModificationDate(Timestamp.from(Instant.now()));
                 accessLevelFacadeLocal.edit(x);
                 emailSender.sendAddAccessLevelEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), accessLevel);
@@ -209,11 +209,11 @@ public class AccountManager implements AccountManagerLocal {
     @Override
     public void removeAccessLevel(String login, String targetLogin, String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
-            throw AccessLevelExceptions.createNotAcceptableException(accessLevel);
+            throw AccessLevelExceptions.createNotAcceptableException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
         }
 
-        Account account = Optional.of(accountFacadeLocal.findByLogin(targetLogin)).orElseThrow(CommonExceptions::createNoResultException);
-        List<AccessLevel> accessLevels = Optional.of(accessLevelFacadeLocal.findAllByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(targetLogin)).orElseThrow(CommonExceptions::createNoResultException);
+        List<AccessLevel> accessLevels = Optional.ofNullable(accessLevelFacadeLocal.findAllByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
 
         if (accessLevels.stream().noneMatch(x -> x.getLevel().equals(accessLevel))) {
             return;
@@ -222,7 +222,7 @@ public class AccountManager implements AccountManagerLocal {
         accessLevels.forEach(x -> {
             if (x.getLevel().equals(accessLevel) && x.getActive()) {
                 x.setActive(false);
-                x.setModifiedBy(Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException));
+                x.setModifiedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException));
                 x.setModificationDate(Timestamp.from(Instant.now()));
                 accessLevelFacadeLocal.edit(x);
                 emailSender.sendRemoveAccessLevelEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), accessLevel);
@@ -231,7 +231,7 @@ public class AccountManager implements AccountManagerLocal {
     }
 
     public void changePassword(String login, String oldPassword, String newPassword) throws CommonExceptions, AccountExceptions {
-        Account account = Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         String hashedOldPassword = DigestUtils.sha512Hex(oldPassword);
         if (!hashedOldPassword.equals(account.getPassword())) {
             throw AccountExceptions.createNotAcceptableException(AccountExceptions.ERROR_PASSWORD_NOT_CORRECT);
@@ -247,12 +247,12 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public void changeActivity(String login, boolean newActivity, String modifiedBy) throws CommonExceptions {
-        Account account = Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         account.setActive(newActivity);
         if (modifiedBy == null || login.equals(modifiedBy)) {
             account.setModifiedBy(null);
         } else {
-            account.setModifiedBy(Optional.of(accountFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException));
+            account.setModifiedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException));
         }
         if (newActivity) {
             account.setNumberOfBadLogins(0);
@@ -265,7 +265,7 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public void notifyAdminAboutLogin(String login, String clientAddress) throws CommonExceptions {
-        Account account = Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
 
         emailSender.sendAdminAuthenticationEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), clientAddress);
     }
@@ -276,7 +276,7 @@ public class AccountManager implements AccountManagerLocal {
             throw AccountExceptions.createNotFoundException(AccountExceptions.ERROR_URL_NOT_FOUND);
         }
 
-        OneTimeUrl oneTimeUrl = Optional.of(oneTimeUrlFacadeLocal.findByUrl(url)).orElseThrow(CommonExceptions::createNoResultException);
+        OneTimeUrl oneTimeUrl = Optional.ofNullable(oneTimeUrlFacadeLocal.findByUrl(url)).orElseThrow(CommonExceptions::createNoResultException);
 
         if (Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())) {
             throw AccountExceptions.createGoneException(AccountExceptions.ERROR_URL_EXPIRED);
@@ -285,12 +285,13 @@ public class AccountManager implements AccountManagerLocal {
         }
 
         if (url.equals(oneTimeUrl.getUrl())) {
-            Account account = accountFacadeLocal.findByLogin(Optional.of(oneTimeUrl.getAccount().getLogin()).orElseThrow(CommonExceptions::createNoResultException));
+            Account account = accountFacadeLocal.findByLogin(Optional.ofNullable(oneTimeUrl.getAccount().getLogin()).orElseThrow(CommonExceptions::createNoResultException));
             account.setConfirmed(true);
             account.setModificationDate(Timestamp.from(Instant.now()));
             account.setModifiedBy(null);
             accountFacadeLocal.edit(account);
             oneTimeUrlFacadeLocal.remove(oneTimeUrl);
+            return;
         }
 
         throw AccountExceptions.createNotFoundException(AccountExceptions.ERROR_URL_NOT_FOUND);
@@ -302,7 +303,7 @@ public class AccountManager implements AccountManagerLocal {
             throw AccountExceptions.createNotFoundException(AccountExceptions.ERROR_URL_NOT_FOUND);
         }
 
-        OneTimeUrl oneTimeUrl = Optional.of(oneTimeUrlFacadeLocal.findByUrl(url)).orElseThrow(CommonExceptions::createNoResultException);
+        OneTimeUrl oneTimeUrl = Optional.ofNullable(oneTimeUrlFacadeLocal.findByUrl(url)).orElseThrow(CommonExceptions::createNoResultException);
 
         if (Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())) {
             throw AccountExceptions.createGoneException(AccountExceptions.ERROR_URL_EXPIRED);
@@ -311,12 +312,13 @@ public class AccountManager implements AccountManagerLocal {
         }
 
         if (url.equals(oneTimeUrl.getUrl())) {
-            Account account = accountFacadeLocal.findByLogin(Optional.of(oneTimeUrl.getAccount().getLogin()).orElseThrow(CommonExceptions::createNoResultException));
+            Account account = accountFacadeLocal.findByLogin(Optional.ofNullable(oneTimeUrl.getAccount().getLogin()).orElseThrow(CommonExceptions::createNoResultException));
             account.setEmail(oneTimeUrl.getNewEmail());
             account.setModifiedBy(null);
             account.setModificationDate(new Timestamp(new Date().getTime()));
             accountFacadeLocal.edit(account);
             oneTimeUrlFacadeLocal.remove(oneTimeUrl);
+            return;
         }
 
         throw AccountExceptions.createNotFoundException(AccountExceptions.ERROR_URL_NOT_FOUND);
@@ -324,7 +326,7 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public void sendChangeEmailAddressUrl(String login, String newEmailAddress) {
-        Account account = Optional.of(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
 
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
@@ -349,11 +351,8 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public void sendPasswordResetAddressUrl(String email) {
-        Account account = Optional.of(accountFacadeLocal.findByEmail(email)).orElseThrow(CommonExceptions::createNoResultException);
-
-        if (account == null) {
-            throw AccountExceptions.createNotFoundException(AccountExceptions.ERROR_EMAIL_NOT_FOUND);
-        }
+        Account account = Optional.ofNullable(accountFacadeLocal.findByEmail(email))
+                .orElseThrow(() -> AccountExceptions.createNotFoundException(AccountExceptions.ERROR_EMAIL_NOT_FOUND));
 
         long expirationTime = 20 * 60;
 
@@ -388,7 +387,7 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public void resetPassword(String url, String newPassword) {
-        OneTimeUrl oneTimeUrl = Optional.of(oneTimeUrlFacadeLocal.findByUrl(url)).orElseThrow(CommonExceptions::createNoResultException);
+        OneTimeUrl oneTimeUrl = Optional.ofNullable(oneTimeUrlFacadeLocal.findByUrl(url)).orElseThrow(CommonExceptions::createNoResultException);
 
         if (Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())) {
             throw AccountExceptions.createGoneException(AccountExceptions.ERROR_URL_EXPIRED);

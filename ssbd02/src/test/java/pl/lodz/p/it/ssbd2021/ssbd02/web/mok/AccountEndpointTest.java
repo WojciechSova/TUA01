@@ -9,7 +9,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
@@ -26,10 +25,8 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class AccountEndpointTest {
 
@@ -520,13 +517,10 @@ class AccountEndpointTest {
         Response response;
         String url = "url";
 
-        when(accountManager.confirmAccount(url)).thenReturn(true);
+        doNothing().when(accountManager).confirmAccount(url);
 
         response = accountEndpoint.confirmAccount(url);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-
-        response = accountEndpoint.confirmAccount("invalid");
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test
@@ -561,7 +555,7 @@ class AccountEndpointTest {
         Response response;
         String url = "url";
 
-        when(accountManager.changeEmailAddress(url)).thenReturn(true);
+        doNothing().when(accountManager).changeEmailAddress(url);
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn("login");
 
@@ -575,8 +569,6 @@ class AccountEndpointTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("nowy@mail.com", account.getEmail());
 
-        response = accountEndpoint.changeEmailAddress("invalid");
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test

@@ -14,8 +14,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccessLevelExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
-import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -31,18 +33,6 @@ import static org.mockito.Mockito.*;
 
 public class AccountManagerTest {
 
-    @Mock
-    private AccountFacadeLocal accountFacadeLocal;
-    @Mock
-    private AccessLevelFacadeLocal accessLevelFacadeLocal;
-    @Mock
-    private EmailSenderLocal emailSender;
-    @Mock
-    private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
-    @InjectMocks
-    private AccountManager accountManager;
-    @Captor
-    private ArgumentCaptor<OneTimeUrl> urlCaptor;
     @Spy
     private final Account a1 = new Account();
     @Spy
@@ -83,6 +73,18 @@ public class AccountManagerTest {
     private final List<AccessLevel> accessLevels2 = new ArrayList<>();
     private final List<Pair<Account, List<AccessLevel>>> pairList = new ArrayList<>();
     private final List<OneTimeUrl> oneTimeUrls = new ArrayList<>();
+    @Mock
+    private AccountFacadeLocal accountFacadeLocal;
+    @Mock
+    private AccessLevelFacadeLocal accessLevelFacadeLocal;
+    @Mock
+    private EmailSenderLocal emailSender;
+    @Mock
+    private OneTimeUrlFacadeLocal oneTimeUrlFacadeLocal;
+    @InjectMocks
+    private AccountManager accountManager;
+    @Captor
+    private ArgumentCaptor<OneTimeUrl> urlCaptor;
     private List<Account> accounts;
 
     @BeforeEach
@@ -213,18 +215,6 @@ public class AccountManagerTest {
         when(a4.getPhoneNumber()).thenReturn(phoneNumber1);
 
         when(accountFacadeLocal.findAll()).thenReturn(List.of(a1));
-        WebApplicationException exceptionA2 = assertThrows(WebApplicationException.class, () -> accountManager.createAccount(a2));
-        WebApplicationException exceptionA3 = assertThrows(WebApplicationException.class, () -> accountManager.createAccount(a3));
-        WebApplicationException exceptionA4 = assertThrows(WebApplicationException.class, () -> accountManager.createAccount(a4));
-
-        assertEquals(409, exceptionA2.getResponse().getStatus());
-        assertEquals("Such email exists", exceptionA2.getMessage());
-
-        assertEquals(409, exceptionA3.getResponse().getStatus());
-        assertEquals("Such login exists", exceptionA3.getMessage());
-
-        assertEquals(409, exceptionA4.getResponse().getStatus());
-        assertEquals("Such phone number exists", exceptionA4.getMessage());
     }
 
     @Test
@@ -235,6 +225,7 @@ public class AccountManagerTest {
 
         a1.setLogin(login1);
         a1.setEmail(email1);
+        a2.setLogin(login2);
 
         al1.setAccount(a1);
         al1.setLevel(levelClient);
@@ -245,6 +236,7 @@ public class AccountManagerTest {
         al2.setActive(false);
 
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        when(accountFacadeLocal.findByLogin(login2)).thenReturn(a2);
         when(accessLevelFacadeLocal.findAllByAccount(a1)).thenReturn(accessLevels1);
 
         doAnswer(invocationOnMock -> {
@@ -257,17 +249,24 @@ public class AccountManagerTest {
             return null;
         }).when(accessLevelFacadeLocal).create(any());
 
-        accountManager.addAccessLevel(a2.getLogin(), a1.getLogin(), "random");
+        AccessLevelExceptions accessLevelExceptions = assertThrows(AccessLevelExceptions.class, () -> accountManager.addAccessLevel(a2.getLogin(), a1.getLogin(), "random"));
         assertTrue(accessLevels1.get(0).getActive());
         assertFalse(accessLevels1.get(1).getActive());
+
+        assertAll(
+                () -> assertEquals(406, accessLevelExceptions.getResponse().getStatus()),
+                () -> assertEquals(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL, accessLevelExceptions.getResponse().getEntity())
+        );
 
         accountManager.addAccessLevel(a2.getLogin(), a1.getLogin(), levelClient);
         assertTrue(accessLevels1.get(0).getActive());
         assertFalse(accessLevels1.get(1).getActive());
 
+
         accountManager.addAccessLevel(a2.getLogin(), a1.getLogin(), levelAdmin);
         assertTrue(accessLevels1.get(0).getActive());
         assertTrue(accessLevels1.get(1).getActive());
+
 
         accountManager.addAccessLevel(a2.getLogin(), a1.getLogin(), levelEmployee);
         assertEquals(3, accessLevels1.size());
@@ -299,7 +298,8 @@ public class AccountManagerTest {
             return null;
         }).when(accessLevelFacadeLocal).edit(any());
 
-        accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), "random");
+
+        AccessLevelExceptions accessLevelExceptions = assertThrows(AccessLevelExceptions.class, () -> accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), "random"));
         assertFalse(accessLevels1.get(0).getActive());
         assertTrue(accessLevels1.get(1).getActive());
 
@@ -307,9 +307,16 @@ public class AccountManagerTest {
         assertFalse(accessLevels1.get(0).getActive());
         assertTrue(accessLevels1.get(1).getActive());
 
-        accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), levelAdmin);
+
+        CommonExceptions commonExceptions = assertThrows(CommonExceptions.class, () -> accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), levelAdmin));
         assertFalse(accessLevels1.get(0).getActive());
         assertFalse(accessLevels1.get(1).getActive());
+
+        assertAll(
+                () -> assertEquals(406, accessLevelExceptions.getResponse().getStatus()),
+                () -> assertEquals(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL, accessLevelExceptions.getResponse().getEntity()),
+                () -> assertEquals(410, commonExceptions.getResponse().getStatus())
+        );
     }
 
     @Test
@@ -379,22 +386,6 @@ public class AccountManagerTest {
     }
 
     @Test
-    void updateAccountExceptionTest() {
-        Account account = createAccount();
-
-        when(a1.getLogin()).thenReturn("Test");
-        when(a1.getPhoneNumber()).thenReturn("48123456788");
-
-        when(accountFacadeLocal.findByLogin(anyString())).thenReturn(account);
-        when(accountFacadeLocal.findAll()).thenReturn(Arrays.asList(account, a1));
-        WebApplicationException exceptionA1 = assertThrows(WebApplicationException.class,
-                () -> accountManager.updateAccount(a1, "test"));
-
-        assertEquals(409, exceptionA1.getResponse().getStatus());
-        assertEquals("Such phone number exists", exceptionA1.getMessage());
-    }
-
-    @Test
     void changePasswordTest() {
         a1.setPassword(DigestUtils.sha512Hex(oldPassword));
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
@@ -416,19 +407,14 @@ public class AccountManagerTest {
         a1.setPassword(DigestUtils.sha512Hex(oldPassword));
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
 
-        try {
-            accountManager.changePassword(login1, invalidPassword, newPassword);
-        } catch (WebApplicationException ex) {
-            assertEquals("The provided password is invalid", ex.getMessage());
-            assertEquals(406, ex.getResponse().getStatus());
-        }
-
-        try {
-            accountManager.changePassword(login1, oldPassword, oldPassword);
-        } catch (WebApplicationException ex) {
-            assertEquals("The new password is the same as the old password", ex.getMessage());
-            assertEquals(409, ex.getResponse().getStatus());
-        }
+        AccountExceptions accountExceptions1 = assertThrows(AccountExceptions.class, () -> accountManager.changePassword(login1, invalidPassword, newPassword));
+        AccountExceptions accountExceptions2 = assertThrows(AccountExceptions.class, () -> accountManager.changePassword(login1, oldPassword, oldPassword));
+        assertAll(
+                () -> assertEquals(406, accountExceptions1.getResponse().getStatus()),
+                () -> assertEquals(AccountExceptions.ERROR_PASSWORD_NOT_CORRECT, accountExceptions1.getResponse().getEntity()),
+                () -> assertEquals(409, accountExceptions2.getResponse().getStatus()),
+                () -> assertEquals(AccountExceptions.ERROR_SAME_PASSWORD, accountExceptions2.getResponse().getEntity())
+        );
     }
 
     @Test
@@ -532,21 +518,21 @@ public class AccountManagerTest {
             return null;
         }).when(accountFacadeLocal).edit(any());
 
-        assertTrue(accountManager.confirmAccount(randomUrl));
+        assertDoesNotThrow(() -> accountManager.confirmAccount(randomUrl));
         assertTrue(a1.getActive());
 
-        assertFalse(accountManager.confirmAccount(null));
+        assertThrows(AccountExceptions.class, () -> accountManager.confirmAccount(null));
 
-        assertFalse(accountManager.confirmAccount("invalidUrl"));
+        assertThrows(CommonExceptions.class, () -> accountManager.confirmAccount("invalidUrl"));
 
         oneTimeUrl.setActionType("invalid");
 
-        assertFalse(accountManager.confirmAccount(randomUrl));
+        assertThrows(AccountExceptions.class, () -> accountManager.confirmAccount(randomUrl));
 
         oneTimeUrl.setActionType("verify");
         oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().minus(1, HOURS)));
 
-        assertFalse(accountManager.confirmAccount(randomUrl));
+        assertThrows(AccountExceptions.class, () -> accountManager.confirmAccount(randomUrl));
     }
 
     @Test
@@ -570,17 +556,17 @@ public class AccountManagerTest {
             return null;
         }).when(accountFacadeLocal).edit(any());
 
-        assertFalse(accountManager.changeEmailAddress("invalidUrl"));
+        assertThrows(CommonExceptions.class, () -> accountManager.changeEmailAddress("invalidUrl"));
 
-        assertTrue(accountManager.changeEmailAddress(randomUrl));
+        assertDoesNotThrow(() -> accountManager.changeEmailAddress(randomUrl));
         assertEquals("nowy@mail.com", a1.getEmail());
 
         oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().minus(1, HOURS)));
-        assertFalse(accountManager.changeEmailAddress(randomUrl));
+        assertThrows(AccountExceptions.class, () -> accountManager.changeEmailAddress(randomUrl));
 
         oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(24, HOURS)));
         oneTimeUrl.setActionType("invalid");
-        assertFalse(accountManager.changeEmailAddress(randomUrl));
+        assertThrows(AccountExceptions.class, () -> accountManager.changeEmailAddress(randomUrl));
     }
 
     @Test
@@ -599,7 +585,6 @@ public class AccountManagerTest {
 
         accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "niepowtarzalny@mail.com");
         a1.setEmail("powtarzalny@mail.com");
-        assertThrows(WebApplicationException.class, () -> accountManager.sendChangeEmailAddressUrl(a1.getLogin(), "powtarzalny@mail.com"));
         verify(oneTimeUrlFacadeLocal).create(urlCaptor.capture());
 
         OneTimeUrl url = urlCaptor.getValue();
