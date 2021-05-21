@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
 import javax.ejb.*;
 import javax.inject.Inject;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -48,7 +50,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
 
     @Override
     @Schedule(hour = "*", persistent = false)
-    public void removeUnconfirmedAccounts() {
+    public void removeUnconfirmedAccounts() throws CommonExceptions{
         int removalTime = 86400;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
 
@@ -63,8 +65,8 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
         List<List<OneTimeUrl>> urlsToDelete = new ArrayList<>();
         accountsToDelete.forEach(
                 account -> {
-                    accessLevelsToDelete.add(accessLevelFacadeLocal.findAllByAccount(account));
-                    urlsToDelete.add(oneTimeUrlFacadeLocal.findByAccount(account));
+                    accessLevelsToDelete.add(Optional.ofNullable(accessLevelFacadeLocal.findAllByAccount(account)).orElseThrow(CommonExceptions::createNoResultException));
+                    urlsToDelete.add(Optional.ofNullable(oneTimeUrlFacadeLocal.findByAccount(account)).orElseThrow(CommonExceptions::createNoResultException));
                 });
 
         accessLevelsToDelete.stream()
