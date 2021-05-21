@@ -8,14 +8,14 @@ public class TestDatabaseConnection {
     private static String url = "jdbc:postgresql://localhost:5432/ssbd02local";
 
     public static String getOneTimeUrl(String newEmail) {
-        Properties props = new Properties();
-        props.setProperty("user", "ssbd02admin");
-        props.setProperty("password", "admin_password");
+        Properties properties = new Properties();
+        properties.setProperty("user", "ssbd02admin");
+        properties.setProperty("password", "admin_password");
         Connection connection;
         Statement statement;
         ResultSet result;
         try {
-            connection = DriverManager.getConnection(url, props);
+            connection = DriverManager.getConnection(url, properties);
             statement = connection.createStatement();
             result = statement.executeQuery("SELECT url FROM public.one_time_url o WHERE o.new_email =\'" + newEmail + "\'");
             result.next();
