@@ -9,7 +9,7 @@
                 <img src="assets/wind.png" alt="" class="bullet">
             </li>
             <li *ngIf="isAdminAndIsInAccountView() && !route.terminal" class="breadcrumb-item">
-                <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link"> Lista kont </a>
+                <a href="" (click)="goToUserListBreadcrumb()" [routerLink]="" class="breadcrumb-link"> Lista kont </a>
                 <img src="assets/wind.png" alt="" class="bullet">
             </li>
             <li *ngIf="route.terminal" class="breadcrumb-item active"> {{route.displayName}} </li>

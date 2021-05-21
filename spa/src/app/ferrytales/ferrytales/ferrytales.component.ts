@@ -22,6 +22,10 @@ export class FerrytalesComponent implements OnInit {
             this.router.navigate(['/']);
     }
 
+    goToUserListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/accounts']);
+    }
+
     isAdminAndIsInAccountView(): boolean{
         return this.identityService.isAdmin() && window.location.href.includes('/#/ferrytales/accounts')
             && window.location.href.length > 'https://localhost:8181/#/ferrytales/accounts/'.length;
