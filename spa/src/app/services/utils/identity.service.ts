@@ -39,4 +39,8 @@ export class IdentityService {
     setCurrentRole(level: string): void {
         localStorage.setItem('currentAccessLevel', level);
     }
+
+    getTimezone(): string {
+        return localStorage.getItem('timezone') || '+00:00';
+    }
 }

@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.OneTimeUrlFacadeLocal;
@@ -10,11 +11,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.ejb.*;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +31,7 @@ import java.util.stream.Collectors;
 @Singleton
 @Startup
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class SystemManager implements SystemManagerLocal {
+public class SystemManager extends AbstractManager implements SystemManagerLocal, SessionSynchronization {
 
     private static final Properties prop = new Properties();
 

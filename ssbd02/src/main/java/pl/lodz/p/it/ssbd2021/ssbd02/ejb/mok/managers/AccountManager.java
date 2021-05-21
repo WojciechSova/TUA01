@@ -4,6 +4,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.OneTimeUrlFacadeLocal;
@@ -16,6 +17,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccessLevelExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
+import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -39,7 +41,7 @@ import static java.time.temporal.ChronoUnit.SECONDS;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class AccountManager implements AccountManagerLocal {
+public class AccountManager extends AbstractManager implements AccountManagerLocal, SessionSynchronization {
 
     private static final Properties prop = new Properties();
     @Inject
@@ -428,5 +430,10 @@ public class AccountManager implements AccountManagerLocal {
         oneTimeUrl.getAccount().setModificationDate(Timestamp.from(Instant.now()));
 
         oneTimeUrlFacadeLocal.remove(oneTimeUrl);
+    }
+
+    @Override
+    public String getTimezone(String login) {
+        return accountFacadeLocal.findByLogin(login).getTimeZone();
     }
 }

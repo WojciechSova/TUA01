@@ -671,4 +671,12 @@ public class AccountManagerTest {
         assertTrue(a3.getModificationDate().getTime() <= after.getTime());
         assertNull(a3.getModifiedBy());
     }
+
+    @Test
+    void getTimezone() {
+        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
+        a1.setTimeZone("zone");
+
+        assertEquals("zone", accountManager.getTimezone(login1));
+    }
 }

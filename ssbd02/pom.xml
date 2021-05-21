@@ -260,6 +260,9 @@
                                     <includes>
                                         <include>error403.html</include>
                                     </includes>
+                                    <includes>
+                                        <include>error404.html</include>
+                                    </includes>
                                 </resource>
                             </webResources>
                         </configuration>

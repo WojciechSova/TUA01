@@ -153,6 +153,8 @@
     "error-page": {
         "forbidden_code": "Error 403",
         "forbidden_text": "You don't have access to this page",
+        "not_found_code": "Error 404",
+        "not_found_text": "Page not found",
         "go_to_home_page": "Back to home page"
     }
 }
