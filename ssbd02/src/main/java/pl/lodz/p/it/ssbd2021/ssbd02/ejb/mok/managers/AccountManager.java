@@ -78,6 +78,9 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
 
     @Override
     public void createAccount(Account account) {
+        if (account.getPhoneNumber().isEmpty()) {
+            account.setPhoneNumber(null);
+        }
         account.setPassword(DigestUtils.sha512Hex(account.getPassword()));
         AccessLevel accessLevel = new AccessLevel();
         accessLevel.setLevel("CLIENT");
@@ -146,6 +149,9 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
 
     @Override
     public void updateAccount(Account account, String modifiedBy) throws CommonExceptions {
+        if (account.getPhoneNumber().isEmpty()) {
+            account.setPhoneNumber(null);
+        }
         Account accountFromDB = Optional.ofNullable(accountFacadeLocal.findByLogin(account.getLogin())).orElseThrow(CommonExceptions::createNoResultException);
         Account acc = SerializationUtils.clone(accountFromDB);
 
