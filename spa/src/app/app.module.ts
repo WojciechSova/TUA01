@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,13 +26,16 @@ import { ResetPasswordComponent } from './common/navigation/reset-password/reset
 import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-email-form.component';
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LocaleService } from './services/utils/locale.service';
+import '@angular/common/locales/global/pl';
+import '@angular/common/locales/global/en';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ConfirmResetComponent } from './ferrytales/account-details/confirm-reset/confirm-reset.component';
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
 import { AuthInterceptor } from './services/interceptors/auth-interceptor';
 
-export function rootLoaderFactory(http: HttpClient) {
+export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
 }
 
@@ -86,7 +89,12 @@ export const httpInterceptorProviders = [
     providers: [
         IdentityService,
         TranslateService,
-        httpInterceptorProviders],
+        httpInterceptorProviders,
+        { provide: LOCALE_ID,
+          useFactory: (localeService: LocaleService) => localeService.getLocale(),
+          deps: [LocaleService]
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
