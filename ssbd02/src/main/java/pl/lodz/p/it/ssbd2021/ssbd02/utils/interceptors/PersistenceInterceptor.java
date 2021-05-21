@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.JDBCConnectionException;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
@@ -8,7 +7,6 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
-import javax.persistence.PersistenceException;
 
 /**
  * Klasa interceptora przechwytująca wyjątki związane z bazą danych niezależne od tabeli, w której wystąpią.
