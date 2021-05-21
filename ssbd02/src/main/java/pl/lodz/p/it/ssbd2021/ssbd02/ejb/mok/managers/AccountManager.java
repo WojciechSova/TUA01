@@ -461,4 +461,9 @@ public class AccountManager implements AccountManagerLocal {
         oneTimeUrlFacadeLocal.remove(oneTimeUrl);
         return true;
     }
+
+    @Override
+    public String getTimezone(String login) {
+        return accountFacadeLocal.findByLogin(login).getTimeZone();
+    }
 }

@@ -181,4 +181,12 @@ public interface AccountManagerLocal {
      * @return Status powodzenia operacji
      */
     boolean resetPassword(String url, String newPassword);
+
+    /**
+     * Metoda zwracająca strefę czasową dla użytkownika.
+     *
+     * @param login Login użytkownika, którego strefę czasową chcemy uzyskać
+     * @return Strefa czasowa w formacie +00:00
+     */
+    String getTimezone(String login);
 }
