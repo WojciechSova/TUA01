@@ -13,7 +13,7 @@
                  translate>form.field_required</div>
             <div id="invalid-format-error" class="validation-error" *ngIf="form.controls.email.hasError('email') && form.controls.email.touched"
                  translate>form.invalid_format</div>
-            <div class="validation-error" *ngIf="existingEmail" translate>ERROR.EMAIL_UNIQUE
+            <div id="existing-email-error" class="validation-error" *ngIf="existingEmail" translate>ERROR.EMAIL_UNIQUE
             </div>
 
             <label for="new-email-repeat"></label>

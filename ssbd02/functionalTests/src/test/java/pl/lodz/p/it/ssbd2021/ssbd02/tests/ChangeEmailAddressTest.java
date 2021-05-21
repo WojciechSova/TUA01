@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pl.lodz.p.it.ssbd2021.ssbd02.TestDatabaseConnection;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountDetailsPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.ChangeEmailPage;
@@ -15,10 +16,10 @@ public class ChangeEmailAddressTest {
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
     private WebDriver driver;
-    private final String newEmail = "newEmail@costam.com";
+    private final String currentEmail = "nieistnieje@aaa.pl";
+    private final String newEmail = "newEmail@newEmail.pl";
     private AdminMainPage adminMainPage;
     private ChangeEmailPage changeEmailPage;
-
 
     @BeforeAll
     static void initAll() {
@@ -26,7 +27,7 @@ public class ChangeEmailAddressTest {
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
         options.addArguments("−−lang=pl");
-        options.setHeadless(true);
+//        options.setHeadless(true);
     }
 
     @BeforeEach
@@ -38,9 +39,24 @@ public class ChangeEmailAddressTest {
 
     @Test
     public void changeEmailAddressTest() {
+        String oneTimeUrl;
+        String url;
+
         adminMainPage = TestUtils.logInAsAdmin(driver);
+
         changeEmail(newEmail, newEmail);
-        Assertions.assertTrue(driver.findElement(changeEmailPage.getConfirmButton()).isEnabled());
+        driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
+        driver.findElement(changeEmailPage.getConfirmButton()).click();
+        oneTimeUrl = TestDatabaseConnection.getOneTimeUrl(newEmail);
+        url = TestUtils.url.concat("/confirm/email/" + oneTimeUrl);
+        driver.get(url);
+
+        changeEmail(currentEmail, currentEmail);
+        driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
+        driver.findElement(changeEmailPage.getConfirmButton()).click();
+        oneTimeUrl = TestDatabaseConnection.getOneTimeUrl(currentEmail);
+        url = TestUtils.url.concat("/confirm/email/" + oneTimeUrl);
+        driver.get(url);
     }
 
     @Test
@@ -60,6 +76,15 @@ public class ChangeEmailAddressTest {
         Assertions.assertFalse(driver.findElement(changeEmailPage.getConfirmButton()).isEnabled());
         Assertions.assertTrue(driver.findElement(changeEmailPage.getChangeEmailForm()).isDisplayed());
         Assertions.assertTrue(driver.findElement(changeEmailPage.getDifferentPasswordsError()).isDisplayed());
+    }
+
+    @Test
+    public void existingEmailErrorTest() {
+        adminMainPage = TestUtils.logInAsAdmin(driver);
+        changeEmail(currentEmail, currentEmail);
+        driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
+        driver.findElement(changeEmailPage.getConfirmButton()).click();
+        Assertions.assertTrue(driver.findElement(changeEmailPage.getExistingEmailError()).isDisplayed());
     }
 
     public void changeEmail(String newEmail, String newEmailRepeat) {

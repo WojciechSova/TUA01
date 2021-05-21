@@ -13,6 +13,7 @@ public class ChangeEmailPage {
     private final By changeEmailForm = By.id("change-email-form");
     private final By invalidFormatError = By.id("invalid-format-error");
     private final By differentPasswordsError = By.id("different-passwords-error");
+    private final By existingEmailError = By.id("existing-email-error");
 
     public ChangeEmailPage(WebDriver driver) {
         this.driver = driver;
@@ -34,11 +35,13 @@ public class ChangeEmailPage {
         return differentPasswordsError;
     }
 
+    public By getExistingEmailError() {
+        return existingEmailError;
+    }
+
     public void changeEmail(String newEmail, String newEmailRepeat) {
         driver.findElement(newEmailField).sendKeys(newEmail);
         driver.findElement(newEmailRepeatField).sendKeys(newEmailRepeat);
         driver.findElement(newEmailRepeatField).sendKeys(Keys.TAB);
-        driver.findElement(confirmButton).click();
     }
-
 }
