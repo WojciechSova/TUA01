@@ -35,11 +35,6 @@ public class PersistenceInterceptor {
             throw CommonExceptions.createNoResultException();
         } catch (JDBCConnectionException jce) {
             throw CommonExceptions.createJDBCConnectionException();
-        } catch (PersistenceException cve) {
-            if (cve.getCause() instanceof ConstraintViolationException) {
-                throw CommonExceptions.createConstraintViolationException();
-            }
-            throw cve;
         }
     }
 }
