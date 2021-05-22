@@ -3,32 +3,32 @@
         <div class="top-center" translate>
             change-email-form.enter_new_email_address
         </div>
-        <form class="edit-form" [formGroup]="form">
-            <label for="email"></label>
-            <input type="text" id="email" name="Email" #email
+        <form id="change-email-form" class="edit-form" [formGroup]="form">
+            <label for="new-email"></label>
+            <input type="text" id="new-email" name="Email" #email
                    placeholder="{{'form.required_email_address' | translate}}" formControlName="email"
                    [ngClass]="{'is-invalid': form.controls.email.touched && form.controls.email.invalid}">
 
             <div class="validation-error" *ngIf="form.controls.email.hasError('required') && form.controls.email.touched"
                  translate>form.field_required</div>
-            <div class="validation-error" *ngIf="form.controls.email.hasError('email') && form.controls.email.touched"
+            <div id="invalid-format-error" class="validation-error" *ngIf="form.controls.email.hasError('email') && form.controls.email.touched"
                  translate>form.invalid_format</div>
-            <div class="validation-error" *ngIf="existingEmail" translate>ERROR.EMAIL_UNIQUE
+            <div id="existing-email-error" class="validation-error" *ngIf="existingEmail" translate>ERROR.EMAIL_UNIQUE
             </div>
 
-            <label for="email-repeat"></label>
-            <input type="text" id="email-repeat" name="Email-repeat"
+            <label for="new-email-repeat"></label>
+            <input type="text" id="new-email-repeat" name="Email-repeat"
                    placeholder="{{'form.required_repeat_email_address' | translate}}" formControlName="emailRepeat"
                    [ngClass]="{'is-invalid': form.controls.emailRepeat.touched && form.controls.emailRepeat.invalid}">
 
             <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('required') && form.controls.emailRepeat.touched"
                  translate>form.field_required</div>
-            <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('notMatching') && form.controls.emailRepeat.touched
+            <div id="different-passwords-error" class="validation-error" *ngIf="form.controls.emailRepeat.hasError('notMatching') && form.controls.emailRepeat.touched
             && !form.controls.emailRepeat.hasError('required')"
                  translate>form.email_differ</div>
         </form>
         <div class="bottom-center">
-            <button class="form-button" [disabled]="form.invalid" (click)="changeEmail(email.value)" translate>form.confirm</button>
+            <button id="confirm" class="form-button" [disabled]="form.invalid" (click)="changeEmail(email.value)" translate>form.confirm</button>
             <img class="return-arrow" (click)="closeComponent()" src="assets/back-arrow.png" alt=""/>
         </div>
     </div>
