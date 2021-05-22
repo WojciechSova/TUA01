@@ -21,6 +21,7 @@ export class NewPasswordComponent {
     invalidUrlVisible = false;
     tooShortVisible = false;
     changeSuccessful = false;
+    otherError = false;
 
     form = new FormGroup({
         password: new FormControl('', [Validators.required, Validators.minLength(8), validatePassword]),
@@ -37,11 +38,19 @@ export class NewPasswordComponent {
         return this.changeSuccessful;
     }
 
-    sendNewPassword(password: string): void {
+    sendNewPassword(password: string, passwordRepeat: string): void {
+        if (password !== passwordRepeat) {
+            this.samePassword = false;
+            return;
+        } else if (password.length < 8) {
+            this.tooShortVisible = true;
+            return;
+        }
         this.invalidUrlVisible = false;
         this.tooShortVisible = false;
         this.changeSuccessful = false;
-        this.resetPasswordService.setNewPassword(this.url, this.newPassword).subscribe(
+        this.otherError = false;
+        this.resetPasswordService.setNewPassword(this.url, password).subscribe(
             () => {
                 this.changeSuccessful = true;
                 setTimeout(() => this.router.navigateByUrl('/'), this.timeout);
@@ -51,6 +60,8 @@ export class NewPasswordComponent {
                     this.invalidUrlVisible = true;
                 } else if (error.status === 406) {
                     this.tooShortVisible = true;
+                } else {
+                    this.otherError = true;
                 }
             }
         );

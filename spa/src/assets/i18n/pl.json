@@ -143,7 +143,8 @@
             "enter_password": "Wprowadź nowe hasło",
             "invalid_url": "Załączony url nie jest poprawny",
             "password_too_short": "Podane hasło jest zbyt krótkie",
-            "password_change_success": "Pomyślnie zmieniono hasło"
+            "password_change_success": "Pomyślnie zmieniono hasło",
+            "redirect_to_main_page": "Za chwilę nastąpi przekierowanie do strony głównej"
         },
         "reset": {
             "successful": "Pomyślnie zresetowano hasło",
