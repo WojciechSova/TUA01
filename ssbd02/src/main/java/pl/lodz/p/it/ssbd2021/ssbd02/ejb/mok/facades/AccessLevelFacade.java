@@ -4,10 +4,14 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mok.AccessLevelInterceptor;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -22,6 +26,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
+@Interceptors({GeneralInterceptor.class, AccessLevelInterceptor.class, PersistenceInterceptor.class})
 public class AccessLevelFacade extends AbstractFacade<AccessLevel> implements AccessLevelFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mokPU")

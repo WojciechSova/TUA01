@@ -16,6 +16,7 @@ public class CommonExceptions extends GeneralException {
     protected final static String ERROR_PRECONDITION_FAILED = "ERROR.PRECONDITION_FAILED";
     protected final static String ERROR_ACCESS_DENIED = "ERROR.ACCESS_DENIED";
     protected final static String ERROR_JDBC_CONNECTION = "ERROR.JDBC_CONNECTION";
+    protected final static String ERROR_CONSTRAINT_VIOLATION = "ERROR.CONSTRAINT_VIOLATION";
 
     protected CommonExceptions(Response.Status status, String key) {
         super(status, key);
@@ -73,5 +74,14 @@ public class CommonExceptions extends GeneralException {
      */
     public static CommonExceptions createUnknownException() {
         return new CommonExceptions(Response.Status.INTERNAL_SERVER_ERROR, ERROR_UNKNOWN);
+    }
+
+    /**
+     * Metoda tworząca wyjątek aplikacyjny o kodzie 400 (Bad Request) dotyczący naruszenia ograniczeń bazy danych.
+     *
+     * @return wyjątek typu {@link CommonExceptions}
+     */
+    public static CommonExceptions createConstraintViolationException() {
+        return new CommonExceptions(Response.Status.BAD_REQUEST, ERROR_CONSTRAINT_VIOLATION);
     }
 }

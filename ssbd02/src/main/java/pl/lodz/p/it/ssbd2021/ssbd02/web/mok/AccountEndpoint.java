@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mok;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
@@ -42,6 +44,8 @@ public class AccountEndpoint {
 
     @Inject
     private AccountManagerLocal accountManager;
+
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Metoda udostępniająca ogólne informacje o kontach aplikacji.
@@ -279,11 +283,8 @@ public class AccountEndpoint {
     @PermitAll
     @Path("confirm/account/{url}")
     public Response confirmAccount(@PathParam("url") String url) {
-        if (accountManager.confirmAccount(url)) {
-            return Response.ok().build();
-        }
-
-        return Response.status(Response.Status.BAD_REQUEST).build();
+        accountManager.confirmAccount(url);
+        return Response.ok().build();
     }
 
     /**
@@ -304,7 +305,8 @@ public class AccountEndpoint {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
-        accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress);
+        accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress,
+                securityContext.getUserPrincipal().getName());
 
         return Response.ok().build();
     }
@@ -321,13 +323,13 @@ public class AccountEndpoint {
     @Path("email/{login}")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response sendChangeEmailAddressUrl(String newEmailAddress, @PathParam("login") String login) {
+    public Response sendChangeEmailAddressUrl(String newEmailAddress, @PathParam("login") String login, @Context SecurityContext securityContext) {
 
         if (!EmailAddressValidator.isValid(newEmailAddress)) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
         }
 
-        accountManager.sendChangeEmailAddressUrl(login, newEmailAddress);
+        accountManager.sendChangeEmailAddressUrl(login, newEmailAddress, securityContext.getUserPrincipal().getName());
 
         return Response.ok().build();
     }
@@ -342,23 +344,21 @@ public class AccountEndpoint {
     @PermitAll
     @Path("confirm/email/{url}")
     public Response changeEmailAddress(@PathParam("url") String url) {
-        if (accountManager.changeEmailAddress(url)) {
-            return Response.ok().build();
-        }
-        return Response.status(Response.Status.BAD_REQUEST).build();
+        accountManager.changeEmailAddress(url);
+        return Response.ok().build();
     }
 
     /**
      * Metoda obsługująca żądanie resetowania hasła.
      *
      * @param email Email użytkownika, którego hasło ma zostać zresetowane
-     * @return Kod 200 w przypoadku poprawnego formatu adresu email, w przeciwnym razie 400.
+     * @return Kod 200 w przypadku poprawnego formatu adresu email, w przeciwnym razie 400.
      * Aplikacja nie powiadamia użytkownika czy podany email znajduje się w bazie danych.
      */
     @POST
     @PermitAll
     @Path("reset/password")
-    public Response sendPasswordResetAddressUrl(String email) {
+    public Response sendPasswordResetAddressUrl(String email, @Context SecurityContext securityContext) {
         if (email == null || "".equals(email.trim())) {
             throw new WebApplicationException("No email provided", 400);
         }
@@ -367,7 +367,11 @@ public class AccountEndpoint {
             throw new WebApplicationException("Invalid email format", 400);
         }
 
-        accountManager.sendPasswordResetAddressUrl(email);
+        if (securityContext.getUserPrincipal() != null) {
+            accountManager.sendPasswordResetAddressUrl(email, securityContext.getUserPrincipal().getName());
+        } else {
+            accountManager.sendPasswordResetAddressUrl(email, null);
+        }
 
         return Response.ok().build();
     }
@@ -395,6 +399,14 @@ public class AccountEndpoint {
 
         accountManager.resetPassword(url, newPassword);
 
+        return Response.ok().build();
+    }
+
+    @POST
+    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
+    @Path("change/accesslevel")
+    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, String accessLevel) {
+        logger.info("The user with login {} changed the access level to {}", securityContext.getUserPrincipal().getName(), accessLevel);
         return Response.ok().build();
     }
 }

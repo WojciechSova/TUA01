@@ -259,6 +259,10 @@
                                     <directory>../spa/src/error-pages</directory>
                                     <includes>
                                         <include>error403.html</include>
+                                        <include>error500.html</include>
+                                    </includes>
+                                    <includes>
+                                        <include>error404.html</include>
                                     </includes>
                                 </resource>
                             </webResources>

@@ -30,9 +30,10 @@ public class JWTGenerator {
      * Metoda generująca token JWT.
      *
      * @param credentialValidationResult Obiekt zawierający poświadczenia dla którego wygenerowany ma zostać token JWT.
+     * @param timezone                   Strefa czasowa dodawana do tokenu JWT
      * @return Wygenerowany token JWT.
      */
-    public static String generateJWT(CredentialValidationResult credentialValidationResult) {
+    public static String generateJWT(CredentialValidationResult credentialValidationResult, String timezone) {
         try {
             JWSSigner jwsSigner = new MACSigner(SecurityConstants.SECRET);
 
@@ -53,6 +54,7 @@ public class JWTGenerator {
                     .claim(SecurityConstants.AUTH, String.join(SecurityConstants.GROUP_SPLIT_CONSTANT, credentialValidationResult.getCallerGroups()))
                     .issuer(issuer)
                     .expirationTime(new Date(new Date().getTime() + expirationTime))
+                    .claim(SecurityConstants.ZONEINFO, timezone)
                     .build();
 
             SignedJWT signedJWT = new SignedJWT(jwsHeader, jwtClaimsSet);
@@ -71,9 +73,10 @@ public class JWTGenerator {
      *
      * @param serializedJWT Aktualny token JWT
      * @param accessLevels  Aktualne poziomy dostępu użytkownika
+     * @param timezone      Strefa czasowa dodawana do tokenu JWT
      * @return Zaktualizowany token JWT
      */
-    public static String updateJWT(String serializedJWT, String accessLevels) {
+    public static String updateJWT(String serializedJWT, String accessLevels, String timezone) {
         try {
             JWSSigner jwsSigner = new MACSigner(SecurityConstants.SECRET);
             JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
@@ -94,6 +97,7 @@ public class JWTGenerator {
                     .claim(SecurityConstants.AUTH, accessLevels)
                     .issuer(previousJWTClaimsSet.getIssuer())
                     .expirationTime(new Date(new Date().getTime() + expirationTime))
+                    .claim(SecurityConstants.ZONEINFO, timezone)
                     .build();
 
             SignedJWT signedJWT = new SignedJWT(jwsHeader, newJWTClaimsSet);

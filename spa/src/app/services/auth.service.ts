@@ -31,6 +31,7 @@ export class AuthService {
         const tokenInfo: any = jwtDecode(token);
         localStorage.setItem('login', tokenInfo.sub);
         localStorage.setItem('accessLevel', tokenInfo.auth);
+        localStorage.setItem('timezone', tokenInfo.zoneinfo);
         localStorage.setItem('currentAccessLevel', tokenInfo.auth.split(',')[0]);
     }
 
