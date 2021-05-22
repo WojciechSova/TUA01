@@ -140,17 +140,15 @@ public interface AccountManagerLocal {
      * Metoda aktywująca zarejestrowanego użytkownika.
      *
      * @param url Kod potwierdzający konto użytkownika
-     * @return Prawda, jeżeli uda się potwierdzić użytkownika, w przeciwnym wypadku fałsz
      */
-    boolean confirmAccount(String url);
+    void confirmAccount(String url);
 
     /**
      * Metoda zmieniająca adres email użytkownika.
      *
      * @param url Kod potwierdzający nowy adres email
-     * @return Prawda jeżeli uda się potwierdzić adres email, w przeciwnym wypadku fałsz
      */
-    boolean changeEmailAddress(String url);
+    void changeEmailAddress(String url);
 
     /**
      * Metoda wysyłająca wiadomość na nowy adres email z linkiem potwierdzającym jego zmianę.
@@ -178,9 +176,8 @@ public interface AccountManagerLocal {
      *
      * @param url         Jednorazowy url, który potwierdza możliwość resetowania hasła do konta
      * @param newPassword Nowe hasło użytkownika
-     * @return Status powodzenia operacji
      */
-    boolean resetPassword(String url, String newPassword);
+    void resetPassword(String url, String newPassword);
 
     /**
      * Metoda zwracająca strefę czasową dla użytkownika.
