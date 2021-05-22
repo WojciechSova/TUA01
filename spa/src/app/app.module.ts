@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './common/navigation/login/login.component';
 import { RegisterComponent } from './common/navigation/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NavigationComponent } from './common/navigation/navigation.component';
 import { LinksComponent } from './common/navigation/links/links.component';
 import { FooterComponent } from './common/footer/footer.component';
@@ -33,11 +33,16 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { ConfirmResetComponent } from './ferrytales/account-details/confirm-reset/confirm-reset.component';
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
+import { AuthInterceptor } from './services/interceptors/auth-interceptor';
 import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
 }
+
+export const httpInterceptorProviders = [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+];
 
 @NgModule({
     declarations: [
@@ -87,6 +92,7 @@ export function rootLoaderFactory(http: HttpClient): any {
     providers: [
         IdentityService,
         TranslateService,
+        httpInterceptorProviders,
         { provide: LOCALE_ID,
           useFactory: (localeService: LocaleService) => localeService.getLocale(),
           deps: [LocaleService]
