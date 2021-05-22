@@ -4,7 +4,7 @@ import { validateEmail } from '../../common/navigation/register/matching.validat
 import { ChangeEmailService } from '../../services/change-email.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AccountDetailsService } from '../../services/account-details.service';
-
+import { IdentityService } from '../../services/utils/identity.service';
 
 @Component({
     selector: 'app-change-email-form',
@@ -24,7 +24,8 @@ export class ChangeEmailFormComponent implements OnInit {
     });
 
     constructor(private changeEmailService: ChangeEmailService,
-                private accountDetailsService: AccountDetailsService) {
+                private accountDetailsService: AccountDetailsService,
+                private identityService: IdentityService) {
     }
 
     ngOnInit(): void {
@@ -35,7 +36,7 @@ export class ChangeEmailFormComponent implements OnInit {
     }
 
     changeEmail(newEmail: string): void {
-        if (this.accountDetailsService.account.login === localStorage.getItem('login')) {
+        if (this.accountDetailsService.account.login === this.identityService.getLogin()) {
             this.changeEmailService.changeEmail(newEmail).subscribe(
                 () => {
                     this.closeComponent();

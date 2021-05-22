@@ -23,6 +23,7 @@ class JWTGeneratorTest {
     private final String issuer = "\"iss\":\"ssbd02\"";
     private final String subject = "\"sub\":\"Test\"";
     private final String auth = "\"auth\":\"test-group\"";
+    private final String timezone = "\"zoneinfo\":\"+01:00\"";
 
     private JWTGeneratorTest() {
         this.callerPrincipal = new CallerPrincipal("Test");
@@ -38,7 +39,7 @@ class JWTGeneratorTest {
 
     @Test
     void generateJWT() {
-        String jwt = JWTGenerator.generateJWT(credentialValidationResult);
+        String jwt = JWTGenerator.generateJWT(credentialValidationResult, "+01:00");
         String[] separatedJwt = jwt.split("\\.");
 
         String header = new String(Base64.getDecoder().decode(separatedJwt[0]));
@@ -49,12 +50,13 @@ class JWTGeneratorTest {
         Assertions.assertTrue(payload.contains(issuer));
         Assertions.assertTrue(payload.contains(subject));
         Assertions.assertTrue(payload.contains(auth));
+        Assertions.assertTrue(payload.contains(timezone));
     }
 
     @Test
     void updateJWT() {
-        String jwt = JWTGenerator.generateJWT(credentialValidationResult);
-        String updatedJwt = JWTGenerator.updateJWT(jwt, "current");
+        String jwt = JWTGenerator.generateJWT(credentialValidationResult, "+01:00");
+        String updatedJwt = JWTGenerator.updateJWT(jwt, "current", "+01:00");
 
         String[] separatedUpdatedJwt = updatedJwt.split("\\.");
         String updatedJwtHeader = new String(Base64.getDecoder().decode(separatedUpdatedJwt[0]));
@@ -63,6 +65,7 @@ class JWTGeneratorTest {
         Assertions.assertTrue(updatedJwtHeader.contains(algorithm));
         Assertions.assertTrue(updatedJwtPayload.contains(issuer));
         Assertions.assertTrue(updatedJwtPayload.contains(subject));
+        Assertions.assertTrue(updatedJwtPayload.contains(timezone));
         Assertions.assertTrue(updatedJwtPayload.contains("current"));
     }
 }

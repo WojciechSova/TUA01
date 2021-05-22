@@ -8,11 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ForbiddenComponent implements OnInit {
 
-    timeout = 0;
-    url = '';
-
-    constructor(private route: ActivatedRoute,
-                private router: Router) {}
+    constructor(private router: Router) {}
 
     goToHomePage(): void {
         this.router.navigate(['/']);

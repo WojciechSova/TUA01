@@ -24,7 +24,9 @@
         "short_password": "Hasło powinno zawierać przynajmniej 8 znaków",
         "updating": "Aktualizowanie...",
         "save": "Zapisz",
-        "confirm": "Potwierdź"
+        "confirm": "Potwierdź",
+        "yes": "Tak",
+        "no": "Nie"
     },
     "links": {
         "about_us": "O nas",
@@ -133,6 +135,15 @@
         "email_change_error": "Wystąpił błąd podczas zmiany adresu e-mail!",
         "go_to_main_page": "Za chwilę nastąpi przekierowanie na stronę główną"
     },
+    "password-reset": {
+        "confirm": {
+            "reset_pwd_question": "Czy chcesz zresetować hasło?"
+        },
+        "reset": {
+            "successful": "Pomyślnie zresetowano hasło",
+            "failed": "Zresetowanie hasła nie powiodło się"
+        }
+    },
     "ERROR":{
         "PHONE_NUMBER_UNIQUE": "Podany numer telefonu już istnieje",
         "SAME_PASSWORD_AS_PREVIOUS": "Podane hasło jest takie samo jak wcześniejsze",
@@ -144,6 +155,8 @@
         "forbidden_text": "Nie masz dostępu do tej strony",
         "internal_server_error_code": "Kod błędu 500",
         "internal_server_error_message": "Ups, coś poszło nie tak :(",
+        "not_found_code": "Kod błędu 404",
+        "not_found_text": "Nie odnaleziono strony",
         "go_to_home_page": "Powrót do strony głównej"
     }
 }

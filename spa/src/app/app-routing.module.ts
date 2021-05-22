@@ -9,6 +9,7 @@ import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-a
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
+import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
@@ -22,7 +23,9 @@ const routes: Routes = [
     { path: 'confirm/account/:url', component: ConfirmAccountComponent },
     { path: 'confirm/email/:url', component: ConfirmEmailChangeComponent },
     { path: 'error/forbidden', component: ForbiddenComponent },
-    { path: 'error/internal', component: InternalServerErrorComponent }
+    { path: 'error/internal', component: InternalServerErrorComponent },
+    { path: 'error/forbidden', component: ForbiddenComponent },
+    { path: 'error/notfound', component: NotFoundComponent}
 ];
 
 @NgModule({
