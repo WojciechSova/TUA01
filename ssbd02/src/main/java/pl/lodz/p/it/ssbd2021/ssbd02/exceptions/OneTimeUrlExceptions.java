@@ -13,7 +13,7 @@ public class OneTimeUrlExceptions extends GeneralException {
     public static String ERROR_ONE_TIME_URL_URL_UNIQUE = "ERROR.ONE_TIME_URL_URL_UNIQUE";
     public static String ERROR_ONE_TIME_URL_ACCOUNT_ACTION_TYPE_UNIQUE = "ERROR.ONE_TIME_URL_ACCOUNT_ACTION_TYPE_UNIQUE";
     public static String ERROR_EXPIRE_DATE_IN_FUTURE = "ERROR.EXPIRE_DATE_IN_FUTURE";
-    public static String ERROR_ONE_TIME_URL_URL_INVALID = "ERROR.URL_INVALID";
+    public static String ERROR_INVALID_ONE_TIME_URL = "ERROR.URL_INVALID";
 
 
     public OneTimeUrlExceptions(Response.Status status, String key) {

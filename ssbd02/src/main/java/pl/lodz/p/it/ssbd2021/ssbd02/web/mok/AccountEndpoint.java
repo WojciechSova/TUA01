@@ -383,7 +383,7 @@ public class AccountEndpoint {
     @Path("confirm/account/{url}")
     public Response confirmAccount(@PathParam("url") String url) {
         if (url.length() != 32) {
-            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_ONE_TIME_URL_URL_INVALID);
+            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
         }
         try {
             accountManager.confirmAccount(url);
@@ -469,7 +469,7 @@ public class AccountEndpoint {
     @Path("confirm/email/{url}")
     public Response changeEmailAddress(@PathParam("url") String url) {
         if (url.length() != 32) {
-            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_ONE_TIME_URL_URL_INVALID);
+            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
         }
         try {
             accountManager.changeEmailAddress(url);
@@ -530,7 +530,7 @@ public class AccountEndpoint {
     @Path("reset/password/{url}")
     public Response resetPassword(@PathParam("url") String url, @NotBlank String newPassword) {
         if (url.length() != 32) {
-            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_ONE_TIME_URL_URL_INVALID);
+            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
         }
         if (newPassword.length() < 8) {
             throw CommonExceptions.createConstraintViolationException();
