@@ -164,5 +164,10 @@
         "not_found_code": "Kod błędu 404",
         "not_found_text": "Nie odnaleziono strony",
         "go_to_home_page": "Powrót do strony głównej"
+    },
+    "session-timeout": {
+        "info": "Twoja sesja wygasła",
+        "login": "Zaloguj się",
+        "ok": "Ok"
     }
 }

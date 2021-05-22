@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  selector: 'app-session-timeout',
-  templateUrl: './session-timeout.component.html',
-  styleUrls: ['./session-timeout.component.less']
+    selector: 'app-session-timeout',
+    templateUrl: './session-timeout.component.html',
+    styleUrls: ['./session-timeout.component.less']
 })
 export class SessionTimeoutComponent implements OnInit {
 
-  constructor() { }
+    @Output()
+    isSessionTimeoutVisibleChange = new EventEmitter<boolean>();
 
-  ngOnInit(): void {
-  }
+    constructor(private authService: AuthService) {
+    }
 
+    ngOnInit(): void {
+    }
+
+    closeComponent(): void {
+        this.authService.signOut();
+        this.isSessionTimeoutVisibleChange.emit(false);
+    }
 }
