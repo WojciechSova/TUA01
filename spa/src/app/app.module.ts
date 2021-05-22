@@ -25,6 +25,7 @@ import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-a
 import { ResetPasswordComponent } from './common/navigation/reset-password/reset-password.component';
 import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-email-form.component';
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
+import { NewPasswordComponent } from './other-views/new-password/new-password.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LocaleService } from './services/utils/locale.service';
 import '@angular/common/locales/global/pl';
@@ -50,7 +51,6 @@ export const httpInterceptorProviders = [
         LoginComponent,
         RegisterComponent,
         FooterComponent,
-        RegisterComponent,
         NavigationComponent,
         LinksComponent,
         MainPageComponent,
@@ -67,10 +67,9 @@ export const httpInterceptorProviders = [
         ConfirmAccountComponent,
         ResetPasswordComponent,
         ChangeEmailFormComponent,
-        ConfirmEmailChangeComponent,
-        ForbiddenComponent,
         InternalServerErrorComponent,
         ConfirmResetComponent,
+        NewPasswordComponent,
         ConfirmEmailChangeComponent,
         ForbiddenComponent,
         NotFoundComponent
