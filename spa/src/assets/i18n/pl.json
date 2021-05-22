@@ -154,5 +154,11 @@
         "forbidden_code": "Kod błędu 403",
         "forbidden_text": "Nie masz dostępu do tej strony",
         "go_to_home_page": "Powrót do strony głównej"
+    },
+    "breadcrumb": {
+        "home": "Strona główna",
+        "account_list": "Lista kont",
+        "account": "Szczegóły konta",
+        "account_edit": "Edycja konta"
     }
 }

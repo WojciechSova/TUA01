@@ -1,3 +1,14 @@
+    <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.home </a>
+                <img src="assets/wind.png" alt="" class="bullet">
+            </li>
+            <li *ngIf="identityService.isAdmin()" class="breadcrumb-item">
+                <a href="" (click)="goToUserListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.account_list </a>
+                <img src="assets/wind.png" alt="" class="bullet">
+            </li>
+            <li class="breadcrumb-item active" translate> breadcrumb.account </li>
+    </ol>
 <div class="outer-div">
     <div *ngIf="(resetPasswordConnect.resetPasswordResponse) !== 'hide'" class="info-popup">
         <p class="password-reset-success" *ngIf="(resetPasswordConnect.resetPasswordResponse) === 'success'

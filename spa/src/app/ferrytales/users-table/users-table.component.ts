@@ -113,4 +113,7 @@ export class UsersTableComponent {
         });
     }
 
+    goToHomeBreadcrumb(): void {
+        this.router.navigate(['/']);
+    }
 }

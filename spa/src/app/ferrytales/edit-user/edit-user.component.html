@@ -1,3 +1,18 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li *ngIf="identityService.isAdmin()" class="breadcrumb-item">
+        <a href="" (click)="goToUserListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.account_list </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToAccountBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.account </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.account_edit </li>
+</ol>
 <div class="outer-div">
     <div *ngIf="isUpdating(); then updating else updateForm"></div>
     <ng-template #updateForm>
@@ -28,12 +43,12 @@
                            (ngModelChange)="existingPhoneNumber = false">
                 </div>
                 <div id="invalid-number-error"
-                    class="edit-validation-error"
+                     class="edit-validation-error"
                      *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
                      translate>form.invalid_format
                 </div>
                 <div id="existing-number-error"
-                    class="edit-validation-error" *ngIf="existingPhoneNumber" translate>ERROR.PHONE_NUMBER_UNIQUE
+                     class="edit-validation-error" *ngIf="existingPhoneNumber" translate>ERROR.PHONE_NUMBER_UNIQUE
                 </div>
 
                 <div class="row">
@@ -51,7 +66,8 @@
                     (click)="editUser(newFirstName.value, newLastName.value, newPhoneNumber.value, newTimeZone.value)"
                     [disabled]="form.invalid" translate>form.save
             </button>
-            <img class="return-arrow" (click)="showUser(accountDetailsService.account.login)" src="assets/back-arrow.png"
+            <img class="return-arrow" (click)="showUser(accountDetailsService.account.login)"
+                 src="assets/back-arrow.png"
                  alt=""/>
         </form>
 
