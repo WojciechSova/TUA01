@@ -34,6 +34,7 @@ import { ConfirmResetComponent } from './ferrytales/account-details/confirm-rese
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
 import { AuthInterceptor } from './services/interceptors/auth-interceptor';
+import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -67,6 +68,8 @@ export const httpInterceptorProviders = [
         ResetPasswordComponent,
         ChangeEmailFormComponent,
         ConfirmEmailChangeComponent,
+        ForbiddenComponent,
+        InternalServerErrorComponent,
         ConfirmResetComponent,
         ConfirmEmailChangeComponent,
         ForbiddenComponent,
