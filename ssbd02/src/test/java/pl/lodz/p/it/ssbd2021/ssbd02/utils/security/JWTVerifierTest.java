@@ -34,7 +34,7 @@ class JWTVerifierTest {
 
     @Test
     void validateJwt() {
-        String validJwt = JWTGenerator.generateJWT(credentialValidationResult);
+        String validJwt = JWTGenerator.generateJWT(credentialValidationResult, "+01:00");
         String invalidJwt = validJwt + "invalid";
 
         Assertions.assertTrue(JWTVerifier.validateJwt(validJwt));

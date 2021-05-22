@@ -82,7 +82,7 @@
                 </div>
                 <div class="row">
                     <label class="uppercase" translate>account-details.last_modification_date</label>
-                    <label>{{accountDetailsService.account.modificationDate}}</label>
+                    <label>{{accountDetailsService.account.modificationDate | date :'short':identityService.getTimezone()}}</label>
                 </div>
                 <div class="row">
                     <label class="uppercase" translate>account-details.modified_by</label>
@@ -90,11 +90,11 @@
                 </div>
                 <div class="row">
                     <label class="uppercase" translate>account-details.creation_date</label>
-                    <label>{{accountDetailsService.account.creationDate}}</label>
+                    <label>{{accountDetailsService.account.creationDate | date :'short':identityService.getTimezone()}}</label>
                 </div>
                 <div class="row">
                     <label class="uppercase" translate>account-details.last_known_good_login</label>
-                    <label>{{accountDetailsService.account.lastKnownGoodLogin}}</label>
+                    <label>{{accountDetailsService.account.lastKnownGoodLogin | date :'short':identityService.getTimezone()}}</label>
                 </div>
                 <div class="row">
                     <label class="uppercase" translate>account-details.last_known_good_login_ip</label>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="row">
                     <label class="uppercase" translate>account-details.last_known_bad_login</label>
-                    <label>{{accountDetailsService.account.lastKnownBadLogin}}</label>
+                    <label>{{accountDetailsService.account.lastKnownBadLogin | date :'short':identityService.getTimezone()}}</label>
                 </div>
                 <div class="row">
                     <label class="uppercase" translate>account-details.last_known_bad_login_ip</label>

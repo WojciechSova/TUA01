@@ -153,6 +153,11 @@
     "error-page": {
         "forbidden_code": "Error 403",
         "forbidden_text": "You don't have access to this page",
+        "internal_server_error_code": "Error 500",
+        "internal_server_error_message": "Oops, something went wrong :(",
+        "not_found_code": "Error 404",
+        "not_found_text": "Page not found",
+        "go_to_home_page": "Back to the home page"
         "go_to_home_page": "Back to home page"
     },
     "breadcrumb": {

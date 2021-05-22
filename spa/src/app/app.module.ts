@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './common/navigation/login/login.component';
 import { RegisterComponent } from './common/navigation/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NavigationComponent } from './common/navigation/navigation.component';
 import { LinksComponent } from './common/navigation/links/links.component';
 import { FooterComponent } from './common/footer/footer.component';
@@ -26,13 +26,23 @@ import { ResetPasswordComponent } from './common/navigation/reset-password/reset
 import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-email-form.component';
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LocaleService } from './services/utils/locale.service';
+import '@angular/common/locales/global/pl';
+import '@angular/common/locales/global/en';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ConfirmResetComponent } from './ferrytales/account-details/confirm-reset/confirm-reset.component';
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
+import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
+import { AuthInterceptor } from './services/interceptors/auth-interceptor';
+import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
 
-export function rootLoaderFactory(http: HttpClient) {
+export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
 }
+
+export const httpInterceptorProviders = [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+];
 
 @NgModule({
     declarations: [
@@ -58,9 +68,12 @@ export function rootLoaderFactory(http: HttpClient) {
         ResetPasswordComponent,
         ChangeEmailFormComponent,
         ConfirmEmailChangeComponent,
+        ForbiddenComponent,
+        InternalServerErrorComponent,
         ConfirmResetComponent,
         ConfirmEmailChangeComponent,
-        ForbiddenComponent
+        ForbiddenComponent,
+        NotFoundComponent
     ],
     imports: [
         BrowserModule,
@@ -76,7 +89,15 @@ export function rootLoaderFactory(http: HttpClient) {
             }
         }),
     ],
-    providers: [IdentityService, TranslateService],
+    providers: [
+        IdentityService,
+        TranslateService,
+        httpInterceptorProviders,
+        { provide: LOCALE_ID,
+          useFactory: (localeService: LocaleService) => localeService.getLocale(),
+          deps: [LocaleService]
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -28,7 +28,7 @@ public class CruiseEndpoint {
     }
 
     @GET
-    @Path("{code}")
+    @Path("route/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getCruisesForRoute(@PathParam("code") String code) {
         return null;
