@@ -105,9 +105,10 @@
     "access-level-table": {
         "level": "Access level",
         "active": "Active",
-        "last_modification_date": "Date of last modification:",
-        "modified_by": "Author of last modification:",
-        "creation_date": "Date of creation:"
+        "last_modification_date": "Date of last modification",
+        "modified_by": "Author of last modification",
+        "creation_date": "Date of creation",
+        "created_by": "Created by"
     },
     "main-page": {
         "advert": "Fairytale-like ferry crossings",
