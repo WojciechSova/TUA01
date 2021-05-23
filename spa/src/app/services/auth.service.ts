@@ -41,7 +41,7 @@ export class AuthService {
         localStorage.setItem('login', tokenInfo.sub);
         localStorage.setItem('accessLevel', tokenInfo.auth);
         localStorage.setItem('timezone', tokenInfo.zoneinfo);
-        localStorage.setItem('currentAccessLevel', tokenInfo.auth.split(',')[0]);
+        this.setCurrentAccessLevel(tokenInfo.auth);
         localStorage.setItem('expirationTime', tokenInfo.exp);
         this.sessionUtilsService.setSessionTimeout(tokenInfo.exp);
     }
@@ -57,5 +57,17 @@ export class AuthService {
         localStorage.removeItem('accessLevel');
         localStorage.removeItem('expirationTime');
         this.sessionUtilsService.clearSessionTimeout();
+    }
+
+    private setCurrentAccessLevel(groups: string): void {
+        const current = localStorage.getItem('currentAccessLevel');
+        const accessLvls = groups.split(',');
+
+        if (current && accessLvls.includes(current)) {
+            return;
+        }
+
+        localStorage.setItem('currentAccessLevel', accessLvls[0]);
+        return;
     }
 }
