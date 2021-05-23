@@ -100,7 +100,12 @@
         "last_known_bad_login": "The date of the last failed login attempt:",
         "last_known_bad_login_ip": "The ip address of the last failed login attempt:",
         "number_of_bad_logins": "Number of failed login attempts:",
-        "access_levels": "Access levels:"
+        "access_levels": "Access levels:",
+        "last_activity_modification_date":  "Date of last activity modification:",
+        "activity_modified_by":  "Author of last activity modification:",
+        "last_confirmed_modification_date":  "Account confirmation date:",
+        "last_password_modification_date":  "Date of last password modification:",
+        "last_email_modification_date":  "Date of last email modification:"
     },
     "access-level-table": {
         "level": "Access level",

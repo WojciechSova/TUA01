@@ -248,8 +248,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         }
 
         account.setPassword(DigestUtils.sha512Hex(newPassword));
-        account.setModifiedBy(null);
-        account.setModificationDate(Timestamp.from(Instant.now()));
+        account.setPasswordModificationDate(Timestamp.from(Instant.now()));
         accountFacadeLocal.edit(account);
     }
 
@@ -257,15 +256,17 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     public void changeActivity(String login, boolean newActivity, String modifiedBy) throws CommonExceptions {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         account.setActive(newActivity);
+        account.setActivityModificationDate(new Timestamp(new Date().getTime()));
         if (modifiedBy == null || login.equals(modifiedBy)) {
-            account.setModifiedBy(null);
+            account.setActivityModifiedBy(null);
         } else {
-            account.setModifiedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException));
+            account.setActivityModifiedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException));
         }
         if (newActivity) {
             account.setNumberOfBadLogins(0);
         }
-        account.setModificationDate(new Timestamp(new Date().getTime()));
+
+
         accountFacadeLocal.edit(account);
 
         emailSender.sendChangedActivityEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), account.getActive());
@@ -295,8 +296,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         if (url.equals(oneTimeUrl.getUrl())) {
             Account account = accountFacadeLocal.findByLogin(Optional.ofNullable(oneTimeUrl.getAccount().getLogin()).orElseThrow(CommonExceptions::createNoResultException));
             account.setConfirmed(true);
-            account.setModificationDate(Timestamp.from(Instant.now()));
-            account.setModifiedBy(null);
+            account.setConfirmedModificationDate(Timestamp.from(Instant.now()));
             accountFacadeLocal.edit(account);
             oneTimeUrlFacadeLocal.remove(oneTimeUrl);
             return;
@@ -322,8 +322,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         if (url.equals(oneTimeUrl.getUrl())) {
             Account account = accountFacadeLocal.findByLogin(Optional.ofNullable(oneTimeUrl.getAccount().getLogin()).orElseThrow(CommonExceptions::createNoResultException));
             account.setEmail(oneTimeUrl.getNewEmail());
-            account.setModifiedBy(null);
-            account.setModificationDate(new Timestamp(new Date().getTime()));
+            account.setEmailModificationDate(new Timestamp(new Date().getTime()));
             accountFacadeLocal.edit(account);
             oneTimeUrlFacadeLocal.remove(oneTimeUrl);
             return;
@@ -432,8 +431,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         }
 
         oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(newPassword));
-        oneTimeUrl.getAccount().setModifiedBy(null);
-        oneTimeUrl.getAccount().setModificationDate(Timestamp.from(Instant.now()));
+        oneTimeUrl.getAccount().setPasswordModificationDate(Timestamp.from(Instant.now()));
 
         oneTimeUrlFacadeLocal.remove(oneTimeUrl);
     }
