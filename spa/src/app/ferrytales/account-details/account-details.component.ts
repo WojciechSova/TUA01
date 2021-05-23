@@ -40,7 +40,8 @@ export class AccountDetailsComponent implements OnInit {
     }
 
     setLoginAccessLevels(login: string, accessLevels: AccessLevel[]): void {
-        const accessLevelsStringTab = accessLevels.map((accessLevel) => accessLevel.level);
+        const accessLevelsStringTab = accessLevels.filter(accessLevel => accessLevel.active)
+            .map((accessLevel) => accessLevel.level);
         this.loginToChangeAccessLevel = login;
         this.loginAccessLevels = accessLevelsStringTab;
     }

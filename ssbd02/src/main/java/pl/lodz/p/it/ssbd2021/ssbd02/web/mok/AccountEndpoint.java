@@ -283,11 +283,8 @@ public class AccountEndpoint {
     @PermitAll
     @Path("confirm/account/{url}")
     public Response confirmAccount(@PathParam("url") String url) {
-        if (accountManager.confirmAccount(url)) {
-            return Response.ok().build();
-        }
-
-        return Response.status(Response.Status.BAD_REQUEST).build();
+        accountManager.confirmAccount(url);
+        return Response.ok().build();
     }
 
     /**
@@ -347,10 +344,8 @@ public class AccountEndpoint {
     @PermitAll
     @Path("confirm/email/{url}")
     public Response changeEmailAddress(@PathParam("url") String url) {
-        if (accountManager.changeEmailAddress(url)) {
-            return Response.ok().build();
-        }
-        return Response.status(Response.Status.BAD_REQUEST).build();
+        accountManager.changeEmailAddress(url);
+        return Response.ok().build();
     }
 
     /**

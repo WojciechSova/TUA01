@@ -11,7 +11,7 @@
     <a *ngIf="identityService.isGuest()" (click)="changeLoginVisible(!isLoginVisible)" id="loginLink" class="login-a" translate>links.sing_in</a>
     <a *ngIf="identityService.isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" id="registerLink" class="login-a"
        translate>links.sing_up</a>
-    <a *ngIf="!identityService.isGuest()" id="logoutLink" routerLink="/" (click)="signOut()" class="login-a"
+    <a *ngIf="!identityService.isGuest()" id="logoutLink" (click)="signOut()" class="login-a"
        translate>links.sing_out</a>
     <div class="login-access-level" *ngIf="!identityService.isGuest()">
         <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''"
@@ -40,4 +40,5 @@
 <app-reset-password *ngIf="isResetPasswordVisible"
                     (isLoginVisibleChange)="changeLoginVisible($event)"
                     (isResetPasswordVisibleChange)="changeResetPasswordVisible($event)"></app-reset-password>
-<app-session-timeout></app-session-timeout>
+<app-session-timeout *ngIf="isSessionTimeoutVisible && stickyStyles"
+                     (isSessionTimeoutVisibleChange)="changeSessionTimeoutVisible($event)"></app-session-timeout>
