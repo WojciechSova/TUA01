@@ -66,16 +66,16 @@ public class ChangeEmailAddressTest {
         Assertions.assertFalse(driver.findElement(changeEmailPage.getConfirmButton()).isEnabled());
         Assertions.assertTrue(driver.findElement(changeEmailPage.getChangeEmailForm()).isDisplayed());
         Assertions.assertTrue(driver.findElement(changeEmailPage.getInvalidFormatError()).isDisplayed());
-        Assertions.assertTrue(driver.findElement(changeEmailPage.getDifferentPasswordsError()).isDisplayed());
+        Assertions.assertTrue(driver.findElement(changeEmailPage.getDifferentEmailsError()).isDisplayed());
     }
 
     @Test
-    public void differentPasswordsErrorTest() {
+    public void differentEmailsErrorTest() {
         adminMainPage = TestUtils.logInAsAdmin(driver);
         changeEmail(newEmail, newEmail.substring(3));
         Assertions.assertFalse(driver.findElement(changeEmailPage.getConfirmButton()).isEnabled());
         Assertions.assertTrue(driver.findElement(changeEmailPage.getChangeEmailForm()).isDisplayed());
-        Assertions.assertTrue(driver.findElement(changeEmailPage.getDifferentPasswordsError()).isDisplayed());
+        Assertions.assertTrue(driver.findElement(changeEmailPage.getDifferentEmailsError()).isDisplayed());
     }
 
     @Test
