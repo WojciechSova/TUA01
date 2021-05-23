@@ -140,25 +140,24 @@ public interface AccountManagerLocal {
      * Metoda aktywująca zarejestrowanego użytkownika.
      *
      * @param url Kod potwierdzający konto użytkownika
-     * @return Prawda, jeżeli uda się potwierdzić użytkownika, w przeciwnym wypadku fałsz
      */
-    boolean confirmAccount(String url);
+    void confirmAccount(String url);
 
     /**
      * Metoda zmieniająca adres email użytkownika.
      *
      * @param url Kod potwierdzający nowy adres email
-     * @return Prawda jeżeli uda się potwierdzić adres email, w przeciwnym wypadku fałsz
      */
-    boolean changeEmailAddress(String url);
+    void changeEmailAddress(String url);
 
     /**
      * Metoda wysyłająca wiadomość na nowy adres email z linkiem potwierdzającym jego zmianę.
      *
      * @param login           Login użytkownika, którego adres email ma ulec zmianie
      * @param newEmailAddress Nowy adres email
+     * @param requestedBy     Login użytkownika, który zlecił operację
      */
-    void sendChangeEmailAddressUrl(String login, String newEmailAddress);
+    void sendChangeEmailAddressUrl(String login, String newEmailAddress, String requestedBy);
 
     /**
      * Metoda wysyłająca wiadomość email z adresem służącym do resetowania hasła.
@@ -167,16 +166,24 @@ public interface AccountManagerLocal {
      * którego okres ważności jest resetowany.
      * Okres ważności pobierany jest z pliku system.properties a domyślna wartość to 20 minut.
      *
-     * @param email Adres email użytkownika, którego hasło ma zostać zresetowane
+     * @param email       Adres email użytkownika, którego hasło ma zostać zresetowane
+     * @param requestedBy Login użytkownika, który zlecił operację
      */
-    void sendPasswordResetAddressUrl(String email);
+    void sendPasswordResetAddressUrl(String email, String requestedBy);
 
     /**
      * Metoda resetująca hasło do konta.
      *
      * @param url         Jednorazowy url, który potwierdza możliwość resetowania hasła do konta
      * @param newPassword Nowe hasło użytkownika
-     * @return Status powodzenia operacji
      */
-    boolean resetPassword(String url, String newPassword);
+    void resetPassword(String url, String newPassword);
+
+    /**
+     * Metoda zwracająca strefę czasową dla użytkownika.
+     *
+     * @param login Login użytkownika, którego strefę czasową chcemy uzyskać
+     * @return Strefa czasowa w formacie +00:00
+     */
+    String getTimezone(String login);
 }

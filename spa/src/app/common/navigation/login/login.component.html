@@ -1,7 +1,7 @@
 <div class="overlay">
     <div class="form-container">
-        <img class="circle" src="assets/login-register-circle.png" alt=""/>
-        <img class="logo" (click)="closeComponent()" src="assets/logo_primary_color.png" alt=""/>
+        <img class="circle" src="assets/imgs/login-register-circle.png" alt=""/>
+        <img class="logo" (click)="closeComponent()" src="assets/imgs/logo_primary_color.png" alt=""/>
         <div class="validation-error login-error" *ngIf="error">
             <p id="invalidCredentialsLabel" translate>ERROR.INVALID_LOGIN_OR_PASSWORD</p>
         </div>
@@ -21,6 +21,6 @@
             <a (click)="openRegister()"
                translate>login.sign_up_if_no_account</a>
         </div>
-        <img class="return-arrow" (click)="closeComponent()" src="assets/back-arrow.png" alt=""/>
+        <img class="return-arrow" (click)="closeComponent()" src="assets/imgs/back-arrow.png" alt=""/>
     </div>
 </div>

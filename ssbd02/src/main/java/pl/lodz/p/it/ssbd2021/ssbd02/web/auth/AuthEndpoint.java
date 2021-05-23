@@ -73,9 +73,10 @@ public class AuthEndpoint {
 
         accountManagerLocal.registerGoodLogin(credentialsDTO.getLogin(), clientAddress);
         accountManagerLocal.updateLanguage(credentialsDTO.getLogin(), language);
+        String timezone = accountManagerLocal.getTimezone(result.getCallerPrincipal().getName());
         return Response.accepted()
                 .type("application/jwt")
-                .entity(JWTGenerator.generateJWT(result))
+                .entity(JWTGenerator.generateJWT(result, timezone))
                 .build();
     }
 
@@ -98,9 +99,10 @@ public class AuthEndpoint {
             Pair<Account, List<AccessLevel>> account = accountManagerLocal.getAccountWithActiveAccessLevels(login);
             String accessLevels = account.getValue().stream().map(AccessLevel::getLevel)
                     .collect(Collectors.joining(SecurityConstants.GROUP_SPLIT_CONSTANT));
+            String timezone = account.getKey().getTimeZone();
             if (account.getKey().getActive()) {
                 return Response.accepted()
-                        .entity(JWTGenerator.updateJWT(serializedJWT, accessLevels))
+                        .entity(JWTGenerator.updateJWT(serializedJWT, accessLevels, timezone))
                         .build();
             } else {
                 return Response.status(Response.Status.FORBIDDEN).build();

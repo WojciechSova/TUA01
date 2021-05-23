@@ -8,6 +8,7 @@
     },
     "form": {
         "invalid_format": "Invalid format",
+        "invalid_phone_number": "Phone number should have between 3 and 15 digits",
         "field_required": "Field required",
         "first_name": "First name",
         "last_name": "Last name",
@@ -20,10 +21,12 @@
         "required_repeat_email_address": "*Repeat e-mail address",
         "email_differ": "E-mail address are not the same",
         "passwords_differ": "Passwords are not the same",
-        "short_password": "Password too short",
+        "short_password": "Password should have at least 8 characters",
         "updating": "Updating...",
         "save": "Save",
-        "confirm": "Confirm"
+        "confirm": "Confirm",
+        "yes": "Yes",
+        "no": "No"
     },
     "links": {
         "about_us": "About us",
@@ -132,10 +135,45 @@
         "email_change_error": "An error occurred while changing your email address!",
         "go_to_main_page": "You will be taken to the home page in a moment"
     },
+    "password-reset": {
+        "confirm": {
+            "reset_pwd_question": "Do you want to reset password?"
+        },
+        "new": {
+            "enter_password": "Enter your new password",
+            "invalid_url": "Provided url is not valid",
+            "password_too_short": "Provided password was too short",
+            "password_change_success": "Password change was successful"
+        },
+        "reset": {
+            "successful": "Password reset successful",
+            "failed": "Password reset failed"
+        }
+    },
     "ERROR":{
         "PHONE_NUMBER_UNIQUE": "Provided phone number already exists",
         "SAME_PASSWORD_AS_PREVIOUS": "The password provided is the same as the previous one",
         "EMAIL_UNIQUE": "The e-mail address you entered already exists",
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect"
+    },
+    "error-page": {
+        "forbidden_code": "Error 403",
+        "forbidden_text": "You don't have access to this page",
+        "internal_server_error_code": "Error 500",
+        "internal_server_error_message": "Oops, something went wrong :(",
+        "not_found_code": "Error 404",
+        "not_found_text": "Page not found",
+        "go_to_home_page": "Back to the home page"
+    },
+    "breadcrumb": {
+        "home": "Home",
+        "account_list": "Account list",
+        "account": "Account details",
+        "account_edit": "Edit account"
+    },
+    "session-timeout": {
+        "info": "Your session has expired",
+        "login": "Login",
+        "ok": "Ok"
     }
 }

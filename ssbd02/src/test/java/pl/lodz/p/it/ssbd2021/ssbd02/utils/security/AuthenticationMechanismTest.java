@@ -69,7 +69,7 @@ class AuthenticationMechanismTest {
 
     @Test
     void validateRequestWithInvalidJwt() {
-        String invalidJwt = JWTGenerator.generateJWT(credentialValidationResult) + "invalid";
+        String invalidJwt = JWTGenerator.generateJWT(credentialValidationResult, "+01:00") + "invalid";
 
         Mockito.when(request.getHeader(SecurityConstants.AUTHORIZATION)).thenReturn(SecurityConstants.BEARER + invalidJwt);
 
@@ -80,7 +80,7 @@ class AuthenticationMechanismTest {
 
     @Test
     void validateRequest() {
-        String validJwt = JWTGenerator.generateJWT(credentialValidationResult);
+        String validJwt = JWTGenerator.generateJWT(credentialValidationResult, "+01:00");
 
         Mockito.when(request.getHeader(SecurityConstants.AUTHORIZATION)).thenReturn(SecurityConstants.BEARER + validJwt);
 

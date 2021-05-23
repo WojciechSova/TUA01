@@ -8,6 +8,7 @@
     },
     "form": {
         "invalid_format": "Niepoprawny format",
+        "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
         "field_required": "Pole wymagane",
         "first_name": "Imię",
         "last_name": "Nazwisko",
@@ -20,10 +21,12 @@
         "required_repeat_email_address": "*Powtórz adres e-mail",
         "email_differ": "Adresy e-mail nie są takie same",
         "passwords_differ": "Hasła nie są takie same",
-        "short_password": "Hasło za krótkie",
+        "short_password": "Hasło powinno zawierać przynajmniej 8 znaków",
         "updating": "Aktualizowanie...",
         "save": "Zapisz",
-        "confirm": "Potwierdź"
+        "confirm": "Potwierdź",
+        "yes": "Tak",
+        "no": "Nie"
     },
     "links": {
         "about_us": "O nas",
@@ -132,10 +135,45 @@
         "email_change_error": "Wystąpił błąd podczas zmiany adresu e-mail!",
         "go_to_main_page": "Za chwilę nastąpi przekierowanie na stronę główną"
     },
+    "password-reset": {
+        "confirm": {
+            "reset_pwd_question": "Czy chcesz zresetować hasło?"
+        },
+        "new": {
+            "enter_password": "Wprowadź nowe hasło",
+            "invalid_url": "Załączony url nie jest poprawny",
+            "password_too_short": "Podane hasło jest zbyt krótkie",
+            "password_change_success": "Pomyślnie zmieniono hasło"
+        },
+        "reset": {
+            "successful": "Pomyślnie zresetowano hasło",
+            "failed": "Zresetowanie hasła nie powiodło się"
+        }
+    },
     "ERROR":{
         "PHONE_NUMBER_UNIQUE": "Podany numer telefonu już istnieje",
         "SAME_PASSWORD_AS_PREVIOUS": "Podane hasło jest takie samo jak wcześniejsze",
         "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe"
+    },
+    "error-page": {
+        "forbidden_code": "Kod błędu 403",
+        "forbidden_text": "Nie masz dostępu do tej strony",
+        "internal_server_error_code": "Kod błędu 500",
+        "internal_server_error_message": "Ups, coś poszło nie tak :(",
+        "not_found_code": "Kod błędu 404",
+        "not_found_text": "Nie odnaleziono strony",
+        "go_to_home_page": "Powrót do strony głównej"
+    },
+    "breadcrumb": {
+        "home": "Strona główna",
+        "account_list": "Lista kont",
+        "account": "Szczegóły konta",
+        "account_edit": "Edycja konta"
+    },
+    "session-timeout": {
+        "info": "Twoja sesja wygasła",
+        "login": "Zaloguj się",
+        "ok": "Ok"
     }
 }

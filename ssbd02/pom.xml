@@ -6,7 +6,7 @@
 
     <groupId>pl.lodz.p.it.ssbd2021.ssbd02</groupId>
     <artifactId>ssbd02</artifactId>
-    <version>v0.7.5</version>
+    <version>v0.8.0</version>
     <packaging>war</packaging>
 
     <name>ssbd02</name>
@@ -254,6 +254,18 @@
                         <configuration>
                             <warSourceDirectory>../spa/dist/spa</warSourceDirectory>
                             <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                            <webResources>
+                                <resource>
+                                    <directory>../spa/src/error-pages</directory>
+                                    <includes>
+                                        <include>error403.html</include>
+                                        <include>error500.html</include>
+                                    </includes>
+                                    <includes>
+                                        <include>error404.html</include>
+                                    </includes>
+                                </resource>
+                            </webResources>
                         </configuration>
                         <version>3.3.0</version>
                     </plugin>

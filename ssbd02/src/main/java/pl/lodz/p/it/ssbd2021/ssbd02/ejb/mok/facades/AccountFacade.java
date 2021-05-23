@@ -3,10 +3,14 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mok.AccountInterceptor;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -21,6 +25,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
+@Interceptors({GeneralInterceptor.class, AccountInterceptor.class, PersistenceInterceptor.class})
 public class AccountFacade extends AbstractFacade<Account> implements AccountFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mokPU")
@@ -51,6 +56,13 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
     public List<Account> findByConfirmed(boolean confirmed) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByConfirmed", Account.class);
         typedQuery.setParameter("confirmed", confirmed);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    public List<Account> findByUnconfirmedAndExpired(int removalTime) {
+        TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByUnconfirmedAndExpired", Account.class);
+        typedQuery.setParameter("removalTime", removalTime);
         return typedQuery.getResultList();
     }
 }

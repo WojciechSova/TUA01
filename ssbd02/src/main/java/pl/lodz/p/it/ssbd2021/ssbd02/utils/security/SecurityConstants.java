@@ -17,9 +17,9 @@ public class SecurityConstants {
 
     public static final SecretKey SECRET = generateKey();
     public static final String AUTH = "auth";
+    public static final String ZONEINFO = "zoneinfo";
     public static final String ISSUER = "ssbd02";
     public static final String EXP = "exp";
-    public static final int EXPIRATION_TIME = 10 * 60 * 1000;
 
     public static final String GROUP_SPLIT_CONSTANT = ",";
 
