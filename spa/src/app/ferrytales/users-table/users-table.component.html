@@ -21,31 +21,28 @@
             <th>Login
                 <div *ngIf="byLogin; then notSortByLoginTemplate else sortByLoginTemplate"></div>
                 <ng-template #sortByLoginTemplate>
-                    <img (click)="byLogin = true; byFirstName = false; byLastName = false; listAccounts()"
-                         src="assets/sort_arrow_white.png" alt=""/>
+                    <img (click)="byLogin = true; byFirstName = false; byLastName = false; listAccounts()" src="assets/imgs/sort_arrow_white.png" alt=""/>
                 </ng-template>
                 <ng-template #notSortByLoginTemplate>
-                    <img src="assets/sort_arrow_purple.png" alt=""/>
+                    <img src="assets/imgs/sort_arrow_purple.png" alt=""/>
                 </ng-template>
             </th>
             <th translate>form.first_name
                 <div *ngIf="byFirstName; then notSortByFirstNameTemplate else sortByFirstNameTemplate"></div>
                 <ng-template #sortByFirstNameTemplate>
-                    <img (click)="byLogin = false; byFirstName = true; byLastName = false; listAccounts()"
-                         src="assets/sort_arrow_white.png" alt=""/>
+                    <img (click)="byLogin = false; byFirstName = true; byLastName = false; listAccounts()" src="assets/imgs/sort_arrow_white.png" alt=""/>
                 </ng-template>
                 <ng-template #notSortByFirstNameTemplate>
-                    <img src="assets/sort_arrow_purple.png" alt=""/>
+                    <img src="assets/imgs/sort_arrow_purple.png" alt=""/>
                 </ng-template>
             </th>
             <th translate>form.last_name
                 <div *ngIf="byLastName; then notSortByLastNameTemplate else sortByLastNameTemplate"></div>
                 <ng-template #sortByLastNameTemplate>
-                    <img (click)="byLogin = false; byFirstName = false; byLastName = true; listAccounts()"
-                         src="assets/sort_arrow_white.png" alt=""/>
+                    <img (click)="byLogin = false; byFirstName = false; byLastName = true; listAccounts()" src="assets/imgs/sort_arrow_white.png" alt=""/>
                 </ng-template>
                 <ng-template #notSortByLastNameTemplate>
-                    <img src="assets/sort_arrow_purple.png" alt=""/>
+                    <img src="assets/imgs/sort_arrow_purple.png" alt=""/>
                 </ng-template>
             </th>
             <th translate>users-table.access_levels</th>

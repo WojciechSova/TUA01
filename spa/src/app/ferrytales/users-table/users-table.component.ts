@@ -57,7 +57,7 @@ export class UsersTableComponent {
     }
 
     sortByLogin(): void {
-        this.accountGeneralService.accountGeneralList.sort((a, b) => {
+        this.accountGeneralService.accountGeneralList?.sort((a, b) => {
             if (a.login.toLowerCase() < b.login.toLowerCase()) {
                 return -1;
             }
@@ -69,7 +69,7 @@ export class UsersTableComponent {
     }
 
     sortByFirstName(): void {
-        this.accountGeneralService.accountGeneralList.sort((a, b) => {
+        this.accountGeneralService.accountGeneralList?.sort((a, b) => {
             if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
                 return -1;
             }
@@ -81,7 +81,7 @@ export class UsersTableComponent {
     }
 
     sortByLastName(): void {
-        this.accountGeneralService.accountGeneralList.sort((a, b) => {
+        this.accountGeneralService.accountGeneralList?.sort((a, b) => {
             if (a.lastName.toLowerCase() < b.lastName.toLowerCase()) {
                 return -1;
             }

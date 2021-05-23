@@ -18,6 +18,11 @@ export class ResetPasswordService {
         return this.http.post(this.url, email);
     }
 
+    setNewPassword(oneTimeUrl: string, newPassword: string): Observable<HttpResponse<any>> {
+        const completeUrl = this.url + '/' + oneTimeUrl;
+        return this.http.put<any>(completeUrl, newPassword);
+    }
+
     resetPasswordResponse(email: string): Observable<HttpResponse<any>> {
         return this.http.post<any>(this.url, email,
             {

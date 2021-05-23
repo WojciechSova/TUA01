@@ -25,6 +25,7 @@ import { ConfirmAccountComponent } from './other-views/confirm-account/confirm-a
 import { ResetPasswordComponent } from './common/navigation/reset-password/reset-password.component';
 import { ChangeEmailFormComponent } from './ferrytales/change-email-form/change-email-form.component';
 import { ConfirmEmailChangeComponent } from './other-views/confirm-email-change/confirm-email-change.component';
+import { NewPasswordComponent } from './other-views/new-password/new-password.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LocaleService } from './services/utils/locale.service';
 import '@angular/common/locales/global/pl';
@@ -35,6 +36,7 @@ import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidde
 import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
 import { AuthInterceptor } from './services/interceptors/auth-interceptor';
 import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
+import { SessionTimeoutComponent } from './common/navigation/session-timeout/session-timeout.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -50,7 +52,6 @@ export const httpInterceptorProviders = [
         LoginComponent,
         RegisterComponent,
         FooterComponent,
-        RegisterComponent,
         NavigationComponent,
         LinksComponent,
         MainPageComponent,
@@ -67,13 +68,13 @@ export const httpInterceptorProviders = [
         ConfirmAccountComponent,
         ResetPasswordComponent,
         ChangeEmailFormComponent,
-        ConfirmEmailChangeComponent,
-        ForbiddenComponent,
         InternalServerErrorComponent,
         ConfirmResetComponent,
+        NewPasswordComponent,
         ConfirmEmailChangeComponent,
         ForbiddenComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        SessionTimeoutComponent
     ],
     imports: [
         BrowserModule,

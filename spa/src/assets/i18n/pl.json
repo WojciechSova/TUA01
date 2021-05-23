@@ -139,6 +139,12 @@
         "confirm": {
             "reset_pwd_question": "Czy chcesz zresetować hasło?"
         },
+        "new": {
+            "enter_password": "Wprowadź nowe hasło",
+            "invalid_url": "Załączony url nie jest poprawny",
+            "password_too_short": "Podane hasło jest zbyt krótkie",
+            "password_change_success": "Pomyślnie zmieniono hasło"
+        },
         "reset": {
             "successful": "Pomyślnie zresetowano hasło",
             "failed": "Zresetowanie hasła nie powiodło się"
@@ -164,5 +170,10 @@
         "account_list": "Lista kont",
         "account": "Szczegóły konta",
         "account_edit": "Edycja konta"
+    },
+    "session-timeout": {
+        "info": "Twoja sesja wygasła",
+        "login": "Zaloguj się",
+        "ok": "Ok"
     }
 }

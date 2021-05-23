@@ -139,6 +139,12 @@
         "confirm": {
             "reset_pwd_question": "Do you want to reset password?"
         },
+        "new": {
+            "enter_password": "Enter your new password",
+            "invalid_url": "Provided url is not valid",
+            "password_too_short": "Provided password was too short",
+            "password_change_success": "Password change was successful"
+        },
         "reset": {
             "successful": "Password reset successful",
             "failed": "Password reset failed"
@@ -164,5 +170,10 @@
         "account_list": "Account list",
         "account": "Account details",
         "account_edit": "Edit account"
+    },
+    "session-timeout": {
+        "info": "Your session has expired",
+        "login": "Login",
+        "ok": "Ok"
     }
 }
