@@ -32,7 +32,7 @@ export class AuthService {
         localStorage.setItem('login', tokenInfo.sub);
         localStorage.setItem('accessLevel', tokenInfo.auth);
         localStorage.setItem('timezone', tokenInfo.zoneinfo);
-        localStorage.setItem('currentAccessLevel', tokenInfo.auth.split(',')[0]);
+        this.setCurrentAccessLevel(tokenInfo.auth);
     }
 
     signOut(): void {
@@ -40,5 +40,19 @@ export class AuthService {
         localStorage.removeItem('login');
         localStorage.removeItem('currentAccessLevel');
         localStorage.removeItem('accessLevel');
+    }
+
+    private setCurrentAccessLevel(groups: string): void {
+        const current = localStorage.getItem('currentAccessLevel');
+        console.log(current);
+        const accessLvls = groups.split(',');
+        console.log(accessLvls);
+
+        if (current && accessLvls.includes(current)) {
+            return;
+        }
+
+        localStorage.setItem('currentAccessLevel', accessLvls[0]);
+        return;
     }
 }
