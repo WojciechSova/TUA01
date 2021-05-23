@@ -144,7 +144,8 @@
             "enter_password": "Enter your new password",
             "invalid_url": "Provided url is not valid",
             "password_too_short": "Provided password was too short",
-            "password_change_success": "Password change was successful"
+            "password_change_success": "Password change was successful",
+            "redirect_to_main_page": "You will soon be redirected to home page"
         },
         "reset": {
             "successful": "Password reset successful",
