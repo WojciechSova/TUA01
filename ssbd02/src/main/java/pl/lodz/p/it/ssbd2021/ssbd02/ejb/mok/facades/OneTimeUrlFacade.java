@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mok.OneTimeUrlInterceptor;
 
 import javax.ejb.Stateless;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
-@Interceptors({GeneralInterceptor.class, OneTimeUrlInterceptor.class, PersistenceInterceptor.class})
+@Interceptors({GeneralInterceptor.class, OneTimeUrlInterceptor.class, PersistenceInterceptor.class, TrackerInterceptor.class})
 public class OneTimeUrlFacade extends AbstractFacade<OneTimeUrl> implements OneTimeUrlFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mokPU")
