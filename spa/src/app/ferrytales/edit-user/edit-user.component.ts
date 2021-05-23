@@ -19,7 +19,7 @@ export class EditUserComponent implements OnInit {
                 private route: ActivatedRoute,
                 private updateAccountService: UpdateAccountService,
                 private router: Router,
-                private identityService: IdentityService) {
+                public identityService: IdentityService) {
     }
 
     public existingPhoneNumber = false;
@@ -67,6 +67,18 @@ export class EditUserComponent implements OnInit {
 
     isUpdating(): boolean {
         return this.updating;
+    }
+
+    goToHomeBreadcrumb(): void {
+        this.router.navigate(['/']);
+    }
+
+    goToUserListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/accounts']);
+    }
+
+    goToAccountBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/accounts/' + this.accountDetailsService.account.login]);
     }
 
     getAccount(): void {

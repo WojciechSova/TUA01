@@ -36,6 +36,7 @@ import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidde
 import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
 import { AuthInterceptor } from './services/interceptors/auth-interceptor';
 import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
+import { SessionTimeoutComponent } from './common/navigation/session-timeout/session-timeout.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -72,7 +73,8 @@ export const httpInterceptorProviders = [
         NewPasswordComponent,
         ConfirmEmailChangeComponent,
         ForbiddenComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        SessionTimeoutComponent
     ],
     imports: [
         BrowserModule,
@@ -86,7 +88,7 @@ export const httpInterceptorProviders = [
                 useFactory: rootLoaderFactory,
                 deps: [HttpClient]
             }
-        })
+        }),
     ],
     providers: [
         IdentityService,

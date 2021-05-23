@@ -165,5 +165,16 @@
         "not_found_code": "Error 404",
         "not_found_text": "Page not found",
         "go_to_home_page": "Back to the home page"
+    },
+    "breadcrumb": {
+        "home": "Home",
+        "account_list": "Account list",
+        "account": "Account details",
+        "account_edit": "Edit account"
+    },
+    "session-timeout": {
+        "info": "Your session has expired",
+        "login": "Login",
+        "ok": "Ok"
     }
 }
