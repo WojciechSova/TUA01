@@ -107,7 +107,8 @@
         "active": "Aktywne",
         "last_modification_date": "Data ostatniej modyfikacji",
         "modified_by": "Autor ostatniej modyfikacji",
-        "creation_date": "Data utworzenia"
+        "creation_date": "Data utworzenia",
+        "created_by": "Utworzony przez"
     },
     "main-page": {
         "advert": "Przeprawy promowe jak z bajki",
