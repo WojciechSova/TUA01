@@ -37,7 +37,7 @@ public class JWTGenerator {
         try {
             JWSSigner jwsSigner = new MACSigner(SecurityConstants.SECRET);
 
-            JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
+            JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
             try (InputStream input = JWTGenerator.class.getClassLoader().getResourceAsStream("security.properties")) {
                 prop.load(input);
@@ -79,7 +79,7 @@ public class JWTGenerator {
     public static String updateJWT(String serializedJWT, String accessLevels, String timezone) {
         try {
             JWSSigner jwsSigner = new MACSigner(SecurityConstants.SECRET);
-            JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
+            JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
             SignedJWT previousSignedJWT = SignedJWT.parse(serializedJWT);
             JWTClaimsSet previousJWTClaimsSet = previousSignedJWT.getJWTClaimsSet();
