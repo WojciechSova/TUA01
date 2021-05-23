@@ -9,7 +9,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pl.lodz.p.it.ssbd2021.ssbd02.TestDatabaseConnection;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountDetailsPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
@@ -21,9 +20,9 @@ public class ChangeEmailAddressTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private WebDriver driver;
     private final String currentEmail = "nieistnieje@aaa.pl";
     private final String newEmail = "newEmail@newEmail.pl";
+    private WebDriver driver;
     private String userLogin;
     private AdminMainPage adminMainPage;
     private AccountDetailsPage accountDetailsPage;
@@ -48,20 +47,33 @@ public class ChangeEmailAddressTest {
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
-    public void changeEmailAddressTest(boolean ownProfile) {
+    public void changeEmailAddressTest(boolean ownProfile) throws InterruptedException {
         String oneTimeUrl;
         String url;
+        String currentLogin;
 
         if (ownProfile) {
             logInAndOpenAccountDetails();
+            currentLogin = TestUtils.adminLogin;
         } else {
             logInAndOpenAnotherUserAccountDetails();
+            currentLogin = userLogin;
         }
 
         changeEmail(newEmail, newEmail);
         driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
         driver.findElement(changeEmailPage.getConfirmButton()).click();
-        oneTimeUrl = TestDatabaseConnection.getOneTimeUrl(newEmail);
+        oneTimeUrl = TestUtils.getOneTimeUrl(newEmail);
+        url = TestUtils.url.concat("/confirm/email/").concat(oneTimeUrl);
+        driver.get(url);
+
+        driver.get(TestUtils.url.concat("ferrytales/accounts/").concat(currentLogin));
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts")));
+
+        changeEmail(currentEmail, currentEmail);
+        driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
+        driver.findElement(changeEmailPage.getConfirmButton()).click();
+        oneTimeUrl = TestUtils.getOneTimeUrl(currentEmail);
         url = TestUtils.url.concat("/confirm/email/" + oneTimeUrl);
         driver.get(url);
     }
@@ -106,7 +118,7 @@ public class ChangeEmailAddressTest {
     private void logInAndOpenAccountDetails() {
         adminMainPage = TestUtils.logInAsAdmin(driver);
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
-        accountDetailsPage = adminMainPage.openAccountDetails();
+        accountDetailsPage = adminMainPage.openOwnAccountDetails();
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts/").concat(TestUtils.adminLogin)));
     }
 

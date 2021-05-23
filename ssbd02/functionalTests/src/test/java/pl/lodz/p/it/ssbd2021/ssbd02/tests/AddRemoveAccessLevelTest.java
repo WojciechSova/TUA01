@@ -14,9 +14,9 @@ public class AddRemoveAccessLevelTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private WebDriver driver;
     private final String login = "admin";
-
+    private WebDriver driver;
+    
     @BeforeAll
     static void initAll() {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");

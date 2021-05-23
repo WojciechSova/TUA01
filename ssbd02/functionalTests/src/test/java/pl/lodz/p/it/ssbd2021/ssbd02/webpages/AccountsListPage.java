@@ -38,15 +38,10 @@ public class AccountsListPage {
                 .collect(Collectors.toList());
     }
 
-    public ProfileDetailsPage openAnotherUserProfileDetails() {
+    public AccountDetailsPage openAnotherUserAccountDetails() {
         driver.switchTo().defaultContent();
         driver.findElement(detailsButton).click();
-        return new ProfileDetailsPage(driver);
-    }
-
-    public ProfileDetailsPage openAnotherUserProfileDetails(WebElement element) {
-        element.click();
-        return new ProfileDetailsPage(driver);
+        return new AccountDetailsPage(driver);
     }
 
     public AccountDetailsPage openAnotherUserAccountDetails(WebElement element) {

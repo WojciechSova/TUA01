@@ -9,9 +9,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountDetailsPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.ProfileDetailsPage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,11 +23,11 @@ public class ShowProfileTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private static WebDriver driver;
     private final String adminLogin = "admin";
     private final String adminFirstName = "Kazimierz";
     private final String adminLastName = "Andrzejewski";
     private final String adminEmail = "nieistnieje@aaa.pl";
+    private WebDriver driver;
 
     @BeforeAll
     static void initAll() {
@@ -54,10 +54,10 @@ public class ShowProfileTest {
         assertEquals("ADMIN", adminMainPage.getLoggedInUserLogin());
         assertEquals("ADMINISTRATOR", adminMainPage.getLoggedInUserAccessLevel());
 
-        ProfileDetailsPage profileDetailsPage = adminMainPage.openOwnProfileDetails();
+        AccountDetailsPage accountDetailsPage = adminMainPage.openOwnAccountDetails();
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/account")));
-        assertTrue(profileDetailsPage.areProperFieldsDisplayed("ADMIN"));
-        List<String> adminData = profileDetailsPage.getData();
+        assertTrue(accountDetailsPage.areProperFieldsDisplayed("ADMIN"));
+        List<String> adminData = accountDetailsPage.getData();
         assertAll(
                 () -> assertEquals(adminData.get(0), adminLogin),
                 () -> assertEquals(adminData.get(1), adminFirstName),
@@ -66,7 +66,7 @@ public class ShowProfileTest {
                 () -> assertEquals(adminData.get(7), Boolean.TRUE.toString().toLowerCase(Locale.ROOT)),
                 () -> assertEquals(adminData.get(8), Boolean.TRUE.toString().toLowerCase(Locale.ROOT))
         );
-        assertDoesNotThrow(() -> profileDetailsPage.areProperFieldsDisplayed("ADMIN"));
+        assertDoesNotThrow(() -> accountDetailsPage.areProperFieldsDisplayed("ADMIN"));
     }
 
     @Test
@@ -85,10 +85,10 @@ public class ShowProfileTest {
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts")));
         driverWait.until(ExpectedConditions.presenceOfElementLocated(accountsListPage.getUsersTable()));
 
-        ProfileDetailsPage profileDetailsPage = accountsListPage.openAnotherUserProfileDetails();
+        AccountDetailsPage accountDetailsPage = accountsListPage.openAnotherUserAccountDetails();
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts/").concat(tableData.get(0))));
 
-        assertTrue(profileDetailsPage.areProperFieldsDisplayed(Arrays.stream(tableData.get(3).split("\n")).findFirst().get()));
+        assertTrue(accountDetailsPage.areProperFieldsDisplayed(Arrays.stream(tableData.get(3).split("\n")).findFirst().get()));
     }
 
     @AfterEach

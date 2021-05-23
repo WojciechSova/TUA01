@@ -34,11 +34,11 @@ public class AdminMainPage {
         return new AccountsListPage(driver);
     }
 
-    public ProfileDetailsPage openOwnProfileDetails() {
-        driver.switchTo().defaultContent();
-        driver.findElement(currentUser).click();
-        return new ProfileDetailsPage(driver);
-    }
+//    public ProfileDetailsPage openOwnProfileDetails() {
+//        driver.switchTo().defaultContent();
+//        driver.findElement(currentUser).click();
+//        return new ProfileDetailsPage(driver);
+//    }
 
     public boolean isLoginErrorMessageDisplayed() {
         driver.switchTo().defaultContent();
@@ -49,7 +49,7 @@ public class AdminMainPage {
         return errorMessageId;
     }
 
-    public AccountDetailsPage openAccountDetails() {
+    public AccountDetailsPage openOwnAccountDetails() {
         driver.switchTo().defaultContent();
         driver.findElement(currentUser).click();
         return new AccountDetailsPage(driver);
