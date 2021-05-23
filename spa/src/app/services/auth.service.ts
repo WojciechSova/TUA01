@@ -44,9 +44,7 @@ export class AuthService {
 
     private setCurrentAccessLevel(groups: string): void {
         const current = localStorage.getItem('currentAccessLevel');
-        console.log(current);
         const accessLvls = groups.split(',');
-        console.log(accessLvls);
 
         if (current && accessLvls.includes(current)) {
             return;
