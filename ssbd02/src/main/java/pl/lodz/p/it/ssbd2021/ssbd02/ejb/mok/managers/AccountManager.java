@@ -55,7 +55,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     private long expirationTime;
 
     @Override
-    public List<Pair<Account, List<AccessLevel>>> getAllAccountsWithActiveAccessLevels() throws CommonExceptions {
+    public List<Pair<Account, List<AccessLevel>>> getAllAccountsWithActiveAccessLevels() {
         return Optional.of(accountFacadeLocal.findAll().stream()
                 .map(account -> Pair.of(account, accessLevelFacadeLocal.findAllActiveByAccount(account)))
                 .collect(Collectors.toList()))
@@ -63,14 +63,14 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public Pair<Account, List<AccessLevel>> getAccountWithLogin(String login) throws CommonExceptions {
+    public Pair<Account, List<AccessLevel>> getAccountWithLogin(String login) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         List<AccessLevel> accessLevels = Optional.ofNullable(accessLevelFacadeLocal.findAllByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
         return Pair.of(account, accessLevels);
     }
 
     @Override
-    public Pair<Account, List<AccessLevel>> getAccountWithActiveAccessLevels(String login) throws CommonExceptions {
+    public Pair<Account, List<AccessLevel>> getAccountWithActiveAccessLevels(String login) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         List<AccessLevel> accessLevels = Optional.ofNullable(accessLevelFacadeLocal.findAllActiveByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
         return Pair.of(account, accessLevels);
@@ -108,7 +108,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public void registerBadLogin(String login, String clientAddress) throws CommonExceptions {
+    public void registerBadLogin(String login, String clientAddress) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
 
         account.setLastKnownBadLogin(Timestamp.from(Instant.now()));
@@ -132,7 +132,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public void registerGoodLogin(String login, String clientAddress) throws CommonExceptions {
+    public void registerGoodLogin(String login, String clientAddress) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         account.setLastKnownGoodLogin(Timestamp.from(Instant.now()));
         account.setLastKnownGoodLoginIp(clientAddress);
@@ -140,13 +140,13 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public void updateLanguage(String login, String language) throws CommonExceptions {
+    public void updateLanguage(String login, String language) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         account.setLanguage(language);
     }
 
     @Override
-    public void updateAccount(Account account, String modifiedBy) throws CommonExceptions {
+    public void updateAccount(Account account, String modifiedBy) {
         if (account.getPhoneNumber().isEmpty()) {
             account.setPhoneNumber(null);
         }
@@ -183,7 +183,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public void addAccessLevel(String login, String targetLogin, String accessLevel) throws CommonExceptions, AccessLevelExceptions {
+    public void addAccessLevel(String login, String targetLogin, String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
             throw AccessLevelExceptions.createNotAcceptableException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
         }
@@ -237,7 +237,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         });
     }
 
-    public void changePassword(String login, String oldPassword, String newPassword) throws CommonExceptions, AccountExceptions {
+    public void changePassword(String login, String oldPassword, String newPassword) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         String hashedOldPassword = DigestUtils.sha512Hex(oldPassword);
         if (!hashedOldPassword.equals(account.getPassword())) {
@@ -252,7 +252,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public void changeActivity(String login, boolean newActivity, String modifiedBy) throws CommonExceptions {
+    public void changeActivity(String login, boolean newActivity, String modifiedBy) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
 
         account.setActive(newActivity);
@@ -272,14 +272,14 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public void notifyAdminAboutLogin(String login, String clientAddress) throws CommonExceptions {
+    public void notifyAdminAboutLogin(String login, String clientAddress) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
 
         emailSender.sendAdminAuthenticationEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), clientAddress);
     }
 
     @Override
-    public void confirmAccount(String url) throws CommonExceptions, AccountExceptions {
+    public void confirmAccount(String url) {
         if (url == null) {
             throw AccountExceptions.createNotFoundException(AccountExceptions.ERROR_URL_NOT_FOUND);
         }
@@ -305,7 +305,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public void changeEmailAddress(String url) throws CommonExceptions, AccountExceptions {
+    public void changeEmailAddress(String url) {
         if (url == null) {
             throw AccountExceptions.createNotFoundException(AccountExceptions.ERROR_URL_NOT_FOUND);
         }

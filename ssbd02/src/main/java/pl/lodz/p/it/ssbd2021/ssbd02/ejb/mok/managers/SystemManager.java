@@ -50,7 +50,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
 
     @Override
     @Schedule(hour = "*", persistent = false)
-    public void removeUnconfirmedAccounts() throws CommonExceptions{
+    public void removeUnconfirmedAccounts() {
         int removalTime = 86400;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
 
