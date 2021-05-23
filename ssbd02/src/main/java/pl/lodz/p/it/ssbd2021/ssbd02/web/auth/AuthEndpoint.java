@@ -87,7 +87,11 @@ public class AuthEndpoint {
                     .entity(JWTGenerator.generateJWT(result, timezone))
                     .build();
         } catch (GeneralException generalException) {
-            throw generalException;
+            if (generalException.getResponse().getStatus() == 410) {
+                throw CommonExceptions.createUnauthorizedException();
+            } else {
+                throw generalException;
+            }
         } catch (EJBAccessException | AccessLocalException accessExcept) {
             throw CommonExceptions.createForbiddenException();
         } catch (Exception e) {
