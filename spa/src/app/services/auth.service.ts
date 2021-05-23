@@ -44,6 +44,7 @@ export class AuthService {
         this.setCurrentAccessLevel(tokenInfo.auth);
         localStorage.setItem('expirationTime', tokenInfo.exp);
         this.sessionUtilsService.setSessionTimeout(tokenInfo.exp);
+        this.sessionUtilsService.setSessionNearlyTimeout(tokenInfo.exp);
     }
 
     signOut(): void {
@@ -57,6 +58,7 @@ export class AuthService {
         localStorage.removeItem('accessLevel');
         localStorage.removeItem('expirationTime');
         this.sessionUtilsService.clearSessionTimeout();
+        this.sessionUtilsService.clearSessionNearlyTimeout();
     }
 
     private setCurrentAccessLevel(groups: string): void {
@@ -69,5 +71,18 @@ export class AuthService {
 
         localStorage.setItem('currentAccessLevel', accessLvls[0]);
         return;
+    }
+
+    public refreshToken(): void {
+        this.http.get(environment.appUrl + '/auth', {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }, observe: 'body', responseType: 'text'
+        }).subscribe(
+            (response: string) => {
+                this.setSession(response);
+            }
+        );
+        this.sessionUtilsService.clearSessionNearlyTimeout();
     }
 }

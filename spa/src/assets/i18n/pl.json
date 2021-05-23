@@ -166,8 +166,13 @@
         "go_to_home_page": "Powrót do strony głównej"
     },
     "session-timeout": {
-        "info": "Twoja sesja wygasła",
+        "info": {
+            "timeout": "Twoja sesja wygasła",
+            "nearly": "Twoja sesja zaraz wygaśnie"
+        },
         "login": "Zaloguj się",
-        "ok": "Ok"
+        "ok": "Ok",
+        "renew": "Odśwież",
+        "signOut": "Wyloguj się"
     }
 }
