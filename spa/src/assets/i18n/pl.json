@@ -165,6 +165,12 @@
         "not_found_text": "Nie odnaleziono strony",
         "go_to_home_page": "Powrót do strony głównej"
     },
+    "breadcrumb": {
+        "home": "Strona główna",
+        "account_list": "Lista kont",
+        "account": "Szczegóły konta",
+        "account_edit": "Edycja konta"
+    },
     "session-timeout": {
         "info": "Twoja sesja wygasła",
         "login": "Zaloguj się",

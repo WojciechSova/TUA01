@@ -88,7 +88,7 @@ export const httpInterceptorProviders = [
                 useFactory: rootLoaderFactory,
                 deps: [HttpClient]
             }
-        })
+        }),
     ],
     providers: [
         IdentityService,

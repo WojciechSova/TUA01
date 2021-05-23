@@ -98,4 +98,12 @@ export class AccountDetailsComponent implements OnInit {
     isOnOwnProfile(): boolean {
         return this.identityService.getLogin() === this.accountDetailsService.account.login;
     }
+
+    goToHomeBreadcrumb(): void {
+        this.router.navigate(['/']);
+    }
+
+    goToUserListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/accounts']);
+    }
 }

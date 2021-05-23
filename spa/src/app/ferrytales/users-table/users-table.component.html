@@ -1,7 +1,17 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.account_list</li>
+</ol>
+
 <div class="button-container">
     <button class="button-user-table" (click)="getAccounts()" translate>general.refresh</button>
     <form class="filter">
-        <input [(ngModel)]="searchedValue" placeholder="{{'users-table.enter_your_search' | translate}}" id="search" name="search"/>
+        <input [(ngModel)]="searchedValue" placeholder="{{'users-table.enter_your_search' | translate}}" id="search"
+               name="search"/>
     </form>
 </div>
 
@@ -53,10 +63,14 @@
             <td>
                 <div *ngIf="user.active; then block else unblock">{{user['active']}}</div>
                 <ng-template #unblock>
-                    <button class="button-user-table button-unblock" id="unblockButton" (click)="unblockAccount(user.login)" translate>users-table.unblock</button>
+                    <button class="button-user-table button-unblock" id="unblockButton"
+                            (click)="unblockAccount(user.login)" translate>users-table.unblock
+                    </button>
                 </ng-template>
                 <ng-template #block>
-                    <button class="button-user-table button-block" id="blockButton" (click)="blockAccount(user.login)" translate>users-table.block</button>
+                    <button class="button-user-table button-block" id="blockButton" (click)="blockAccount(user.login)"
+                            translate>users-table.block
+                    </button>
                 </ng-template>
             </td>
             <td>
@@ -66,7 +80,9 @@
                 </button>
             </td>
             <td>
-                <button id="details" class="button-user-table" (click)="showUserDetails(user.login)" translate>general.details</button>
+                <button id="details" class="button-user-table" (click)="showUserDetails(user.login)" translate>
+                    general.details
+                </button>
             </td>
         </tr>
     </table>
