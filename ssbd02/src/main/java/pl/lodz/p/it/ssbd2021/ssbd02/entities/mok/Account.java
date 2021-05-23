@@ -97,7 +97,7 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "activity_modification_date", nullable = true, updatable = true, table = "Personal_data")
     private Timestamp activityModificationDate;
 
-    @ManyToOne(optional = true, cascade = {CascadeType.REFRESH})
+    @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "activity_modified_by", nullable = true, updatable = true, referencedColumnName = "id", table = "Personal_data")
     private Account activityModifiedBy;
 

@@ -154,6 +154,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         }
         Account accountFromDB = Optional.ofNullable(accountFacadeLocal.findByLogin(account.getLogin())).orElseThrow(CommonExceptions::createNoResultException);
         Account acc = SerializationUtils.clone(accountFromDB);
+        acc.setActivityModifiedBy(accountFromDB.getActivityModifiedBy());
 
         acc.setVersion(account.getVersion());
 
@@ -255,6 +256,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     @Override
     public void changeActivity(String login, boolean newActivity, String modifiedBy) throws CommonExceptions {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+
         account.setActive(newActivity);
         account.setActivityModificationDate(new Timestamp(new Date().getTime()));
         if (modifiedBy == null || login.equals(modifiedBy)) {
@@ -265,7 +267,6 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         if (newActivity) {
             account.setNumberOfBadLogins(0);
         }
-
 
         accountFacadeLocal.edit(account);
 
