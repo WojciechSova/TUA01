@@ -143,8 +143,6 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     public void updateLanguage(String login, String language) throws CommonExceptions {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         account.setLanguage(language);
-        account.setModificationDate(Timestamp.from(Instant.now()));
-        account.setModifiedBy(null);
     }
 
     @Override
@@ -258,7 +256,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
 
         account.setActive(newActivity);
-        account.setActivityModificationDate(new Timestamp(new Date().getTime()));
+        account.setActivityModificationDate(Timestamp.from(Instant.now()));
         if (modifiedBy == null || login.equals(modifiedBy)) {
             account.setActivityModifiedBy(null);
         } else {
@@ -323,7 +321,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         if (url.equals(oneTimeUrl.getUrl())) {
             Account account = accountFacadeLocal.findByLogin(Optional.ofNullable(oneTimeUrl.getAccount().getLogin()).orElseThrow(CommonExceptions::createNoResultException));
             account.setEmail(oneTimeUrl.getNewEmail());
-            account.setEmailModificationDate(new Timestamp(new Date().getTime()));
+            account.setEmailModificationDate(Timestamp.from(Instant.now()));
             accountFacadeLocal.edit(account);
             oneTimeUrlFacadeLocal.remove(oneTimeUrl);
             return;
