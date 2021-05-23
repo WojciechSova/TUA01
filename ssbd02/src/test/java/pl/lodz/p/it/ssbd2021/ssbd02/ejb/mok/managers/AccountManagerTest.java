@@ -422,7 +422,7 @@ public class AccountManagerTest {
         a1.setEmail(email1);
         a2.setLogin(login2);
         a2.setEmail(email3);
-        a2.setModifiedBy(a1);
+        a2.setActivityModifiedBy(a1);
         a3.setLogin(login4);
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
         when(accountFacadeLocal.findByLogin(login2)).thenReturn(a2);
@@ -431,20 +431,20 @@ public class AccountManagerTest {
         accountManager.changeActivity(login1, false, login2);
         verify(accountFacadeLocal).edit(a1);
         assertFalse(a1.getActive());
-        assertEquals(a2, a1.getModifiedBy());
+        assertEquals(a2, a1.getActivityModifiedBy());
         assertFalse(accounts.get(0).getActive());
 
         accountManager.changeActivity(login1, true, login4);
         verify(accountFacadeLocal, times(2)).edit(a1);
         assertTrue(a1.getActive());
-        assertEquals(a3, a1.getModifiedBy());
+        assertEquals(a3, a1.getActivityModifiedBy());
         assertTrue(accounts.get(0).getActive());
 
 
         a2.setNumberOfBadLogins(2);
         accountManager.changeActivity(login2, true, null);
         assertEquals(0, a2.getNumberOfBadLogins());
-        assertNull(a2.getModifiedBy());
+        assertNull(a2.getActivityModifiedBy());
     }
 
     @Test
@@ -667,9 +667,8 @@ public class AccountManagerTest {
 
 
         assertEquals(DigestUtils.sha512Hex("newPass"), a3.getPassword());
-        assertTrue(a3.getModificationDate().getTime() >= before.getTime());
-        assertTrue(a3.getModificationDate().getTime() <= after.getTime());
-        assertNull(a3.getModifiedBy());
+        assertTrue(a3.getPasswordModificationDate().getTime() >= before.getTime());
+        assertTrue(a3.getPasswordModificationDate().getTime() <= after.getTime());
     }
 
     @Test

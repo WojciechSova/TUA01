@@ -60,6 +60,10 @@ export class AccountDetailsService implements OnDestroy {
 
     private parseDates(account: AccountDetails): AccountDetails {
         account.modificationDate = this.parseDate(account.modificationDate);
+        account.activityModificationDate = this.parseDate(account.activityModificationDate);
+        account.confirmedModificationDate = this.parseDate(account.confirmedModificationDate);
+        account.passwordModificationDate = this.parseDate(account.passwordModificationDate);
+        account.emailModificationDate = this.parseDate(account.emailModificationDate);
         account.creationDate = (this.parseDate(account.creationDate) as Date);
         account.lastKnownBadLogin = this.parseDate(account.lastKnownBadLogin);
         account.lastKnownGoodLogin = this.parseDate(account.lastKnownGoodLogin);
