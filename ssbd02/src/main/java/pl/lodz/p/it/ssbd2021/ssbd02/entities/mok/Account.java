@@ -1,5 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.entities.mok;
-import lombok.*;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 
 import javax.persistence.*;

@@ -77,7 +77,6 @@
                     <label class="uppercase" translate>account-details.modified_by</label>
                     <label>{{accountDetailsService.account.modifiedBy?.login}}</label>
                 </div>
-
                 <div class="row">
                     <label class="uppercase" translate>account-details.last_activity_modification_date</label>
                     <label>{{accountDetailsService.account.activityModificationDate | date :'short':identityService.getTimezone()}}</label>
@@ -98,9 +97,6 @@
                     <label class="uppercase" translate>account-details.last_email_modification_date</label>
                     <label>{{accountDetailsService.account.emailModificationDate | date :'short':identityService.getTimezone()}}</label>
                 </div>
-
-
-
                 <div class="row">
                     <label class="uppercase" translate>account-details.creation_date</label>
                     <label>{{accountDetailsService.account.creationDate | date :'short':identityService.getTimezone()}}</label>
