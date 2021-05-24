@@ -49,6 +49,15 @@
         <project.environment>prod</project.environment>
         <jdbc.config.src>src/dev/java</jdbc.config.src>
         <mail.flag>true</mail.flag>
+
+        <servlet.port>8402</servlet.port>
+        <payara.adminPort>4802</payara.adminPort>
+        <payara.username>admin</payara.username>
+        <payara.password>Nencihoag5</payara.password>
+        <payara.hostname>studapp.it.p.lodz.pl</payara.hostname>
+        <payara.domainName>domain1</payara.domainName>
+        <payara.home>/opt/java/payara-5.2021.1/glassfish</payara.home>
+        <payara.domainDir>${payara.home}/domains</payara.domainDir>
     </properties>
 
     <dependencies>
@@ -132,6 +141,17 @@
             <artifactId>frontend-maven-plugin</artifactId>
             <version>1.12.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven3-plugin</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.main.deployment</groupId>
+            <artifactId>deployment-client</artifactId>
+            <version>5.1.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -165,8 +185,37 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>cargo-maven3-plugin</artifactId>
+                    <version>1.9.4</version>
+                    <configuration>
+                        <container>
+                            <containerId>payara</containerId>
+                        </container>
+                        <configuration>
+                            <properties>
+                                <cargo.remote.username>${payara.username}</cargo.remote.username>
+                                <cargo.remote.password>${payara.password}</cargo.remote.password>
+                                <cargo.glassfish.admin.port>${payara.adminPort}</cargo.glassfish.admin.port>
+                                <cargo.hostname>${payara.hostname}</cargo.hostname>
+                            </properties>
+                        </configuration>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>deploy</id>
+                            <goals>
+                                <goal>redeploy</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>
@@ -268,6 +317,34 @@
                             </webResources>
                         </configuration>
                         <version>3.3.0</version>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>cargo-deployment-remote</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven3-plugin</artifactId>
+                        <version>1.9.4</version>
+                        <configuration>
+                            <container>
+                                <type>remote</type>
+                            </container>
+                            <configuration>
+                                <type>runtime</type>
+                                <properties>
+                                    <cargo.servlet.port>${servlet.port}</cargo.servlet.port>
+                                </properties>
+                            </configuration>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>deploy</id>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
