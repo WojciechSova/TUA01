@@ -132,6 +132,9 @@ public class AuthEndpoint {
                         .collect(Collectors.joining(SecurityConstants.GROUP_SPLIT_CONSTANT));
                 String timezone = account.getKey().getTimeZone();
                 if (account.getKey().getActive()) {
+                    if (account.getValue().isEmpty()){
+                        throw CommonExceptions.createForbiddenException();
+                    }
                     return Response.accepted()
                             .entity(JWTGenerator.updateJWT(serializedJWT, accessLevels, timezone))
                             .build();
