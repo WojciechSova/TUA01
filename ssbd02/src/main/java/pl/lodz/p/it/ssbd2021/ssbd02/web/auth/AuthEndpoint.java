@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2021.ssbd02.web.auth;
 
 import com.nimbusds.jwt.SignedJWT;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
@@ -42,6 +44,8 @@ public class AuthEndpoint {
     @Inject
     private AccountManagerLocal accountManagerLocal;
 
+    private static final Logger logger = LogManager.getLogger();
+
     /**
      * Metoda obsługująca operację uwierzytelnienia.
      * W bazie danych zapisywana jest data logowania oraz adres IP, z którego się zalogowano.
@@ -64,6 +68,8 @@ public class AuthEndpoint {
 
         if (result.getStatus() != CredentialValidationResult.Status.VALID) {
             accountManagerLocal.registerBadLogin(credentialsDTO.getLogin(), clientAddress);
+            logger.info("Failed logon attempt, user: {} (ip: {})",
+                    credentialsDTO.getLogin(), clientAddress);
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
@@ -74,6 +80,10 @@ public class AuthEndpoint {
         accountManagerLocal.registerGoodLogin(credentialsDTO.getLogin(), clientAddress);
         accountManagerLocal.updateLanguage(credentialsDTO.getLogin(), language);
         String timezone = accountManagerLocal.getTimezone(result.getCallerPrincipal().getName());
+
+        logger.info("New successful logon, authenticated user: {} (ip: {})",
+                credentialsDTO.getLogin(), clientAddress);
+
         return Response.accepted()
                 .type("application/jwt")
                 .entity(JWTGenerator.generateJWT(result, timezone))
