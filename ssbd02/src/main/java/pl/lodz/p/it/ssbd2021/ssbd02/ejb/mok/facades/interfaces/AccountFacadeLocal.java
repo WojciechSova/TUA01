@@ -54,7 +54,7 @@ public interface AccountFacadeLocal extends AbstractFacadeInterface<Account> {
      * Metoda wyszukująca listę encji typu {@link Account} o przekazanym adresie email.
      *
      * @param email Adres email encji
-     * @return Lista obietków typu {@link Account} o przekazanym adresie email
+     * @return Lista obiektów typu {@link Account} o przekazanym adresie email
      */
     List<Account> findListByEmail(String email);
 }
