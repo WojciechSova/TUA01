@@ -66,4 +66,11 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
         typedQuery.setParameter("removalTime", removalTime);
         return typedQuery.getResultList();
     }
+
+    @Override
+    public List<Account> findListByEmail(String email) {
+        TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail", Account.class);
+        typedQuery.setParameter("email", email);
+        return typedQuery.getResultList();
+    }
 }

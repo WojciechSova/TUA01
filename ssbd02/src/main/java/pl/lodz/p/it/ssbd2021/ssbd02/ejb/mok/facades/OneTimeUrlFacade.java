@@ -61,4 +61,11 @@ public class OneTimeUrlFacade extends AbstractFacade<OneTimeUrl> implements OneT
         TypedQuery<OneTimeUrl> typedQuery = entityManager.createNamedQuery("OneTimeUrl.findExpiredUrl", OneTimeUrl.class);
         return typedQuery.getResultList();
     }
+
+    @Override
+    public List<OneTimeUrl> findListByEmail(String email) {
+        TypedQuery<OneTimeUrl> typedQuery = entityManager.createNamedQuery("OneTimeUrl.findByNewEmail", OneTimeUrl.class);
+        typedQuery.setParameter("newEmail", email);
+        return typedQuery.getResultList();
+    }
 }

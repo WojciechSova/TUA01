@@ -49,7 +49,7 @@ public class OneTimeUrl extends AbstractEntity implements Serializable {
 
     @Size(max = 70, message = "Email address can have a maximum of 70 characters")
     @Email(message = "Provided email address is not valid")
-    @Column(name = "new_email", nullable = true, updatable = true, length = 70)
+    @Column(name = "new_email", nullable = true, unique = true, updatable = true, length = 70)
     private String newEmail;
 
     @NotNull
