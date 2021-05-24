@@ -73,8 +73,10 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     @Override
     @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
     public Pair<Account, List<AccessLevel>> getAccountWithActiveAccessLevels(String login) {
-        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
-        List<AccessLevel> accessLevels = Optional.ofNullable(accessLevelFacadeLocal.findAllActiveByAccount(account)).orElseThrow(CommonExceptions::createNoResultException);
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login))
+                .orElseThrow(CommonExceptions::createNoResultException);
+        List<AccessLevel> accessLevels = Optional.ofNullable(accessLevelFacadeLocal.findAllActiveByAccount(account))
+                .orElseThrow(CommonExceptions::createNoResultException);
         return Pair.of(account, accessLevels);
     }
 
@@ -450,6 +452,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
+    @PermitAll
     public String getTimezone(String login) {
         return accountFacadeLocal.findByLogin(login).getTimeZone();
     }
