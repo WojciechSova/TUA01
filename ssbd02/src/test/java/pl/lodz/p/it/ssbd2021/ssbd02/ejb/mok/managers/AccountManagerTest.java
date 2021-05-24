@@ -663,7 +663,7 @@ public class AccountManagerTest {
         when(oneTimeUrlFacadeLocal.findByUrl("testUrl")).thenReturn(oneTimeUrl);
 
         Timestamp before = Timestamp.from(Instant.now());
-        accountManager.resetPassword("testUrl", "newPass");
+        accountManager.resetPassword("testUrl", new Password("newPass"));
         Timestamp after = Timestamp.from(Instant.now());
 
 

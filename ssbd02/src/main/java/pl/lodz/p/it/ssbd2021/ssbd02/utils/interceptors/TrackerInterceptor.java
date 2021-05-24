@@ -68,9 +68,11 @@ public class TrackerInterceptor {
             for (Object obj : ((List<?>) result).toArray()) {
                 if (obj instanceof Pair) {
                     message.append(messageFromPair(obj));
-                } else {
+                } else if (obj instanceof AbstractEntity){
                     message.append(obj.getClass().getName())
                             .append(((AbstractEntity) obj).getSummary());
+                } else {
+                    message.append(result.toString()).append(" ");
                 }
             }
         } else if (result instanceof Pair) {

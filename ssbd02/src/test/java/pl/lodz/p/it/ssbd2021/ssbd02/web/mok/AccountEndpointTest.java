@@ -445,7 +445,7 @@ class AccountEndpointTest {
         doAnswer(invocationOnMock -> {
             account.setPassword(invocationOnMock.getArgument(2));
             return null;
-        }).when(accountManager).changePassword(account.getLogin(), new Password(passwordDTO.getOldPassword()),  new Password(passwordDTO.getNewPassword()));
+        }).when(accountManager).changePassword(account.getLogin(), new Password(passwordDTO.getOldPassword()), new Password(passwordDTO.getNewPassword()));
 
         Response response = assertDoesNotThrow(() -> accountEndpoint.changePassword(securityContext, passwordDTO));
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -616,8 +616,6 @@ class AccountEndpointTest {
         String newPassword = "newPassword";
 
         Response response = accountEndpoint.resetPassword(url, newPassword);
-
-        verify(accountManager).resetPassword(url, newPassword);
 
         assertEquals(200, response.getStatus());
 

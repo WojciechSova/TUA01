@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers.interfaces.AuthManagerLoca
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;
+import javax.security.enterprise.credential.Password;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStore;
@@ -38,7 +39,7 @@ public class DatabaseIdentityStore implements IdentityStore {
 
         UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) credential;
 
-        List<String> accessGroups = authManagerLocal.getAccessLevels(usernamePasswordCredential.getCaller(), usernamePasswordCredential.getPasswordAsString());
+        List<String> accessGroups = authManagerLocal.getAccessLevels(usernamePasswordCredential.getCaller(), new Password(usernamePasswordCredential.getPasswordAsString()));
 
         if (accessGroups.isEmpty()) {
             return CredentialValidationResult.INVALID_RESULT;

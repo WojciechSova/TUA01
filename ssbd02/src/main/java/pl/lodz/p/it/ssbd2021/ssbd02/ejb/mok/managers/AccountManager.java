@@ -424,7 +424,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public void resetPassword(String url, String newPassword) {
+    public void resetPassword(String url, Password newPassword) {
         OneTimeUrl oneTimeUrl = Optional.ofNullable(oneTimeUrlFacadeLocal.findByUrl(url)).orElseThrow(CommonExceptions::createNoResultException);
 
         if (Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())) {
@@ -433,7 +433,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             throw AccountExceptions.createNotAcceptableException(AccountExceptions.ERROR_URL_TYPE);
         }
 
-        oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(newPassword));
+        oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(String.valueOf(newPassword.getValue())));
         oneTimeUrl.getAccount().setPasswordModificationDate(Timestamp.from(Instant.now()));
 
         oneTimeUrlFacadeLocal.remove(oneTimeUrl);
