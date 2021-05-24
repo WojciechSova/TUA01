@@ -12,7 +12,7 @@ public class ChangeEmailPage {
     private final By confirmButton = By.id("confirm");
     private final By changeEmailForm = By.id("change-email-form");
     private final By invalidFormatError = By.id("invalid-format-error");
-    private final By differentPasswordsError = By.id("different-passwords-error");
+    private final By differentEmailsError = By.id("different-emails-error");
     private final By existingEmailError = By.id("existing-email-error");
 
     public ChangeEmailPage(WebDriver driver) {
@@ -31,8 +31,8 @@ public class ChangeEmailPage {
         return invalidFormatError;
     }
 
-    public By getDifferentPasswordsError() {
-        return differentPasswordsError;
+    public By getDifferentEmailsError() {
+        return differentEmailsError;
     }
 
     public By getExistingEmailError() {

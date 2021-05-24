@@ -7,7 +7,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
 
 import java.text.ParseException;
 
-import static com.nimbusds.jose.JWSAlgorithm.HS256;
+import static com.nimbusds.jose.JWSAlgorithm.HS512;
 
 /**
  * Klasa implementująca mechanizm podpisywania pól.
@@ -26,7 +26,7 @@ public class DTOIdentitySignerVerifier {
     public static String calculateDTOSignature(SignableDTO signableDTO) {
         try {
             JWSSigner signerJWS = new MACSigner(SecurityConstants.SECRET);
-            JWSObject objectJWS = new JWSObject(new JWSHeader(HS256), new Payload(String.valueOf(signableDTO.getSignablePayload())));
+            JWSObject objectJWS = new JWSObject(new JWSHeader(HS512), new Payload(String.valueOf(signableDTO.getSignablePayload())));
             objectJWS.sign(signerJWS);
 
             return objectJWS.serialize();

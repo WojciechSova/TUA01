@@ -39,4 +39,12 @@ public interface OneTimeUrlFacadeLocal extends AbstractFacadeInterface<OneTimeUr
      * @return Lista obiektów typu {@link OneTimeUrl}, których czas wygaśnięcia minął
      */
     List<OneTimeUrl> findExpired();
+
+    /**
+     * Metoda wyszukująca listę encji typu {@link OneTimeUrl} o przekazanym adresie e-mail.
+     *
+     * @param email Adres e-mail encji
+     * @return Lista obiektów typu {@link OneTimeUrl} o przekazanym adresie e-mail
+     */
+    List<OneTimeUrl> findListByEmail(String email);
 }

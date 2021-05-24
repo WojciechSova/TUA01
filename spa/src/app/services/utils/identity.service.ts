@@ -8,7 +8,7 @@ export class IdentityService {
     private readonly url: string;
 
     constructor(private http: HttpClient) {
-        this.url = environment.appUrl + '/accounts/change/accesslevel';
+        this.url = environment.appUrl + '/auth/change/accesslevel';
     }
 
     getLogin(): string {

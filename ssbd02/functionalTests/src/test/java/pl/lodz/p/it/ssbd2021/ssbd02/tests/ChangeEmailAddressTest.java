@@ -35,7 +35,7 @@ public class ChangeEmailAddressTest {
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
         options.addArguments("−−lang=pl");
-//        options.setHeadless(true);
+        options.setHeadless(true);
     }
 
     @BeforeEach
@@ -91,7 +91,7 @@ public class ChangeEmailAddressTest {
         Assertions.assertFalse(driver.findElement(changeEmailPage.getConfirmButton()).isEnabled());
         Assertions.assertTrue(driver.findElement(changeEmailPage.getChangeEmailForm()).isDisplayed());
         Assertions.assertTrue(driver.findElement(changeEmailPage.getInvalidFormatError()).isDisplayed());
-        Assertions.assertTrue(driver.findElement(changeEmailPage.getDifferentPasswordsError()).isDisplayed());
+        Assertions.assertTrue(driver.findElement(changeEmailPage.getDifferentEmailsError()).isDisplayed());
     }
 
     @ParameterizedTest
@@ -106,7 +106,7 @@ public class ChangeEmailAddressTest {
         changeEmail(newEmail, newEmail.substring(3));
         Assertions.assertFalse(driver.findElement(changeEmailPage.getConfirmButton()).isEnabled());
         Assertions.assertTrue(driver.findElement(changeEmailPage.getChangeEmailForm()).isDisplayed());
-        Assertions.assertTrue(driver.findElement(changeEmailPage.getDifferentPasswordsError()).isDisplayed());
+        Assertions.assertTrue(driver.findElement(changeEmailPage.getDifferentEmailsError()).isDisplayed());
     }
 
     @ParameterizedTest

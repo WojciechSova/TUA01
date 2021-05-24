@@ -2,15 +2,22 @@ package pl.lodz.p.it.ssbd2021.ssbd02.web.auth;
 
 import com.nimbusds.jwt.SignedJWT;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTGenerator;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.AccessLocalException;
+import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;
@@ -18,10 +25,12 @@ import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +51,8 @@ public class AuthEndpoint {
     @Inject
     private AccountManagerLocal accountManagerLocal;
 
+    private static final Logger logger = LogManager.getLogger();
+
     /**
      * Metoda obsługująca operację uwierzytelnienia.
      * W bazie danych zapisywana jest data logowania oraz adres IP, z którego się zalogowano.
@@ -55,29 +66,48 @@ public class AuthEndpoint {
     @PermitAll
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.TEXT_PLAIN})
-    public Response auth(@Context HttpServletRequest req, CredentialsDTO credentialsDTO) {
-        Credential credential = new UsernamePasswordCredential(credentialsDTO.getLogin(), credentialsDTO.getPassword());
-        CredentialValidationResult result = identityStoreHandler.validate(credential);
+    public Response auth(@Context HttpServletRequest req, @Valid CredentialsDTO credentialsDTO) {
+        try {
+            Credential credential = new UsernamePasswordCredential(credentialsDTO.getLogin(), credentialsDTO.getPassword());
+            CredentialValidationResult result = identityStoreHandler.validate(credential);
 
-        String clientAddress = getClientIp(req);
-        String language = getLanguage(req);
+            String clientAddress = getClientIp(req);
+            String language = getLanguage(req);
 
-        if (result.getStatus() != CredentialValidationResult.Status.VALID) {
-            accountManagerLocal.registerBadLogin(credentialsDTO.getLogin(), clientAddress);
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            if (result.getStatus() != CredentialValidationResult.Status.VALID) {
+                accountManagerLocal.registerBadLogin(credentialsDTO.getLogin(), clientAddress);
+                logger.info("Failed logon attempt, user: {} (ip: {})",
+                        credentialsDTO.getLogin(), clientAddress);
+                throw CommonExceptions.createUnauthorizedException();
+            }
+
+            if (result.getCallerGroups().contains("ADMIN")) {
+                accountManagerLocal.notifyAdminAboutLogin(result.getCallerPrincipal().getName(), clientAddress);
+            }
+
+            accountManagerLocal.registerGoodLogin(credentialsDTO.getLogin(), clientAddress);
+            accountManagerLocal.updateLanguage(credentialsDTO.getLogin(), language);
+            String timezone = accountManagerLocal.getTimezone(result.getCallerPrincipal().getName());
+
+            logger.info("New successful logon, authenticated user: {} (ip: {})",
+                    credentialsDTO.getLogin(), clientAddress);
+
+            return Response.accepted()
+                    .type("application/jwt")
+                    .entity(JWTGenerator.generateJWT(result, timezone))
+                    .build();
+
+        } catch (GeneralException generalException) {
+            if (generalException.getResponse().getStatus() == 410) {
+                throw CommonExceptions.createUnauthorizedException();
+            } else {
+                throw generalException;
+            }
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
         }
-
-        if (result.getCallerGroups().contains("ADMIN")) {
-            accountManagerLocal.notifyAdminAboutLogin(result.getCallerPrincipal().getName(), clientAddress);
-        }
-
-        accountManagerLocal.registerGoodLogin(credentialsDTO.getLogin(), clientAddress);
-        accountManagerLocal.updateLanguage(credentialsDTO.getLogin(), language);
-        String timezone = accountManagerLocal.getTimezone(result.getCallerPrincipal().getName());
-        return Response.accepted()
-                .type("application/jwt")
-                .entity(JWTGenerator.generateJWT(result, timezone))
-                .build();
     }
 
     /**
@@ -92,24 +122,50 @@ public class AuthEndpoint {
     @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
     @Produces({MediaType.APPLICATION_JSON})
     public Response refreshToken(@Context HttpServletRequest httpServletRequest) {
-        String authHeader = httpServletRequest.getHeader(SecurityConstants.AUTHORIZATION);
-        String serializedJWT = authHeader.substring(SecurityConstants.BEARER.length()).trim();
         try {
-            String login = SignedJWT.parse(serializedJWT).getJWTClaimsSet().getSubject();
-            Pair<Account, List<AccessLevel>> account = accountManagerLocal.getAccountWithActiveAccessLevels(login);
-            String accessLevels = account.getValue().stream().map(AccessLevel::getLevel)
-                    .collect(Collectors.joining(SecurityConstants.GROUP_SPLIT_CONSTANT));
-            String timezone = account.getKey().getTimeZone();
-            if (account.getKey().getActive()) {
-                return Response.accepted()
-                        .entity(JWTGenerator.updateJWT(serializedJWT, accessLevels, timezone))
-                        .build();
-            } else {
-                return Response.status(Response.Status.FORBIDDEN).build();
+            String authHeader = httpServletRequest.getHeader(SecurityConstants.AUTHORIZATION);
+            String serializedJWT = authHeader.substring(SecurityConstants.BEARER.length()).trim();
+            try {
+                String login = SignedJWT.parse(serializedJWT).getJWTClaimsSet().getSubject();
+                Pair<Account, List<AccessLevel>> account = accountManagerLocal.getAccountWithActiveAccessLevels(login);
+                String accessLevels = account.getValue().stream().map(AccessLevel::getLevel)
+                        .collect(Collectors.joining(SecurityConstants.GROUP_SPLIT_CONSTANT));
+                String timezone = account.getKey().getTimeZone();
+                if (account.getKey().getActive()) {
+                    return Response.accepted()
+                            .entity(JWTGenerator.updateJWT(serializedJWT, accessLevels, timezone))
+                            .build();
+                } else {
+                    throw AccountExceptions.createForbiddenException(AccountExceptions.ERROR_ACCOUNT_INACTIVE);
+                }
+            } catch (ParseException e) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
             }
-        } catch (ParseException e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
         }
+    }
+
+    /**
+     * Metoda służąca do logowania zmiany aktualnego poziomu dostępu przez użytkownika
+     *
+     * @param securityContext    Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param httpServletRequest Obiekt reprezentujący żądanie
+     * @param accessLevel        Poziom dostępu, na który przełączył się użytkownik
+     * @return Kod odpowiedzi 200
+     */
+    @POST
+    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
+    @Path("change/accesslevel")
+    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @Context HttpServletRequest httpServletRequest, String accessLevel) {
+        String clientAddress = getClientIp(httpServletRequest);
+        logger.info("The user with login {} changed the access level to {} (ip: {})",
+                securityContext.getUserPrincipal().getName(), accessLevel, clientAddress);
+        return Response.ok().build();
     }
 
     private String getClientIp(HttpServletRequest req) {

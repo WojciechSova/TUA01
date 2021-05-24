@@ -7,24 +7,25 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccessLevelExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.OneTimeUrlExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOSignatureValidatorFilterBinding;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.AccessLocalException;
+import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -56,12 +57,21 @@ public class AccountEndpoint {
     @RolesAllowed("ADMIN")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllAccountGenerals() {
-        List<AccountGeneralDTO> accountGeneralDTOList = accountManager.getAllAccountsWithActiveAccessLevels().stream()
-                .map(AccountMapper::createAccountGeneralDTOFromEntities)
-                .collect(Collectors.toList());
-        return Response.ok()
-                .entity(accountGeneralDTOList)
-                .build();
+        try {
+            List<AccountGeneralDTO> accountGeneralDTOList = accountManager.getAllAccountsWithActiveAccessLevels().stream()
+                    .map(AccountMapper::createAccountGeneralDTOFromEntities)
+                    .collect(Collectors.toList());
+
+            return Response.ok()
+                    .entity(accountGeneralDTOList)
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -75,13 +85,21 @@ public class AccountEndpoint {
     @Path("{login}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAccountWithLogin(@PathParam("login") String login) {
-        AccountDetailsDTO account = AccountMapper
-                .createAccountDetailsDTOFromEntities(accountManager.getAccountWithLogin(login));
+        try {
+            AccountDetailsDTO account = AccountMapper
+                    .createAccountDetailsDTOFromEntities(accountManager.getAccountWithLogin(login));
 
-        return Response.ok()
-                .entity(account)
-                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(account))
-                .build();
+            return Response.ok()
+                    .entity(account)
+                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(account))
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -96,13 +114,21 @@ public class AccountEndpoint {
     @Path("/profile")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getProfile(@Context SecurityContext securityContext) {
-        AccountDetailsDTO account = AccountMapper.createAccountDetailsDTOFromEntities(
-                accountManager.getAccountWithLogin(securityContext.getUserPrincipal().getName())
-        );
-        return Response.ok()
-                .entity(account)
-                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(account))
-                .build();
+        try {
+            AccountDetailsDTO account = AccountMapper.createAccountDetailsDTOFromEntities(
+                    accountManager.getAccountWithLogin(securityContext.getUserPrincipal().getName()));
+
+            return Response.ok()
+                    .entity(account)
+                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(account))
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -115,13 +141,23 @@ public class AccountEndpoint {
     @PermitAll
     @Path("register")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createAccount(AccountDetailsDTO accountDTO) {
-        if (accountDTO.getPassword() == null || accountDTO.getEmail() == null || accountDTO.getLogin() == null) {
-            throw new WebApplicationException("Not all required fields were provided", 400);
+    public Response createAccount(@Valid AccountDetailsDTO accountDTO) {
+        if (accountDTO.getLogin() == null || accountDTO.getPassword() == null || accountDTO.getFirstName() == null
+                || accountDTO.getLastName() == null || accountDTO.getEmail() == null
+                || accountDTO.getLanguage() == null || accountDTO.getTimeZone() == null) {
+            throw CommonExceptions.createConstraintViolationException();
         }
-        accountManager.createAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO));
-        return Response.accepted()
-                .build();
+        try {
+            accountManager.createAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO));
+            return Response.accepted()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -136,11 +172,20 @@ public class AccountEndpoint {
     @Path("addaccesslevel/{login}")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response addAccessLevel(@Context SecurityContext securityContext, @PathParam("login") String login, String accessLevel) {
-        accountManager.addAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
+    public Response addAccessLevel(@Context SecurityContext securityContext,
+                                   @PathParam("login") String login, @NotBlank String accessLevel) {
+        try {
+            accountManager.addAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
 
-        return Response.ok()
-                .build();
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -155,11 +200,20 @@ public class AccountEndpoint {
     @Path("removeaccesslevel/{login}")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response removeAccessLevel(@Context SecurityContext securityContext, @PathParam("login") String login, String accessLevel) {
-        accountManager.removeAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
+    public Response removeAccessLevel(@Context SecurityContext securityContext,
+                                      @PathParam("login") String login, String accessLevel) {
+        try {
+            accountManager.removeAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
 
-        return Response.ok()
-                .build();
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -175,18 +229,26 @@ public class AccountEndpoint {
     @Path("update")
     @Consumes(MediaType.APPLICATION_JSON)
     @DTOSignatureValidatorFilterBinding
-    public Response updateAccount(AccountDetailsDTO accountDTO, @Context SecurityContext securityContext,
+    public Response updateAccount(@Valid AccountDetailsDTO accountDTO, @Context SecurityContext securityContext,
                                   @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
         if (accountDTO.getLogin() == null || accountDTO.getVersion() == null) {
-            throw new WebApplicationException("Not all required fields were provided", 400);
+            throw CommonExceptions.createPreconditionFailedException();
         }
         if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, accountDTO)) {
-            throw new WebApplicationException("Not valid tag", 412);
+            throw CommonExceptions.createPreconditionFailedException();
         }
-        accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO),
-                securityContext.getUserPrincipal().getName());
-        return Response.ok()
-                .build();
+        try {
+            accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO),
+                    securityContext.getUserPrincipal().getName());
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -203,21 +265,30 @@ public class AccountEndpoint {
     @Path("/profile/update")
     @Consumes(MediaType.APPLICATION_JSON)
     @DTOSignatureValidatorFilterBinding
-    public Response updateOwnAccount(AccountDetailsDTO accountDTO, @Context SecurityContext securityContext,
+    public Response updateOwnAccount(@Valid AccountDetailsDTO accountDTO, @Context SecurityContext securityContext,
                                      @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
         if (accountDTO.getLogin() == null || accountDTO.getVersion() == null) {
-            throw new WebApplicationException("Not all required fields were provided", 400);
+            throw CommonExceptions.createConstraintViolationException();
         }
         if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, accountDTO)) {
-            throw new WebApplicationException("ETag not valid", 412);
+            throw CommonExceptions.createPreconditionFailedException();
         }
         if (!accountDTO.getLogin().equals(securityContext.getUserPrincipal().getName())) {
-            throw new WebApplicationException("You can not change not your own account", 412);
+            throw CommonExceptions.createPreconditionFailedException();
         }
-        accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO), accountDTO.getLogin());
 
-        return Response.ok()
-                .build();
+        try {
+            accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO), accountDTO.getLogin());
+
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -231,9 +302,17 @@ public class AccountEndpoint {
     @RolesAllowed({"ADMIN"})
     @Path("block/{login}")
     public Response blockAccount(@PathParam("login") String login, @Context SecurityContext securityContext) {
-        accountManager.changeActivity(login, false, securityContext.getUserPrincipal().getName());
+        try {
+            accountManager.changeActivity(login, false, securityContext.getUserPrincipal().getName());
 
-        return Response.ok().build();
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -247,14 +326,20 @@ public class AccountEndpoint {
     @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
     @Path("password")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response changePassword(@Context SecurityContext securityContext, PasswordDTO passwordDTO) {
-        if (passwordDTO.getOldPassword() == null || passwordDTO.getOldPassword().isBlank() ||
-                passwordDTO.getNewPassword() == null || passwordDTO.getNewPassword().isBlank()) {
-            throw new WebApplicationException("Required fields are missing", 400);
+    public Response changePassword(@Context SecurityContext securityContext, @Valid PasswordDTO passwordDTO) {
+        try {
+            accountManager.changePassword(securityContext.getUserPrincipal().getName(),
+                    passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
+
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
         }
-        accountManager.changePassword(securityContext.getUserPrincipal().getName(), passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
-        return Response.ok()
-                .build();
     }
 
     /**
@@ -268,9 +353,17 @@ public class AccountEndpoint {
     @RolesAllowed({"ADMIN"})
     @Path("unblock/{login}")
     public Response unblockAccount(@PathParam("login") String login, @Context SecurityContext securityContext) {
-        accountManager.changeActivity(login, true, securityContext.getUserPrincipal().getName());
+        try {
+            accountManager.changeActivity(login, true, securityContext.getUserPrincipal().getName());
 
-        return Response.ok().build();
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -283,8 +376,20 @@ public class AccountEndpoint {
     @PermitAll
     @Path("confirm/account/{url}")
     public Response confirmAccount(@PathParam("url") String url) {
-        accountManager.confirmAccount(url);
-        return Response.ok().build();
+        if (url.length() != 32) {
+            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+        }
+        try {
+            accountManager.confirmAccount(url);
+
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -299,23 +404,29 @@ public class AccountEndpoint {
     @Path("profile/email")
     @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response sendChangeEmailAddressUrl(String newEmailAddress, @Context SecurityContext securityContext) {
-
+    public Response sendChangeEmailAddressUrl(@NotBlank String newEmailAddress, @Context SecurityContext securityContext) {
         if (!EmailAddressValidator.isValid(newEmailAddress)) {
-            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+            throw CommonExceptions.createConstraintViolationException();
         }
+        try {
+            accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress,
+                    securityContext.getUserPrincipal().getName());
 
-        accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress,
-                securityContext.getUserPrincipal().getName());
-
-        return Response.ok().build();
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
      * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiany adresu e-mail użytkownika o podanym loginie.
      *
      * @param newEmailAddress Nowy adres e-mail.
-     * @param login Login użytkownika, któremy ma zostać zmieniony adres e-mail.
+     * @param login           Login użytkownika, któremy ma zostać zmieniony adres e-mail.
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
      * Kod 406 w przypadku niepoprawnej walidacji adresu
      */
@@ -323,15 +434,22 @@ public class AccountEndpoint {
     @Path("email/{login}")
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response sendChangeEmailAddressUrl(String newEmailAddress, @PathParam("login") String login, @Context SecurityContext securityContext) {
-
+    public Response sendChangeEmailAddressUrl(@NotBlank String newEmailAddress, @PathParam("login") String login,
+                                              @Context SecurityContext securityContext) {
         if (!EmailAddressValidator.isValid(newEmailAddress)) {
-            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+            throw CommonExceptions.createConstraintViolationException();
         }
+        try {
+            accountManager.sendChangeEmailAddressUrl(login, newEmailAddress, securityContext.getUserPrincipal().getName());
 
-        accountManager.sendChangeEmailAddressUrl(login, newEmailAddress, securityContext.getUserPrincipal().getName());
-
-        return Response.ok().build();
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -344,8 +462,19 @@ public class AccountEndpoint {
     @PermitAll
     @Path("confirm/email/{url}")
     public Response changeEmailAddress(@PathParam("url") String url) {
-        accountManager.changeEmailAddress(url);
-        return Response.ok().build();
+        if (url.length() != 32) {
+            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+        }
+        try {
+            accountManager.changeEmailAddress(url);
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**
@@ -358,22 +487,28 @@ public class AccountEndpoint {
     @POST
     @PermitAll
     @Path("reset/password")
-    public Response sendPasswordResetAddressUrl(String email, @Context SecurityContext securityContext) {
+    public Response sendPasswordResetAddressUrl(@NotBlank String email, @Context SecurityContext securityContext) {
         if (email == null || "".equals(email.trim())) {
-            throw new WebApplicationException("No email provided", 400);
+            throw CommonExceptions.createConstraintViolationException();
         }
-
         if (!EmailAddressValidator.isValid(email)) {
-            throw new WebApplicationException("Invalid email format", 400);
+            throw CommonExceptions.createConstraintViolationException();
         }
+        try {
+            if (securityContext.getUserPrincipal() != null) {
+                accountManager.sendPasswordResetAddressUrl(email, securityContext.getUserPrincipal().getName());
+            } else {
+                accountManager.sendPasswordResetAddressUrl(email, null);
+            }
 
-        if (securityContext.getUserPrincipal() != null) {
-            accountManager.sendPasswordResetAddressUrl(email, securityContext.getUserPrincipal().getName());
-        } else {
-            accountManager.sendPasswordResetAddressUrl(email, null);
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
         }
-
-        return Response.ok().build();
     }
 
     /**
@@ -387,26 +522,46 @@ public class AccountEndpoint {
     @PUT
     @PermitAll
     @Path("reset/password/{url}")
-    public Response resetPassword(@PathParam("url") String url, String newPassword) {
-
+    public Response resetPassword(@PathParam("url") String url, @NotBlank String newPassword) {
         if (url.length() != 32) {
-            throw new WebApplicationException("Invalid URL", 400);
+            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
         }
-
         if (newPassword.length() < 8) {
-            throw new WebApplicationException("New password too short", 406);
+            throw CommonExceptions.createConstraintViolationException();
         }
+        try {
+            accountManager.resetPassword(url, newPassword);
 
-        accountManager.resetPassword(url, newPassword);
-
-        return Response.ok().build();
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @POST
     @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
+    @PermitAll
+    @Consumes(MediaType.TEXT_PLAIN)
     @Path("change/accesslevel")
-    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, String accessLevel) {
-        logger.info("The user with login {} changed the access level to {}", securityContext.getUserPrincipal().getName(), accessLevel);
-        return Response.ok().build();
+    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @NotBlank String accessLevel) {
+        if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
+            throw AccessLevelExceptions.createNotAcceptableException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
+        }
+        try {
+            logger.info("The user with login {} changed the access level to {}",
+                    securityContext.getUserPrincipal().getName(), accessLevel);
+
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 }

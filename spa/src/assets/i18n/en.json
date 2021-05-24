@@ -100,14 +100,20 @@
         "last_known_bad_login": "The date of the last failed login attempt:",
         "last_known_bad_login_ip": "The ip address of the last failed login attempt:",
         "number_of_bad_logins": "Number of failed login attempts:",
-        "access_levels": "Access levels:"
+        "access_levels": "Access levels:",
+        "last_activity_modification_date":  "Date of last activity modification:",
+        "activity_modified_by":  "Author of last activity modification:",
+        "last_confirmed_modification_date":  "Account confirmation date:",
+        "last_password_modification_date":  "Date of last password modification:",
+        "last_email_modification_date":  "Date of last email modification:"
     },
     "access-level-table": {
         "level": "Access level",
         "active": "Active",
-        "last_modification_date": "Date of last modification:",
-        "modified_by": "Author of last modification:",
-        "creation_date": "Date of creation:"
+        "last_modification_date": "Date of last modification",
+        "modified_by": "Author of last modification",
+        "creation_date": "Date of creation",
+        "created_by": "Created by"
     },
     "main-page": {
         "advert": "Fairytale-like ferry crossings",
@@ -139,6 +145,13 @@
         "confirm": {
             "reset_pwd_question": "Do you want to reset password?"
         },
+        "new": {
+            "enter_password": "Enter your new password",
+            "invalid_url": "Provided url is not valid",
+            "password_too_short": "Provided password was too short",
+            "password_change_success": "Password change was successful",
+            "redirect_to_main_page": "You will soon be redirected to home page"
+        },
         "reset": {
             "successful": "Password reset successful",
             "failed": "Password reset failed"
@@ -153,8 +166,21 @@
     "error-page": {
         "forbidden_code": "Error 403",
         "forbidden_text": "You don't have access to this page",
+        "internal_server_error_code": "Error 500",
+        "internal_server_error_message": "Oops, something went wrong :(",
         "not_found_code": "Error 404",
         "not_found_text": "Page not found",
-        "go_to_home_page": "Back to home page"
+        "go_to_home_page": "Back to the home page"
+    },
+    "breadcrumb": {
+        "home": "Home",
+        "account_list": "Account list",
+        "account": "Account details",
+        "account_edit": "Edit account"
+    },
+    "session-timeout": {
+        "info": "Your session has expired",
+        "login": "Login",
+        "ok": "Ok"
     }
 }

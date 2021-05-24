@@ -34,6 +34,10 @@ public class OneTimeUrlInterceptor {
                 throw OneTimeUrlExceptions.createExceptionConflict(OneTimeUrlExceptions.ERROR_ONE_TIME_URL_ACCOUNT_ACTION_TYPE_UNIQUE);
             }
 
+            if (pe.getCause().getCause().toString().contains("new_email_unique")) {
+                throw OneTimeUrlExceptions.createExceptionConflict(OneTimeUrlExceptions.ERROR_NEW_EMAIL_UNIQUE);
+            }
+
             throw pe;
         }
     }

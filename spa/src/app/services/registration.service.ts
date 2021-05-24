@@ -14,7 +14,7 @@ export class RegistrationService {
         this.url = environment.appUrl + '/accounts/register';
     }
 
-    register(account: AccountDetails): void {
-        this.http.post(this.url, account).subscribe();
+    register(account: AccountDetails): any {
+        return this.http.post(this.url, account, {responseType: 'text'});
     }
 }

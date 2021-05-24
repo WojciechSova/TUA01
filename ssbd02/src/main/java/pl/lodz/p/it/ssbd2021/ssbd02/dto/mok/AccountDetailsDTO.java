@@ -48,15 +48,25 @@ public class AccountDetailsDTO extends AbstractDTO {
 
     private List<AccessLevelDTO> accessLevel;
 
-    @Pattern(regexp = "[a-z]{2}|[a-z]{2}-[A-Z]{2}")
+    @Pattern(regexp = "[a-z]{2}|[a-z]{2}-[A-Z]{2}", message = "Language must be 2 lower case letters or 2 lower case letters, a \"-\" and 2 capital letters")
     private String language;
 
-    @Pattern(regexp = "[+-]0[0-9]:00|-1[0-2]:00|[+]1[0-4]:00")
+    @Pattern(regexp = "[+-]0[0-9]:00|-1[0-2]:00|[+]1[0-4]:00", message = "Invalid time zone format, should be like \"+\\-00:00\"")
     private String timeZone;
 
     private Timestamp modificationDate;
 
     private AccountGeneralDTO modifiedBy;
+
+    private Timestamp activityModificationDate;
+
+    private AccountGeneralDTO activityModifiedBy;
+
+    private Timestamp confirmedModificationDate;
+
+    private Timestamp passwordModificationDate;
+
+    private Timestamp emailModificationDate;
 
     private Timestamp creationDate;
 

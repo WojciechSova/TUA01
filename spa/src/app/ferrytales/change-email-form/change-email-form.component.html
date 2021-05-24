@@ -23,7 +23,7 @@
 
             <div class="validation-error" *ngIf="form.controls.emailRepeat.hasError('required') && form.controls.emailRepeat.touched"
                  translate>form.field_required</div>
-            <div id="different-passwords-error" class="validation-error" *ngIf="form.controls.emailRepeat.hasError('notMatching') && form.controls.emailRepeat.touched
+            <div id="different-emails-error" class="validation-error" *ngIf="form.controls.emailRepeat.hasError('notMatching') && form.controls.emailRepeat.touched
             && !form.controls.emailRepeat.hasError('required')"
                  translate>form.email_differ</div>
         </form>

@@ -1,3 +1,14 @@
+    <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.home </a>
+                <img src="assets/wind.png" alt="" class="bullet">
+            </li>
+            <li *ngIf="identityService.isAdmin()" class="breadcrumb-item">
+                <a href="" (click)="goToUserListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.account_list </a>
+                <img src="assets/wind.png" alt="" class="bullet">
+            </li>
+            <li class="breadcrumb-item active" translate> breadcrumb.account </li>
+    </ol>
 <div class="outer-div">
     <div *ngIf="(resetPasswordConnect.resetPasswordResponse) !== 'hide'" class="info-popup">
         <p class="password-reset-success" *ngIf="(resetPasswordConnect.resetPasswordResponse) === 'success'
@@ -76,6 +87,26 @@
                 <div class="row">
                     <label class="uppercase" translate>account-details.modified_by</label>
                     <label>{{accountDetailsService.account.modifiedBy?.login}}</label>
+                </div>
+                <div class="row">
+                    <label class="uppercase" translate>account-details.last_activity_modification_date</label>
+                    <label>{{accountDetailsService.account.activityModificationDate | date :'short':identityService.getTimezone()}}</label>
+                </div>
+                <div class="row">
+                    <label class="uppercase" translate>account-details.activity_modified_by</label>
+                    <label>{{accountDetailsService.account.activityModifiedBy?.login}}</label>
+                </div>
+                <div class="row">
+                    <label class="uppercase" translate>account-details.last_confirmed_modification_date</label>
+                    <label>{{accountDetailsService.account.confirmedModificationDate | date :'short':identityService.getTimezone()}}</label>
+                </div>
+                <div class="row">
+                    <label class="uppercase" translate>account-details.last_password_modification_date</label>
+                    <label>{{accountDetailsService.account.passwordModificationDate | date :'short':identityService.getTimezone()}}</label>
+                </div>
+                <div class="row">
+                    <label class="uppercase" translate>account-details.last_email_modification_date</label>
+                    <label>{{accountDetailsService.account.emailModificationDate | date :'short':identityService.getTimezone()}}</label>
                 </div>
                 <div class="row">
                     <label class="uppercase" translate>account-details.creation_date</label>
