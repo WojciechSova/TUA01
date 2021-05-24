@@ -43,7 +43,7 @@ public interface OneTimeUrlFacadeLocal extends AbstractFacadeInterface<OneTimeUr
     /**
      * Metoda wyszukująca listę encji typu {@link OneTimeUrl} o przekazanym adresie e-mail.
      *
-     * @param email Adres email e-ncji
+     * @param email Adres e-mail encji
      * @return Lista obiektów typu {@link OneTimeUrl} o przekazanym adresie e-mail
      */
     List<OneTimeUrl> findListByEmail(String email);
