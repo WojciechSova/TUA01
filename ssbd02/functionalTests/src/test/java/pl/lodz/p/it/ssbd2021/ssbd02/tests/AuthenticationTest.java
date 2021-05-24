@@ -14,9 +14,9 @@ public class AuthenticationTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private WebDriver driver;
     private final String password = "password?";
     private final String incorrectLogin = "nieprawidlowe";
+    private WebDriver driver;
 
     @BeforeAll
     static void initAll() {
