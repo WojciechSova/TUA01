@@ -45,10 +45,8 @@ public interface AccountManagerLocal {
      * Metoda tworząca konto wraz z początkowym poziomem dostępu klienta
      *
      * @param account Encja typu {@link Account}
-     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
-     *                                 o podanym loginie, emailu bądź numerze telefonu
      */
-    void createAccount(Account account) throws WebApplicationException;
+    void createAccount(Account account);
 
     /**
      * Metoda rejestrująca niepoprawne uwierzytelnienie użytkownika.
@@ -86,10 +84,8 @@ public interface AccountManagerLocal {
      *
      * @param account    Encja typu {@link Account}
      * @param modifiedBy Login użytkownika, który edytuje encje
-     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
-     *                                 o podanym emailu bądź numerze telefonu, kod odpowiedzi 406 w przypadku, gdy nie podano loginu
      */
-    void updateAccount(Account account, String modifiedBy) throws WebApplicationException;
+    void updateAccount(Account account, String modifiedBy);
 
     /**
      * Metoda dołączająca poziom dostępu do konta o podanym loginie
@@ -115,11 +111,8 @@ public interface AccountManagerLocal {
      * @param login       Login użytkownika
      * @param oldPassword Dotychczasowe hasło użytkownika do konta
      * @param newPassword Nowe hasło użytkownika do konta
-     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi:
-     *                                 406 w przypadku, gdy podane dotychczasowe hasło do konta jest nieprawidłowe,
-     *                                 409 gdy podane nowe hasło jest identyczne jak hasło poprzednie
      */
-    void changePassword(String login, Password oldPassword, Password newPassword) throws WebApplicationException;
+    void changePassword(String login, Password oldPassword, Password newPassword);
 
     /**
      * Metoda zmieniająca aktywność użytkownika.

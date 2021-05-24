@@ -1,5 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.entities.mok;
-import lombok.*;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 
 import javax.persistence.*;
@@ -92,6 +96,26 @@ public class Account extends AbstractEntity implements Serializable {
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id", table = "Personal_data")
     private Account modifiedBy;
+
+    @PastOrPresent
+    @Column(name = "activity_modification_date", nullable = true, updatable = true, table = "Personal_data")
+    private Timestamp activityModificationDate;
+
+    @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "activity_modified_by", nullable = true, updatable = true, referencedColumnName = "id", table = "Personal_data")
+    private Account activityModifiedBy;
+
+    @PastOrPresent
+    @Column(name = "confirmed_modification_date", nullable = true, updatable = true, table = "Personal_data")
+    private Timestamp confirmedModificationDate;
+
+    @PastOrPresent
+    @Column(name = "password_modification_date", nullable = true, updatable = true, table = "Personal_data")
+    private Timestamp passwordModificationDate;
+
+    @PastOrPresent
+    @Column(name = "email_modification_date", nullable = true, updatable = true, table = "Personal_data")
+    private Timestamp emailModificationDate;
 
     @PastOrPresent
     @Column(name = "creation_date", nullable = false, updatable = false, table = "Personal_data")

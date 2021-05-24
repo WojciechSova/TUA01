@@ -58,6 +58,16 @@ public class AccountDetailsDTO extends AbstractDTO {
 
     private AccountGeneralDTO modifiedBy;
 
+    private Timestamp activityModificationDate;
+
+    private AccountGeneralDTO activityModifiedBy;
+
+    private Timestamp confirmedModificationDate;
+
+    private Timestamp passwordModificationDate;
+
+    private Timestamp emailModificationDate;
+
     private Timestamp creationDate;
 
     private Timestamp lastKnownGoodLogin;
