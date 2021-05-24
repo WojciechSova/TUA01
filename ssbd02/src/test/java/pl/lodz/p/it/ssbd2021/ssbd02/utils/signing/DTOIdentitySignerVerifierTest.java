@@ -20,7 +20,7 @@ class DTOIdentitySignerVerifierTest {
 
     @Test
     void calculateEntitySignature() {
-        String algorithm = "\"alg\":\"HS256\"";
+        String algorithm = "\"alg\":\"HS512\"";
 
         String[] separatedETag = DTOIdentitySignerVerifier.calculateDTOSignature(account).split("\\.");
         assertEquals(3, separatedETag.length);

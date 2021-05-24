@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class AccountDetailsService implements OnDestroy {
 
+    private readonly url: string;
+
     public account: AccountDetails = {
         accessLevel: [],
         active: false,
@@ -23,8 +25,6 @@ export class AccountDetailsService implements OnDestroy {
     };
 
     eTag = '';
-
-    private readonly url: string;
 
     constructor(private http: HttpClient) {
         this.url = environment.appUrl + '/accounts';
@@ -60,6 +60,10 @@ export class AccountDetailsService implements OnDestroy {
 
     private parseDates(account: AccountDetails): AccountDetails {
         account.modificationDate = this.parseDate(account.modificationDate);
+        account.activityModificationDate = this.parseDate(account.activityModificationDate);
+        account.confirmedModificationDate = this.parseDate(account.confirmedModificationDate);
+        account.passwordModificationDate = this.parseDate(account.passwordModificationDate);
+        account.emailModificationDate = this.parseDate(account.emailModificationDate);
         account.creationDate = (this.parseDate(account.creationDate) as Date);
         account.lastKnownBadLogin = this.parseDate(account.lastKnownBadLogin);
         account.lastKnownGoodLogin = this.parseDate(account.lastKnownGoodLogin);
@@ -76,7 +80,19 @@ export class AccountDetailsService implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.account = {} as any;
+        this.account = {
+            accessLevel: [],
+            active: false,
+            confirmed: false,
+            creationDate: new Date(),
+            email: '',
+            firstName: '',
+            lastName: '',
+            numberOfBadLogins: 0,
+            login: '',
+            password: ''
+        };
+
         this.eTag = '';
     }
 }
