@@ -1,9 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.VehicleTypeFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.VehicleTypeManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.VehicleType;
 
+import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -16,7 +18,7 @@ import java.util.List;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class VehicleTypeManager implements VehicleTypeManagerLocal {
+public class VehicleTypeManager extends AbstractManager implements VehicleTypeManagerLocal, SessionSynchronization {
 
     @Override
     public List<VehicleType> getAllVehicleTypes() {
