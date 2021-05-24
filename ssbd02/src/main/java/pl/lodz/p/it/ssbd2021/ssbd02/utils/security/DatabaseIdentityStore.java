@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers.interfaces.AuthManagerLocal;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.security.enterprise.credential.Credential;
@@ -18,6 +20,7 @@ import java.util.Set;
  * @author Patryk Kolanek
  */
 @RequestScoped
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class DatabaseIdentityStore implements IdentityStore {
 
     @Inject
@@ -31,6 +34,7 @@ public class DatabaseIdentityStore implements IdentityStore {
      * zwraca INVALID_RESULT. W przypadku podania prawidłowych danych logowania zwraca obiekt typu {@link CredentialValidationResult}.
      */
     @Override
+    @PermitAll
     public CredentialValidationResult validate(Credential credential) {
         if (!(credential instanceof UsernamePasswordCredential)) {
             return CredentialValidationResult.NOT_VALIDATED_RESULT;
@@ -54,6 +58,7 @@ public class DatabaseIdentityStore implements IdentityStore {
      * @return Zestaw grup do których należy użytkownik.
      */
     @Override
+    @PermitAll
     public Set<String> getCallerGroups(CredentialValidationResult validationResult) {
         return validationResult.getCallerGroups();
     }

@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades.interfaces.AuthViewFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.auth.AuthView;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -38,6 +39,8 @@ public class AuthViewFacade extends AbstractFacade<AuthView> implements AuthView
         return entityManager;
     }
 
+    @Override
+    @PermitAll
     public List<String> findLevelsByCredentials(String login, String password) {
         TypedQuery<String> typedQuery = entityManager.createNamedQuery("AuthView.findLevelByCredentials", String.class);
         typedQuery.setParameter("login", login);
