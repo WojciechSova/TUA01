@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
         lastName: new FormControl('', Validators.required),
         email: new FormControl('', [Validators.required, Validators.email, validateEmail]),
         emailRepeat: new FormControl('', [Validators.required, validateEmail]),
-        phoneNumber: new FormControl('', Validators.pattern('[0-9]{3,15}') )
+        phoneNumber: new FormControl('', Validators.pattern('[0-9]{3,15}'))
     });
 
     ngOnInit(): void {
@@ -64,13 +64,14 @@ export class RegisterComponent implements OnInit {
                     active: true,
                     creationDate: new Date()
                 },
-                ],
+            ],
             language: navigator.language || window.navigator.language,
             timeZone: getTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)?.utcOffsetStr,
             creationDate: new Date(),
             numberOfBadLogins: 0
         };
-        this.registrationService.register(account);
-        this.closeComponent();
+        this.registrationService.register(account).subscribe(() => {
+            this.closeComponent();
+        });
     }
 }
