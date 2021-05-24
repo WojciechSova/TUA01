@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +37,7 @@ import { NotFoundComponent } from './other-views/error-pages/not-found/not-found
 import { AuthInterceptor } from './services/interceptors/auth-interceptor';
 import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
 import { SessionTimeoutComponent } from './common/navigation/session-timeout/session-timeout.component';
+import { ErrorHandlerService } from './services/error-handlers/error-handler.service';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -44,6 +45,17 @@ export function rootLoaderFactory(http: HttpClient): any {
 
 export const httpInterceptorProviders = [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+];
+
+export const errorHandlerProviders = [
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
+];
+
+export const localeServiceProviders = [
+    { provide: LOCALE_ID,
+        useFactory: (localeService: LocaleService) => localeService.getLocale(),
+        deps: [LocaleService]
+    },
 ];
 
 @NgModule({
@@ -94,10 +106,8 @@ export const httpInterceptorProviders = [
         IdentityService,
         TranslateService,
         httpInterceptorProviders,
-        { provide: LOCALE_ID,
-          useFactory: (localeService: LocaleService) => localeService.getLocale(),
-          deps: [LocaleService]
-        }
+        errorHandlerProviders,
+        localeServiceProviders,
     ],
     bootstrap: [AppComponent]
 })
