@@ -636,7 +636,6 @@ public class AccountEndpoint {
 
     @POST
     @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
-    @PermitAll
     @Consumes(MediaType.TEXT_PLAIN)
     @Path("change/accesslevel")
     public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @NotBlank String accessLevel) {

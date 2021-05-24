@@ -43,6 +43,7 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
         return entityManager;
     }
 
+    @Override
     @PermitAll
     public Account findByLogin(String login) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByLogin", Account.class);
@@ -50,6 +51,8 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
         return typedQuery.getSingleResult();
     }
 
+    @Override
+    @PermitAll
     public Account findByEmail(String email) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail", Account.class);
         typedQuery.setParameter("email", email);
@@ -71,6 +74,7 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
     }
 
     @Override
+    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
     public List<Account> findListByEmail(String email) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail", Account.class);
         typedQuery.setParameter("email", email);
