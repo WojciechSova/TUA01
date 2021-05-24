@@ -47,7 +47,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.environment>prod</project.environment>
-        <jdbc.config.src>src/dev/java</jdbc.config.src>
+        <jdbc.config.src>src/prod/java</jdbc.config.src>
         <mail.flag>true</mail.flag>
 
         <servlet.port>8402</servlet.port>
@@ -55,7 +55,7 @@
         <payara.username>admin</payara.username>
         <payara.password>Nencihoag5</payara.password>
         <payara.hostname>studapp.it.p.lodz.pl</payara.hostname>
-        <payara.domainName>domain1</payara.domainName>
+        <payara.domainName>ssbd02</payara.domainName>
         <payara.home>/opt/java/payara-5.2021.1/glassfish</payara.home>
         <payara.domainDir>${payara.home}/domains</payara.domainDir>
     </properties>
@@ -194,7 +194,7 @@
                     <version>1.9.4</version>
                     <configuration>
                         <container>
-                            <containerId>payara</containerId>
+                            <containerId>glassfish5x</containerId>
                         </container>
                         <configuration>
                             <properties>
@@ -213,6 +213,18 @@
                             </goals>
                         </execution>
                     </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.glassfish.main.deployment</groupId>
+                            <artifactId>deployment-client</artifactId>
+                            <version>5.1.0</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>jakarta.xml.bind</groupId>
+                            <artifactId>jakarta.xml.bind-api</artifactId>
+                            <version>2.3.3</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -262,7 +274,7 @@
                                 <phase>generate-resources</phase>
                                 <configuration>
                                     <nodeVersion>v14.17.0</nodeVersion>
-                                    <!--                        <npmVersion>6.14.13</npmVersion> This is the default version provided by nodejs 14.17.0 -->
+                                    <!--<npmVersion>6.14.13</npmVersion> This is the default version provided by nodejs 14.17.0 -->
                                 </configuration>
                             </execution>
                             <execution>
@@ -322,7 +334,7 @@
             </build>
         </profile>
         <profile>
-            <id>cargo-deployment-remote</id>
+            <id>cargo-deployment</id>
             <build>
                 <plugins>
                     <plugin>
