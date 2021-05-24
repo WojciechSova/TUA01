@@ -1,59 +1,52 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class IdentityService {
 
     private readonly url: string;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private cookieService: CookieService) {
         this.url = environment.appUrl + '/accounts/change/accesslevel';
     }
 
     getLogin(): string {
-        return localStorage.getItem('login') as string;
+        return this.cookieService.get('login') as string;
     }
 
     isAdmin(): boolean {
-        return localStorage.getItem('currentAccessLevel') === 'ADMIN';
+        return this.cookieService.get('currentAccessLevel') === 'ADMIN';
     }
 
     isEmployee(): boolean {
-        return localStorage.getItem('currentAccessLevel') === 'EMPLOYEE';
+        return this.cookieService.get('currentAccessLevel') === 'EMPLOYEE';
     }
 
     isClient(): boolean {
-        return localStorage.getItem('currentAccessLevel') === 'CLIENT';
+        return this.cookieService.get('currentAccessLevel') === 'CLIENT';
     }
 
     isGuest(): boolean {
-        return localStorage.getItem('currentAccessLevel') === null;
+        return this.cookieService.get('currentAccessLevel') === '';
     }
 
     getAllRolesAsString(): string {
-        return localStorage.getItem('accessLevel') as string;
+        return this.cookieService.get('accessLevel') as string;
     }
 
     getCurrentRole(): string {
-        return localStorage.getItem('currentAccessLevel') as string;
-    }
-
-    getAllRolesAsArray(): string[] {
-        const levels = this.getAllRolesAsString();
-        return levels.split(',');
+        return this.cookieService.get('currentAccessLevel') as string;
     }
 
     setCurrentRole(level: string): void {
-        localStorage.setItem('currentAccessLevel', level);
-        this.http.post(this.url, level, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-        }).subscribe();
+        this.cookieService.set('currentAccessLevel', level);
+        this.http.post(this.url, level).subscribe();
     }
 
     getTimezone(): string {
-        return localStorage.getItem('timezone') || '+00:00';
+        return this.cookieService.get('timezone') || '+00:00';
     }
 }

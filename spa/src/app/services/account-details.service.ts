@@ -36,7 +36,6 @@ export class AccountDetailsService implements OnDestroy {
 
     getProfile(): Observable<HttpResponse<AccountDetails>> {
         return this.generateAccountDetailsRequest();
-
     }
 
     private generateAccountDetailsRequest(login?: string): Observable<HttpResponse<AccountDetails>> {
@@ -45,10 +44,7 @@ export class AccountDetailsService implements OnDestroy {
         return this.http.get<AccountDetails>(urlBuilder,
             {
                 observe: 'response',
-                responseType: 'json',
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
+                responseType: 'json'
             });
     }
 
@@ -72,7 +68,7 @@ export class AccountDetailsService implements OnDestroy {
         if (!stringDate) {
             return undefined;
         }
-        return new Date(stringDate.toString().split('[UTC]')[0]);
+        return new Date(stringDate.toString().split('[UTC]')[ 0 ]);
     }
 
     ngOnDestroy(): void {
