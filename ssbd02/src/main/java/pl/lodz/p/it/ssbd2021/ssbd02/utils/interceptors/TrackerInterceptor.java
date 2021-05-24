@@ -37,8 +37,8 @@ public class TrackerInterceptor {
             try {
                 message.append(ictx.getMethod().toString());
                 message.append(" authenticated user: ").append(sctx.getCallerPrincipal().getName());
-                message.append(" values of the parameters: ");
                 if (null != ictx.getParameters()) {
+                    message.append(" values of the parameters: ");
                     for (Object param : ictx.getParameters()) {
                         if (param instanceof AbstractEntity) {
                             message.append(param.getClass().getName())
