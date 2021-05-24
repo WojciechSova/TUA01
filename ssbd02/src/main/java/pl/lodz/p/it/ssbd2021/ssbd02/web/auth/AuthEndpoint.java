@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2021.ssbd02.web.auth;
 
 import com.nimbusds.jwt.SignedJWT;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
@@ -28,6 +30,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +50,8 @@ public class AuthEndpoint {
 
     @Inject
     private AccountManagerLocal accountManagerLocal;
+
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Metoda obsługująca operację uwierzytelnienia.
@@ -137,6 +142,24 @@ public class AuthEndpoint {
         } catch (Exception e) {
             throw CommonExceptions.createUnknownException();
         }
+    }
+
+    /**
+     * Metoda służąca do logowania zmiany aktualnego poziomu dostępu przez użytkownika
+     *
+     * @param securityContext    Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param httpServletRequest Obiekt reprezentujący żądanie
+     * @param accessLevel        Poziom dostępu, na który przełączył się użytkownik
+     * @return Kod odpowiedzi 200
+     */
+    @POST
+    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
+    @Path("change/accesslevel")
+    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @Context HttpServletRequest httpServletRequest, String accessLevel) {
+        String clientAddress = getClientIp(httpServletRequest);
+        logger.info("The user with login {} changed the access level to {} (ip: {})",
+                securityContext.getUserPrincipal().getName(), accessLevel, clientAddress);
+        return Response.ok().build();
     }
 
     private String getClientIp(HttpServletRequest req) {
