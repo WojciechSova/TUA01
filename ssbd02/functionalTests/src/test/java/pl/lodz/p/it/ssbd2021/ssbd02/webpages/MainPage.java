@@ -7,6 +7,7 @@ public class MainPage {
 
     protected WebDriver driver;
     private final By loginButton = By.id("loginLink");
+    private final By registerButton = By.id("registerLink");
     //TODO: Add other main page web elements required for further testing
 
     public MainPage(WebDriver driver) {
@@ -16,5 +17,14 @@ public class MainPage {
     public LoginPage openLoginForm() {
         driver.findElement(loginButton).click();
         return new LoginPage(driver);
+    }
+
+    public RegistrationPage openRegistrationPage() {
+        driver.findElement(registerButton).click();
+        return new RegistrationPage(driver);
+    }
+
+    public By getLoginButton() {
+        return loginButton;
     }
 }

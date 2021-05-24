@@ -38,8 +38,8 @@
             <div class="validation-error" *ngIf="form.controls.password.hasError('minlength') && form.controls.password.touched"
                  translate>form.short_password</div>
 
-            <label for="passwordRegRepeat"></label>
-            <input type="password" id="passwordRegRepeat" appConfirmEqualValidator="password" name="PasswordRegRepeat"
+            <label for="password-reg-repeat"></label>
+            <input type="password" id="password-reg-repeat" appConfirmEqualValidator="password" name="PasswordRegRepeat"
                    placeholder="{{'form.required_repeat_password' | translate}}" formControlName="passwordRepeat"
                    [ngClass]="{'is-invalid': form.controls.passwordRepeat.touched && form.controls.passwordRepeat.invalid}">
             <div class="validation-error" *ngIf="form.controls.passwordRepeat.hasError('notMatching')
@@ -69,7 +69,7 @@
             <div class="validation-error" *ngIf="form.controls.phoneNumber.hasError('pattern') && form.controls.phoneNumber.touched"
                  translate>form.invalid_phone_number</div><br><br>
 
-            <button class="form-button"
+            <button id="confirm" class="form-button"
                     (click)="register(login.value, password.value, firstname.value, lastName.value, email.value, phoneNumber?.value)"
                     [disabled]="form.invalid" translate>links.sing_up</button>
         </form>
