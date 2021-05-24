@@ -40,5 +40,9 @@ public abstract class AbstractEntity {
         }
         return true;
     }
+
+    public String getSummary() {
+        return " Entity id: " + getId() + " version: " + getVersion();
+    }
 }
 

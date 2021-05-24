@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Local;
+import javax.security.enterprise.credential.Password;
 import javax.ws.rs.WebApplicationException;
 import java.util.List;
 
@@ -118,7 +119,7 @@ public interface AccountManagerLocal {
      *                                 406 w przypadku, gdy podane dotychczasowe hasło do konta jest nieprawidłowe,
      *                                 409 gdy podane nowe hasło jest identyczne jak hasło poprzednie
      */
-    void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException;
+    void changePassword(String login, Password oldPassword, Password newPassword) throws WebApplicationException;
 
     /**
      * Metoda zmieniająca aktywność użytkownika.

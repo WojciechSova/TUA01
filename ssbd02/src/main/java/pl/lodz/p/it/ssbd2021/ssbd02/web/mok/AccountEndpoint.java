@@ -15,16 +15,10 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.security.enterprise.credential.Password;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -252,7 +246,8 @@ public class AccountEndpoint {
                 passwordDTO.getNewPassword() == null || passwordDTO.getNewPassword().isBlank()) {
             throw new WebApplicationException("Required fields are missing", 400);
         }
-        accountManager.changePassword(securityContext.getUserPrincipal().getName(), passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
+        accountManager.changePassword(securityContext.getUserPrincipal().getName(),
+                new Password(passwordDTO.getOldPassword()), new Password(passwordDTO.getNewPassword()));
         return Response.ok()
                 .build();
     }
@@ -315,7 +310,7 @@ public class AccountEndpoint {
      * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiany adresu e-mail użytkownika o podanym loginie.
      *
      * @param newEmailAddress Nowy adres e-mail.
-     * @param login Login użytkownika, któremy ma zostać zmieniony adres e-mail.
+     * @param login           Login użytkownika, któremy ma zostać zmieniony adres e-mail.
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
      * Kod 406 w przypadku niepoprawnej walidacji adresu
      */

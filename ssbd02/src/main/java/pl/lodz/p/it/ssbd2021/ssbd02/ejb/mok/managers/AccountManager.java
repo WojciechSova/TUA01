@@ -16,12 +16,15 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccessLevelExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
+import javax.security.enterprise.credential.Password;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -41,6 +44,7 @@ import static java.time.temporal.ChronoUnit.SECONDS;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
+@Interceptors(TrackerInterceptor.class)
 public class AccountManager extends AbstractManager implements AccountManagerLocal, SessionSynchronization {
 
     private static final Properties prop = new Properties();
@@ -238,16 +242,16 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         });
     }
 
-    public void changePassword(String login, String oldPassword, String newPassword) throws CommonExceptions, AccountExceptions {
+    public void changePassword(String login, Password oldPassword, Password newPassword) throws CommonExceptions, AccountExceptions {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
-        String hashedOldPassword = DigestUtils.sha512Hex(oldPassword);
+        String hashedOldPassword = DigestUtils.sha512Hex(String.valueOf(oldPassword.getValue()));
         if (!hashedOldPassword.equals(account.getPassword())) {
             throw AccountExceptions.createNotAcceptableException(AccountExceptions.ERROR_PASSWORD_NOT_CORRECT);
-        } else if (newPassword.equals(oldPassword)) {
+        } else if (String.valueOf(newPassword.getValue()).equals(String.valueOf(oldPassword.getValue()))) {
             throw AccountExceptions.createExceptionConflict(AccountExceptions.ERROR_SAME_PASSWORD);
         }
 
-        account.setPassword(DigestUtils.sha512Hex(newPassword));
+        account.setPassword(DigestUtils.sha512Hex(String.valueOf(newPassword.getValue())));
         account.setModifiedBy(null);
         account.setModificationDate(Timestamp.from(Instant.now()));
         accountFacadeLocal.edit(account);

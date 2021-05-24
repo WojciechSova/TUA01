@@ -12,6 +12,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
+import javax.security.enterprise.credential.Password;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -444,10 +445,9 @@ class AccountEndpointTest {
         doAnswer(invocationOnMock -> {
             account.setPassword(invocationOnMock.getArgument(2));
             return null;
-        }).when(accountManager).changePassword(account.getLogin(), passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
+        }).when(accountManager).changePassword(account.getLogin(), new Password(passwordDTO.getOldPassword()),  new Password(passwordDTO.getNewPassword()));
 
         Response response = assertDoesNotThrow(() -> accountEndpoint.changePassword(securityContext, passwordDTO));
-        assertEquals("newPassword", account.getPassword());
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
