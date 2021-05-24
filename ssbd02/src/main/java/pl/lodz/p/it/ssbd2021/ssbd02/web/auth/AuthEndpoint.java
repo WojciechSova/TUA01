@@ -69,6 +69,8 @@ public class AuthEndpoint {
 
         if (result.getStatus() != CredentialValidationResult.Status.VALID) {
             accountManagerLocal.registerBadLogin(credentialsDTO.getLogin(), clientAddress);
+            logger.info("Failed logon attempt, user: {} (ip: {})",
+                    credentialsDTO.getLogin(), clientAddress);
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
@@ -79,6 +81,10 @@ public class AuthEndpoint {
         accountManagerLocal.registerGoodLogin(credentialsDTO.getLogin(), clientAddress);
         accountManagerLocal.updateLanguage(credentialsDTO.getLogin(), language);
         String timezone = accountManagerLocal.getTimezone(result.getCallerPrincipal().getName());
+
+        logger.info("New successful logon, authenticated user: {} (ip: {})",
+                credentialsDTO.getLogin(), clientAddress);
+
         return Response.accepted()
                 .type("application/jwt")
                 .entity(JWTGenerator.generateJWT(result, timezone))
