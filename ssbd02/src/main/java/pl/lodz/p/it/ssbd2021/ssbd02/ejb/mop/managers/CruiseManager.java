@@ -1,8 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CruiseManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 
+import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -15,7 +17,7 @@ import java.util.List;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class CruiseManager implements CruiseManagerLocal {
+public class CruiseManager extends AbstractManager implements CruiseManagerLocal, SessionSynchronization {
 
     @Override
     public List<Cruise> getAllCruises() {

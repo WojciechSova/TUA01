@@ -1,8 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 
+import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -15,7 +17,7 @@ import java.util.List;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-public class CabinManager implements CabinManagerLocal {
+public class CabinManager extends AbstractManager implements CabinManagerLocal, SessionSynchronization {
 
     @Override
     public List<Cabin> getAllCabins() {
