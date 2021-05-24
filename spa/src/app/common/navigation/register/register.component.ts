@@ -71,5 +71,6 @@ export class RegisterComponent implements OnInit {
             numberOfBadLogins: 0
         };
         this.registrationService.register(account);
+        this.closeComponent();
     }
 }
