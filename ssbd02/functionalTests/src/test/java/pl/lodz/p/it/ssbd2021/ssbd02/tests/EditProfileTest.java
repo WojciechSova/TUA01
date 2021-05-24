@@ -95,7 +95,7 @@ public class EditProfileTest {
             logInAndOpenAnotherUserDetails();
         }
 
-        editData(newFirstName, newLastName, newPhoneNumber.substring(0, 5));
+        editData(newFirstName, newLastName, newPhoneNumber.substring(0, 1));
         driver.findElement(editUserProfilePage.getFirstNameEdit()).sendKeys(Keys.SHIFT);
         assertTrue(driver.findElement(editUserProfilePage.getInvalidNumberError()).isDisplayed());
     }

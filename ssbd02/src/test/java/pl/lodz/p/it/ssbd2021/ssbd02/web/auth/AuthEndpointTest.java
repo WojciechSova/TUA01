@@ -13,6 +13,9 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTVerifier;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
 
@@ -96,10 +99,11 @@ class AuthEndpointTest {
         Mockito.when(credentialValidationResult.getStatus())
                 .thenReturn(CredentialValidationResult.Status.INVALID);
 
-        Response response = authEndpoint.auth(httpServletRequest, wrongCredentialsDTO);
+        CommonExceptions exception = Assertions.assertThrows(CommonExceptions.class,
+                () -> authEndpoint.auth(httpServletRequest, wrongCredentialsDTO));
 
-        Assertions.assertEquals(401, response.getStatus());
-        Assertions.assertNull(response.getEntity());
+        Assertions.assertEquals(401, exception.getResponse().getStatus());
+        Assertions.assertEquals("ERROR.CREDENTIALS_INVALID", exception.getResponse().getEntity());
 
         Mockito.verify(accountManagerLocal, Mockito.times(1))
                 .registerBadLogin("login", "192.168.1.1");
@@ -119,8 +123,12 @@ class AuthEndpointTest {
         Mockito.when(httpServletRequest.getHeader(SecurityConstants.AUTHORIZATION))
                 .thenReturn("Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJBRE1JTiIsImlzcyI6InNzYmQwMiIsImV4cCI6MTYyMDk5NDI3Nn0.YPSaXui7WuSscIJLZ9QYADmAGz4b2Y2y7VT2OnfrPbs");
         Mockito.when(account.getActive()).thenReturn(false);
-        Response response = authEndpoint.refreshToken(httpServletRequest);
-        Assertions.assertEquals(403, response.getStatus());
+
+        GeneralException exception = Assertions.assertThrows(AccountExceptions.class,
+                () -> authEndpoint.refreshToken(httpServletRequest));
+
+        Assertions.assertEquals(403, exception.getResponse().getStatus());
+        Assertions.assertEquals(AccountExceptions.ERROR_ACCOUNT_INACTIVE, exception.getResponse().getEntity());
     }
 
     @Test

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ResetPasswordService {
 
@@ -15,5 +16,19 @@ export class ResetPasswordService {
 
     resetPassword(email: string): any {
         return this.http.post(this.url, email);
+    }
+
+    setNewPassword(oneTimeUrl: string, newPassword: string): Observable<HttpResponse<any>> {
+        const completeUrl = this.url + '/' + oneTimeUrl;
+        return this.http.put<any>(completeUrl, newPassword);
+    }
+
+    resetPasswordResponse(email: string): Observable<HttpResponse<any>> {
+        return this.http.post<any>(this.url, email,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
+                }
+            });
     }
 }

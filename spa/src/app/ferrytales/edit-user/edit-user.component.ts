@@ -19,7 +19,7 @@ export class EditUserComponent implements OnInit {
                 private route: ActivatedRoute,
                 private updateAccountService: UpdateAccountService,
                 private router: Router,
-                private identityService: IdentityService) {
+                public identityService: IdentityService) {
     }
 
     public existingPhoneNumber = false;
@@ -69,6 +69,18 @@ export class EditUserComponent implements OnInit {
         return this.updating;
     }
 
+    goToHomeBreadcrumb(): void {
+        this.router.navigate(['/']);
+    }
+
+    goToUserListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/accounts']);
+    }
+
+    goToAccountBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/accounts/' + this.accountDetailsService.account.login]);
+    }
+
     getAccount(): void {
         const login = (this.route.snapshot.paramMap.get('login') as string);
         if (!login) {
@@ -116,7 +128,7 @@ export class EditUserComponent implements OnInit {
     }
 
     sendEditRequest(acc: AccountDetails): Observable<object> {
-        if (localStorage.getItem('login') === acc.login) {
+        if (this.identityService.getLogin() === acc.login) {
             return this.updateAccountService.updateOwnAccount(acc);
         } else {
             return this.updateAccountService.updateAccount(acc);

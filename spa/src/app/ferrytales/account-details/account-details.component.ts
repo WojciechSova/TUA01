@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AccountDetails } from '../../model/mok/AccountDetails';
 import { IdentityService } from '../../services/utils/identity.service';
 import { AccessLevel } from '../../model/mok/AccessLevel';
@@ -11,13 +11,7 @@ import { HttpResponse } from '@angular/common/http';
     templateUrl: './account-details.component.html',
     styleUrls: ['./account-details.component.less']
 })
-export class AccountDetailsComponent {
-
-    constructor(public identityService: IdentityService,
-                public accountDetailsService: AccountDetailsService,
-                private route: ActivatedRoute,
-                private router: Router) {
-    }
+export class AccountDetailsComponent implements OnInit {
 
     isChangePasswordFormVisible = false;
 
@@ -25,11 +19,29 @@ export class AccountDetailsComponent {
 
     isAccessLevelFormVisible = false;
 
+    isResetPasswordVisible = false;
+
+    resetPasswordConnect = {
+        isResetPasswordVisible: false,
+        resetPasswordResponse: 'hide'
+    };
+
     loginToChangeAccessLevel = '';
     loginAccessLevels = [''];
 
+    constructor(public identityService: IdentityService,
+                public accountDetailsService: AccountDetailsService,
+                private route: ActivatedRoute,
+                private router: Router) {
+    }
+
+    ngOnInit(): void {
+        this.getAccount();
+    }
+
     setLoginAccessLevels(login: string, accessLevels: AccessLevel[]): void {
-        const accessLevelsStringTab = accessLevels.map((accessLevel) => accessLevel.level);
+        const accessLevelsStringTab = accessLevels.filter(accessLevel => accessLevel.active)
+            .map((accessLevel) => accessLevel.level);
         this.loginToChangeAccessLevel = login;
         this.loginAccessLevels = accessLevelsStringTab;
     }
@@ -39,8 +51,9 @@ export class AccountDetailsComponent {
     }
 
     getAccount(): void {
+        this.resetPasswordConnect.resetPasswordResponse = 'hide';
         const login = (this.route.snapshot.paramMap.get('login') as string);
-        if (this.accountDetailsService.account.login === login) {
+        if (this.identityService.getLogin() === login) {
             this.accountDetailsService.getProfile().subscribe(
                 (response: HttpResponse<AccountDetails>) => {
                     this.accountDetailsService.readAccountAndEtagFromResponse(response);
@@ -58,6 +71,12 @@ export class AccountDetailsComponent {
         this.isChangePasswordFormVisible = visible;
     }
 
+    resetPasswordClick(): void {
+        this.resetPasswordConnect.isResetPasswordVisible = true;
+        this.resetPasswordConnect.resetPasswordResponse = 'hide';
+        this.changePasswordResetVisible(this.resetPasswordConnect);
+    }
+
     changeEmailFormVisible(visible: boolean): void {
         this.isChangeEmailFormVisible = visible;
     }
@@ -66,7 +85,25 @@ export class AccountDetailsComponent {
         this.isAccessLevelFormVisible = visible;
     }
 
+    changePasswordResetVisible(resetResponse: any): void {
+        this.getAccount();
+        this.resetPasswordConnect.isResetPasswordVisible = resetResponse.isResetPasswordVisible;
+        this.resetPasswordConnect.resetPasswordResponse = resetResponse.resetPasswordResponse;
+    }
+
     editUser(login: string): void {
         this.router.navigate(['ferrytales/accounts/edit', login]);
+    }
+
+    isOnOwnProfile(): boolean {
+        return this.identityService.getLogin() === this.accountDetailsService.account.login;
+    }
+
+    goToHomeBreadcrumb(): void {
+        this.router.navigate(['/']);
+    }
+
+    goToUserListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/accounts']);
     }
 }

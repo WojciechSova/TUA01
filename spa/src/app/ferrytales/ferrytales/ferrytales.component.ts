@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {IdentityService} from '../../services/utils/identity.service';
 
 @Component({
     selector: 'app-ferrytales',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FerrytalesComponent implements OnInit {
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit(): void {
-  }
+
+    ngOnInit(): void {
+    }
+
 
 }

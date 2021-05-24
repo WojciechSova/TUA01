@@ -44,10 +44,8 @@ public interface AccountManagerLocal {
      * Metoda tworząca konto wraz z początkowym poziomem dostępu klienta
      *
      * @param account Encja typu {@link Account}
-     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
-     *                                 o podanym loginie, emailu bądź numerze telefonu
      */
-    void createAccount(Account account) throws WebApplicationException;
+    void createAccount(Account account);
 
     /**
      * Metoda rejestrująca niepoprawne uwierzytelnienie użytkownika.
@@ -85,10 +83,8 @@ public interface AccountManagerLocal {
      *
      * @param account    Encja typu {@link Account}
      * @param modifiedBy Login użytkownika, który edytuje encje
-     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi 409 w przypadku, gdy istnieje już konto
-     *                                 o podanym emailu bądź numerze telefonu, kod odpowiedzi 406 w przypadku, gdy nie podano loginu
      */
-    void updateAccount(Account account, String modifiedBy) throws WebApplicationException;
+    void updateAccount(Account account, String modifiedBy);
 
     /**
      * Metoda dołączająca poziom dostępu do konta o podanym loginie
@@ -114,11 +110,8 @@ public interface AccountManagerLocal {
      * @param login       Login użytkownika
      * @param oldPassword Dotychczasowe hasło użytkownika do konta
      * @param newPassword Nowe hasło użytkownika do konta
-     * @throws WebApplicationException Wyjątek zwracający kod odpowiedzi:
-     *                                 406 w przypadku, gdy podane dotychczasowe hasło do konta jest nieprawidłowe,
-     *                                 409 gdy podane nowe hasło jest identyczne jak hasło poprzednie
      */
-    void changePassword(String login, String oldPassword, String newPassword) throws WebApplicationException;
+    void changePassword(String login, String oldPassword, String newPassword);
 
     /**
      * Metoda zmieniająca aktywność użytkownika.
@@ -140,25 +133,24 @@ public interface AccountManagerLocal {
      * Metoda aktywująca zarejestrowanego użytkownika.
      *
      * @param url Kod potwierdzający konto użytkownika
-     * @return Prawda, jeżeli uda się potwierdzić użytkownika, w przeciwnym wypadku fałsz
      */
-    boolean confirmAccount(String url);
+    void confirmAccount(String url);
 
     /**
      * Metoda zmieniająca adres email użytkownika.
      *
      * @param url Kod potwierdzający nowy adres email
-     * @return Prawda jeżeli uda się potwierdzić adres email, w przeciwnym wypadku fałsz
      */
-    boolean changeEmailAddress(String url);
+    void changeEmailAddress(String url);
 
     /**
      * Metoda wysyłająca wiadomość na nowy adres email z linkiem potwierdzającym jego zmianę.
      *
      * @param login           Login użytkownika, którego adres email ma ulec zmianie
      * @param newEmailAddress Nowy adres email
+     * @param requestedBy     Login użytkownika, który zlecił operację
      */
-    void sendChangeEmailAddressUrl(String login, String newEmailAddress);
+    void sendChangeEmailAddressUrl(String login, String newEmailAddress, String requestedBy);
 
     /**
      * Metoda wysyłająca wiadomość email z adresem służącym do resetowania hasła.
@@ -167,16 +159,31 @@ public interface AccountManagerLocal {
      * którego okres ważności jest resetowany.
      * Okres ważności pobierany jest z pliku system.properties a domyślna wartość to 20 minut.
      *
-     * @param email Adres email użytkownika, którego hasło ma zostać zresetowane
+     * @param email       Adres email użytkownika, którego hasło ma zostać zresetowane
+     * @param requestedBy Login użytkownika, który zlecił operację
      */
-    void sendPasswordResetAddressUrl(String email);
+    void sendPasswordResetAddressUrl(String email, String requestedBy);
 
     /**
      * Metoda resetująca hasło do konta.
      *
      * @param url         Jednorazowy url, który potwierdza możliwość resetowania hasła do konta
      * @param newPassword Nowe hasło użytkownika
-     * @return Status powodzenia operacji
      */
-    boolean resetPassword(String url, String newPassword);
+    void resetPassword(String url, String newPassword);
+
+    /**
+     * Metoda zwracająca strefę czasową dla użytkownika.
+     *
+     * @param login Login użytkownika, którego strefę czasową chcemy uzyskać
+     * @return Strefa czasowa w formacie +00:00
+     */
+    String getTimezone(String login);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }
