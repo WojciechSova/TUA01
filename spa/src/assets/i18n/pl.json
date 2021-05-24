@@ -100,7 +100,12 @@
         "last_known_bad_login": "Data ostatniej nieudanej próby logowania:",
         "last_known_bad_login_ip": "Adres ip ostatniej nieudanej próby logowania:",
         "number_of_bad_logins": "Liczba nieudanych prób logowania:",
-        "access_levels": "Poziomy dostępu:"
+        "access_levels": "Poziomy dostępu:",
+        "last_activity_modification_date":  "Data ostatniej modyfikacji aktywności:",
+        "activity_modified_by":  "Autor ostatniej modyfikacji aktywności:",
+        "last_confirmed_modification_date":  "Data potwierdzenia konta:",
+        "last_password_modification_date":  "Data ostatniej modyfikacji hasła:",
+        "last_email_modification_date":  "Data ostatniej modyfikacji e-mailu:"
     },
     "access-level-table": {
         "level": "Poziom",
