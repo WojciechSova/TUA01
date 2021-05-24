@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.ejb.SessionSynchronization;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,10 +20,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class AbstractManager {
 
     private static final Logger logger = LogManager.getLogger();
-
+    protected boolean transactionRolledBack = false;
     @Context
     private SecurityContext securityContext;
-
     private String transactionId;
 
     /**
@@ -59,6 +60,7 @@ public abstract class AbstractManager {
     public void afterCompletion(boolean committed) {
         logger.info("Transaction with ID {} ended in {} with status: {}, authenticated user: {}",
                 transactionId, this.getClass().getName(), getStatusMsg(committed), getInvokerId());
+        this.transactionRolledBack = !committed;
     }
 
     /**
@@ -82,5 +84,8 @@ public abstract class AbstractManager {
                 securityContext.getUserPrincipal().getName() : "ANONYMOUS";
     }
 
-
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public boolean isTransactionRolledBack() {
+        return transactionRolledBack;
+    }
 }

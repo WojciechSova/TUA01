@@ -179,4 +179,11 @@ public interface AccountManagerLocal {
      * @return Strefa czasowa w formacie +00:00
      */
     String getTimezone(String login);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }
