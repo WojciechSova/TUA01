@@ -87,6 +87,12 @@ public class TrackerInterceptor {
         return result;
     }
 
+    /**
+     * Metoda zwraca wiadomość dotyczącą obiektu typu {@link Pair}, która zapisze się w dzienniku zdarzeń.
+     *
+     * @param result Obiekt, z którego tworzymy wiadomość
+     * @return wiadomość dla dziennika zdarzeń dotyczącą obiektu
+     */
     private String messageFromPair(Object result) {
         StringBuilder message = new StringBuilder();
         Pair pair = (Pair) result;
