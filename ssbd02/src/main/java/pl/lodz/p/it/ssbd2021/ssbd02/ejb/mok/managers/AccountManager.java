@@ -16,6 +16,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccessLevelExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.OneTimeUrlExceptions;
 
 import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
@@ -26,10 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
@@ -78,6 +76,10 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
 
     @Override
     public void createAccount(Account account) {
+        if (oneTimeUrlFacadeLocal.findListByEmail(account.getEmail()).size() != 0) {
+            throw OneTimeUrlExceptions.createExceptionConflict(OneTimeUrlExceptions.ERROR_NEW_EMAIL_UNIQUE);
+        }
+
         if (account.getPhoneNumber().isEmpty()) {
             account.setPhoneNumber(null);
         }
@@ -336,6 +338,10 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     public void sendChangeEmailAddressUrl(String login, String newEmailAddress, String requestedBy) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
 
+        if (accountFacadeLocal.findListByEmail(newEmailAddress).size() != 0) {
+            throw AccountExceptions.createExceptionConflict(AccountExceptions.ERROR_EMAIL_UNIQUE);
+        }
+
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
@@ -365,13 +371,12 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             oneTimeUrl.setNewEmail(newEmailAddress);
             oneTimeUrl.setActionType("e-mail");
             oneTimeUrl.setExpireDate(Timestamp.from(Instant.now().plus(expirationTime, SECONDS)));
-            oneTimeUrl.setCreatedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(requestedBy)).orElseThrow(CommonExceptions::createNoResultException));
+            oneTimeUrl.setCreatedBy(accountFacadeLocal.findByLogin(requestedBy));
             oneTimeUrl.setCreationDate(Timestamp.from(Instant.now()));
             oneTimeUrlFacadeLocal.create(oneTimeUrl);
         }
 
         emailSender.sendEmailChangeConfirmationEmail(account.getLanguage(), account.getFirstName(), newEmailAddress, oneTimeUrl.getUrl());
-
     }
 
     @Override
