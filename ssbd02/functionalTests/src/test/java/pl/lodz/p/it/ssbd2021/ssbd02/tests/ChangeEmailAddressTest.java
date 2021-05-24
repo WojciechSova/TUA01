@@ -1,6 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.tests;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebDriver;
@@ -47,7 +50,7 @@ public class ChangeEmailAddressTest {
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
-    public void changeEmailAddressTest(boolean ownProfile) throws InterruptedException {
+    public void changeEmailAddressTest(boolean ownProfile) {
         String oneTimeUrl;
         String url;
         String currentLogin;
@@ -112,7 +115,17 @@ public class ChangeEmailAddressTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     public void existingEmailErrorTest(boolean ownProfile) {
-        //TODO exisitng e-mail error check
+        if (ownProfile) {
+            logInAndOpenAccountDetails();
+        } else {
+            logInAndOpenAnotherUserAccountDetails();
+        }
+
+        changeEmail(currentEmail, currentEmail);
+        driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
+        driver.findElement(changeEmailPage.getConfirmButton()).click();
+        Assertions.assertTrue(driver.findElement(changeEmailPage.getChangeEmailForm()).isDisplayed());
+        Assertions.assertTrue(driver.findElement(changeEmailPage.getExistingEmailError()).isDisplayed());
     }
 
     private void logInAndOpenAccountDetails() {
