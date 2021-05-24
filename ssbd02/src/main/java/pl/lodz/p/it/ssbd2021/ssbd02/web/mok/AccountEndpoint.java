@@ -330,7 +330,7 @@ public class AccountEndpoint {
     public Response changePassword(@Context SecurityContext securityContext, @Valid PasswordDTO passwordDTO) {
         try {
             accountManager.changePassword(securityContext.getUserPrincipal().getName(),
-                    new Password(passwordDTO.getOldPassword()), new Password(passwordDTO.getNewPassword());
+                    new Password(passwordDTO.getOldPassword()), new Password(passwordDTO.getNewPassword()));
 
             return Response.ok()
                     .build();
