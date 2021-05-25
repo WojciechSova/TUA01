@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mok.AccountInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
@@ -79,5 +80,59 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail", Account.class);
         typedQuery.setParameter("email", email);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    @PermitAll
+    public void create(Account entity) {
+        super.create(entity);
+    }
+
+    @Override
+    @DenyAll
+    public Account find(Object id) {
+        return super.find(id);
+    }
+
+    @Override
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
+    public void edit(Account entity) {
+        super.edit(entity);
+    }
+
+    @Override
+    @DenyAll
+    public void remove(Account entity) {
+        super.remove(entity);
+    }
+
+    @Override
+    @RolesAllowed({"ADMIN"})
+    public List<Account> findAll() {
+        return super.findAll();
+    }
+
+    @Override
+    @DenyAll
+    public List<Account> findInRange(int start, int end) {
+        return super.findInRange(start, end);
+    }
+
+    @Override
+    @DenyAll
+    public int count() {
+        return super.count();
+    }
+
+    @Override
+    @DenyAll
+    public List<Account> findWithNamedQuery(String namedQuery) {
+        return super.findWithNamedQuery(namedQuery);
+    }
+
+    @Override
+    @DenyAll
+    public List<Account> findWithQuery(String query) {
+        return super.findWithQuery(query);
     }
 }

@@ -8,6 +8,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mok.OneTimeUrlInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
@@ -72,5 +73,59 @@ public class OneTimeUrlFacade extends AbstractFacade<OneTimeUrl> implements OneT
         TypedQuery<OneTimeUrl> typedQuery = entityManager.createNamedQuery("OneTimeUrl.findByNewEmail", OneTimeUrl.class);
         typedQuery.setParameter("newEmail", email);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    @PermitAll
+    public void create(OneTimeUrl entity) {
+        super.create(entity);
+    }
+
+    @Override
+    @DenyAll
+    public OneTimeUrl find(Object id) {
+        return super.find(id);
+    }
+
+    @Override
+    @PermitAll
+    public void edit(OneTimeUrl entity) {
+        super.edit(entity);
+    }
+
+    @Override
+    @PermitAll
+    public void remove(OneTimeUrl entity) {
+        super.remove(entity);
+    }
+
+    @Override
+    @DenyAll
+    public List<OneTimeUrl> findAll() {
+        return super.findAll();
+    }
+
+    @Override
+    @DenyAll
+    public List<OneTimeUrl> findInRange(int start, int end) {
+        return super.findInRange(start, end);
+    }
+
+    @Override
+    @DenyAll
+    public int count() {
+        return super.count();
+    }
+
+    @Override
+    @DenyAll
+    public List<OneTimeUrl> findWithNamedQuery(String namedQuery) {
+        return super.findWithNamedQuery(namedQuery);
+    }
+
+    @Override
+    @DenyAll
+    public List<OneTimeUrl> findWithQuery(String query) {
+        return super.findWithQuery(query);
     }
 }
