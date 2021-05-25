@@ -1,4 +1,6 @@
-package pl.lodz.p.it.ssbd2021.ssbd02.exceptions;
+package pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok;
+
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 
 import javax.ejb.ApplicationException;
 import javax.ws.rs.core.Response;

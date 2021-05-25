@@ -13,10 +13,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccessLevelExceptions;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccessLevelExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.OneTimeUrlExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.OneTimeUrlExceptions;
 
 import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
