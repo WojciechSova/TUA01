@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -20,6 +21,7 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class BookingFacade extends AbstractFacade<Booking> implements BookingFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")
@@ -34,6 +36,8 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
         return entityManager;
     }
 
+    @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Booking findByNumber(String number) {
         TypedQuery<Booking> typedQuery = entityManager.createNamedQuery("Booking.findByNumber", Booking.class);
         typedQuery.setParameter("number", number);

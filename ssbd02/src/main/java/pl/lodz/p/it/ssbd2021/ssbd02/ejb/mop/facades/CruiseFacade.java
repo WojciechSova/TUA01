@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -20,6 +21,7 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")
@@ -34,6 +36,8 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
         return entityManager;
     }
 
+    @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Cruise findByNumber(String number) {
         TypedQuery<Cruise> typedQuery = entityManager.createNamedQuery("Cruise.findByNumber", Cruise.class);
         typedQuery.setParameter("number", number);
