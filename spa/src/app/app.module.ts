@@ -39,6 +39,7 @@ import { InternalServerErrorComponent } from './other-views/error-pages/internal
 import { SessionTimeoutComponent } from './common/navigation/session-timeout/session-timeout.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ErrorHandlerService } from './services/error-handlers/error-handler.service';
+import { UnauthorizedComponent } from './other-views/error-pages/unauthorized/unauthorized.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -87,7 +88,8 @@ export const localeServiceProviders = [
         ConfirmEmailChangeComponent,
         ForbiddenComponent,
         NotFoundComponent,
-        SessionTimeoutComponent
+        SessionTimeoutComponent,
+        UnauthorizedComponent,
     ],
     imports: [
         BrowserModule,
