@@ -10,6 +10,7 @@ import com.nimbusds.jwt.SignedJWT;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import java.io.IOException;
@@ -66,10 +67,9 @@ public class JWTGenerator {
 
             return signedJWT.serialize();
         } catch (JOSEException e) {
-            logger.warn(e);
+            logger.error(e);
+            throw CommonExceptions.createUnknownException();
         }
-
-        return "";
     }
 
     /**
@@ -108,9 +108,8 @@ public class JWTGenerator {
             signedJWT.sign(jwsSigner);
             return signedJWT.serialize();
         } catch (JOSEException | ParseException e) {
-            logger.warn(e);
+            logger.error(e);
+            throw CommonExceptions.createUnknownException();
         }
-
-        return "";
     }
 }

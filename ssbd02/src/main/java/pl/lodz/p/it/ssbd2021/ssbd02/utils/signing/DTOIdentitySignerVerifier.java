@@ -6,6 +6,7 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
 
 import java.text.ParseException;
@@ -37,9 +38,9 @@ public class DTOIdentitySignerVerifier {
             return objectJWS.serialize();
 
         } catch (JOSEException ex) {
-            logger.warn(ex);
+            logger.error(ex);
+            throw CommonExceptions.createUnknownException();
         }
-        return null;
     }
 
     /**

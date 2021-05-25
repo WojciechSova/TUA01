@@ -657,6 +657,11 @@ public class AccountEndpoint {
         }
     }
 
+    /**
+     * Metoda pobierająca z właściwości współczynnik określający ilość powtórzeń transakcji.
+     *
+     * @return Współczynnik powtórzeń transakcji
+     */
     private int getTransactionRepetitionCounter() {
         Properties prop = new Properties();
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {

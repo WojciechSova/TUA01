@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -41,9 +42,9 @@ public class SecurityConstants {
         try {
             keyGenerator = KeyGenerator.getInstance("HmacSHA512");
         } catch (NoSuchAlgorithmException e) {
-            logger.warn(e);
+            logger.error(e);
+            throw CommonExceptions.createUnknownException();
         }
-        assert keyGenerator != null;
         SecureRandom secureRandom = new SecureRandom();
         keyGenerator.init(512, secureRandom);
         return keyGenerator.generateKey();
