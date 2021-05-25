@@ -50,7 +50,7 @@ public class CabinTypeFacade extends AbstractFacade<CabinType> implements CabinT
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @DenyAll
     public void edit(CabinType entity) {
         super.edit(entity);
     }

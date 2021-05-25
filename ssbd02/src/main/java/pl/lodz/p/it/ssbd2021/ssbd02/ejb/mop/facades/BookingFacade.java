@@ -47,7 +47,7 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"CLIENT"})
     public void create(Booking entity) {
         super.create(entity);
     }
@@ -59,7 +59,7 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @DenyAll
     public void edit(Booking entity) {
         super.edit(entity);
     }
