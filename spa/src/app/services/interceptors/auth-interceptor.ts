@@ -25,7 +25,8 @@ export class AuthInterceptor implements HttpInterceptor {
             }).subscribe(
                 (response: string) => {
                     this.authService.setSession(response);
-                }
+                },
+                (_) => _
             );
         }
 
