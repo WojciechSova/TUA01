@@ -42,3 +42,5 @@
                     (isResetPasswordVisibleChange)="changeResetPasswordVisible($event)"></app-reset-password>
 <app-session-timeout *ngIf="isSessionTimeoutVisible && stickyStyles"
                      (isSessionTimeoutVisibleChange)="changeSessionTimeoutVisible($event)"></app-session-timeout>
+<app-session-timeout *ngIf="isSessionNearlyTimeoutVisible && stickyStyles"
+                     (isSessionNearlyTimeoutVisibleChange)="changeSessionNearlyTimeoutVisible($event)"></app-session-timeout>

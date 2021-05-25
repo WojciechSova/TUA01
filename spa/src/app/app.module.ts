@@ -37,6 +37,7 @@ import { NotFoundComponent } from './other-views/error-pages/not-found/not-found
 import { AuthInterceptor } from './services/interceptors/auth-interceptor';
 import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
 import { SessionTimeoutComponent } from './common/navigation/session-timeout/session-timeout.component';
+import { CookieService } from 'ngx-cookie-service';
 import { ErrorHandlerService } from './services/error-handlers/error-handler.service';
 
 export function rootLoaderFactory(http: HttpClient): any {
@@ -108,6 +109,7 @@ export const localeServiceProviders = [
         httpInterceptorProviders,
         errorHandlerProviders,
         localeServiceProviders,
+        CookieService,
     ],
     bootstrap: [AppComponent]
 })

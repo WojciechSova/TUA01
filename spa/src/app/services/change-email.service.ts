@@ -19,20 +19,10 @@ export class ChangeEmailService {
     }
 
     changeEmail(newEmail: string): any {
-        return this.http.post(this.url + '/profile/email', newEmail, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token'),
-                'Content-Type': 'text/plain'
-            }
-        });
+        return this.http.post(this.url + '/profile/email', newEmail);
     }
 
     changeOtherAccountEmail(login: string, newEmail: string): any {
-        return this.http.post(this.url + '/email/' + login, newEmail, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token'),
-                'Content-Type': 'text/plain'
-            }
-        });
+        return this.http.post(this.url + '/email/' + login, newEmail);
     }
 }
