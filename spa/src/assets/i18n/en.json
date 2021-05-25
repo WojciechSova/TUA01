@@ -38,9 +38,9 @@
         "my_bookings": "My bookings",
         "current_cruises": "Current cruises",
         "accounts": "Accounts",
-        "sing_in": "Sing in",
-        "sing_up": "Sing up",
-        "sing_out": "Sing out"
+        "sign_in": "Sign in",
+        "sign_up": "Sign up",
+        "sign_out": "Sign out"
     },
     "login": {
         "forgot_password": "Forgot password?",

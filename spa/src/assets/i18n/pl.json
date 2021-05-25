@@ -38,9 +38,9 @@
         "my_bookings": "Moje rezerwacje",
         "current_cruises": "Aktualne rejsy",
         "accounts": "Konta",
-        "sing_in": "Zaloguj",
-        "sing_up": "Zarejestruj",
-        "sing_out": "Wyloguj"
+        "sign_in": "Zaloguj",
+        "sign_up": "Zarejestruj",
+        "sign_out": "Wyloguj"
     },
     "login": {
         "forgot_password": "Zapomniałeś hasła?",
