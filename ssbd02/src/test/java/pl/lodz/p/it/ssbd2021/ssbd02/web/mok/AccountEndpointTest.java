@@ -608,9 +608,9 @@ class AccountEndpointTest {
         try {
             accountEndpoint.resetPassword("shortUrl", newPassword);
         } catch (WebApplicationException e) {
-            assertEquals(406, e.getResponse().getStatus());
+            assertEquals(400, e.getResponse().getStatus());
             assertEquals("ERROR.URL_INVALID", e.getResponse().getEntity());
-            assertEquals("HTTP 406 Not Acceptable", e.getLocalizedMessage());
+            assertEquals("HTTP 400 Bad Request", e.getLocalizedMessage());
         }
 
         try {
