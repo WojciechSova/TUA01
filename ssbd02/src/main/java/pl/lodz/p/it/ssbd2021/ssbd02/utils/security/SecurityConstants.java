@@ -1,5 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
@@ -11,6 +15,8 @@ import java.security.SecureRandom;
  * @author Patryk Kolanek
  */
 public class SecurityConstants {
+
+    private static final Logger logger = LogManager.getLogger();
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
@@ -35,7 +41,7 @@ public class SecurityConstants {
         try {
             keyGenerator = KeyGenerator.getInstance("HmacSHA512");
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.log(Level.WARN, e);
         }
         assert keyGenerator != null;
         SecureRandom secureRandom = new SecureRandom();

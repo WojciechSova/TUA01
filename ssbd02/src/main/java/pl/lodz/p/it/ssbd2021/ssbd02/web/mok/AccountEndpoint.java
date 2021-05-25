@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mok;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator;
@@ -662,7 +663,7 @@ public class AccountEndpoint {
             prop.load(input);
             return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARN, e);
             return 3;
         }
     }

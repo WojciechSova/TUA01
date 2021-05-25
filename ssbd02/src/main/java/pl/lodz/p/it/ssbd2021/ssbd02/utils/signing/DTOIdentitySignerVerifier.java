@@ -3,6 +3,9 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.signing;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
 
 import java.text.ParseException;
@@ -15,6 +18,8 @@ import static com.nimbusds.jose.JWSAlgorithm.HS512;
  * @author Karolina Kowalczyk
  */
 public class DTOIdentitySignerVerifier {
+
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Metoda generująca podpis.
@@ -32,7 +37,7 @@ public class DTOIdentitySignerVerifier {
             return objectJWS.serialize();
 
         } catch (JOSEException ex) {
-            ex.printStackTrace();
+            logger.log(Level.WARN, ex);
         }
         return null;
     }
@@ -52,7 +57,7 @@ public class DTOIdentitySignerVerifier {
             return objectJWS.verify(verifier);
 
         } catch (JOSEException | ParseException ex) {
-            ex.printStackTrace();
+            logger.log(Level.WARN, ex);
         }
         return false;
     }
@@ -71,7 +76,7 @@ public class DTOIdentitySignerVerifier {
 
             return validateDTOSignature(header) && ifMatchHeaderValue.equals(entitySignablePayloadValue);
         } catch (ParseException ex) {
-            ex.printStackTrace();
+            logger.log(Level.WARN, ex);
         }
         return false;
     }

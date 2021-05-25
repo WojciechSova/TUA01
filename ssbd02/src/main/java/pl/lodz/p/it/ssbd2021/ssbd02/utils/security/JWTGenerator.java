@@ -7,6 +7,9 @@ import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import java.io.IOException;
@@ -23,6 +26,7 @@ import java.util.Properties;
 public class JWTGenerator {
 
     private static final Properties prop = new Properties();
+    private static final Logger logger = LogManager.getLogger();
     private static int expirationTime;
     private static String issuer;
 
@@ -46,7 +50,7 @@ public class JWTGenerator {
             } catch (IOException e) {
                 expirationTime = 600000;
                 issuer = "ssbd02";
-                e.printStackTrace();
+                logger.log(Level.WARN, e);
             }
 
             JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
@@ -62,7 +66,7 @@ public class JWTGenerator {
 
             return signedJWT.serialize();
         } catch (JOSEException e) {
-            e.printStackTrace();
+            logger.log(Level.WARN, e);
         }
 
         return "";
@@ -89,7 +93,7 @@ public class JWTGenerator {
                 expirationTime = Integer.parseInt(prop.getProperty("security.token.expiration.time"));
             } catch (IOException e) {
                 expirationTime = 600000;
-                e.printStackTrace();
+                logger.log(Level.WARN, e);
             }
 
             JWTClaimsSet newJWTClaimsSet = new JWTClaimsSet.Builder()
@@ -104,7 +108,7 @@ public class JWTGenerator {
             signedJWT.sign(jwsSigner);
             return signedJWT.serialize();
         } catch (JOSEException | ParseException e) {
-            e.printStackTrace();
+            logger.log(Level.WARN, e);
         }
 
         return "";

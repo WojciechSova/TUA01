@@ -4,6 +4,9 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
@@ -42,6 +45,7 @@ import static java.time.temporal.ChronoUnit.SECONDS;
 public class AccountManager extends AbstractManager implements AccountManagerLocal, SessionSynchronization {
 
     private static final Properties prop = new Properties();
+    private static final Logger logger = LogManager.getLogger();
     @Inject
     private AccountFacadeLocal accountFacadeLocal;
     @Inject
@@ -93,7 +97,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
         } catch (IOException e) {
             expirationTime = 86400;
-            e.printStackTrace();
+            logger.log(Level.WARN, e);
         }
 
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
@@ -122,7 +126,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             prop.load(input);
             badLoginsThreshold = Integer.parseInt(prop.getProperty("system.login.incorrect.threshold"));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARN, e);
         }
 
         account.setNumberOfBadLogins(badLogins);
@@ -345,7 +349,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
         } catch (IOException e) {
             expirationTime = 86400;
-            e.printStackTrace();
+            logger.log(Level.WARN, e);
         }
 
         List<OneTimeUrl> oneTimeUrls = oneTimeUrlFacadeLocal.findByAccount(account).stream()
@@ -388,7 +392,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.password.reset"));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARN, e);
         }
 
         List<OneTimeUrl> oneTimeUrls = Optional.of(oneTimeUrlFacadeLocal.findByAccount(account).stream()

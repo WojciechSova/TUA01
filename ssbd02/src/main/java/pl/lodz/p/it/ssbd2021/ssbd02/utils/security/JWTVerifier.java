@@ -4,6 +4,9 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.SignedJWT;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.ParseException;
 
@@ -13,6 +16,8 @@ import java.text.ParseException;
  * @author Patryk Kolanek
  */
 public class JWTVerifier {
+
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Metoda sprawdzająca czy token JWT jest poprawny.
@@ -26,7 +31,7 @@ public class JWTVerifier {
             JWSVerifier jwsVerifier = new MACVerifier(SecurityConstants.SECRET);
             return signedJWT.verify(jwsVerifier);
         } catch (JOSEException | ParseException e) {
-            e.printStackTrace();
+            logger.log(Level.WARN, e);
         }
 
         return false;

@@ -1,10 +1,15 @@
 package pl.lodz.p.it.ssbd2021.ssbd02;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.*;
 import java.util.Properties;
 
 public class TestDatabaseConnection {
 
+    private static final Logger logger = LogManager.getLogger();
     private static String url = "jdbc:postgresql://localhost:5432/ssbd02local";
 
     public static String getOneTimeUrl(String newEmail) {
@@ -21,7 +26,7 @@ public class TestDatabaseConnection {
             result.next();
             return result.getString("url");
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            logger.log(Level.WARN, ex);
         }
         return "";
     }
