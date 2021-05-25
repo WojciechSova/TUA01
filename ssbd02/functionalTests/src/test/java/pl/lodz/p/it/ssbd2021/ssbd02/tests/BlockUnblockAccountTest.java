@@ -16,8 +16,8 @@ public class BlockUnblockAccountTest {
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
     private WebDriver driver;
-    private AccountsListPage accountsListPage;
     private String login;
+    private AccountsListPage accountsListPage;
 
     @BeforeAll
     static void initAll() {

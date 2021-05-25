@@ -142,4 +142,8 @@ public class Account extends AbstractEntity implements Serializable {
     private Integer numberOfBadLogins = 0;
     //endregion
 
+    @Override
+    public String getSummary() {
+        return super.getSummary() + " login: " + getLogin() + " ";
+    }
 }
