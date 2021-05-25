@@ -4,15 +4,15 @@
             access-level-form.choose_access_level
         </div>
         <div class="checkbox-container">
-            <label class="container admin" translate>general.administrator
-                <input type="checkbox"  name="radio" [(ngModel)]="accessLevel.admin">
+            <label id="admin-label" class="container admin" translate>general.administrator
+                <input type="checkbox" name="radio" [(ngModel)]="accessLevel.admin">
                 <span class="checkmark admin"></span>
             </label>
-            <label class="container employee" translate>general.employee
+            <label id="employee-label" class="container employee" translate>general.employee
                 <input type="checkbox" name="radio" [(ngModel)]="accessLevel.employee">
                 <span class="checkmark employee"></span>
             </label>
-            <label class="container client" translate>general.client
+            <label id="client-label" class="container client" translate>general.client
                 <input type="checkbox" name="radio" [(ngModel)]="accessLevel.client">
                 <span class="checkmark client"></span>
             </label>
