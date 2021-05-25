@@ -662,8 +662,8 @@ public class AccountEndpoint {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
-        } catch (IOException e) {
-            logger.log(Level.WARN, e);
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
             return 3;
         }
     }

@@ -47,10 +47,10 @@ public class JWTGenerator {
                 prop.load(input);
                 expirationTime = Integer.parseInt(prop.getProperty("security.token.expiration.time"));
                 issuer = prop.getProperty("security.token.issuer");
-            } catch (IOException e) {
+            } catch (IOException | NullPointerException | NumberFormatException e) {
                 expirationTime = 600000;
                 issuer = "ssbd02";
-                logger.log(Level.WARN, e);
+                logger.warn(e);
             }
 
             JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
@@ -66,7 +66,7 @@ public class JWTGenerator {
 
             return signedJWT.serialize();
         } catch (JOSEException e) {
-            logger.log(Level.WARN, e);
+            logger.warn(e);
         }
 
         return "";
@@ -91,9 +91,9 @@ public class JWTGenerator {
             try (InputStream input = JWTGenerator.class.getClassLoader().getResourceAsStream("security.properties")) {
                 prop.load(input);
                 expirationTime = Integer.parseInt(prop.getProperty("security.token.expiration.time"));
-            } catch (IOException e) {
+            } catch (IOException | NullPointerException | NumberFormatException e) {
                 expirationTime = 600000;
-                logger.log(Level.WARN, e);
+                logger.warn(e);
             }
 
             JWTClaimsSet newJWTClaimsSet = new JWTClaimsSet.Builder()
@@ -108,7 +108,7 @@ public class JWTGenerator {
             signedJWT.sign(jwsSigner);
             return signedJWT.serialize();
         } catch (JOSEException | ParseException e) {
-            logger.log(Level.WARN, e);
+            logger.warn(e);
         }
 
         return "";

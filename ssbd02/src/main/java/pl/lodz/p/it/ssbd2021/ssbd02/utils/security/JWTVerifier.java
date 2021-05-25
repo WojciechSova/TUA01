@@ -31,7 +31,7 @@ public class JWTVerifier {
             JWSVerifier jwsVerifier = new MACVerifier(SecurityConstants.SECRET);
             return signedJWT.verify(jwsVerifier);
         } catch (JOSEException | ParseException e) {
-            logger.log(Level.WARN, e);
+            logger.warn(e);
         }
 
         return false;

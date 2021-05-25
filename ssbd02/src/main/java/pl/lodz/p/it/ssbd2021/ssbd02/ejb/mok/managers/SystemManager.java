@@ -61,8 +61,8 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
             prop.load(input);
             removalTime = Integer.parseInt(prop.getProperty("system.time.account.confirmation"));
 
-        } catch (IOException e) {
-            logger.log(Level.WARN, e);
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
         }
         List<Account> accountsToDelete = accountFacadeLocal.findByUnconfirmedAndExpired(removalTime);
         List<List<AccessLevel>> accessLevelsToDelete = new ArrayList<>();
@@ -104,8 +104,8 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             removalTime = Long.parseLong(prop.getProperty("system.time.account.confirmation")) * 1000 / 2;
-        } catch (IOException e) {
-            logger.log(Level.WARN, e);
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
         }
 
         long finalRemovalTime = removalTime;

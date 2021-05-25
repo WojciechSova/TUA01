@@ -95,9 +95,9 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException | NumberFormatException e) {
             expirationTime = 86400;
-            logger.log(Level.WARN, e);
+            logger.warn(e);
         }
 
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
@@ -125,8 +125,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             badLoginsThreshold = Integer.parseInt(prop.getProperty("system.login.incorrect.threshold"));
-        } catch (IOException e) {
-            logger.log(Level.WARN, e);
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
         }
 
         account.setNumberOfBadLogins(badLogins);
@@ -347,9 +347,9 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException | NumberFormatException e) {
             expirationTime = 86400;
-            logger.log(Level.WARN, e);
+            logger.warn(e);
         }
 
         List<OneTimeUrl> oneTimeUrls = oneTimeUrlFacadeLocal.findByAccount(account).stream()
@@ -391,8 +391,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.password.reset"));
-        } catch (IOException e) {
-            logger.log(Level.WARN, e);
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
         }
 
         List<OneTimeUrl> oneTimeUrls = Optional.of(oneTimeUrlFacadeLocal.findByAccount(account).stream()

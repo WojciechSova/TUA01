@@ -69,7 +69,7 @@ public class AuthenticationMechanism implements HttpAuthenticationMechanism {
 
             return httpMessageContext.notifyContainerAboutLogin(login, new HashSet<>(Arrays.asList(groups.split(SecurityConstants.GROUP_SPLIT_CONSTANT))));
         } catch (ParseException e) {
-            logger.log(Level.WARN, e);
+            logger.warn(e);
         }
 
         throw new AuthenticationException();

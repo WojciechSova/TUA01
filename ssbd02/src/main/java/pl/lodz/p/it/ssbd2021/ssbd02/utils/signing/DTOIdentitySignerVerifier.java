@@ -37,7 +37,7 @@ public class DTOIdentitySignerVerifier {
             return objectJWS.serialize();
 
         } catch (JOSEException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
         return null;
     }
@@ -57,7 +57,7 @@ public class DTOIdentitySignerVerifier {
             return objectJWS.verify(verifier);
 
         } catch (JOSEException | ParseException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
         return false;
     }
@@ -76,7 +76,7 @@ public class DTOIdentitySignerVerifier {
 
             return validateDTOSignature(header) && ifMatchHeaderValue.equals(entitySignablePayloadValue);
         } catch (ParseException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
         return false;
     }

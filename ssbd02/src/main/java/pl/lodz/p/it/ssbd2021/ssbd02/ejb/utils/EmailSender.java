@@ -56,7 +56,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
     }
 
@@ -76,7 +76,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
     }
 
@@ -104,7 +104,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
     }
 
@@ -122,7 +122,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
     }
 
@@ -141,7 +141,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
     }
 
@@ -160,7 +160,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
     }
 
@@ -178,7 +178,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
     }
 
@@ -197,7 +197,7 @@ public class EmailSender implements EmailSenderLocal {
 
             sendEmail(firstName, email, subject, htmlText);
         } catch (IOException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
     }
 
@@ -217,7 +217,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(firstName, email, subject, htmlText);
 
         } catch (IOException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
     }
 
@@ -257,7 +257,7 @@ public class EmailSender implements EmailSenderLocal {
             mailer.sendMail(email);
 
         } catch (IOException ex) {
-            logger.log(Level.WARN, ex);
+            logger.warn(ex);
         }
     }
 }

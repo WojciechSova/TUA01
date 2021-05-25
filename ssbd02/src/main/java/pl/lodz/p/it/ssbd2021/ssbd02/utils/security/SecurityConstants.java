@@ -41,7 +41,7 @@ public class SecurityConstants {
         try {
             keyGenerator = KeyGenerator.getInstance("HmacSHA512");
         } catch (NoSuchAlgorithmException e) {
-            logger.log(Level.WARN, e);
+            logger.warn(e);
         }
         assert keyGenerator != null;
         SecureRandom secureRandom = new SecureRandom();
