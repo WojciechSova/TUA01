@@ -141,17 +141,6 @@
             <artifactId>frontend-maven-plugin</artifactId>
             <version>1.12.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.cargo</groupId>
-            <artifactId>cargo-maven3-plugin</artifactId>
-            <version>1.9.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.main.deployment</groupId>
-            <artifactId>deployment-client</artifactId>
-            <version>5.1.0</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -186,48 +175,6 @@
                 </executions>
             </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.cargo</groupId>
-                    <artifactId>cargo-maven3-plugin</artifactId>
-                    <version>1.9.4</version>
-                    <configuration>
-                        <container>
-                            <containerId>glassfish5x</containerId>
-                        </container>
-                        <configuration>
-                            <properties>
-                                <cargo.remote.username>${payara.username}</cargo.remote.username>
-                                <cargo.remote.password>${payara.password}</cargo.remote.password>
-                                <cargo.glassfish.admin.port>${payara.adminPort}</cargo.glassfish.admin.port>
-                                <cargo.hostname>${payara.hostname}</cargo.hostname>
-                            </properties>
-                        </configuration>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>deploy</id>
-                            <goals>
-                                <goal>redeploy</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.glassfish.main.deployment</groupId>
-                            <artifactId>deployment-client</artifactId>
-                            <version>5.1.0</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>jakarta.xml.bind</groupId>
-                            <artifactId>jakarta.xml.bind-api</artifactId>
-                            <version>2.3.3</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-            </plugins>
-        </pluginManagement>
     </build>
 
     <profiles>
@@ -343,20 +290,55 @@
                         <version>1.9.4</version>
                         <configuration>
                             <container>
+                                <containerId>payara</containerId>
                                 <type>remote</type>
                             </container>
                             <configuration>
                                 <type>runtime</type>
                                 <properties>
-                                    <cargo.servlet.port>${servlet.port}</cargo.servlet.port>
+                                    <cargo.runtime.args>force=true</cargo.runtime.args>
+                                    <cargo.remote.username>${payara.username}</cargo.remote.username>
+                                    <cargo.remote.password>${payara.password}</cargo.remote.password>
+                                    <cargo.glassfish.admin.port>${payara.adminPort}</cargo.glassfish.admin.port>
+                                    <cargo.hostname>${payara.hostname}</cargo.hostname>
                                 </properties>
                             </configuration>
+                            <deployables>
+                                <deployable>
+                                    <properties>
+                                        <context></context>
+                                    </properties>
+                                </deployable>
+                            </deployables>
                         </configuration>
+
                         <executions>
                             <execution>
-                                <id>deploy</id>
+                                <id>redeploy-force</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>redeploy</goal>
+                                </goals>
                             </execution>
                         </executions>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.glassfish.main.deployment</groupId>
+                                <artifactId>deployment-client</artifactId>
+                                <version>5.1.0</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>jakarta.xml.bind</groupId>
+                                <artifactId>jakarta.xml.bind-api</artifactId>
+                                <version>2.3.2</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.glassfish.jaxb</groupId>
+                                <artifactId>jaxb-runtime</artifactId>
+                                <version>2.3.2</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
