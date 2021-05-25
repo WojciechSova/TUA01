@@ -7,6 +7,7 @@ import { AccountDetailsService } from './account-details.service';
 import { AccountGeneralService } from './account-general.service';
 import { UpdateAccountService } from './update-account.service';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,7 @@ export class AuthService {
                 private accountDetailsService: AccountDetailsService,
                 private accountGeneralService: AccountGeneralService,
                 private updateAccountService: UpdateAccountService,
+                private cookieService: CookieService,
                 private router: Router) {
         this.url = environment.appUrl + '/auth';
     }
@@ -32,17 +34,17 @@ export class AuthService {
     }
 
     public setSession(token: string): void {
-        localStorage.setItem('token', token);
+        this.cookieService.set('token', token);
         this.decodeTokenInfo(token);
     }
 
     decodeTokenInfo(token: string): void {
         const tokenInfo: any = jwtDecode(token);
-        localStorage.setItem('login', tokenInfo.sub);
-        localStorage.setItem('accessLevel', tokenInfo.auth);
-        localStorage.setItem('timezone', tokenInfo.zoneinfo);
+        this.cookieService.set('login', tokenInfo.sub);
+        this.cookieService.set('accessLevel', tokenInfo.auth);
+        this.cookieService.set('timezone', tokenInfo.zoneinfo);
         this.setCurrentAccessLevel(tokenInfo.auth);
-        localStorage.setItem('expirationTime', tokenInfo.exp);
+        this.cookieService.set('expirationTime', tokenInfo.exp);
         this.sessionUtilsService.setSessionTimeout(tokenInfo.exp);
     }
 
@@ -51,23 +53,24 @@ export class AuthService {
         this.accountDetailsService.ngOnDestroy();
         this.accountGeneralService.ngOnDestroy();
         this.updateAccountService.ngOnDestroy();
-        localStorage.removeItem('token');
-        localStorage.removeItem('login');
-        localStorage.removeItem('currentAccessLevel');
-        localStorage.removeItem('accessLevel');
-        localStorage.removeItem('expirationTime');
+        this.cookieService.delete('token');
+        this.cookieService.delete('login');
+        this.cookieService.delete('currentAccessLevel');
+        this.cookieService.delete('accessLevel');
+        this.cookieService.delete('expirationTime');
+        this.cookieService.delete('timezone');
         this.sessionUtilsService.clearSessionTimeout();
     }
 
     private setCurrentAccessLevel(groups: string): void {
-        const current = localStorage.getItem('currentAccessLevel');
+        const current = this.cookieService.get('currentAccessLevel');
         const accessLvls = groups.split(',');
 
         if (current && accessLvls.includes(current)) {
             return;
         }
 
-        localStorage.setItem('currentAccessLevel', accessLvls[0]);
+        this.cookieService.set('currentAccessLevel', accessLvls[0]);
         return;
     }
 }
