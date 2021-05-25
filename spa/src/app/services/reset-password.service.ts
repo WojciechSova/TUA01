@@ -24,11 +24,6 @@ export class ResetPasswordService {
     }
 
     resetPasswordResponse(email: string): Observable<HttpResponse<any>> {
-        return this.http.post<any>(this.url, email,
-            {
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
-            });
+        return this.http.post<any>(this.url, email);
     }
 }

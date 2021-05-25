@@ -70,5 +70,10 @@ public class OneTimeUrl extends AbstractEntity implements Serializable {
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")
     private Account createdBy;
+
+    @Override
+    public String getSummary() {
+        return super.getSummary() + " account login: " + getAccount().getLogin() + " url: " + getUrl() + " ";
+    }
 }
 

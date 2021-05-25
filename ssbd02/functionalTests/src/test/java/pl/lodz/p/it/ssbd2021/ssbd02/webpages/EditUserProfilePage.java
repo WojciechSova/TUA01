@@ -17,13 +17,13 @@ public class EditUserProfilePage {
         this.driver = driver;
     }
 
-    public ProfileDetailsPage editUser(String newFirstName, String newLastName, String newPhoneNumber) {
+    public AccountDetailsPage editUser(String newFirstName, String newLastName, String newPhoneNumber) {
         driver.findElement(firstNameEdit).sendKeys(newFirstName);
         driver.findElement(lastNameEdit).sendKeys(newLastName);
         driver.findElement(phoneNumberEdit).sendKeys(newPhoneNumber);
         driver.findElement(saveBtn).click();
 
-        return new ProfileDetailsPage(driver);
+        return new AccountDetailsPage(driver);
     }
 
     public By getInvalidNumberError() {

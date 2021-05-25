@@ -1,9 +1,12 @@
 <div class="shadow">
 </div>
 <div class="form-container">
-    <div class="text" translate>session-timeout.info</div>
+    <div *ngIf="sessionUtilsService.timeoutVisible" class="text" translate>session-timeout.info.timeout</div>
+    <div *ngIf="sessionUtilsService.nearlyTimeoutVisible" class="text" translate>session-timeout.info.nearly</div>
     <div class="buttons">
-        <button class="form-button" (click)="closeComponent()" translate>session-timeout.ok</button>
+        <button *ngIf="sessionUtilsService.timeoutVisible" class="form-button" (click)="closeComponent()" translate>session-timeout.ok</button>
+        <button *ngIf="sessionUtilsService.nearlyTimeoutVisible" class="form-button" (click)="refreshToken()" translate>session-timeout.renew</button>
+        <button *ngIf="sessionUtilsService.nearlyTimeoutVisible" class="form-button" (click)="closeComponent()" translate>session-timeout.signOut</button>
     </div>
 </div>
 

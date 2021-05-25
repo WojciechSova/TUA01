@@ -14,20 +14,10 @@ export class AccessLevelService {
     }
 
     addAccessLevel(login: string, accessLevel: string): any {
-        return this.http.put(this.url + '/addaccesslevel/' + login, accessLevel, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token'),
-                'Content-Type': 'text/plain'
-            }
-        });
+        return this.http.put(this.url + '/addaccesslevel/' + login, accessLevel);
     }
 
     removeAccessLevel(login: string, accessLevel: string): any {
-        return this.http.put(this.url + '/removeaccesslevel/' + login, accessLevel, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token'),
-                'Content-Type': 'text/plain'
-            }
-        });
+        return this.http.put(this.url + '/removeaccesslevel/' + login, accessLevel);
     }
 }

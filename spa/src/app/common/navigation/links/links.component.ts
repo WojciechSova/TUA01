@@ -15,8 +15,15 @@ export class LinksComponent {
                 public identityService: IdentityService,
                 private router: Router,
                 private sessionUtilsService: SessionUtilsService) {
-        sessionUtilsService.isSessionTimeoutVisibleChange.subscribe(
-            value => this.isSessionTimeoutVisible = value
+        sessionUtilsService.isSessionTimeoutVisibleChange.subscribe(value => {
+            this.isSessionTimeoutVisible = value;
+            this.sessionUtilsService.timeoutVisible = value;
+        }
+        );
+        sessionUtilsService.isSessionNearlyTimeoutVisibleChange.subscribe(value => {
+            this.isSessionNearlyTimeoutVisible = value;
+            this.sessionUtilsService.nearlyTimeoutVisible = value;
+        }
         );
     }
 
@@ -27,6 +34,7 @@ export class LinksComponent {
     isRegisterVisible = false;
     isResetPasswordVisible = false;
     isSessionTimeoutVisible = false;
+    isSessionNearlyTimeoutVisible = false;
 
     signOut(): void {
         this.authService.signOut();
@@ -46,6 +54,11 @@ export class LinksComponent {
 
     changeSessionTimeoutVisible(visible: boolean): void {
         this.isSessionTimeoutVisible = visible;
+        this.sessionUtilsService.timeoutVisible = visible;
+    }
+
+    changeSessionNearlyTimeoutVisible(visible: boolean): void {
+        this.isSessionNearlyTimeoutVisible = visible;
     }
 
     getProfile(): void {

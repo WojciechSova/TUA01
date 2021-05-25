@@ -29,7 +29,7 @@ public abstract class AbstractManager {
      * Metoda tworząca unikalny identyfikator transakcji.
      * Do dzienników zdarzeń zapisywany jest początek transakcji wraz z znacznikiem czasu, identyfikator transakcji,
      * metodą w której rozpoczynana jest transakcja oraz tożsamością uwierzytelnionego użytkownika.
-     * W przypadku braku tożsamości użytkownika zapisywana jest tożsamość "UNKNOWN".
+     * W przypadku braku tożsamości użytkownika zapisywana jest tożsamość "ANONYMOUS".
      */
     public void afterBegin() {
         transactionId = Long.toString(System.currentTimeMillis()) + ThreadLocalRandom.current().nextLong(Long.MAX_VALUE);
@@ -42,7 +42,7 @@ public abstract class AbstractManager {
      * Metoda zapisująca do dzienników zdarzeń informację o zbliżającym się zakończeniu transakcji wraz z
      * znacznikiem czasu, identyfikator transakcji, metodą w której rozpoczynana jest transakcja oraz
      * tożsamością uwierzytelnionego użytkownika.
-     * W przypadku braku tożsamości użytkownika zapisywana jest tożsamość "UNKNOWN".
+     * W przypadku braku tożsamości użytkownika zapisywana jest tożsamość "ANONYMOUS".
      */
     public void beforeCompletion() {
         logger.info("Transaction with ID {} is about to end in {}, authenticated user: {}",
@@ -53,7 +53,7 @@ public abstract class AbstractManager {
      * Metoda zapisująca do dzienników zdarzeń informację zakończonej transakcji wraz z znacznikiem czasu,
      * identyfikator transakcji, metodą w której rozpoczynana jest transakcja, tożsamością uwierzytelnionego użytkownika oraz
      * statusem zakończonej transakcji (zatwierdzona lub odwołana).
-     * W przypadku braku tożsamości użytkownika zapisywana jest tożsamość "UNKNOWN".
+     * W przypadku braku tożsamości użytkownika zapisywana jest tożsamość "ANONYMOUS".
      *
      * @param committed Status zakończenia transakcji
      */
@@ -75,13 +75,13 @@ public abstract class AbstractManager {
 
     /**
      * Metoda zwracająca tożsamość uwierzytelnionego użytkownika.
-     * W przypadku braku tożsamości użytkownika zwracana jest tożsamość "UNKNOWN".
+     * W przypadku braku tożsamości użytkownika zwracana jest tożsamość "ANONYMOUS".
      *
      * @return Tożsamość użytkownika
      */
     private String getInvokerId() {
         return securityContext.getUserPrincipal() != null ?
-                securityContext.getUserPrincipal().getName() : "UNKNOWN";
+                securityContext.getUserPrincipal().getName() : "ANONYMOUS";
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
