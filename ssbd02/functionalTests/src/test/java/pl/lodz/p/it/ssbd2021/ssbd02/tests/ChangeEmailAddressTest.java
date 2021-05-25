@@ -25,6 +25,7 @@ public class ChangeEmailAddressTest {
     private static WebDriverWait driverWait;
     private final String currentEmail = "nieistnieje@aaa.pl";
     private final String newEmail = "newEmail@newEmail.pl";
+    private final String query = "SELECT url FROM public.one_time_url o WHERE o.new_email ='";
     private WebDriver driver;
     private String userLogin;
     private AdminMainPage adminMainPage;
@@ -38,7 +39,7 @@ public class ChangeEmailAddressTest {
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
         options.addArguments("−−lang=pl");
-        options.setHeadless(true);
+//        options.setHeadless(true);
     }
 
     @BeforeEach
@@ -66,7 +67,7 @@ public class ChangeEmailAddressTest {
         changeEmail(newEmail, newEmail);
         driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
         driver.findElement(changeEmailPage.getConfirmButton()).click();
-        oneTimeUrl = TestUtils.getOneTimeUrl(newEmail);
+        oneTimeUrl = TestUtils.getOneTimeUrl(newEmail, query);
         url = TestUtils.url.concat("/confirm/email/").concat(oneTimeUrl);
         driver.get(url);
 
@@ -76,7 +77,7 @@ public class ChangeEmailAddressTest {
         changeEmail(currentEmail, currentEmail);
         driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
         driver.findElement(changeEmailPage.getConfirmButton()).click();
-        oneTimeUrl = TestUtils.getOneTimeUrl(currentEmail);
+        oneTimeUrl = TestUtils.getOneTimeUrl(currentEmail, query);
         url = TestUtils.url.concat("/confirm/email/" + oneTimeUrl);
         driver.get(url);
     }
@@ -124,6 +125,7 @@ public class ChangeEmailAddressTest {
         changeEmail(currentEmail, currentEmail);
         driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
         driver.findElement(changeEmailPage.getConfirmButton()).click();
+        driverWait.until(ExpectedConditions.visibilityOfElementLocated(changeEmailPage.getExistingEmailError()));
         Assertions.assertTrue(driver.findElement(changeEmailPage.getChangeEmailForm()).isDisplayed());
         Assertions.assertTrue(driver.findElement(changeEmailPage.getExistingEmailError()).isDisplayed());
     }
