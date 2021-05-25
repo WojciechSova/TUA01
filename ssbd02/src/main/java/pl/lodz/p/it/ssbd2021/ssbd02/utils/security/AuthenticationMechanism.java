@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 
 import com.nimbusds.jwt.SignedJWT;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.security.enterprise.AuthenticationException;
 import javax.security.enterprise.AuthenticationStatus;
@@ -21,6 +23,7 @@ import java.util.Objects;
  * @author Patryk Kolanek
  */
 @Stateless
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AuthenticationMechanism implements HttpAuthenticationMechanism {
 
     /**
@@ -36,6 +39,7 @@ public class AuthenticationMechanism implements HttpAuthenticationMechanism {
      * @throws AuthenticationException Kiedy przetwarzanie się nie powiodło.
      */
     @Override
+    @PermitAll
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
         String authorizationHeader = request.getHeader(SecurityConstants.AUTHORIZATION);
 
