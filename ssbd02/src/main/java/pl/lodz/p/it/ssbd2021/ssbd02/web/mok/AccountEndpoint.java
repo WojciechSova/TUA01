@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mok;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator;
@@ -657,13 +658,18 @@ public class AccountEndpoint {
         }
     }
 
+    /**
+     * Metoda pobierająca z właściwości współczynnik określający ilość powtórzeń transakcji.
+     *
+     * @return Współczynnik powtórzeń transakcji
+     */
     private int getTransactionRepetitionCounter() {
         Properties prop = new Properties();
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
             return 3;
         }
     }

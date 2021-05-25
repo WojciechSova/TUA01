@@ -1,11 +1,15 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.simplejavamail.api.email.Email;
 import org.simplejavamail.api.mailer.Mailer;
 import org.simplejavamail.api.mailer.config.TransportStrategy;
 import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
 import javax.ejb.Stateless;
 import java.io.IOException;
@@ -21,6 +25,7 @@ import java.util.Properties;
 public class EmailSender implements EmailSenderLocal {
 
     private static final Properties prop = new Properties();
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Metoda pomocnicza, która zwraca dwuliterowy string w zależności jaki język posiada konto.
@@ -52,7 +57,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw CommonExceptions.createUnknownException();
         }
     }
 
@@ -72,7 +77,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw CommonExceptions.createUnknownException();
         }
     }
 
@@ -100,7 +105,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw CommonExceptions.createUnknownException();
         }
     }
 
@@ -118,7 +123,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw CommonExceptions.createUnknownException();
         }
     }
 
@@ -137,7 +142,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw CommonExceptions.createUnknownException();
         }
     }
 
@@ -156,7 +161,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw CommonExceptions.createUnknownException();
         }
     }
 
@@ -174,7 +179,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(recipientName, recipientEmailAddress, subject, htmlText);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw CommonExceptions.createUnknownException();
         }
     }
 
@@ -193,7 +198,7 @@ public class EmailSender implements EmailSenderLocal {
 
             sendEmail(firstName, email, subject, htmlText);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw CommonExceptions.createUnknownException();
         }
     }
 
@@ -213,7 +218,7 @@ public class EmailSender implements EmailSenderLocal {
             sendEmail(firstName, email, subject, htmlText);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw CommonExceptions.createUnknownException();
         }
     }
 
@@ -253,7 +258,7 @@ public class EmailSender implements EmailSenderLocal {
             mailer.sendMail(email);
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw CommonExceptions.createUnknownException();
         }
     }
 }
