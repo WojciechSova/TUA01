@@ -109,6 +109,7 @@ export const localeServiceProviders = [
         httpInterceptorProviders,
         errorHandlerProviders,
         localeServiceProviders,
+        CookieService,
     ],
     bootstrap: [AppComponent]
 })
