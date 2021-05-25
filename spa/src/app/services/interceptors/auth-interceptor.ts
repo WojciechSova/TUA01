@@ -17,7 +17,9 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (req.url !== environment.appUrl + '/auth' && this.cookieService.get('token') !== null) {
+        if (req.url !== environment.appUrl + '/auth'
+            && this.cookieService.get('token') !== null
+            && this.cookieService.get('token') !== '') {
             this.httpClient.get(environment.appUrl + '/auth', {
                 headers: {
                     Authorization: 'Bearer ' + this.cookieService.get('token')
