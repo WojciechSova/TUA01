@@ -100,14 +100,20 @@
         "last_known_bad_login": "Data ostatniej nieudanej próby logowania:",
         "last_known_bad_login_ip": "Adres ip ostatniej nieudanej próby logowania:",
         "number_of_bad_logins": "Liczba nieudanych prób logowania:",
-        "access_levels": "Poziomy dostępu:"
+        "access_levels": "Poziomy dostępu:",
+        "last_activity_modification_date":  "Data ostatniej modyfikacji aktywności:",
+        "activity_modified_by":  "Autor ostatniej modyfikacji aktywności:",
+        "last_confirmed_modification_date":  "Data potwierdzenia konta:",
+        "last_password_modification_date":  "Data ostatniej modyfikacji hasła:",
+        "last_email_modification_date":  "Data ostatniej modyfikacji e-mailu:"
     },
     "access-level-table": {
         "level": "Poziom",
         "active": "Aktywne",
         "last_modification_date": "Data ostatniej modyfikacji",
         "modified_by": "Autor ostatniej modyfikacji",
-        "creation_date": "Data utworzenia"
+        "creation_date": "Data utworzenia",
+        "created_by": "Utworzony przez"
     },
     "main-page": {
         "advert": "Przeprawy promowe jak z bajki",
@@ -143,7 +149,8 @@
             "enter_password": "Wprowadź nowe hasło",
             "invalid_url": "Załączony url nie jest poprawny",
             "password_too_short": "Podane hasło jest zbyt krótkie",
-            "password_change_success": "Pomyślnie zmieniono hasło"
+            "password_change_success": "Pomyślnie zmieniono hasło",
+            "redirect_to_main_page": "Za chwilę nastąpi przekierowanie do strony głównej"
         },
         "reset": {
             "successful": "Pomyślnie zresetowano hasło",

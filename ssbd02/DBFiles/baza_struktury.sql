@@ -33,23 +33,29 @@ CREATE INDEX account_login ON Account USING btree (login);
 
 CREATE TABLE Personal_data
 (
-    id                       bigint                              NOT NULL,
-    first_name               varchar(30)                         NOT NULL,
-    last_name                varchar(50)                         NOT NULL,
-    email                    varchar(70)                         NOT NULL,
-    phone_number             varchar(15),
-    language                 varchar(5)                          NOT NULL,
-    time_zone                char(6)                             NOT NULL,
-    modification_date        timestamp,
-    modified_by              bigint,
-    creation_date            timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    last_known_good_login    timestamp,
-    last_known_good_login_ip varchar(39),
-    last_known_bad_login     timestamp,
-    last_known_bad_login_ip  varchar(39),
-    number_of_bad_logins     int       DEFAULT 0                 NOT NULL,
+    id                          bigint                              NOT NULL,
+    first_name                  varchar(30)                         NOT NULL,
+    last_name                   varchar(50)                         NOT NULL,
+    email                       varchar(70)                         NOT NULL,
+    phone_number                varchar(15),
+    language                    varchar(5)                          NOT NULL,
+    time_zone                   char(6)                             NOT NULL,
+    modification_date           timestamp,
+    modified_by                 bigint,
+    activity_modification_date  timestamp,
+    activity_modified_by        bigint,
+    confirmed_modification_date timestamp,
+    password_modification_date  timestamp,
+    email_modification_date     timestamp,
+    creation_date               timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_known_good_login       timestamp,
+    last_known_good_login_ip    varchar(39),
+    last_known_bad_login        timestamp,
+    last_known_bad_login_ip     varchar(39),
+    number_of_bad_logins        int       DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
+    CONSTRAINT fk_account_id_activity_modified_by FOREIGN KEY (activity_modified_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id_id FOREIGN KEY (id) REFERENCES Account (id),
     CONSTRAINT email_unique UNIQUE (email),
     CONSTRAINT phone_number_unique UNIQUE (phone_number)
@@ -63,6 +69,7 @@ GRANT SELECT ON TABLE Personal_data TO ssbd02mop;
 
 CREATE INDEX personal_data_id ON Personal_data USING btree (id);
 CREATE INDEX personal_data_modified_by ON Personal_data USING btree (modified_by);
+CREATE INDEX personal_data_activity_modified_by ON Personal_data USING btree (activity_modified_by);
 CREATE INDEX personal_data_email ON Personal_data USING btree (email);
 CREATE INDEX personal_data_phone_number ON Personal_data USING btree (phone_number);
 
@@ -333,6 +340,7 @@ CREATE TABLE One_time_url
     CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id FOREIGN KEY (account) REFERENCES Account (id),
     CONSTRAINT one_time_url_url_unique UNIQUE (url),
+    CONSTRAINT new_email_unique UNIQUE (new_email),
     CONSTRAINT one_time_url_account_action_type_unique UNIQUE (account, action_type)
 );
 

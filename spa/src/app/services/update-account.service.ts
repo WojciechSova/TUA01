@@ -35,6 +35,9 @@ export class UpdateAccountService implements OnDestroy {
 
     sendUpdateAccountRequest(account: AccountDetails, urlPart: string): Observable<object> {
         const completeUrl = this.url + urlPart;
+        if (account.phoneNumber === '') {
+            account.phoneNumber = undefined;
+        }
         return this.http.put(completeUrl, account,
             {
                 observe: 'body',

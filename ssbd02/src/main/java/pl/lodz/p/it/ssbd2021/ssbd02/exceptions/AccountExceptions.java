@@ -19,7 +19,8 @@ public class AccountExceptions extends GeneralException {
     public static String ERROR_NOT_ACCEPTABLE = "ERROR.NOT_ACCEPTABLE";
     public static String ERROR_URL_NOT_FOUND = "ERROR.URL_NOT_FOUND";
     public static String ERROR_URL_EXPIRED = "ERROR.URL_EXPIRED";
-    public static String ERROR_URL_TYPE = "ERROR.URL_YPE";
+    public static String ERROR_URL_TYPE = "ERROR.URL_TYPE";
+    public static String ERROR_ACCOUNT_INACTIVE = "ERROR.ACCOUNT_INACTIVE";
 
     public AccountExceptions(Response.Status status, String key) {
         super(status, key);
@@ -63,5 +64,15 @@ public class AccountExceptions extends GeneralException {
      */
     public static AccountExceptions createGoneException(String key) {
         return new AccountExceptions(Response.Status.GONE, key);
+    }
+
+    /**
+     * Metoda tworząca wyjątek aplikacyjny o kodzie 403 (Forbidden).
+     *
+     * @param key klucz typu {@link String}
+     * @return wyjątek typu {@link AccountExceptions}
+     */
+    public static AccountExceptions createForbiddenException(String key) {
+        return new AccountExceptions(Response.Status.FORBIDDEN, key);
     }
 }
