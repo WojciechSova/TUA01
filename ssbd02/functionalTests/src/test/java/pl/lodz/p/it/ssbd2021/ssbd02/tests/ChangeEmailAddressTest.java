@@ -39,7 +39,7 @@ public class ChangeEmailAddressTest {
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
         options.addArguments("−−lang=pl");
-//        options.setHeadless(true);
+        options.setHeadless(true);
     }
 
     @BeforeEach

@@ -37,5 +37,4 @@ public class NewPasswordPage {
         return differentPasswordsError;
     }
 
-
 }
