@@ -19,27 +19,16 @@ export class AccountGeneralService implements OnDestroy {
     getAccounts(): any {
         return this.http.get<any>(this.url, {
             observe: 'body',
-            responseType: 'json',
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
+            responseType: 'json'
         });
     }
 
     blockAccount(login: string): any {
-        return this.http.put(this.url + '/block/' + login,  {}, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-        });
+        return this.http.put(this.url + '/block/' + login, {});
     }
 
     unblockAccount(login: string): any {
-        return this.http.put(this.url + '/unblock/' + login,  {}, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-        });
+        return this.http.put(this.url + '/unblock/' + login, {});
     }
 
     ngOnDestroy(): void {
