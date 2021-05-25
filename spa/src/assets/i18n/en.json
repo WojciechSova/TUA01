@@ -179,8 +179,13 @@
         "account_edit": "Edit account"
     },
     "session-timeout": {
-        "info": "Your session has expired",
+        "info": {
+            "timeout": "Your session has expired",
+            "nearly": "Your session is going to expire soon"
+        },
         "login": "Login",
-        "ok": "Ok"
+        "ok": "Ok",
+        "renew": "Refresh",
+        "signOut": "Sign out"
     }
 }

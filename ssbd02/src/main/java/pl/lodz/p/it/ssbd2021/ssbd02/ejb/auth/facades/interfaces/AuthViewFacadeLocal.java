@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacadeInterface;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.auth.AuthView;
 
 import javax.ejb.Local;
+import javax.security.enterprise.credential.Password;
 import java.util.List;
 
 /**
@@ -18,9 +19,9 @@ public interface AuthViewFacadeLocal extends AbstractFacadeInterface<AuthView> {
     /**
      * Metoda wyszukująca poziomy dostępu użytkownika.
      *
-     * @param login Login konta, którego poziomy dostępu pozyskujemy.
+     * @param login    Login konta, którego poziomy dostępu pozyskujemy.
      * @param password Hasło konta, którego poziomy dostępu pozyskujemy.
      * @return Lista poziomów dostępu typu {@link String}.
      */
-    List<String> findLevelsByCredentials(String login, String password);
+    List<String> findLevelsByCredentials(String login, Password password);
 }

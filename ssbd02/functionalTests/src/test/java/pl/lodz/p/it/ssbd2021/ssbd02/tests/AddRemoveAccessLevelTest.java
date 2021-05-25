@@ -14,8 +14,8 @@ public class AddRemoveAccessLevelTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
-    private WebDriver driver;
     private final String login = "admin";
+    private WebDriver driver;
 
     @BeforeAll
     static void initAll() {
@@ -41,11 +41,12 @@ public class AddRemoveAccessLevelTest {
 
         AccountsListPage accountsListPage = adminMainPage.openAccountsList();
 
+        driver.navigate().refresh();
         driverWait.until(ExpectedConditions.visibilityOfElementLocated(accountsListPage.getUsersTable()));
-
         Assertions.assertEquals("ADMIN", accountsListPage.getAccessLevels(login));
 
         ChangeAccessLevelsPage changeAccessLevelsPage = accountsListPage.openChangeAccessLevelsForm(login);
+        driverWait.until(ExpectedConditions.visibilityOfElementLocated(changeAccessLevelsPage.getCheckboxContainer()));
         changeAccessLevelsPage.changeAccessLevel("EMPLOYEE");
 
         driverWait.until(ExpectedConditions.invisibilityOfElementLocated(changeAccessLevelsPage.getCheckboxContainer()));

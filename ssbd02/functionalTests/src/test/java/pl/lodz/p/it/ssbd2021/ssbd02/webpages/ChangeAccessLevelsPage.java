@@ -6,9 +6,9 @@ import org.openqa.selenium.WebDriver;
 public class ChangeAccessLevelsPage {
 
     protected WebDriver driver;
-    private final By adminCheckbox = By.className("admin");
-    private final By employeeCheckbox = By.className("employee");
-    private final By clientCheckbox = By.className("client");
+    private final By adminCheckbox = By.id("admin-label");
+    private final By employeeCheckbox = By.id("employee-label");
+    private final By clientCheckbox = By.id("client-label");
     private final By checkboxContainer = By.className("checkbox-container");
     private final By confirmButton = By.id("confirmButton");
 
