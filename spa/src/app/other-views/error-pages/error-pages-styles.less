@@ -1,4 +1,3 @@
-@import '../confirm-account/confirm-account.component.less';
 @import '../../../styles.less';
 
 @seal-body-color: #AAAAAA;
@@ -9,38 +8,64 @@
 @water-color: #84CBD0;
 @sky-color: transparent;
 
-.main-error{
+.header {
+    display: flex;
+    width: 100%;
+    height: 150px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.content {
+    display: flex;
+    width: 100%;
+    margin-top: 150px;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+    h1 {
+        font: lighter 3.0rem Source Sans Pro;
+    }
+
+    h2 {
+        font: lighter 2.0rem Source Sans Pro;
+    }
+}
+
+.main-error {
     height: 100%;
     width: 100%;
     overflow: hidden;
 }
 
-body{
+body {
     overflow: hidden;
 }
 
-h1{
+h1 {
     margin-bottom: 0;
 }
 
-h2{
+h2 {
     margin-bottom: 0;
 }
-.content{
+.content {
     margin-bottom: 0;
     margin-top: 50px;
 }
 
-.content-button{
+.content-button {
     .content;
     margin-top: 40px;
 }
 
 //seal
-
-.box-canvas{
-    position: relative;
-    display: block;
+.box-canvas {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow-y: hidden;
     padding-bottom: 16.3vh;
     margin-top: 22px;
     width: 100%;
@@ -49,8 +74,7 @@ h2{
     @sky-color,
     @sky-color 200px,
     @water-color 200px,
-    @water-color
-    );
+    @water-color);
 }
 
 .box-canvas::after {
