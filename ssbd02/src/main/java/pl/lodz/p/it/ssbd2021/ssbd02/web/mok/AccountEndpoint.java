@@ -21,6 +21,7 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.security.enterprise.credential.Password;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -371,7 +372,7 @@ public class AccountEndpoint {
         do {
             try {
                 accountManager.changePassword(securityContext.getUserPrincipal().getName(),
-                        passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
+                        new Password(passwordDTO.getOldPassword()), new Password(passwordDTO.getNewPassword()));
                 transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
@@ -621,7 +622,7 @@ public class AccountEndpoint {
             throw CommonExceptions.createConstraintViolationException();
         }
         try {
-            accountManager.resetPassword(url, newPassword);
+            accountManager.resetPassword(url, new Password(newPassword));
 
             return Response.ok().build();
         } catch (GeneralException generalException) {

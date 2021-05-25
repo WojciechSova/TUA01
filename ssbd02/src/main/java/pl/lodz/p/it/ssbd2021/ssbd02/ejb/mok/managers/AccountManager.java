@@ -16,6 +16,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccessLevelExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.OneTimeUrlExceptions;
 
 import javax.ejb.SessionSynchronization;
@@ -23,6 +24,8 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
+import javax.security.enterprise.credential.Password;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -39,6 +42,7 @@ import static java.time.temporal.ChronoUnit.SECONDS;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
+@Interceptors(TrackerInterceptor.class)
 public class AccountManager extends AbstractManager implements AccountManagerLocal, SessionSynchronization {
 
     private static final Properties prop = new Properties();
@@ -239,16 +243,16 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         });
     }
 
-    public void changePassword(String login, String oldPassword, String newPassword) {
+    public void changePassword(String login, Password oldPassword, Password newPassword) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
-        String hashedOldPassword = DigestUtils.sha512Hex(oldPassword);
+        String hashedOldPassword = DigestUtils.sha512Hex(String.valueOf(oldPassword.getValue()));
         if (!hashedOldPassword.equals(account.getPassword())) {
             throw AccountExceptions.createNotAcceptableException(AccountExceptions.ERROR_PASSWORD_NOT_CORRECT);
-        } else if (newPassword.equals(oldPassword)) {
+        } else if (String.valueOf(newPassword.getValue()).equals(String.valueOf(oldPassword.getValue()))) {
             throw AccountExceptions.createExceptionConflict(AccountExceptions.ERROR_SAME_PASSWORD);
         }
 
-        account.setPassword(DigestUtils.sha512Hex(newPassword));
+        account.setPassword(DigestUtils.sha512Hex(String.valueOf(newPassword.getValue())));
         account.setPasswordModificationDate(Timestamp.from(Instant.now()));
         accountFacadeLocal.edit(account);
     }
@@ -425,7 +429,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public void resetPassword(String url, String newPassword) {
+    public void resetPassword(String url, Password newPassword) {
         OneTimeUrl oneTimeUrl = Optional.ofNullable(oneTimeUrlFacadeLocal.findByUrl(url)).orElseThrow(CommonExceptions::createNoResultException);
 
         if (Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())) {
@@ -434,7 +438,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             throw AccountExceptions.createNotAcceptableException(AccountExceptions.ERROR_URL_TYPE);
         }
 
-        oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(newPassword));
+        oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(String.valueOf(newPassword.getValue())));
         oneTimeUrl.getAccount().setPasswordModificationDate(Timestamp.from(Instant.now()));
 
         oneTimeUrlFacadeLocal.remove(oneTimeUrl);
