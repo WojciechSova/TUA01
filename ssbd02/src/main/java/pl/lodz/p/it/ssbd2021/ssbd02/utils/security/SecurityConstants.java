@@ -42,7 +42,7 @@ public class SecurityConstants {
         try {
             keyGenerator = KeyGenerator.getInstance("HmacSHA512");
         } catch (NoSuchAlgorithmException e) {
-            logger.error(e);
+            logger.fatal(e);
             throw CommonExceptions.createUnknownException();
         }
         SecureRandom secureRandom = new SecureRandom();
