@@ -17,10 +17,6 @@ export class ChangePasswordService {
         return this.http.put(this.url, {
             oldPassword,
             newPassword
-        }, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
         });
     }
 }

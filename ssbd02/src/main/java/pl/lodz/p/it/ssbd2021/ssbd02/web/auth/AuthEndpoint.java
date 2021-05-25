@@ -132,6 +132,9 @@ public class AuthEndpoint {
                         .collect(Collectors.joining(SecurityConstants.GROUP_SPLIT_CONSTANT));
                 String timezone = account.getKey().getTimeZone();
                 if (account.getKey().getActive()) {
+                    if (account.getValue().isEmpty()){
+                        throw CommonExceptions.createForbiddenException();
+                    }
                     return Response.accepted()
                             .entity(JWTGenerator.updateJWT(serializedJWT, accessLevels, timezone))
                             .build();
@@ -168,6 +171,13 @@ public class AuthEndpoint {
         return Response.ok().build();
     }
 
+    /**
+     * Metoda wyznaczająca adres ip, z którego zostało wysłane żądanie.
+     * W pierwszej kolejności brana pod uwagę jest pierwsza wartość nagłówka X-Forwarded-For.
+     *
+     * @param req Zapytanie HTTP
+     * @return Adres ip, z którego zostało wysłane żądanie.
+     */
     private String getClientIp(HttpServletRequest req) {
         String xForwardedFor = req.getHeader("X-Forwarded-For");
         if (xForwardedFor == null || "".equals(xForwardedFor.trim())) {
@@ -176,6 +186,15 @@ public class AuthEndpoint {
         return xForwardedFor.contains(",") ? xForwardedFor.split(",")[0] : xForwardedFor;
     }
 
+    /**
+     * Metoda wyznaczająca język przeglądarki, z której zostało wysłane żądanie.
+     * W pierwszej kolejności pod uwagę brana jest pierwsza wartość nagłówka Accept-Language.
+     * Akceptowalne języki to takie zawierające en lub pl.
+     * W przypadku braku znalezienia odpowiedniego języka domyślną wartością jest en.
+     *
+     * @param req Zapytanie HTTP
+     * @return Adres ip, z którego zostało wysłane żądanie.
+     */
     private String getLanguage(HttpServletRequest req) {
         String acceptLanguage = req.getHeader("Accept-Language");
         if (acceptLanguage == null || "".equals(acceptLanguage.trim())) {

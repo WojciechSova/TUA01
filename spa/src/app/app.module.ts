@@ -38,6 +38,7 @@ import { AuthInterceptor } from './services/interceptors/auth-interceptor';
 import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
 import { SessionTimeoutComponent } from './common/navigation/session-timeout/session-timeout.component';
 import { ErrorHandlerService } from './services/error-handlers/error-handler.service';
+import { CookieService } from 'ngx-cookie-service';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);

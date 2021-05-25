@@ -60,4 +60,8 @@ public class Route extends AbstractEntity implements Serializable {
     @JoinColumn(name = "created_by", updatable = false, referencedColumnName = "id")
     private Account createdBy;
 
+    @Override
+    public String getSummary() {
+        return super.getSummary() + " code: " + getCode() + " ";
+    }
 }

@@ -10,9 +10,11 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.ejb.*;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 @Singleton
 @Startup
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
+@Interceptors(TrackerInterceptor.class)
 public class SystemManager extends AbstractManager implements SystemManagerLocal, SessionSynchronization {
 
     private static final Properties prop = new Properties();

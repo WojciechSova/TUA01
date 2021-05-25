@@ -6,15 +6,26 @@ import org.openqa.selenium.WebDriver;
 public class MainPage {
 
     protected WebDriver driver;
-    private final By loginButton = By.id("loginLink");
-    //TODO: Add other main page web elements required for further testing
+    private final By aboutUsLink = By.id("aboutUsLink");
+    private final By contactLink = By.id("contactLink");
+    private final By currentCruisesLink = By.id("currentCruisesLink");
+    private final By loginLink = By.id("loginLink");
+    private final By registerLink = By.id("registerLink");
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
     }
 
     public LoginPage openLoginForm() {
-        driver.findElement(loginButton).click();
+        driver.findElement(loginLink).click();
         return new LoginPage(driver);
+    }
+
+    public boolean areMainPageNavBarLinksDisplayed() {
+        return driver.findElement(aboutUsLink).isDisplayed() &&
+                driver.findElement(contactLink).isDisplayed() &&
+                driver.findElement(currentCruisesLink).isDisplayed() &&
+                driver.findElement(loginLink).isDisplayed() &&
+                driver.findElement(registerLink).isDisplayed();
     }
 }

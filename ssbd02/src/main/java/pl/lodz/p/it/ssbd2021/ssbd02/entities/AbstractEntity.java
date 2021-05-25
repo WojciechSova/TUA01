@@ -40,5 +40,14 @@ public abstract class AbstractEntity {
         }
         return true;
     }
+
+    /**
+     * Metoda zwraca ciąg znaków zawierający najważniejsze informacje o encji.
+     *
+     * @return Łańcuch znaków, który przedstawia najważniejsze informacje o encji
+     */
+    public String getSummary() {
+        return " Entity id: " + getId() + " version: " + getVersion();
+    }
 }
 
