@@ -74,5 +74,8 @@ public class Cruise extends AbstractEntity implements Serializable {
     @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")
     private Account createdBy;
 
-
+    @Override
+    public String getSummary() {
+        return super.getSummary() + " number: " + getNumber() + " ";
+    }
 }
