@@ -16,7 +16,6 @@ public class AccountExceptions extends GeneralException {
     public static String ERROR_PHONE_NUMBER_UNIQUE = "ERROR.PHONE_NUMBER_UNIQUE";
     public static String ERROR_SAME_PASSWORD = "ERROR.SAME_PASSWORD";
     public static String ERROR_PASSWORD_NOT_CORRECT = "ERROR.PASSWORD_NOT_CORRECT";
-    public static String ERROR_NOT_ACCEPTABLE = "ERROR.NOT_ACCEPTABLE";
     public static String ERROR_URL_NOT_FOUND = "ERROR.URL_NOT_FOUND";
     public static String ERROR_URL_EXPIRED = "ERROR.URL_EXPIRED";
     public static String ERROR_URL_TYPE = "ERROR.URL_TYPE";
@@ -37,13 +36,13 @@ public class AccountExceptions extends GeneralException {
     }
 
     /**
-     * Metoda tworząca wyjątek aplikacyjny o kodzie 406 (Not Acceptable).
+     * Metoda tworząca wyjątek aplikacyjny o kodzie 400 (Bad Request).
      *
      * @param key klucz typu {@link String}
      * @return wyjątek typu {@link AccountExceptions}
      */
-    public static AccountExceptions createNotAcceptableException(String key) {
-        return new AccountExceptions(Response.Status.NOT_ACCEPTABLE, key);
+    public static AccountExceptions createBadRequestException(String key) {
+        return new AccountExceptions(Response.Status.BAD_REQUEST, key);
     }
 
     /**

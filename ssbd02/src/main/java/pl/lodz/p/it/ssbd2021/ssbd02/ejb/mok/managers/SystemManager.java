@@ -1,5 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
@@ -37,6 +40,7 @@ import java.util.stream.Collectors;
 public class SystemManager extends AbstractManager implements SystemManagerLocal, SessionSynchronization {
 
     private static final Properties prop = new Properties();
+    private static final Logger logger = LogManager.getLogger();
 
 
     @Inject
@@ -60,8 +64,8 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
             prop.load(input);
             removalTime = Integer.parseInt(prop.getProperty("system.time.account.confirmation"));
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
         }
         List<Account> accountsToDelete = accountFacadeLocal.findByUnconfirmedAndExpired(removalTime);
         List<List<AccessLevel>> accessLevelsToDelete = new ArrayList<>();
@@ -103,8 +107,8 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             removalTime = Long.parseLong(prop.getProperty("system.time.account.confirmation")) * 1000 / 2;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
         }
 
         long finalRemovalTime = removalTime;

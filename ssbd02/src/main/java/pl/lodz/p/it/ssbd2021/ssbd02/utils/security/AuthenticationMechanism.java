@@ -1,6 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 
 import com.nimbusds.jwt.SignedJWT;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.security.enterprise.AuthenticationException;
@@ -22,6 +25,8 @@ import java.util.Objects;
  */
 @Stateless
 public class AuthenticationMechanism implements HttpAuthenticationMechanism {
+
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Metoda wykonywana podczas wysłania zapytania przez klienta. Sprawdza czy zapytanie zawiera token JWT
@@ -64,7 +69,7 @@ public class AuthenticationMechanism implements HttpAuthenticationMechanism {
 
             return httpMessageContext.notifyContainerAboutLogin(login, new HashSet<>(Arrays.asList(groups.split(SecurityConstants.GROUP_SPLIT_CONSTANT))));
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
 
         throw new AuthenticationException();

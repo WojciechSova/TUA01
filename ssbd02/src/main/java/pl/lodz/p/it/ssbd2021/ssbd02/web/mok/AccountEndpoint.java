@@ -445,7 +445,7 @@ public class AccountEndpoint {
         boolean transactionRollBack;
         do {
             if (url.length() != 32) {
-                throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+                throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
             }
             try {
                 accountManager.confirmAccount(url);
@@ -541,7 +541,7 @@ public class AccountEndpoint {
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack;
         if (url.length() != 32) {
-            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+            throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
         }
         do {
             try {
@@ -614,7 +614,7 @@ public class AccountEndpoint {
     @Path("reset/password/{url}")
     public Response resetPassword(@PathParam("url") String url, @NotBlank String newPassword) {
         if (url.length() != 32) {
-            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+            throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
         }
         if (newPassword.length() < 8) {
             throw CommonExceptions.createConstraintViolationException();
@@ -647,7 +647,7 @@ public class AccountEndpoint {
     @Path("change/accesslevel")
     public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @NotBlank String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
-            throw AccessLevelExceptions.createNotAcceptableException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
+            throw AccessLevelExceptions.createBadRequestException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
         }
         try {
             logger.info("The user with login {} changed the access level to {}",
@@ -664,17 +664,17 @@ public class AccountEndpoint {
     }
 
     /**
-     * Metoda zwracająca parametr informujący o ilości powtórzeń transakcji.
+     * Metoda pobierająca z właściwości współczynnik określający ilość powtórzeń transakcji.
      *
-     * @return ilość powtórzeń transakcji
+     * @return Współczynnik powtórzeń transakcji
      */
     private int getTransactionRepetitionCounter() {
         Properties prop = new Properties();
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
             return 3;
         }
     }
