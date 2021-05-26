@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -20,6 +21,7 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class FerryFacade extends AbstractFacade<Ferry> implements FerryFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")

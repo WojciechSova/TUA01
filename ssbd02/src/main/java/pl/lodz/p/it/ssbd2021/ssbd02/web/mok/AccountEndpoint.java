@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
  */
 @RequestScoped
 @Path("accounts")
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AccountEndpoint {
 
     private static final Logger logger = LogManager.getLogger();
@@ -642,7 +643,6 @@ public class AccountEndpoint {
      */
     @POST
     @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
-    @PermitAll
     @Consumes(MediaType.TEXT_PLAIN)
     @Path("change/accesslevel")
     public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @NotBlank String accessLevel) {
