@@ -15,6 +15,7 @@ public class RegistrationPage {
     private By lastName = By.id("last-name");
     private By phoneNumber = By.id("phone-number");
     private By confirmBtn = By.id("confirm");
+    private By errorMsg = By.id("invalidCredentialsLabel");
 
     public RegistrationPage(WebDriver driver) {
         this.driver = driver;
@@ -30,5 +31,13 @@ public class RegistrationPage {
         driver.findElement(this.lastName).sendKeys(names[1]);
         driver.findElement(this.phoneNumber).sendKeys(phoneNumber);
         driver.findElement(this.confirmBtn).click();
+    }
+
+    public By getLogin() {
+        return login;
+    }
+
+    public By getErrorMsg() {
+        return errorMsg;
     }
 }

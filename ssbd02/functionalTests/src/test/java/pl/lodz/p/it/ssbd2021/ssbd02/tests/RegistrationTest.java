@@ -1,8 +1,12 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.tests;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -13,6 +17,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.RegistrationPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RegistrationTest {
 
@@ -37,7 +42,7 @@ public class RegistrationTest {
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
         options.addArguments("−−lang=pl");
-        //options.setHeadless(true);
+        options.setHeadless(true);
     }
 
     @BeforeEach
@@ -59,10 +64,11 @@ public class RegistrationTest {
         driver.get(confirmationUrl);
         driverWait.until(ExpectedConditions.not(ExpectedConditions.urlMatches(TestUtils.url.concat("/confirm"))));
 
-        ClientMainPage clientMainPage =  TestUtils.logInAsNewUser(driver, login, password);
+        ClientMainPage clientMainPage = TestUtils.logInAsNewUser(driver, login, password);
         driverWait.until(ExpectedConditions.presenceOfElementLocated(clientMainPage.getCurrentUser()));
 
         assertEquals(login.toUpperCase(), driver.findElement(clientMainPage.getCurrentUser()).getText());
+        TestUtils.removeLastAccount();
     }
 
     @ParameterizedTest
@@ -72,18 +78,21 @@ public class RegistrationTest {
         RegistrationPage registrationPage = mainPage.openRegistrationPage();
         switch (conflictedValue) {
             case "email": {
-                registrationPage.register(login, new String[]{existingEmail, email}, new String[]{password, password}, new String[]{firstName, lastName}, phoneNumber);
-
+                registrationPage.register(login, new String[]{existingEmail, existingEmail}, new String[]{password, password}, new String[]{firstName, lastName}, phoneNumber);
+                driver.findElement(registrationPage.getLogin()).sendKeys(Keys.SHIFT);
+                assertTrue(driver.findElement(registrationPage.getErrorMsg()).isDisplayed());
                 break;
             }
             case "login": {
                 registrationPage.register(existingLogin, new String[]{email, email}, new String[]{password, password}, new String[]{firstName, lastName}, phoneNumber);
-
+                driver.findElement(registrationPage.getLogin()).sendKeys(Keys.SHIFT);
+                assertTrue(driver.findElement(registrationPage.getErrorMsg()).isDisplayed());
                 break;
             }
             case "phoneNumber": {
                 registrationPage.register(login, new String[]{email, email}, new String[]{password, password}, new String[]{firstName, lastName}, existingPhoneNumber);
-
+                driver.findElement(registrationPage.getLogin()).sendKeys(Keys.SHIFT);
+                assertTrue(driver.findElement(registrationPage.getErrorMsg()).isDisplayed());
                 break;
             }
         }
@@ -91,7 +100,6 @@ public class RegistrationTest {
 
     @AfterEach
     public void tearDown() {
-        TestUtils.removeLastAccount();
         driver.quit();
     }
 }

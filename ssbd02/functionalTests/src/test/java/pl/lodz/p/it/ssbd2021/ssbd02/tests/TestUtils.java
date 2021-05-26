@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.tests;
 
 import org.openqa.selenium.WebDriver;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.ClientMainPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.LoginPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 
