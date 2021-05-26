@@ -21,10 +21,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import javax.security.enterprise.credential.Password;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static java.time.temporal.ChronoUnit.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -481,25 +478,6 @@ public class AccountManagerTest {
     }
 
     @Test
-    void registerGoodLogin() {
-        when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
-        String address = "192.168.1.1";
-        a1.setNumberOfBadLogins(2);
-
-        assertNull(a1.getLastKnownGoodLogin());
-        assertNull(a1.getLastKnownGoodLoginIp());
-
-        Timestamp before = Timestamp.from(Instant.now());
-        accountManager.registerGoodLogin(login1, address);
-        Timestamp after = Timestamp.from(Instant.now());
-
-        assertTrue(a1.getLastKnownGoodLogin().getTime() >= before.getTime());
-        assertTrue(a1.getLastKnownGoodLogin().getTime() <= after.getTime());
-        assertEquals(address, a1.getLastKnownGoodLoginIp());
-        assertEquals(0, a1.getNumberOfBadLogins());
-    }
-
-    @Test
     void confirmAccount() {
         a1.setActive(false);
         a1.setLogin(login1);
@@ -673,10 +651,24 @@ public class AccountManagerTest {
     }
 
     @Test
-    void getTimezone() {
+    void registerGoodLoginAndGetTimezone() {
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
         a1.setTimeZone("zone");
+        String address = "192.168.1.1";
+        a1.setNumberOfBadLogins(2);
 
-        assertEquals("zone", accountManager.getTimezone(login1));
+        assertNull(a1.getLastKnownGoodLogin());
+        assertNull(a1.getLastKnownGoodLoginIp());
+
+        Timestamp before = Timestamp.from(Instant.now());
+        String zone = accountManager.registerGoodLoginAndGetTimezone(login1, Set.of("CLIENT"), address, "pl");
+        Timestamp after = Timestamp.from(Instant.now());
+
+        assertTrue(a1.getLastKnownGoodLogin().getTime() >= before.getTime());
+        assertTrue(a1.getLastKnownGoodLogin().getTime() <= after.getTime());
+        assertEquals(address, a1.getLastKnownGoodLoginIp());
+        assertEquals("zone", zone);
+        assertEquals("pl", a1.getLanguage());
+        assertEquals(0, a1.getNumberOfBadLogins());
     }
 }

@@ -4,7 +4,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
@@ -153,23 +152,6 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
 
     }
 
-    @Override
-    @PermitAll
-    public void registerGoodLogin(String login, String clientAddress) {
-        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
-        account.setLastKnownGoodLogin(Timestamp.from(Instant.now()));
-        account.setLastKnownGoodLoginIp(clientAddress);
-        account.setNumberOfBadLogins(0);
-    }
-
-    @Override
-    @PermitAll
-    public void updateLanguage(String login, String language) {
-        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
-        account.setLanguage(language);
-        logger.info("The language of the account with login {} changed to {}",
-                this.getInvokerId(), language);
-    }
 
     @Override
     @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
@@ -311,14 +293,6 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         logger.info("The user with login {} changed activity of the account with login {} to {}",
                 this.getInvokerId(), login, newActivity);
         emailSender.sendChangedActivityEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), account.getActive());
-    }
-
-    @Override
-    @PermitAll
-    public void notifyAdminAboutLogin(String login, String clientAddress) {
-        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
-
-        emailSender.sendAdminAuthenticationEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), clientAddress);
     }
 
     @Override
@@ -494,7 +468,22 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
 
     @Override
     @PermitAll
-    public String getTimezone(String login) {
-        return accountFacadeLocal.findByLogin(login).getTimeZone();
+    public String registerGoodLoginAndGetTimezone(String login, Set<String> callerGroups, String clientAddress, String language) {
+        Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login))
+                .orElseThrow(CommonExceptions::createNoResultException);
+
+        if (callerGroups.contains("ADMIN")) {
+            emailSender.sendAdminAuthenticationEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), clientAddress);
+        }
+
+        account.setLastKnownGoodLogin(Timestamp.from(Instant.now()));
+        account.setLastKnownGoodLoginIp(clientAddress);
+        account.setNumberOfBadLogins(0);
+
+        account.setLanguage(language);
+        logger.info("The language of the account with login {} changed to {}",
+                this.getInvokerId(), language);
+
+        return account.getTimeZone();
     }
 }

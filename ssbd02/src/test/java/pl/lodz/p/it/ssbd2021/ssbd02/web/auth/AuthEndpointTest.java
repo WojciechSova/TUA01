@@ -91,7 +91,7 @@ class AuthEndpointTest {
         Assertions.assertTrue(JWTVerifier.validateJwt((String) response.getEntity()));
 
         Mockito.verify(accountManagerLocal, Mockito.times(1))
-                .registerGoodLogin("login", "192.168.1.1");
+                .registerGoodLoginAndGetTimezone("login", Set.of("ADMIN", "EMPLOYEE"), "192.168.1.1", "pl");
     }
 
     @Test

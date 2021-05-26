@@ -15,6 +15,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -64,6 +65,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
 
     @Override
     @Schedule(hour = "*", persistent = false)
+    @DenyAll
     public void removeUnconfirmedAccounts() {
         int removalTime = 86400;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
@@ -97,6 +99,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
 
     @Override
     @Schedule(minute = "20", hour = "*", persistent = false)
+    @DenyAll
     public void removeInactiveUrl() {
         List<OneTimeUrl> expired = oneTimeUrlFacadeLocal.findExpired();
 
@@ -104,11 +107,12 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
                 oneTimeUrl -> oneTimeUrlFacadeLocal.remove(oneTimeUrl)
         );
 
-        logger.info("System removed {} unconfirmed accounts", expired.size());
+        logger.info("System removed {} expired URLs", expired.size());
     }
 
     @Override
     @Schedule(minute = "30", hour = "*", persistent = false)
+    @DenyAll
     public void resendConfirmAccountEmail() {
         long removalTime = 86_400_000 / 2L;
         final long hour = 3_600_000;
