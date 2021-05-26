@@ -9,10 +9,11 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
+import javax.security.enterprise.credential.Password;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -26,10 +27,8 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class AccountEndpointTest {
 
@@ -42,6 +41,8 @@ class AccountEndpointTest {
     private UserPrincipal userPrincipal;
     @Captor
     private ArgumentCaptor<String> loginCaptor;
+    @Captor
+    private ArgumentCaptor<String> requestedByCaptor;
     @Captor
     private ArgumentCaptor<String> emailCaptor;
     @InjectMocks
@@ -146,21 +147,24 @@ class AccountEndpointTest {
         Account accountWithoutEmail = createAccount();
         accountWithoutEmail.setEmail(null);
 
-        WebApplicationException loginException = assertThrows(WebApplicationException.class,
+        GeneralException loginException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.createAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair.of(accountWithoutLogin, Collections.emptyList()))));
-        WebApplicationException passwordException = assertThrows(WebApplicationException.class,
+        GeneralException passwordException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.createAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair.of(accountWithoutPassword, Collections.emptyList()))));
-        WebApplicationException emailException = assertThrows(WebApplicationException.class,
+        GeneralException emailException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.createAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair.of(accountWithoutEmail, Collections.emptyList()))));
 
         assertEquals(400, loginException.getResponse().getStatus());
-        assertEquals("Not all required fields were provided", loginException.getMessage());
+        assertEquals("HTTP 400 Bad Request", loginException.getMessage());
+        assertEquals("ERROR.CONSTRAINT_VIOLATION", loginException.getResponse().getEntity());
 
         assertEquals(400, passwordException.getResponse().getStatus());
-        assertEquals("Not all required fields were provided", passwordException.getMessage());
+        assertEquals("HTTP 400 Bad Request", passwordException.getMessage());
+        assertEquals("ERROR.CONSTRAINT_VIOLATION", loginException.getResponse().getEntity());
 
         assertEquals(400, emailException.getResponse().getStatus());
-        assertEquals("Not all required fields were provided", emailException.getMessage());
+        assertEquals("HTTP 400 Bad Request", emailException.getMessage());
+        assertEquals("ERROR.CONSTRAINT_VIOLATION", loginException.getResponse().getEntity());
     }
 
     @Test
@@ -204,10 +208,10 @@ class AccountEndpointTest {
         String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
                 .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())));
 
-        WebApplicationException loginException = assertThrows(WebApplicationException.class,
+        GeneralException loginException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
                         .of(accountWithoutLogin, Collections.emptyList())), securityContext, "notETag"));
-        WebApplicationException versionException = assertThrows(WebApplicationException.class,
+        GeneralException versionException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
                         .of(accountWithoutVersion, Collections.emptyList())), securityContext, "notETag"));
 
@@ -216,20 +220,23 @@ class AccountEndpointTest {
 
         account.setVersion(2L);
 
-        WebApplicationException tagException = assertThrows(WebApplicationException.class,
+        GeneralException tagException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.updateAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
                         .of(account, Collections.emptyList())), securityContext, tag));
 
-        assertEquals(400, loginException.getResponse().getStatus());
-        assertEquals("Not all required fields were provided", loginException.getMessage());
+        assertEquals(412, loginException.getResponse().getStatus());
+        assertEquals("HTTP 412 Precondition Failed", loginException.getMessage());
+        assertEquals("ERROR.PRECONDITION_FAILED", loginException.getResponse().getEntity());
 
-        assertEquals(400, versionException.getResponse().getStatus());
-        assertEquals("Not all required fields were provided", versionException.getMessage());
+        assertEquals(412, versionException.getResponse().getStatus());
+        assertEquals("HTTP 412 Precondition Failed", versionException.getMessage());
+        assertEquals("ERROR.PRECONDITION_FAILED", loginException.getResponse().getEntity());
 
         assertEquals(200, responseTag.getStatus());
 
         assertEquals(412, tagException.getResponse().getStatus());
-        assertEquals("Not valid tag", tagException.getMessage());
+        assertEquals("HTTP 412 Precondition Failed", tagException.getMessage());
+        assertEquals("ERROR.PRECONDITION_FAILED", loginException.getResponse().getEntity());
     }
 
     //region Update own account tests
@@ -276,12 +283,13 @@ class AccountEndpointTest {
         String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
                 .createAccountDetailsDTOFromEntities(Pair.of(accountNoLogin, Collections.emptyList())));
 
-        WebApplicationException noLoginException = assertThrows(WebApplicationException.class,
+        GeneralException noLoginException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
                         .of(accountNoLogin, Collections.emptyList())), securityContext, tag));
 
         assertEquals(400, noLoginException.getResponse().getStatus());
-        assertEquals("Not all required fields were provided", noLoginException.getMessage());
+        assertEquals("HTTP 400 Bad Request", noLoginException.getMessage());
+        assertEquals("ERROR.CONSTRAINT_VIOLATION", noLoginException.getResponse().getEntity());
     }
 
     @Test
@@ -299,12 +307,13 @@ class AccountEndpointTest {
         String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
                 .createAccountDetailsDTOFromEntities(Pair.of(accountNoVersion, Collections.emptyList())));
 
-        WebApplicationException noVersionException = assertThrows(WebApplicationException.class,
+        GeneralException noVersionException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
                         .of(accountNoVersion, Collections.emptyList())), securityContext, tag));
 
         assertEquals(400, noVersionException.getResponse().getStatus());
-        assertEquals("Not all required fields were provided", noVersionException.getMessage());
+        assertEquals("HTTP 400 Bad Request", noVersionException.getMessage());
+        assertEquals("ERROR.CONSTRAINT_VIOLATION", noVersionException.getResponse().getEntity());
     }
 
     @Test
@@ -321,12 +330,13 @@ class AccountEndpointTest {
         String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
                 .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())));
 
-        WebApplicationException invalidTagException = assertThrows(WebApplicationException.class,
+        GeneralException invalidTagException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
                         .of(account, Collections.emptyList())), securityContext, "notAValidTag"));
 
         assertEquals(412, invalidTagException.getResponse().getStatus());
-        assertEquals("ETag not valid", invalidTagException.getMessage());
+        assertEquals("HTTP 412 Precondition Failed", invalidTagException.getMessage());
+        assertEquals("ERROR.PRECONDITION_FAILED", invalidTagException.getResponse().getEntity());
     }
 
     @Test
@@ -345,12 +355,13 @@ class AccountEndpointTest {
 
         account.setVersion(5L);
 
-        WebApplicationException invalidTagException = assertThrows(WebApplicationException.class,
+        GeneralException invalidTagException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
                         .of(account, Collections.emptyList())), securityContext, tag));
 
         assertEquals(412, invalidTagException.getResponse().getStatus());
-        assertEquals("ETag not valid", invalidTagException.getMessage());
+        assertEquals("HTTP 412 Precondition Failed", invalidTagException.getMessage());
+        assertEquals("ERROR.PRECONDITION_FAILED", invalidTagException.getResponse().getEntity());
     }
 
     @Test
@@ -367,12 +378,13 @@ class AccountEndpointTest {
         String tag = DTOIdentitySignerVerifier.calculateDTOSignature(AccountMapper
                 .createAccountDetailsDTOFromEntities(Pair.of(account, Collections.emptyList())));
 
-        WebApplicationException invalidTagException = assertThrows(WebApplicationException.class,
+        GeneralException invalidTagException = assertThrows(GeneralException.class,
                 () -> accountEndpoint.updateOwnAccount(AccountMapper.createAccountDetailsDTOFromEntities(Pair
                         .of(account, Collections.emptyList())), securityContext, tag));
 
         assertEquals(412, invalidTagException.getResponse().getStatus());
-        assertEquals("You can not change not your own account", invalidTagException.getMessage());
+        assertEquals("HTTP 412 Precondition Failed", invalidTagException.getMessage());
+        assertEquals("ERROR.PRECONDITION_FAILED", invalidTagException.getResponse().getEntity());
     }
     //endregion
 
@@ -445,56 +457,10 @@ class AccountEndpointTest {
         doAnswer(invocationOnMock -> {
             account.setPassword(invocationOnMock.getArgument(2));
             return null;
-        }).when(accountManager).changePassword(account.getLogin(), passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
+        }).when(accountManager).changePassword(account.getLogin(), new Password(passwordDTO.getOldPassword()), new Password(passwordDTO.getNewPassword()));
 
         Response response = assertDoesNotThrow(() -> accountEndpoint.changePassword(securityContext, passwordDTO));
-        assertEquals("newPassword", account.getPassword());
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    }
-
-    @Test
-    void changePasswordExceptionTest() {
-        passwordDTO.setOldPassword("");
-        WebApplicationException oldPasswordEmpty = assertThrows(WebApplicationException.class,
-                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
-
-        assertEquals(400, oldPasswordEmpty.getResponse().getStatus());
-        assertEquals("Required fields are missing", oldPasswordEmpty.getMessage());
-
-        passwordDTO.setNewPassword("");
-        WebApplicationException newPasswordEmpty = assertThrows(WebApplicationException.class,
-                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
-
-        assertEquals(400, newPasswordEmpty.getResponse().getStatus());
-        assertEquals("Required fields are missing", newPasswordEmpty.getMessage());
-
-        passwordDTO.setOldPassword(" ");
-        WebApplicationException oldPasswordBlank = assertThrows(WebApplicationException.class,
-                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
-
-        assertEquals(400, oldPasswordBlank.getResponse().getStatus());
-        assertEquals("Required fields are missing", oldPasswordBlank.getMessage());
-
-        passwordDTO.setNewPassword(" ");
-        WebApplicationException newPasswordBlank = assertThrows(WebApplicationException.class,
-                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
-
-        assertEquals(400, newPasswordBlank.getResponse().getStatus());
-        assertEquals("Required fields are missing", newPasswordBlank.getMessage());
-
-        passwordDTO.setOldPassword(null);
-        WebApplicationException oldPasswordNull = assertThrows(WebApplicationException.class,
-                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
-
-        assertEquals(400, oldPasswordNull.getResponse().getStatus());
-        assertEquals("Required fields are missing", oldPasswordNull.getMessage());
-
-        passwordDTO.setNewPassword(null);
-        WebApplicationException newPasswordNull = assertThrows(WebApplicationException.class,
-                () -> accountEndpoint.changePassword(securityContext, passwordDTO));
-
-        assertEquals(400, newPasswordNull.getResponse().getStatus());
-        assertEquals("Required fields are missing", newPasswordNull.getMessage());
     }
 
     @Test
@@ -518,15 +484,12 @@ class AccountEndpointTest {
     @Test
     void confirmAccount() {
         Response response;
-        String url = "url";
+        String url = "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII";
 
-        when(accountManager.confirmAccount(url)).thenReturn(true);
+        doNothing().when(accountManager).confirmAccount(url);
 
         response = accountEndpoint.confirmAccount(url);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-
-        response = accountEndpoint.confirmAccount("invalid");
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test
@@ -539,19 +502,34 @@ class AccountEndpointTest {
         response = accountEndpoint.sendChangeEmailAddressUrl("email@mail.pl", securityContext);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 
-        verify(accountManager).sendChangeEmailAddressUrl(loginCaptor.capture(), emailCaptor.capture());
-        assertEquals("login", loginCaptor.getValue());
-        assertEquals("email@mail.pl", emailCaptor.getValue());
+        verify(accountManager).sendChangeEmailAddressUrl(loginCaptor.capture(), emailCaptor.capture(), requestedByCaptor.capture());
+    }
 
-        response = accountEndpoint.sendChangeEmailAddressUrl("nowy", securityContext);
-        assertEquals(Response.Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
+    @Test
+    void sendChangeEmailAddressUrlException() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("login");
 
-        response = accountEndpoint.sendChangeEmailAddressUrl("nowy@", securityContext);
-        assertEquals(Response.Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
+        GeneralException exception = assertThrows(GeneralException.class,
+                () -> accountEndpoint.sendChangeEmailAddressUrl("nowy", securityContext));
 
-        response = accountEndpoint.sendChangeEmailAddressUrl("nowy@j.", securityContext);
-        assertEquals(Response.Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());
+        assertEquals(400, exception.getResponse().getStatus());
+        assertEquals("ERROR.CONSTRAINT_VIOLATION", exception.getResponse().getEntity());
+        assertEquals("HTTP 400 Bad Request", exception.getMessage());
 
+        exception = assertThrows(GeneralException.class,
+                        () -> accountEndpoint.sendChangeEmailAddressUrl("nowy@", securityContext));
+
+                assertEquals(400, exception.getResponse().getStatus());
+                assertEquals("ERROR.CONSTRAINT_VIOLATION", exception.getResponse().getEntity());
+                assertEquals("HTTP 400 Bad Request", exception.getMessage());
+
+        exception = assertThrows(GeneralException.class,
+                        () -> accountEndpoint.sendChangeEmailAddressUrl("nowy@j.", securityContext));
+
+                assertEquals(400, exception.getResponse().getStatus());
+                assertEquals("ERROR.CONSTRAINT_VIOLATION", exception.getResponse().getEntity());
+                assertEquals("HTTP 400 Bad Request", exception.getMessage());
     }
 
     @Test
@@ -559,9 +537,9 @@ class AccountEndpointTest {
         account.setLogin("login");
         account.setEmail("stary@mail.com");
         Response response;
-        String url = "url";
+        String url = "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII";
 
-        when(accountManager.changeEmailAddress(url)).thenReturn(true);
+        doNothing().when(accountManager).changeEmailAddress(url);
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn("login");
 
@@ -575,40 +553,43 @@ class AccountEndpointTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals("nowy@mail.com", account.getEmail());
 
-        response = accountEndpoint.changeEmailAddress("invalid");
-        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
     }
 
     @Test
     void sendPasswordResetAddressUrl() {
         String email1 = "email@a.com";
         Response response;
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("login");
 
-        response = accountEndpoint.sendPasswordResetAddressUrl(email1);
+        response = accountEndpoint.sendPasswordResetAddressUrl(email1, securityContext);
 
-        verify(accountManager).sendPasswordResetAddressUrl(email1);
+        verify(accountManager).sendPasswordResetAddressUrl(email1, "login");
         assertEquals(200, response.getStatus());
 
         try {
-            accountEndpoint.sendPasswordResetAddressUrl("wrongEmail");
+            accountEndpoint.sendPasswordResetAddressUrl("wrongEmail", securityContext);
         } catch (WebApplicationException e) {
             assertEquals(400, e.getResponse().getStatus());
-            assertEquals("Invalid email format", e.getLocalizedMessage());
+            assertEquals("ERROR.CONSTRAINT_VIOLATION", e.getResponse().getEntity());
+            assertEquals("HTTP 400 Bad Request", e.getLocalizedMessage());
         }
 
         try {
-            accountEndpoint.sendPasswordResetAddressUrl("  ");
+            accountEndpoint.sendPasswordResetAddressUrl("  ", securityContext);
         } catch (WebApplicationException e) {
             assertEquals(400, e.getResponse().getStatus());
-            assertEquals("No email provided", e.getLocalizedMessage());
+            assertEquals("ERROR.CONSTRAINT_VIOLATION", e.getResponse().getEntity());
+            assertEquals("HTTP 400 Bad Request", e.getLocalizedMessage());
         }
 
 
         try {
-            accountEndpoint.sendPasswordResetAddressUrl(null);
+            accountEndpoint.sendPasswordResetAddressUrl(null, securityContext);
         } catch (WebApplicationException e) {
             assertEquals(400, e.getResponse().getStatus());
-            assertEquals("No email provided", e.getLocalizedMessage());
+            assertEquals("ERROR.CONSTRAINT_VIOLATION", e.getResponse().getEntity());
+            assertEquals("HTTP 400 Bad Request", e.getLocalizedMessage());
         }
 
     }
@@ -620,22 +601,22 @@ class AccountEndpointTest {
 
         Response response = accountEndpoint.resetPassword(url, newPassword);
 
-        verify(accountManager).resetPassword(url, newPassword);
-
         assertEquals(200, response.getStatus());
 
         try {
             accountEndpoint.resetPassword("shortUrl", newPassword);
         } catch (WebApplicationException e) {
             assertEquals(400, e.getResponse().getStatus());
-            assertEquals("Invalid URL", e.getLocalizedMessage());
+            assertEquals("ERROR.URL_INVALID", e.getResponse().getEntity());
+            assertEquals("HTTP 400 Bad Request", e.getLocalizedMessage());
         }
 
         try {
             accountEndpoint.resetPassword(url, "new");
         } catch (WebApplicationException e) {
-            assertEquals(406, e.getResponse().getStatus());
-            assertEquals("New password too short", e.getLocalizedMessage());
+            assertEquals(400, e.getResponse().getStatus());
+            assertEquals("ERROR.CONSTRAINT_VIOLATION", e.getResponse().getEntity());
+            assertEquals("HTTP 400 Bad Request", e.getLocalizedMessage());
         }
     }
 }

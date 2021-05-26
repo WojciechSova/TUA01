@@ -5,12 +5,14 @@
         <th translate>access-level-table.last_modification_date</th>
         <th translate>access-level-table.modified_by</th>
         <th translate>access-level-table.creation_date</th>
+        <th translate>access-level-table.created_by</th>
     </tr>
     <tr class="access-tr" *ngFor="let accessLvl of accessLevels">
         <td>{{accessLvl.level}}</td>
         <td>{{accessLvl.active}}</td>
-        <td>{{accessLvl.modificationDate}}</td>
+        <td>{{accessLvl.modificationDate | date :'short':identityService.getTimezone()}}</td>
         <td>{{accessLvl.modifiedBy?.login}}</td>
-        <td>{{accessLvl.creationDate}}</td>
+        <td>{{accessLvl.creationDate | date :'short':identityService.getTimezone()}}</td>
+        <td>{{accessLvl.createdBy?.login}}</td>
     </tr>
 </table>

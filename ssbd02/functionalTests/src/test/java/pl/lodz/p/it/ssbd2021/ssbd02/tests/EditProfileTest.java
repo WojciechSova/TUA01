@@ -13,10 +13,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountDetailsPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.EditUserProfilePage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.ProfileDetailsPage;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class EditProfileTest {
     private final String existingPhoneNumber = "48123456789";
     private WebDriver driver;
     private String userLogin;
-    private ProfileDetailsPage profileDetailsPage;
+    private AccountDetailsPage accountDetailsPage;
     private EditUserProfilePage editUserProfilePage;
     private AdminMainPage adminMainPage;
 
@@ -65,17 +65,17 @@ public class EditProfileTest {
             currentLogin = userLogin;
         }
 
-        String firstName = driver.findElement(profileDetailsPage.getFirstNameField()).getText();
-        String lastName = driver.findElement(profileDetailsPage.getLastNameField()).getText();
-        String phoneNumber = driver.findElement(profileDetailsPage.getPhoneNumberField()).getText();
+        String firstName = driver.findElement(accountDetailsPage.getFirstNameField()).getText();
+        String lastName = driver.findElement(accountDetailsPage.getLastNameField()).getText();
+        String phoneNumber = driver.findElement(accountDetailsPage.getPhoneNumberField()).getText();
 
         editData(newFirstName, newLastName, newPhoneNumber);
 
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts/").concat(currentLogin)));
 
-        By editedFirstName = profileDetailsPage.getFirstNameField();
-        By editedLastName = profileDetailsPage.getLastNameField();
-        By editedPhoneNumber = profileDetailsPage.getPhoneNumberField();
+        By editedFirstName = accountDetailsPage.getFirstNameField();
+        By editedLastName = accountDetailsPage.getLastNameField();
+        By editedPhoneNumber = accountDetailsPage.getPhoneNumberField();
 
         assertAll(
                 () -> assertEquals(newFirstName, driver.findElement(editedFirstName).getText()),
@@ -95,7 +95,7 @@ public class EditProfileTest {
             logInAndOpenAnotherUserDetails();
         }
 
-        editData(newFirstName, newLastName, newPhoneNumber.substring(0, 5));
+        editData(newFirstName, newLastName, newPhoneNumber.substring(0, 1));
         driver.findElement(editUserProfilePage.getFirstNameEdit()).sendKeys(Keys.SHIFT);
         assertTrue(driver.findElement(editUserProfilePage.getInvalidNumberError()).isDisplayed());
     }
@@ -126,7 +126,7 @@ public class EditProfileTest {
 
         List<WebElement> tableData = accountsListPage.getTableContent();
         userLogin = tableData.get(0).getText();
-        profileDetailsPage = accountsListPage.openAnotherUserProfileDetails(tableData.get(6));
+        accountDetailsPage = accountsListPage.openAnotherUserAccountDetails(tableData.get(6));
 
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts/").concat(userLogin)));
     }
@@ -136,14 +136,14 @@ public class EditProfileTest {
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
 
-        profileDetailsPage = adminMainPage.openOwnProfileDetails();
+        accountDetailsPage = adminMainPage.openOwnAccountDetails();
 
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts/").concat(TestUtils.adminLogin)));
     }
 
     private void editData(String firstName, String lastName, String phoneNumber) {
-        editUserProfilePage = profileDetailsPage.editUser();
-        profileDetailsPage = editUserProfilePage.editUser(firstName, lastName, phoneNumber);
+        editUserProfilePage = accountDetailsPage.openEditUserProfilePage();
+        accountDetailsPage = editUserProfilePage.editUser(firstName, lastName, phoneNumber);
     }
 
     @AfterEach

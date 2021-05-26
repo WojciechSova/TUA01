@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,6 +86,11 @@ public class AccountMapper {
         accountDetailsDTO.setTimeZone(acc.getTimeZone());
         accountDetailsDTO.setModificationDate(acc.getModificationDate());
         accountDetailsDTO.setModifiedBy(createAccountGeneralDTOFromEntity(acc.getModifiedBy()));
+        accountDetailsDTO.setActivityModificationDate(acc.getActivityModificationDate());
+        accountDetailsDTO.setActivityModifiedBy(createAccountGeneralDTOFromEntity(acc.getActivityModifiedBy()));
+        accountDetailsDTO.setConfirmedModificationDate(acc.getConfirmedModificationDate());
+        accountDetailsDTO.setPasswordModificationDate(acc.getPasswordModificationDate());
+        accountDetailsDTO.setEmailModificationDate(acc.getEmailModificationDate());
         accountDetailsDTO.setCreationDate(acc.getCreationDate());
         accountDetailsDTO.setLastKnownGoodLogin(acc.getLastKnownGoodLogin());
         accountDetailsDTO.setLastKnownGoodLoginIp(acc.getLastKnownGoodLoginIp());

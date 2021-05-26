@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class AccountDetailsService implements OnDestroy {
 
+    private readonly url: string;
+
     public account: AccountDetails = {
         accessLevel: [],
         active: false,
@@ -24,8 +26,6 @@ export class AccountDetailsService implements OnDestroy {
 
     eTag = '';
 
-    private readonly url: string;
-
     constructor(private http: HttpClient) {
         this.url = environment.appUrl + '/accounts';
     }
@@ -36,7 +36,6 @@ export class AccountDetailsService implements OnDestroy {
 
     getProfile(): Observable<HttpResponse<AccountDetails>> {
         return this.generateAccountDetailsRequest();
-
     }
 
     private generateAccountDetailsRequest(login?: string): Observable<HttpResponse<AccountDetails>> {
@@ -45,20 +44,51 @@ export class AccountDetailsService implements OnDestroy {
         return this.http.get<AccountDetails>(urlBuilder,
             {
                 observe: 'response',
-                responseType: 'json',
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
+                responseType: 'json'
             });
     }
 
     readAccountAndEtagFromResponse(response: HttpResponse<AccountDetails>): void {
         this.account = response.body as AccountDetails;
+        this.account = this.parseDates(this.account);
         this.eTag = (response.headers.get('etag') as string).slice(1, -1);
     }
 
+    private parseDates(account: AccountDetails): AccountDetails {
+        account.modificationDate = this.parseDate(account.modificationDate);
+        account.activityModificationDate = this.parseDate(account.activityModificationDate);
+        account.confirmedModificationDate = this.parseDate(account.confirmedModificationDate);
+        account.passwordModificationDate = this.parseDate(account.passwordModificationDate);
+        account.emailModificationDate = this.parseDate(account.emailModificationDate);
+        account.creationDate = (this.parseDate(account.creationDate) as Date);
+        account.lastKnownBadLogin = this.parseDate(account.lastKnownBadLogin);
+        account.lastKnownGoodLogin = this.parseDate(account.lastKnownGoodLogin);
+        account.accessLevel.forEach(value => value.modificationDate = this.parseDate(value.modificationDate));
+        account.accessLevel.forEach(value => value.creationDate = (this.parseDate(value.creationDate) as Date));
+        return account;
+    }
+
+    private parseDate(stringDate: any): Date | undefined {
+        if (!stringDate) {
+            return undefined;
+        }
+        return new Date(stringDate.toString().split('[UTC]')[ 0 ]);
+    }
+
     ngOnDestroy(): void {
-        this.account = {} as any;
+        this.account = {
+            accessLevel: [],
+            active: false,
+            confirmed: false,
+            creationDate: new Date(),
+            email: '',
+            firstName: '',
+            lastName: '',
+            numberOfBadLogins: 0,
+            login: '',
+            password: ''
+        };
+
         this.eTag = '';
     }
 }

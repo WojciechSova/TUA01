@@ -21,10 +21,7 @@ export class UpdateAccountService implements OnDestroy {
         return this.http.get<AccountDetails>(this.url + '/' + encodeURIComponent(login),
             {
                 observe: 'response',
-                responseType: 'json',
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
+                responseType: 'json'
             });
     }
 
@@ -38,12 +35,14 @@ export class UpdateAccountService implements OnDestroy {
 
     sendUpdateAccountRequest(account: AccountDetails, urlPart: string): Observable<object> {
         const completeUrl = this.url + urlPart;
+        if (account.phoneNumber === '') {
+            account.phoneNumber = undefined;
+        }
         return this.http.put(completeUrl, account,
             {
                 observe: 'body',
                 responseType: 'json',
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
                     'If-Match': this.accountDetailsService.eTag
                 }
             });

@@ -5,7 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -38,6 +38,7 @@ public class Cabin extends AbstractEntity implements Serializable {
     private Ferry ferry;
 
     @NotNull
+    @Positive(message = "Cabin capacity must be positive")
     @Column(name = "capacity", nullable = false, updatable = true)
     private Integer capacity;
 
@@ -46,10 +47,11 @@ public class Cabin extends AbstractEntity implements Serializable {
     @JoinColumn(name = "cabin_type", nullable = false, updatable = true, referencedColumnName = "id")
     private CabinType cabinType;
 
-    @NotNull
+    @Pattern(regexp = "[A-Z][0-9]{3}", message = "Cabin number must be a capital letter and 3 digits")
     @Column(name = "number", nullable = false, updatable = false, length = 4)
     private String number;
 
+    @PastOrPresent
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
 
@@ -57,6 +59,7 @@ public class Cabin extends AbstractEntity implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 
+    @PastOrPresent
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 
@@ -64,4 +67,8 @@ public class Cabin extends AbstractEntity implements Serializable {
     @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")
     private Account createdBy;
 
+    @Override
+    public String getSummary() {
+        return super.getSummary() + " number: " + getNumber() + " ";
+    }
 }

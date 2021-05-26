@@ -1,10 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { IdentityService } from '../../../services/utils/identity.service';
-import { AccountDetailsService } from '../../../services/account-details.service';
 import { Router } from '@angular/router';
-import { AccountGeneralService } from '../../../services/account-general.service';
-import { UpdateAccountService } from '../../../services/update-account.service';
+import { SessionUtilsService } from '../../../services/utils/session-utils.service';
 
 @Component({
     selector: 'app-links',
@@ -15,10 +13,18 @@ export class LinksComponent {
 
     constructor(private authService: AuthService,
                 public identityService: IdentityService,
-                private accountDetailsService: AccountDetailsService,
-                private accountGeneralService: AccountGeneralService,
-                private updateAccountService: UpdateAccountService,
-                private router: Router) {
+                private router: Router,
+                private sessionUtilsService: SessionUtilsService) {
+        sessionUtilsService.isSessionTimeoutVisibleChange.subscribe(value => {
+            this.isSessionTimeoutVisible = value;
+            this.sessionUtilsService.timeoutVisible = value;
+        }
+        );
+        sessionUtilsService.isSessionNearlyTimeoutVisibleChange.subscribe(value => {
+            this.isSessionNearlyTimeoutVisible = value;
+            this.sessionUtilsService.nearlyTimeoutVisible = value;
+        }
+        );
     }
 
     @Input()
@@ -27,12 +33,11 @@ export class LinksComponent {
     isLoginVisible = false;
     isRegisterVisible = false;
     isResetPasswordVisible = false;
+    isSessionTimeoutVisible = false;
+    isSessionNearlyTimeoutVisible = false;
 
     signOut(): void {
         this.authService.signOut();
-        this.accountDetailsService.ngOnDestroy();
-        this.accountGeneralService.ngOnDestroy();
-        this.updateAccountService.ngOnDestroy();
     }
 
     changeLoginVisible(visible: boolean): void {
@@ -47,13 +52,17 @@ export class LinksComponent {
         this.isResetPasswordVisible = visible;
     }
 
+    changeSessionTimeoutVisible(visible: boolean): void {
+        this.isSessionTimeoutVisible = visible;
+        this.sessionUtilsService.timeoutVisible = visible;
+    }
+
+    changeSessionNearlyTimeoutVisible(visible: boolean): void {
+        this.isSessionNearlyTimeoutVisible = visible;
+    }
+
     getProfile(): void {
-        this.accountDetailsService.getProfile().subscribe(
-            (response) => {
-                this.accountDetailsService.readAccountAndEtagFromResponse(response);
-                this.router.navigate(['/ferrytales/accounts', response.body?.login]);
-            }
-        );
+        this.router.navigate(['/ferrytales/accounts', this.identityService.getLogin()]);
     }
 
     getAccessLevels(): string[] {

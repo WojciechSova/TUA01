@@ -6,7 +6,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -44,10 +47,12 @@ public class Route extends AbstractEntity implements Serializable {
     @JoinColumn(name = "destination", nullable = false, updatable = false, referencedColumnName = "id")
     private Seaport destination;
 
-    @NotNull
+    @NotBlank
+    @Pattern(regexp = "[A-Z]{6}", message = "Route code must have 6 capital letters")
     @Column(name = "code", nullable = false, unique = true, updatable = false, length = 6)
     private String code;
 
+    @PastOrPresent
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 
@@ -55,4 +60,8 @@ public class Route extends AbstractEntity implements Serializable {
     @JoinColumn(name = "created_by", updatable = false, referencedColumnName = "id")
     private Account createdBy;
 
+    @Override
+    public String getSummary() {
+        return super.getSummary() + " code: " + getCode() + " ";
+    }
 }
