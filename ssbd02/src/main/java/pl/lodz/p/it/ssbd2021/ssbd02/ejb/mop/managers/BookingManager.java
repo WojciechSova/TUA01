@@ -24,7 +24,7 @@ import java.util.List;
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class BookingManager extends AbstractManager implements BookingManagerLocal, SessionSynchronization {
-    
+
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Booking> getAllBookings() {

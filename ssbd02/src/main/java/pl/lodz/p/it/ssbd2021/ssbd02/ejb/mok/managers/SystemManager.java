@@ -15,6 +15,12 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -36,6 +42,7 @@ import java.util.stream.Collectors;
 @Singleton
 @Startup
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class SystemManager extends AbstractManager implements SystemManagerLocal, SessionSynchronization {
 
