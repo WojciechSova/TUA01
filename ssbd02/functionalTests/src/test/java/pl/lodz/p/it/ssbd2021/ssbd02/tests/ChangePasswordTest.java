@@ -65,6 +65,7 @@ public class ChangePasswordTest {
         changePassword(newPassword, newPassword, newPassword);
 
         assertTrue(driver.findElement(changePasswordPage.getForm()).isDisplayed());
+        driver.findElement(changePasswordPage.getOldPassword()).sendKeys(Keys.SHIFT);
         assertTrue(driver.findElement(changePasswordPage.getInvalidPasswordError()).isDisplayed());
     }
 
@@ -74,6 +75,7 @@ public class ChangePasswordTest {
         changePassword(adminPassword, adminPassword, adminPassword);
 
         assertTrue(driver.findElement(changePasswordPage.getForm()).isDisplayed());
+        driver.findElement(changePasswordPage.getOldPassword()).sendKeys(Keys.SHIFT);
         assertTrue(driver.findElement(changePasswordPage.getSamePasswordError()).isDisplayed());
     }
 

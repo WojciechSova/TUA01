@@ -37,6 +37,10 @@ public class RegistrationPage {
         return login;
     }
 
+    public By getEmail() {
+        return email;
+    }
+
     public By getErrorMsg() {
         return errorMsg;
     }
