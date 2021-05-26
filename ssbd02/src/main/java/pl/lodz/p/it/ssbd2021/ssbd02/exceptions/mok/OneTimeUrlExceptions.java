@@ -34,12 +34,12 @@ public class OneTimeUrlExceptions extends GeneralException {
     }
 
     /**
-     * Metoda tworząca wyjątek aplikacyjny o kodzie 406 (Not Acceptable).
+     * Metoda tworząca wyjątek aplikacyjny o kodzie 400 (Bad Request).
      *
      * @param key klucz typu {@link String}
      * @return wyjątek typu {@link OneTimeUrlExceptions}
      */
-    public static OneTimeUrlExceptions createNotAcceptableException(String key) {
-        return new OneTimeUrlExceptions(Response.Status.NOT_ACCEPTABLE, key);
+    public static OneTimeUrlExceptions createBadRequestException(String key) {
+        return new OneTimeUrlExceptions(Response.Status.BAD_REQUEST, key);
     }
 }

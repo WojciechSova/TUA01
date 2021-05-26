@@ -254,7 +254,7 @@ public class AccountManagerTest {
         assertFalse(accessLevels1.get(1).getActive());
 
         assertAll(
-                () -> assertEquals(406, accessLevelExceptions.getResponse().getStatus()),
+                () -> assertEquals(400, accessLevelExceptions.getResponse().getStatus()),
                 () -> assertEquals(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL, accessLevelExceptions.getResponse().getEntity())
         );
 
@@ -313,7 +313,7 @@ public class AccountManagerTest {
         assertFalse(accessLevels1.get(1).getActive());
 
         assertAll(
-                () -> assertEquals(406, accessLevelExceptions.getResponse().getStatus()),
+                () -> assertEquals(400, accessLevelExceptions.getResponse().getStatus()),
                 () -> assertEquals(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL, accessLevelExceptions.getResponse().getEntity()),
                 () -> assertEquals(410, commonExceptions.getResponse().getStatus())
         );
@@ -410,7 +410,7 @@ public class AccountManagerTest {
         AccountExceptions accountExceptions1 = assertThrows(AccountExceptions.class, () -> accountManager.changePassword(login1, new Password(invalidPassword),  new Password(newPassword)));
         AccountExceptions accountExceptions2 = assertThrows(AccountExceptions.class, () -> accountManager.changePassword(login1, new Password(oldPassword),  new Password(oldPassword)));
         assertAll(
-                () -> assertEquals(406, accountExceptions1.getResponse().getStatus()),
+                () -> assertEquals(400, accountExceptions1.getResponse().getStatus()),
                 () -> assertEquals(AccountExceptions.ERROR_PASSWORD_NOT_CORRECT, accountExceptions1.getResponse().getEntity()),
                 () -> assertEquals(409, accountExceptions2.getResponse().getStatus()),
                 () -> assertEquals(AccountExceptions.ERROR_SAME_PASSWORD, accountExceptions2.getResponse().getEntity())

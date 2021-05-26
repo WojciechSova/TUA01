@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
  */
 @RequestScoped
 @Path("accounts")
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AccountEndpoint {
 
     private static final Logger logger = LogManager.getLogger();
@@ -445,7 +446,7 @@ public class AccountEndpoint {
         boolean transactionRollBack;
         do {
             if (url.length() != 32) {
-                throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+                throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
             }
             try {
                 accountManager.confirmAccount(url);
@@ -476,7 +477,6 @@ public class AccountEndpoint {
      * @param newEmailAddress Nowy adres e-mail
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
-     * Kod 406 w przypadku niepoprawnej walidacji adresu
      */
     @POST
     @Path("profile/email")
@@ -506,7 +506,6 @@ public class AccountEndpoint {
      * @param newEmailAddress Nowy adres e-mail.
      * @param login           Login użytkownika, któremy ma zostać zmieniony adres e-mail.
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
-     * Kod 406 w przypadku niepoprawnej walidacji adresu
      */
     @POST
     @Path("email/{login}")
@@ -543,7 +542,7 @@ public class AccountEndpoint {
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack;
         if (url.length() != 32) {
-            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+            throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
         }
         do {
             try {
@@ -595,7 +594,7 @@ public class AccountEndpoint {
 
             return Response.ok().build();
         } catch (GeneralException generalException) {
-            throw generalException;
+            return Response.ok().build();
         } catch (EJBAccessException | AccessLocalException accessExcept) {
             throw CommonExceptions.createForbiddenException();
         } catch (Exception e) {
@@ -609,14 +608,14 @@ public class AccountEndpoint {
      * @param url         Jednorazowy adres url potwierdzający możliwość zmiany hasła.
      * @param newPassword Nowe hasło użytkownika.
      * @return Kod 200 w przypadku poprawnie skonstruowanego żądania.
-     * Kod 400 w przypadku nieprawidłowej długości url lub 406 w przypadku niepoprawnej dłuygości nowego hasła.
+     * Kod 400 w przypadku nieprawidłowej długości url.
      */
     @PUT
     @PermitAll
     @Path("reset/password/{url}")
     public Response resetPassword(@PathParam("url") String url, @NotBlank String newPassword) {
         if (url.length() != 32) {
-            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+            throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
         }
         if (newPassword.length() < 8) {
             throw CommonExceptions.createConstraintViolationException();
@@ -634,14 +633,21 @@ public class AccountEndpoint {
         }
     }
 
+    /**
+     * Metoda zmianiający aktualny poziom dostępu użytkownika.
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param accessLevel Poziom dostępu, który ma zostać zmieniony
+     * @return Kod 200 w przypadku poprawnej zmiany poziomu dostępu. Kod 400 w przypadku podania nieistniejącego
+     * poziomu dostępu
+     */
     @POST
     @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
-    @PermitAll
     @Consumes(MediaType.TEXT_PLAIN)
     @Path("change/accesslevel")
     public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @NotBlank String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
-            throw AccessLevelExceptions.createNotAcceptableException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
+            throw AccessLevelExceptions.createBadRequestException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
         }
         try {
             logger.info("The user with login {} changed the access level to {}",
@@ -657,13 +663,18 @@ public class AccountEndpoint {
         }
     }
 
+    /**
+     * Metoda pobierająca z właściwości współczynnik określający ilość powtórzeń transakcji.
+     *
+     * @return Współczynnik powtórzeń transakcji
+     */
     private int getTransactionRepetitionCounter() {
         Properties prop = new Properties();
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
             return 3;
         }
     }

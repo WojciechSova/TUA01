@@ -30,12 +30,12 @@ public class AccessLevelExceptions extends GeneralException {
     }
 
     /**
-     * Metoda tworząca wyjątek aplikacyjny o kodzie 406 (Not Acceptable).
+     * Metoda tworząca wyjątek aplikacyjny o kodzie 400 (Bad Request).
      *
      * @param key klucz typu {@link String}
      * @return wyjątek typu {@link AccessLevelExceptions}
      */
-    public static AccessLevelExceptions createNotAcceptableException(String key) {
-        return new AccessLevelExceptions(Response.Status.NOT_ACCEPTABLE, key);
+    public static AccessLevelExceptions createBadRequestException(String key) {
+        return new AccessLevelExceptions(Response.Status.BAD_REQUEST, key);
     }
 }

@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
  */
 @RequestScoped
 @Path("auth")
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AuthEndpoint {
 
     @Inject
