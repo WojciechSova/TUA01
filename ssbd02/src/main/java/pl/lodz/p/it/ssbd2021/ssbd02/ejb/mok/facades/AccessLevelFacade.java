@@ -63,7 +63,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> implements Ac
     }
 
     @Override
-    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
+    @PermitAll
     public List<AccessLevel> findAllActiveByAccount(Account account) {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findAllActiveByAccount", AccessLevel.class);
         typedQuery.setParameter("account", account);
@@ -89,7 +89,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> implements Ac
     }
 
     @Override
-    @DenyAll
+    @PermitAll
     public void remove(AccessLevel entity) {
         super.remove(entity);
     }

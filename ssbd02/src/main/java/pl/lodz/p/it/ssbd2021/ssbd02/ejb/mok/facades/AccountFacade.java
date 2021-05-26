@@ -102,7 +102,7 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
     }
 
     @Override
-    @DenyAll
+    @PermitAll
     public void remove(Account entity) {
         super.remove(entity);
     }
