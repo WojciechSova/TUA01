@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mok;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hazlewood.connor.bottema.emailaddress.EmailAddressValidator;
@@ -477,7 +476,6 @@ public class AccountEndpoint {
      * @param newEmailAddress Nowy adres e-mail
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
-     * Kod 406 w przypadku niepoprawnej walidacji adresu
      */
     @POST
     @Path("profile/email")
@@ -507,7 +505,6 @@ public class AccountEndpoint {
      * @param newEmailAddress Nowy adres e-mail.
      * @param login           Login użytkownika, któremy ma zostać zmieniony adres e-mail.
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
-     * Kod 406 w przypadku niepoprawnej walidacji adresu
      */
     @POST
     @Path("email/{login}")
@@ -596,7 +593,7 @@ public class AccountEndpoint {
 
             return Response.ok().build();
         } catch (GeneralException generalException) {
-            throw generalException;
+            return Response.ok().build();
         } catch (EJBAccessException | AccessLocalException accessExcept) {
             throw CommonExceptions.createForbiddenException();
         } catch (Exception e) {
@@ -610,7 +607,7 @@ public class AccountEndpoint {
      * @param url         Jednorazowy adres url potwierdzający możliwość zmiany hasła.
      * @param newPassword Nowe hasło użytkownika.
      * @return Kod 200 w przypadku poprawnie skonstruowanego żądania.
-     * Kod 400 w przypadku nieprawidłowej długości url lub 406 w przypadku niepoprawnej dłuygości nowego hasła.
+     * Kod 400 w przypadku nieprawidłowej długości url.
      */
     @PUT
     @PermitAll
@@ -635,6 +632,14 @@ public class AccountEndpoint {
         }
     }
 
+    /**
+     * Metoda zmianiający aktualny poziom dostępu użytkownika.
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param accessLevel Poziom dostępu, który ma zostać zmieniony
+     * @return Kod 200 w przypadku poprawnej zmiany poziomu dostępu. Kod 400 w przypadku podania nieistniejącego
+     * poziomu dostępu
+     */
     @POST
     @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
     @PermitAll
