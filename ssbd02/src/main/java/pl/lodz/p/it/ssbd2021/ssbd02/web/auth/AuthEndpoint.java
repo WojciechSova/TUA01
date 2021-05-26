@@ -82,13 +82,8 @@ public class AuthEndpoint {
                 throw CommonExceptions.createUnauthorizedException();
             }
 
-            if (result.getCallerGroups().contains("ADMIN")) {
-                accountManagerLocal.notifyAdminAboutLogin(result.getCallerPrincipal().getName(), clientAddress);
-            }
-
-            accountManagerLocal.registerGoodLogin(credentialsDTO.getLogin(), clientAddress);
-            accountManagerLocal.updateLanguage(credentialsDTO.getLogin(), language);
-            String timezone = accountManagerLocal.getTimezone(result.getCallerPrincipal().getName());
+            String timezone = accountManagerLocal.registerGoodLoginAndGetTimezone(result.getCallerPrincipal().getName(),
+                    result.getCallerGroups(), clientAddress, language);
 
             logger.info("New successful logon, authenticated user: {} (ip: {})",
                     credentialsDTO.getLogin(), clientAddress);
