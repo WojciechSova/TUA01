@@ -11,6 +11,8 @@ import org.simplejavamail.mailer.MailerBuilder;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +24,7 @@ import java.util.Properties;
  * @author Karolina Kowalczyk
  */
 @Stateless
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class EmailSender implements EmailSenderLocal {
 
     private static final Properties prop = new Properties();
@@ -42,6 +45,7 @@ public class EmailSender implements EmailSenderLocal {
     }
 
     @Override
+    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
     public void sendEmailChangeConfirmationEmail(String language, String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
@@ -62,6 +66,7 @@ public class EmailSender implements EmailSenderLocal {
     }
 
     @Override
+    @PermitAll
     public void sendRegistrationEmail(String language, String recipientName, String recipientEmailAddress, String link) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
@@ -82,6 +87,7 @@ public class EmailSender implements EmailSenderLocal {
     }
 
     @Override
+    @PermitAll
     public void sendChangedActivityEmail(String language, String recipientName, String recipientEmailAddress, boolean active) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
@@ -110,6 +116,7 @@ public class EmailSender implements EmailSenderLocal {
     }
 
     @Override
+    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
     public void sendModificationEmail(String language, String recipientName, String recipientEmailAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
@@ -128,6 +135,7 @@ public class EmailSender implements EmailSenderLocal {
     }
 
     @Override
+    @RolesAllowed({"ADMIN"})
     public void sendAddAccessLevelEmail(String language, String recipientName, String recipientEmailAddress, String accessLevel) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
@@ -147,6 +155,7 @@ public class EmailSender implements EmailSenderLocal {
     }
 
     @Override
+    @RolesAllowed({"ADMIN"})
     public void sendRemoveAccessLevelEmail(String language, String recipientName, String recipientEmailAddress, String accessLevel) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
@@ -184,6 +193,7 @@ public class EmailSender implements EmailSenderLocal {
     }
 
     @Override
+    @PermitAll
     public void sendAdminAuthenticationEmail(String language, String firstName, String email, String clientAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
@@ -203,6 +213,7 @@ public class EmailSender implements EmailSenderLocal {
     }
 
     @Override
+    @PermitAll
     public void sendPasswordResetEmail(String language, String firstName, String email, String url) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
@@ -230,6 +241,7 @@ public class EmailSender implements EmailSenderLocal {
      * @param subject               Temat wiadomości.
      * @param text                  Treść wiadomości.
      */
+    @PermitAll
     private void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
