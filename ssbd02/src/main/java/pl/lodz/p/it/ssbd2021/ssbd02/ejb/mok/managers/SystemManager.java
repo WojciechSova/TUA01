@@ -94,6 +94,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
         accountsToDelete.forEach(account -> accountFacadeLocal.remove(account));
 
         accountsToDelete.forEach(account -> emailSender.sendRemovalEmail(account.getLanguage(), account.getFirstName(), account.getEmail()));
+        logger.info("System removed {} unconfirmed accounts", accountsToDelete.size());
     }
 
     @Override
@@ -105,6 +106,8 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
         expired.forEach(
                 oneTimeUrl -> oneTimeUrlFacadeLocal.remove(oneTimeUrl)
         );
+
+        logger.info("System removed {} unconfirmed accounts", expired.size());
     }
 
     @Override

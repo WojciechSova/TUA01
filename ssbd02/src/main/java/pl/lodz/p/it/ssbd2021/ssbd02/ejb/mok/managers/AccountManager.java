@@ -122,7 +122,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         accountFacadeLocal.create(account);
         accessLevelFacadeLocal.create(accessLevel);
         oneTimeUrlFacadeLocal.create(oneTimeUrl);
-
+        logger.info("The user with login {} created their account",
+                account.getLogin());
         emailSender.sendRegistrationEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), oneTimeUrl.getUrl());
     }
 
@@ -186,7 +187,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         }
 
         accountFacadeLocal.edit(acc);
-
+        logger.info("The user with login {} updated the account with login {}",
+                this.getInvokerId(), accountFromDB.getLogin());
         emailSender.sendModificationEmail(acc.getLanguage(), account.getFirstName(), accountFromDB.getEmail());
     }
 
@@ -207,6 +209,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             newAccessLevel.setActive(true);
             newAccessLevel.setCreatedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException));
             accessLevelFacadeLocal.create(newAccessLevel);
+            logger.info("The user with login {} created {} access level for account with login {}",
+                    this.getInvokerId(), accessLevel, login);
             emailSender.sendAddAccessLevelEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), accessLevel);
             return;
         }
@@ -217,6 +221,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
                 x.setModifiedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException));
                 x.setModificationDate(Timestamp.from(Instant.now()));
                 accessLevelFacadeLocal.edit(x);
+                logger.info("The user with login {} activated {} access level for account with login {}",
+                        this.getInvokerId(), accessLevel, login);
                 emailSender.sendAddAccessLevelEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), accessLevel);
             }
         });
@@ -242,6 +248,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
                 x.setModifiedBy(Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException));
                 x.setModificationDate(Timestamp.from(Instant.now()));
                 accessLevelFacadeLocal.edit(x);
+                logger.info("The user with login {} removed {} access level from account with login {}",
+                        this.getInvokerId(), accessLevel, login);
                 emailSender.sendRemoveAccessLevelEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), accessLevel);
             }
         });
@@ -260,6 +268,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
 
         account.setPassword(DigestUtils.sha512Hex(String.valueOf(newPassword.getValue())));
         account.setPasswordModificationDate(Timestamp.from(Instant.now()));
+        logger.info("The user with login {} changed their password",
+                login);
         accountFacadeLocal.edit(account);
     }
 
@@ -280,7 +290,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         }
 
         accountFacadeLocal.edit(account);
-
+        logger.info("The user with login {} changed activity of the account with login {} to {}",
+                this.getInvokerId(), login, newActivity);
         emailSender.sendChangedActivityEmail(account.getLanguage(), account.getFirstName(), account.getEmail(), account.getActive());
     }
 
@@ -304,6 +315,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             account.setConfirmed(true);
             account.setConfirmedModificationDate(Timestamp.from(Instant.now()));
             accountFacadeLocal.edit(account);
+            logger.info("The user with login {} confirmed their account",
+                    oneTimeUrl.getAccount().getLogin());
             oneTimeUrlFacadeLocal.remove(oneTimeUrl);
             return;
         }
@@ -332,6 +345,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             account.setEmail(oneTimeUrl.getNewEmail());
             account.setEmailModificationDate(Timestamp.from(Instant.now()));
             accountFacadeLocal.edit(account);
+            logger.info("The user with login {} changed the email address of the account with login {}",
+                    this.getInvokerId(), oneTimeUrl.getAccount().getLogin());
             oneTimeUrlFacadeLocal.remove(oneTimeUrl);
             return;
         }
@@ -446,7 +461,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
 
         oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(String.valueOf(newPassword.getValue())));
         oneTimeUrl.getAccount().setPasswordModificationDate(Timestamp.from(Instant.now()));
-
+        logger.info("The user with login {} reset their password",
+                oneTimeUrl.getAccount().getLogin());
         oneTimeUrlFacadeLocal.remove(oneTimeUrl);
     }
 
@@ -465,6 +481,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         account.setNumberOfBadLogins(0);
 
         account.setLanguage(language);
+        logger.info("The language of the account with login {} changed to {}",
+                this.getInvokerId(), language);
 
         return account.getTimeZone();
     }

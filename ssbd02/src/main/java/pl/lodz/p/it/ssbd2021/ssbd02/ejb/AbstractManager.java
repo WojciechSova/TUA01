@@ -19,10 +19,10 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public abstract class AbstractManager {
 
-    private static final Logger logger = LogManager.getLogger();
+    protected static final Logger logger = LogManager.getLogger();
     protected boolean transactionRolledBack = false;
     @Context
-    private SecurityContext securityContext;
+    protected SecurityContext securityContext;
     private String transactionId;
 
     /**
@@ -79,7 +79,10 @@ public abstract class AbstractManager {
      *
      * @return Tożsamość użytkownika
      */
-    private String getInvokerId() {
+    protected String getInvokerId() {
+        if(securityContext == null){
+            return "ANONYMOUS";
+        }
         return securityContext.getUserPrincipal() != null ?
                 securityContext.getUserPrincipal().getName() : "ANONYMOUS";
     }
