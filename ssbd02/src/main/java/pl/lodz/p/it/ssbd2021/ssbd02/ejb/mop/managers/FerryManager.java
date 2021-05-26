@@ -27,31 +27,37 @@ import java.util.List;
 public class FerryManager extends AbstractManager implements FerryManagerLocal, SessionSynchronization {
 
     @Override
+    @RolesAllowed({"EMPLOYEE"})
     public List<Ferry> getAllFerries() {
         return null;
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Ferry getFerryByName(String name) {
         return null;
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Pair<Ferry, List<Cabin>> getFerryAndCabinsByFerryName(String name) {
         return null;
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE"})
     public void createFerry(Ferry ferry) {
 
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE"})
     public void updateFerry(Ferry ferry, String modifiedBy) {
 
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE"})
     public void removeFerry(Ferry ferry) {
 
     }

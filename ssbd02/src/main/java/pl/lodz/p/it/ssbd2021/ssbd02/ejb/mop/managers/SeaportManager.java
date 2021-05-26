@@ -25,26 +25,31 @@ import java.util.List;
 public class SeaportManager extends AbstractManager implements SeaportManagerLocal, SessionSynchronization {
 
     @Override
+    @RolesAllowed({"EMPLOYEE"})
     public List<Seaport> getAllSeaports() {
         return null;
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Seaport getSeaportByCode(String code) {
         return null;
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE"})
     public void createSeaport(Seaport seaport) {
 
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE"})
     public void updateSeaport(Seaport seaport, String modifiedBy) {
 
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE"})
     public void removeSeaport(Seaport seaport) {
 
     }
