@@ -71,11 +71,14 @@
 
             <button class="form-button"
                     (click)="register(login.value, password.value, firstname.value, lastName.value, email.value, phoneNumber?.value)"
-                    [disabled]="form.invalid" translate>links.sing_up</button>
+                    [disabled]="form.invalid" translate>links.sign_up</button>
         </form>
         <div class="column-nav">
             <a (click)="openLogin()" translate>register.sing_in_if_having_an_account</a>
         </div>
         <img class="return-arrow" (click)="closeComponent()" src="assets/imgs/back-arrow.png" alt=""/>
+        <div class="validation-error validation-info" *ngIf="error">
+            <p id="invalidCredentialsLabel" translate>ERROR.DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL</p>
+        </div>
     </div>
 </div>
