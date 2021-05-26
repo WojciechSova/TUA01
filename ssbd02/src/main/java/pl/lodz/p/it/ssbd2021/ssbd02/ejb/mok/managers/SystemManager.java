@@ -107,7 +107,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
                 oneTimeUrl -> oneTimeUrlFacadeLocal.remove(oneTimeUrl)
         );
 
-        logger.info("System removed {} unconfirmed accounts", expired.size());
+        logger.info("System removed {} expired URLs", expired.size());
     }
 
     @Override
