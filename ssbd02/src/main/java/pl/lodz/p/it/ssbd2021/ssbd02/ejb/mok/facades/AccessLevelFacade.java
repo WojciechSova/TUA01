@@ -47,6 +47,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> implements Ac
     }
 
     @Override
+    @DenyAll
     public List<AccessLevel> findByLogin(String login) {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findByLogin", AccessLevel.class);
         typedQuery.setParameter("login", login);
