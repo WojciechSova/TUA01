@@ -241,6 +241,7 @@ public class EmailSender implements EmailSenderLocal {
      * @param subject               Temat wiadomości.
      * @param text                  Treść wiadomości.
      */
+    @PermitAll
     private void sendEmail(String recipientName, String recipientEmailAddress, String subject, String text) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
