@@ -24,10 +24,10 @@ public class ChangePasswordTest {
     private final String adminLogin = "admin";
     private final String adminPassword = "password?";
     private final String newPassword = "password??";
-    MainPage mainPage;
-    AdminMainPage adminMainPage;
-    ChangePasswordPage changePasswordPage;
     private WebDriver driver;
+    private MainPage mainPage;
+    private AdminMainPage adminMainPage;
+    private ChangePasswordPage changePasswordPage;
 
     @BeforeAll
     static void initAll() {
@@ -99,7 +99,7 @@ public class ChangePasswordTest {
 
     private void changePassword(String currentPassword, String newPassword, String newPasswordRepeat) {
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));
-        AccountDetailsPage accountDetailsPage = adminMainPage.openAccountDetails();
+        AccountDetailsPage accountDetailsPage = adminMainPage.openOwnAccountDetails();
 
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/account")));
         changePasswordPage = accountDetailsPage.openChangePasswordPage();

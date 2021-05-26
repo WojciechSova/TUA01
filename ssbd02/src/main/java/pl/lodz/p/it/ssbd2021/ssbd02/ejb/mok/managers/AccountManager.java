@@ -4,6 +4,9 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccessLevelFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
@@ -16,6 +19,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccessLevelExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.OneTimeUrlExceptions;
 
 import javax.ejb.SessionSynchronization;
@@ -23,6 +27,8 @@ import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
+import javax.security.enterprise.credential.Password;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -39,9 +45,11 @@ import static java.time.temporal.ChronoUnit.SECONDS;
  */
 @Stateful
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
+@Interceptors(TrackerInterceptor.class)
 public class AccountManager extends AbstractManager implements AccountManagerLocal, SessionSynchronization {
 
     private static final Properties prop = new Properties();
+    private static final Logger logger = LogManager.getLogger();
     @Inject
     private AccountFacadeLocal accountFacadeLocal;
     @Inject
@@ -91,9 +99,9 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException | NumberFormatException e) {
             expirationTime = 86400;
-            e.printStackTrace();
+            logger.warn(e);
         }
 
         OneTimeUrl oneTimeUrl = new OneTimeUrl();
@@ -121,8 +129,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             badLoginsThreshold = Integer.parseInt(prop.getProperty("system.login.incorrect.threshold"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
         }
 
         account.setNumberOfBadLogins(badLogins);
@@ -187,7 +195,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     @Override
     public void addAccessLevel(String login, String targetLogin, String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
-            throw AccessLevelExceptions.createNotAcceptableException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
+            throw AccessLevelExceptions.createBadRequestException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
         }
 
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(targetLogin)).orElseThrow(CommonExceptions::createNoResultException);
@@ -218,7 +226,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     @Override
     public void removeAccessLevel(String login, String targetLogin, String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
-            throw AccessLevelExceptions.createNotAcceptableException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
+            throw AccessLevelExceptions.createBadRequestException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
         }
 
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(targetLogin)).orElseThrow(CommonExceptions::createNoResultException);
@@ -239,16 +247,16 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         });
     }
 
-    public void changePassword(String login, String oldPassword, String newPassword) {
+    public void changePassword(String login, Password oldPassword, Password newPassword) {
         Account account = Optional.ofNullable(accountFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
-        String hashedOldPassword = DigestUtils.sha512Hex(oldPassword);
+        String hashedOldPassword = DigestUtils.sha512Hex(String.valueOf(oldPassword.getValue()));
         if (!hashedOldPassword.equals(account.getPassword())) {
-            throw AccountExceptions.createNotAcceptableException(AccountExceptions.ERROR_PASSWORD_NOT_CORRECT);
-        } else if (newPassword.equals(oldPassword)) {
+            throw AccountExceptions.createBadRequestException(AccountExceptions.ERROR_PASSWORD_NOT_CORRECT);
+        } else if (String.valueOf(newPassword.getValue()).equals(String.valueOf(oldPassword.getValue()))) {
             throw AccountExceptions.createExceptionConflict(AccountExceptions.ERROR_SAME_PASSWORD);
         }
 
-        account.setPassword(DigestUtils.sha512Hex(newPassword));
+        account.setPassword(DigestUtils.sha512Hex(String.valueOf(newPassword.getValue())));
         account.setPasswordModificationDate(Timestamp.from(Instant.now()));
         accountFacadeLocal.edit(account);
     }
@@ -291,7 +299,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         if (Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())) {
             throw AccountExceptions.createGoneException(AccountExceptions.ERROR_URL_EXPIRED);
         } else if (!oneTimeUrl.getActionType().equals("verify")) {
-            throw AccountExceptions.createNotAcceptableException(AccountExceptions.ERROR_URL_TYPE);
+            throw AccountExceptions.createBadRequestException(AccountExceptions.ERROR_URL_TYPE);
         }
 
         if (url.equals(oneTimeUrl.getUrl())) {
@@ -317,7 +325,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         if (Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())) {
             throw AccountExceptions.createGoneException(AccountExceptions.ERROR_URL_EXPIRED);
         } else if (!oneTimeUrl.getActionType().equals("e-mail")) {
-            throw AccountExceptions.createNotAcceptableException(AccountExceptions.ERROR_URL_TYPE);
+            throw AccountExceptions.createBadRequestException(AccountExceptions.ERROR_URL_TYPE);
         }
 
         if (url.equals(oneTimeUrl.getUrl())) {
@@ -343,9 +351,9 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.account.confirmation"));
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException | NumberFormatException e) {
             expirationTime = 86400;
-            e.printStackTrace();
+            logger.warn(e);
         }
 
         List<OneTimeUrl> oneTimeUrls = oneTimeUrlFacadeLocal.findByAccount(account).stream()
@@ -387,8 +395,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
             expirationTime = Long.parseLong(prop.getProperty("system.time.password.reset"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
         }
 
         List<OneTimeUrl> oneTimeUrls = Optional.of(oneTimeUrlFacadeLocal.findByAccount(account).stream()
@@ -425,16 +433,16 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
     }
 
     @Override
-    public void resetPassword(String url, String newPassword) {
+    public void resetPassword(String url, Password newPassword) {
         OneTimeUrl oneTimeUrl = Optional.ofNullable(oneTimeUrlFacadeLocal.findByUrl(url)).orElseThrow(CommonExceptions::createNoResultException);
 
         if (Instant.now().isAfter(oneTimeUrl.getExpireDate().toInstant())) {
             throw AccountExceptions.createGoneException(AccountExceptions.ERROR_URL_EXPIRED);
         } else if (!oneTimeUrl.getActionType().equals("passwd")) {
-            throw AccountExceptions.createNotAcceptableException(AccountExceptions.ERROR_URL_TYPE);
+            throw AccountExceptions.createBadRequestException(AccountExceptions.ERROR_URL_TYPE);
         }
 
-        oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(newPassword));
+        oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(String.valueOf(newPassword.getValue())));
         oneTimeUrl.getAccount().setPasswordModificationDate(Timestamp.from(Instant.now()));
 
         oneTimeUrlFacadeLocal.remove(oneTimeUrl);

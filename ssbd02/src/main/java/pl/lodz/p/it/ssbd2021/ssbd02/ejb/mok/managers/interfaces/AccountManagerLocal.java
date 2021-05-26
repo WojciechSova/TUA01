@@ -5,7 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Local;
-import javax.ws.rs.WebApplicationException;
+import javax.security.enterprise.credential.Password;
 import java.util.List;
 
 /**
@@ -111,7 +111,7 @@ public interface AccountManagerLocal {
      * @param oldPassword Dotychczasowe hasło użytkownika do konta
      * @param newPassword Nowe hasło użytkownika do konta
      */
-    void changePassword(String login, String oldPassword, String newPassword);
+    void changePassword(String login, Password oldPassword, Password newPassword);
 
     /**
      * Metoda zmieniająca aktywność użytkownika.
@@ -170,7 +170,7 @@ public interface AccountManagerLocal {
      * @param url         Jednorazowy url, który potwierdza możliwość resetowania hasła do konta
      * @param newPassword Nowe hasło użytkownika
      */
-    void resetPassword(String url, String newPassword);
+    void resetPassword(String url, Password newPassword);
 
     /**
      * Metoda zwracająca strefę czasową dla użytkownika.

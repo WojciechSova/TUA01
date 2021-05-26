@@ -1,7 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -10,9 +8,15 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.facades.interfaces.AuthViewFacadeLocal;
 
+import javax.security.enterprise.credential.Password;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 class AuthManagerTest {
 
@@ -20,10 +24,8 @@ class AuthManagerTest {
     private AuthViewFacadeLocal authViewFacade;
     @InjectMocks
     private AuthManager authManager;
-
     private final String login = "test";
     private final String password = "password";
-    private final String hashedPassword = DigestUtils.sha512Hex(password);
     private final List<String> accessLevels = Arrays.asList("admin", "pracownik");
 
     @BeforeEach
@@ -33,23 +35,22 @@ class AuthManagerTest {
 
     @Test
     void getAccessLevelsValidCredentials() {
-        Mockito.when(authViewFacade.findLevelsByCredentials(login, hashedPassword))
+        Mockito.when(authViewFacade.findLevelsByCredentials(any(), any(Password.class)))
                 .thenReturn(accessLevels);
-        Assertions.assertEquals(accessLevels, authManager.getAccessLevels(login, password));
+        assertEquals(accessLevels, authManager.getAccessLevels(login, new Password(password)));
     }
 
     @Test
     void getAccessLevelsInvalidLogin() {
-        Mockito.when(authViewFacade.findLevelsByCredentials("InvalidLogin", hashedPassword))
+        when(authViewFacade.findLevelsByCredentials(any(), any(Password.class)))
                 .thenReturn(Collections.emptyList());
-        Assertions.assertTrue(authManager.getAccessLevels("InvalidLogin", password).isEmpty());
+        assertTrue(authManager.getAccessLevels("InvalidLogin", new Password(password)).isEmpty());
     }
 
     @Test
     void getAccessLevelsInvalidPassword() {
-        String hashedInvalidPassword = DigestUtils.sha512Hex("InvalidPassword");
-        Mockito.when(authViewFacade.findLevelsByCredentials(login, hashedInvalidPassword))
+        when(authViewFacade.findLevelsByCredentials(any(), any(Password.class)))
                 .thenReturn(Collections.emptyList());
-        Assertions.assertTrue(authManager.getAccessLevels(login, "InvalidPassword").isEmpty());
+        assertTrue(authManager.getAccessLevels(login, new Password("InvalidPassword")).isEmpty());
     }
 }

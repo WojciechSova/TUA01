@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.webpages;
 
+import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -37,15 +38,15 @@ public class AccountsListPage {
                 .collect(Collectors.toList());
     }
 
-    public ProfileDetailsPage openAnotherUserProfileDetails() {
+    public AccountDetailsPage openAnotherUserAccountDetails() {
         driver.switchTo().defaultContent();
         driver.findElement(detailsButton).click();
-        return new ProfileDetailsPage(driver);
+        return new AccountDetailsPage(driver);
     }
 
-    public ProfileDetailsPage openAnotherUserProfileDetails(WebElement element) {
+    public AccountDetailsPage openAnotherUserAccountDetails(WebElement element) {
         element.click();
-        return new ProfileDetailsPage(driver);
+        return new AccountDetailsPage(driver);
     }
 
     public ChangeAccessLevelsPage openChangeAccessLevelsForm(String login) {

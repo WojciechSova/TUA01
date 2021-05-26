@@ -18,6 +18,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccessLevelExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
+import javax.security.enterprise.credential.Password;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -253,7 +254,7 @@ public class AccountManagerTest {
         assertFalse(accessLevels1.get(1).getActive());
 
         assertAll(
-                () -> assertEquals(406, accessLevelExceptions.getResponse().getStatus()),
+                () -> assertEquals(400, accessLevelExceptions.getResponse().getStatus()),
                 () -> assertEquals(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL, accessLevelExceptions.getResponse().getEntity())
         );
 
@@ -312,7 +313,7 @@ public class AccountManagerTest {
         assertFalse(accessLevels1.get(1).getActive());
 
         assertAll(
-                () -> assertEquals(406, accessLevelExceptions.getResponse().getStatus()),
+                () -> assertEquals(400, accessLevelExceptions.getResponse().getStatus()),
                 () -> assertEquals(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL, accessLevelExceptions.getResponse().getEntity()),
                 () -> assertEquals(410, commonExceptions.getResponse().getStatus())
         );
@@ -395,7 +396,7 @@ public class AccountManagerTest {
             return null;
         }).when(accountFacadeLocal).edit(any());
 
-        assertDoesNotThrow(() -> accountManager.changePassword(login1, oldPassword, newPassword));
+        assertDoesNotThrow(() -> accountManager.changePassword(login1,  new Password(oldPassword),  new Password(newPassword)));
         verify(accountFacadeLocal).edit(a1);
         assertEquals(DigestUtils.sha512Hex(newPassword), a1.getPassword());
         assertEquals(DigestUtils.sha512Hex(newPassword), accounts.get(0).getPassword());
@@ -406,10 +407,10 @@ public class AccountManagerTest {
         a1.setPassword(DigestUtils.sha512Hex(oldPassword));
         when(accountFacadeLocal.findByLogin(login1)).thenReturn(a1);
 
-        AccountExceptions accountExceptions1 = assertThrows(AccountExceptions.class, () -> accountManager.changePassword(login1, invalidPassword, newPassword));
-        AccountExceptions accountExceptions2 = assertThrows(AccountExceptions.class, () -> accountManager.changePassword(login1, oldPassword, oldPassword));
+        AccountExceptions accountExceptions1 = assertThrows(AccountExceptions.class, () -> accountManager.changePassword(login1, new Password(invalidPassword),  new Password(newPassword)));
+        AccountExceptions accountExceptions2 = assertThrows(AccountExceptions.class, () -> accountManager.changePassword(login1, new Password(oldPassword),  new Password(oldPassword)));
         assertAll(
-                () -> assertEquals(406, accountExceptions1.getResponse().getStatus()),
+                () -> assertEquals(400, accountExceptions1.getResponse().getStatus()),
                 () -> assertEquals(AccountExceptions.ERROR_PASSWORD_NOT_CORRECT, accountExceptions1.getResponse().getEntity()),
                 () -> assertEquals(409, accountExceptions2.getResponse().getStatus()),
                 () -> assertEquals(AccountExceptions.ERROR_SAME_PASSWORD, accountExceptions2.getResponse().getEntity())
@@ -662,7 +663,7 @@ public class AccountManagerTest {
         when(oneTimeUrlFacadeLocal.findByUrl("testUrl")).thenReturn(oneTimeUrl);
 
         Timestamp before = Timestamp.from(Instant.now());
-        accountManager.resetPassword("testUrl", "newPass");
+        accountManager.resetPassword("testUrl", new Password("newPass"));
         Timestamp after = Timestamp.from(Instant.now());
 
 
