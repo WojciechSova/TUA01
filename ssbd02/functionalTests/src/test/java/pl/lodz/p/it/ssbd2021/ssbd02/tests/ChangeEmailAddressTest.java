@@ -1,6 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.tests;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebDriver;
@@ -22,6 +25,7 @@ public class ChangeEmailAddressTest {
     private static WebDriverWait driverWait;
     private final String currentEmail = "nieistnieje@aaa.pl";
     private final String newEmail = "newEmail@newEmail.pl";
+    private final String query = "SELECT url FROM public.one_time_url o WHERE o.new_email ='";
     private WebDriver driver;
     private String userLogin;
     private AdminMainPage adminMainPage;
@@ -35,7 +39,7 @@ public class ChangeEmailAddressTest {
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
         options.addArguments("−−lang=pl");
-//        options.setHeadless(true);
+        options.setHeadless(true);
     }
 
     @BeforeEach
@@ -47,7 +51,7 @@ public class ChangeEmailAddressTest {
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
-    public void changeEmailAddressTest(boolean ownProfile) throws InterruptedException {
+    public void changeEmailAddressTest(boolean ownProfile) {
         String oneTimeUrl;
         String url;
         String currentLogin;
@@ -63,7 +67,7 @@ public class ChangeEmailAddressTest {
         changeEmail(newEmail, newEmail);
         driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
         driver.findElement(changeEmailPage.getConfirmButton()).click();
-        oneTimeUrl = TestUtils.getOneTimeUrl(newEmail);
+        oneTimeUrl = TestUtils.getOneTimeUrl(newEmail, query);
         url = TestUtils.url.concat("/confirm/email/").concat(oneTimeUrl);
         driver.get(url);
 
@@ -73,7 +77,7 @@ public class ChangeEmailAddressTest {
         changeEmail(currentEmail, currentEmail);
         driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
         driver.findElement(changeEmailPage.getConfirmButton()).click();
-        oneTimeUrl = TestUtils.getOneTimeUrl(currentEmail);
+        oneTimeUrl = TestUtils.getOneTimeUrl(currentEmail, query);
         url = TestUtils.url.concat("/confirm/email/" + oneTimeUrl);
         driver.get(url);
     }
@@ -112,7 +116,18 @@ public class ChangeEmailAddressTest {
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     public void existingEmailErrorTest(boolean ownProfile) {
-        //TODO exisitng e-mail error check
+        if (ownProfile) {
+            logInAndOpenAccountDetails();
+        } else {
+            logInAndOpenAnotherUserAccountDetails();
+        }
+
+        changeEmail(currentEmail, currentEmail);
+        driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
+        driver.findElement(changeEmailPage.getConfirmButton()).click();
+        driverWait.until(ExpectedConditions.visibilityOfElementLocated(changeEmailPage.getExistingEmailError()));
+        Assertions.assertTrue(driver.findElement(changeEmailPage.getChangeEmailForm()).isDisplayed());
+        Assertions.assertTrue(driver.findElement(changeEmailPage.getExistingEmailError()).isDisplayed());
     }
 
     private void logInAndOpenAccountDetails() {

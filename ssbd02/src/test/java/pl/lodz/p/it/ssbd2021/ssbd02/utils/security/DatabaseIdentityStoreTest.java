@@ -8,15 +8,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.auth.managers.AuthManager;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.DatabaseIdentityStore;
 
 import javax.security.enterprise.credential.Credential;
+import javax.security.enterprise.credential.Password;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
 
 class DatabaseIdentityStoreTest {
 
@@ -49,7 +50,7 @@ class DatabaseIdentityStoreTest {
 
     @Test
     void validateIncorrectCredential() {
-        Mockito.when(authManager.getAccessLevels(login, password))
+        Mockito.when(authManager.getAccessLevels(any(), any(Password.class)))
                 .thenReturn(Collections.emptyList());
 
         Assertions.assertEquals(CredentialValidationResult.INVALID_RESULT, databaseIdentityStore.validate(usernamePasswordCredential));
@@ -59,7 +60,7 @@ class DatabaseIdentityStoreTest {
     void validateCorrectCredential() {
         List<String> accessGroups = Collections.singletonList("ADMIN");
 
-        Mockito.when(authManager.getAccessLevels(login, password))
+        Mockito.when(authManager.getAccessLevels(any(), any(Password.class)))
                 .thenReturn(accessGroups);
 
         CredentialValidationResult credentialValidationResult = databaseIdentityStore.validate(usernamePasswordCredential);
@@ -77,7 +78,7 @@ class DatabaseIdentityStoreTest {
         accessGroups.add("ADMIN");
         accessGroups.add("ADMIN");
 
-        Mockito.when(authManager.getAccessLevels(login, password))
+        Mockito.when(authManager.getAccessLevels(any(), any(Password.class)))
                 .thenReturn(accessGroups);
 
         CredentialValidationResult credentialValidationResult = databaseIdentityStore.validate(usernamePasswordCredential);
@@ -95,7 +96,7 @@ class DatabaseIdentityStoreTest {
         accessGroups.add("ADMIN");
         accessGroups.add("EMPLOYEE");
 
-        Mockito.when(authManager.getAccessLevels(login, password))
+        Mockito.when(authManager.getAccessLevels(any(), any(Password.class)))
                 .thenReturn(accessGroups);
 
         CredentialValidationResult credentialValidationResult = databaseIdentityStore.validate(usernamePasswordCredential);

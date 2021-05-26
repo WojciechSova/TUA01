@@ -49,7 +49,7 @@ public class OneTimeUrl extends AbstractEntity implements Serializable {
 
     @Size(max = 70, message = "Email address can have a maximum of 70 characters")
     @Email(message = "Provided email address is not valid")
-    @Column(name = "new_email", nullable = true, updatable = true, length = 70)
+    @Column(name = "new_email", nullable = true, unique = true, updatable = true, length = 70)
     private String newEmail;
 
     @NotNull
@@ -70,5 +70,10 @@ public class OneTimeUrl extends AbstractEntity implements Serializable {
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")
     private Account createdBy;
+
+    @Override
+    public String getSummary() {
+        return super.getSummary() + " account login: " + getAccount().getLogin() + " url: " + getUrl() + " ";
+    }
 }
 

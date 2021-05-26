@@ -340,6 +340,7 @@ CREATE TABLE One_time_url
     CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id FOREIGN KEY (account) REFERENCES Account (id),
     CONSTRAINT one_time_url_url_unique UNIQUE (url),
+    CONSTRAINT new_email_unique UNIQUE (new_email),
     CONSTRAINT one_time_url_account_action_type_unique UNIQUE (account, action_type)
 );
 

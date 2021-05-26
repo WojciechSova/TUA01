@@ -5,8 +5,9 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.ejb.Local;
-import javax.ws.rs.WebApplicationException;
+import javax.security.enterprise.credential.Password;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Lokalny interfejs managera kont
@@ -59,25 +60,6 @@ public interface AccountManagerLocal {
     void registerBadLogin(String login, String clientAddress);
 
     /**
-     * Metoda rejestrująca poprawne uwierzytelnienie użytkownika.
-     * W bazie danych zapisywana jest data oraz adres IP, z którego się uwierzytelniono.
-     * Ustawia licznik nieudanych logowań konta na 0.
-     *
-     * @param login         Login użytkownika, który się uwierzytelnił.
-     * @param clientAddress Adres IP, z którego się uwierzytelniono.
-     */
-    void registerGoodLogin(String login, String clientAddress);
-
-    /**
-     * Metoda aktualizuje język użytkownika przy każdym uwierzytelnieniu.
-     * W bazie danych zapisywany jest preferowany przez przeglądarkę język wyświetlania strony.
-     *
-     * @param login    Login użytkownika, który się uwierzytelnił.
-     * @param language Preferowany język wyświetlania strony.
-     */
-    void updateLanguage(String login, String language);
-
-    /**
      * Metoda aktualizuje konto o loginie zawartym w encji {@link Account} oraz ustawia konto w polu modifiedBy na konto
      * użytkownika dokonującego zmiany
      *
@@ -111,7 +93,7 @@ public interface AccountManagerLocal {
      * @param oldPassword Dotychczasowe hasło użytkownika do konta
      * @param newPassword Nowe hasło użytkownika do konta
      */
-    void changePassword(String login, String oldPassword, String newPassword);
+    void changePassword(String login, Password oldPassword, Password newPassword);
 
     /**
      * Metoda zmieniająca aktywność użytkownika.
@@ -121,13 +103,6 @@ public interface AccountManagerLocal {
      */
     void changeActivity(String login, boolean newActivity, String modifiedBy);
 
-    /**
-     * Metoda powiadamjająca administratora o logowaniu na jego konto.
-     *
-     * @param login         Login administratora
-     * @param clientAddress Adres IP, z którego nastapiło logowanie
-     */
-    void notifyAdminAboutLogin(String login, String clientAddress);
 
     /**
      * Metoda aktywująca zarejestrowanego użytkownika.
@@ -170,13 +145,29 @@ public interface AccountManagerLocal {
      * @param url         Jednorazowy url, który potwierdza możliwość resetowania hasła do konta
      * @param newPassword Nowe hasło użytkownika
      */
-    void resetPassword(String url, String newPassword);
+    void resetPassword(String url, Password newPassword);
 
     /**
-     * Metoda zwracająca strefę czasową dla użytkownika.
+     * Metoda zwracająca status transakcji.
      *
-     * @param login Login użytkownika, którego strefę czasową chcemy uzyskać
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
+
+    /**
+     * Metoda rejestrująca poprawne uwierzytelnienie użytkownika.
+     * W bazie danych zapisywana jest data oraz adres IP, z którego się uwierzytelniono.
+     * Ustawia licznik nieudanych logowań konta na 0.
+     * Wysyłane powiadomienie do administratora o logowaniu na jego konto.
+     * Aktualizowany język użytkownika przy każdym uwierzytelnieniu.
+     * W bazie danych zapisywany jest preferowany przez przeglądarkę język wyświetlania strony.
+     * Metoda zwraca strefę czasową dla użytkownika.
+     *
+     * @param login         Login użytkownika
+     * @param callerGroups  Grupy, do których należy użytkownik
+     * @param clientAddress Adres IP, z którego nastapiło logowanie
+     * @param language      Preferowany język wyświetlania strony
      * @return Strefa czasowa w formacie +00:00
      */
-    String getTimezone(String login);
+    String registerGoodLoginAndGetTimezone(String login, Set<String> callerGroups, String clientAddress, String language);
 }

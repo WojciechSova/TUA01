@@ -1,7 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.tests;
 
 import org.openqa.selenium.WebDriver;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.LoginPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 
 import java.sql.*;
 import java.util.Properties;
@@ -35,7 +37,7 @@ public class TestUtils {
         return loginPage.loginValidClient(login, password);
     }
 
-    public static String getOneTimeUrl(String newEmail) {
+    public static String getOneTimeUrl(String searchBy, String query) {
         Properties properties = new Properties();
         properties.setProperty("user", "ssbd02admin");
         properties.setProperty("password", "admin_password");
@@ -45,7 +47,7 @@ public class TestUtils {
         try {
             connection = DriverManager.getConnection(dbUrl, properties);
             statement = connection.createStatement();
-            result = statement.executeQuery("SELECT url FROM public.one_time_url o WHERE o.new_email ='" + newEmail + "'");
+            result = statement.executeQuery(query.concat(searchBy).concat("'"));
             result.next();
             return result.getString("url");
         } catch (SQLException ex) {

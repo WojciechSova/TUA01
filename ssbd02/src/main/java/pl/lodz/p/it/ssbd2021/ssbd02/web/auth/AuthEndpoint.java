@@ -8,7 +8,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTGenerator;
@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
  */
 @RequestScoped
 @Path("auth")
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AuthEndpoint {
 
     @Inject
@@ -81,13 +82,8 @@ public class AuthEndpoint {
                 throw CommonExceptions.createUnauthorizedException();
             }
 
-            if (result.getCallerGroups().contains("ADMIN")) {
-                accountManagerLocal.notifyAdminAboutLogin(result.getCallerPrincipal().getName(), clientAddress);
-            }
-
-            accountManagerLocal.registerGoodLogin(credentialsDTO.getLogin(), clientAddress);
-            accountManagerLocal.updateLanguage(credentialsDTO.getLogin(), language);
-            String timezone = accountManagerLocal.getTimezone(result.getCallerPrincipal().getName());
+            String timezone = accountManagerLocal.registerGoodLoginAndGetTimezone(result.getCallerPrincipal().getName(),
+                    result.getCallerGroups(), clientAddress, language);
 
             logger.info("New successful logon, authenticated user: {} (ip: {})",
                     credentialsDTO.getLogin(), clientAddress);
@@ -132,6 +128,9 @@ public class AuthEndpoint {
                         .collect(Collectors.joining(SecurityConstants.GROUP_SPLIT_CONSTANT));
                 String timezone = account.getKey().getTimeZone();
                 if (account.getKey().getActive()) {
+                    if (account.getValue().isEmpty()){
+                        throw CommonExceptions.createForbiddenException();
+                    }
                     return Response.accepted()
                             .entity(JWTGenerator.updateJWT(serializedJWT, accessLevels, timezone))
                             .build();
@@ -168,6 +167,13 @@ public class AuthEndpoint {
         return Response.ok().build();
     }
 
+    /**
+     * Metoda wyznaczająca adres ip, z którego zostało wysłane żądanie.
+     * W pierwszej kolejności brana pod uwagę jest pierwsza wartość nagłówka X-Forwarded-For.
+     *
+     * @param req Zapytanie HTTP
+     * @return Adres ip, z którego zostało wysłane żądanie.
+     */
     private String getClientIp(HttpServletRequest req) {
         String xForwardedFor = req.getHeader("X-Forwarded-For");
         if (xForwardedFor == null || "".equals(xForwardedFor.trim())) {
@@ -176,6 +182,15 @@ public class AuthEndpoint {
         return xForwardedFor.contains(",") ? xForwardedFor.split(",")[0] : xForwardedFor;
     }
 
+    /**
+     * Metoda wyznaczająca język przeglądarki, z której zostało wysłane żądanie.
+     * W pierwszej kolejności pod uwagę brana jest pierwsza wartość nagłówka Accept-Language.
+     * Akceptowalne języki to takie zawierające en lub pl.
+     * W przypadku braku znalezienia odpowiedniego języka domyślną wartością jest en.
+     *
+     * @param req Zapytanie HTTP
+     * @return Adres ip, z którego zostało wysłane żądanie.
+     */
     private String getLanguage(HttpServletRequest req) {
         String acceptLanguage = req.getHeader("Accept-Language");
         if (acceptLanguage == null || "".equals(acceptLanguage.trim())) {

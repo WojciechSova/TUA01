@@ -1,7 +1,12 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 
 import com.nimbusds.jwt.SignedJWT;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.security.enterprise.AuthenticationException;
 import javax.security.enterprise.AuthenticationStatus;
@@ -21,7 +26,10 @@ import java.util.Objects;
  * @author Patryk Kolanek
  */
 @Stateless
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AuthenticationMechanism implements HttpAuthenticationMechanism {
+
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Metoda wykonywana podczas wysłania zapytania przez klienta. Sprawdza czy zapytanie zawiera token JWT
@@ -36,6 +44,7 @@ public class AuthenticationMechanism implements HttpAuthenticationMechanism {
      * @throws AuthenticationException Kiedy przetwarzanie się nie powiodło.
      */
     @Override
+    @PermitAll
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
         String authorizationHeader = request.getHeader(SecurityConstants.AUTHORIZATION);
 
@@ -64,7 +73,7 @@ public class AuthenticationMechanism implements HttpAuthenticationMechanism {
 
             return httpMessageContext.notifyContainerAboutLogin(login, new HashSet<>(Arrays.asList(groups.split(SecurityConstants.GROUP_SPLIT_CONSTANT))));
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.warn(e);
         }
 
         throw new AuthenticationException();

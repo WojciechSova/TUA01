@@ -7,10 +7,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccessLevelExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccessLevelExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.OneTimeUrlExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.OneTimeUrlExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOSignatureValidatorFilterBinding;
@@ -21,6 +21,7 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.security.enterprise.credential.Password;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -30,7 +31,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -41,12 +45,12 @@ import java.util.stream.Collectors;
  */
 @RequestScoped
 @Path("accounts")
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AccountEndpoint {
 
+    private static final Logger logger = LogManager.getLogger();
     @Inject
     private AccountManagerLocal accountManager;
-
-    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Metoda udostępniająca ogólne informacje o kontach aplikacji.
@@ -174,18 +178,30 @@ public class AccountEndpoint {
     @Consumes(MediaType.TEXT_PLAIN)
     public Response addAccessLevel(@Context SecurityContext securityContext,
                                    @PathParam("login") String login, @NotBlank String accessLevel) {
-        try {
-            accountManager.addAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack;
+        do {
+            try {
+                accountManager.addAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
+                transactionRollBack = accountManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                throw CommonExceptions.createForbiddenException();
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -202,18 +218,30 @@ public class AccountEndpoint {
     @Consumes(MediaType.TEXT_PLAIN)
     public Response removeAccessLevel(@Context SecurityContext securityContext,
                                       @PathParam("login") String login, String accessLevel) {
-        try {
-            accountManager.removeAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack;
+        do {
+            try {
+                accountManager.removeAccessLevel(securityContext.getUserPrincipal().getName(), login, accessLevel);
+                transactionRollBack = accountManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                throw CommonExceptions.createForbiddenException();
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -302,17 +330,30 @@ public class AccountEndpoint {
     @RolesAllowed({"ADMIN"})
     @Path("block/{login}")
     public Response blockAccount(@PathParam("login") String login, @Context SecurityContext securityContext) {
-        try {
-            accountManager.changeActivity(login, false, securityContext.getUserPrincipal().getName());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack;
+        do {
+            try {
+                accountManager.changeActivity(login, false, securityContext.getUserPrincipal().getName());
+                transactionRollBack = accountManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                throw CommonExceptions.createForbiddenException();
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok().build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -327,19 +368,31 @@ public class AccountEndpoint {
     @Path("password")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changePassword(@Context SecurityContext securityContext, @Valid PasswordDTO passwordDTO) {
-        try {
-            accountManager.changePassword(securityContext.getUserPrincipal().getName(),
-                    passwordDTO.getOldPassword(), passwordDTO.getNewPassword());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack;
+        do {
+            try {
+                accountManager.changePassword(securityContext.getUserPrincipal().getName(),
+                        new Password(passwordDTO.getOldPassword()), new Password(passwordDTO.getNewPassword()));
+                transactionRollBack = accountManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                throw CommonExceptions.createForbiddenException();
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -353,17 +406,30 @@ public class AccountEndpoint {
     @RolesAllowed({"ADMIN"})
     @Path("unblock/{login}")
     public Response unblockAccount(@PathParam("login") String login, @Context SecurityContext securityContext) {
-        try {
-            accountManager.changeActivity(login, true, securityContext.getUserPrincipal().getName());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack;
+        do {
+            try {
+                accountManager.changeActivity(login, true, securityContext.getUserPrincipal().getName());
+                transactionRollBack = accountManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                throw CommonExceptions.createForbiddenException();
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok().build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -376,20 +442,33 @@ public class AccountEndpoint {
     @PermitAll
     @Path("confirm/account/{url}")
     public Response confirmAccount(@PathParam("url") String url) {
-        if (url.length() != 32) {
-            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
-        }
-        try {
-            accountManager.confirmAccount(url);
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack;
+        do {
+            if (url.length() != 32) {
+                throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+            }
+            try {
+                accountManager.confirmAccount(url);
+                transactionRollBack = accountManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                throw CommonExceptions.createForbiddenException();
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok().build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -398,7 +477,6 @@ public class AccountEndpoint {
      * @param newEmailAddress Nowy adres e-mail
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
-     * Kod 406 w przypadku niepoprawnej walidacji adresu
      */
     @POST
     @Path("profile/email")
@@ -428,7 +506,6 @@ public class AccountEndpoint {
      * @param newEmailAddress Nowy adres e-mail.
      * @param login           Login użytkownika, któremy ma zostać zmieniony adres e-mail.
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
-     * Kod 406 w przypadku niepoprawnej walidacji adresu
      */
     @POST
     @Path("email/{login}")
@@ -462,19 +539,33 @@ public class AccountEndpoint {
     @PermitAll
     @Path("confirm/email/{url}")
     public Response changeEmailAddress(@PathParam("url") String url) {
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack;
         if (url.length() != 32) {
-            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+            throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
         }
-        try {
-            accountManager.changeEmailAddress(url);
-            return Response.ok().build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        do {
+            try {
+                accountManager.changeEmailAddress(url);
+                transactionRollBack = accountManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                throw CommonExceptions.createForbiddenException();
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -503,7 +594,7 @@ public class AccountEndpoint {
 
             return Response.ok().build();
         } catch (GeneralException generalException) {
-            throw generalException;
+            return Response.ok().build();
         } catch (EJBAccessException | AccessLocalException accessExcept) {
             throw CommonExceptions.createForbiddenException();
         } catch (Exception e) {
@@ -517,20 +608,20 @@ public class AccountEndpoint {
      * @param url         Jednorazowy adres url potwierdzający możliwość zmiany hasła.
      * @param newPassword Nowe hasło użytkownika.
      * @return Kod 200 w przypadku poprawnie skonstruowanego żądania.
-     * Kod 400 w przypadku nieprawidłowej długości url lub 406 w przypadku niepoprawnej dłuygości nowego hasła.
+     * Kod 400 w przypadku nieprawidłowej długości url.
      */
     @PUT
     @PermitAll
     @Path("reset/password/{url}")
     public Response resetPassword(@PathParam("url") String url, @NotBlank String newPassword) {
         if (url.length() != 32) {
-            throw OneTimeUrlExceptions.createNotAcceptableException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+            throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
         }
         if (newPassword.length() < 8) {
             throw CommonExceptions.createConstraintViolationException();
         }
         try {
-            accountManager.resetPassword(url, newPassword);
+            accountManager.resetPassword(url, new Password(newPassword));
 
             return Response.ok().build();
         } catch (GeneralException generalException) {
@@ -542,14 +633,21 @@ public class AccountEndpoint {
         }
     }
 
+    /**
+     * Metoda zmianiający aktualny poziom dostępu użytkownika.
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param accessLevel Poziom dostępu, który ma zostać zmieniony
+     * @return Kod 200 w przypadku poprawnej zmiany poziomu dostępu. Kod 400 w przypadku podania nieistniejącego
+     * poziomu dostępu
+     */
     @POST
     @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
-    @PermitAll
     @Consumes(MediaType.TEXT_PLAIN)
     @Path("change/accesslevel")
     public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @NotBlank String accessLevel) {
         if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
-            throw AccessLevelExceptions.createNotAcceptableException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
+            throw AccessLevelExceptions.createBadRequestException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
         }
         try {
             logger.info("The user with login {} changed the access level to {}",
@@ -562,6 +660,22 @@ public class AccountEndpoint {
             throw CommonExceptions.createForbiddenException();
         } catch (Exception e) {
             throw CommonExceptions.createUnknownException();
+        }
+    }
+
+    /**
+     * Metoda pobierająca z właściwości współczynnik określający ilość powtórzeń transakcji.
+     *
+     * @return Współczynnik powtórzeń transakcji
+     */
+    private int getTransactionRepetitionCounter() {
+        Properties prop = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
+            return 3;
         }
     }
 }
