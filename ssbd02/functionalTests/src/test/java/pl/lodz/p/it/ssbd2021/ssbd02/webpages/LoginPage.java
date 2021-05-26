@@ -22,13 +22,6 @@ public class LoginPage {
         return new AdminMainPage(driver);
     }
 
-    public EmployeeMainPage loginValidEmployee(String login, String password) {
-        driver.findElement(loginField).sendKeys(login);
-        driver.findElement(passwordField).sendKeys(password);
-        driver.findElement(loginButton).click();
-        return new EmployeeMainPage(driver);
-    }
-
     public ClientMainPage loginValidClient(String login, String password) {
         driver.findElement(loginField).sendKeys(login);
         driver.findElement(passwordField).sendKeys(password);

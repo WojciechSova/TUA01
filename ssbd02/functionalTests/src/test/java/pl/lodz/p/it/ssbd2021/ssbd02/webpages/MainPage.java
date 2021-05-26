@@ -28,4 +28,13 @@ public class MainPage {
                 driver.findElement(loginLink).isDisplayed() &&
                 driver.findElement(registerLink).isDisplayed();
     }
+
+    public RegistrationPage openRegistrationPage() {
+        driver.findElement(registerLink).click();
+        return new RegistrationPage(driver);
+    }
+
+    public By getLoginButton() {
+        return loginLink;
+    }
 }
