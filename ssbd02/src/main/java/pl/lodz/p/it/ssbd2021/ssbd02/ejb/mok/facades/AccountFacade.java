@@ -96,7 +96,7 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
     }
 
     @Override
-    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
+    @PermitAll
     public void edit(Account entity) {
         super.edit(entity);
     }
