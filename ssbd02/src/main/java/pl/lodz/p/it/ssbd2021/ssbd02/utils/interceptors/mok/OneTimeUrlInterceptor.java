@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mok;
 
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.OneTimeUrlExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.OneTimeUrlExceptions;
 
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
