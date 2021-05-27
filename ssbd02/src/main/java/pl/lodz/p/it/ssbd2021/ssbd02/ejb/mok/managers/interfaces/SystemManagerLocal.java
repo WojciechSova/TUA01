@@ -1,13 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces;
 
-import javax.ejb.Local;
-
 /**
  * Lokalny interfejs managera systemu
  *
  * @author Artur Madaj
  */
-@Local
 public interface SystemManagerLocal {
 
     /**
