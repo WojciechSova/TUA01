@@ -42,7 +42,7 @@ public class VehicleTypeFacade extends AbstractFacade<VehicleType> implements Ve
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"CLIENT", "EMPLOYEE"})
     public VehicleType findByName(String name) {
         return null;
     }
@@ -72,7 +72,7 @@ public class VehicleTypeFacade extends AbstractFacade<VehicleType> implements Ve
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"CLIENT", "EMPLOYEE"})
     public List<VehicleType> findAll() {
         return super.findAll();
     }

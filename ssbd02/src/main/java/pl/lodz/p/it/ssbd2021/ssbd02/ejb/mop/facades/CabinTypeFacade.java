@@ -72,7 +72,7 @@ public class CabinTypeFacade extends AbstractFacade<CabinType> implements CabinT
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"CLIENT", "EMPLOYEE"})
     public List<CabinType> findAll() {
         return super.findAll();
     }
