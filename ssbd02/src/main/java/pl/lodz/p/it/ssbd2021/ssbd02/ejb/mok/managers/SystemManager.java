@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
@@ -64,7 +63,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
     private EmailSenderLocal emailSender;
 
     @Override
-    @Schedule(minute = "*", persistent = false)
+    @Schedule(hour = "*", minute = "*", second = "0", persistent = false)
     @DenyAll
     public void removeUnconfirmedAccounts() {
         int removalTime = 86400;
@@ -98,7 +97,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
     }
 
     @Override
-    @Schedule(minute = "*", second = "20", persistent = false)
+    @Schedule(hour = "*", minute = "*", second = "20", persistent = false)
     @DenyAll
     public void removeInactiveUrl() {
         List<OneTimeUrl> expired = oneTimeUrlFacadeLocal.findExpired();
@@ -111,7 +110,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
     }
 
     @Override
-    @Schedule(minute = "*", second = "40", persistent = false)
+    @Schedule(hour = "*", minute = "*", second = "40", persistent = false)
     @DenyAll
     public void resendConfirmAccountEmail() {
         long removalTime = 86_400_000 / 2L;
