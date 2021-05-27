@@ -1,9 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacadeInterface;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
 
 import javax.ejb.Local;
+import java.util.List;
 
 /**
  * Interfejs encji modułu obsługi promów.
@@ -22,4 +24,12 @@ public interface BookingFacadeLocal extends AbstractFacadeInterface<Booking> {
      * @return Obiekt typu {@link Booking} o przekazanym biznesowym numerze identyfikacyjnym.
      */
     Booking findByNumber(String number);
+
+    /**
+     * Metoda wyszukująca listę encji typu {@link Booking}, które należą do podanego konta.
+     *
+     * @param account Encja typu {@link Account}.
+     * @return Listę obiektów typu {@link Booking}, które należą do podanego konta.
+     */
+    List<Booking> findAllByAccount(Account account);
 }
