@@ -161,7 +161,8 @@
         "PHONE_NUMBER_UNIQUE": "Provided phone number already exists",
         "SAME_PASSWORD_AS_PREVIOUS": "The password provided is the same as the previous one",
         "EMAIL_UNIQUE": "The e-mail address you entered already exists",
-        "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect"
+        "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect",
+        "DUPLICATE_LOGIN_OR_EMAIL": "The login or email already exists"
     },
     "error-page": {
         "forbidden_code": "Error 403",
