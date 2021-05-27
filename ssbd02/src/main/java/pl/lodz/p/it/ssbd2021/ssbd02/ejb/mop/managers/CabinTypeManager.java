@@ -25,7 +25,7 @@ import java.util.List;
 public class CabinTypeManager extends AbstractManager implements CabinTypeManagerLocal, SessionSynchronization {
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"CLIENT", "EMPLOYEE"})
     public List<CabinType> getAllCabinTypes() {
         return null;
     }

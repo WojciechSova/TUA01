@@ -25,7 +25,7 @@ import java.util.List;
 public class VehicleTypeManager extends AbstractManager implements VehicleTypeManagerLocal, SessionSynchronization {
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"CLIENT", "EMPLOYEE"})
     public List<VehicleType> getAllVehicleTypes() {
         return null;
     }

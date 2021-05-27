@@ -66,7 +66,7 @@ public class AccountMopFacade extends AbstractFacade<Account> implements Account
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @DenyAll
     public Account find(Object id) {
         return super.find(id);
     }
