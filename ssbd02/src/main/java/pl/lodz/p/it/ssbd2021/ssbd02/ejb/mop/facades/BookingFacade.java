@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
@@ -54,18 +53,12 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
 
     @Override
     @RolesAllowed({"CLIENT"})
-    public List<Booking> findAllByAccount(Account account) {
-        return null;
-    }
-
-    @Override
-    @RolesAllowed({"CLIENT"})
     public void create(Booking entity) {
         super.create(entity);
     }
 
     @Override
-    @DenyAll
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Booking find(Object id) {
         return super.find(id);
     }

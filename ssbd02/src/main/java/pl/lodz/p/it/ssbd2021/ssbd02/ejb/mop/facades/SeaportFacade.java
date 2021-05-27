@@ -58,7 +58,7 @@ public class SeaportFacade extends AbstractFacade<Seaport> implements SeaportFac
     }
 
     @Override
-    @DenyAll
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Seaport find(Object id) {
         return super.find(id);
     }
