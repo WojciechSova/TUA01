@@ -100,4 +100,5 @@ public class VehicleTypeFacade extends AbstractFacade<VehicleType> implements Ve
     public List<VehicleType> findWithQuery(String query) {
         return super.findWithQuery(query);
     }
+
 }
