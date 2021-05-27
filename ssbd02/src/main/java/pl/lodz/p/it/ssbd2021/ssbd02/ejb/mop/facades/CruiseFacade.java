@@ -3,13 +3,11 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mop.CruiseInterceptor;
 
 import javax.annotation.security.DenyAll;
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -55,24 +53,12 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public List<Cruise> findAllByRoute(Route route) {
-        return null;
-    }
-
-    @Override
-    @PermitAll
-    public List<Cruise> findAllFutureDate() {
-        return null;
-    }
-
-    @Override
-    @RolesAllowed({"EMPLOYEE"})
     public void create(Cruise entity) {
         super.create(entity);
     }
 
     @Override
-    @DenyAll
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Cruise find(Object id) {
         return super.find(id);
     }

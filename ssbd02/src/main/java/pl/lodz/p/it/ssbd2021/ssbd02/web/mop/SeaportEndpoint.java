@@ -28,7 +28,7 @@ public class SeaportEndpoint {
 
     @GET
     @Path("{code}")
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Response getSeaport(@PathParam("code") String code) {
         return null;
     }
