@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mop.CabinInterceptor;
@@ -52,13 +53,19 @@ public class CabinFacade extends AbstractFacade<Cabin> implements CabinFacadeLoc
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    public List<Cabin> findAllByFerry(Ferry ferry) {
+        return null;
+    }
+
+    @Override
     @RolesAllowed({"EMPLOYEE"})
     public void create(Cabin entity) {
         super.create(entity);
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @DenyAll
     public Cabin find(Object id) {
         return super.find(id);
     }

@@ -42,13 +42,19 @@ public class CabinTypeFacade extends AbstractFacade<CabinType> implements CabinT
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    public CabinType findByName(String name) {
+        return null;
+    }
+
+    @Override
     @DenyAll
     public void create(CabinType entity) {
         super.create(entity);
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @DenyAll
     public CabinType find(Object id) {
         return super.find(id);
     }

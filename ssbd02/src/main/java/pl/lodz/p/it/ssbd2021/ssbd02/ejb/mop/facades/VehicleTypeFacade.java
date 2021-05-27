@@ -54,7 +54,7 @@ public class VehicleTypeFacade extends AbstractFacade<VehicleType> implements Ve
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @DenyAll
     public VehicleType find(Object id) {
         return super.find(id);
     }
