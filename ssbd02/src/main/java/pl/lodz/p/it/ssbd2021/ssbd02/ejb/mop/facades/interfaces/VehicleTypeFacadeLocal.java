@@ -15,4 +15,11 @@ import javax.ejb.Local;
 @Local
 public interface VehicleTypeFacadeLocal extends AbstractFacadeInterface<VehicleType> {
 
+    /**
+     * Metoda wyszukująca encje typu {@link VehicleType} o przekazanej biznesowej nazwie identyfikacyjnej.
+     *
+     * @param name Biznesowa nazwa identyfikacyjna.
+     * @return Obiekt typu {@link VehicleType} o przekazanej biznesowej nazwie identyfikacyjnej.
+     */
+    VehicleType findByName(String name);
 }

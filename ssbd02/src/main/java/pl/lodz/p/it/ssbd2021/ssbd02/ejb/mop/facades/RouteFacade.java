@@ -58,7 +58,7 @@ public class RouteFacade extends AbstractFacade<Route> implements RouteFacadeLoc
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @DenyAll
     public Route find(Object id) {
         return super.find(id);
     }

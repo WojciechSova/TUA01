@@ -58,7 +58,7 @@ public class FerryFacade extends AbstractFacade<Ferry> implements FerryFacadeLoc
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @DenyAll
     public Ferry find(Object id) {
         return super.find(id);
     }

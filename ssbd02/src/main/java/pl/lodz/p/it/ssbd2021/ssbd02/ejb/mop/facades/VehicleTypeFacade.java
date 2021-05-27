@@ -42,13 +42,19 @@ public class VehicleTypeFacade extends AbstractFacade<VehicleType> implements Ve
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE"})
+    public VehicleType findByName(String name) {
+        return null;
+    }
+
+    @Override
     @DenyAll
     public void create(VehicleType entity) {
         super.create(entity);
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @DenyAll
     public VehicleType find(Object id) {
         return super.find(id);
     }
