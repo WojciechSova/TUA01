@@ -64,7 +64,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
     private EmailSenderLocal emailSender;
 
     @Override
-    @Schedule(hour = "*", persistent = false)
+    @Schedule(minute = "*", persistent = false)
     @DenyAll
     public void removeUnconfirmedAccounts() {
         int removalTime = 86400;
@@ -98,7 +98,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
     }
 
     @Override
-    @Schedule(minute = "20", hour = "*", persistent = false)
+    @Schedule(minute = "*", second = "20", persistent = false)
     @DenyAll
     public void removeInactiveUrl() {
         List<OneTimeUrl> expired = oneTimeUrlFacadeLocal.findExpired();
@@ -111,7 +111,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
     }
 
     @Override
-    @Schedule(minute = "30", hour = "*", persistent = false)
+    @Schedule(minute = "*", second = "40", persistent = false)
     @DenyAll
     public void resendConfirmAccountEmail() {
         long removalTime = 86_400_000 / 2L;
