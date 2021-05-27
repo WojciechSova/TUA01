@@ -2,10 +2,8 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacadeInterface;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 
 import javax.ejb.Local;
-import java.util.List;
 
 /**
  * Interfejs encji modułu obsługi promów.
@@ -24,19 +22,4 @@ public interface CruiseFacadeLocal extends AbstractFacadeInterface<Cruise> {
      * @return Obiekt typu {@link Cruise} o przekazanym biznesowym numerze identyfikacyjnym.
      */
     Cruise findByNumber(String number);
-
-    /**
-     * Metoda wyszukująca listę encji typu {@link Cruise}, które są na danej trasie.
-     *
-     * @param route Encja typu {@link Route}.
-     * @return Listę obiektów typu {@link Cruise}, które są na danej trasie.
-     */
-    List<Cruise> findAllByRoute(Route route);
-
-    /**
-     * Metoda wyszukująca listę encji typu {@link Cruise}, które się nie zakończyły.
-     *
-     * @return Listę obiektów typu {@link Cruise}, które się nie zakończyły.
-     */
-    List<Cruise> findAllFutureDate();
 }
