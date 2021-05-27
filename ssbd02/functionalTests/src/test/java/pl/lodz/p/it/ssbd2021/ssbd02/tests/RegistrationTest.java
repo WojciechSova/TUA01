@@ -23,18 +23,18 @@ public class RegistrationTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
+    private final String login = "newLogin";
+    private final String email = "newEmail@newEmail.ferrytales";
+    private final String password = "Password1234";
+    private final String firstName = "Karol";
+    private final String lastName = "Karolowy";
+    private final String phoneNumber = "000555444";
+    private final String existingEmail = "nieistnieje@aaa.pl";
+    private final String existingLogin = "admin";
+    private final String existingPhoneNumber = "48123456789";
     private WebDriver driver;
-    private String login = "newLogin";
-    private String email = "newEmail@newEmail.ferrytales";
-    private String password = "Password1234";
-    private String firstName = "Karol";
-    private String lastName = "Karolowy";
-    private String phoneNumber = "000555444";
     private String oneTimeUrl;
     private String confirmationUrl;
-    private String existingEmail = "nieistnieje@aaa.pl";
-    private String existingLogin = "admin";
-    private String existingPhoneNumber = "48123456789";
 
     @BeforeAll
     static void initAll() {
@@ -80,18 +80,21 @@ public class RegistrationTest {
             case "email": {
                 registrationPage.register(login, new String[]{existingEmail, existingEmail}, new String[]{password, password}, new String[]{firstName, lastName}, phoneNumber);
                 driver.findElement(registrationPage.getLogin()).sendKeys(Keys.SHIFT);
+                driverWait.until(ExpectedConditions.presenceOfElementLocated(registrationPage.getErrorMsg()));
                 assertTrue(driver.findElement(registrationPage.getErrorMsg()).isDisplayed());
                 break;
             }
             case "login": {
                 registrationPage.register(existingLogin, new String[]{email, email}, new String[]{password, password}, new String[]{firstName, lastName}, phoneNumber);
                 driver.findElement(registrationPage.getLogin()).sendKeys(Keys.SHIFT);
+                driverWait.until(ExpectedConditions.presenceOfElementLocated(registrationPage.getErrorMsg()));
                 assertTrue(driver.findElement(registrationPage.getErrorMsg()).isDisplayed());
                 break;
             }
             case "phoneNumber": {
                 registrationPage.register(login, new String[]{email, email}, new String[]{password, password}, new String[]{firstName, lastName}, existingPhoneNumber);
                 driver.findElement(registrationPage.getLogin()).sendKeys(Keys.SHIFT);
+                driverWait.until(ExpectedConditions.presenceOfElementLocated(registrationPage.getErrorMsg()));
                 assertTrue(driver.findElement(registrationPage.getErrorMsg()).isDisplayed());
                 break;
             }

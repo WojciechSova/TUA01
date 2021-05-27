@@ -55,7 +55,7 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public void removeRoute(Route route) {
 
     }

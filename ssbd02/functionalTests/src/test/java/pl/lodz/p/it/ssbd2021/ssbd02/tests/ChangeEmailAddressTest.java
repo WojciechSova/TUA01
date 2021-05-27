@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountDetailsPage;
@@ -143,6 +144,7 @@ public class ChangeEmailAddressTest {
         accountsListPage = adminMainPage.openAccountsList();
         driver.navigate().refresh();
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts")));
+        driverWait.until((ExpectedCondition<Boolean>) driver -> accountsListPage.getTableContent().size() > 0);
 
         List<WebElement> tableData = accountsListPage.getTableContent();
         userLogin = tableData.get(0).getText();
