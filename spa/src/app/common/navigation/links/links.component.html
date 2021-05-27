@@ -8,11 +8,11 @@
     <a *ngIf="identityService.isClient()" id="myBookingsLink" routerLink="" translate>links.my_bookings</a>
     <a *ngIf="identityService.isClient() || identityService.isGuest()" id="currentCruisesLink" routerLink="" translate>links.current_cruises</a>
     <a *ngIf="identityService.isAdmin()" id="accountsLink" routerLink="/ferrytales/accounts" translate>links.accounts</a>
-    <a *ngIf="identityService.isGuest()" (click)="changeLoginVisible(!isLoginVisible)" id="loginLink" class="login-a" translate>links.sing_in</a>
+    <a *ngIf="identityService.isGuest()" (click)="changeLoginVisible(!isLoginVisible)" id="loginLink" class="login-a" translate>links.sign_in</a>
     <a *ngIf="identityService.isGuest()" (click)="changeRegisterVisible(!isRegisterVisible)" id="registerLink" class="login-a"
-       translate>links.sing_up</a>
+       translate>links.sign_up</a>
     <a *ngIf="!identityService.isGuest()" id="logoutLink" (click)="signOut()" class="login-a"
-       translate>links.sing_out</a>
+       translate>links.sign_out</a>
     <div class="login-access-level" *ngIf="!identityService.isGuest()">
         <a [ngClass]="identityService.isAdmin() ? 'admin' : identityService.isEmployee() ? 'employee' : identityService.isClient() ? 'client' : ''"
            (click)="getProfile()" id="usernameMain" class="admin">{{ identityService.getLogin() }}</a>

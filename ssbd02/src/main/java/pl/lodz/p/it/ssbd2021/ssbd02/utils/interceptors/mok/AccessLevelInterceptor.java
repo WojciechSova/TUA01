@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mok;
 
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccessLevelExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccessLevelExceptions;
 
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;

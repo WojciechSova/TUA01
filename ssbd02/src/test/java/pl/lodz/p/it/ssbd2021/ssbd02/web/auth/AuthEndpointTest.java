@@ -13,7 +13,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTVerifier;
@@ -91,7 +91,7 @@ class AuthEndpointTest {
         Assertions.assertTrue(JWTVerifier.validateJwt((String) response.getEntity()));
 
         Mockito.verify(accountManagerLocal, Mockito.times(1))
-                .registerGoodLogin("login", "192.168.1.1");
+                .registerGoodLoginAndGetTimezone("login", Set.of("ADMIN", "EMPLOYEE"), "192.168.1.1", "pl");
     }
 
     @Test

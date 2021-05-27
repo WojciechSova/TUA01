@@ -38,7 +38,7 @@ export class ChangePasswordFormComponent {
                 this.closeComponent();
             },
             (err: HttpErrorResponse) => {
-                if (err.status === 406) {
+                if (err.status === 400) {
                     this.incorrectPassword = true;
                 } else if (err.status === 409) {
                     this.samePassword = true;

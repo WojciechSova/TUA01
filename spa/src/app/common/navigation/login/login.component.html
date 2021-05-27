@@ -13,10 +13,10 @@
             <input [(ngModel)]="password" type="password" id="password" name="Password"
                    placeholder="{{'form.required_password' | translate}}" required><br><br>
             <button (click)="auth()" class="form-button" id="loginFormBtn"
-                    translate>links.sing_in</button>
+                    translate>links.sign_in</button>
         </form>
         <div class="column-nav">
-            <a (click)="openResetPassword()"
+            <a id="forgot-password" (click)="openResetPassword()"
                translate>login.forgot_password</a>
             <a (click)="openRegister()"
                translate>login.sign_up_if_no_account</a>

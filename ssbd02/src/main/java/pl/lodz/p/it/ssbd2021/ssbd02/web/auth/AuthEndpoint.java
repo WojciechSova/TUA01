@@ -8,7 +8,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.AccountExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTGenerator;
@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
  */
 @RequestScoped
 @Path("auth")
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AuthEndpoint {
 
     @Inject
@@ -81,13 +82,8 @@ public class AuthEndpoint {
                 throw CommonExceptions.createUnauthorizedException();
             }
 
-            if (result.getCallerGroups().contains("ADMIN")) {
-                accountManagerLocal.notifyAdminAboutLogin(result.getCallerPrincipal().getName(), clientAddress);
-            }
-
-            accountManagerLocal.registerGoodLogin(credentialsDTO.getLogin(), clientAddress);
-            accountManagerLocal.updateLanguage(credentialsDTO.getLogin(), language);
-            String timezone = accountManagerLocal.getTimezone(result.getCallerPrincipal().getName());
+            String timezone = accountManagerLocal.registerGoodLoginAndGetTimezone(result.getCallerPrincipal().getName(),
+                    result.getCallerGroups(), clientAddress, language);
 
             logger.info("New successful logon, authenticated user: {} (ip: {})",
                     credentialsDTO.getLogin(), clientAddress);

@@ -11,6 +11,7 @@ import { NewPasswordComponent } from './other-views/new-password/new-password.co
 import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidden.component';
 import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
 import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
+import { UnauthorizedComponent } from './other-views/error-pages/unauthorized/unauthorized.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
@@ -26,7 +27,9 @@ const routes: Routes = [
     { path: 'reset/password/:url', component: NewPasswordComponent },
     { path: 'error/internal', component: InternalServerErrorComponent },
     { path: 'error/forbidden', component: ForbiddenComponent },
-    { path: 'error/notfound', component: NotFoundComponent}
+    { path: 'error/notfound', component: NotFoundComponent },
+    { path: '**', component: NotFoundComponent },
+    { path: 'error/unauthorized', component: UnauthorizedComponent },
 ];
 
 @NgModule({

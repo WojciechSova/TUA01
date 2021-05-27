@@ -37,4 +37,8 @@ public class EditUserProfilePage {
     public By getFirstNameEdit() {
         return firstNameEdit;
     }
+
+    public By getLastNameEdit() {
+        return lastNameEdit;
+    }
 }

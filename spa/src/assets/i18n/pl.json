@@ -38,9 +38,9 @@
         "my_bookings": "Moje rezerwacje",
         "current_cruises": "Aktualne rejsy",
         "accounts": "Konta",
-        "sing_in": "Zaloguj",
-        "sing_up": "Zarejestruj",
-        "sing_out": "Wyloguj"
+        "sign_in": "Zaloguj",
+        "sign_up": "Zarejestruj",
+        "sign_out": "Wyloguj"
     },
     "login": {
         "forgot_password": "Zapomniałeś hasła?",
@@ -161,7 +161,8 @@
         "PHONE_NUMBER_UNIQUE": "Podany numer telefonu już istnieje",
         "SAME_PASSWORD_AS_PREVIOUS": "Podane hasło jest takie samo jak wcześniejsze",
         "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
-        "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe"
+        "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
+        "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -170,6 +171,8 @@
         "internal_server_error_message": "Ups, coś poszło nie tak :(",
         "not_found_code": "Kod błędu 404",
         "not_found_text": "Nie odnaleziono strony",
+        "unauthorized_code": "Kod błędu 401",
+        "unauthorized_text": "Nieautoryzowany dostęp",
         "go_to_home_page": "Powrót do strony głównej"
     },
     "breadcrumb": {

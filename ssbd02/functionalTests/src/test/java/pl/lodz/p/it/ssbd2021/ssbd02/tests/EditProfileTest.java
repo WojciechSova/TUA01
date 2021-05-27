@@ -97,6 +97,7 @@ public class EditProfileTest {
 
         editData(newFirstName, newLastName, newPhoneNumber.substring(0, 1));
         driver.findElement(editUserProfilePage.getFirstNameEdit()).sendKeys(Keys.SHIFT);
+        driver.findElement(editUserProfilePage.getLastNameEdit()).sendKeys(Keys.SHIFT);
         assertTrue(driver.findElement(editUserProfilePage.getInvalidNumberError()).isDisplayed());
     }
 
@@ -111,6 +112,8 @@ public class EditProfileTest {
 
         editData(newFirstName, newLastName, existingPhoneNumber);
         driver.findElement(editUserProfilePage.getFirstNameEdit()).sendKeys(Keys.SHIFT);
+        driver.findElement(editUserProfilePage.getLastNameEdit()).sendKeys(Keys.SHIFT);
+        driverWait.until(ExpectedConditions.presenceOfElementLocated(editUserProfilePage.getExistingNumberError()));
         assertTrue(driver.findElement(editUserProfilePage.getExistingNumberError()).isDisplayed());
     }
 

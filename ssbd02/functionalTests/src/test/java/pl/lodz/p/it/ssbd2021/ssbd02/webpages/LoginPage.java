@@ -9,7 +9,8 @@ public class LoginPage {
     private final By loginField = By.id("login");
     private final By passwordField = By.id("password");
     private final By loginButton = By.id("loginFormBtn");
-    
+    private final By forgotPasswordLink = By.id("forgot-password");
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -21,17 +22,15 @@ public class LoginPage {
         return new AdminMainPage(driver);
     }
 
-    public EmployeeMainPage loginValidEmployee(String login, String password) {
-        driver.findElement(loginField).sendKeys(login);
-        driver.findElement(passwordField).sendKeys(password);
-        driver.findElement(loginButton).click();
-        return new EmployeeMainPage(driver);
-    }
-
     public ClientMainPage loginValidClient(String login, String password) {
         driver.findElement(loginField).sendKeys(login);
         driver.findElement(passwordField).sendKeys(password);
         driver.findElement(loginButton).click();
         return new ClientMainPage(driver);
+    }
+
+    public PasswordResetPage openPasswordResetPage() {
+        driver.findElement(forgotPasswordLink).click();
+        return new PasswordResetPage(driver);
     }
 }

@@ -9,6 +9,9 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mok.OneTimeUrlInterceptor;
 
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -27,6 +30,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors({GeneralInterceptor.class, OneTimeUrlInterceptor.class, PersistenceInterceptor.class, TrackerInterceptor.class})
 public class OneTimeUrlFacade extends AbstractFacade<OneTimeUrl> implements OneTimeUrlFacadeLocal {
 
@@ -43,6 +47,7 @@ public class OneTimeUrlFacade extends AbstractFacade<OneTimeUrl> implements OneT
     }
 
     @Override
+    @PermitAll
     public OneTimeUrl findByUrl(String url) {
         TypedQuery<OneTimeUrl> typedQuery = entityManager.createNamedQuery("OneTimeUrl.findByUrl", OneTimeUrl.class);
         typedQuery.setParameter("url", url);
@@ -50,6 +55,7 @@ public class OneTimeUrlFacade extends AbstractFacade<OneTimeUrl> implements OneT
     }
 
     @Override
+    @PermitAll
     public List<OneTimeUrl> findByAccount(Account account) {
         TypedQuery<OneTimeUrl> typedQuery = entityManager.createNamedQuery("OneTimeUrl.findByAccount", OneTimeUrl.class);
         typedQuery.setParameter("account", account);
@@ -57,15 +63,71 @@ public class OneTimeUrlFacade extends AbstractFacade<OneTimeUrl> implements OneT
     }
 
     @Override
+    @PermitAll
     public List<OneTimeUrl> findExpired() {
         TypedQuery<OneTimeUrl> typedQuery = entityManager.createNamedQuery("OneTimeUrl.findExpiredUrl", OneTimeUrl.class);
         return typedQuery.getResultList();
     }
 
     @Override
+    @PermitAll
     public List<OneTimeUrl> findListByEmail(String email) {
         TypedQuery<OneTimeUrl> typedQuery = entityManager.createNamedQuery("OneTimeUrl.findByNewEmail", OneTimeUrl.class);
         typedQuery.setParameter("newEmail", email);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    @PermitAll
+    public void create(OneTimeUrl entity) {
+        super.create(entity);
+    }
+
+    @Override
+    @DenyAll
+    public OneTimeUrl find(Object id) {
+        return super.find(id);
+    }
+
+    @Override
+    @PermitAll
+    public void edit(OneTimeUrl entity) {
+        super.edit(entity);
+    }
+
+    @Override
+    @PermitAll
+    public void remove(OneTimeUrl entity) {
+        super.remove(entity);
+    }
+
+    @Override
+    @DenyAll
+    public List<OneTimeUrl> findAll() {
+        return super.findAll();
+    }
+
+    @Override
+    @DenyAll
+    public List<OneTimeUrl> findInRange(int start, int end) {
+        return super.findInRange(start, end);
+    }
+
+    @Override
+    @DenyAll
+    public int count() {
+        return super.count();
+    }
+
+    @Override
+    @DenyAll
+    public List<OneTimeUrl> findWithNamedQuery(String namedQuery) {
+        return super.findWithNamedQuery(namedQuery);
+    }
+
+    @Override
+    @DenyAll
+    public List<OneTimeUrl> findWithQuery(String query) {
+        return super.findWithQuery(query);
     }
 }

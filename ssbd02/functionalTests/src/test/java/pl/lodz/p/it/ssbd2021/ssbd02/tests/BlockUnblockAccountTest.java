@@ -10,13 +10,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
+import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 
 public class BlockUnblockAccountTest {
 
     private static ChromeOptions options;
     private static WebDriverWait driverWait;
     private WebDriver driver;
-    private String login;
+    private String login = "adminpracownik";
     private AccountsListPage accountsListPage;
 
     @BeforeAll
@@ -45,7 +46,6 @@ public class BlockUnblockAccountTest {
 
         driverWait.until(ExpectedConditions.visibilityOfElementLocated(accountsListPage.getUsersTable()));
 
-        login = accountsListPage.getActiveUserLogin();
         accountsListPage.changeUserActivity(login);
         waitForButtonChanging();
 
@@ -60,10 +60,10 @@ public class BlockUnblockAccountTest {
         driverWait.until((ExpectedCondition<Boolean>) driver -> {
             try {
                 accountsListPage.getUserWithLogin(login);
-            } catch (StaleElementReferenceException ex) {
-                return true;
+            } catch (StaleElementReferenceException | IndexOutOfBoundsException ex) {
+                return false;
             }
-            return false;
+            return true;
         });
         driverWait.until(ExpectedConditions
                 .presenceOfNestedElementLocatedBy(accountsListPage.getUserWithLogin(login), accountsListPage.getBlockUnblockButton()));

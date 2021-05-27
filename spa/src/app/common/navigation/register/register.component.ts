@@ -35,6 +35,8 @@ export class RegisterComponent implements OnInit {
         phoneNumber: new FormControl('', Validators.pattern('[0-9]{3,15}'))
     });
 
+    error = false;
+
     ngOnInit(): void {
     }
 
@@ -55,7 +57,7 @@ export class RegisterComponent implements OnInit {
             firstName,
             lastName,
             email,
-            phoneNumber,
+            phoneNumber: phoneNumber === '' ? undefined : phoneNumber,
             active: true,
             confirmed: false,
             accessLevel: [
@@ -70,8 +72,9 @@ export class RegisterComponent implements OnInit {
             creationDate: new Date(),
             numberOfBadLogins: 0
         };
-        this.registrationService.register(account).subscribe(() => {
-            this.closeComponent();
-        });
+        this.registrationService.register(account).subscribe(
+            () => this.closeComponent(),
+            (error: any) => this.error = true
+        );
     }
 }

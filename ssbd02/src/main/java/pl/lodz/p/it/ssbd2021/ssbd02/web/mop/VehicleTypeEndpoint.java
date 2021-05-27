@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 public class VehicleTypeEndpoint {
 
     @GET
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"CLIENT", "EMPLOYEE"})
     public Response getAllVehicleTypes() {
         return null;
     }

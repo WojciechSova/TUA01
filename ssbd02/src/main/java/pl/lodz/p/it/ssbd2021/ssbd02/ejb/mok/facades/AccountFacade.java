@@ -8,6 +8,9 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mok.AccountInterceptor;
 
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -26,6 +29,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors({GeneralInterceptor.class, AccountInterceptor.class, PersistenceInterceptor.class, TrackerInterceptor.class})
 public class AccountFacade extends AbstractFacade<Account> implements AccountFacadeLocal {
 
@@ -41,12 +45,16 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
         return entityManager;
     }
 
+    @Override
+    @PermitAll
     public Account findByLogin(String login) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByLogin", Account.class);
         typedQuery.setParameter("login", login);
         return typedQuery.getSingleResult();
     }
 
+    @Override
+    @PermitAll
     public Account findByEmail(String email) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail", Account.class);
         typedQuery.setParameter("email", email);
@@ -68,9 +76,64 @@ public class AccountFacade extends AbstractFacade<Account> implements AccountFac
     }
 
     @Override
+    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
     public List<Account> findListByEmail(String email) {
         TypedQuery<Account> typedQuery = entityManager.createNamedQuery("Account.findByEmail", Account.class);
         typedQuery.setParameter("email", email);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    @PermitAll
+    public void create(Account entity) {
+        super.create(entity);
+    }
+
+    @Override
+    @DenyAll
+    public Account find(Object id) {
+        return super.find(id);
+    }
+
+    @Override
+    @PermitAll
+    public void edit(Account entity) {
+        super.edit(entity);
+    }
+
+    @Override
+    @PermitAll
+    public void remove(Account entity) {
+        super.remove(entity);
+    }
+
+    @Override
+    @RolesAllowed({"ADMIN"})
+    public List<Account> findAll() {
+        return super.findAll();
+    }
+
+    @Override
+    @DenyAll
+    public List<Account> findInRange(int start, int end) {
+        return super.findInRange(start, end);
+    }
+
+    @Override
+    @DenyAll
+    public int count() {
+        return super.count();
+    }
+
+    @Override
+    @DenyAll
+    public List<Account> findWithNamedQuery(String namedQuery) {
+        return super.findWithNamedQuery(namedQuery);
+    }
+
+    @Override
+    @DenyAll
+    public List<Account> findWithQuery(String query) {
+        return super.findWithQuery(query);
     }
 }

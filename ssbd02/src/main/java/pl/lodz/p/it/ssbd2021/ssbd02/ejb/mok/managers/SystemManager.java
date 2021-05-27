@@ -15,6 +15,13 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -36,6 +43,7 @@ import java.util.stream.Collectors;
 @Singleton
 @Startup
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class SystemManager extends AbstractManager implements SystemManagerLocal, SessionSynchronization {
 
@@ -57,6 +65,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
 
     @Override
     @Schedule(hour = "*", persistent = false)
+    @DenyAll
     public void removeUnconfirmedAccounts() {
         int removalTime = 86400;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
@@ -85,20 +94,25 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
         accountsToDelete.forEach(account -> accountFacadeLocal.remove(account));
 
         accountsToDelete.forEach(account -> emailSender.sendRemovalEmail(account.getLanguage(), account.getFirstName(), account.getEmail()));
+        logger.info("System removed {} unconfirmed accounts", accountsToDelete.size());
     }
 
     @Override
     @Schedule(minute = "20", hour = "*", persistent = false)
+    @DenyAll
     public void removeInactiveUrl() {
         List<OneTimeUrl> expired = oneTimeUrlFacadeLocal.findExpired();
 
         expired.forEach(
                 oneTimeUrl -> oneTimeUrlFacadeLocal.remove(oneTimeUrl)
         );
+
+        logger.info("System removed {} expired URLs", expired.size());
     }
 
     @Override
     @Schedule(minute = "30", hour = "*", persistent = false)
+    @DenyAll
     public void resendConfirmAccountEmail() {
         long removalTime = 86_400_000 / 2L;
         final long hour = 3_600_000;

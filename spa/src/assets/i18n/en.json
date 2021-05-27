@@ -38,9 +38,9 @@
         "my_bookings": "My bookings",
         "current_cruises": "Current cruises",
         "accounts": "Accounts",
-        "sing_in": "Sing in",
-        "sing_up": "Sing up",
-        "sing_out": "Sing out"
+        "sign_in": "Sign in",
+        "sign_up": "Sign up",
+        "sign_out": "Sign out"
     },
     "login": {
         "forgot_password": "Forgot password?",
@@ -161,7 +161,8 @@
         "PHONE_NUMBER_UNIQUE": "Provided phone number already exists",
         "SAME_PASSWORD_AS_PREVIOUS": "The password provided is the same as the previous one",
         "EMAIL_UNIQUE": "The e-mail address you entered already exists",
-        "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect"
+        "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect",
+        "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -170,6 +171,8 @@
         "internal_server_error_message": "Oops, something went wrong :(",
         "not_found_code": "Error 404",
         "not_found_text": "Page not found",
+        "unauthorized_code": "Error 401",
+        "unauthorized_text": "Unauthorized",
         "go_to_home_page": "Back to the home page"
     },
     "breadcrumb": {

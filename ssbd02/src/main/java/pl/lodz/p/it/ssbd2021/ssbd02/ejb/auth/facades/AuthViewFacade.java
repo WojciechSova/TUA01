@@ -7,6 +7,8 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -27,6 +29,7 @@ import java.util.List;
  */
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
+@RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors({GeneralInterceptor.class, PersistenceInterceptor.class, TrackerInterceptor.class})
 public class AuthViewFacade extends AbstractFacade<AuthView> implements AuthViewFacadeLocal {
 
@@ -42,6 +45,8 @@ public class AuthViewFacade extends AbstractFacade<AuthView> implements AuthView
         return entityManager;
     }
 
+    @Override
+    @PermitAll
     public List<String> findLevelsByCredentials(String login, Password password) {
         TypedQuery<String> typedQuery = entityManager.createNamedQuery("AuthView.findLevelByCredentials", String.class);
         typedQuery.setParameter("login", login);
