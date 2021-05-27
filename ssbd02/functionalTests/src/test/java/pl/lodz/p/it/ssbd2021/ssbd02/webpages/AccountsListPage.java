@@ -83,6 +83,10 @@ public class AccountsListPage {
         return elements;
     }
 
+    public List<WebElement> getTableRowsWithoutRemoval() {
+        return driver.findElements(tableRow);
+    }
+
     public String getActiveUserLogin() {
         WebElement element = getTableRows()
                 .stream()
@@ -117,4 +121,6 @@ public class AccountsListPage {
     public String getAccessLevels(String login) {
         return getUserWithLogin(login).findElement(tableDataAccessLevels).getText();
     }
+
+
 }

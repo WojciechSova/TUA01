@@ -54,7 +54,7 @@ public class VehicleTypeFacade extends AbstractFacade<VehicleType> implements Ve
     }
 
     @Override
-    @DenyAll
+    @RolesAllowed({"EMPLOYEE"})
     public VehicleType find(Object id) {
         return super.find(id);
     }
@@ -100,5 +100,4 @@ public class VehicleTypeFacade extends AbstractFacade<VehicleType> implements Ve
     public List<VehicleType> findWithQuery(String query) {
         return super.findWithQuery(query);
     }
-
 }
