@@ -28,6 +28,7 @@ const routes: Routes = [
     { path: 'error/internal', component: InternalServerErrorComponent },
     { path: 'error/forbidden', component: ForbiddenComponent },
     { path: 'error/notfound', component: NotFoundComponent },
+    { path: '**', component: NotFoundComponent },
     { path: 'error/unauthorized', component: UnauthorizedComponent },
 ];
 
