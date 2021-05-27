@@ -82,6 +82,10 @@ export class AccountDetailsComponent implements OnInit {
     }
 
     changeAccessLevelFormVisible(visible: boolean): void {
+        if (!visible) {
+            this.getAccount();
+        }
+
         this.isAccessLevelFormVisible = visible;
     }
 
