@@ -15,4 +15,11 @@ import javax.ejb.Local;
 @Local
 public interface CabinTypeFacadeLocal extends AbstractFacadeInterface<CabinType> {
 
+    /**
+     * Metoda wyszukująca encje typu {@link CabinType} o przekazanej biznesowej nazwie identyfikacyjnej.
+     *
+     * @param name Biznesowa nazwa identyfikacyjna.
+     * @return Obiekt typu {@link CabinType} o przekazanej biznesowej nazwie identyfikacyjnej.
+     */
+    CabinType findByName(String name);
 }
