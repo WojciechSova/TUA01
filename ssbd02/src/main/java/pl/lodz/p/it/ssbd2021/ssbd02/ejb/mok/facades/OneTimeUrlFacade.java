@@ -102,7 +102,7 @@ public class OneTimeUrlFacade extends AbstractFacade<OneTimeUrl> implements OneT
     }
 
     @Override
-    @DenyAll
+    @PermitAll
     public List<OneTimeUrl> findAll() {
         return super.findAll();
     }

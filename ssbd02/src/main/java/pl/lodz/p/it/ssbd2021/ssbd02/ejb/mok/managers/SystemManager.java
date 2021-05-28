@@ -137,6 +137,5 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
                                 oneTimeUrl.getAccount().getFirstName(),
                                 oneTimeUrl.getAccount().getEmail(),
                                 oneTimeUrl.getUrl()));
-        logger.info("Tak");
     }
 }
