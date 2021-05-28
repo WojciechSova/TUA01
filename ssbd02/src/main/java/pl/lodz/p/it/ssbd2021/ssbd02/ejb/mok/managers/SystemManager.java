@@ -114,8 +114,8 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
     @DenyAll
     public void resendConfirmAccountEmail() {
         long removalTime = 86_400_000 / 2L;
-        final long hour = 3_600_000;
-        long actualTime = Timestamp.from(Instant.now()).getTime() / hour * hour + (hour / 2);
+        final long minute = 600_000;
+        long actualTime = Timestamp.from(Instant.now()).getTime() / minute * minute + (minute / 2);
 
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
             prop.load(input);
@@ -130,12 +130,13 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
                 .filter(oneTimeUrl ->
                         "verify".equals(oneTimeUrl.getActionType()) &&
                                 ((oneTimeUrl.getExpireDate()).getTime() - actualTime <= finalRemovalTime) &&
-                                ((oneTimeUrl.getExpireDate()).getTime() - actualTime > finalRemovalTime - hour))
+                                ((oneTimeUrl.getExpireDate()).getTime() - actualTime > finalRemovalTime - minute))
                 .collect(Collectors.toList());
 
         oneTimeUrls.forEach(oneTimeUrl -> emailSender.sendRegistrationEmail(oneTimeUrl.getAccount().getLanguage(),
                                 oneTimeUrl.getAccount().getFirstName(),
                                 oneTimeUrl.getAccount().getEmail(),
                                 oneTimeUrl.getUrl()));
+        logger.info("Tak");
     }
 }
