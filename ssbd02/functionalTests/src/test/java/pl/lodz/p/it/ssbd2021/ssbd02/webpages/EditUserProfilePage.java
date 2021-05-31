@@ -22,7 +22,7 @@ public class EditUserProfilePage {
         driver.findElement(lastNameEdit).sendKeys(newLastName);
         driver.findElement(phoneNumberEdit).sendKeys(newPhoneNumber);
         driver.findElement(saveBtn).click();
-
+        driver.findElement(saveBtn).click();
         return new AccountDetailsPage(driver);
     }
 

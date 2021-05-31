@@ -57,8 +57,8 @@ public class RegistrationTest {
         MainPage mainPage = new MainPage(driver);
         RegistrationPage registrationPage = mainPage.openRegistrationPage();
         registrationPage.register(login, new String[]{email, email}, new String[]{password, password}, new String[]{firstName, lastName}, phoneNumber);
-        driverWait.until(ExpectedConditions.presenceOfElementLocated(mainPage.getLoginButton()));
 
+        driverWait.until(ExpectedConditions.presenceOfElementLocated(mainPage.getLoginButton()));
         oneTimeUrl = TestUtils.getLastOneTimeUrl();
         confirmationUrl = TestUtils.url.concat("/confirm/account/").concat(oneTimeUrl);
         driver.get(confirmationUrl);

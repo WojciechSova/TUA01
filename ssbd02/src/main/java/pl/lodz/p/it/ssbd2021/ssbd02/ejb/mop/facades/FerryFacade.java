@@ -44,7 +44,7 @@ public class FerryFacade extends AbstractFacade<Ferry> implements FerryFacadeLoc
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Ferry findByName(String name) {
         TypedQuery<Ferry> typedQuery = entityManager.createNamedQuery("Ferry.findByName", Ferry.class);
         typedQuery.setParameter("name", name);

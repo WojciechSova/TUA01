@@ -87,4 +87,8 @@ public class AccountDetailsPage {
     public By getPhoneNumberField() {
         return phoneNumberField;
     }
+
+    public By getChangePasswordBtn() {
+        return changePasswordBtn;
+    }
 }

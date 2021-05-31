@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.webpages;
 
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,6 +21,7 @@ public class AccountsListPage {
     private final By blockUnblockButton = By.xpath("./td[5]/button");
     private final By tableDataAccessLevels = By.xpath("./td[4]");
     private final By tableDataAccessLevelsButton = By.xpath("./td[6]/button");
+    private final By refreshBtn = By.linkText("Odśwież");
 
     public AccountsListPage(WebDriver driver) {
         this.driver = driver;
@@ -83,20 +83,6 @@ public class AccountsListPage {
         return elements;
     }
 
-    public List<WebElement> getTableRowsWithoutRemoval() {
-        return driver.findElements(tableRow);
-    }
-
-    public String getActiveUserLogin() {
-        WebElement element = getTableRows()
-                .stream()
-                .filter(row -> row.findElement(blockUnblockButton).getAttribute("id").equals("blockButton"))
-                .findFirst()
-                .get();
-
-        return element.findElement(tableDataLogin).getText();
-    }
-
     public WebElement getUserWithLogin(String login) {
         return getTableRows()
                 .stream()
@@ -121,6 +107,4 @@ public class AccountsListPage {
     public String getAccessLevels(String login) {
         return getUserWithLogin(login).findElement(tableDataAccessLevels).getText();
     }
-
-
 }

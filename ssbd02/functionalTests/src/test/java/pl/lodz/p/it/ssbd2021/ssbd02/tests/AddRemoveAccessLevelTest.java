@@ -47,6 +47,7 @@ public class AddRemoveAccessLevelTest {
 
         ChangeAccessLevelsPage changeAccessLevelsPage = accountsListPage.openChangeAccessLevelsForm(login);
         driverWait.until(ExpectedConditions.visibilityOfElementLocated(changeAccessLevelsPage.getCheckboxContainer()));
+        driverWait.until(ExpectedConditions.elementToBeClickable(changeAccessLevelsPage.getConfirmButton()));
         changeAccessLevelsPage.changeAccessLevel("EMPLOYEE");
 
         driverWait.until(ExpectedConditions.invisibilityOfElementLocated(changeAccessLevelsPage.getCheckboxContainer()));
@@ -60,6 +61,10 @@ public class AddRemoveAccessLevelTest {
         changeAccessLevelsPage.changeAccessLevel("EMPLOYEE");
 
         driverWait.until(ExpectedConditions.invisibilityOfElementLocated(changeAccessLevelsPage.getCheckboxContainer()));
+
+        driver.navigate().refresh();
+        driverWait.until(ExpectedConditions.visibilityOfElementLocated(accountsListPage.getUsersTable()));
+
 
         Assertions.assertAll(
                 () -> Assertions.assertTrue(accountsListPage.getAccessLevels(login).contains("ADMIN")),

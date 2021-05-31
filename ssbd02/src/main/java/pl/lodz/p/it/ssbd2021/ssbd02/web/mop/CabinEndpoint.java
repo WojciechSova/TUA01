@@ -34,6 +34,13 @@ public class CabinEndpoint {
         return null;
     }
 
+    @GET
+    @Path("ferry/{name}")
+    @RolesAllowed({"CLIENT", "EMPLOYEE"})
+    public Response getCabinsByFerry(@PathParam("name") String name) {
+        return null;
+    }
+
     @DELETE
     @Path("remove/{number}")
     @RolesAllowed({"EMPLOYEE"})

@@ -55,7 +55,7 @@ public class AccessLevelFacade extends AbstractFacade<AccessLevel> implements Ac
     }
 
     @Override
-    @RolesAllowed({"ADMIN", "EMPLOYEE", "CLIENT"})
+    @PermitAll
     public List<AccessLevel> findAllByAccount(Account account) {
         TypedQuery<AccessLevel> typedQuery = entityManager.createNamedQuery("AccessLevel.findByAccount", AccessLevel.class);
         typedQuery.setParameter("account", account);

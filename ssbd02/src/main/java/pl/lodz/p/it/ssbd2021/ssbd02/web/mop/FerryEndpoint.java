@@ -28,7 +28,7 @@ public class FerryEndpoint {
 
     @GET
     @Path("{name}")
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Response getFerry(@PathParam("name") String name) {
         return null;
     }
