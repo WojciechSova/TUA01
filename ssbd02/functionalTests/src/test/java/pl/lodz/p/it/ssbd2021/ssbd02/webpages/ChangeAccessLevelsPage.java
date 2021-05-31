@@ -33,5 +33,10 @@ public class ChangeAccessLevelsPage {
                 break;
         }
         driver.findElement(confirmButton).click();
+        driver.findElement(confirmButton).click();
+    }
+
+    public By getConfirmButton() {
+        return confirmButton;
     }
 }

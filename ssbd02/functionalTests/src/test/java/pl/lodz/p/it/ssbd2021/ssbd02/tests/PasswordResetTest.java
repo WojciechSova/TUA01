@@ -41,7 +41,7 @@ public class PasswordResetTest {
     }
 
     @Test
-    public void passwordResetTest() {
+    public void passwordResetTest() throws InterruptedException {
         resetPassword(newPassword);
         AdminMainPage adminMainPage = TestUtils.logInAsAdmin(driver, adminLogin, newPassword);
         driverWait.until(ExpectedConditions.presenceOfElementLocated(adminMainPage.getCurrentUser()));

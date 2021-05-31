@@ -7,7 +7,6 @@ public class ClientMainPage {
 
     protected WebDriver driver;
     private final By currentUser = By.id("usernameMain");
-    private final By currentUsersLevel = By.id("currentLevel");
 
     public ClientMainPage(WebDriver driver) {
         this.driver = driver;
@@ -15,9 +14,5 @@ public class ClientMainPage {
 
     public By getCurrentUser() {
         return currentUser;
-    }
-
-    public By getCurrentUsersLevel() {
-        return currentUsersLevel;
     }
 }

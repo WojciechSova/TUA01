@@ -104,6 +104,7 @@ public class ChangePasswordTest {
         AccountDetailsPage accountDetailsPage = adminMainPage.openOwnAccountDetails();
 
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/account")));
+        driverWait.until(ExpectedConditions.presenceOfElementLocated(accountDetailsPage.getChangePasswordBtn()));
         changePasswordPage = accountDetailsPage.openChangePasswordPage();
 
         driverWait.until(ExpectedConditions.presenceOfElementLocated(changePasswordPage.getForm()));

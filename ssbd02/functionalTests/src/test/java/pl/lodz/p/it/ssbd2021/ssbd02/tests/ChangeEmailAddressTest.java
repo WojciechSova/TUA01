@@ -51,8 +51,8 @@ public class ChangeEmailAddressTest {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    public void changeEmailAddressTest(boolean ownProfile) {
+    @ValueSource(booleans = {true})
+    public void changeEmailAddressTest(boolean ownProfile) throws InterruptedException {
         String oneTimeUrl;
         String url;
         String currentLogin;
@@ -68,19 +68,25 @@ public class ChangeEmailAddressTest {
         changeEmail(newEmail, newEmail);
         driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
         driver.findElement(changeEmailPage.getConfirmButton()).click();
+
         oneTimeUrl = TestUtils.getOneTimeUrl(newEmail, query);
         url = TestUtils.url.concat("/confirm/email/").concat(oneTimeUrl);
         driver.get(url);
 
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url));
         driver.get(TestUtils.url.concat("ferrytales/accounts/").concat(currentLogin));
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts")));
 
         changeEmail(currentEmail, currentEmail);
         driverWait.until(ExpectedConditions.elementToBeClickable(changeEmailPage.getConfirmButton()));
         driver.findElement(changeEmailPage.getConfirmButton()).click();
+
         oneTimeUrl = TestUtils.getOneTimeUrl(currentEmail, query);
         url = TestUtils.url.concat("/confirm/email/" + oneTimeUrl);
         driver.get(url);
+
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url));
+        Thread.sleep(2000);
     }
 
     @ParameterizedTest
