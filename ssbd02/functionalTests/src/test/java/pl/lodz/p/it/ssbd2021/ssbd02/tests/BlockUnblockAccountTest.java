@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AccountsListPage;
 import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
-import pl.lodz.p.it.ssbd2021.ssbd02.webpages.MainPage;
 
 public class BlockUnblockAccountTest {
 
@@ -50,6 +49,7 @@ public class BlockUnblockAccountTest {
         waitForButtonChanging();
 
         Assertions.assertFalse(accountsListPage.isUserActive(login));
+
         accountsListPage.changeUserActivity(login);
         waitForButtonChanging();
 
@@ -67,6 +67,11 @@ public class BlockUnblockAccountTest {
         });
         driverWait.until(ExpectedConditions
                 .presenceOfNestedElementLocatedBy(accountsListPage.getUserWithLogin(login), accountsListPage.getBlockUnblockButton()));
+        try{
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @AfterEach

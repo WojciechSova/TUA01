@@ -13,12 +13,8 @@ public class TestUtils {
 
     public static final String adminLogin = "admin";
     public static final String adminPassword = "password?";
-    public static final String employeeLogin = "pracownik";
-    public static final String employeePassword = "password?";
-    public static final String clientLogin = "klient1";
-    public static final String clientPassword = "password?";
     public static final String url = "https://studapp.it.p.lodz.pl:8402/#";
-    public static final String dbUrl = "jdbc:postgresql://localhost:5432/ssbd02local";
+    public static final String dbUrl = "jdbc:postgresql://studdev.it.p.lodz.pl:5432/ssbd02";
 
     public static AdminMainPage logInAsAdmin(WebDriver driver) {
         MainPage mainPage = new MainPage(driver);
@@ -46,6 +42,11 @@ public class TestUtils {
         Statement statement;
         ResultSet result;
         try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        try {
             connection = DriverManager.getConnection(dbUrl, properties);
             statement = connection.createStatement();
             result = statement.executeQuery(query.concat(searchBy).concat("'"));
@@ -63,6 +64,11 @@ public class TestUtils {
         properties.setProperty("password", "admin_password");
         Connection connection;
         Statement statement;
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
         try {
             connection = DriverManager.getConnection(dbUrl, properties);
             statement = connection.createStatement();
@@ -91,6 +97,11 @@ public class TestUtils {
         Connection connection;
         Statement statement;
         ResultSet result;
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
         try {
             connection = DriverManager.getConnection(dbUrl, properties);
             statement = connection.createStatement();

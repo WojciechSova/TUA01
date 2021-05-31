@@ -16,6 +16,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.webpages.AdminMainPage;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,13 +59,14 @@ public class ShowProfileTest {
         driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/account")));
         assertTrue(accountDetailsPage.areProperFieldsDisplayed("ADMIN"));
         List<String> adminData = accountDetailsPage.getData();
+        driver.manage().timeouts().implicitlyWait(1000, TimeUnit.SECONDS);
         assertAll(
-                () -> assertEquals(adminData.get(0), adminLogin),
-                () -> assertEquals(adminData.get(1), adminFirstName),
-                () -> assertEquals(adminData.get(2), adminLastName),
-                () -> assertEquals(adminData.get(3), adminEmail),
-                () -> assertEquals(adminData.get(7), Boolean.TRUE.toString().toLowerCase(Locale.ROOT)),
-                () -> assertEquals(adminData.get(8), Boolean.TRUE.toString().toLowerCase(Locale.ROOT))
+                () -> assertEquals(adminLogin, adminData.get(0)),
+                () -> assertEquals(adminFirstName, adminData.get(1)),
+                () -> assertEquals(adminLastName, adminData.get(2)),
+                () -> assertEquals(adminEmail, adminData.get(3)),
+                () -> assertEquals(Boolean.TRUE.toString().toLowerCase(Locale.ROOT), adminData.get(7)),
+                () -> assertEquals(Boolean.TRUE.toString().toLowerCase(Locale.ROOT), adminData.get(8))
         );
         assertDoesNotThrow(() -> accountDetailsPage.areProperFieldsDisplayed("ADMIN"));
     }

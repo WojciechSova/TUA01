@@ -84,6 +84,7 @@ public class EditProfileTest {
         );
 
         editData(firstName, lastName, phoneNumber);
+        driverWait.until(ExpectedConditions.urlMatches(TestUtils.url.concat("/ferrytales/accounts/").concat(currentLogin)));
     }
 
     @ParameterizedTest
