@@ -33,7 +33,7 @@
         "contact": "Contact",
         "routes": "Routes",
         "ferries": "Ferries",
-        "harbors": "Harbors",
+        "harbors": "Seaports",
         "bookings": "Bookings",
         "my_bookings": "My bookings",
         "current_cruises": "Current cruises",
@@ -115,6 +115,12 @@
         "creation_date": "Date of creation",
         "created_by": "Created by"
     },
+    "seaports-table": {
+        "city": "City",
+        "code": "Seaport code",
+        "add": "Add new seaport",
+        "remove": "Remove seaport"
+    },
     "main-page": {
         "advert": "Fairytale-like ferry crossings",
         "check_now": "Check out now!",
@@ -179,7 +185,8 @@
         "home": "Home",
         "account_list": "Account list",
         "account": "Account details",
-        "account_edit": "Edit account"
+        "account_edit": "Edit account",
+        "seaport_list": "Seaport list"
     },
     "session-timeout": {
         "info": {

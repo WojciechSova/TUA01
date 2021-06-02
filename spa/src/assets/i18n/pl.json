@@ -115,6 +115,12 @@
         "creation_date": "Data utworzenia",
         "created_by": "Utworzony przez"
     },
+    "seaports-table": {
+        "city": "Miasto",
+        "code": "Kod portu",
+        "add": "Dodaj port",
+        "remove": "Usuń port"
+    },
     "main-page": {
         "advert": "Przeprawy promowe jak z bajki",
         "check_now": "Sprawdź teraz!",
@@ -179,7 +185,8 @@
         "home": "Strona główna",
         "account_list": "Lista kont",
         "account": "Szczegóły konta",
-        "account_edit": "Edycja konta"
+        "account_edit": "Edycja konta",
+        "seaport_list": "Lista portów"
     },
     "session-timeout": {
         "info": {
