@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportDetailsDTO;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
@@ -36,14 +36,14 @@ public class SeaportEndpoint {
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addSeaport(SeaportDTO seaportDTO, @Context SecurityContext securityContext) {
+    public Response addSeaport(SeaportDetailsDTO seaportDTO, @Context SecurityContext securityContext) {
         return null;
     }
 
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateSeaport(SeaportDTO seaportDTO, @Context SecurityContext securityContext){
+    public Response updateSeaport(SeaportDetailsDTO seaportDTO, @Context SecurityContext securityContext){
         return null;
     }
 

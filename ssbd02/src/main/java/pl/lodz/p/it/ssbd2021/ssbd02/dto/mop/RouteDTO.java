@@ -18,9 +18,9 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(callSuper = true)
 public class RouteDTO extends AbstractDTO {
 
-    private SeaportDTO start;
+    private SeaportGeneralDTO start;
 
-    private SeaportDTO destination;
+    private SeaportGeneralDTO destination;
 
     private String code;
 
