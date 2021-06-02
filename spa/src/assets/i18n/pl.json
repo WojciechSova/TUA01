@@ -10,6 +10,7 @@
         "invalid_format": "Niepoprawny format",
         "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
         "field_required": "Pole wymagane",
+        "login": "Login",
         "first_name": "Imię",
         "last_name": "Nazwisko",
         "phone_number": "Numer telefonu",
@@ -179,7 +180,10 @@
         "home": "Strona główna",
         "account_list": "Lista kont",
         "account": "Szczegóły konta",
-        "account_edit": "Edycja konta"
+        "account_edit": "Edycja konta",
+        "routes": {
+            "list": "Lista tras"
+        }
     },
     "session-timeout": {
         "info": {
@@ -190,5 +194,13 @@
         "ok": "Ok",
         "renew": "Odśwież",
         "signOut": "Wyloguj się"
+    },
+    "route": {
+        "start": "Port początkowy",
+        "destination": "Port docelowy",
+        "code": "Kod trasy",
+        "add": "Utwórz trasę",
+        "delete": "Usuń trasę",
+        "details": "Rejsy"
     }
 }
