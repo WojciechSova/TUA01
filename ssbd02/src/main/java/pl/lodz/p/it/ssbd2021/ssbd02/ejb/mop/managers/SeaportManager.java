@@ -35,7 +35,7 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Seaport> getAllSeaports() {
-        return Optional.of(new ArrayList<>(seaportFacadeLocal.findAll())).orElseThrow(CommonExceptions::createNoResultException);
+        return Optional.of(seaportFacadeLocal.findAll()).orElseThrow(CommonExceptions::createNoResultException);
     }
 
     @Override
