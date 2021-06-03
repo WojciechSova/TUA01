@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Seaport } from '../../model/mop/Seaport';
+import { IdentityService } from '../../services/utils/identity.service';
 
 @Component({
     selector: 'app-seaport',
@@ -18,11 +19,36 @@ export class SeaportDetailsComponent implements OnInit {
         creationDate: new Date(),
     };
 
-    constructor(private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute,
+                public identityService: IdentityService) {
         this.code = this.route.snapshot.paramMap.get('code') as string;
+        this.getSeaport();
     }
 
     ngOnInit(): void {
     }
 
+    getSeaport(): void {
+        // TODO Move Seaport to Service (?)
+        this.seaport = {
+            city: 'City',
+            code: 'Code',
+            modificationDate: new Date(),
+            modifiedBy: {
+                login: 'Login',
+                active: true,
+                firstName: 'First Name',
+                lastName: 'Last Name',
+                accessLevel: ['ADMIN']
+            },
+            creationDate: new Date(),
+            createdBy: {
+                login: 'Login',
+                active: true,
+                firstName: 'First Name',
+                lastName: 'Last Name',
+                accessLevel: ['ADMIN']
+            }
+        };
+    }
 }

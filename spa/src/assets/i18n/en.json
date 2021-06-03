@@ -4,7 +4,8 @@
         "employee": "Employee",
         "client": "Client",
         "refresh": "Refresh",
-        "details": "Details"
+        "details": "Details",
+        "edit": "Edit"
     },
     "form": {
         "invalid_format": "Invalid format",
@@ -80,6 +81,7 @@
         "block": "Block"
     },
     "account-details": {
+        "login": "Login",
         "edit_account": "Edit account",
         "change_password": "Change password",
         "edit_access_levels": "Edit access levels",
@@ -94,6 +96,7 @@
         "confirmed": "Confirmed:",
         "last_modification_date": "Date of last modification:",
         "modified_by": "Author of last modification:",
+        "created_by": "Created by",
         "creation_date": "Date of creation:",
         "last_known_good_login": "The date of the last successful login attempt:",
         "last_known_good_login_ip": "The ip address of the last successful login attempt:",
@@ -106,6 +109,12 @@
         "last_confirmed_modification_date":  "Account confirmation date:",
         "last_password_modification_date":  "Date of last password modification:",
         "last_email_modification_date":  "Date of last email modification:"
+    },
+    "seaport-details": {
+        "city": "City",
+        "code": "Code",
+        "modification_date": "Date of last modification",
+        "creation_date": "Date of creation"
     },
     "access-level-table": {
         "level": "Access level",
