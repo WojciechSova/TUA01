@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validateEmail, validatePassword } from './matching.validator';
-import { RegistrationService } from '../../../services/registration.service';
+import { RegistrationService } from '../../../services/mok/registration.service';
 import { AccountDetails } from '../../../model/mok/AccountDetails';
 import { getTimezone } from 'countries-and-timezones';
 

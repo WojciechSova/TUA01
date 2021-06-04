@@ -18,7 +18,7 @@
 <div class="users-list-container">
     <table id="users">
         <tr>
-            <th>Login
+            <th translate>form.login
                 <div *ngIf="byLogin; then notSortByLoginTemplate else sortByLoginTemplate"></div>
                 <ng-template #sortByLoginTemplate>
                     <img (click)="byLogin = true; byFirstName = false; byLastName = false; listAccounts()" src="assets/imgs/sort_arrow_white.png" alt=""/>
