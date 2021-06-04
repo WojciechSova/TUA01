@@ -1,0 +1,35 @@
+<!-- TODO Breadcrumbs -->
+<div class="outer-div">
+    <div class="seaport-details" id="seaportDetails">
+        <div class="button-container">
+            <button class="edit-button" translate>general.edit</button>
+            <button class="edit-button" (click)="getSeaport()" translate>general.refresh</button>
+        </div>
+        <div class="col">
+            <div class="row">
+                <label class="uppercase" translate>seaport-details.city</label>
+                <label id="login">{{seaport?.city}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>seaport-details.code</label>
+                <label id="firstName">{{seaport?.code}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>seaport-details.modification_date</label>
+                <label id="lastName">{{seaport?.modificationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>account-details.modified_by</label>
+                <label id="email">{{seaport?.modifiedBy?.login}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>seaport-details.creation_date</label>
+                <label id="phoneNumber">{{seaport?.creationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>account-details.created_by</label>
+                <label>{{seaport?.createdBy?.login}}</label>
+            </div>
+        </div>
+    </div>
+</div>

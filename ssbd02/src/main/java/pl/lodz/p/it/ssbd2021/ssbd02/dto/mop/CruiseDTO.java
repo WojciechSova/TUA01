@@ -24,7 +24,7 @@ public class CruiseDTO extends AbstractDTO {
 
     private RouteDTO route;
 
-    private FerryDTO ferry;
+    private FerryDetailsDTO ferry;
 
     private String number;
 

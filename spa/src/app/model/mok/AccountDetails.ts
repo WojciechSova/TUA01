@@ -15,7 +15,7 @@ export interface AccountDetails {
     timeZone?: string;
     modificationDate?: Date;
     modifiedBy?: AccountGeneral;
-    activityModificationDate? : Date;
+    activityModificationDate?: Date;
     activityModifiedBy?: AccountGeneral;
     confirmedModificationDate?: Date;
     passwordModificationDate?: Date;
