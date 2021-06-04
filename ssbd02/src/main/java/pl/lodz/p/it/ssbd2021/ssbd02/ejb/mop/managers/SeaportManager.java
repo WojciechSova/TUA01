@@ -14,7 +14,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +40,7 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Seaport getSeaportByCode(String code) {
-        return null;
+        return seaportFacadeLocal.findByCode(code);
     }
 
     @Override
