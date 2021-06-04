@@ -13,11 +13,14 @@ import { InternalServerErrorComponent } from './other-views/error-pages/internal
 import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
 import { UnauthorizedComponent } from './other-views/error-pages/unauthorized/unauthorized.component';
 import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
+import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
     { path: 'accounts/:login', component: AccountDetailsComponent },
+    { path: 'accounts/edit/:login', component: EditUserComponent },
+    { path: 'ferries', component: FerriesTableComponent },
     { path: 'accounts/edit/:login', component: EditUserComponent },
     { path: 'seaport/:code', component: SeaportDetailsComponent },
     { path: 'routes', component: RoutesTableComponent },
