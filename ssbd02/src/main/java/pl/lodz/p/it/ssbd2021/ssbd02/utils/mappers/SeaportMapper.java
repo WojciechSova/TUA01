@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers;
 
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 

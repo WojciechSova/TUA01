@@ -35,17 +35,11 @@ class SeaportEndpointTest {
 
     @Spy
     private Seaport seaport1;
-
-    @Mock
-    private SeaportManagerLocal seaportManagerLocal;
-
     @InjectMocks
     private SeaportEndpoint seaportEndpoint;
     private final List<Seaport> seaports = new ArrayList<>();
     @Mock
     private SeaportManagerLocal seaportManager;
-    @InjectMocks
-    private SeaportEndpoint seaportEndpoint;
     private final Seaport s1 = new Seaport();
     private final Seaport s2 = new Seaport();
 
@@ -54,6 +48,7 @@ class SeaportEndpointTest {
         MockitoAnnotations.openMocks(this);
         s1.setCity("Warszawa");
         s2.setCity("Ciechocinek");
+        seaport1 = new Seaport();
     }
 
     @Test
@@ -70,20 +65,10 @@ class SeaportEndpointTest {
         assertEquals(expectedDTOList, response.getEntity());
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
-}
-
-
-
-
-
-
-
-        seaport1 = new Seaport();
-    }
 
     @Test
     void getSeaport() {
-        when(seaportManagerLocal.getSeaportByCode("123")).thenReturn(seaport1);
+        when(seaportManager.getSeaportByCode("123")).thenReturn(seaport1);
 
         SeaportDetailsDTO seaportDetailsDTO = SeaportMapper.createSeaportDetailsDTOFromEntity(seaport1);
 
