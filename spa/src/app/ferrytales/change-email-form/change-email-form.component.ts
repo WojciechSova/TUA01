@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validateEmail } from '../../common/navigation/register/matching.validator';
-import { ChangeEmailService } from '../../services/change-email.service';
+import { ChangeEmailService } from '../../services/mok/change-email.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AccountDetailsService } from '../../services/account-details.service';
+import { AccountDetailsService } from '../../services/mok/account-details.service';
 import { IdentityService } from '../../services/utils/identity.service';
 
 @Component({

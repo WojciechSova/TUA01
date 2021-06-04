@@ -10,6 +10,7 @@
         "invalid_format": "Invalid format",
         "invalid_phone_number": "Phone number should have between 3 and 15 digits",
         "field_required": "Field required",
+        "login": "Login",
         "first_name": "First name",
         "last_name": "Last name",
         "phone_number": "Phone number",
@@ -180,6 +181,9 @@
         "account_list": "Account list",
         "account": "Account details",
         "account_edit": "Edit account",
+        "routes": {
+            "list": "Routes list"
+        }
         "ferries_list": "Ferries list"
     },
     "session-timeout": {
@@ -191,6 +195,14 @@
         "ok": "Ok",
         "renew": "Refresh",
         "signOut": "Sign out"
+    },
+    "route": {
+        "start": "Starting harbor",
+        "destination": "Destination harbor",
+        "code": "Route code",
+        "add": "Create route",
+        "delete": "Delete route",
+        "details": "Cruises"
     },
     "ferries-table": {
         "name": "Name",

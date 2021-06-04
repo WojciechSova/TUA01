@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../services/mok/auth.service';
 import { IdentityService } from '../../../services/utils/identity.service';
 import { Router } from '@angular/router';
 import { SessionUtilsService } from '../../../services/utils/session-utils.service';

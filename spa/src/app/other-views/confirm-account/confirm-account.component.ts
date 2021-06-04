@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmService } from '../../services/confirm.service';
+import { ConfirmService } from '../../services/mok/confirm.service';
 
 @Component({
     selector: 'app-confirm-account',

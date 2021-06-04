@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { ResetPasswordService } from '../../../services/reset-password.service';
-import { AccountDetailsService } from '../../../services/account-details.service';
+import { ResetPasswordService } from '../../../services/mok/reset-password.service';
+import { AccountDetailsService } from '../../../services/mok/account-details.service';
 
 @Component({
     selector: 'app-confirm-reset',
