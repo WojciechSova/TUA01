@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
 class SeaportManagerTest {
 
     @Spy
@@ -51,6 +50,13 @@ class SeaportManagerTest {
         assertEquals("Ciechocinek", testedSeaports.get(1).getCity());
 
         verify(seaportFacadeLocal).findAll();
+    }
 
+    @Test
+    void getSeaportByCode() {
+        when(seaportFacadeLocal.findByCode("CODE")).thenReturn(s1);
+
+        Seaport seaport = seaportFacadeLocal.findByCode("CODE");
+        assertEquals(s1, seaport);
     }
 }

@@ -40,7 +40,7 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Seaport getSeaportByCode(String code) {
-        return seaportFacadeLocal.findByCode(code);
+        return Optional.of(seaportFacadeLocal.findByCode(code)).orElseThrow(CommonExceptions::createNoResultException);
     }
 
     @Override
