@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import { FerryGeneral } from "../model/mop/FerryGeneral";
+import { FerryGeneral } from "../../model/mop/FerryGeneral";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
