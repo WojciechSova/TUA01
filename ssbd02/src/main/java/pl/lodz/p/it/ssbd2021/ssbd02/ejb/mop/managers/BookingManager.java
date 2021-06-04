@@ -57,7 +57,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"CLIENT"})
     public List<Booking> getAllBookingsByAccount(String login) {
         return Optional.of(bookingFacadeLocal.findAllByAccount(accountFacadeLocal.findByLogin(login))).
                 orElseThrow(CommonExceptions::createNoResultException);
