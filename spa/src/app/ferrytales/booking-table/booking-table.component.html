@@ -1,0 +1,38 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.booking_list</li>
+</ol>
+
+<div class="button-container">
+    <button class="button-user-table" (click)="getBookings()" translate>general.refresh</button>
+</div>
+
+<div class="booking-list-container">
+    <table id="users">
+        <tr>
+            <th translate>booking-list.client</th>
+            <th translate>booking-list.cruise</th>
+            <th translate>booking-list.creation_date</th>
+            <th translate>booking-list.number</th>
+            <th translate>general.details</th>
+        </tr>
+
+        <tr *ngFor="let booking of mockBookings()">
+            <td>{{user['login']}}</td>
+            <td>{{user['firstName']}}</td>
+            <td>{{user['lastName']}}</td>
+            <td></td>
+            <td></td>
+            <td>
+                <button id="details" class="button-user-table" (click)="showBookingDetails(booking.number)" translate>
+                    general.details
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+

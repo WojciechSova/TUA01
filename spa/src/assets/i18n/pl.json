@@ -178,6 +178,7 @@
     "breadcrumb": {
         "home": "Strona główna",
         "account_list": "Lista kont",
+        "booking_list": "Lista rezerwacji",
         "account": "Szczegóły konta",
         "account_edit": "Edycja konta"
     },
@@ -190,5 +191,11 @@
         "ok": "Ok",
         "renew": "Odśwież",
         "signOut": "Wyloguj się"
+    },
+    "booking-list": {
+        "client": "Klient",
+        "cruise": "Rejs",
+        "creation_date": "Data rezerwacji",
+        "number": "Numer"
     }
 }

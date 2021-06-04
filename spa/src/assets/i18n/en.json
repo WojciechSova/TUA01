@@ -178,6 +178,7 @@
     "breadcrumb": {
         "home": "Home",
         "account_list": "Account list",
+        "booking_list": "Booking list",
         "account": "Account details",
         "account_edit": "Edit account"
     },
@@ -190,5 +191,11 @@
         "ok": "Ok",
         "renew": "Refresh",
         "signOut": "Sign out"
+    },
+    "booking-list": {
+        "client": "Client",
+        "cruise": "Cruise",
+        "creation_date": "Booking date",
+        "number": "Number"
     }
 }
