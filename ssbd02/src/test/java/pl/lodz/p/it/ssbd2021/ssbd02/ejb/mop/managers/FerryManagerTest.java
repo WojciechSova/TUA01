@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class FerryManagerTest {
 
@@ -31,7 +31,9 @@ class FerryManagerTest {
     @Spy
     Ferry ferry2 = new Ferry();
 
+    private final String ferryName1 = "ferry1";
     private List<Ferry> ferries;
+
 
     @BeforeEach
     void initMocks() {
@@ -58,5 +60,21 @@ class FerryManagerTest {
                 () -> assertEquals(CommonExceptions.createNoResultException().getResponse().getStatus(), exception.getResponse().getStatus()),
                 () -> assertEquals(CommonExceptions.createNoResultException().getMessage(), exception.getMessage())
         );
+    }
+
+    @Test
+    void getFerryByNameTest() {
+        when(ferryFacadeLocal.findByName(ferryName1)).thenReturn(ferry1);
+        assertDoesNotThrow(() -> ferryManager.getFerryByName(ferryName1));
+        assertEquals(ferry1, ferryManager.getFerryByName(ferryName1));
+        assertEquals(ferry1.hashCode(), ferryManager.getFerryByName(ferryName1).hashCode());
+        verify(ferryFacadeLocal, times(3)).findByName(ferryName1);
+    }
+
+    @Test
+    void getFerryByNameExceptionTest() {
+        when(ferryFacadeLocal.findByName(ferryName1)).thenReturn(null);
+        assertThrows(CommonExceptions.class, () -> ferryManager.getFerryByName(ferryName1));
+        verify(ferryFacadeLocal).findByName(ferryName1);
     }
 }

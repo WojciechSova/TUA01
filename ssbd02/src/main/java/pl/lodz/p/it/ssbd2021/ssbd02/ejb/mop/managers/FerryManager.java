@@ -42,7 +42,7 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Ferry getFerryByName(String name) {
-        return null;
+        return Optional.ofNullable(ferryFacadeLocal.findByName(name)).orElseThrow(CommonExceptions::createNoResultException);
     }
 
     @Override
