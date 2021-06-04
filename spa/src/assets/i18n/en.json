@@ -179,7 +179,8 @@
         "home": "Home",
         "account_list": "Account list",
         "account": "Account details",
-        "account_edit": "Edit account"
+        "account_edit": "Edit account",
+        "ferries_list": "Ferries list"
     },
     "session-timeout": {
         "info": {
@@ -190,5 +191,10 @@
         "ok": "Ok",
         "renew": "Refresh",
         "signOut": "Sign out"
+    },
+    "ferries-table": {
+        "name": "Name",
+        "vehicle_capacity": "Vehicle capacity",
+        "on_deck_capacity": "On deck capacity"
     }
 }

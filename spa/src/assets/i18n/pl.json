@@ -179,7 +179,8 @@
         "home": "Strona główna",
         "account_list": "Lista kont",
         "account": "Szczegóły konta",
-        "account_edit": "Edycja konta"
+        "account_edit": "Edycja konta",
+        "ferries_list": "Lista promów"
     },
     "session-timeout": {
         "info": {
@@ -190,5 +191,10 @@
         "ok": "Ok",
         "renew": "Odśwież",
         "signOut": "Wyloguj się"
+    },
+    "ferries-table": {
+        "name": "Name",
+        "vehicle_capacity": "Pojemność garażowa",
+        "on_deck_capacity": "Pojemność pokładowa"
     }
 }
