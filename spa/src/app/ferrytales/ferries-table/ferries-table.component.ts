@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { FerryGeneral } from "../../model/mop/FerryGeneral";
-import { FerryGeneralService } from "../../services/FerryGeneralService";
+import { FerryGeneralService } from "../../services/mop/ferry-general.service";
 
 @Component({
     selector: 'app-ferries-table',
