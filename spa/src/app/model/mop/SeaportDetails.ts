@@ -6,5 +6,5 @@ export interface SeaportDetails {
     modificationDate?: Date;
     modifiedBy?: AccountGeneral;
     creationDate: Date;
-    createdBy?: AccountGeneral;
+    createdBy: AccountGeneral;
 }

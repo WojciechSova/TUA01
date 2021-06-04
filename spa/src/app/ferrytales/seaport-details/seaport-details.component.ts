@@ -17,6 +17,13 @@ export class SeaportDetailsComponent implements OnInit {
         code: '',
         modificationDate: new Date(),
         creationDate: new Date(),
+        createdBy: {
+            login: 'Login',
+            active: true,
+            firstName: 'First Name',
+            lastName: 'Last Name',
+            accessLevel: ['EMPLOYEE']
+        }
     };
 
     constructor(private route: ActivatedRoute,
@@ -39,7 +46,7 @@ export class SeaportDetailsComponent implements OnInit {
                 active: true,
                 firstName: 'First Name',
                 lastName: 'Last Name',
-                accessLevel: ['ADMIN']
+                accessLevel: ['EMPLOYEE']
             },
             creationDate: new Date(),
             createdBy: {
@@ -47,7 +54,7 @@ export class SeaportDetailsComponent implements OnInit {
                 active: true,
                 firstName: 'First Name',
                 lastName: 'Last Name',
-                accessLevel: ['ADMIN']
+                accessLevel: ['EMPLOYEE']
             }
         };
     }
