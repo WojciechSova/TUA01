@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountDetails } from '../../model/mok/AccountDetails';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AccountDetailsService } from '../../services/account-details.service';
+import { AccountDetailsService } from '../../services/mok/account-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UpdateAccountService } from '../../services/update-account.service';
+import { UpdateAccountService } from '../../services/mok/update-account.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IdentityService } from '../../services/utils/identity.service';

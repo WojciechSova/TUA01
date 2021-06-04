@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountDetails } from '../../model/mok/AccountDetails';
 import { IdentityService } from '../../services/utils/identity.service';
 import { AccessLevel } from '../../model/mok/AccessLevel';
-import { AccountDetailsService } from '../../services/account-details.service';
+import { AccountDetailsService } from '../../services/mok/account-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 

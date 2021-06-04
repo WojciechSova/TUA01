@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import jwtDecode from 'jwt-decode';
-import { environment } from '../../environments/environment';
-import { SessionUtilsService } from './utils/session-utils.service';
+import { environment } from '../../../environments/environment';
+import { SessionUtilsService } from '../utils/session-utils.service';
 import { AccountDetailsService } from './account-details.service';
 import { AccountGeneralService } from './account-general.service';
 import { UpdateAccountService } from './update-account.service';

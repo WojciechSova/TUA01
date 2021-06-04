@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResetPasswordService } from '../../services/reset-password.service';
+import { ResetPasswordService } from '../../services/mok/reset-password.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validatePassword } from '../../common/navigation/register/matching.validator';
 import { HttpErrorResponse } from '@angular/common/http';

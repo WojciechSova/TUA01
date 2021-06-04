@@ -1,7 +1,7 @@
 <div [ngClass]="stickyStyles ? 'sticky-links' : 'links'">
     <a *ngIf="identityService.isGuest()" id="aboutUsLink" routerLink="" translate>links.about_us</a>
     <a *ngIf="identityService.isGuest()" id="contactLink" routerLink="" translate>links.contact</a>
-    <a *ngIf="identityService.isEmployee()" id="routesLink" routerLink="" translate>links.routes</a>
+    <a *ngIf="identityService.isEmployee()" id="routesLink" routerLink="/ferrytales/routes" translate>links.routes</a>
     <a *ngIf="identityService.isEmployee()" id="ferriesLink" routerLink="" translate>links.ferries</a>
     <a *ngIf="identityService.isEmployee()" id="harborLink" routerLink="/ferrytales/seaports" translate>links.harbors</a>
     <a *ngIf="identityService.isEmployee()" id="bookingsLink" routerLink="" translate>links.bookings</a>

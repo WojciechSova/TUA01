@@ -1,0 +1,35 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomepageBreadcrumb()" class="breadcrumb-link" translate>breadcrumb.home</a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate>breadcrumb.routes.list</li>
+</ol>
+
+<div class="button-container">
+    <button class="top-table-button create-button" (click)="addRoute()" translate>route.add</button>
+    <button class="top-table-button" (click)="getRoutes()" translate>general.refresh</button>
+</div>
+
+<div class="route-list-container">
+    <table id="routes-table" class="routes-table">
+        <tr class="table-header-row">
+            <th translate>route.code</th>
+            <th translate>route.start</th>
+            <th translate>route.destination</th>
+            <th translate>route.delete</th>
+            <th translate>route.details</th>
+        </tr>
+        <tr *ngFor="let route of routes">
+            <td>{{route.code}}</td>
+            <td>{{route.start}}</td>
+            <td>{{route.destination}}</td>
+            <td>
+                <button class="top-table-button delete-button" translate>route.delete</button>
+            </td>
+            <td>
+                <button class="top-table-button" translate>route.details</button>
+            </td>
+        </tr>
+    </table>
+</div>
