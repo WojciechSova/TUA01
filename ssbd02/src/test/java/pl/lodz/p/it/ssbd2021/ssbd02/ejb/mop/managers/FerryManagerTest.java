@@ -1,12 +1,15 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
@@ -20,8 +23,14 @@ import static org.mockito.Mockito.*;
 
 class FerryManagerTest {
 
+    private final String ferryName1 = "ferry1";
+    private final List<Cabin> cabins = new ArrayList<>();
+
     @Mock
     FerryFacadeLocal ferryFacadeLocal;
+
+    @Mock
+    CabinFacadeLocal cabinFacadeLocal;
 
     @InjectMocks
     FerryManager ferryManager;
@@ -31,9 +40,7 @@ class FerryManagerTest {
     @Spy
     Ferry ferry2 = new Ferry();
 
-    private final String ferryName1 = "ferry1";
     private List<Ferry> ferries;
-
 
     @BeforeEach
     void initMocks() {
@@ -76,5 +83,18 @@ class FerryManagerTest {
         when(ferryFacadeLocal.findByName(ferryName1)).thenReturn(null);
         assertThrows(CommonExceptions.class, () -> ferryManager.getFerryByName(ferryName1));
         verify(ferryFacadeLocal).findByName(ferryName1);
+    }
+
+    @Test
+    void getFerryAndCabinsByFerryNameTest() {
+        when(ferryFacadeLocal.findByName(ferryName1)).thenReturn(ferry1);
+        when(cabinFacadeLocal.findAllByFerry(ferry1)).thenReturn(cabins);
+        assertEquals(Pair.of(ferry1, cabins), ferryManager.getFerryAndCabinsByFerryName(ferryName1));
+        assertEquals(ferry1, ferryManager.getFerryAndCabinsByFerryName(ferryName1).getLeft());
+        assertEquals(ferry1, ferryManager.getFerryAndCabinsByFerryName(ferryName1).getKey());
+        assertEquals(cabins, ferryManager.getFerryAndCabinsByFerryName(ferryName1).getRight());
+        assertEquals(cabins, ferryManager.getFerryAndCabinsByFerryName(ferryName1).getValue());
+        verify(ferryFacadeLocal, times(5)).findByName(ferryName1);
+        verify(cabinFacadeLocal, times(5)).findAllByFerry(ferry1);
     }
 }

@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.FerryManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
@@ -33,6 +34,9 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
     @Inject
     FerryFacadeLocal ferryFacadeLocal;
 
+    @Inject
+    CabinFacadeLocal cabinFacadeLocal;
+
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Ferry> getAllFerries() {
@@ -48,7 +52,10 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Pair<Ferry, List<Cabin>> getFerryAndCabinsByFerryName(String name) {
-        return null;
+        Ferry ferry = Optional.ofNullable(ferryFacadeLocal.findByName(name)).orElseThrow(CommonExceptions::createNoResultException);
+        List<Cabin> cabins = Optional.ofNullable(cabinFacadeLocal.findAllByFerry(ferry))
+                .orElseThrow(CommonExceptions::createNoResultException);
+        return Pair.of(ferry, cabins);
     }
 
     @Override
