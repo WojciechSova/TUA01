@@ -40,6 +40,7 @@ import { SessionTimeoutComponent } from './common/navigation/session-timeout/ses
 import { CookieService } from 'ngx-cookie-service';
 import { ErrorHandlerService } from './services/error-handlers/error-handler.service';
 import { UnauthorizedComponent } from './other-views/error-pages/unauthorized/unauthorized.component';
+import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
@@ -92,6 +93,7 @@ export const localeServiceProviders = [
         SessionTimeoutComponent,
         UnauthorizedComponent,
         RoutesTableComponent,
+        SeaportDetailsComponent,
     ],
     imports: [
         BrowserModule,
