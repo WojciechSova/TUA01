@@ -1,0 +1,39 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.seaport_list</li>
+</ol>
+
+<div class="button-container">
+    <button class="button-seaport-table add" translate>seaports-table.add</button>
+    <button class="button-seaport-table" (click)="getSeaports()" translate>general.refresh</button>
+</div>
+
+<div class="seaports-list-container">
+    <table id="seaports">
+        <tr>
+            <th translate>seaports-table.city</th>
+            <th translate>seaports-table.code</th>
+            <th translate>general.details</th>
+            <th translate>seaports-table.remove</th>
+        </tr>
+
+        <tr *ngFor="let seaport of listSeaports()">
+            <td>
+                {{seaport['city']}}
+            </td>
+            <td>
+                {{seaport['code']}}
+            </td>
+            <td>
+                <button class="button-seaport-table" translate>general.details</button>
+            </td>
+            <td>
+                <button class="button-seaport-table remove" translate>seaports-table.remove</button>
+            </td>
+        </tr>
+    </table>
+</div>

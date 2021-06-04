@@ -55,7 +55,9 @@ public class CabinFacade extends AbstractFacade<Cabin> implements CabinFacadeLoc
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public List<Cabin> findAllByFerry(Ferry ferry) {
-        return null;
+        TypedQuery<Cabin> typedQuery = entityManager.createNamedQuery("Cabin.findByFerry", Cabin.class);
+        typedQuery.setParameter("ferry", ferry);
+        return typedQuery.getResultList();
     }
 
     @Override
