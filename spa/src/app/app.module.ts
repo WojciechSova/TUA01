@@ -43,6 +43,7 @@ import { UnauthorizedComponent } from './other-views/error-pages/unauthorized/un
 import { SeaportsTableComponent } from './ferrytales/seaports-table/seaports-table.component';
 import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
+import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -93,6 +94,7 @@ export const localeServiceProviders = [
         NotFoundComponent,
         SessionTimeoutComponent,
         UnauthorizedComponent,
+        FerriesTableComponent,
         RoutesTableComponent,
         SeaportDetailsComponent,
         SeaportsTableComponent

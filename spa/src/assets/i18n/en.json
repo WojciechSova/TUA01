@@ -198,6 +198,8 @@
         "account_edit": "Edit account",
         "routes": {
             "list": "Routes list"
+        }
+        "ferries_list": "Ferries list"
         },
         "seaport_list": "Seaport list"
     },
@@ -218,5 +220,10 @@
         "add": "Create route",
         "delete": "Delete route",
         "details": "Cruises"
+    },
+    "ferries-table": {
+        "name": "Name",
+        "vehicle_capacity": "Vehicle capacity",
+        "on_deck_capacity": "On deck capacity"
     }
 }

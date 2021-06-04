@@ -199,7 +199,8 @@
         "seaport_list": "Lista portów",
         "routes": {
             "list": "Lista tras"
-        }
+        },
+        "ferries_list": "Lista promów"
     },
     "session-timeout": {
         "info": {
@@ -218,5 +219,10 @@
         "add": "Utwórz trasę",
         "delete": "Usuń trasę",
         "details": "Rejsy"
+    },
+    "ferries-table": {
+        "name": "Name",
+        "vehicle_capacity": "Pojemność garażowa",
+        "on_deck_capacity": "Pojemność pokładowa"
     }
 }
