@@ -1,0 +1,114 @@
+<div class="outer-div">
+    <div class="zone-picker">
+        <img class="ferry" src="../../../assets/imgs/ferry.png" alt="">
+            <img *ngIf="!zoneA" (click)="pickZoneA()" class="zone az" src="../../../assets/imgs/zoneAinactive.png" alt="">
+            <img *ngIf="!zoneB" (click)="pickZoneB()" class="zone bz" src="../../../assets/imgs/zoneBinactive.png" alt="">
+            <img *ngIf="!zoneC" (click)="pickZoneC()" class="zone cz" src="../../../assets/imgs/zoneCinactive.png" alt="">
+            <img *ngIf="!zoneD" (click)="pickZoneD()" class="zone dz" src="../../../assets/imgs/zoneDinactive.png" alt="">
+            <img *ngIf="zoneA" (click)="pickZoneA()" class="zone az" src="../../../assets/imgs/zoneA.png" alt="">
+            <img *ngIf="zoneB" (click)="pickZoneB()" class="zone bz" src="../../../assets/imgs/zoneB.png" alt="">
+            <img *ngIf="zoneC" (click)="pickZoneC()" class="zone cz" src="../../../assets/imgs/zoneC.png" alt="">
+            <img *ngIf="zoneD" (click)="pickZoneD()" class="zone dz" src="../../../assets/imgs/zoneD.png" alt="">
+    </div>
+    <div *ngIf="zoneA || zoneB || zoneC || zoneD" class="picked">
+        <div class="checkbox-container">
+            <label class="container admin" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark admin"></span>
+            </label>
+            <label class="container employee" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark employee"></span>
+            </label>
+            <label class="container client" translate>
+                <input type="checkbox" name="radio" >
+                <span class="checkmark client"></span>
+            </label>
+            <label class="container admin" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark admin"></span>
+            </label>
+            <label class="container employee" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark employee"></span>
+            </label>
+            <label class="container client" translate>
+                <input type="checkbox" name="radio" >
+                <span class="checkmark client"></span>
+            </label>
+            <label class="container admin" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark admin"></span>
+            </label>
+            <label class="container employee" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark employee"></span>
+            </label>
+            <label class="container client" translate>
+                <input type="checkbox" name="radio" >
+                <span class="checkmark client"></span>
+            </label>
+            <label class="container admin" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark admin"></span>
+            </label>
+            <label class="container employee" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark employee"></span>
+            </label>
+            <label class="container client" translate>
+                <input type="checkbox" name="radio" >
+                <span class="checkmark client"></span>
+            </label>
+            <label class="container admin" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark admin"></span>
+            </label>
+            <label class="container employee" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark employee"></span>
+            </label>
+            <label class="container client" translate>
+                <input type="checkbox" name="radio" >
+                <span class="checkmark client"></span>
+            </label>
+            <label class="container admin" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark admin"></span>
+            </label>
+            <label class="container employee" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark employee"></span>
+            </label>
+            <label class="container client" translate>
+                <input type="checkbox" name="radio" >
+                <span class="checkmark client"></span>
+            </label>
+            <label class="container admin" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark admin"></span>
+            </label>
+            <label class="container employee" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark employee"></span>
+            </label>
+            <label class="container client" translate>
+                <input type="checkbox" name="radio" >
+                <span class="checkmark client"></span>
+            </label>
+            <label class="container admin" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark admin"></span>
+            </label>
+            <label class="container employee" translate>
+                <input type="checkbox" name="radio">
+                <span class="checkmark employee"></span>
+            </label>
+            <label class="container client" translate>
+                <input type="checkbox" name="radio" >
+                <span class="checkmark client"></span>
+            </label>
+    </div>
+
+    </div>
+</div>
