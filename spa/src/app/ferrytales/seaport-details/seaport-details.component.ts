@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Seaport } from '../../model/mop/Seaport';
+import { SeaportDetails } from '../../model/mop/SeaportDetails';
 import { IdentityService } from '../../services/utils/identity.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class SeaportDetailsComponent implements OnInit {
 
     code = '';
 
-    seaport: Seaport = {
+    seaport: SeaportDetails = {
         city: '',
         code: '',
         modificationDate: new Date(),
