@@ -36,7 +36,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     @Inject
     private BookingFacadeLocal bookingFacadeLocal;
     @Inject
-    AccountFacadeLocal accountFacadeLocal;
+    private AccountFacadeLocal accountFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
