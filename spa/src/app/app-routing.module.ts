@@ -20,8 +20,7 @@ const ferrytalesChildren: Routes = [
     { path: 'accounts/:login', component: AccountDetailsComponent },
     { path: 'accounts/edit/:login', component: EditUserComponent },
     { path: 'routes', component: RoutesTableComponent },
-    { path: 'accounts/edit/:login', component: EditUserComponent },
-    { path: 'seaports', component: SeaportsTableComponent}
+    { path: 'seaports', component: SeaportsTableComponent }
 ];
 
 const routes: Routes = [
