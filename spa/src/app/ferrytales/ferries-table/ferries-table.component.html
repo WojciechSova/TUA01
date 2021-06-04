@@ -19,7 +19,7 @@
             <th translate>ferries-table.vehicle_capacity</th>
             <th translate>general.details</th>
         </tr>
-        <tr *ngFor="let ferry of getFerries()">
+        <tr *ngFor="let ferry of listFerries()">
             <td>{{ferry['name']}}</td>
             <td>{{ferry['onDeckCapacity']}}</td>
             <td>{{ferry['vehicleCapacity']}}</td>
