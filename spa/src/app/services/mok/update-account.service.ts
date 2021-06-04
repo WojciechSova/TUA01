@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { AccountDetails } from '../model/mok/AccountDetails';
+import { environment } from '../../../environments/environment';
+import { AccountDetails } from '../../model/mok/AccountDetails';
 import { Observable } from 'rxjs';
 import { AccountDetailsService } from './account-details.service';
 

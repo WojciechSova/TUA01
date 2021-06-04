@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../services/mok/auth.service';
 import { SessionUtilsService } from '../../../services/utils/session-utils.service';
 
 @Component({

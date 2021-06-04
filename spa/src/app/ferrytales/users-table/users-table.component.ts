@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { AccountGeneral } from '../../model/mok/AccountGeneral';
-import { AccountGeneralService } from '../../services/account-general.service';
+import { AccountGeneralService } from '../../services/mok/account-general.service';
 import { Router } from '@angular/router';
-import { AccountDetailsService } from '../../services/account-details.service';
+import { AccountDetailsService } from '../../services/mok/account-details.service';
 
 @Component({
     selector: 'app-users-table',

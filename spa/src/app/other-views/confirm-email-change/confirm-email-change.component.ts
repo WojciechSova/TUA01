@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChangeEmailService } from '../../services/change-email.service';
+import { ChangeEmailService } from '../../services/mok/change-email.service';
 
 @Component({
   selector: 'app-confirm-email-change',

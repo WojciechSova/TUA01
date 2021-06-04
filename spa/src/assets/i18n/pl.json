@@ -4,12 +4,14 @@
         "employee": "Pracownik",
         "client": "Klient",
         "refresh": "Odśwież",
-        "details": "Szczegóły"
+        "details": "Szczegóły",
+        "edit": "Edytuj"
     },
     "form": {
         "invalid_format": "Niepoprawny format",
         "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
         "field_required": "Pole wymagane",
+        "login": "Login",
         "first_name": "Imię",
         "last_name": "Nazwisko",
         "phone_number": "Numer telefonu",
@@ -80,6 +82,7 @@
         "block": "Zablokuj"
     },
     "account-details": {
+        "login": "Login",
         "edit_account": "Edytuj konto",
         "change_password": "Zmień hasło",
         "edit_access_levels": "Edytuj poziomy dostępu",
@@ -94,6 +97,7 @@
         "confirmed": "Potwierdzone:",
         "last_modification_date": "Data ostatniej modyfikacji:",
         "modified_by": "Autor ostatniej modyfikacji:",
+        "created_by": "Utworzony przez",
         "creation_date": "Data utworzenia:",
         "last_known_good_login": "Data ostatniej udanej próby logowania:",
         "last_known_good_login_ip": "Adres ip ostatniej udanej próby logowania:",
@@ -106,6 +110,12 @@
         "last_confirmed_modification_date":  "Data potwierdzenia konta:",
         "last_password_modification_date":  "Data ostatniej modyfikacji hasła:",
         "last_email_modification_date":  "Data ostatniej modyfikacji e-mailu:"
+    },
+    "seaport-details": {
+        "city": "Miasto",
+        "code": "Kod",
+        "modification_date": "Data modyfikacji",
+        "creation_date": "Data utworzenia"
     },
     "access-level-table": {
         "level": "Poziom",
@@ -179,7 +189,11 @@
         "home": "Strona główna",
         "account_list": "Lista kont",
         "account": "Szczegóły konta",
-        "account_edit": "Edycja konta"
+        "account_edit": "Edycja konta",
+        "routes": {
+            "list": "Lista tras"
+        },
+        "ferries_list": "Lista promów"
     },
     "session-timeout": {
         "info": {
@@ -190,5 +204,18 @@
         "ok": "Ok",
         "renew": "Odśwież",
         "signOut": "Wyloguj się"
+    },
+    "route": {
+        "start": "Port początkowy",
+        "destination": "Port docelowy",
+        "code": "Kod trasy",
+        "add": "Utwórz trasę",
+        "delete": "Usuń trasę",
+        "details": "Rejsy"
+    },
+    "ferries-table": {
+        "name": "Name",
+        "vehicle_capacity": "Pojemność garażowa",
+        "on_deck_capacity": "Pojemność pokładowa"
     }
 }
