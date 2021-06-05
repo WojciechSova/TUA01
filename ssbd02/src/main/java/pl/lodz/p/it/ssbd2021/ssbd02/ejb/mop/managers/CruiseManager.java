@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CruiseManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
@@ -11,6 +12,7 @@ import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
 
@@ -24,6 +26,9 @@ import java.util.List;
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class CruiseManager extends AbstractManager implements CruiseManagerLocal, SessionSynchronization {
+
+    @Inject
+    private CruiseFacadeLocal cruiseFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -44,9 +49,9 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Cruise getCruiseByNumber(String number) {
-        return null;
+        return cruiseFacadeLocal.findByNumber(number);
     }
 
 
