@@ -1,0 +1,20 @@
+<table>
+    <tr>
+        <th translate>cabin-table.capacity</th>
+        <th translate>cabin-table.cabinType</th>
+        <th translate>cabin-table.number</th>
+        <th translate>cabin-table.modification_date</th>
+        <th translate>cabin-table.modified_by</th>
+        <th translate>cabin-table.creation_date</th>
+        <th translate>cabin-table.created_by</th>
+    </tr>
+    <tr *ngFor="let cabin of cabins">
+        <td>{{cabin.capacity}}</td>
+        <td>{{cabin.cabinType}}</td>
+        <td>{{cabin.number}}</td>
+        <td>{{cabin.modificationDate | date :'short':identityService.getTimezone()}}</td>
+        <td>{{cabin.modifiedBy?.login}}</td>
+        <td>{{cabin.creationDate | date :'short':identityService.getTimezone()}}</td>
+        <td>{{cabin.createdBy?.login}}</td>
+    </tr>
+</table>

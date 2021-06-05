@@ -224,5 +224,24 @@
         "name": "Name",
         "vehicle_capacity": "Pojemność garażowa",
         "on_deck_capacity": "Pojemność pokładowa"
+    },
+    "ferry-details": {
+        "name": "Nazwa:",
+        "cabins": "Kajuty:",
+        "vehicle_capacity": "Pojemność parkingowa:",
+        "on_deck_capacity": "Pojemność pokładowa:",
+        "modification_date": "Data ostatniej modyfikacji:",
+        "modified_by": "Autor ostatniej modyfikacji:",
+        "creation_date": "Data utworzenia:",
+        "created_by": "Utworzony przez:"
+    },
+    "cabin-table": {
+        "capacity": "Pojemność",
+        "cabinType": "Typ",
+        "number": "Numer",
+        "modification_date": "Data ostatniej modyfikacji",
+        "modified_by": "Autor ostatniej modyfikacji",
+        "creation_date": "Data utworzenia",
+        "created_by": "Utworzony przez"
     }
 }

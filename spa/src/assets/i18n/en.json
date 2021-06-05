@@ -198,9 +198,8 @@
         "account_edit": "Edit account",
         "routes": {
             "list": "Routes list"
-        }
-        "ferries_list": "Ferries list"
         },
+        "ferries_list": "Ferries list",
         "seaport_list": "Seaport list"
     },
     "session-timeout": {
@@ -225,5 +224,24 @@
         "name": "Name",
         "vehicle_capacity": "Vehicle capacity",
         "on_deck_capacity": "On deck capacity"
+    },
+    "ferry-details": {
+        "name": "Name:",
+        "cabins": "Cabins:",
+        "vehicle_capacity": "Vehicle capacity:",
+        "on_deck_capacity": "On deck capacity:",
+        "modification_date": "Date of last modification:",
+        "modified_by": "Author of last modification:",
+        "creation_date": "Date of creation:",
+        "created_by": "Created by:"
+    },
+    "cabin-table": {
+        "capacity": "Capacity",
+        "cabinType": "Type",
+        "number": "Number",
+        "modification_date": "Date of last modification",
+        "modified_by": "Author of last modification",
+        "creation_date": "Date of creation",
+        "created_by": "Created by"
     }
 }

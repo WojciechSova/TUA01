@@ -1,0 +1,54 @@
+<!--<ol class="breadcrumb">-->
+<!--    <li class="breadcrumb-item">-->
+<!--        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.home </a>-->
+<!--        <img src="assets/wind.png" alt="" class="bullet">-->
+<!--    </li>-->
+<!--    <li *ngIf="identityService.isAdmin()" class="breadcrumb-item">-->
+<!--        <a href="" (click)="goToUserListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.account_list </a>-->
+<!--        <img src="assets/wind.png" alt="" class="bullet">-->
+<!--    </li>-->
+<!--    <li class="breadcrumb-item active" translate> breadcrumb.account </li>-->
+<!--</ol>-->
+<div class="outer-div">
+    <div class="ferry-details" id="ferryDetails">
+        <div class="button-container">
+            <button class="edit-button" translate>general.edit</button>
+            <button class="edit-button" translate>general.refresh</button>
+        </div>
+        <div class="col">
+            <div class="row">
+                <label class="uppercase" translate>ferry-details.name</label>
+                <label id="name">{{ferry.name}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>ferry-details.vehicle_capacity</label>
+                <label id="onDeckCapacity">{{ferry.vehicleCapacity}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>ferry-details.on_deck_capacity</label>
+                <label id="vehicleCapacity">{{ferry.onDeckCapacity}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>ferry-details.modification_date</label>
+                <label id="modificationDate">{{ferry.modificationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>ferry-details.modified_by</label>
+                <label id="modifiedBy">{{ferry.modifiedBy}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>ferry-details.creation_date</label>
+                <label id="creationDate">{{ferry.creationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>ferry-details.created_by</label>
+                <label id="createdBy">{{ferry.createdBy}}</label>
+            </div>
+        </div>
+        <hr/>
+        <div class="cabins">
+            <label class="uppercase-cabins" translate>ferry-details.cabins</label>
+            <app-cabin-table id="cabins" [cabins]="ferry.cabins"></app-cabin-table>
+        </div>
+    </div>
+</div>
