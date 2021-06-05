@@ -64,7 +64,7 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
     @Override
     @PermitAll
     public List<Cruise> findAllFutureDate() {
-        return null;
+        return entityManager.createNamedQuery("Cruise.findCurrentCruises", Cruise.class).getResultList();
     }
 
     @Override
