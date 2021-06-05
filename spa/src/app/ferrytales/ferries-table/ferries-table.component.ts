@@ -27,7 +27,7 @@ export class FerriesTableComponent implements OnInit {
             (response: FerryGeneral[]) => {
                 this.ferryGeneralService.ferriesGeneralList = response;
             }
-        )
+        );
     }
 
     listFerries(): FerryGeneral[] {

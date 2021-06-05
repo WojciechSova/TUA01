@@ -12,7 +12,7 @@ export class FerryGeneralService implements OnDestroy {
     private readonly url: string;
 
     constructor(private http: HttpClient) {
-        this.url = environment.appUrl + '/ferries'
+        this.url = environment.appUrl + '/ferries';
     }
 
     getFerries(): any {
