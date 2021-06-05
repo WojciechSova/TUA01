@@ -43,7 +43,7 @@ public interface BookingManagerLocal {
     List<Booking> getAllBookingsByAccount(String login);
 
     /**
-     * Metoda wyszukująca rezerwacje o podanym kodzie.
+     * Metoda wyszukująca rezerwacje o podanym numerze.
      *
      * @param number Numer rezerwacji, który chcemy wyszukać
      * @return Encja typu {@link Booking}
