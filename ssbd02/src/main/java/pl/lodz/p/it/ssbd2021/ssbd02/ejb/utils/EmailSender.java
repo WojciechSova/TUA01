@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.simplejavamail.api.email.Email;
@@ -175,6 +174,7 @@ public class EmailSender implements EmailSenderLocal {
     }
 
     @Override
+    @PermitAll
     public void sendRemovalEmail(String language, String recipientName, String recipientEmailAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 
