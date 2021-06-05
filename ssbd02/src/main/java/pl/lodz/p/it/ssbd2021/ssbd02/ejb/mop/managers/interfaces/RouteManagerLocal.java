@@ -47,7 +47,7 @@ public interface RouteManagerLocal {
     List<Route> getRoutesByDestination(String city);
 
     /**
-     * Metoda wyszukująca trasę oraz wszystkie rejsy, które zawierają trasę o podanym kodzie.
+     * Metoda wyszukująca trasę oraz wszystkie rejsy, na trasie o podanym kodzie.
      *
      * @param code Kod trasy, po której chcemy wyszukać
      * @return Para składająca się z trasy {@link Route} oraz listy rejsów {@link Cruise}, które zawierają trasę o podanym kodzie.
