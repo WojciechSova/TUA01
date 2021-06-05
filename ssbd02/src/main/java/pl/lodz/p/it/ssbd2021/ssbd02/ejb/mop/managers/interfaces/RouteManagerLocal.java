@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces;
 
+import org.apache.commons.lang3.tuple.Pair;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 
 import javax.ejb.Local;
@@ -43,6 +45,14 @@ public interface RouteManagerLocal {
      * @return Lista tras {@link Route}, które kończą się w podanym mieście
      */
     List<Route> getRoutesByDestination(String city);
+
+    /**
+     * Metoda wyszukująca trasę oraz wszystkie rejsy, które zawierają trasę o podanym kodzie.
+     *
+     * @param code Kod trasy, po której chcemy wyszukać
+     * @return Para składająca się z trasy {@link Route} oraz listy rejsów {@link Cruise}, które zawierają trasę o podanym kodzie.
+     */
+    Pair<Route, List<Cruise>> getRouteAndCruisesByRouteCode(String code);
 
     /**
      * Metoda tworząca trasę.
