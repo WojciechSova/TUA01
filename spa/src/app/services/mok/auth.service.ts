@@ -8,6 +8,7 @@ import { AccountGeneralService } from './account-general.service';
 import { UpdateAccountService } from './update-account.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { SeaportGeneralService } from '../mop/seaport-general.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +22,7 @@ export class AuthService {
                 private accountDetailsService: AccountDetailsService,
                 private accountGeneralService: AccountGeneralService,
                 private updateAccountService: UpdateAccountService,
+                private seaportGeneralService: SeaportGeneralService,
                 private cookieService: CookieService,
                 private router: Router) {
         this.url = environment.appUrl + '/auth';
@@ -54,6 +56,7 @@ export class AuthService {
         this.accountDetailsService.ngOnDestroy();
         this.accountGeneralService.ngOnDestroy();
         this.updateAccountService.ngOnDestroy();
+        this.seaportGeneralService.ngOnDestroy();
         this.cookieService.delete('token');
         this.cookieService.delete('login');
         this.cookieService.delete('currentAccessLevel');
