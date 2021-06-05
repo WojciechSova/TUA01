@@ -62,8 +62,8 @@ class FerryMapperTest {
         assertAll(
                 () -> assertEquals(ferry.getVersion(), ferryDetailsDTO.getVersion()),
                 () -> assertEquals(ferry.getName(), ferryDetailsDTO.getName()),
-                () -> assertEquals(cabins.stream().map(CabinMapper::createCabinDTOFromEntity).collect(Collectors.toList()).get(0).getCabinType().getCabinTypeName(),
-                        ferryDetailsDTO.getCabins().get(0).getCabinType().getCabinTypeName()),
+                () -> assertEquals(cabins.stream().map(CabinMapper::createCabinDTOFromEntity).collect(Collectors.toList()).hashCode(),
+                        ferryDetailsDTO.getCabins().hashCode()),
                 () -> assertEquals(ferry.getVehicleCapacity(), ferryDetailsDTO.getVehicleCapacity()),
                 () -> assertEquals(ferry.getOnDeckCapacity(), ferryDetailsDTO.getOnDeckCapacity()),
                 () -> assertEquals(ferry.getModificationDate(), ferryDetailsDTO.getModificationDate()),

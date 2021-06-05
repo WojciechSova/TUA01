@@ -40,7 +40,7 @@ class CabinMapperTest {
         assertAll(
                 () -> assertEquals(cabin.getVersion(), cabinDTO.getVersion()),
                 () -> assertEquals(cabin.getCapacity(), cabinDTO.getCapacity()),
-                () -> assertEquals(cabinType.getCabinTypeName(), cabinDTO.getCabinType().getCabinTypeName()),
+                () -> assertEquals(cabinType.getCabinTypeName(), cabinDTO.getCabinType()),
                 () -> assertEquals(cabin.getNumber(), cabinDTO.getNumber()),
                 () -> assertEquals(cabin.getModificationDate(), cabinDTO.getModificationDate()),
                 () -> assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cabin.getModifiedBy()), cabinDTO.getModifiedBy()),
