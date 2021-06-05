@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
-import { FerryGeneral } from "../../model/mop/FerryGeneral";
-import { FerryGeneralService } from "../../services/mop/ferry-general.service";
+import { Router } from '@angular/router';
+import { FerryGeneral } from '../../model/mop/FerryGeneral';
+import { FerryGeneralService } from '../../services/mop/ferry-general.service';
 
 @Component({
     selector: 'app-ferries-table',
@@ -22,8 +22,15 @@ export class FerriesTableComponent implements OnInit {
         this.router.navigate(['/']);
     }
 
-    getFerries(): FerryGeneral[] {
-        return this.ferryGeneralService.ferriesGeneralList;
+    getFerries(): void {
+        this.ferryGeneralService.getFerries().subscribe(
+            (response: FerryGeneral[]) => {
+                this.ferryGeneralService.ferriesGeneralList = response;
+            }
+        )
     }
 
+    listFerries(): FerryGeneral[] {
+        return this.ferryGeneralService.ferriesGeneralList;
+    }
 }
