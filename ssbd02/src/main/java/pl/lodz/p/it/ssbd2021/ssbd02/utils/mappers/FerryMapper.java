@@ -57,6 +57,7 @@ public class FerryMapper {
         ferryDetailsDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(ferry.getModifiedBy()));
         ferryDetailsDTO.setCreationDate(ferry.getCreationDate());
         ferryDetailsDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(ferry.getCreatedBy()));
+        ferryDetailsDTO.setVersion(ferry.getVersion());
         return ferryDetailsDTO;
     }
 }

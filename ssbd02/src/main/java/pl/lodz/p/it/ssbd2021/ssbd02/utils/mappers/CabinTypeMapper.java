@@ -21,16 +21,4 @@ public class CabinTypeMapper {
         cabinTypeDTO.setCabinTypeName(cabinType.getCabinTypeName());
         return cabinTypeDTO;
     }
-
-    /**
-     * Metoda mapująca obiekt typu {@link CabinTypeDTO} na obiekt typu {@link CabinType}
-     *
-     * @param cabinTypeDTO Obiekt typu {@link CabinTypeDTO}, który będzie mapowany
-     * @return Obiekt typu {@link CabinType}
-     */
-    public static CabinType createCabinTypeFromCabinTypeDTO(CabinTypeDTO cabinTypeDTO) {
-        CabinType cabin = new CabinType();
-        cabin.setCabinTypeName(cabinTypeDTO.getCabinTypeName());
-        return cabin;
-    }
 }

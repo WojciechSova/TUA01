@@ -28,6 +28,7 @@ public class CabinMapper {
         cabinDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(cabin.getModifiedBy()));
         cabinDTO.setCreationDate(cabin.getCreationDate());
         cabinDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(cabin.getCreatedBy()));
+        cabinDTO.setVersion(cabin.getVersion());
         return cabinDTO;
     }
 }
