@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FerryDetailsService } from '../../services/mop/ferry-details.service';
 import { FerryDetails } from '../../model/mop/FerryDetails';
 import { IdentityService } from '../../services/utils/identity.service';
 

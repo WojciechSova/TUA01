@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -60,7 +60,8 @@ export const errorHandlerProviders = [
 ];
 
 export const localeServiceProviders = [
-    { provide: LOCALE_ID,
+    {
+        provide: LOCALE_ID,
         useFactory: (localeService: LocaleService) => localeService.getLocale(),
         deps: [LocaleService]
     },
