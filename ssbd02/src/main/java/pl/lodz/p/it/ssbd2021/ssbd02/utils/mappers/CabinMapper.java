@@ -21,6 +21,7 @@ public class CabinMapper {
             return null;
         }
         CabinDTO cabinDTO = new CabinDTO();
+        cabinDTO.setVersion(cabin.getVersion());
         cabinDTO.setCapacity(cabin.getCapacity());
         cabinDTO.setCabinType(cabin.getCabinType().getCabinTypeName());
         cabinDTO.setNumber(cabin.getNumber());
@@ -28,7 +29,6 @@ public class CabinMapper {
         cabinDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(cabin.getModifiedBy()));
         cabinDTO.setCreationDate(cabin.getCreationDate());
         cabinDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(cabin.getCreatedBy()));
-        cabinDTO.setVersion(cabin.getVersion());
         return cabinDTO;
     }
 }

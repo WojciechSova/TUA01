@@ -47,6 +47,7 @@ public class FerryMapper {
         List<Cabin> cabins = pair.getRight();
 
         FerryDetailsDTO ferryDetailsDTO = new FerryDetailsDTO();
+        ferryDetailsDTO.setVersion(ferry.getVersion());
         ferryDetailsDTO.setName(ferry.getName());
         ferryDetailsDTO.setCabins(cabins.stream()
                 .map(CabinMapper::createCabinDTOFromEntity)
@@ -57,7 +58,6 @@ public class FerryMapper {
         ferryDetailsDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(ferry.getModifiedBy()));
         ferryDetailsDTO.setCreationDate(ferry.getCreationDate());
         ferryDetailsDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(ferry.getCreatedBy()));
-        ferryDetailsDTO.setVersion(ferry.getVersion());
         return ferryDetailsDTO;
     }
 }
