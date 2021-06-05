@@ -45,10 +45,10 @@ public interface BookingManagerLocal {
     /**
      * Metoda wyszukująca rezerwacje o podanym kodzie.
      *
-     * @param code Numer rezerwacji, który chcemy wyszukać
+     * @param number Numer rezerwacji, który chcemy wyszukać
      * @return Encja typu {@link Booking}
      */
-    Booking getBookingByNumber(String code);
+    Booking getBookingByNumber(String number);
 
     /**
      * Metoda zwracająca potrzebne miejsce na promie na pojazd o podanej nazwie typu.
