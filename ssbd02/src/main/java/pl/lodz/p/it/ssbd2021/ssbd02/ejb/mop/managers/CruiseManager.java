@@ -49,11 +49,6 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
         return null;
     }
 
-    @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public List<Cruise> getCruisesByRouteCode(String code) {
-        return null;
-    }
 
     @Override
     @RolesAllowed({"EMPLOYEE"})

@@ -43,14 +43,6 @@ public interface CruiseManagerLocal {
     Cruise getCruiseByNumber(String number);
 
     /**
-     * Metoda wyszukująca wszystkie rejsy, które zawierają trasę o podanym kodzie.
-     *
-     * @param code Kod trasy, po której chcemy wyszukać
-     * @return Lista rejsów {@link Cruise}, które zawierają trasę o podanym kodzie.
-     */
-    List<Cruise> getCruisesByRouteCode(String code);
-
-    /**
      * Metoda wyszukująca wszystkie rejsy, które zawierają prom o podanej nazwie.
      *
      * @param name Nazwa promu, po której chcemy wyszukać

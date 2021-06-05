@@ -1,8 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.RouteFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.RouteManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
@@ -31,6 +34,9 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     @Inject
     RouteFacadeLocal routeFacadeLocal;
 
+    @Inject
+    CruiseFacadeLocal cruiseFacadeLocal;
+
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Route> getAllRoutes() {
@@ -53,6 +59,14 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public List<Route> getRoutesByDestination(String city) {
         return null;
+    }
+
+    @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    public Pair<Route, List<Cruise>> getRouteAndCruisesByRouteCode(String code) {
+        Route route = routeFacadeLocal.findByCode(code);
+        List<Cruise> cruiseList = cruiseFacadeLocal.findAllByRoute(route);
+        return Pair.of(route, cruiseList);
     }
 
     @Override

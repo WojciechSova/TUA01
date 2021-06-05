@@ -56,7 +56,9 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Cruise> findAllByRoute(Route route) {
-        return null;
+        TypedQuery<Cruise> typedQuery = entityManager.createNamedQuery("Cruise.findByRoute", Cruise.class);
+        typedQuery.setParameter("route", route);
+        return typedQuery.getResultList();
     }
 
     @Override
