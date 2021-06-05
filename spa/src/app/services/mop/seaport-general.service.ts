@@ -1,12 +1,12 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {SeaportGeneral} from '../../model/mop/SeaportGeneral';
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { SeaportGeneral } from '../../model/mop/SeaportGeneral';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SeaportGeneralService implements OnDestroy{
+export class SeaportGeneralService implements OnDestroy {
 
     private readonly url: string;
     seaportsList: SeaportGeneral[] = [];

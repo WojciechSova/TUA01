@@ -198,10 +198,10 @@
         "account_edit": "Edit account",
         "routes": {
             "list": "Routes list"
-        }
-        "ferries_list": "Ferries list"
         },
-        "seaport_list": "Seaport list"
+        "ferries_list": "Ferries list",
+        "seaport_list": "Seaport list",
+        "seaport": "Seaport"
     },
     "session-timeout": {
         "info": {
