@@ -23,12 +23,26 @@ export class FerryDetailsComponent implements OnInit {
                 capacity: '1000',
                 cabinType: 'Second class',
                 number: 'J124',
-                creationDate: new Date()
+                creationDate: new Date(),
+                createdBy: {
+                    login: 'Employee',
+                    active: true,
+                    firstName: 'FirstName',
+                    lastName: 'LastName',
+                    accessLevel: ['EMPLOYEE']
+                }
             },
         ],
         vehicleCapacity: '400',
         onDeckCapacity: '1000',
-        creationDate: new Date()
+        creationDate: new Date(),
+        createdBy: {
+            login: 'Employee',
+            active: true,
+            firstName: 'FirstName',
+            lastName: 'LastName',
+            accessLevel: ['EMPLOYEE']
+        }
     };
 
     constructor(public identityService: IdentityService) {

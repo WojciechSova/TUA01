@@ -34,7 +34,7 @@
             </div>
             <div class="row">
                 <label class="uppercase" translate>ferry-details.modified_by</label>
-                <label id="modifiedBy">{{ferry.modifiedBy}}</label>
+                <label id="modifiedBy">{{ferry.modifiedBy?.login}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>ferry-details.creation_date</label>
@@ -42,7 +42,7 @@
             </div>
             <div class="row">
                 <label class="uppercase" translate>ferry-details.created_by</label>
-                <label id="createdBy">{{ferry.createdBy}}</label>
+                <label id="createdBy">{{ferry.createdBy?.login}}</label>
             </div>
         </div>
         <hr/>
