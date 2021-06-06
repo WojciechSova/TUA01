@@ -233,7 +233,9 @@
         "modification_date": "Data ostatniej modyfikacji:",
         "modified_by": "Autor ostatniej modyfikacji:",
         "creation_date": "Data utworzenia:",
-        "created_by": "Utworzony przez:"
+        "created_by": "Utworzony przez:",
+        "add_cabin": "Dodaj kajutę",
+        "remove_cabin": "Usuń kajutę"
     },
     "cabin-table": {
         "capacity": "Pojemność",
@@ -242,6 +244,7 @@
         "modification_date": "Data ostatniej modyfikacji",
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
-        "created_by": "Utworzony przez"
+        "created_by": "Utworzony przez",
+        "cabin_details": "Szczegóły"
     }
 }

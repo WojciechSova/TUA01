@@ -7,6 +7,7 @@
         <th translate>cabin-table.modified_by</th>
         <th translate>cabin-table.creation_date</th>
         <th translate>cabin-table.created_by</th>
+        <th translate>cabin-table.cabin_details</th>
     </tr>
     <tr *ngFor="let cabin of cabins">
         <td>{{cabin.capacity}}</td>
@@ -16,5 +17,8 @@
         <td>{{cabin.modifiedBy?.login}}</td>
         <td>{{cabin.creationDate | date :'short':identityService.getTimezone()}}</td>
         <td>{{cabin.createdBy?.login}}</td>
+        <td>
+            <button class="edit-button" translate>cabin-table.cabin_details</button>
+        </td>
     </tr>
 </table>
