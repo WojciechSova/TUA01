@@ -112,10 +112,19 @@
         "last_email_modification_date":  "Date of last email modification:"
     },
     "seaport-details": {
-        "city": "City",
-        "code": "Code",
-        "modification_date": "Date of last modification",
-        "creation_date": "Date of creation"
+        "city": "City:",
+        "code": "Code:",
+        "modification_date": "Date of last modification:",
+        "creation_date": "Date of creation:"
+    },
+    "booking-details": {
+        "cruise": "Cruise:",
+        "number_of_people": "Number of people:",
+        "cabin": "Cabin:",
+        "vehicle_type": "Vehicle type:",
+        "price": "Price:",
+        "number":  "Booking number:",
+        "creation_date": "Creation date:"
     },
     "access-level-table": {
         "level": "Access level",
@@ -201,7 +210,9 @@
         },
         "ferries_list": "Ferries list",
         "seaport_list": "Seaport list",
-        "seaport": "Seaport"
+        "booking_list": "Booking list",
+        "seaport": "Seaport",
+        "booking": "Booking"
     },
     "session-timeout": {
         "info": {

@@ -112,10 +112,19 @@
         "last_email_modification_date":  "Data ostatniej modyfikacji e-mailu:"
     },
     "seaport-details": {
-        "city": "Miasto",
-        "code": "Kod",
-        "modification_date": "Data modyfikacji",
-        "creation_date": "Data utworzenia"
+        "city": "Miasto:",
+        "code": "Kod:",
+        "modification_date": "Data modyfikacji:",
+        "creation_date": "Data utworzenia:"
+    },
+    "booking-details": {
+        "cruise": "Rejs:",
+        "number_of_people": "Liczba ludzi:",
+        "cabin": "Kabin:",
+        "vehicle_type": "Typ pojazdu:",
+        "price": "Cena:",
+        "number":  "Numer rezerwacji:",
+        "creation_date": "Data utworzenia:"
     },
     "access-level-table": {
         "level": "Poziom",
@@ -196,13 +205,14 @@
         "account_list": "Lista kont",
         "account": "Szczegóły konta",
         "account_edit": "Edycja konta",
-        "seaport_list": "Lista portów",
         "routes": {
             "list": "Lista tras"
         },
         "ferries_list": "Lista promów",
         "seaport-list": "Lista portów",
-        "seaport": "Port"
+        "booking-list": "Lista rezerwacji",
+        "seaport": "Port",
+        "booking": "Rezerwacja"
     },
     "session-timeout": {
         "info": {

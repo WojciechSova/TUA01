@@ -1,0 +1,55 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToBookingListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.booking_list </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.booking</li>
+</ol>
+
+<div class="outer-div">
+    <div class="booking-details" id="bookingDetails">
+        <div class="button-container">
+            <button class="edit-button" (click)="getBooking()" translate>general.refresh</button>
+        </div>
+        <div class="col">
+            <div class="row">
+                <label class="uppercase" translate>booking-details.cruise</label>
+                <label>{{booking?.cruise}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>account-details.login</label>
+                <label>{{booking?.account?.login}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>booking-details.number_of_people</label>
+                <label>{{booking?.numberOfPeople}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>booking-details.cabin</label>
+                <label>{{booking?.cabin}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>booking-details.vehicle_type</label>
+                <label>{{booking?.vehicleType?.vehicleTypeName}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>booking-details.price</label>
+                <label>{{booking?.price}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>booking-details.number</label>
+                <label>{{booking?.number}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>booking-details.creation_date</label>
+                <label>{{booking?.creationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+        </div>
+    </div>
+</div>
