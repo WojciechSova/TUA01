@@ -1,12 +1,12 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
-import com.sun.xml.bind.v2.TODO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteAndCruisesDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteDetailsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.RouteManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.SeaportMapper;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.RouteMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.annotation.security.RolesAllowed;
@@ -35,10 +35,29 @@ public class RouteEndpoint {
     @Inject
     private RouteManagerLocal routeManager;
 
+    /**
+     * Metoda udostępniająca ogólne informacje o trasach.
+     *
+     * @return Lista ogólnych informacji o trasach
+     */
     @GET
     @RolesAllowed({"EMPLOYEE"})
     public Response getAllRoutes() {
-        return null;
+        try {
+            List<RouteGeneralDTO> routeDTOList = routeManager.getAllRoutes().stream()
+                    .map(RouteMapper::createRouteGeneralDTOFromEntity)
+                    .collect(Collectors.toList());
+
+            return Response.ok()
+                    .entity(routeDTOList)
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessException) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @GET
@@ -47,7 +66,7 @@ public class RouteEndpoint {
     public Response getRouteAndCruisesForRoute(@PathParam("code") String code) {
         try {
             //TODO Dodanie mappera
-            RouteAndCruisesDTO routeAndCruisesDTO =  routeManager.getRouteAndCruisesByRouteCode(code);
+            RouteAndCruisesDTO routeAndCruisesDTO = routeManager.getRouteAndCruisesByRouteCode(code);
 
             return Response.ok()
                     .entity(routeAndCruisesDTO)
@@ -65,7 +84,7 @@ public class RouteEndpoint {
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addRoute(RouteDTO routeDTO, @Context SecurityContext securityContext) {
+    public Response addRoute(RouteDetailsDTO routeDetailsDTO, @Context SecurityContext securityContext) {
         return null;
     }
 

@@ -20,7 +20,7 @@ public class CabinDTO extends AbstractDTO {
 
     private Integer capacity;
 
-    private CabinTypeDTO cabinType;
+    private String cabinType;
 
     private String number;
 

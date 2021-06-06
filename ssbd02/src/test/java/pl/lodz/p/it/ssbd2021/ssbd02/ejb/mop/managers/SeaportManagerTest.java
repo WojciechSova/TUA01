@@ -17,8 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class SeaportManagerTest {
 
@@ -26,6 +25,8 @@ class SeaportManagerTest {
     private final Seaport s1 = new Seaport();
     @Spy
     private final Seaport s2 = new Seaport();
+    @Spy
+    private final Seaport s3 = new Seaport();
     @Mock
     private SeaportFacadeLocal seaportFacadeLocal;
     @InjectMocks
@@ -38,6 +39,7 @@ class SeaportManagerTest {
 
         s1.setCity("Warszawa");
         s2.setCity("Ciechocinek");
+        s3.setCity("Pabianice");
         seaports = new ArrayList<>();
         seaports.add(s1);
         seaports.add(s2);
@@ -69,5 +71,18 @@ class SeaportManagerTest {
 
         Assertions.assertEquals(410, exception.getResponse().getStatus());
         Assertions.assertEquals(CommonExceptions.ERROR_NO_RESULT, exception.getResponse().getEntity());
+    }
+
+    @Test
+    void createSeaport() {
+        doAnswer(invocationOnMock -> {
+            seaports.add(s3);
+            return null;
+        }).when(seaportFacadeLocal).create(s3);
+
+        seaportManager.createSeaport(s3);
+
+        assertEquals(3, seaports.size());
+        assertEquals(s3.hashCode(), seaports.get(seaports.size() - 1).hashCode());
     }
 }

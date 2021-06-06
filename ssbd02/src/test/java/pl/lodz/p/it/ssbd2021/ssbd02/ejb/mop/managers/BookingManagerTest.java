@@ -9,10 +9,12 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 class BookingManagerTest {
@@ -34,12 +36,14 @@ class BookingManagerTest {
     @InjectMocks
     private BookingManager bookingManager;
 
+    private final String bookingNumber1 = "1234512345";
 
     @BeforeEach
     void initMocks() {
         account2 = new Account();
         account2.setLogin("login2");
         booking1 = new Booking();
+        booking1.setNumber(bookingNumber1);
         booking1.setAccount(account1);
         booking2 = new Booking();
         booking2.setAccount(account2);
@@ -70,5 +74,24 @@ class BookingManagerTest {
         assertEquals(2, bookingManager.getAllBookingsByAccount("login2").size());
         assertEquals(account2, bookingManager.getAllBookingsByAccount("login2").get(0).getAccount());
         assertEquals(account2, bookingManager.getAllBookingsByAccount("login2").get(1).getAccount());
+    }
+
+    @Test
+    void getBookingByNumber() {
+        when(bookingFacadeLocal.findByNumber(bookingNumber1)).thenReturn(booking1);
+
+        Booking foundBooking = bookingManager.getBookingByNumber(bookingNumber1);
+
+        assertEquals(booking1, foundBooking);
+        assertEquals(booking1.getNumber(), foundBooking.getNumber());
+        assertEquals(booking1.hashCode(), foundBooking.hashCode());
+    }
+
+    @Test
+    void getBookingByNumberException() {
+        String nonExistentNumber = "3453766425";
+        when(bookingFacadeLocal.findByNumber(nonExistentNumber)).thenReturn(null);
+
+        assertThrows(CommonExceptions.class, () -> bookingManager.getBookingByNumber(nonExistentNumber));
     }
 }
