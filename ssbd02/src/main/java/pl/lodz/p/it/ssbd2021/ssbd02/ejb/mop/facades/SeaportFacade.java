@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.SeaportFacadeLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mop.SeaportInterceptor;
 
 import javax.annotation.security.DenyAll;
@@ -28,7 +29,7 @@ import java.util.List;
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
-@Interceptors({GeneralInterceptor.class, SeaportInterceptor.class, PersistenceInterceptor.class})
+@Interceptors({GeneralInterceptor.class, SeaportInterceptor.class, PersistenceInterceptor.class, TrackerInterceptor.class})
 public class SeaportFacade extends AbstractFacade<Seaport> implements SeaportFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")
