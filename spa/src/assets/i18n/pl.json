@@ -223,7 +223,7 @@
         "details": "Rejsy"
     },
     "ferries-table": {
-        "name": "Name",
+        "name": "Nazwa",
         "vehicle_capacity": "Pojemność garażowa",
         "on_deck_capacity": "Pojemność pokładowa"
     }
