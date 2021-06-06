@@ -1,9 +1,12 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
+import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteAndCruisesDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.RouteManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.RouteMapper;
@@ -60,13 +63,19 @@ public class RouteEndpoint {
         }
     }
 
+    /**
+     * Metoda udostępniająca szczegółowe informację o trasie oraz listę ogólnych informacji o rejsach na tej trasie.
+     *
+     * @param code Kod trasy
+     * @return Szczegółowe informację o trasie oraz lista ogólnych informacji o rejsach na tej trasie
+     */
     @GET
     @Path("route/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getRouteAndCruisesForRoute(@PathParam("code") String code) {
         try {
-            //TODO Dodanie mappera
-            RouteAndCruisesDTO routeAndCruisesDTO = routeManager.getRouteAndCruisesByRouteCode(code);
+            Pair<Route, List<Cruise>> pair = routeManager.getRouteAndCruisesByRouteCode(code);
+            RouteAndCruisesDTO routeAndCruisesDTO = RouteMapper.createRouteAndCruisesDTOFromEntity(pair.getLeft(), pair.getRight());
 
             return Response.ok()
                     .entity(routeAndCruisesDTO)

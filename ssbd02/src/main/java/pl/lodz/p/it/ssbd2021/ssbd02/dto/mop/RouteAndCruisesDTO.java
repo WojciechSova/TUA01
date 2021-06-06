@@ -17,8 +17,8 @@ import java.util.List;
 @EqualsAndHashCode
 public class RouteAndCruisesDTO {
 
-    private RouteDTO route;
+    private RouteDetailsDTO route;
 
-    private List<CruiseDTO> cruises;
+    private List<CruiseGeneralDTO> cruises;
 
 }
