@@ -201,7 +201,8 @@
             "list": "Lista tras"
         },
         "ferries_list": "Lista promów",
-        "seaport-list": "Lista portów"
+        "seaport-list": "Lista portów",
+        "seaport": "Port"
     },
     "session-timeout": {
         "info": {

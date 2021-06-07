@@ -1,4 +1,17 @@
-<!-- TODO Breadcrumbs -->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToSeaportListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.seaport_list </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.seaport</li>
+</ol>
+
 <div class="outer-div">
     <div class="seaport-details" id="seaportDetails">
         <div class="button-container">
