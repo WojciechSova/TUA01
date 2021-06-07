@@ -1,0 +1,21 @@
+@import "../edit-user/edit-user.component";
+
+.row {
+    width: fit-content;
+
+    .validation-error {
+        width: fit-content;
+        left: 66%;
+    }
+}
+
+.col {
+    align-items: center;
+}
+
+.edit-button {
+    &:disabled {
+        background-image: linear-gradient(to right, darkgray 0%, darkgray 100%);
+        cursor: auto;
+    }
+}

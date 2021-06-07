@@ -1,0 +1,56 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToSeaportListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.seaport_list </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.account_edit</li>
+</ol>
+
+<div class="outer-div">
+    <form class="edit-form" [formGroup]="form">
+        <div class="col">
+            <div class="row">
+                <label translate>add-seaport.new_seaport</label>
+            </div>
+            <div class="row">
+                <input #newCity type="text" id="add-city" formControlName="city"
+                       placeholder="{{'seaports-table.city' | translate}}"
+                       [ngClass]="{'is-invalid': form.controls.city.touched && form.controls.city.invalid}"/>
+                <div class="validation-error"
+                     *ngIf="form.controls.city.hasError('required') && form.controls.city.touched"
+                     translate>form.field_required
+                </div>
+                <div class="validation-error" *ngIf="form.controls.city.hasError('max') && form.controls.city.touched"
+                     translate>form.invalid_format
+                </div>
+            </div>
+
+            <div class="row">
+                <input #newCode type="text" id="add-code" formControlName="code"
+                       placeholder="{{'seaports-table.code' | translate}}"
+                       [ngClass]="{'is-invalid': form.controls.code.touched && form.controls.code.invalid}"/>
+                <div class="validation-error"
+                     *ngIf="form.controls.code.hasError('required') && form.controls.code.touched"
+                     translate>form.field_required
+                </div>
+                <div class="validation-error"
+                     *ngIf="form.controls.code.hasError('pattern') && form.controls.code.touched"
+                     translate>form.invalid_format
+                </div>
+            </div>
+        </div>
+        <button class="edit-button"
+                (click)="addSeaport(newCity.value, newCode.value)"
+                [disabled]=form.invalid translate>form.save
+        </button>
+        <img class="return-arrow" (click)="goToSeaportListBreadcrumb()"
+             src="assets/imgs/back-arrow.png"
+             alt=""/>
+    </form>
+</div>

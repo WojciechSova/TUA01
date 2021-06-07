@@ -239,5 +239,10 @@
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
         "created_by": "Utworzony przez"
+    },
+    "add-seaport": {
+        "new_seaport": "Nowy port",
+        "city": "*Miasto",
+        "code": "*Kod"
     }
 }
