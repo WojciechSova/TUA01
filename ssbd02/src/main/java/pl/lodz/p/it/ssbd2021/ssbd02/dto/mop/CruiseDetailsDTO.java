@@ -7,7 +7,8 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import java.sql.Timestamp;
 
 /**
- * Klasa DTO zawierająca kajuty.
+ * Klasa DTO zawierająca rejsy.
+ * Używana przy wyświetlaniu szczegółowych danych rejsu.
  *
  * @author Artur Madaj
  */
@@ -16,11 +17,15 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class CabinDTO extends AbstractDTO {
+public class CruiseDetailsDTO extends AbstractDTO {
 
-    private Integer capacity;
+    private Timestamp startDate;
 
-    private String cabinType;
+    private Timestamp endDate;
+
+    private RouteGeneralDTO route;
+
+    private FerryGeneralDTO ferry;
 
     private String number;
 
