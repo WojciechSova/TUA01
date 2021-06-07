@@ -12,4 +12,5 @@ export interface CruiseDetails {
     modifiedBy?: AccountGeneral;
     creationDate: Date;
     createdBy: AccountGeneral;
+    version: number;
 }
