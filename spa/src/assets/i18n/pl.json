@@ -118,9 +118,9 @@
         "creation_date": "Data utworzenia:"
     },
     "booking-details": {
-        "cruise": "Rejs:",
         "number_of_people": "Liczba ludzi:",
-        "cabin": "Kabin:",
+        "cabin": "Typ kajuty:",
+        "cabin_number": "Numer kajuty:",
         "vehicle_type": "Typ pojazdu:",
         "price": "Cena:",
         "number":  "Numer rezerwacji:",

@@ -118,9 +118,9 @@
         "creation_date": "Date of creation:"
     },
     "booking-details": {
-        "cruise": "Cruise:",
         "number_of_people": "Number of people:",
-        "cabin": "Cabin:",
+        "cabin": "Cabin type:",
+        "cabin_number": "Cabin number:",
         "vehicle_type": "Vehicle type:",
         "price": "Price:",
         "number":  "Booking number:",

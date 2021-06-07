@@ -19,20 +19,48 @@
         </div>
         <div class="col">
             <div class="row">
-                <label class="uppercase" translate>booking-details.cruise</label>
-                <label>{{booking?.cruise}}</label>
+                <label class="uppercase" translate>cruise-details.number</label>
+                <label>{{booking?.cruise?.number}}</label>
             </div>
             <div class="row">
-                <label class="uppercase" translate>account-details.login</label>
-                <label>{{booking?.account?.login}}</label>
+                <label class="uppercase" translate>cruise-details.start_date</label>
+                <label>{{booking?.cruise?.startDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.end_date</label>
+                <label>{{booking?.cruise?.endDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>route.start</label>
+                <label>{{booking?.cruise?.route?.start?.city}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>route.destination</label>
+                <label>{{booking?.cruise?.route?.destination?.city}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>account-details.first_name</label>
+                <label>{{booking?.account?.firstName}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>account-details.last_name</label>
+                <label>{{booking?.account?.lastName}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>booking-details.number_of_people</label>
                 <label>{{booking?.numberOfPeople}}</label>
             </div>
             <div class="row">
+                <label class="uppercase" translate>booking-details.cabin_number</label>
+                <label>{{booking?.cabin?.number}}</label>
+            </div>
+            <div class="row">
                 <label class="uppercase" translate>booking-details.cabin</label>
-                <label>{{booking?.cabin}}</label>
+                <label>{{booking?.cabin?.cabinType}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cabin-table.capacity</label>
+                <label>{{booking?.cabin?.capacity}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>booking-details.vehicle_type</label>
