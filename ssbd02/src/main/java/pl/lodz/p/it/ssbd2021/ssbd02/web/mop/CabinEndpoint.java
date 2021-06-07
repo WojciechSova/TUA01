@@ -1,13 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.FerryDetailsDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.CabinManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.FerryMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.annotation.security.RolesAllowed;
