@@ -1,0 +1,20 @@
+<table>
+    <tr>
+        <th translate>cruise-table.number</th>
+        <th translate>cruise-table.start_date</th>
+        <th translate>cruise-table.end_date</th>
+        <th translate>cruise-table.name_of_ferry</th>
+    </tr>
+    <tr *ngFor="let cruise of cruises">
+        <td>{{cruise.number}}</td>
+        <td>{{cruise.startDate | date :'short':identityService.getTimezone()}}</td>
+        <td>{{cruise.endDate | date :'short':identityService.getTimezone()}}</td>
+        <td>{{cruise.ferry?.name}}</td>
+        <td>
+            <button class="edit-button" translate>cruise-table.cruise_details</button>
+        </td>
+        <td>
+            <button class="edit-button button-remove" translate>cruise-table.remove_cruise</button>
+        </td>
+    </tr>
+</table>
