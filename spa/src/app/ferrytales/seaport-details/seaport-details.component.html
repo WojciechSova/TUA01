@@ -8,27 +8,27 @@
         <div class="col">
             <div class="row">
                 <label class="uppercase" translate>seaport-details.city</label>
-                <label id="login">{{seaport?.city}}</label>
+                <label id="login">{{seaportDetailsService.seaport?.city}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>seaport-details.code</label>
-                <label id="firstName">{{seaport?.code}}</label>
+                <label id="firstName">{{seaportDetailsService.seaport?.code}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>seaport-details.modification_date</label>
-                <label id="lastName">{{seaport?.modificationDate | date :'short':identityService.getTimezone()}}</label>
+                <label id="lastName">{{seaportDetailsService.seaport?.modificationDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>account-details.modified_by</label>
-                <label id="email">{{seaport?.modifiedBy?.login}}</label>
+                <label id="email">{{seaportDetailsService.seaport?.modifiedBy?.login}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>seaport-details.creation_date</label>
-                <label id="phoneNumber">{{seaport?.creationDate | date :'short':identityService.getTimezone()}}</label>
+                <label id="phoneNumber">{{seaportDetailsService.seaport?.creationDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>account-details.created_by</label>
-                <label>{{seaport?.createdBy?.login}}</label>
+                <label>{{seaportDetailsService.seaport?.createdBy?.login}}</label>
             </div>
         </div>
     </div>
