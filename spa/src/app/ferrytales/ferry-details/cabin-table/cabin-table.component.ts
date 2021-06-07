@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Cabin } from '../../../model/mop/Cabin';
 import { IdentityService } from '../../../services/utils/identity.service';
+import { CabinGeneral } from '../../../model/mop/CabinGeneral';
 
 @Component({
     selector: 'app-cabin-table',
@@ -13,7 +13,7 @@ export class CabinTableComponent implements OnInit {
     }
 
     @Input()
-    cabins: Cabin[] = [];
+    cabins: CabinGeneral[] = [];
 
     ngOnInit(): void {
     }

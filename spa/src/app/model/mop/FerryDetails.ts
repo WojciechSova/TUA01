@@ -1,9 +1,9 @@
-import { Cabin } from './Cabin';
 import { AccountGeneral } from '../mok/AccountGeneral';
+import { CabinGeneral } from './CabinGeneral';
 
 export interface FerryDetails {
     name: string;
-    cabins: Cabin[];
+    cabins: CabinGeneral[];
     onDeckCapacity: string;
     vehicleCapacity: string;
     modificationDate?: Date;

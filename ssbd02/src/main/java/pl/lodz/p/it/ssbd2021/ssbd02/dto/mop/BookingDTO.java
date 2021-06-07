@@ -24,7 +24,7 @@ public class BookingDTO extends AbstractDTO {
 
     private Integer numberOfPeople;
 
-    private CabinDTO cabin;
+    private CabinDetailsDTO cabin;
 
     private VehicleTypeDTO vehicleType;
 

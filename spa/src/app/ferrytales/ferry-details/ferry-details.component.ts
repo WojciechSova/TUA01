@@ -16,20 +16,11 @@ export class FerryDetailsComponent implements OnInit {
                 capacity: '100',
                 cabinType: 'First class',
                 number: 'J123',
-                creationDate: new Date()
             },
             {
                 capacity: '1000',
                 cabinType: 'Second class',
-                number: 'J124',
-                creationDate: new Date(),
-                createdBy: {
-                    login: 'Employee',
-                    active: true,
-                    firstName: 'FirstName',
-                    lastName: 'LastName',
-                    accessLevel: ['EMPLOYEE']
-                }
+                number: 'J124'
             },
         ],
         vehicleCapacity: '400',

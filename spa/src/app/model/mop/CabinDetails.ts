@@ -1,6 +1,6 @@
 import { AccountGeneral } from '../mok/AccountGeneral';
 
-export interface Cabin {
+export interface CabinDetails {
     capacity: string;
     cabinType: string;
     number: string;

@@ -235,17 +235,13 @@
         "modified_by": "Author of last modification:",
         "creation_date": "Date of creation:",
         "created_by": "Created by:",
-        "add_cabin": "Add cabin",
-        "remove_cabin": "Remove cabin"
+        "add_cabin": "Add cabin"
     },
     "cabin-table": {
         "capacity": "Capacity",
         "cabinType": "Type",
         "number": "Number",
-        "modification_date": "Date of last modification",
-        "modified_by": "Author of last modification",
-        "creation_date": "Date of creation",
-        "created_by": "Created by",
-        "cabin_details": "Details"
+        "cabin_details": "Details",
+        "remove_cabin": "Remove cabin"
     }
 }

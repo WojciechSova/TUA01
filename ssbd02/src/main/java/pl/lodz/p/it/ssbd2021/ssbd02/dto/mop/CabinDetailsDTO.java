@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 /**
  * Klasa DTO zawierająca kajuty.
+ * Używana do wyświetlania szczegółów danej kajuty
  *
  * @author Artur Madaj
  */
@@ -16,7 +17,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class CabinDTO extends AbstractDTO {
+public class CabinDetailsDTO extends AbstractDTO {
 
     private Integer capacity;
 
