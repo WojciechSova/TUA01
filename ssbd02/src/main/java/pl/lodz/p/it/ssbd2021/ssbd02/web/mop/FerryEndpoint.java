@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class FerryEndpoint {
 
     @Inject
-    FerryManagerLocal ferryManagerLocal;
+    private FerryManagerLocal ferryManagerLocal;
 
     /**
      * Metoda udostępniająca ogólne informacje o promach.
@@ -60,11 +60,30 @@ public class FerryEndpoint {
         }
     }
 
+    /**
+     * Metoda udostępniająca szczegółowe informacje dotyczące promu o podanej nazwie
+     *
+     * @param name Nazwa wyszukiwanego promu
+     * @return Szczegółowe informacje o promie
+     */
     @GET
     @Path("{name}")
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Response getFerry(@PathParam("name") String name) {
-        return null;
+        try {
+            FerryDetailsDTO ferryDetailsDTO = FerryMapper
+                    .createFerryDetailsDTOFromEntities(ferryManagerLocal.getFerryAndCabinsByFerryName(name));
+
+            return Response.ok()
+                    .entity(ferryDetailsDTO)
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @POST
@@ -84,8 +103,7 @@ public class FerryEndpoint {
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateFerry(FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext){
+    public Response updateFerry(FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
         return null;
     }
-
 }

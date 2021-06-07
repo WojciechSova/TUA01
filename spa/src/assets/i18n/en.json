@@ -200,7 +200,8 @@
             "list": "Routes list"
         },
         "ferries_list": "Ferries list",
-        "seaport_list": "Seaport list"
+        "seaport_list": "Seaport list",
+        "seaport": "Seaport"
     },
     "session-timeout": {
         "info": {

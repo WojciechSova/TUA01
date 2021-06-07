@@ -29,7 +29,9 @@
                 {{seaport['code']}}
             </td>
             <td>
-                <button class="button-seaport-table" translate>general.details</button>
+                <button class="button-seaport-table" routerLink="{{'/ferrytales/seaports/' + seaport['code']}}" translate>
+                    general.details
+                </button>
             </td>
             <td>
                 <button class="button-seaport-table remove" translate>seaports-table.remove</button>

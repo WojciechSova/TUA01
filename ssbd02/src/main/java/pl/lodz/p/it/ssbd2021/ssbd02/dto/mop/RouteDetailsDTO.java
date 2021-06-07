@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 /**
  * Klasa DTO zawierająca trasy.
+ * Używana przy wyświetlaniu szczegółowych danych trasy.
  *
  * @author Artur Madaj
  */
@@ -16,7 +17,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class RouteDTO extends AbstractDTO {
+public class RouteDetailsDTO extends AbstractDTO {
 
     private SeaportGeneralDTO start;
 
