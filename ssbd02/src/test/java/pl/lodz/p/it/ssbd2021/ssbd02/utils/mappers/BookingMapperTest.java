@@ -42,10 +42,10 @@ class BookingMapperTest {
         BookingDetailsDTO bookingDetailsDTO = BookingMapper.createBookingDetailsDTOFromEntity(booking);
 
         assertEquals(bookingDetailsDTO.getVersion(), booking.getVersion());
-//        assertEquals(bookingDetailsDTO.getCruise(), booking.getCruise());
+        assertEquals(bookingDetailsDTO.getCruise(), CruiseMapper.createCruiseDetailsDTOFromEntity(booking.getCruise()));
         assertEquals(bookingDetailsDTO.getAccount(), AccountMapper.createAccountGeneralDTOFromEntity(booking.getAccount()));
         assertEquals(bookingDetailsDTO.getNumberOfPeople(), booking.getNumberOfPeople());
-        assertEquals(bookingDetailsDTO.getCabin(), CabinMapper.createCabinDTOFromEntity(booking.getCabin()));
+        assertEquals(bookingDetailsDTO.getCabin(), CabinMapper.createCabinGeneralDTOFromEntity(booking.getCabin()));
 //        assertEquals(bookingDetailsDTO.getVehicleType(), booking.getVehicleType());
         assertEquals(bookingDetailsDTO.getPrice(), booking.getPrice());
         assertEquals(bookingDetailsDTO.getNumber(), booking.getNumber());

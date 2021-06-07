@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLo
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.BookingMapper;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
@@ -64,6 +65,7 @@ public class BookingEndpoint {
 
             return Response.ok()
                     .entity(bookingDetailsDTO)
+                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(bookingDetailsDTO))
                     .build();
         } catch (GeneralException generalException) {
             throw generalException;
