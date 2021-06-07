@@ -202,7 +202,8 @@
         },
         "ferries_list": "Lista promów",
         "seaport-list": "Lista portów",
-        "seaport": "Port"
+        "seaport": "Port",
+        "cruise": "Rejs"
     },
     "session-timeout": {
         "info": {
@@ -226,5 +227,17 @@
         "name": "Name",
         "vehicle_capacity": "Pojemność garażowa",
         "on_deck_capacity": "Pojemność pokładowa"
+    },
+    "cruise-details": {
+        "edit_cruise": "Edytuj rejs",
+        "start_date": "Data rozpoczęcia",
+        "end_date": "Data zakończenia",
+        "route": "Trasa",
+        "ferry": "Prom",
+        "number": "Numer rejsu",
+        "modification_date": "Data modyfikacji",
+        "modified_by": "Autor ostatniej modyfikacji",
+        "creation_date": "Data utworzenia",
+        "created_by": "Utworzony przez"
     }
 }

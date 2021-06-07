@@ -32,12 +32,9 @@
                 <label id="firstName">{{cruiseDetailsService.cruise.endDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
-                <label class="uppercase" translate>cruise-details.from</label>
-                <label id="lastName">{{cruiseDetailsService.cruise.route.start}}</label>
-            </div>
-            <div class="row">
-                <label class="uppercase" translate>cruise-details.destination</label>
-                <label id="email">{{cruiseDetailsService.cruise.route.destination}}</label>
+                <label class="uppercase" translate>cruise-details.route</label>
+                <label id="lastName">{{cruiseDetailsService.cruise.route.start}}-{{cruiseDetailsService.cruise.route.destination}}
+                    {{cruiseDetailsService.cruise.route.code}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>cruise-details.ferry</label>
@@ -52,7 +49,7 @@
                 <label>{{cruiseDetailsService.cruise.modificationDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
-                <label class="uppercase" translate>cruise-details.modifeid_by</label>
+                <label class="uppercase" translate>cruise-details.modified_by</label>
                 <label>{{cruiseDetailsService.cruise.modifiedBy?.login}}</label>
             </div>
             <div class="row">

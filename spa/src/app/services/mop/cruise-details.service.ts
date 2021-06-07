@@ -20,8 +20,8 @@ export class CruiseDetailsService {
         },
         ferry: {
             name: 'name',
-            onDeckCapacity: 'onDeckCapacity',
-            vehicleCapacity: 'vehicleCapacity',
+            onDeckCapacity: 2,
+            vehicleCapacity: 10,
         },
         number: 'ABCXYZ100200',
         modificationDate: new Date(),
