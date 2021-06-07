@@ -45,9 +45,10 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void createSeaport(Seaport seaport) {
+    public void createSeaport(String login, Seaport seaport) {
         seaportFacadeLocal.create(seaport);
-        logger.info("The seaport with code {} has been created", seaport.getCode());
+        logger.info("The user with login {} has created seaport with code {}",
+                login, seaport.getCode());
     }
 
     @Override

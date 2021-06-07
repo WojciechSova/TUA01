@@ -96,17 +96,37 @@ public class SeaportEndpoint {
         }
     }
 
+    /**
+     * Metoda umożliwiająca dodanie nowego portu.
+     *
+     * @param seaportDetailsDTO Obiekt typu {@link SeaportDetailsDTO} przechowujący szczegóły nowego portu
+     * @param securityContext   Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego dodania portu
+     */
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
     public Response addSeaport(SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+        if (seaportDetailsDTO.getCity() == null || seaportDetailsDTO.getCode() == null) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        try {
+            seaportManager.createSeaport(securityContext.getUserPrincipal().getName(), SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO));
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateSeaport(SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext){
+    public Response updateSeaport(SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext) {
         return null;
     }
 
