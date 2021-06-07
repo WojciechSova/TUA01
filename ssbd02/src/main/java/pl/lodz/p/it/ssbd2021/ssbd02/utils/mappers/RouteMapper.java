@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CruiseGeneralDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteAndCruisesDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
@@ -38,12 +37,13 @@ public class RouteMapper {
     }
 
     /**
-     * Metoda mapująca obiekt encji {@link Route} na obiekt DTO {@link RouteDetailsDTO}
+     * Metoda mapująca obiekt encji {@link Route} oraz listę encji {@link Cruise} na obiekt DTO {@link RouteDetailsDTO}
      *
-     * @param route Obiekt typu {@link Route} na podstawie którego tworzony jest DTO
+     * @param route   Obiekt typu {@link Route} na podstawie którego tworzony jest DTO
+     * @param cruises Lista obiektów typu {@link Cruise} na podstawie której tworzony jest DTO
      * @return Obiekt typu {@link RouteDetailsDTO}
      */
-    public static RouteDetailsDTO createRouteDetailsDTOFromEntity(Route route) {
+    public static RouteDetailsDTO createRouteDetailsDTOFromEntity(Route route, List<Cruise> cruises) {
         if (route == null) {
             return null;
         }
@@ -56,25 +56,11 @@ public class RouteMapper {
         routeDetailsDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(route.getCreatedBy()));
         routeDetailsDTO.setVersion(route.getVersion());
 
-        return routeDetailsDTO;
-    }
-
-    /**
-     * Metoda mapująca obiekt encji {@link Route} oraz listę encji {@link Cruise} na obiekt DTO {@link RouteAndCruisesDTO}
-     *
-     * @param route  Obiekt typu {@link Route} na podstawie którego tworzony jest DTO
-     * @param cruises Lista obiektów typu {@link Cruise} na podstawie której tworzony jest DTO
-     * @return Obiekt typu {@link RouteAndCruisesDTO}
-     */
-    public static RouteAndCruisesDTO createRouteAndCruisesDTOFromEntity(Route route, List<Cruise> cruises) {
-        if (route == null) {
-            return null;
-        }
-        RouteDetailsDTO routeDetailsDTO = createRouteDetailsDTOFromEntity(route);
         List<CruiseGeneralDTO> cruiseGeneralDTOList = cruises.stream()
                 .map(CruiseMapper::createCruiseGeneralDTOFromEntity)
                 .collect(Collectors.toList());
+        routeDetailsDTO.setCruises(cruiseGeneralDTOList);
 
-        return new RouteAndCruisesDTO(routeDetailsDTO, cruiseGeneralDTOList);
+        return routeDetailsDTO;
     }
 }

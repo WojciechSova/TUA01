@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
 import org.apache.commons.lang3.tuple.Pair;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteAndCruisesDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.RouteManagerLocal;
@@ -75,11 +74,11 @@ public class RouteEndpoint {
     public Response getRouteAndCruisesForRoute(@PathParam("code") String code) {
         try {
             Pair<Route, List<Cruise>> pair = routeManager.getRouteAndCruisesByRouteCode(code);
-            RouteAndCruisesDTO routeAndCruisesDTO = RouteMapper.createRouteAndCruisesDTOFromEntity(pair.getLeft(), pair.getRight());
+            RouteDetailsDTO routeDetailsDTO = RouteMapper.createRouteDetailsDTOFromEntity(pair.getLeft(), pair.getRight());
 
             return Response.ok()
-                    .entity(routeAndCruisesDTO)
-                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(routeAndCruisesDTO.getRoute()))
+                    .entity(routeDetailsDTO)
+                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(routeDetailsDTO))
                     .build();
         } catch (GeneralException generalException) {
             throw generalException;

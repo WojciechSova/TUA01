@@ -6,14 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.FerryGeneralDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteAndCruisesDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.RouteManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.FerryMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.RouteMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
@@ -23,7 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 class RouteEndpointTest {
@@ -83,13 +82,13 @@ class RouteEndpointTest {
     public void getRouteAndCruisesForRoute() {
         String code = "CODE";
         when(routeManagerLocal.getRouteAndCruisesByRouteCode(code)).thenReturn(Pair.of(route1, cruises));
-        RouteAndCruisesDTO routeAndCruisesDTO = RouteMapper.createRouteAndCruisesDTOFromEntity(route1, cruises);
+        RouteDetailsDTO routeDetailsDTO = RouteMapper.createRouteDetailsDTOFromEntity(route1, cruises);
 
         Response response = routeEndpoint.getRouteAndCruisesForRoute(code);
 
-        assertEquals(routeAndCruisesDTO, response.getEntity());
+        assertEquals(routeDetailsDTO, response.getEntity());
         assertTrue(DTOIdentitySignerVerifier.verifyDTOIntegrity(response.getEntityTag().getValue(),
-                ((RouteAndCruisesDTO) response.getEntity()).getRoute()));
+                ((RouteDetailsDTO) response.getEntity())));
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 }

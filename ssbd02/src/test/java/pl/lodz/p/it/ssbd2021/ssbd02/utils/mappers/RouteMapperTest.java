@@ -2,7 +2,6 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteAndCruisesDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
@@ -65,7 +64,8 @@ class RouteMapperTest {
 
     @Test
     void createRouteDetailsDTOFromEntity() {
-        RouteDetailsDTO routeDetailsDTO = RouteMapper.createRouteDetailsDTOFromEntity(route1);
+        Cruise cruise = createCruise();
+        RouteDetailsDTO routeDetailsDTO = RouteMapper.createRouteDetailsDTOFromEntity(route1, List.of(cruise));
 
         assertEquals(route1.getVersion(), routeDetailsDTO.getVersion());
         assertEquals(SeaportMapper.createSeaportGeneralDTOFromEntities(route1.getStart()), routeDetailsDTO.getStart());
@@ -73,15 +73,7 @@ class RouteMapperTest {
         assertEquals(route1.getCode(), routeDetailsDTO.getCode());
         assertEquals(route1.getCreationDate(), routeDetailsDTO.getCreationDate());
         assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(route1.getCreatedBy()), routeDetailsDTO.getCreatedBy());
-    }
-
-    @Test
-    void createRouteAndCruisesDTOFromEntity() {
-        Cruise cruise = createCruise();
-        RouteAndCruisesDTO routeGeneralDTOFromEntity = RouteMapper.createRouteAndCruisesDTOFromEntity(route1, List.of(cruise));
-
-        assertEquals(RouteMapper.createRouteDetailsDTOFromEntity(route1), routeGeneralDTOFromEntity.getRoute());
-        assertEquals(CruiseMapper.createCruiseGeneralDTOFromEntity(cruise), routeGeneralDTOFromEntity.getCruises().get(0));
+        assertEquals(CruiseMapper.createCruiseGeneralDTOFromEntity(cruise), routeDetailsDTO.getCruises().get(0));
     }
 
     private Cruise createCruise() {
