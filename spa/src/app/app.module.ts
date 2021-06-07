@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,8 +44,10 @@ import { SeaportsTableComponent } from './ferrytales/seaports-table/seaports-tab
 import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
 import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
-import { CurrentCruisesTableComponent } from './ferrytales/current-cruises-table/current-cruises-table.component';
+import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
+import { CabinTableComponent } from './ferrytales/ferry-details/cabin-table/cabin-table.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
+import { CurrentCruisesTableComponent } from './ferrytales/current-cruises-table/current-cruises-table.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -60,7 +62,8 @@ export const errorHandlerProviders = [
 ];
 
 export const localeServiceProviders = [
-    { provide: LOCALE_ID,
+    {
+        provide: LOCALE_ID,
         useFactory: (localeService: LocaleService) => localeService.getLocale(),
         deps: [LocaleService]
     },
@@ -100,6 +103,8 @@ export const localeServiceProviders = [
         RoutesTableComponent,
         SeaportDetailsComponent,
         SeaportsTableComponent,
+        FerryDetailsComponent,
+        CabinTableComponent,
         CurrentCruisesTableComponent,
         CruiseDetailsComponent
     ],

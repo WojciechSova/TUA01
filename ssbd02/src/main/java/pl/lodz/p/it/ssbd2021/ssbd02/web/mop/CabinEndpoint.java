@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
@@ -23,7 +23,7 @@ public class CabinEndpoint {
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addCabin(CabinDTO cabinDTO, @Context SecurityContext securityContext) {
+    public Response addCabin(CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext) {
         return null;
     }
 
@@ -51,7 +51,7 @@ public class CabinEndpoint {
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateCabin(CabinDTO cabinDTO, @Context SecurityContext securityContext){
+    public Response updateCabin(CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext){
         return null;
     }
 }

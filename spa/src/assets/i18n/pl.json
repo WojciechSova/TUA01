@@ -196,7 +196,6 @@
         "account_list": "Lista kont",
         "account": "Szczegóły konta",
         "account_edit": "Edycja konta",
-        "seaport_list": "Lista portów",
         "routes": {
             "list": "Lista tras"
         },
@@ -224,9 +223,27 @@
         "details": "Rejsy"
     },
     "ferries-table": {
-        "name": "Name",
+        "name": "Nazwa",
         "vehicle_capacity": "Pojemność garażowa",
         "on_deck_capacity": "Pojemność pokładowa"
+    },
+    "ferry-details": {
+        "name": "Nazwa:",
+        "cabins": "Kajuty:",
+        "vehicle_capacity": "Pojemność parkingowa:",
+        "on_deck_capacity": "Pojemność pokładowa:",
+        "modification_date": "Data ostatniej modyfikacji:",
+        "modified_by": "Autor ostatniej modyfikacji:",
+        "creation_date": "Data utworzenia:",
+        "created_by": "Utworzony przez:",
+        "add_cabin": "Dodaj kajutę"
+    },
+    "cabin-table": {
+        "capacity": "Pojemność",
+        "cabinType": "Typ",
+        "number": "Numer",
+        "cabin_details": "Szczegóły",
+        "remove_cabin": "Usuń kajutę"
     },
     "cruise-details": {
         "edit_cruise": "Edytuj rejs",

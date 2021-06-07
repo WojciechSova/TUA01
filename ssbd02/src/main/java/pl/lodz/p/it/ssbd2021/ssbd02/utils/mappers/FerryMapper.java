@@ -50,7 +50,7 @@ public class FerryMapper {
         ferryDetailsDTO.setVersion(ferry.getVersion());
         ferryDetailsDTO.setName(ferry.getName());
         ferryDetailsDTO.setCabins(cabins.stream()
-                .map(CabinMapper::createCabinDTOFromEntity)
+                .map(CabinMapper::createCabinGeneralDTOFromEntity)
                 .collect(Collectors.toList()));
         ferryDetailsDTO.setVehicleCapacity(ferry.getVehicleCapacity());
         ferryDetailsDTO.setOnDeckCapacity(ferry.getOnDeckCapacity());

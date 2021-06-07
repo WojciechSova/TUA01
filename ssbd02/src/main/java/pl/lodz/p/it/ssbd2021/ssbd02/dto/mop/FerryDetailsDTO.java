@@ -22,7 +22,7 @@ public class FerryDetailsDTO extends AbstractDTO {
 
     private String name;
 
-    private List<CabinDTO> cabins;
+    private List<CabinGeneralDTO> cabins;
 
     private Integer vehicleCapacity;
 
