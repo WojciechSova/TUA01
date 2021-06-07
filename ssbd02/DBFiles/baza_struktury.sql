@@ -33,13 +33,13 @@ CREATE INDEX account_login ON Account USING btree (login);
 
 CREATE TABLE Personal_data
 (
-    id                          bigint                              NOT NULL,
-    first_name                  varchar(30)                         NOT NULL,
-    last_name                   varchar(50)                         NOT NULL,
-    email                       varchar(70)                         NOT NULL,
+    id                          bigint                                             NOT NULL,
+    first_name                  varchar(30)                                        NOT NULL,
+    last_name                   varchar(50)                                        NOT NULL,
+    email                       varchar(70)                                        NOT NULL,
     phone_number                varchar(15),
-    language                    varchar(5)                          NOT NULL,
-    time_zone                   char(6)                             NOT NULL,
+    language                    varchar(5)                                         NOT NULL,
+    time_zone                   char(6)                                            NOT NULL,
     modification_date           timestamp with time zone,
     modified_by                 bigint,
     activity_modification_date  timestamp with time zone,
@@ -52,7 +52,7 @@ CREATE TABLE Personal_data
     last_known_good_login_ip    varchar(39),
     last_known_bad_login        timestamp with time zone,
     last_known_bad_login_ip     varchar(39),
-    number_of_bad_logins        int       DEFAULT 0                 NOT NULL,
+    number_of_bad_logins        int                      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id_activity_modified_by FOREIGN KEY (activity_modified_by) REFERENCES Account (id),
@@ -75,11 +75,11 @@ CREATE INDEX personal_data_phone_number ON Personal_data USING btree (phone_numb
 
 CREATE TABLE Access_level
 (
-    id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    version           bigint                              NOT NULL,
-    level             varchar(16)                         NOT NULL,
-    account           bigint                              NOT NULL,
-    active            boolean   DEFAULT true              NOT NULL,
+    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    version           bigint                                             NOT NULL,
+    level             varchar(16)                                        NOT NULL,
+    account           bigint                                             NOT NULL,
+    active            boolean                  DEFAULT true              NOT NULL,
     modification_date timestamp with time zone,
     modified_by       bigint,
     creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -117,11 +117,11 @@ GRANT SELECT ON TABLE Auth_view TO ssbd02auth;
 
 CREATE TABLE Ferry
 (
-    id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    version           bigint                              NOT NULL,
-    name              varchar(30)                         NOT NULL,
-    vehicle_capacity  int                                 NOT NULL,
-    on_deck_capacity  int                                 NOT NULL,
+    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    version           bigint                                             NOT NULL,
+    name              varchar(30)                                        NOT NULL,
+    vehicle_capacity  int                                                NOT NULL,
+    on_deck_capacity  int                                                NOT NULL,
     modification_date timestamp with time zone,
     modified_by       bigint,
     creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -145,10 +145,10 @@ CREATE INDEX ferry_name ON Ferry USING btree (name);
 
 CREATE TABLE Seaport
 (
-    id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    version           bigint                              NOT NULL,
-    city              varchar(30)                         NOT NULL,
-    code              varchar(3)                          NOT NULL,
+    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    version           bigint                                             NOT NULL,
+    city              varchar(30)                                        NOT NULL,
+    code              varchar(3)                                         NOT NULL,
     modification_date timestamp with time zone,
     modified_by       bigint,
     creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -172,11 +172,11 @@ CREATE INDEX seaport_code ON Seaport USING btree (code);
 
 CREATE TABLE Route
 (
-    id            bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    version       bigint                              NOT NULL,
-    start         bigint                              NOT NULL,
-    destination   bigint                              NOT NULL,
-    code          varchar(6)                          NOT NULL,
+    id            bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    version       bigint                                             NOT NULL,
+    start         bigint                                             NOT NULL,
+    destination   bigint                                             NOT NULL,
+    code          varchar(6)                                         NOT NULL,
     creation_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_by    bigint,
     PRIMARY KEY (id),
@@ -211,12 +211,12 @@ GRANT SELECT ON TABLE Cabin_type TO ssbd02mop;
 
 CREATE TABLE Cabin
 (
-    id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    version           bigint                              NOT NULL,
-    ferry             bigint                              NOT NULL,
-    capacity          int                                 NOT NULL,
-    cabin_type        bigint                              NOT NULL,
-    number            varchar(4)                          NOT NULL,
+    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    version           bigint                                             NOT NULL,
+    ferry             bigint                                             NOT NULL,
+    capacity          int                                                NOT NULL,
+    cabin_type        bigint                                             NOT NULL,
+    number            varchar(4)                                         NOT NULL,
     modification_date timestamp with time zone,
     modified_by       bigint,
     creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -243,17 +243,17 @@ CREATE INDEX cabin_number ON Cabin USING btree (number);
 
 CREATE TABLE Cruise
 (
-    id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    version           bigint                              NOT NULL,
+    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    version           bigint                                             NOT NULL,
     start_date        timestamp with time zone                           NOT NULL,
     end_date          timestamp with time zone                           NOT NULL,
-    route             bigint                              NOT NULL,
-    ferry             bigint                              NOT NULL,
-    number            varchar(12)                         NOT NULL,
+    route             bigint                                             NOT NULL,
+    ferry             bigint                                             NOT NULL,
+    number            varchar(12)                                        NOT NULL,
     modification_date timestamp with time zone,
     modified_by       bigint,
     creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    created_by        bigint,
+    created_by        bigint                                             NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT end_date_after_start_date CHECK (end_date > start_date),
     CONSTRAINT fk_route_id FOREIGN KEY (route) REFERENCES Route (id),
@@ -290,15 +290,15 @@ GRANT SELECT ON TABLE Vehicle_type TO ssbd02mop;
 
 CREATE TABLE Booking
 (
-    id               bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    version          bigint                              NOT NULL,
-    cruise           bigint                              NOT NULL,
-    account          bigint                              NOT NULL,
-    number_of_people int                                 NOT NULL,
+    id               bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    version          bigint                                             NOT NULL,
+    cruise           bigint                                             NOT NULL,
+    account          bigint                                             NOT NULL,
+    number_of_people int                                                NOT NULL,
     cabin            bigint,
-    vehicle_type     bigint                              NOT NULL,
-    price            float                               NOT NULL,
-    number           varchar(10)                         NOT NULL,
+    vehicle_type     bigint                                             NOT NULL,
+    price            float                                              NOT NULL,
+    number           varchar(10)                                        NOT NULL,
     creation_date    timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT number_of_people_greater_than_zero CHECK (number_of_people > 0),
@@ -323,11 +323,11 @@ CREATE INDEX booking_number ON Booking USING btree (number);
 
 CREATE TABLE One_time_url
 (
-    id                bigint                              NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
-    version           bigint                              NOT NULL,
-    url               char(32)                            NOT NULL,
-    account           bigint                              NOT NULL,
-    action_type       varchar(6)                          NOT NULL,
+    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    version           bigint                                             NOT NULL,
+    url               char(32)                                           NOT NULL,
+    account           bigint                                             NOT NULL,
+    action_type       varchar(6)                                         NOT NULL,
     new_email         varchar(70),
     expire_date       timestamp with time zone                           NOT NULL,
     modification_date timestamp with time zone,

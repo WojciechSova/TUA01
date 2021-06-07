@@ -201,7 +201,8 @@
         },
         "ferries_list": "Ferries list",
         "seaport_list": "Seaport list",
-        "seaport": "Seaport"
+        "seaport": "Seaport",
+        "cruise": "Cruise"
     },
     "session-timeout": {
         "info": {
@@ -225,5 +226,17 @@
         "name": "Name",
         "vehicle_capacity": "Vehicle capacity",
         "on_deck_capacity": "On deck capacity"
+    },
+    "cruise-details": {
+        "edit_cruise": "Edit cruise",
+        "start_date": "Start date",
+        "end_date": "End date",
+        "route": "Route",
+        "ferry": "Ferry",
+        "number": "Cruise number",
+        "modification_date": "Modification date",
+        "modified_by": "Modified by",
+        "creation_date": "Creation date",
+        "created_by": "Created by"
     }
 }
