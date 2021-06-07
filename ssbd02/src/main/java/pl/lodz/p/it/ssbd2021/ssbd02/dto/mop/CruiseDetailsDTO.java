@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 /**
  * Klasa DTO zawierająca rejsy.
+ * Używana przy wyświetlaniu szczegółowych danych rejsu.
  *
  * @author Artur Madaj
  */
@@ -16,7 +17,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class CruiseDTO extends AbstractDTO {
+public class CruiseDetailsDTO extends AbstractDTO {
 
     private Timestamp startDate;
 
