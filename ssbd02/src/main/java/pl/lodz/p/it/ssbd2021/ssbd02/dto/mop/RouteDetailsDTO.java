@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Klasa DTO zawierająca trasy.
@@ -22,6 +23,8 @@ public class RouteDetailsDTO extends AbstractDTO {
     private SeaportGeneralDTO start;
 
     private SeaportGeneralDTO destination;
+
+    private List<CruiseGeneralDTO> cruises;
 
     private String code;
 

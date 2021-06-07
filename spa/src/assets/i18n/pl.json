@@ -212,7 +212,8 @@
         "seaport-list": "Lista portów",
         "booking-list": "Lista rezerwacji",
         "seaport": "Port",
-        "booking": "Rezerwacja"
+        "booking": "Rezerwacja",
+        "cruise": "Rejs"
     },
     "session-timeout": {
         "info": {
@@ -233,8 +234,38 @@
         "details": "Rejsy"
     },
     "ferries-table": {
-        "name": "Name",
+        "name": "Nazwa",
         "vehicle_capacity": "Pojemność garażowa",
         "on_deck_capacity": "Pojemność pokładowa"
+    },
+    "ferry-details": {
+        "name": "Nazwa:",
+        "cabins": "Kajuty:",
+        "vehicle_capacity": "Pojemność parkingowa:",
+        "on_deck_capacity": "Pojemność pokładowa:",
+        "modification_date": "Data ostatniej modyfikacji:",
+        "modified_by": "Autor ostatniej modyfikacji:",
+        "creation_date": "Data utworzenia:",
+        "created_by": "Utworzony przez:",
+        "add_cabin": "Dodaj kajutę"
+    },
+    "cabin-table": {
+        "capacity": "Pojemność",
+        "cabinType": "Typ",
+        "number": "Numer",
+        "cabin_details": "Szczegóły",
+        "remove_cabin": "Usuń kajutę"
+    },
+    "cruise-details": {
+        "edit_cruise": "Edytuj rejs",
+        "start_date": "Data rozpoczęcia",
+        "end_date": "Data zakończenia",
+        "route": "Trasa",
+        "ferry": "Prom",
+        "number": "Numer rejsu",
+        "modification_date": "Data modyfikacji",
+        "modified_by": "Autor ostatniej modyfikacji",
+        "creation_date": "Data utworzenia",
+        "created_by": "Utworzony przez"
     }
 }

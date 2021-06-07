@@ -1,5 +1,7 @@
+import { SeaportGeneral } from './SeaportGeneral';
+
 export interface RouteGeneral {
-    start: string;
-    destination: string;
+    start: SeaportGeneral;
+    destination: SeaportGeneral;
     code: string;
 }
