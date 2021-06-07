@@ -1,12 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
-import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
@@ -65,8 +62,9 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public Booking getBookingByNumber(String code) {
-        return null;
+    public Booking getBookingByNumber(String number) {
+        return Optional.ofNullable(bookingFacadeLocal.findByNumber(number))
+                .orElseThrow(CommonExceptions::createNoResultException);
     }
 
     @Override
