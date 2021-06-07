@@ -5,10 +5,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
- * Klasa DTO zawierająca promy.
+ * Klasa DTO zawierająca trasy.
+ * Używana przy wyświetlaniu szczegółowych danych trasy.
  *
  * @author Artur Madaj
  */
@@ -17,19 +17,13 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class FerryDTO extends AbstractDTO {
+public class RouteDetailsDTO extends AbstractDTO {
 
-    private String name;
+    private SeaportGeneralDTO start;
 
-    private List<CabinDTO> cabins;
+    private SeaportGeneralDTO destination;
 
-    private Integer vehicleCapacity;
-
-    private Integer onDeckCapacity;
-
-    private Timestamp modificationDate;
-
-    private AccountGeneralDTO modifiedBy;
+    private String code;
 
     private Timestamp creationDate;
 

@@ -46,7 +46,7 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Cruise findByNumber(String number) {
         TypedQuery<Cruise> typedQuery = entityManager.createNamedQuery("Cruise.findByNumber", Cruise.class);
         typedQuery.setParameter("number", number);
@@ -56,13 +56,15 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Cruise> findAllByRoute(Route route) {
-        return null;
+        TypedQuery<Cruise> typedQuery = entityManager.createNamedQuery("Cruise.findByRoute", Cruise.class);
+        typedQuery.setParameter("route", route);
+        return typedQuery.getResultList();
     }
 
     @Override
     @PermitAll
     public List<Cruise> findAllFutureDate() {
-        return null;
+        return entityManager.createNamedQuery("Cruise.findCurrentCruises", Cruise.class).getResultList();
     }
 
     @Override

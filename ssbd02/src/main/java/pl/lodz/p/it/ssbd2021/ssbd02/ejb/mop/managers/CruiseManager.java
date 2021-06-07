@@ -1,8 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CruiseManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -11,8 +13,10 @@ import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Manager rejsów
@@ -25,6 +29,9 @@ import java.util.List;
 @Interceptors(TrackerInterceptor.class)
 public class CruiseManager extends AbstractManager implements CruiseManagerLocal, SessionSynchronization {
 
+    @Inject
+    private CruiseFacadeLocal cruiseFacadeLocal;
+
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Cruise> getAllCruises() {
@@ -34,7 +41,7 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     @Override
     @PermitAll
     public List<Cruise> getAllCurrentCruises() {
-        return null;
+        return Optional.ofNullable(cruiseFacadeLocal.findAllFutureDate()).orElseThrow(CommonExceptions::createNoResultException);
     }
 
     @Override
@@ -44,16 +51,11 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Cruise getCruiseByNumber(String number) {
-        return null;
+        return cruiseFacadeLocal.findByNumber(number);
     }
 
-    @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public List<Cruise> getCruisesByRouteCode(String code) {
-        return null;
-    }
 
     @Override
     @RolesAllowed({"EMPLOYEE"})

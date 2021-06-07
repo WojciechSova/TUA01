@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ResetPasswordService } from '../../../services/reset-password.service';
+import { ResetPasswordService } from '../../../services/mok/reset-password.service';
 
 @Component({
     selector: 'app-reset-password',

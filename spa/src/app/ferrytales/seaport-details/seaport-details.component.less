@@ -1,0 +1,85 @@
+@import '../../../styles.less';
+
+.outer-div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-container {
+    position: relative;
+    padding: 1% 0;
+    width: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.edit-button {
+    position: relative;
+    padding-right: 1.2rem;
+    padding-left: 1.2rem;
+    margin-left: 1%;
+    transition: 0.3s;
+    min-height: 2.5rem;
+    height:  auto;
+    width: auto;
+    border: none;
+    border-radius: 35px;
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, @primary-color 0%, @secondary-color 100%);
+    font: lighter 1.3rem Source Sans Pro;
+    color: @primary-text-color;
+    text-align: center;
+
+    &:hover {
+        background-position: right center;
+        cursor: pointer;
+    }
+}
+
+.seaport-details {
+    width: 60%;
+    background-color: white;
+    color: black;
+    font: 1.2rem Source Sans Pro;
+    margin-top: 5%;
+    border-radius: 1.2vw;
+    border: #ddd 1px solid;
+    padding-left: 4%;
+    padding-right: 4%;
+    padding-bottom: 4%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 1px 3px 2px #eee;
+    font-weight: lighter;
+
+    label {
+        margin-top: 2%;
+    }
+}
+
+.uppercase {
+    color: @secondary-color;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    > * {
+        width: 100%;
+    }
+}

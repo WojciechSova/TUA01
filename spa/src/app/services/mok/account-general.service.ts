@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AccountGeneral } from '../model/mok/AccountGeneral';
-import { environment } from '../../environments/environment';
+import { AccountGeneral } from '../../model/mok/AccountGeneral';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'

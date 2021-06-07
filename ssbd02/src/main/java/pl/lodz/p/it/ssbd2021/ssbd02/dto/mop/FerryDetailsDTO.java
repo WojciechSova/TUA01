@@ -5,9 +5,11 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
- * Klasa DTO zawierająca porty.
+ * Klasa DTO zawierająca promy.
+ * Używana przy wyświetlaniu szczegółów danego promu.
  *
  * @author Artur Madaj
  */
@@ -16,11 +18,15 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class SeaportDTO extends AbstractDTO {
+public class FerryDetailsDTO extends AbstractDTO {
 
-    private String city;
+    private String name;
 
-    private String code;
+    private List<CabinDTO> cabins;
+
+    private Integer vehicleCapacity;
+
+    private Integer onDeckCapacity;
 
     private Timestamp modificationDate;
 

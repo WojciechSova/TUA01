@@ -55,7 +55,9 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
     @Override
     @RolesAllowed({"CLIENT"})
     public List<Booking> findAllByAccount(Account account) {
-        return null;
+        TypedQuery<Booking> typedQuery = entityManager.createNamedQuery("Booking.findByAccount", Booking.class);
+        typedQuery.setParameter("account", account);
+        return typedQuery.getResultList();
     }
 
     @Override
