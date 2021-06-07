@@ -10,6 +10,13 @@ export class RouteGeneralService {
     private readonly url: string;
 
     constructor(private httpClient: HttpClient) {
-        this.url = environment.appUrl + 'routes';
+        this.url = environment.appUrl + '/routes';
+    }
+
+    getAllRoutes(): any {
+        return this.httpClient.get<any>(this.url, {
+            observe: 'body',
+            responseType: 'json'
+        });
     }
 }

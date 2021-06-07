@@ -1,6 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CruiseDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CruiseDetailsDTO;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -28,13 +28,6 @@ public class CruiseEndpoint {
     }
 
     @GET
-    @Path("route/{code}")
-    @RolesAllowed({"EMPLOYEE"})
-    public Response getCruisesForRoute(@PathParam("code") String code) {
-        return null;
-    }
-
-    @GET
     @Path("/cruise/{number}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getCruise(@PathParam("number") String number) {
@@ -51,7 +44,7 @@ public class CruiseEndpoint {
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addCruise(CruiseDTO cruiseDTO, @Context SecurityContext securityContext) {
+    public Response addCruise(CruiseDetailsDTO cruiseDetailsDTO, @Context SecurityContext securityContext) {
         return null;
     }
 
@@ -65,7 +58,7 @@ public class CruiseEndpoint {
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateCruise(CruiseDTO cruiseDTO, @Context SecurityContext securityContext) {
+    public Response updateCruise(CruiseDetailsDTO cruiseDetailsDTO, @Context SecurityContext securityContext) {
         return null;
     }
 

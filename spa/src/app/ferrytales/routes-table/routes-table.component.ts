@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteGeneralService } from '../../services/mop/route-general.service';
 import { RouteGeneral } from '../../model/mop/RouteGeneral';
@@ -8,26 +8,13 @@ import { RouteGeneral } from '../../model/mop/RouteGeneral';
     templateUrl: './routes-table.component.html',
     styleUrls: ['./routes-table.component.less']
 })
-export class RoutesTableComponent implements OnInit {
+export class RoutesTableComponent implements OnDestroy {
 
-    // routes: RouteGeneral[] = [];
-    routes: RouteGeneral[] = [ {
-            start: 'starting location',
-            destination: 'destination location',
-            code: 'code of route'
-        }, {
-        start: 'more',
-        destination: 'more',
-        code: 'more'
-    }
-    ];
+    routes: RouteGeneral[] = [];
 
     constructor(private router: Router,
                 private routeGeneralService: RouteGeneralService) {
-    }
-
-    ngOnInit(): void {
-
+        this.getRoutes();
     }
 
     goToHomepageBreadcrumb(): void {
@@ -35,10 +22,16 @@ export class RoutesTableComponent implements OnInit {
     }
 
     getRoutes(): void {
-        // TODO
+        this.routeGeneralService.getAllRoutes().subscribe((response: RouteGeneral[]) => {
+            this.routes = response;
+        });
     }
 
     addRoute(): void {
         // TODO
+    }
+
+    ngOnDestroy(): void {
+        this.routes = [];
     }
 }

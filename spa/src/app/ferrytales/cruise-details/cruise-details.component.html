@@ -1,0 +1,65 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <!--    TODO w dalszej części zadania-->
+    <!--    <li class="breadcrumb-item">-->
+    <!--        <a href="" (click)="goToUserListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>-->
+    <!--            breadcrumb.cruise_list </a>-->
+    <!--        <img src="assets/wind.png" alt="" class="bullet">-->
+    <!--    </li>-->
+    <li class="breadcrumb-item active" translate> breadcrumb.cruise</li>
+</ol>
+<div class="outer-div">
+    <div class="cruise-details" id="cruiseDetails">
+        <div class="button-container">
+            <button id="edit-button"
+                    class="edit-button"
+                    (click)="edit(number)"
+                    translate>cruise-details.edit_cruise
+            </button>
+            <button class="edit-button" (click)="getCruise()" translate>general.refresh</button>
+        </div>
+        <div class="col">
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.start_date</label>
+                <label id="login">{{cruiseDetailsService.cruise.startDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.end_date</label>
+                <label id="firstName">{{cruiseDetailsService.cruise.endDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.route</label>
+                <label id="lastName">{{cruiseDetailsService.cruise.route.start}}-{{cruiseDetailsService.cruise.route.destination}}
+                    {{cruiseDetailsService.cruise.route.code}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.ferry</label>
+                <label id="phoneNumber">{{cruiseDetailsService.cruise.ferry.name}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.number</label>
+                <label>{{cruiseDetailsService.cruise.number}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.modification_date</label>
+                <label>{{cruiseDetailsService.cruise.modificationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.modified_by</label>
+                <label>{{cruiseDetailsService.cruise.modifiedBy?.login}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.creation_date</label>
+                <label>{{cruiseDetailsService.cruise.creationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.created_by</label>
+                <label>{{cruiseDetailsService.cruise.createdBy.login}}</label>
+            </div>
+        </div>
+    </div>
+</div>
