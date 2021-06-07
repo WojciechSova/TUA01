@@ -196,11 +196,11 @@
         "account_list": "Lista kont",
         "account": "Szczegóły konta",
         "account_edit": "Edycja konta",
-        "seaport_list": "Lista portów",
         "routes": {
             "list": "Lista tras"
         },
-        "ferries_list": "Lista promów"
+        "ferries_list": "Lista promów",
+        "seaport_list": "Lista portów"
     },
     "session-timeout": {
         "info": {
