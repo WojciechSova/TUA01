@@ -14,8 +14,14 @@ export class CruiseDetailsService {
         startDate: new Date(),
         endDate: new Date(),
         route: {
-            start: 'start',
-            destination: 'dest',
+            start: {
+                code: 'SCOD',
+                city: 'Start city'
+            },
+            destination: {
+                code: 'ECOD',
+                city: 'Dest city'
+            },
             code: 'COD',
         },
         ferry: {
