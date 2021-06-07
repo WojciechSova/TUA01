@@ -13,12 +13,12 @@ export class CruiseDetailsService {
         endDate: new Date(),
         route: {
             start: {
-                city: "start",
-                code: "111",
+                code: 'SCOD',
+                city: 'Start city'
             },
             destination: {
-                city: "dest",
-                code: "222",
+                code: 'ECOD',
+                city: 'Dest city'
             },
             code: 'COD',
         },
