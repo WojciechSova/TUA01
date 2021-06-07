@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.SeaportManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.SeaportMapper;
@@ -15,6 +16,7 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -106,12 +108,14 @@ public class SeaportEndpoint {
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addSeaport(SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext) {
+    public Response addSeaport(@Valid SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext) {
         if (seaportDetailsDTO.getCity() == null || seaportDetailsDTO.getCode() == null) {
             throw CommonExceptions.createConstraintViolationException();
         }
         try {
-            seaportManager.createSeaport(securityContext.getUserPrincipal().getName(), SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO));
+            Seaport seaport = SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO);
+            seaport.setVersion(0L);
+            seaportManager.createSeaport(securityContext.getUserPrincipal().getName(), seaport);
             return Response.ok()
                     .build();
         } catch (GeneralException generalException) {
