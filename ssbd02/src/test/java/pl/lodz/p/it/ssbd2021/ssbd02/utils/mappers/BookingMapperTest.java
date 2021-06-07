@@ -19,11 +19,16 @@ class BookingMapperTest {
 
     private Booking booking;
     private Cabin cabin;
+    private VehicleType vehicleType;
 
     @BeforeEach
     void setUp() {
         cabin = new Cabin();
         cabin.setCabinType(new CabinType());
+
+        vehicleType = new VehicleType();
+        vehicleType.setVehicleTypeName("1");
+        vehicleType.setRequiredSpace(1d);
 
         booking = new Booking();
         booking.setVersion(1L);
@@ -31,7 +36,7 @@ class BookingMapperTest {
         booking.setAccount(new Account());
         booking.setNumberOfPeople(1);
         booking.setCabin(cabin);
-        booking.setVehicleType(new VehicleType());
+        booking.setVehicleType(vehicleType);
         booking.setPrice(1.2);
         booking.setNumber("1234567890");
         booking.setCreationDate(Timestamp.from(Instant.now()));
@@ -46,7 +51,7 @@ class BookingMapperTest {
         assertEquals(bookingDetailsDTO.getAccount(), AccountMapper.createAccountGeneralDTOFromEntity(booking.getAccount()));
         assertEquals(bookingDetailsDTO.getNumberOfPeople(), booking.getNumberOfPeople());
         assertEquals(bookingDetailsDTO.getCabin(), CabinMapper.createCabinGeneralDTOFromEntity(booking.getCabin()));
-//        assertEquals(bookingDetailsDTO.getVehicleType(), booking.getVehicleType());
+        assertEquals(bookingDetailsDTO.getVehicleType(), VehicleTypeMapper.createVehicleTypeDTOFromEntity(booking.getVehicleType()));
         assertEquals(bookingDetailsDTO.getPrice(), booking.getPrice());
         assertEquals(bookingDetailsDTO.getNumber(), booking.getNumber());
         assertEquals(bookingDetailsDTO.getCreationDate(), booking.getCreationDate());

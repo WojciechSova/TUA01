@@ -27,7 +27,7 @@ public class BookingMapper {
         bookingDetailsDTO.setAccount(AccountMapper.createAccountGeneralDTOFromEntity(booking.getAccount()));
         bookingDetailsDTO.setNumberOfPeople(booking.getNumberOfPeople());
         bookingDetailsDTO.setCabin(CabinMapper.createCabinGeneralDTOFromEntity(booking.getCabin()));
-//        bookingDetailsDTO.setVehicleType(booking.getVehicleType());
+        bookingDetailsDTO.setVehicleType(VehicleTypeMapper.createVehicleTypeDTOFromEntity(booking.getVehicleType()));
         bookingDetailsDTO.setPrice(booking.getPrice());
         bookingDetailsDTO.setNumber(booking.getNumber());
         bookingDetailsDTO.setCreationDate(booking.getCreationDate());
