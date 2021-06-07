@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.SeaportManagerLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.SeaportMapper;
@@ -113,9 +112,7 @@ public class SeaportEndpoint {
             throw CommonExceptions.createConstraintViolationException();
         }
         try {
-            Seaport seaport = SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO);
-            seaport.setVersion(0L);
-            seaportManager.createSeaport(securityContext.getUserPrincipal().getName(), seaport);
+            seaportManager.createSeaport(securityContext.getUserPrincipal().getName(), SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO));
             return Response.ok()
                     .build();
         } catch (GeneralException generalException) {
