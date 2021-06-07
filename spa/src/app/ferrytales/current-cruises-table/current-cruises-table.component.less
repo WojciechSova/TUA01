@@ -1,0 +1,46 @@
+@import '../../../styles.less';
+
+.button-container {
+    display: flex;
+    padding: 2% 10% 1%;
+    max-width: 100vw;
+    height: 5vh;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-content: center;
+}
+
+.current-cruises-list-container {
+    padding: 0 10% 2%;
+}
+
+#cruises {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    font: lighter 1.2rem Source Sans Pro;
+    box-shadow: 0 1px 3px 2px #eee;
+}
+
+#cruises td, #cruises th {
+    border-bottom: 2px solid #ddd;
+    padding: 8px;
+}
+
+#cruises tr:hover {
+    background-color: #ddd;
+}
+
+#cruises th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: @primary-color;
+    color: white;
+    text-transform: uppercase;
+    font-weight: lighter;
+    border: none;
+}
+
+#cruises td:first-child {
+    font-weight: bold;
+}

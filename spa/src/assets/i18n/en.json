@@ -238,5 +238,13 @@
         "modified_by": "Modified by",
         "creation_date": "Creation date",
         "created_by": "Created by"
+    },
+    "cruise-general": {
+        "start_date": "Start date",
+        "end_date": "End date",
+        "route_start": "Starting seaport",
+        "route_destination": "Destination seaport",
+        "ferry_name": "Ferry name",
+        "cruise_number": "Cruise number"
     }
 }

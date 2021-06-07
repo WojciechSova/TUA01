@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { FerryGeneral } from '../../model/mop/FerryGeneral';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import {CruiseDetails} from '../../model/mop/CruiseDetails';
-import {AccountGeneral} from '../../model/mok/AccountGeneral';
+import { CruiseDetails } from '../../model/mop/CruiseDetails';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CruiseDetailsService {
 
@@ -14,9 +12,15 @@ export class CruiseDetailsService {
         startDate: new Date(),
         endDate: new Date(),
         route: {
-            start: 'start',
-            destination: 'dest',
-            code: 'COD',
+            start: {
+                city: 'City1',
+                code: 'ABC'
+            },
+            destination: {
+                city: 'City2',
+                code: 'DEF'
+            },
+            code: 'ABCDEF'
         },
         ferry: {
             name: 'name',

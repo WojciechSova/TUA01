@@ -1,0 +1,22 @@
+<div class="current-cruises-list-container">
+    <table id="cruises">
+        <tr>
+            <th translate>cruise-general.cruise_number</th>
+            <th translate>cruise-general.start_date</th>
+            <th translate>cruise-general.end_date</th>
+            <th translate>cruise-general.route_start</th>
+            <th translate>cruise-general.route_destination</th>
+            <th translate>cruise-general.ferry_name</th>
+        </tr>
+
+        <tr *ngFor="let cruise of currentCruises">
+            <td>{{cruise.number}}</td>
+            <td>{{cruise.startDate | date :'short':identityService.getTimezone()}}</td>
+            <td>{{cruise.endDate | date :'short':identityService.getTimezone()}}</td>
+            <td>{{cruise.route.start.city}}</td>
+            <td>{{cruise.route.destination.city}}</td>
+            <td>{{cruise.ferry.name}}</td>
+        </tr>
+    </table>
+</div>
+
