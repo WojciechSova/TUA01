@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinTypeFacadeLo
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
@@ -26,7 +27,7 @@ import java.util.List;
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
-@Interceptors({GeneralInterceptor.class, PersistenceInterceptor.class})
+@Interceptors({GeneralInterceptor.class, PersistenceInterceptor.class, TrackerInterceptor.class})
 public class CabinTypeFacade extends AbstractFacade<CabinType> implements CabinTypeFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")

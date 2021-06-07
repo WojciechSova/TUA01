@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mop.CruiseInterceptor;
 
 import javax.annotation.security.DenyAll;
@@ -30,7 +31,7 @@ import java.util.List;
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
-@Interceptors({GeneralInterceptor.class, CruiseInterceptor.class, PersistenceInterceptor.class})
+@Interceptors({GeneralInterceptor.class, CruiseInterceptor.class, PersistenceInterceptor.class, TrackerInterceptor.class})
 public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")

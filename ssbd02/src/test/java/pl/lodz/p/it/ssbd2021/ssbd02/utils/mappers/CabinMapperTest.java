@@ -2,7 +2,8 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
@@ -34,8 +35,8 @@ class CabinMapperTest {
     }
 
     @Test
-    void createCabinDTOFromEntity() {
-        CabinDTO cabinDTO = CabinMapper.createCabinDTOFromEntity(cabin);
+    void createCabinDetailsDTOFromEntity() {
+        CabinDetailsDTO cabinDTO = CabinMapper.createCabinDetailsDTOFromEntity(cabin);
 
         assertAll(
                 () -> assertEquals(cabin.getVersion(), cabinDTO.getVersion()),
@@ -46,6 +47,18 @@ class CabinMapperTest {
                 () -> assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cabin.getModifiedBy()), cabinDTO.getModifiedBy()),
                 () -> assertEquals(cabin.getCreationDate(), cabinDTO.getCreationDate()),
                 () -> assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cabin.getCreatedBy()), cabinDTO.getCreatedBy())
+        );
+    }
+
+    @Test
+    void createCabinGeneralDTOFromEntity() {
+        CabinGeneralDTO cabinDTO = CabinMapper.createCabinGeneralDTOFromEntity(cabin);
+
+        assertAll(
+                () -> assertEquals(cabin.getVersion(), cabinDTO.getVersion()),
+                () -> assertEquals(cabin.getCapacity(), cabinDTO.getCapacity()),
+                () -> assertEquals(cabinType.getCabinTypeName(), cabinDTO.getCabinType()),
+                () -> assertEquals(cabin.getNumber(), cabinDTO.getNumber())
         );
     }
 

@@ -18,13 +18,13 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(callSuper = true)
 public class BookingDTO extends AbstractDTO {
 
-    private CruiseDTO cruise;
+    private CruiseDetailsDTO cruise;
 
     private AccountGeneralDTO account;
 
     private Integer numberOfPeople;
 
-    private CabinDTO cabin;
+    private CabinDetailsDTO cabin;
 
     private VehicleTypeDTO vehicleType;
 

@@ -43,12 +43,12 @@ public interface BookingManagerLocal {
     List<Booking> getAllBookingsByAccount(String login);
 
     /**
-     * Metoda wyszukująca rezerwacje o podanym kodzie.
+     * Metoda wyszukująca rezerwacje o podanym numerze.
      *
-     * @param code Numer rezerwacji, który chcemy wyszukać
+     * @param number Numer rezerwacji, który chcemy wyszukać
      * @return Encja typu {@link Booking}
      */
-    Booking getBookingByNumber(String code);
+    Booking getBookingByNumber(String number);
 
     /**
      * Metoda zwracająca potrzebne miejsce na promie na pojazd o podanej nazwie typu.
