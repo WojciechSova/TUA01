@@ -2,10 +2,13 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CruiseDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CruiseGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -55,6 +58,7 @@ class CruiseMapperTest {
         cruise.setStartDate(Timestamp.valueOf("2020-09-23 10:10:10.0"));
         cruise.setEndDate(Timestamp.valueOf("2020-09-24 10:10:10.0"));
         cruise.setFerry(createFerry());
+        cruise.setRoute(createRoute());
         cruise.setNumber("BARVEN000002");
         cruise.setModificationDate(Timestamp.from(Instant.now()));
         cruise.setModifiedBy(accountModifiedBy);
@@ -62,5 +66,35 @@ class CruiseMapperTest {
         cruise.setCreatedBy(accountCreatedBy);
         cruise.setVersion(1L);
         return cruise;
+    }
+
+    private Route createRoute() {
+        Route route = new Route();
+        Seaport start = new Seaport();
+        start.setCity("Start");
+        start.setCode("ST");
+        route.setStart(start);
+        Seaport end = new Seaport();
+        end.setCity("Destination");
+        end.setCode("DEST");
+        route.setDestination(end);
+        route.setCode("RCODE");
+        return route;
+    }
+
+    @Test
+    void createCruiseDetailsDTOFromEntity() {
+        CruiseDetailsDTO cruiseDetailsDTO = CruiseMapper.createCruiseDetailsDTOFromEntity(cruise);
+
+        assertEquals(cruise.getVersion(), cruiseDetailsDTO.getVersion());
+        assertEquals(cruise.getStartDate(), cruiseDetailsDTO.getStartDate());
+        assertEquals(cruise.getEndDate(), cruiseDetailsDTO.getEndDate());
+        assertEquals(FerryMapper.createFerryGeneralDTOFromEntity(cruise.getFerry()), cruiseDetailsDTO.getFerry());
+        assertEquals(RouteMapper.createRouteGeneralDTOFromEntity(cruise.getRoute()), cruiseDetailsDTO.getRoute());
+        assertEquals(cruise.getNumber(), cruiseDetailsDTO.getNumber());
+        assertEquals(cruise.getModificationDate(), cruiseDetailsDTO.getModificationDate());
+        assertEquals(cruise.getCreationDate(), cruiseDetailsDTO.getCreationDate());
+        assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getModifiedBy()), cruiseDetailsDTO.getModifiedBy());
+        assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getCreatedBy()), cruiseDetailsDTO.getCreatedBy());
     }
 }
