@@ -47,6 +47,7 @@ import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.
 import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
 import { CabinTableComponent } from './ferrytales/ferry-details/cabin-table/cabin-table.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
+import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -105,7 +106,8 @@ export const localeServiceProviders = [
         FerryDetailsComponent,
         CabinTableComponent,
         SeaportsTableComponent,
-        CruiseDetailsComponent
+        CruiseDetailsComponent,
+        CabinDetailsComponent
     ],
     imports: [
         BrowserModule,
