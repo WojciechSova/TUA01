@@ -249,12 +249,29 @@
         "created_by": "Utworzony przez:",
         "add_cabin": "Dodaj kajutę"
     },
+    "route-details": {
+        "code": "Kod:",
+        "start": "Start:",
+        "destination": "Cel:",
+        "cruises": "Rejsy:",
+        "creation_date": "Data utworzenia:",
+        "created_by": "Utworzony przez:",
+        "add_cruise": "Dodaj rejs"
+    },
     "cabin-table": {
         "capacity": "Pojemność",
         "cabinType": "Typ",
         "number": "Numer",
         "cabin_details": "Szczegóły",
         "remove_cabin": "Usuń kajutę"
+    },
+    "cruise-table": {
+        "start_date": "Data rozpoczęcia",
+        "end_date": "Data zakończenia",
+        "number": "Numer",
+        "name_of_ferry": "Nazwa promu",
+        "cruise_details": "Szczegóły",
+        "remove_cruise": "Usuń rejs"
     },
     "cruise-details": {
         "edit_cruise": "Edytuj rejs",
