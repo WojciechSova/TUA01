@@ -238,7 +238,8 @@
         "modified_by": "Author of last modification:",
         "creation_date": "Date of creation:",
         "created_by": "Created by:",
-        "add_cabin": "Add cabin"
+        "add_cabin": "Add cabin",
+        "no_cabins": "No cabins"
     },
     "route-details": {
         "code": "Code:",
