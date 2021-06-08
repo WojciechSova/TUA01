@@ -19,9 +19,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class SeaportManagerTest {
@@ -112,18 +110,21 @@ class SeaportManagerTest {
         when(accountMopFacadeLocal.findByLogin("login")).thenReturn(account);
 
         doAnswer(invocation -> {
+            oldSeaport.setModificationDate(Timestamp.from(Instant.now()));
             oldSeaport.setCity("Lublin");
             oldSeaport.setModifiedBy(account);
-            oldSeaport.setModificationDate(Timestamp.from(Instant.now()));
             oldSeaport.setVersion(1L);
             return null;
         }).when(seaportFacadeLocal).edit(any());
 
         seaportManager.updateSeaport(oldSeaport, "login");
 
-        assertEquals("Lublin", oldSeaport.getCity());
-        assertEquals(account, oldSeaport.getModifiedBy());
-        assertEquals(1L, oldSeaport.getVersion());
-        assertTrue(oldSeaport.getModificationDate().compareTo(Timestamp.from(Instant.now())) < 0);
+        assertAll(
+                () -> assertEquals("Lublin", oldSeaport.getCity()),
+                () -> assertEquals(account, oldSeaport.getModifiedBy()),
+                () -> assertEquals(1L, oldSeaport.getVersion()),
+                () -> assertTrue(oldSeaport.getModificationDate().before(Timestamp.from(Instant.now())))
+        );
+
     }
 }
