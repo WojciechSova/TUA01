@@ -202,7 +202,8 @@
         "ferries_list": "Lista promów",
         "seaport-list": "Lista portów",
         "seaport": "Port",
-        "cruise": "Rejs"
+        "cruise": "Rejs",
+        "cabin": "Kajuta"
     },
     "session-timeout": {
         "info": {
@@ -282,5 +283,15 @@
         "ferry_name": "Nazwa promu",
         "book_a_ticket": "Zarezerwuj bilet",
         "book": "Zarezerwuj"
+    },
+    "cabin-details": {
+        "edit_cabin": "Edytuj kajutę",
+        "number": "Numer kajuty",
+        "cabin_type": "Typ kajuty",
+        "capacity": "Pojemność",
+        "modification_date": "Data modyfikacji",
+        "modified_by": "Autor ostatniej modyfikacji",
+        "creation_date": "Data utworzenia",
+        "created_by": "Utworzony przez"
     }
 }
