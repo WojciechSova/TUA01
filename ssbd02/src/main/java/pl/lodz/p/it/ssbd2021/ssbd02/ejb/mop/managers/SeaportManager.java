@@ -1,6 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import org.apache.commons.lang3.SerializationUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.SeaportFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.SeaportManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
@@ -14,6 +16,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +34,9 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
 
     @Inject
     private SeaportFacadeLocal seaportFacadeLocal;
+
+    @Inject
+    private AccountMopFacadeLocal accountMopFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -54,6 +61,18 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     @RolesAllowed({"EMPLOYEE"})
     public void updateSeaport(Seaport seaport, String modifiedBy) {
 
+        Seaport databaseSeaport = Optional.ofNullable(seaportFacadeLocal.findByCode(seaport.getCode()))
+                .orElseThrow(CommonExceptions::createNoResultException);
+        Seaport seaportClone = SerializationUtils.clone(databaseSeaport);
+        seaportClone.setVersion(databaseSeaport.getVersion());
+
+        seaportClone.setCity(seaport.getCity());
+
+        seaportClone.setModifiedBy(Optional.ofNullable(accountMopFacadeLocal.findByLogin(modifiedBy))
+                .orElseThrow(CommonExceptions::createNoResultException));
+        seaportClone.setModificationDate(Timestamp.from(Instant.now()));
+
+        seaportFacadeLocal.edit(seaportClone);
     }
 
     @Override
