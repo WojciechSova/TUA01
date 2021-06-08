@@ -4,7 +4,7 @@ import { FerryGeneral } from './FerryGeneral';
 export interface CruiseGeneral {
     startDate: Date;
     endDate: Date;
-    route: RouteGeneral;
+    route?: RouteGeneral;
     ferry: FerryGeneral;
     number: string;
 }

@@ -23,9 +23,9 @@ public class CruiseDetailsDTO extends AbstractDTO {
 
     private Timestamp endDate;
 
-    private RouteDetailsDTO route;
+    private RouteGeneralDTO route;
 
-    private FerryDetailsDTO ferry;
+    private FerryGeneralDTO ferry;
 
     private String number;
 
