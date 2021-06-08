@@ -1,60 +1,67 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouteDetails } from '../../model/mop/RouteDetails';
 import { IdentityService } from '../../services/utils/identity.service';
+import { ActivatedRoute, Router } from "@angular/router";
+import { RouteDetailsService } from "../../services/mop/route-details.service";
 
 @Component({
     selector: 'app-route-details',
     templateUrl: './route-details.component.html',
     styleUrls: ['./route-details.component.less']
 })
-export class RouteDetailsComponent implements OnInit {
+export class RouteDetailsComponent implements OnInit, OnDestroy {
 
-    route: RouteDetails = {
-        start: {
-            city: "start",
-            code: "111",
-        },
-        destination: {
-            city: "dest",
-            code: "222",
-        },
-        code: 'CODE',
-        cruises: [
-            {
-                startDate: new Date(),
-                endDate: new Date(),
-                ferry: {
-                    name: 'Ferry Name',
-                    vehicleCapacity: 400,
-                    onDeckCapacity: 1000,
-                },
-                number: "123",
-            },
-            {
-                startDate: new Date(),
-                endDate: new Date(),
-                ferry: {
-                    name: 'Ferry Name 2',
-                    vehicleCapacity: 500,
-                    onDeckCapacity: 700,
-                },
-                number: "333",
-            }
-        ],
-        creationDate: new Date(),
-        createdBy: {
-            login: 'Employee',
-            active: true,
-            firstName: 'FirstName',
-            lastName: 'LastName',
-            accessLevel: ['EMPLOYEE']
-        }
-    };
+    code = '';
 
-    constructor(public identityService: IdentityService) {
+    constructor(public identityService: IdentityService,
+                private route: ActivatedRoute,
+                private router: Router,
+                public routeDetailsService: RouteDetailsService) {
+        this.code = this.route.snapshot.paramMap.get('code') as string;
+        this.getRoute();
     }
 
     ngOnInit(): void {
+    }
+
+
+    getRoute(): void {
+        this.routeDetailsService.getRouteAndCruisesForRoute(this.code).subscribe(
+            (response: RouteDetails) => {
+                this.routeDetailsService.readRouteDetails(response);
+            }
+        );
+    }
+
+    goToHomeBreadcrumb(): void {
+        this.router.navigate(['/']);
+    }
+
+    goToRoutesListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/routes']);
+    }
+
+    ngOnDestroy(): void {
+        this.routeDetailsService.routeDetails = {
+            start: {
+                city: '',
+                code: '',
+            },
+            destination: {
+                city: '',
+                code: '',
+            },
+            code: '',
+            cruises: [],
+            creationDate: new Date(),
+            createdBy: {
+                login: '',
+                active: true,
+                firstName: '',
+                lastName: '',
+                accessLevel: []
+            }
+        }
     }
 
 }

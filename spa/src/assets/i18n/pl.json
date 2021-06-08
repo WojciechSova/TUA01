@@ -202,7 +202,8 @@
         "ferries_list": "Lista promów",
         "seaport-list": "Lista portów",
         "seaport": "Port",
-        "cruise": "Rejs"
+        "cruise": "Rejs",
+        "route": "Trasa"
     },
     "session-timeout": {
         "info": {
@@ -245,7 +246,8 @@
         "cruises": "Rejsy:",
         "creation_date": "Data utworzenia:",
         "created_by": "Utworzony przez:",
-        "add_cruise": "Dodaj rejs"
+        "add_cruise": "Dodaj rejs",
+        "no_cruises_on_route": "Brak rejsów na trasie"
     },
     "cabin-table": {
         "capacity": "Pojemność",

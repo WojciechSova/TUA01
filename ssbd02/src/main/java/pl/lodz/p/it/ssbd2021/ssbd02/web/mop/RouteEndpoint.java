@@ -69,7 +69,7 @@ public class RouteEndpoint {
      * @return Szczegółowe informację o trasie oraz lista ogólnych informacji o rejsach na tej trasie
      */
     @GET
-    @Path("route/{code}")
+    @Path("/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getRouteAndCruisesForRoute(@PathParam("code") String code) {
         try {
