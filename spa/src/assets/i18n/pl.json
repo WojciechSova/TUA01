@@ -282,5 +282,9 @@
         "ferry_name": "Nazwa promu",
         "book_a_ticket": "Zarezerwuj bilet",
         "book": "Zarezerwuj"
+    },
+    "seaport-edit": {
+        "required_city": "*Nazwa miasta",
+        "city_name": "Wprowadź nową nazwę miasta:"
     }
 }
