@@ -203,6 +203,7 @@
         "seaport_list": "Seaport list",
         "seaport": "Seaport",
         "cruise": "Cruise",
+        "cabin": "Cabin",
         "route": "Route"
     },
     "session-timeout": {
@@ -284,5 +285,15 @@
         "ferry_name": "Ferry name",
         "book_a_ticket": "Book a ticket",
         "book": "Book"
+    },
+    "cabin-details": {
+        "edit_cabin": "Edit cabin",
+        "number": "Cabin number",
+        "cabin_type": "Cabin type",
+        "capacity": "Capacity",
+        "modification_date": "Modification date",
+        "modified_by": "Modified by",
+        "creation_date": "Creation date",
+        "created_by": "Created by"
     }
 }
