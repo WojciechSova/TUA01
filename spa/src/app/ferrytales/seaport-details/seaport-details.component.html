@@ -13,9 +13,14 @@
 </ol>
 
 <div class="outer-div">
+    <div *ngIf="(seaportEdit.response) !== 'hide'" class="info-popup">
+        <p *ngIf="(seaportEdit.response) === 'success'" class="edit-success" translate>seaport-edit.result_success</p>
+        <p *ngIf="(seaportEdit.response) === 'failure'" class="edit-failure" translate>seaport-edit.result_failure</p>
+    </div>
     <div class="seaport-details" id="seaportDetails">
         <div class="button-container">
-            <button class="edit-button" (click)="changeEditSeaportFormVisible(true)" translate>general.edit</button>
+            <button class="edit-button" (click)="changeEditSeaportFormVisible(seaportEdit = {
+                    isFormVisible: true, response: 'hide'})" translate>general.edit</button>
             <button class="edit-button" (click)="getSeaport()" translate>general.refresh</button>
         </div>
         <div class="col">
@@ -46,5 +51,5 @@
         </div>
     </div>
 </div>
-<app-seaport-edit *ngIf="isEditSeaportFormVisible"
+<app-seaport-edit *ngIf="seaportEdit.isFormVisible"
                   (isEditSeaportFormVisible)="changeEditSeaportFormVisible($event)"></app-seaport-edit>

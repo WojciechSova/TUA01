@@ -11,7 +11,10 @@ import { SeaportDetailsService } from '../../services/mop/seaport-details.servic
 })
 export class SeaportDetailsComponent implements OnInit {
 
-    isEditSeaportFormVisible = false;
+    seaportEdit = {
+        isFormVisible: false,
+        response: 'hide'
+    };
 
     code = '';
 
@@ -27,6 +30,7 @@ export class SeaportDetailsComponent implements OnInit {
     }
 
     getSeaport(): void {
+        this.seaportEdit.response = 'hide';
         this.seaportDetailsService.getSeaportByCode(this.code).subscribe(
             (response: SeaportDetails) => {
                 this.seaportDetailsService.readSeaportDetails(response);
@@ -42,7 +46,7 @@ export class SeaportDetailsComponent implements OnInit {
         this.router.navigate(['/ferrytales/seaports']);
     }
 
-    changeEditSeaportFormVisible(visible: boolean): void {
-        this.isEditSeaportFormVisible = visible;
+    changeEditSeaportFormVisible(seaportEdit: any): void {
+        this.seaportEdit = seaportEdit;
     }
 }

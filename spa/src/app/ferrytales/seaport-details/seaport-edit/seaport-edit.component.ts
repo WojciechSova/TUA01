@@ -9,7 +9,7 @@ import { SeaportDetailsService } from '../../../services/mop/seaport-details.ser
 export class SeaportEditComponent {
 
     @Output()
-    isEditSeaportFormVisible = new EventEmitter<boolean>();
+    isEditSeaportFormVisible = new EventEmitter<any>();
 
     constructor(private seaportDetailsService: SeaportDetailsService) {
     }
@@ -19,6 +19,11 @@ export class SeaportEditComponent {
     }
 
     closeComponent(): void {
-        this.isEditSeaportFormVisible.emit(false);
+        this.isEditSeaportFormVisible.emit({
+            seaportEdit: {
+                isFormVisible: true,
+                response: 'hide'
+            }
+        });
     }
 }

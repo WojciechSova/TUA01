@@ -285,6 +285,8 @@
     },
     "seaport-edit": {
         "required_city": "*City name",
-        "city_name": "Enter new city name:"
+        "city_name": "Enter new city name:",
+        "result_success": "Seaport city change successful",
+        "result_failure": "Seaport city change failed"
     }
 }
