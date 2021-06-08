@@ -15,7 +15,7 @@
 <div class="outer-div">
     <div class="seaport-details" id="seaportDetails">
         <div class="button-container">
-            <button class="edit-button" translate>general.edit</button>
+            <button class="edit-button" (click)="changeEditSeaportFormVisible(true)" translate>general.edit</button>
             <button class="edit-button" (click)="getSeaport()" translate>general.refresh</button>
         </div>
         <div class="col">
@@ -46,4 +46,5 @@
         </div>
     </div>
 </div>
-<app-seaport-edit></app-seaport-edit>
+<app-seaport-edit *ngIf="isEditSeaportFormVisible"
+                  (isEditSeaportFormVisible)="changeEditSeaportFormVisible($event)"></app-seaport-edit>

@@ -1,22 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { SeaportDetailsService } from '../../../services/mop/seaport-details.service';
 
 @Component({
-  selector: 'app-seaport-edit',
-  templateUrl: './seaport-edit.component.html',
-  styleUrls: ['./seaport-edit.component.less']
+    selector: 'app-seaport-edit',
+    templateUrl: './seaport-edit.component.html',
+    styleUrls: ['./seaport-edit.component.less']
 })
-export class SeaportEditComponent implements OnInit {
+export class SeaportEditComponent {
 
-  constructor() { }
+    @Output()
+    isEditSeaportFormVisible = new EventEmitter<boolean>();
 
-  ngOnInit(): void {
-  }
-
-    changeSeaport() {
-
+    constructor(private seaportDetailsService: SeaportDetailsService) {
     }
 
-    closeComponent() {
+    changeSeaport(): void {
+        // TODO
+    }
 
+    closeComponent(): void {
+        this.isEditSeaportFormVisible.emit(false);
     }
 }

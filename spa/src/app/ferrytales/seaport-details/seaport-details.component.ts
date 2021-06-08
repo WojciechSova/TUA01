@@ -11,6 +11,8 @@ import { SeaportDetailsService } from '../../services/mop/seaport-details.servic
 })
 export class SeaportDetailsComponent implements OnInit {
 
+    isEditSeaportFormVisible = false;
+
     code = '';
 
     constructor(private route: ActivatedRoute,
@@ -38,5 +40,9 @@ export class SeaportDetailsComponent implements OnInit {
 
     goToSeaportListBreadcrumb(): void {
         this.router.navigate(['/ferrytales/seaports']);
+    }
+
+    changeEditSeaportFormVisible(visible: boolean): void {
+        this.isEditSeaportFormVisible = visible;
     }
 }
