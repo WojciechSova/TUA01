@@ -13,7 +13,8 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class AccountMapperTest {
 
@@ -24,6 +25,7 @@ class AccountMapperTest {
     AccessLevel accessLevel2;
     AccessLevel accessLevel3;
     AccountDetailsDTO accountDetailsDTO;
+    AccountGeneralDTO accountGeneralDTO;
 
     @BeforeEach
     void setUp() {
@@ -39,6 +41,7 @@ class AccountMapperTest {
         accessLevel3 = createAccessLevel("CLIENT", account, Timestamp.from(Instant.now()), accountModifiedBy,
                 Timestamp.valueOf("2020-03-25 13:21:15"), accountCreatedBy);
         accountDetailsDTO = createAccountDetailsDTO();
+        accountGeneralDTO = createAccountGeneralDTO();
     }
 
     private Account createAccount() {
@@ -74,6 +77,14 @@ class AccountMapperTest {
         acc.setPhoneNumber("48123456789");
         acc.setLanguage("PL");
         acc.setTimeZone("PL");
+        return acc;
+    }
+
+    private AccountGeneralDTO createAccountGeneralDTO() {
+        AccountGeneralDTO acc = new AccountGeneralDTO();
+        acc.setLogin("ExampleLogin");
+        acc.setFirstName("Annabelle");
+        acc.setLastName("Washington");
         return acc;
     }
 
@@ -156,6 +167,16 @@ class AccountMapperTest {
         assertEquals(accountDetailsDTO.getLanguage(), mappedAcc.getLanguage());
         assertEquals(accountDetailsDTO.getTimeZone(), mappedAcc.getTimeZone());
         assertEquals(accountDetailsDTO.getPhoneNumber(), mappedAcc.getPhoneNumber());
+    }
+
+    @Test
+    void createAccountFromAccountGeneralDTO() {
+        Account mappedAcc = AccountMapper.createAccountFromAccountGeneralDTO(accountGeneralDTO);
+
+        assertEquals(accountGeneralDTO.getVersion(), mappedAcc.getVersion());
+        assertEquals(accountGeneralDTO.getLogin(), mappedAcc.getLogin());
+        assertEquals(accountGeneralDTO.getFirstName(), mappedAcc.getFirstName());
+        assertEquals(accountGeneralDTO.getLastName(), mappedAcc.getLastName());
     }
 
     @Test
