@@ -8,23 +8,23 @@
         <div class="col">
             <div class="row">
                 <label class="uppercase" translate>route-details.code</label>
-                <label id="name">{{route.code}}</label>
+                <label id="code">{{route.code}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>route-details.start</label>
-                <label id="onDeckCapacity">{{route.start?.city}}</label>
+                <label id="startCity">{{route.start?.city}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>route-details.destination</label>
-                <label id="vehicleCapacity">{{route.destination?.city}}</label>
+                <label id="destinationCity">{{route.destination?.city}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>route-details.creation_date</label>
-                <label id="modificationDate">{{route.creationDate | date :'short':identityService.getTimezone()}}</label>
+                <label id="creationDate">{{route.creationDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>route-details.created_by</label>
-                <label id="modifiedBy">{{route.createdBy?.login}}</label>
+                <label id="createdBy">{{route.createdBy.login}}</label>
             </div>
         </div>
         <hr/>
