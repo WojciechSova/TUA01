@@ -10,8 +10,8 @@
         </tr>
 
         <tr *ngFor="let cruise of currentCruises">
-            <td>{{cruise.route.start.city}}</td>
-            <td>{{cruise.route.destination.city}}</td>
+            <td>{{cruise.route?.start?.city}}</td>
+            <td>{{cruise.route?.destination?.city}}</td>
             <td>{{cruise.startDate | date :'short':identityService.getTimezone()}}</td>
             <td>{{cruise.endDate | date :'short':identityService.getTimezone()}}</td>
             <td>{{cruise.ferry.name}}</td>
