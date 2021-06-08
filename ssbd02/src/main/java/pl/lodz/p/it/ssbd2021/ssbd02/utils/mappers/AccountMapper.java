@@ -6,7 +6,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,6 +117,21 @@ public class AccountMapper {
         account.setTimeZone(acc.getTimeZone());
         account.setVersion(acc.getVersion());
         account.setPhoneNumber(acc.getPhoneNumber());
+        return account;
+    }
+
+    /**
+     * Metoda mapująca obiekt {@link AccountGeneralDTO} na obiekt {@link Account}
+     *
+     * @param acc Obiekt {@link AccountGeneralDTO}, który chcemy mapować
+     * @return Obiekt konta typu {@link Account}
+     */
+    public static Account createAccountFromAccountGeneralDTO(AccountGeneralDTO acc) {
+        Account account = new Account();
+        account.setLogin(acc.getLogin());
+        account.setFirstName(acc.getFirstName());
+        account.setLastName(acc.getLastName());
+        account.setVersion(acc.getVersion());
         return account;
     }
 }
