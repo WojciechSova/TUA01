@@ -263,6 +263,7 @@
         "route_start": "Port początkowy",
         "route_destination": "Port docelowy",
         "ferry_name": "Nazwa promu",
-        "cruise_number": "Numer rejsu"
+        "book_a_ticket": "Zarezerwuj bilet",
+        "book": "Zarezerwuj"
     }
 }

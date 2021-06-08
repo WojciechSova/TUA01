@@ -263,6 +263,7 @@
         "route_start": "Starting seaport",
         "route_destination": "Destination seaport",
         "ferry_name": "Ferry name",
-        "cruise_number": "Cruise number"
+        "book_a_ticket": "Book a ticket",
+        "book": "Book"
     }
 }
