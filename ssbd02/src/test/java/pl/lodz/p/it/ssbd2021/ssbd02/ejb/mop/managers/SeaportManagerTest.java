@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class SeaportManagerTest {
@@ -75,12 +74,13 @@ class SeaportManagerTest {
 
     @Test
     void createSeaport() {
+        String login = "przykladowy";
         doAnswer(invocationOnMock -> {
             seaports.add(s3);
             return null;
         }).when(seaportFacadeLocal).create(s3);
 
-        seaportManager.createSeaport(s3);
+        seaportManager.createSeaport(login, s3);
 
         assertEquals(3, seaports.size());
         assertEquals(s3.hashCode(), seaports.get(seaports.size() - 1).hashCode());

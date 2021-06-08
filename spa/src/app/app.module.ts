@@ -47,6 +47,7 @@ import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.
 import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
 import { CabinTableComponent } from './ferrytales/ferry-details/cabin-table/cabin-table.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
+import { CurrentCruisesTableComponent } from './ferrytales/current-cruises-table/current-cruises-table.component';
 import { RouteDetailsComponent } from './ferrytales/route-details/route-details.component';
 import { CruiseTableComponent } from './ferrytales/route-details/route-table/cruise-table.component';
 import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.component';
@@ -107,8 +108,8 @@ export const localeServiceProviders = [
         SeaportsTableComponent,
         FerryDetailsComponent,
         CabinTableComponent,
-        SeaportsTableComponent,
         CruiseDetailsComponent,
+        CurrentCruisesTableComponent,
         RouteDetailsComponent,
         CruiseTableComponent,
         CabinDetailsComponent

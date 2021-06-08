@@ -275,6 +275,15 @@
         "creation_date": "Data utworzenia",
         "created_by": "Utworzony przez"
     },
+    "cruise-general": {
+        "start_date": "Data rozpoczęcia",
+        "end_date": "Data zakończenia",
+        "route_start": "Port początkowy",
+        "route_destination": "Port docelowy",
+        "ferry_name": "Nazwa promu",
+        "book_a_ticket": "Zarezerwuj bilet",
+        "book": "Zarezerwuj"
+    },
     "cabin-details": {
         "edit_cabin": "Edytuj kajutę",
         "number": "Numer kajuty",
