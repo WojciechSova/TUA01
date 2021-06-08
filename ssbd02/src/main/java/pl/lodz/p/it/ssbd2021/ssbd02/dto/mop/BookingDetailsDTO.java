@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(callSuper = true)
 public class BookingDetailsDTO extends AbstractDTO {
 
-    private CruiseDetailsDTO cruise;
+    private CruiseGeneralDTO cruise;
 
     private AccountGeneralDTO account;
 

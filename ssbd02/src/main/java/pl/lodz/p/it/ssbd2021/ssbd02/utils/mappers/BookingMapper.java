@@ -23,7 +23,7 @@ public class BookingMapper {
 
         BookingDetailsDTO bookingDetailsDTO = new BookingDetailsDTO();
         bookingDetailsDTO.setVersion(booking.getVersion());
-        bookingDetailsDTO.setCruise(CruiseMapper.createCruiseDetailsDTOFromEntity(booking.getCruise()));
+        bookingDetailsDTO.setCruise(CruiseMapper.createCruiseGeneralDTOFromEntity(booking.getCruise()));
         bookingDetailsDTO.setAccount(AccountMapper.createAccountGeneralDTOFromEntity(booking.getAccount()));
         bookingDetailsDTO.setNumberOfPeople(booking.getNumberOfPeople());
         bookingDetailsDTO.setCabin(CabinMapper.createCabinGeneralDTOFromEntity(booking.getCabin()));
