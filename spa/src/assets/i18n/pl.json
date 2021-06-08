@@ -202,7 +202,8 @@
         "ferries_list": "Lista promów",
         "seaport-list": "Lista portów",
         "seaport": "Port",
-        "cruise": "Rejs"
+        "cruise": "Rejs",
+        "ferry": "Prom"
     },
     "session-timeout": {
         "info": {
