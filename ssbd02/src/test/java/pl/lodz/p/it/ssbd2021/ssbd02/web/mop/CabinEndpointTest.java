@@ -1,30 +1,51 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinTypeManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+
+import java.nio.file.attribute.UserPrincipal;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 class CabinEndpointTest {
 
     @Mock
     private CabinManagerLocal cabinManagerLocal;
+    @Mock
+    private CabinTypeManagerLocal cabinTypeManagerLocal;
+    @Mock
+    private SecurityContext securityContext;
+    @Mock
+    private UserPrincipal userPrincipal;
     @InjectMocks
     private CabinEndpoint cabinEndpoint;
-
+    @Spy
     private Cabin cabin;
+    @Spy
+    private CabinType cabinType;
+    @Spy
+    private CabinType cabinType2;
 
     @BeforeEach
     void initMocks() {
@@ -33,6 +54,10 @@ class CabinEndpointTest {
         cabin = new Cabin();
         cabin.setNumber("123");
         cabin.setVersion(1L);
+        cabinType = new CabinType();
+        cabinType.setCabinTypeName("Luksus");
+        cabinType2 = new CabinType();
+        cabinType2.setCabinTypeName("Normal");
     }
 
     @Test
@@ -45,5 +70,33 @@ class CabinEndpointTest {
         assertTrue(DTOIdentitySignerVerifier.verifyDTOIntegrity(response.getEntityTag().getValue(),
                 ((CabinDetailsDTO) response.getEntity())));
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    void updateCabin() {
+        doAnswer(invocationOnMock -> {
+            cabin.setVersion(1L);
+            cabin.setCabinType(cabinType);
+            cabin.setCapacity(10);
+            return null;
+        }).when(cabinManagerLocal).updateCabin(any(), any());
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(cabinTypeManagerLocal.getCabinTypeByName(any())).thenReturn(cabinType);
+
+        cabin.setVersion(0L);
+        cabin.setCapacity(12);
+        cabin.setCabinType(cabinType2);
+
+        String tag = DTOIdentitySignerVerifier.calculateDTOSignature(CabinMapper
+                .createCabinDetailsDTOFromEntity(cabin));
+
+        assertEquals(0L, cabin.getVersion());
+
+        Response response = cabinEndpoint.updateCabin(CabinMapper.createCabinDetailsDTOFromEntity(cabin), securityContext, tag);
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(1L, cabin.getVersion());
+        assertEquals(10, cabin.getCapacity());
+        assertEquals(cabinType.getCabinTypeName(), cabin.getCabinType().getCabinTypeName());
     }
 }
