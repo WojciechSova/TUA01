@@ -203,6 +203,7 @@
         "seaport_list": "Seaport list",
         "seaport": "Seaport",
         "cruise": "Cruise",
+        "ferry": "Ferry",
         "cabin": "Cabin"
     },
     "session-timeout": {
@@ -237,7 +238,8 @@
         "modified_by": "Author of last modification:",
         "creation_date": "Date of creation:",
         "created_by": "Created by:",
-        "add_cabin": "Add cabin"
+        "add_cabin": "Add cabin",
+        "no_cabins": "No cabins"
     },
     "route-details": {
         "code": "Code:",

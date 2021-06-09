@@ -203,6 +203,7 @@
         "seaport-list": "Lista portów",
         "seaport": "Port",
         "cruise": "Rejs",
+        "ferry": "Prom",
         "cabin": "Kajuta"
     },
     "session-timeout": {
@@ -237,7 +238,8 @@
         "modified_by": "Autor ostatniej modyfikacji:",
         "creation_date": "Data utworzenia:",
         "created_by": "Utworzony przez:",
-        "add_cabin": "Dodaj kajutę"
+        "add_cabin": "Dodaj kajutę",
+        "no_cabins": "Brak kajut"
     },
     "route-details": {
         "code": "Kod:",
