@@ -30,22 +30,32 @@
                 <div class="row">
                     <label for="edit-capacity">{{cabinDetailsService.cabin.capacity}}</label>
                     <input #newCapacity type="text" id="edit-capacity" formControlName="capacity"
-                           placeholder="{{'form.capacity' | translate}}"/>
+                           placeholder="{{'cabin-form.capacity' | translate}}"/>
                 </div>
-
-                <div class="row">
-                    <label for="edit-cabinType">{{cabinDetailsService.cabin.cabinType}}</label>
-                    <select class="edit-content-select" #newCabinType id="edit-cabinType">
-                        <option value="" disabled selected translate>edit-user.choose_a_time_zone
-                        </option>
-                        <option *ngFor="let cabinType of cabinTypes" [value]="cabinType"
-                                [selected]="cabinType === cabinDetailsService.cabin.cabinType" id="{{cabinType}}">
-                            {{'edit-user.UTC_time_zone' | translate}} {{cabinType}}</option>
-                    </select>
+                <div class="top-center" translate>
+                    cabin-form.choose_cabin_type
+                </div>
+                <div class="checkbox-container">
+                    <label id="firstClass-label" class="container" translate>cabin-form.first
+                        <input type="radio" name="radio" [(ngModel)]="cabinTypes[0]">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label id="secondClass-label" class="container" translate>cabin-form.second
+                        <input type="radio" name="radio" [(ngModel)]="cabinTypes[1]">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label id="thirdClass-label" class="container" translate>cabin-form.third
+                        <input type="radio" name="radio" [(ngModel)]="cabinTypes[2]">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label id="disabledClass-label" class="container" translate>cabin-form.disabled
+                        <input type="radio" name="radio" [(ngModel)]="cabinTypes[3]">
+                        <span class="checkmark"></span>
+                    </label>
                 </div>
             </div>
             <button class="edit-button" id="saveBtn"
-                    (click)="editCabin(newCapacity.value, newCabinType.value)"
+                    (click)="editCabin(newCapacity.value)"
                     [disabled]="form.invalid" translate>form.save
             </button>
             <img class="return-arrow" (click)="showCabin(cabinDetailsService.cabin.number)" src="assets/imgs/back-arrow.png"
@@ -58,3 +68,4 @@
             form.updating
         </div>
     </ng-template>
+</div>

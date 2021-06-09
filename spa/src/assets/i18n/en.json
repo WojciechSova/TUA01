@@ -202,7 +202,10 @@
         "ferries_list": "Ferries list",
         "seaport_list": "Seaport list",
         "seaport": "Seaport",
-        "cruise": "Cruise"
+        "cruise": "Cruise",
+        "ferry": "Ferry",
+        "cabin": "Cabin details",
+        "cabin-edit": "Edit cabin"
     },
     "session-timeout": {
         "info": {
@@ -282,5 +285,13 @@
         "ferry_name": "Ferry name",
         "book_a_ticket": "Book a ticket",
         "book": "Book"
+    },
+    "cabin-form": {
+        "choose_cabin_type": "Choose cabin type",
+        "first": "First class",
+        "second": "Second class",
+        "third": "Third class",
+        "disabled": "Disabled class",
+        "capacity": "Cabin capacity"
     }
 }

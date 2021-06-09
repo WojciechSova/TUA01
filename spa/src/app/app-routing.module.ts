@@ -17,6 +17,7 @@ import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-de
 import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
+import {EditCabinComponent} from './ferrytales/edit-cabin/edit-cabin.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
