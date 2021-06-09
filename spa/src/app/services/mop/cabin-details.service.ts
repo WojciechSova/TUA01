@@ -4,29 +4,25 @@ import {CabinDetails} from '../../model/mop/CabinDetails';
 @Injectable({
     providedIn: 'root'
 })
-export class CabinDetailsService implements OnDestroy {
+export class CabinDetailsService {
 
-
-    public cabin: CabinDetails = {
-        capacity: '',
-        cabinType: '',
-        number: '',
-        creationDate: new Date()
+    cabin: CabinDetails = {
+        capacity: '1',
+        cabinType: "VIP",
+        number: 'ABCXYZ100200',
+        modificationDate: new Date(),
+        modifiedBy: undefined,
+        creationDate: new Date(),
+        createdBy: {
+            login: 'string',
+            active: true,
+            firstName: 'Adam',
+            lastName: 'Adam',
+            accessLevel: [],
+        },
     };
 
-    eTag = '';
-
-    constructor() {
-    }
-
-    ngOnDestroy(): void {
-        this.cabin = {
-            capacity: '',
-            cabinType: '',
-            number: '',
-            creationDate: new Date()
-        };
-
-        this.eTag = '';
+    getCabin(code: string): CabinDetails {
+        return this.cabin;
     }
 }

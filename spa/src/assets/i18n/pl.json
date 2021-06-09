@@ -204,7 +204,7 @@
         "seaport": "Port",
         "cruise": "Rejs",
         "ferry": "Prom",
-        "cabin": "Szczegóły kajuty",
+        "cabin": "Kajuta",
         "cabin-edit": "Edycja kajuty"
     },
     "session-timeout": {
@@ -285,6 +285,16 @@
         "ferry_name": "Nazwa promu",
         "book_a_ticket": "Zarezerwuj bilet",
         "book": "Zarezerwuj"
+    },
+    "cabin-details": {
+        "edit_cabin": "Edytuj kajutę",
+        "number": "Numer kajuty",
+        "cabin_type": "Typ kajuty",
+        "capacity": "Pojemność",
+        "modification_date": "Data modyfikacji",
+        "modified_by": "Autor ostatniej modyfikacji",
+        "creation_date": "Data utworzenia",
+        "created_by": "Utworzony przez"
     },
     "cabin-form": {
         "choose_cabin_type": "Wybierz typ kajuty",
