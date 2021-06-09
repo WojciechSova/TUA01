@@ -24,7 +24,7 @@
             <td>{{ferry['onDeckCapacity']}}</td>
             <td>{{ferry['vehicleCapacity']}}</td>
             <td>
-                <button id="details" class="button-ferries-table" (click)="{}" translate>
+                <button id="details" class="button-ferries-table" (click)="goToFerryDetails(ferry['name'])" translate>
                     general.details
                 </button>
             </td>
