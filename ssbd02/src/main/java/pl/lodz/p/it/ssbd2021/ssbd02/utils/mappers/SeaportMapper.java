@@ -45,4 +45,21 @@ public class SeaportMapper {
         seaportDetailsDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(seaport.getCreatedBy()));
         return seaportDetailsDTO;
     }
+
+    /**
+     * Metoda mapująca obiekt {@link SeaportDetailsDTO} na obiekt {@link Seaport}
+     *
+     * @param seaportDetailsDTO Obiekt {@link SeaportDetailsDTO}, który chcemy mapować
+     * @return Obiekt typu {@link Seaport}
+     */
+    public static Seaport createSeaportFromSeaportDetailsDTO(SeaportDetailsDTO seaportDetailsDTO) {
+        if (seaportDetailsDTO == null) {
+            return null;
+        }
+        Seaport seaport = new Seaport();
+        seaport.setCity(seaportDetailsDTO.getCity());
+        seaport.setCode(seaportDetailsDTO.getCode());
+        seaport.setVersion(seaportDetailsDTO.getVersion());
+        return seaport;
+    }
 }
