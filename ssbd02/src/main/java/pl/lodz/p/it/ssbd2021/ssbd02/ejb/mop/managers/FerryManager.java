@@ -60,8 +60,11 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void createFerry(Ferry ferry) {
-
+    public void createFerry(String login, Ferry ferry) {
+        ferry.setVersion(0L);
+        ferryFacadeLocal.create(ferry);
+        logger.info("The user with login {} created ferry with name {}",
+                login, ferry.getName());
     }
 
     @Override
