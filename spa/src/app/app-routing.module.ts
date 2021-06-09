@@ -18,6 +18,7 @@ import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
 import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
+import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
@@ -29,6 +30,7 @@ const ferrytalesChildren: Routes = [
     { path: 'routes', component: RoutesTableComponent },
     { path: 'cruise/:number', component: CruiseDetailsComponent },
     { path: 'seaports', component: SeaportsTableComponent },
+    { path: 'ferries/:name', component: FerryDetailsComponent },
     { path: 'bookings/:number', component: BookingDetailsComponent }
 ];
 

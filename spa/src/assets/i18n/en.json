@@ -212,8 +212,10 @@
         "seaport_list": "Seaport list",
         "booking_list": "Booking list",
         "seaport": "Seaport",
-        "booking": "Booking",
-        "cruise": "Cruise"
+        "cruise": "Cruise",
+        "ferry": "Ferry",
+        "cabin": "Cabin",
+        "booking": "Booking"
     },
     "session-timeout": {
         "info": {
@@ -247,7 +249,8 @@
         "modified_by": "Author of last modification:",
         "creation_date": "Date of creation:",
         "created_by": "Created by:",
-        "add_cabin": "Add cabin"
+        "add_cabin": "Add cabin",
+        "no_cabins": "No cabins"
     },
     "route-details": {
         "code": "Code:",
@@ -280,6 +283,25 @@
         "route": "Route",
         "ferry": "Ferry",
         "number": "Cruise number",
+        "modification_date": "Modification date",
+        "modified_by": "Modified by",
+        "creation_date": "Creation date",
+        "created_by": "Created by"
+    },
+    "cruise-general": {
+        "start_date": "Start date",
+        "end_date": "End date",
+        "route_start": "Starting seaport",
+        "route_destination": "Destination seaport",
+        "ferry_name": "Ferry name",
+        "book_a_ticket": "Book a ticket",
+        "book": "Book"
+    },
+    "cabin-details": {
+        "edit_cabin": "Edit cabin",
+        "number": "Cabin number",
+        "cabin_type": "Cabin type",
+        "capacity": "Capacity",
         "modification_date": "Modification date",
         "modified_by": "Modified by",
         "creation_date": "Creation date",

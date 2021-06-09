@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.FerryManagerLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.FerryMapper;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
@@ -68,7 +69,7 @@ public class FerryEndpoint {
      */
     @GET
     @Path("{name}")
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Response getFerry(@PathParam("name") String name) {
         try {
             FerryDetailsDTO ferryDetailsDTO = FerryMapper
@@ -76,6 +77,7 @@ public class FerryEndpoint {
 
             return Response.ok()
                     .entity(ferryDetailsDTO)
+                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(ferryDetailsDTO))
                     .build();
         } catch (GeneralException generalException) {
             throw generalException;

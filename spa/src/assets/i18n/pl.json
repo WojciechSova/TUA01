@@ -212,8 +212,10 @@
         "seaport-list": "Lista portów",
         "booking-list": "Lista rezerwacji",
         "seaport": "Port",
-        "booking": "Rezerwacja",
-        "cruise": "Rejs"
+        "cruise": "Rejs",
+        "ferry": "Prom",
+        "cabin": "Kajuta",
+        "booking": "Rezerwacja"
     },
     "session-timeout": {
         "info": {
@@ -247,7 +249,8 @@
         "modified_by": "Autor ostatniej modyfikacji:",
         "creation_date": "Data utworzenia:",
         "created_by": "Utworzony przez:",
-        "add_cabin": "Dodaj kajutę"
+        "add_cabin": "Dodaj kajutę",
+        "no_cabins": "Brak kajut"
     },
     "route-details": {
         "code": "Kod:",
@@ -280,6 +283,25 @@
         "route": "Trasa",
         "ferry": "Prom",
         "number": "Numer rejsu",
+        "modification_date": "Data modyfikacji",
+        "modified_by": "Autor ostatniej modyfikacji",
+        "creation_date": "Data utworzenia",
+        "created_by": "Utworzony przez"
+    },
+    "cruise-general": {
+        "start_date": "Data rozpoczęcia",
+        "end_date": "Data zakończenia",
+        "route_start": "Port początkowy",
+        "route_destination": "Port docelowy",
+        "ferry_name": "Nazwa promu",
+        "book_a_ticket": "Zarezerwuj bilet",
+        "book": "Zarezerwuj"
+    },
+    "cabin-details": {
+        "edit_cabin": "Edytuj kajutę",
+        "number": "Numer kajuty",
+        "cabin_type": "Typ kajuty",
+        "capacity": "Pojemność",
         "modification_date": "Data modyfikacji",
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",

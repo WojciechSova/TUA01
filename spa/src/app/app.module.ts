@@ -47,9 +47,11 @@ import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.
 import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
 import { CabinTableComponent } from './ferrytales/ferry-details/cabin-table/cabin-table.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
+import { CurrentCruisesTableComponent } from './ferrytales/current-cruises-table/current-cruises-table.component';
 import { RouteDetailsComponent } from './ferrytales/route-details/route-details.component';
 import { CruiseTableComponent } from './ferrytales/route-details/route-table/cruise-table.component';
 import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
+import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -108,10 +110,11 @@ export const localeServiceProviders = [
         BookingDetailsComponent,
         FerryDetailsComponent,
         CabinTableComponent,
-        SeaportsTableComponent,
         CruiseDetailsComponent,
+        CurrentCruisesTableComponent,
         RouteDetailsComponent,
-        CruiseTableComponent
+        CruiseTableComponent,
+        CabinDetailsComponent
     ],
     imports: [
         BrowserModule,
