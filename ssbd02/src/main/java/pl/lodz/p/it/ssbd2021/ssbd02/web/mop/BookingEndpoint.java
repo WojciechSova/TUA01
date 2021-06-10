@@ -68,6 +68,12 @@ public class BookingEndpoint {
         return null;
     }
 
+    /**
+     * Metoda udostępniająca ogólne informacje o rezerwacjach zalogowanego użytkownika.
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     *
+     * @return Lista rezerwacji zalogowanego użytkownika, zawierających zestaw ogólnych informacji.
+     */
     @GET
     @Path("own")
     @RolesAllowed({"CLIENT"})
