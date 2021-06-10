@@ -217,7 +217,8 @@
         "ferry": "Ferry",
         "cabin": "Cabin",
         "booking": "Booking",
-        "route": "Route"
+        "route": "Route",
+        "seaport_add": "Add seaport"
     },
     "session-timeout": {
         "info": {
@@ -323,5 +324,10 @@
         "third": "Third class",
         "disabled": "Disabled class",
         "capacity": "Cabin capacity"
+    },
+    "add-seaport": {
+        "new_seaport": "New seaport",
+        "city": "*City",
+        "code": "*Code"
     }
 }
