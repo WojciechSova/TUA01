@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 /**
  * Klasa DTO zawierająca rezerwacje.
+ * Używana przy wyświetlaniu listy rezerwacji.
  *
  * @author Artur Madaj
  */
@@ -18,7 +19,7 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(callSuper = true)
 public class BookingGeneralDTO extends AbstractDTO {
 
-//    private CruiseGeneralDTO cruise;
+    private CruiseGeneralDTO cruise;
 
     private AccountGeneralDTO account;
 

@@ -83,3 +83,36 @@
         width: 100%;
     }
 }
+
+.info-popup {
+    width: max-content;
+    height: max-content;
+    margin-top: 2%;
+}
+
+.generic-popup {
+    left: unset;
+    display: unset;
+    position: relative;
+    margin-top: 2%;
+    z-index: 1;
+    padding: 7.5px;
+    height: auto;
+    width: max-content;
+    background-color: @primary-color-red;
+    border-radius: 10px;
+    color: @secondary-color-red;
+    font: normal 1rem Source Sans Pro;
+}
+
+.edit-success {
+    .generic-popup;
+    background-color: @primary-color-green;
+    color: @secondary-color-green;
+}
+
+.edit-failure {
+    .generic-popup;
+    background-color: @primary-color-red;
+    color: @secondary-color-red;
+}
