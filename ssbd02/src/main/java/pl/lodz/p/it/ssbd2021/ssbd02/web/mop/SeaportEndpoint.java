@@ -131,7 +131,8 @@ public class SeaportEndpoint {
     @RolesAllowed({"EMPLOYEE"})
     public Response updateSeaport(@Valid SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext,
                                   @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
-        if (seaportDetailsDTO.getCity().isBlank() || seaportDetailsDTO.getVersion() == null) {
+        if (seaportDetailsDTO.getCity() == null || seaportDetailsDTO.getCity().isBlank()
+                || seaportDetailsDTO.getVersion() == null) {
             throw CommonExceptions.createConstraintViolationException();
         }
         if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, seaportDetailsDTO)) {

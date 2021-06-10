@@ -10,10 +10,12 @@ import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.SeaportManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.SeaportMapper;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -48,6 +50,7 @@ class SeaportEndpointTest {
     void initMocks() {
         MockitoAnnotations.openMocks(this);
         s1.setCity("Warszawa");
+        s1.setCity("WAR");
         s2.setCity("Ciechocinek");
         s3.setCity("Pabianice");
         s3.setCode("PAB");
@@ -112,5 +115,40 @@ class SeaportEndpointTest {
                 () -> assertEquals(400, exception.getResponse().getStatus()),
                 () -> assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, exception.getResponse().getEntity())
         );
+    }
+
+    @Test
+    void updateSeaport() {
+        Account account = new Account();
+        account.setLogin("Login");
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn(account.getLogin());
+
+        s1.setVersion(1L);
+        SeaportDetailsDTO seaportDetailsDTO = new SeaportDetailsDTO();
+        seaportDetailsDTO.setVersion(1L);
+        seaportDetailsDTO.setCity("newName");
+        seaportDetailsDTO.setCode("WAR");
+        String eTag = DTOIdentitySignerVerifier.calculateDTOSignature(seaportDetailsDTO);
+
+        doAnswer(invocationOnMock -> {
+            s1.setCity("newName");
+            s1.setVersion(2L);
+            s1.setModifiedBy(account);
+            return null;
+        }).when(seaportManager).updateSeaport(SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO), "Login");
+
+        Response response = seaportEndpoint.updateSeaport(seaportDetailsDTO, securityContext, eTag);
+
+        GeneralException badEtag = assertThrows(GeneralException.class,
+                () -> seaportEndpoint.updateSeaport(seaportDetailsDTO, securityContext, "not.an.etag"));
+
+        seaportDetailsDTO.setCity(null);
+        GeneralException noCity = assertThrows(GeneralException.class,
+                () -> seaportEndpoint.updateSeaport(seaportDetailsDTO, securityContext, eTag));
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(Response.Status.PRECONDITION_FAILED.getStatusCode(), badEtag.getResponse().getStatus());
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), noCity.getResponse().getStatus());
     }
 }
