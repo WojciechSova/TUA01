@@ -21,7 +21,8 @@ import java.time.Instant;
         @NamedQuery(name = "Cruise.findByEndDate", query = "SELECT cr FROM Cruise cr WHERE cr.endDate = :endDate"),
         @NamedQuery(name = "Cruise.findByRoute", query = "SELECT cr FROM Cruise cr WHERE cr.route = :route"),
         @NamedQuery(name = "Cruise.findByFerry", query = "SELECT cr FROM Cruise cr WHERE cr.ferry = :ferry"),
-        @NamedQuery(name = "Cruise.findByNumber", query = "SELECT cr FROM Cruise cr WHERE cr.number = :number")
+        @NamedQuery(name = "Cruise.findByNumber", query = "SELECT cr FROM Cruise cr WHERE cr.number = :number"),
+        @NamedQuery(name = "Cruise.findCurrentCruises", query = "SELECT cr FROM Cruise cr WHERE cr.startDate > current_timestamp")
 })
 @Data
 @NoArgsConstructor
@@ -66,12 +67,14 @@ public class Cruise extends AbstractEntity implements Serializable {
     @JoinColumn(name = "modified_by", nullable = true, updatable = true, referencedColumnName = "id")
     private Account modifiedBy;
 
+    @NotNull
     @PastOrPresent
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 
+    @NotNull
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")
+    @JoinColumn(name = "created_by", nullable = false, updatable = false, referencedColumnName = "id")
     private Account createdBy;
 
     @Override

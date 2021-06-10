@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.simplejavamail.api.email.Email;
@@ -10,10 +9,12 @@ import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.MailerBuilder;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -25,6 +26,7 @@ import java.util.Properties;
  */
 @Stateless
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
+@Interceptors({TrackerInterceptor.class})
 public class EmailSender implements EmailSenderLocal {
 
     private static final Properties prop = new Properties();
@@ -175,6 +177,7 @@ public class EmailSender implements EmailSenderLocal {
     }
 
     @Override
+    @PermitAll
     public void sendRemovalEmail(String language, String recipientName, String recipientEmailAddress) {
         try (InputStream input = EmailSender.class.getClassLoader().getResourceAsStream("mail.properties")) {
 

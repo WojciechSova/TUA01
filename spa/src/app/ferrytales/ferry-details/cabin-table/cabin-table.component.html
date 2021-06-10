@@ -1,0 +1,20 @@
+<table>
+    <tr>
+        <th translate>cabin-table.number</th>
+        <th translate>cabin-table.capacity</th>
+        <th translate>cabin-table.cabinType</th>
+        <th translate>cabin-table.cabin_details</th>
+        <th translate>cabin-table.remove_cabin</th>
+    </tr>
+    <tr *ngFor="let cabin of cabins">
+        <td>{{cabin.number}}</td>
+        <td>{{cabin.capacity}}</td>
+        <td>{{cabin.cabinType}}</td>
+        <td>
+            <button class="edit-button" translate>cabin-table.cabin_details</button>
+        </td>
+        <td>
+            <button class="edit-button button-remove" translate>cabin-table.remove_cabin</button>
+        </td>
+    </tr>
+</table>

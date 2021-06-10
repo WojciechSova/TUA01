@@ -1,0 +1,48 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToSeaportListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.seaport_list </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.seaport</li>
+</ol>
+
+<div class="outer-div">
+    <div class="seaport-details" id="seaportDetails">
+        <div class="button-container">
+            <button class="edit-button" translate>general.edit</button>
+            <button class="edit-button" (click)="getSeaport()" translate>general.refresh</button>
+        </div>
+        <div class="col">
+            <div class="row">
+                <label class="uppercase" translate>seaport-details.city</label>
+                <label>{{seaportDetailsService.seaport?.city}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>seaport-details.code</label>
+                <label>{{seaportDetailsService.seaport?.code}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>seaport-details.modification_date</label>
+                <label>{{seaportDetailsService.seaport?.modificationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>account-details.modified_by</label>
+                <label>{{seaportDetailsService.seaport?.modifiedBy?.login}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>seaport-details.creation_date</label>
+                <label>{{seaportDetailsService.seaport?.creationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>account-details.created_by</label>
+                <label>{{seaportDetailsService.seaport?.createdBy?.login}}</label>
+            </div>
+        </div>
+    </div>
+</div>

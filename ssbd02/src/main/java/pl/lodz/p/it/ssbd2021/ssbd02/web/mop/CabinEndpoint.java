@@ -1,9 +1,17 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.AccessLocalException;
+import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -20,18 +28,41 @@ import javax.ws.rs.core.SecurityContext;
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class CabinEndpoint {
 
+    @Inject
+    private CabinManagerLocal cabinManagerLocal;
+
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addCabin(CabinDTO cabinDTO, @Context SecurityContext securityContext) {
+    public Response addCabin(CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext) {
         return null;
     }
 
+    /**
+     * Metoda udostępniająca szczegółowe informacje dotyczące kajuty o podanym numerze
+     *
+     * @param number Numer wyszukiwanej kajuty
+     * @return Szczegółowe informacje o kajucie
+     */
     @GET
     @Path("{number}")
-    @RolesAllowed({"CLIENT", "EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE"})
     public Response getCabin(@PathParam("number") String number) {
-        return null;
+        try {
+            CabinDetailsDTO cabinDetailsDTO = CabinMapper
+                    .createCabinDetailsDTOFromEntity(cabinManagerLocal.getCabinByNumber(number));
+
+            return Response.ok()
+                    .entity(cabinDetailsDTO)
+                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(cabinDetailsDTO))
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @GET
@@ -51,7 +82,7 @@ public class CabinEndpoint {
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateCabin(CabinDTO cabinDTO, @Context SecurityContext securityContext){
+    public Response updateCabin(CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext) {
         return null;
     }
 }

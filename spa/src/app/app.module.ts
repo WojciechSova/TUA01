@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,6 +40,18 @@ import { SessionTimeoutComponent } from './common/navigation/session-timeout/ses
 import { CookieService } from 'ngx-cookie-service';
 import { ErrorHandlerService } from './services/error-handlers/error-handler.service';
 import { UnauthorizedComponent } from './other-views/error-pages/unauthorized/unauthorized.component';
+import { SeaportsTableComponent } from './ferrytales/seaports-table/seaports-table.component';
+import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
+import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
+import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
+import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
+import { CabinTableComponent } from './ferrytales/ferry-details/cabin-table/cabin-table.component';
+import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
+import { CurrentCruisesTableComponent } from './ferrytales/current-cruises-table/current-cruises-table.component';
+import { RouteDetailsComponent } from './ferrytales/route-details/route-details.component';
+import { CruiseTableComponent } from './ferrytales/route-details/route-table/cruise-table.component';
+import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
+import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.component';
 import { BookingTableComponent } from './ferrytales/booking-table/booking-table.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
@@ -55,7 +67,8 @@ export const errorHandlerProviders = [
 ];
 
 export const localeServiceProviders = [
-    { provide: LOCALE_ID,
+    {
+        provide: LOCALE_ID,
         useFactory: (localeService: LocaleService) => localeService.getLocale(),
         deps: [LocaleService]
     },
@@ -91,6 +104,18 @@ export const localeServiceProviders = [
         NotFoundComponent,
         SessionTimeoutComponent,
         UnauthorizedComponent,
+        FerriesTableComponent,
+        RoutesTableComponent,
+        SeaportDetailsComponent,
+        SeaportsTableComponent,
+        BookingDetailsComponent,
+        FerryDetailsComponent,
+        CabinTableComponent,
+        CruiseDetailsComponent,
+        CurrentCruisesTableComponent,
+        RouteDetailsComponent,
+        CruiseTableComponent,
+        CabinDetailsComponent,
         BookingTableComponent,
     ],
     imports: [

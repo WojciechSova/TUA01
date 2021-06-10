@@ -4,12 +4,14 @@
         "employee": "Employee",
         "client": "Client",
         "refresh": "Refresh",
-        "details": "Details"
+        "details": "Details",
+        "edit": "Edit"
     },
     "form": {
         "invalid_format": "Invalid format",
         "invalid_phone_number": "Phone number should have between 3 and 15 digits",
         "field_required": "Field required",
+        "login": "Login",
         "first_name": "First name",
         "last_name": "Last name",
         "phone_number": "Phone number",
@@ -33,7 +35,7 @@
         "contact": "Contact",
         "routes": "Routes",
         "ferries": "Ferries",
-        "harbors": "Harbors",
+        "harbors": "Seaports",
         "bookings": "Bookings",
         "my_bookings": "My bookings",
         "current_cruises": "Current cruises",
@@ -80,6 +82,7 @@
         "block": "Block"
     },
     "account-details": {
+        "login": "Login",
         "edit_account": "Edit account",
         "change_password": "Change password",
         "edit_access_levels": "Edit access levels",
@@ -94,6 +97,7 @@
         "confirmed": "Confirmed:",
         "last_modification_date": "Date of last modification:",
         "modified_by": "Author of last modification:",
+        "created_by": "Created by",
         "creation_date": "Date of creation:",
         "last_known_good_login": "The date of the last successful login attempt:",
         "last_known_good_login_ip": "The ip address of the last successful login attempt:",
@@ -107,6 +111,21 @@
         "last_password_modification_date":  "Date of last password modification:",
         "last_email_modification_date":  "Date of last email modification:"
     },
+    "seaport-details": {
+        "city": "City:",
+        "code": "Code:",
+        "modification_date": "Date of last modification:",
+        "creation_date": "Date of creation:"
+    },
+    "booking-details": {
+        "number_of_people": "Number of people:",
+        "cabin": "Cabin type:",
+        "cabin_number": "Cabin number:",
+        "vehicle_type": "Vehicle type:",
+        "price": "Price:",
+        "number":  "Booking number:",
+        "creation_date": "Creation date:"
+    },
     "access-level-table": {
         "level": "Access level",
         "active": "Active",
@@ -114,6 +133,12 @@
         "modified_by": "Author of last modification",
         "creation_date": "Date of creation",
         "created_by": "Created by"
+    },
+    "seaports-table": {
+        "city": "City",
+        "code": "Seaport code",
+        "add": "Add new seaport",
+        "remove": "Remove seaport"
     },
     "main-page": {
         "advert": "Fairytale-like ferry crossings",
@@ -178,9 +203,19 @@
     "breadcrumb": {
         "home": "Home",
         "account_list": "Account list",
-        "booking_list": "Booking list",
         "account": "Account details",
-        "account_edit": "Edit account"
+        "account_edit": "Edit account",
+        "routes": {
+            "list": "Routes list"
+        },
+        "ferries_list": "Ferries list",
+        "seaport_list": "Seaport list",
+        "booking_list": "Booking list",
+        "seaport": "Seaport",
+        "cruise": "Cruise",
+        "ferry": "Ferry",
+        "cabin": "Cabin",
+        "booking": "Booking"
     },
     "session-timeout": {
         "info": {
@@ -197,5 +232,85 @@
         "cruise": "Cruise",
         "creation_date": "Booking date",
         "number": "Number"
+    },
+    "route": {
+        "start": "Starting seaport",
+        "destination": "Destination seaport",
+        "code": "Route code",
+        "add": "Create route",
+        "delete": "Delete route",
+        "details": "Cruises"
+    },
+    "ferries-table": {
+        "name": "Name",
+        "vehicle_capacity": "Vehicle capacity",
+        "on_deck_capacity": "On deck capacity"
+    },
+    "ferry-details": {
+        "name": "Name:",
+        "cabins": "Cabins:",
+        "vehicle_capacity": "Vehicle capacity:",
+        "on_deck_capacity": "On deck capacity:",
+        "modification_date": "Date of last modification:",
+        "modified_by": "Author of last modification:",
+        "creation_date": "Date of creation:",
+        "created_by": "Created by:",
+        "add_cabin": "Add cabin",
+        "no_cabins": "No cabins"
+    },
+    "route-details": {
+        "code": "Code:",
+        "start": "Start:",
+        "destination": "Destination:",
+        "cruises": "Cruises:",
+        "creation_date": "Date of creation:",
+        "created_by": "Created by:",
+        "add_cruise": "Add cruise"
+    },
+    "cabin-table": {
+        "capacity": "Capacity",
+        "cabinType": "Type",
+        "number": "Number",
+        "cabin_details": "Details",
+        "remove_cabin": "Remove cabin"
+    },
+    "cruise-table": {
+        "start_date": "Start date",
+        "end_date": "End date",
+        "number": "Number",
+        "name_of_ferry": "Ferry name",
+        "cruise_details": "Details",
+        "remove_cruise": "Remove cruise"
+    },
+    "cruise-details": {
+        "edit_cruise": "Edit cruise",
+        "start_date": "Start date",
+        "end_date": "End date",
+        "route": "Route",
+        "ferry": "Ferry",
+        "number": "Cruise number",
+        "modification_date": "Modification date",
+        "modified_by": "Modified by",
+        "creation_date": "Creation date",
+        "created_by": "Created by"
+    },
+    "cruise-general": {
+        "start_date": "Start date",
+        "end_date": "End date",
+        "route_start": "Starting seaport",
+        "route_destination": "Destination seaport",
+        "ferry_name": "Ferry name",
+        "book_a_ticket": "Book a ticket",
+        "book": "Book"
+    },
+    "cabin-details": {
+        "edit_cabin": "Edit cabin",
+        "number": "Cabin number",
+        "cabin_type": "Cabin type",
+        "capacity": "Capacity",
+        "modification_date": "Modification date",
+        "modified_by": "Modified by",
+        "creation_date": "Creation date",
+        "created_by": "Created by"
     }
 }
