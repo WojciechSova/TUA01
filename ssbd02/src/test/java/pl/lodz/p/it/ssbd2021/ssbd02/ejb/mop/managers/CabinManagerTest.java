@@ -77,6 +77,7 @@ class CabinManagerTest {
                 () -> assertEquals(2, cabins.size()),
                 () -> assertEquals(cabin2.hashCode(), cabins.get(cabins.size() - 1).hashCode()),
                 () -> assertEquals(account.getLogin(), cabin2.getCreatedBy().getLogin()),
+                () -> assertEquals(0L, cabin2.getVersion()),
                 () -> assertEquals(CommonExceptions.createNoResultException().getResponse().getStatus(), exception.getResponse().getStatus())
         );
     }
