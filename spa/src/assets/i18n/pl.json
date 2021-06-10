@@ -211,6 +211,7 @@
         "ferries_list": "Lista promów",
         "seaport-list": "Lista portów",
         "booking-list": "Lista rezerwacji",
+        "current_cruises_list": "Lista aktualnych rejsów",
         "seaport": "Port",
         "cruise": "Rejs",
         "ferry": "Prom",
