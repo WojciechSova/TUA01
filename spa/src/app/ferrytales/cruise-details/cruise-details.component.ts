@@ -23,10 +23,6 @@ export class CruiseDetailsComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    goToHomeBreadcrumb(): void {
-        this.router.navigate(['/']);
-    }
-
     edit(cruiseNumber: string): void {
         return;
     }
@@ -35,5 +31,17 @@ export class CruiseDetailsComponent implements OnInit {
         this.cruiseDetailsService.getCruise(this.number).subscribe(
             (response) => this.cruiseDetailsService.readCruiseAndEtagFromResponse(response)
         );
+    }
+
+    goToHomeBreadcrumb(): void {
+        this.router.navigate(['/']);
+    }
+
+    goToRoutesListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/routes']);
+    }
+
+    goToRouteBreadcrumb(): void {
+        this.router.navigate([`ferrytales/routes/${this.cruiseDetailsService.cruise.route.code}`]);
     }
 }

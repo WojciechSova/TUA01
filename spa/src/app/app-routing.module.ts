@@ -31,7 +31,7 @@ const ferrytalesChildren: Routes = [
     { path: 'seaports/:code', component: SeaportDetailsComponent },
     { path: 'routes', component: RoutesTableComponent },
     { path: 'routes/:code', component: RouteDetailsComponent },
-    { path: 'cruise/:number', component: CruiseDetailsComponent },
+    { path: 'cruises/:number', component: CruiseDetailsComponent },
     { path: 'seaports', component: SeaportsTableComponent },
     { path: 'cabin/edit', component: EditCabinComponent },
     { path: 'ferries/:name', component: FerryDetailsComponent },

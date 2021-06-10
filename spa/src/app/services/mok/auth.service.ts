@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { SeaportGeneralService } from '../mop/seaport-general.service';
 import { SeaportDetailsService } from '../mop/seaport-details.service';
-import { RouteDetailsService } from "../mop/route-details.service";
+import { RouteDetailsService } from '../mop/route-details.service';
+import { CruiseDetailsService } from '../mop/cruise-details.service';
 
 @Injectable({
     providedIn: 'root'
@@ -27,6 +28,7 @@ export class AuthService {
                 private seaportGeneralService: SeaportGeneralService,
                 private seaportDetailsService: SeaportDetailsService,
                 private routeDetailsService: RouteDetailsService,
+                private cruiseDetailsService: CruiseDetailsService,
                 private cookieService: CookieService,
                 private router: Router) {
         this.url = environment.appUrl + '/auth';
@@ -63,6 +65,7 @@ export class AuthService {
         this.seaportGeneralService.ngOnDestroy();
         this.seaportDetailsService.ngOnDestroy();
         this.routeDetailsService.ngOnDestroy();
+        this.cruiseDetailsService.ngOnDestroy();
         this.cookieService.delete('token');
         this.cookieService.delete('login');
         this.cookieService.delete('currentAccessLevel');
