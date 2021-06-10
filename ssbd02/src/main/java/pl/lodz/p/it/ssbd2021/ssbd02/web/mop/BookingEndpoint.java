@@ -19,7 +19,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
@@ -53,7 +55,8 @@ public class BookingEndpoint {
      */
     @GET
     @Path("{number}")
-    @RolesAllowed({"CLIENT", "EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE"})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getBooking(@PathParam("number") String number) {
         if (number == null || number.length() != 10) {
             throw CommonExceptions.createConstraintViolationException();
@@ -62,6 +65,40 @@ public class BookingEndpoint {
         try {
             BookingDetailsDTO bookingDetailsDTO = BookingMapper
                     .createBookingDetailsDTOFromEntity(bookingManager.getBookingByNumber(number));
+
+            return Response.ok()
+                    .entity(bookingDetailsDTO)
+                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(bookingDetailsDTO))
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
+    }
+
+    /**
+     * Metoda udostępniająca informacje o własnej rezerwacji po podaniu numeru rezerwacji.
+     *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param number Numer rezerwacji
+     * @return Informacje o rezerwacji
+     */
+    @GET
+    @Path("own/{number}")
+    @RolesAllowed({"CLIENT"})
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOwnBooking(@Context SecurityContext securityContext, @PathParam("number") String number) {
+        if (number == null || number.length() != 10) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
+        try {
+            BookingDetailsDTO bookingDetailsDTO = BookingMapper
+                    .createBookingDetailsDTOFromEntity(bookingManager
+                            .getBookingByAccountAndNumber(securityContext.getUserPrincipal().getName(), number));
 
             return Response.ok()
                     .entity(bookingDetailsDTO)

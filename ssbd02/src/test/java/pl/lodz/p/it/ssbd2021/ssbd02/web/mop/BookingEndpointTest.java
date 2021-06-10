@@ -15,6 +15,9 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.BookingMapper;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+
+import java.nio.file.attribute.UserPrincipal;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,6 +27,10 @@ class BookingEndpointTest {
 
     @Spy
     private Booking booking1;
+    @Mock
+    private SecurityContext securityContext;
+    @Mock
+    private UserPrincipal userPrincipal;
     @InjectMocks
     private BookingEndpoint bookingEndpoint;
     @Mock
@@ -56,6 +63,34 @@ class BookingEndpointTest {
 
         exception = Assertions.assertThrows(CommonExceptions.class,
                 () -> bookingEndpoint.getBooking("1234"));
+
+        Assertions.assertEquals(400, exception.getResponse().getStatus());
+        Assertions.assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, exception.getResponse().getEntity());
+    }
+
+    @Test
+    void getOwnBooking() {
+        when(bookingManager.getBookingByAccountAndNumber("login", "1234567890")).thenReturn(booking1);
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(securityContext.getUserPrincipal().getName()).thenReturn("login");
+
+        BookingDetailsDTO bookingDetailsDTO = BookingMapper.createBookingDetailsDTOFromEntity(booking1);
+
+        assertAll(
+                () -> assertEquals(bookingDetailsDTO.hashCode(), bookingEndpoint.getOwnBooking(securityContext, "1234567890")
+                        .getEntity().hashCode()),
+                () -> assertEquals(Response.Status.OK.getStatusCode(), bookingEndpoint.getOwnBooking(securityContext, "1234567890")
+                        .getStatus())
+        );
+
+        GeneralException exception = Assertions.assertThrows(CommonExceptions.class,
+                () -> bookingEndpoint.getOwnBooking(securityContext, null));
+
+        Assertions.assertEquals(400, exception.getResponse().getStatus());
+        Assertions.assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, exception.getResponse().getEntity());
+
+        exception = Assertions.assertThrows(CommonExceptions.class,
+                () -> bookingEndpoint.getOwnBooking(securityContext, "1234"));
 
         Assertions.assertEquals(400, exception.getResponse().getStatus());
         Assertions.assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, exception.getResponse().getEntity());

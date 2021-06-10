@@ -19,7 +19,8 @@ import java.time.Instant;
         @NamedQuery(name = "Booking.findById", query = "SELECT b FROM Booking b WHERE b.id = :id"),
         @NamedQuery(name = "Booking.findByCruise", query = "SELECT b FROM Booking b WHERE b.cruise = :cruise"),
         @NamedQuery(name = "Booking.findByAccount", query = "SELECT b FROM Booking b WHERE b.account = :account"),
-        @NamedQuery(name = "Booking.findByNumber", query = "SELECT b FROM Booking b WHERE b.number = :number")
+        @NamedQuery(name = "Booking.findByNumber", query = "SELECT b FROM Booking b WHERE b.number = :number"),
+        @NamedQuery(name = "Booking.findByAccountAndNumber", query = "SELECT b FROM Booking b WHERE b.account = :account AND b.number = :number")
 })
 @Data
 @NoArgsConstructor

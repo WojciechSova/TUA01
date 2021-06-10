@@ -46,7 +46,7 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Booking findByNumber(String number) {
         TypedQuery<Booking> typedQuery = entityManager.createNamedQuery("Booking.findByNumber", Booking.class);
         typedQuery.setParameter("number", number);
@@ -59,6 +59,15 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
         TypedQuery<Booking> typedQuery = entityManager.createNamedQuery("Booking.findByAccount", Booking.class);
         typedQuery.setParameter("account", account);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    @RolesAllowed({"CLIENT"})
+    public Booking findByAccountAndNumber(Account account, String number) {
+        TypedQuery<Booking> typedQuery = entityManager.createNamedQuery("Booking.findByAccountAndNumber", Booking.class);
+        typedQuery.setParameter("account", account);
+        typedQuery.setParameter("number", number);
+        return typedQuery.getSingleResult();
     }
 
     @Override
