@@ -204,7 +204,8 @@
         "seaport": "Port",
         "cruise": "Rejs",
         "ferry": "Prom",
-        "cabin": "Kajuta"
+        "cabin": "Kajuta",
+        "current_cruises_list": "Lista aktualnych rejsów"
     },
     "session-timeout": {
         "info": {

@@ -204,7 +204,8 @@
         "seaport": "Seaport",
         "cruise": "Cruise",
         "ferry": "Ferry",
-        "cabin": "Cabin"
+        "cabin": "Cabin",
+        "current_cruises_list": "Current cruises list"
     },
     "session-timeout": {
         "info": {

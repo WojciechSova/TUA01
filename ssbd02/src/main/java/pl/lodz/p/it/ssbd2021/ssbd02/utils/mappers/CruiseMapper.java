@@ -25,6 +25,7 @@ public class CruiseMapper {
         CruiseGeneralDTO cruiseGeneralDTO = new CruiseGeneralDTO();
         cruiseGeneralDTO.setStartDate(cruise.getStartDate());
         cruiseGeneralDTO.setEndDate(cruise.getEndDate());
+        cruiseGeneralDTO.setRoute(RouteMapper.createRouteGeneralDTOFromEntity(cruise.getRoute()));
         cruiseGeneralDTO.setFerry(FerryMapper.createFerryGeneralDTOFromEntity(cruise.getFerry()));
         cruiseGeneralDTO.setNumber(cruise.getNumber());
         cruiseGeneralDTO.setVersion(cruise.getVersion());
