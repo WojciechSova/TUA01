@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { RouteDetails } from "../../model/mop/RouteDetails";
@@ -6,7 +6,7 @@ import { RouteDetails } from "../../model/mop/RouteDetails";
 @Injectable({
     providedIn: 'root'
 })
-export class RouteDetailsService {
+export class RouteDetailsService implements OnDestroy {
 
     private readonly url: string;
 

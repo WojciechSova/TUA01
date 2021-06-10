@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouteDetails } from '../../model/mop/RouteDetails';
 import { IdentityService } from '../../services/utils/identity.service';
 import { ActivatedRoute, Router } from "@angular/router";
@@ -9,7 +9,7 @@ import { RouteDetailsService } from "../../services/mop/route-details.service";
     templateUrl: './route-details.component.html',
     styleUrls: ['./route-details.component.less']
 })
-export class RouteDetailsComponent implements OnInit, OnDestroy {
+export class RouteDetailsComponent implements OnInit {
 
     code = '';
 
@@ -40,28 +40,4 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
     goToRoutesListBreadcrumb(): void {
         this.router.navigate(['/ferrytales/routes']);
     }
-
-    ngOnDestroy(): void {
-        this.routeDetailsService.routeDetails = {
-            start: {
-                city: '',
-                code: '',
-            },
-            destination: {
-                city: '',
-                code: '',
-            },
-            code: '',
-            cruises: [],
-            creationDate: new Date(),
-            createdBy: {
-                login: '',
-                active: true,
-                firstName: '',
-                lastName: '',
-                accessLevel: []
-            }
-        }
-    }
-
 }
