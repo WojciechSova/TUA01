@@ -19,7 +19,7 @@ import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.com
 import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
 import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
-import {EditCabinComponent} from './ferrytales/edit-cabin/edit-cabin.component';
+import { EditCabinComponent } from './ferrytales/edit-cabin/edit-cabin.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
