@@ -2,6 +2,8 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.AccountMopFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
@@ -35,7 +37,7 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     @Inject
     private CabinFacadeLocal cabinFacadeLocal;
     @Inject
-    private AccountFacadeLocal accountFacadeLocal;
+    private AccountMopFacadeLocal accountMopFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -80,7 +82,7 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
         if (cabin.getCapacity() != null) {
             cabinFromDB.setCapacity(cabin.getCapacity());
         }
-        Account cabModifiedBy = Optional.ofNullable(accountFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException);
+        Account cabModifiedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException);
         cabinFromDB.setModifiedBy(cabModifiedBy);
         cabinFromDB.setModificationDate(Timestamp.from(Instant.now()));
 
