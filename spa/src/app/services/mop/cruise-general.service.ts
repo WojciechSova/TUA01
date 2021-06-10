@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { CruiseGeneral } from '../../model/mop/CruiseGeneral';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { FerryDetails } from '../../model/mop/FerryDetails';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CruiseGeneralService {
+export class CruiseGeneralService implements OnDestroy {
 
     currentCruises: CruiseGeneral[] = [];
 
@@ -40,5 +39,10 @@ export class CruiseGeneralService {
     readCurrentCruises(response: CruiseGeneral[]): void {
         this.currentCruises = response;
         this.currentCruises = CruiseGeneralService.parseDates(this.currentCruises);
+    }
+
+
+    ngOnDestroy(): void {
+        this.currentCruises = [];
     }
 }
