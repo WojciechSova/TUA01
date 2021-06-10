@@ -230,6 +230,7 @@
     "booking-list": {
         "client": "Klient",
         "cruise": "Rejs",
+        "cruise_date": "Data rejsu",
         "creation_date": "Data rezerwacji",
         "number": "Numer"
     },

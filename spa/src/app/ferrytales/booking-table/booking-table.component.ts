@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BookingGeneralService } from '../../services/mop/booking-general.service';
+import { IdentityService } from '../../services/utils/identity.service';
 
 @Component({
     selector: 'app-booking-table',
@@ -8,7 +10,10 @@ import { Router } from '@angular/router';
 })
 export class BookingTableComponent implements OnInit {
 
-    constructor(private router: Router) {
+    constructor(private router: Router,
+                public bookingGeneralService: BookingGeneralService,
+                public identityService: IdentityService) {
+        this.getBookings();
     }
 
     ngOnInit(): void {
@@ -18,11 +23,11 @@ export class BookingTableComponent implements OnInit {
         this.router.navigate(['/']);
     }
 
-    getBookings(): Booking {
+    getBookings(): void {
 
     }
 
-    showBookingDetails(number: string) {
-
+    showBookingDetails(bookingNumber: string): void {
+        return;
     }
 }

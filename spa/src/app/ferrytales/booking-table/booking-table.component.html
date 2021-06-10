@@ -16,19 +16,24 @@
         <tr>
             <th translate>booking-list.client</th>
             <th translate>booking-list.cruise</th>
+            <th translate>booking-list.cruise_date</th>
             <th translate>booking-list.creation_date</th>
             <th translate>booking-list.number</th>
             <th translate>general.details</th>
         </tr>
 
-        <tr *ngFor="let booking of mockBookings()">
-            <td>{{user['login']}}</td>
-            <td>{{user['firstName']}}</td>
-            <td>{{user['lastName']}}</td>
-            <td></td>
-            <td></td>
+        <tr *ngFor="let booking of bookingGeneralService.bookings">
+            <td>{{booking.account.login}}</td>
+            <td>{{booking.cruise.route?.start?.city}}→{{booking.cruise.route?.destination?.city}}</td>
             <td>
-                <button id="details" class="button-user-table" (click)="showBookingDetails(booking.number)" translate>
+                {{booking.cruise.startDate | date :'short':identityService.getTimezone()
+                }}-{{
+                booking.cruise.endDate | date :'short':identityService.getTimezone()}}
+            </td>
+            <td>{{booking.creationDate | date :'short':identityService.getTimezone()}}</td>
+            <td>{{booking.number}}</td>
+            <td>
+                <button id="details" class="button-booking-table" (click)="showBookingDetails(booking.number)" translate>
                     general.details
                 </button>
             </td>
