@@ -202,7 +202,8 @@
         "ferries_list": "Ferries list",
         "seaport_list": "Seaport list",
         "seaport": "Seaport",
-        "cruise": "Cruise"
+        "cruise": "Cruise",
+        "seaport_add": "Add seaport"
     },
     "session-timeout": {
         "info": {
