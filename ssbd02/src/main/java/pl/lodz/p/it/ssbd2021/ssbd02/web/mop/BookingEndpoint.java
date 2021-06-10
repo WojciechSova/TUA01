@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingDetailsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
@@ -14,16 +15,18 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.websocket.server.PathParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
@@ -41,10 +44,29 @@ public class BookingEndpoint {
     @Inject
     private BookingManagerLocal bookingManager;
 
+    /**
+     * Metoda udostępniająca ogólne informacje o rezerwacjach.
+     *
+     * @return Lista rezerwacji zawierających zestaw ogólnych informacji.
+     */
     @GET
     @RolesAllowed({"EMPLOYEE"})
     public Response getAllBookings() {
-        return null;
+        try {
+            List<BookingGeneralDTO> bookingGeneralDTOList = bookingManager.getAllBookings().stream()
+                    .map(BookingMapper::createBookingGeneralDTOFromEntity)
+                    .collect(Collectors.toList());
+
+            return Response.ok()
+                    .entity(bookingGeneralDTOList)
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**

@@ -1,0 +1,11 @@
+<div class="overlay">
+    <div class="box-container">
+        <div class="header-div" translate>seaport-edit.city_name</div>
+        <form id="edit-seaport-form" class="edit-form">
+            <input class="city-input" type="text" id="new-city-name" name="City" #city
+                    placeholder="{{'seaport-edit.required_city' | translate}}">
+        </form>
+        <button id="confirm" class="form-button" (click)="changeSeaport()" translate>form.confirm</button>
+        <img class="return-arrow" (click)="closeComponent()" src="assets/imgs/back-arrow.png" alt=""/>
+    </div>
+</div>
