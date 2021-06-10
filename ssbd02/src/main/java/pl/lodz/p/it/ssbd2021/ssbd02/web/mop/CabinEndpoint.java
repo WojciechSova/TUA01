@@ -21,6 +21,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
@@ -92,6 +93,7 @@ public class CabinEndpoint {
 
     @PUT
     @Path("update")
+    @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"EMPLOYEE"})
     public Response updateCabin(@Valid CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext,
                                 @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
