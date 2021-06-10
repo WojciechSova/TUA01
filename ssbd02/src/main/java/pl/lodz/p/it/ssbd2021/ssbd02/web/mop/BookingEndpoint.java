@@ -1,9 +1,16 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingGeneralDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.BookingMapper;
 
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.AccessLocalException;
+import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.websocket.server.PathParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -12,6 +19,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
@@ -24,10 +33,32 @@ import javax.ws.rs.core.SecurityContext;
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class BookingEndpoint {
 
+    @Inject
+    private BookingManagerLocal bookingManagerLocal;
+
+    /**
+     * Metoda udostępniająca ogólne informacje o rezerwacjach.
+     *
+     * @return Lista rezerwacji zawierających zestaw ogólnych informacji.
+     */
     @GET
     @RolesAllowed({"EMPLOYEE"})
     public Response getAllBookings() {
-        return null;
+        try {
+            List<BookingGeneralDTO> bookingGeneralDTOList = bookingManagerLocal.getAllBookings().stream()
+                    .map(BookingMapper::createBookingGeneralDTOFromEntity)
+                    .collect(Collectors.toList());
+
+            return Response.ok()
+                    .entity(bookingGeneralDTOList)
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @GET
@@ -47,14 +78,14 @@ public class BookingEndpoint {
     @POST
     @Path("add")
     @RolesAllowed({"CLIENT"})
-    public Response addBooking(BookingDTO bookingDTO, @Context SecurityContext securityContext) {
+    public Response addBooking(BookingGeneralDTO bookingGeneralDTO, @Context SecurityContext securityContext) {
         return null;
     }
 
     @DELETE
     @Path("cancel")
     @RolesAllowed({"CLIENT"})
-    public Response cancelBooking(BookingDTO bookingDTO, @Context SecurityContext securityContext) {
+    public Response cancelBooking(BookingGeneralDTO bookingGeneralDTO, @Context SecurityContext securityContext) {
         return null;
     }
 
