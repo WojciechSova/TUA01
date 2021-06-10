@@ -11,6 +11,11 @@ import { SeaportDetailsService } from '../../services/mop/seaport-details.servic
 })
 export class SeaportDetailsComponent implements OnInit {
 
+    seaportEdit = {
+        isFormVisible: false,
+        response: 'hide'
+    };
+
     code = '';
 
     constructor(private route: ActivatedRoute,
@@ -25,6 +30,7 @@ export class SeaportDetailsComponent implements OnInit {
     }
 
     getSeaport(): void {
+        this.seaportEdit.response = 'hide';
         this.seaportDetailsService.getSeaportByCode(this.code).subscribe(
             (response: SeaportDetails) => {
                 this.seaportDetailsService.readSeaportDetails(response);
@@ -38,5 +44,9 @@ export class SeaportDetailsComponent implements OnInit {
 
     goToSeaportListBreadcrumb(): void {
         this.router.navigate(['/ferrytales/seaports']);
+    }
+
+    changeEditSeaportFormVisible(seaportEdit: any): void {
+        this.seaportEdit = seaportEdit;
     }
 }
