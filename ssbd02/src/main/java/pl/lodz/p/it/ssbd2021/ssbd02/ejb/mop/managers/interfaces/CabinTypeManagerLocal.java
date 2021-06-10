@@ -19,4 +19,11 @@ public interface CabinTypeManagerLocal {
      * @return Lista typów kabiny {@link CabinType}
      */
     List<CabinType> getAllCabinTypes();
+
+    /**
+     * Metoda wyszukująca typ kajuty o danej nazwie.
+     * @param name Nazwa typu kajuty
+     * @return Typ kajuty {@link CabinType}
+     */
+    CabinType getCabinTypeByName(String name);
 }

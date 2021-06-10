@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
@@ -29,12 +29,11 @@ class CabinManagerTest {
     @Mock
     CabinFacadeLocal cabinFacadeLocal;
     @Mock
-    AccountFacadeLocal accountFacadeLocal;
+    AccountMopFacadeLocal accountMopFacadeLocal;
 
     @InjectMocks
     CabinManager cabinManager;
 
-    @Spy
     Cabin cabin1 = new Cabin();
     @Spy
     Cabin cabin2 = new Cabin();
@@ -107,7 +106,7 @@ class CabinManagerTest {
         updateCabin.setCabinType(cabinType1);
         updateCabin.setCapacity(666);
 
-        when(accountFacadeLocal.findByLogin("Autor")).thenReturn(modifiedBy);
+        when(accountMopFacadeLocal.findByLogin("Autor")).thenReturn(modifiedBy);
         doAnswer(invocation -> {
             cabin1.setNumber("H666");
             cabin1.setVersion(2L);
