@@ -217,6 +217,7 @@
         "cabin": "Kajuta",
         "booking": "Rezerwacja",
         "seaport_add": "Dodaj port",
+        "cabin_add": "Dodaj kajutę",
         "cabin-edit": "Edycja kajuty",
         "route": "Trasa"
     },
@@ -329,5 +330,11 @@
         "third": "Trzecia klasa",
         "disabled": "Klasa inwalidzka",
         "capacity": "Liczba miejsc w kajucie"
+    },
+    "add-cabin": {
+        "new_cabin": "Nowa kajuta",
+        "capacity": "Pojemność",
+        "cabin_type": "Typ kajuty",
+        "number": "Numer"
     }
 }

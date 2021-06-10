@@ -15,7 +15,7 @@
 <div class="outer-div">
     <div class="ferry-details" id="ferryDetails">
         <div class="button-container">
-            <button class="edit-button button-add" translate>ferry-details.add_cabin</button>
+            <button class="edit-button button-add" (click)="addCabin()" translate>ferry-details.add_cabin</button>
             <button class="edit-button" translate>general.edit</button>
             <button class="edit-button" (click)="getFerry()" translate>general.refresh</button>
         </div>

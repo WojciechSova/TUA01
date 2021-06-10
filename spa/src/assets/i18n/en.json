@@ -218,6 +218,7 @@
         "cabin": "Cabin",
         "booking": "Booking",
         "seaport_add": "Add seaport",
+        "cabin_add": "Add cabin",
         "route": "Route"
     },
     "session-timeout": {
@@ -329,5 +330,11 @@
         "third": "Third class",
         "disabled": "Disabled class",
         "capacity": "Cabin capacity"
+    },
+    "add-cabin": {
+        "new_cabin": "New cabin",
+        "capacity": "Capacity",
+        "cabin_type": "Cabin type",
+        "number": "Number"
     }
 }
