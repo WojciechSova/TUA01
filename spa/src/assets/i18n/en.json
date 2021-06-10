@@ -216,7 +216,8 @@
         "cabin-edit": "Edit cabin",
         "ferry": "Ferry",
         "cabin": "Cabin",
-        "booking": "Booking"
+        "booking": "Booking",
+        "route": "Route"
     },
     "session-timeout": {
         "info": {
@@ -260,7 +261,8 @@
         "cruises": "Cruises:",
         "creation_date": "Date of creation:",
         "created_by": "Created by:",
-        "add_cruise": "Add cruise"
+        "add_cruise": "Add cruise",
+        "no_cruises_on_route": "No cruises on route"
     },
     "cabin-table": {
         "capacity": "Capacity",

@@ -63,13 +63,13 @@ public class RouteEndpoint {
     }
 
     /**
-     * Metoda udostępniająca szczegółowe informację o trasie oraz listę ogólnych informacji o rejsach na tej trasie.
+     * Metoda udostępniająca szczegółowe informacje o trasie oraz listę ogólnych informacji o rejsach na tej trasie.
      *
      * @param code Kod trasy
-     * @return Szczegółowe informację o trasie oraz lista ogólnych informacji o rejsach na tej trasie
+     * @return Szczegółowe informacje o trasie oraz lista ogólnych informacji o rejsach na tej trasie
      */
     @GET
-    @Path("route/{code}")
+    @Path("/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getRouteAndCruisesForRoute(@PathParam("code") String code) {
         try {
