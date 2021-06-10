@@ -41,9 +41,10 @@ public interface FerryManagerLocal {
     /**
      * Metoda tworząca prom.
      *
+     * @param login Login użytkownika, który stworzył prom
      * @param ferry Encja typu {@link Ferry}
      */
-    void createFerry(Ferry ferry);
+    void createFerry(String login, Ferry ferry);
 
     /**
      * Metoda aktualizuje prom o nazwie zawartej w encji {@link Ferry} oraz ustawia konto w polu modifiedBy na konto

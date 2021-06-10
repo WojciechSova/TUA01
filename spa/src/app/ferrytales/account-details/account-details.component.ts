@@ -19,8 +19,6 @@ export class AccountDetailsComponent implements OnInit {
 
     isAccessLevelFormVisible = false;
 
-    isResetPasswordVisible = false;
-
     resetPasswordConnect = {
         isResetPasswordVisible: false,
         resetPasswordResponse: 'hide'
