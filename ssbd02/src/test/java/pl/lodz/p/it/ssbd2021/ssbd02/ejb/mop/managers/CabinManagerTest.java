@@ -11,9 +11,13 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
+import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,11 +36,22 @@ class CabinManagerTest {
 
     @Spy
     Cabin cabin1 = new Cabin();
+    @Spy
+    Cabin cabin2 = new Cabin();
+    @Spy
+    Account account = new Account();
+    String login = "Franek";
+
+    private List<Cabin> cabins;
 
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
 
+        cabins = new ArrayList<>();
+        cabins.add(cabin1);
+
+        account.setLogin(login);
     }
 
     @Test
@@ -45,6 +60,25 @@ class CabinManagerTest {
         when(cabinFacadeLocal.findByNumber(cabinNumber)).thenReturn(cabin1);
         assertEquals(cabin1, cabinManager.getCabinByNumber(cabinNumber));
         assertEquals(cabin1.hashCode(), cabinManager.getCabinByNumber(cabinNumber).hashCode());
+    }
+
+    @Test
+    void createCabin() {
+        doAnswer(invocationOnMock -> {
+            cabins.add(cabin2);
+            return null;
+        }).when(cabinFacadeLocal).create(cabin2);
+        when(accountFacadeLocal.findByLogin(login)).thenReturn(account);
+
+        cabinManager.createCabin(cabin2, login);
+        WebApplicationException exception = assertThrows(CommonExceptions.class, () -> cabinManager.createCabin(cabin2, "NieFranek"));
+
+        assertAll(
+                () -> assertEquals(2, cabins.size()),
+                () -> assertEquals(cabin2.hashCode(), cabins.get(cabins.size() - 1).hashCode()),
+                () -> assertEquals(account.getLogin(), cabin2.getCreatedBy().getLogin()),
+                () -> assertEquals(CommonExceptions.createNoResultException().getResponse().getStatus(), exception.getResponse().getStatus())
+        );
     }
 
     @Test
