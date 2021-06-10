@@ -75,6 +75,8 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
         seaportClone.setModificationDate(Timestamp.from(Instant.now()));
 
         seaportFacadeLocal.edit(seaportClone);
+        logger.info("The user with login {} has changed the city of seaport with code {} to {}",
+                modifiedBy, seaport.getCode(), seaport.getCity());
     }
 
     @Override
