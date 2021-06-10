@@ -63,8 +63,13 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void createCabin(Cabin cabin) {
-
+    public void createCabin(Cabin cabin, String createdBy) {
+        Account accCreatedBy = Optional.ofNullable(accountFacadeLocal.findByLogin(createdBy)).orElseThrow(CommonExceptions::createNoResultException);
+        cabin.setVersion(0L);
+        cabin.setCreatedBy(accCreatedBy);
+        cabinFacadeLocal.create(cabin);
+        logger.info("The user with login {} has created cabin with code {}",
+                createdBy, cabin.getNumber());
     }
 
     @Override
