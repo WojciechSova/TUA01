@@ -216,7 +216,9 @@
         "cruise": "Rejs",
         "ferry": "Prom",
         "cabin": "Kajuta",
-        "booking": "Rezerwacja"
+        "cabin-edit": "Edycja kajuty",
+        "booking": "Rezerwacja",
+        "route": "Trasa"
     },
     "session-timeout": {
         "info": {
@@ -260,7 +262,8 @@
         "cruises": "Rejsy:",
         "creation_date": "Data utworzenia:",
         "created_by": "Utworzony przez:",
-        "add_cruise": "Dodaj rejs"
+        "add_cruise": "Dodaj rejs",
+        "no_cruises_on_route": "Brak rejsów na trasie"
     },
     "cabin-table": {
         "capacity": "Pojemność",
@@ -298,6 +301,12 @@
         "book_a_ticket": "Zarezerwuj bilet",
         "book": "Zarezerwuj"
     },
+    "seaport-edit": {
+        "required_city": "*Nazwa miasta",
+        "city_name": "Wprowadź nową nazwę miasta:",
+        "result_success": "Zmiana miasta portu przebiegła pomyślnie",
+        "result_failure": "Zmiana miasta portu nie powiodła się"
+    },
     "cabin-details": {
         "edit_cabin": "Edytuj kajutę",
         "number": "Numer kajuty",
@@ -307,5 +316,13 @@
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
         "created_by": "Utworzony przez"
+    },
+    "cabin-form": {
+        "choose_cabin_type": "Wybierz typ kajuty",
+        "first": "Pierwsza klasa",
+        "second": "Druga klasa",
+        "third": "Trzecia klasa",
+        "disabled": "Klasa inwalidzka",
+        "capacity": "Liczba miejsc w kajucie"
     }
 }

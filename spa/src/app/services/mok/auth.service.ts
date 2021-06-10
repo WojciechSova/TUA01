@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { SeaportGeneralService } from '../mop/seaport-general.service';
 import { SeaportDetailsService } from '../mop/seaport-details.service';
+import { RouteDetailsService } from '../mop/route-details.service';
 import { CruiseGeneralService } from '../mop/cruise-general.service';
 import { FerryDetailsService } from '../mop/ferry-details.service';
 
@@ -27,6 +28,7 @@ export class AuthService {
                 private updateAccountService: UpdateAccountService,
                 private seaportGeneralService: SeaportGeneralService,
                 private seaportDetailsService: SeaportDetailsService,
+                private routeDetailsService: RouteDetailsService,
                 private ferryDetailsService: FerryDetailsService,
                 private cruiseGeneralService: CruiseGeneralService,
                 private cookieService: CookieService,
@@ -64,6 +66,7 @@ export class AuthService {
         this.updateAccountService.ngOnDestroy();
         this.seaportGeneralService.ngOnDestroy();
         this.seaportDetailsService.ngOnDestroy();
+        this.routeDetailsService.ngOnDestroy();
         this.ferryDetailsService.ngOnDestroy();
         this.cruiseGeneralService.ngOnDestroy();
         this.cookieService.delete('token');
