@@ -1,44 +1,64 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToFerryListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.ferries_list </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate>breadcrumb.ferry</li>
+</ol>
+
 <div class="outer-div">
     <div class="ferry-details" id="ferryDetails">
         <div class="button-container">
             <button class="edit-button button-add" translate>ferry-details.add_cabin</button>
             <button class="edit-button" translate>general.edit</button>
-            <button class="edit-button" translate>general.refresh</button>
+            <button class="edit-button" (click)="getFerry()" translate>general.refresh</button>
         </div>
         <div class="col">
             <div class="row">
                 <label class="uppercase" translate>ferry-details.name</label>
-                <label id="name">{{ferry.name}}</label>
-            </div>
-            <div class="row">
-                <label class="uppercase" translate>ferry-details.vehicle_capacity</label>
-                <label id="onDeckCapacity">{{ferry.vehicleCapacity}}</label>
+                <label id="name">{{ferryDetailsService.ferry.name}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>ferry-details.on_deck_capacity</label>
-                <label id="vehicleCapacity">{{ferry.onDeckCapacity}}</label>
+                <label id="onDeckCapacity">{{ferryDetailsService.ferry.onDeckCapacity}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>ferry-details.vehicle_capacity</label>
+                <label id="vehicleCapacity">{{ferryDetailsService.ferry.vehicleCapacity}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>ferry-details.modification_date</label>
-                <label id="modificationDate">{{ferry.modificationDate | date :'short':identityService.getTimezone()}}</label>
+                <label id="modificationDate">{{ferryDetailsService.ferry.modificationDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>ferry-details.modified_by</label>
-                <label id="modifiedBy">{{ferry.modifiedBy?.login}}</label>
+                <label id="modifiedBy">{{ferryDetailsService.ferry.modifiedBy?.login}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>ferry-details.creation_date</label>
-                <label id="creationDate">{{ferry.creationDate | date :'short':identityService.getTimezone()}}</label>
+                <label id="creationDate">{{ferryDetailsService.ferry.creationDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>ferry-details.created_by</label>
-                <label id="createdBy">{{ferry.createdBy?.login}}</label>
+                <label id="createdBy">{{ferryDetailsService.ferry.createdBy?.login}}</label>
             </div>
         </div>
         <hr/>
         <div class="cabins">
-            <label class="uppercase-cabins" translate>ferry-details.cabins</label>
-            <app-cabin-table id="cabins" [cabins]="ferry.cabins"></app-cabin-table>
+            <div *ngIf="ferryDetailsService.ferry.cabins.length > 0; then showCabinTable else doNotShowCabinTable"></div>
+            <ng-template #showCabinTable>
+                <label class="uppercase-cabins" translate>ferry-details.cabins</label>
+                <app-cabin-table id="cabins" [cabins]="ferryDetailsService.ferry.cabins"></app-cabin-table>
+            </ng-template>
+            <ng-template #doNotShowCabinTable>
+                <label class="uppercase-cabins" translate>ferry-details.no_cabins</label>
+            </ng-template>
         </div>
     </div>
 </div>
