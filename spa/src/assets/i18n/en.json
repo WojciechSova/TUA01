@@ -297,6 +297,12 @@
         "book_a_ticket": "Book a ticket",
         "book": "Book"
     },
+    "seaport-edit": {
+        "required_city": "*City name",
+        "city_name": "Enter new city name:",
+        "result_success": "Seaport city change successful",
+        "result_failure": "Seaport city change failed"
+    },
     "cabin-details": {
         "edit_cabin": "Edit cabin",
         "number": "Cabin number",

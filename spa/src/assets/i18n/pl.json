@@ -297,6 +297,12 @@
         "book_a_ticket": "Zarezerwuj bilet",
         "book": "Zarezerwuj"
     },
+    "seaport-edit": {
+        "required_city": "*Nazwa miasta",
+        "city_name": "Wprowadź nową nazwę miasta:",
+        "result_success": "Zmiana miasta portu przebiegła pomyślnie",
+        "result_failure": "Zmiana miasta portu nie powiodła się"
+    },
     "cabin-details": {
         "edit_cabin": "Edytuj kajutę",
         "number": "Numer kajuty",
