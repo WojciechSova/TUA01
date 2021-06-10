@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CruiseDetailsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CruiseGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CruiseManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
@@ -17,6 +18,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
@@ -65,11 +68,30 @@ public class CruiseEndpoint {
         }
     }
 
+    /**
+     * Metoda udostępniająca informacje o aktualnych rejsach
+     *
+     * @return List aktualnych rejsów
+     */
     @GET
     @Path("current")
     @PermitAll
     public Response getCurrentCruises() {
-        return null;
+        try {
+            List<CruiseGeneralDTO> currentCruisesDTOList = cruiseManagerLocal.getAllCurrentCruises().stream()
+                    .map(CruiseMapper::createCruiseGeneralDTOFromEntity)
+                    .collect(Collectors.toList());
+
+            return Response.ok()
+                    .entity(currentCruisesDTOList)
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @POST
