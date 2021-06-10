@@ -24,6 +24,7 @@ import static org.mockito.Mockito.*;
 class FerryManagerTest {
 
     private final String ferryName1 = "ferry1";
+    private final String login = "login";
     private final List<Cabin> cabins = new ArrayList<>();
 
     @Mock
@@ -39,6 +40,8 @@ class FerryManagerTest {
     Ferry ferry1 = new Ferry();
     @Spy
     Ferry ferry2 = new Ferry();
+    @Spy
+    Ferry ferry3 = new Ferry();
 
     private List<Ferry> ferries;
 
@@ -96,5 +99,19 @@ class FerryManagerTest {
         assertEquals(cabins, ferryManager.getFerryAndCabinsByFerryName(ferryName1).getValue());
         verify(ferryFacadeLocal, times(5)).findByName(ferryName1);
         verify(cabinFacadeLocal, times(5)).findAllByFerry(ferry1);
+    }
+
+    @Test
+    void createFerry() {
+        doAnswer(invocationOnMock -> {
+            ferries.add(ferry3);
+            return null;
+        }).when(ferryFacadeLocal).create(ferry3);
+
+        assertEquals(2, ferries.size());
+        assertDoesNotThrow(() -> ferryManager.createFerry(login, ferry3));
+        assertEquals(3, ferries.size());
+        assertEquals(ferry3.hashCode(), ferries.get(2).hashCode());
+        verify(ferryFacadeLocal).create(ferry3);
     }
 }
