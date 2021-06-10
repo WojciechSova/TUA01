@@ -5,7 +5,7 @@ import { CruiseDetails } from '../../model/mop/CruiseDetails';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CruiseDetailsService implements OnDestroy {
 

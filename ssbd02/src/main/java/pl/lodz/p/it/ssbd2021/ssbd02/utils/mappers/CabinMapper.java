@@ -24,7 +24,9 @@ public class CabinMapper {
         CabinDetailsDTO cabinDTO = new CabinDetailsDTO();
         cabinDTO.setVersion(cabin.getVersion());
         cabinDTO.setCapacity(cabin.getCapacity());
-        cabinDTO.setCabinType(cabin.getCabinType().getCabinTypeName());
+        if (cabin.getCabinType() != null) {
+            cabinDTO.setCabinType(cabin.getCabinType().getCabinTypeName());
+        }
         cabinDTO.setNumber(cabin.getNumber());
         cabinDTO.setModificationDate(cabin.getModificationDate());
         cabinDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(cabin.getModifiedBy()));
@@ -33,6 +35,12 @@ public class CabinMapper {
         return cabinDTO;
     }
 
+    /**
+     * Metoda mapująca obiekt typu {@link Cabin} na obiekt typu {@link CabinGeneralDTO}.
+     *
+     * @param cabin Obiekt typu {@link Cabin}, który będzie mapowany
+     * @return Obiekt typu {@link CabinGeneralDTO}
+     */
     public static CabinGeneralDTO createCabinGeneralDTOFromEntity(Cabin cabin) {
         if (cabin == null) {
             return null;
@@ -40,7 +48,9 @@ public class CabinMapper {
         CabinGeneralDTO cabinDTO = new CabinGeneralDTO();
         cabinDTO.setVersion(cabin.getVersion());
         cabinDTO.setCapacity(cabin.getCapacity());
-        cabinDTO.setCabinType(cabin.getCabinType().getCabinTypeName());
+        if (cabin.getCabinType() != null) {
+            cabinDTO.setCabinType(cabin.getCabinType().getCabinTypeName());
+        }
         cabinDTO.setNumber(cabin.getNumber());
         return cabinDTO;
     }
