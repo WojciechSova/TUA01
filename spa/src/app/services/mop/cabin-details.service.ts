@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {CabinDetails} from '../../model/mop/CabinDetails';
+import { CabinDetails } from '../../model/mop/CabinDetails';
 
 @Injectable({
     providedIn: 'root'
