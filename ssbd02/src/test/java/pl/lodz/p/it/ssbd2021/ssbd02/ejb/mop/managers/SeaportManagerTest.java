@@ -123,7 +123,7 @@ class SeaportManagerTest {
         assertAll(
                 () -> assertEquals("Lublin", oldSeaport.getCity()),
                 () -> assertEquals(account, oldSeaport.getModifiedBy()),
-                () -> assertEquals(1L, oldSeaport.getVersion()),
+                () -> assertEquals(1L, oldSeaport.getVersion())
         );
 
     }
