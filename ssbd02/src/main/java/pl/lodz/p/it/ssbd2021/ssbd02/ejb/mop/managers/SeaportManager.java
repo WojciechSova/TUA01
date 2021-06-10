@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 import org.apache.commons.lang3.SerializationUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.RouteFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.SeaportFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.SeaportManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
@@ -34,6 +35,9 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
 
     @Inject
     private SeaportFacadeLocal seaportFacadeLocal;
+
+    @Inject
+    private RouteFacadeLocal routeFacadeLocal;
 
     @Inject
     private AccountMopFacadeLocal accountMopFacadeLocal;

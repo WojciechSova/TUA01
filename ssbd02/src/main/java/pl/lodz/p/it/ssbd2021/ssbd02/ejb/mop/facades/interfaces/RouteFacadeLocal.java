@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacadeInterface;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 
 import javax.ejb.Local;
 
@@ -22,4 +23,12 @@ public interface RouteFacadeLocal extends AbstractFacadeInterface<Route> {
      * @return Obiekt typu {@link Route} o przekazanym kodzie trasy.
      */
     Route findByCode(String code);
+
+    /**
+     * Metoda zwracająca liczbę wystąpień danego portu jako początku lub celu trasy.
+     *
+     * @param seaport port {@link Seaport} którego liczbę wystąpień sprawdzamy
+     * @return Liczba typu {@link Long} wystąpień portu jako początek lub cel trasy
+     */
+    Long countContainingSeaport(Seaport seaport);
 }

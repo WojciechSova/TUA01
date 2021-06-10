@@ -25,7 +25,9 @@ import java.time.Instant;
         @NamedQuery(name = "Route.findById", query = "SELECT r FROM Route r WHERE r.id = :id"),
         @NamedQuery(name = "Route.findByStart", query = "SELECT r FROM Route r WHERE r.start = :start"),
         @NamedQuery(name = "Route.findByDestination", query = "SELECT r FROM Route r WHERE r.destination = :destination"),
-        @NamedQuery(name = "Route.findByCode", query = "SELECT r FROM Route r WHERE r.code = :code")
+        @NamedQuery(name = "Route.findByCode", query = "SELECT r FROM Route r WHERE r.code = :code"),
+        @NamedQuery(name = "Route.countContainingSeaport",
+                query = "SELECT COUNT (p) FROM Route p WHERE p.start = :seaport OR p.destination = :seaport")
 })
 @Data
 @NoArgsConstructor

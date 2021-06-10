@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.RouteFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
@@ -16,6 +17,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -104,5 +106,13 @@ public class RouteFacade extends AbstractFacade<Route> implements RouteFacadeLoc
     @DenyAll
     public List<Route> findWithQuery(String query) {
         return super.findWithQuery(query);
+    }
+
+    @Override
+    @RolesAllowed({"EMPLOYEE"})
+    public Long countContainingSeaport(Seaport seaport) {
+        Query query = entityManager.createNamedQuery("Route.countContainingSeaport");
+        query.setParameter("seaport", seaport);
+        return (Long) query.getSingleResult();
     }
 }
