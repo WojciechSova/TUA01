@@ -72,7 +72,22 @@ public class BookingEndpoint {
     @Path("own")
     @RolesAllowed({"CLIENT"})
     public Response getOwnBookings(@Context SecurityContext securityContext) {
-        return null;
+        try {
+            List<BookingGeneralDTO> bookingGeneralDTOList = bookingManagerLocal.getAllBookingsByAccount(
+                    securityContext.getUserPrincipal().getName()).stream()
+                    .map(BookingMapper::createBookingGeneralDTOFromEntity)
+                    .collect(Collectors.toList());
+
+            return Response.ok()
+                    .entity(bookingGeneralDTOList)
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @POST
