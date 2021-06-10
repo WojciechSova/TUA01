@@ -58,9 +58,10 @@ public class CabinMapper {
     }
 
     /**
-     * Metoda mapująca obiekt typu {@link CabinDetailsDTO} na obiekt typu {@link Cabin}.
+     * Metoda mapująca obiekty typu {@link CabinDetailsDTO} i {@link CabinType} na obiekt typu {@link Cabin}.
      *
      * @param cabinDetailsDTO Obiekt typu {@link CabinDetailsDTO}, który będzie mapowany
+     * @param cabinType Obiekty typu {@link CabinType}, określający typ mapowanej kajuty
      * @return Obiekt typu {@link Cabin}
      */
     public static Cabin createEntityFromCabinDetailsDTO(CabinDetailsDTO cabinDetailsDTO, CabinType cabinType){

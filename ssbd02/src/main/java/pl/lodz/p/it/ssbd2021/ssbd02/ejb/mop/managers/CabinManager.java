@@ -75,7 +75,6 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
         Cabin cabinFromDB = Optional.ofNullable(cabinFacadeLocal.findByNumber(cabin.getNumber())).
                 orElseThrow(CommonExceptions::createNoResultException);
 
-        cabinFromDB.setVersion(cabin.getVersion());
         if (cabin.getCabinType() != null) {
             cabinFromDB.setCabinType(cabin.getCabinType());
         }
