@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FerryDetails } from '../../model/mop/FerryDetails';
 import { IdentityService } from '../../services/utils/identity.service';
+import { FerryDetailsService } from '../../services/mop/ferry-details.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-ferry-details',
@@ -9,36 +11,31 @@ import { IdentityService } from '../../services/utils/identity.service';
 })
 export class FerryDetailsComponent implements OnInit {
 
-    ferry: FerryDetails = {
-        name: 'Ferry Name',
-        cabins: [
-            {
-                capacity: '100',
-                cabinType: 'First class',
-                number: 'J123',
-            },
-            {
-                capacity: '1000',
-                cabinType: 'Second class',
-                number: 'J124'
-            },
-        ],
-        vehicleCapacity: '400',
-        onDeckCapacity: '1000',
-        creationDate: new Date(),
-        createdBy: {
-            login: 'Employee',
-            active: true,
-            firstName: 'FirstName',
-            lastName: 'LastName',
-            accessLevel: ['EMPLOYEE']
-        }
-    };
+    name = '';
 
-    constructor(public identityService: IdentityService) {
+    constructor(public identityService: IdentityService,
+                public ferryDetailsService: FerryDetailsService,
+                private router: Router,
+                private route: ActivatedRoute) {
+        this.name = this.route.snapshot.paramMap.get('name') as string;
+        this.getFerry();
     }
 
     ngOnInit(): void {
     }
 
+    getFerry(): void {
+        this.ferryDetailsService.getFerry(this.name).subscribe(
+            (response: FerryDetails) => {
+                this.ferryDetailsService.readFerryDetails(response);
+            });
+    }
+
+    goToHomeBreadcrumb(): void {
+        this.router.navigate(['/']);
+    }
+
+    goToFerryListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/ferries']);
+    }
 }
