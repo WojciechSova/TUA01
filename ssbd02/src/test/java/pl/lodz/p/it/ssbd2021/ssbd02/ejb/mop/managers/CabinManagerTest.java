@@ -30,7 +30,6 @@ class CabinManagerTest {
     @InjectMocks
     CabinManager cabinManager;
 
-    @Spy
     Cabin cabin1 = new Cabin();
 
     @BeforeEach
