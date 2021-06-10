@@ -213,6 +213,7 @@
         "booking_list": "Booking list",
         "seaport": "Seaport",
         "cruise": "Cruise",
+        "cabin-edit": "Edit cabin",
         "ferry": "Ferry",
         "cabin": "Cabin",
         "booking": "Booking",
@@ -299,6 +300,12 @@
         "book_a_ticket": "Book a ticket",
         "book": "Book"
     },
+    "seaport-edit": {
+        "required_city": "*City name",
+        "city_name": "Enter new city name:",
+        "result_success": "Seaport city change successful",
+        "result_failure": "Seaport city change failed"
+    },
     "cabin-details": {
         "edit_cabin": "Edit cabin",
         "number": "Cabin number",
@@ -308,5 +315,13 @@
         "modified_by": "Modified by",
         "creation_date": "Creation date",
         "created_by": "Created by"
+    },
+    "cabin-form": {
+        "choose_cabin_type": "Choose cabin type",
+        "first": "First class",
+        "second": "Second class",
+        "third": "Third class",
+        "disabled": "Disabled class",
+        "capacity": "Cabin capacity"
     }
 }
