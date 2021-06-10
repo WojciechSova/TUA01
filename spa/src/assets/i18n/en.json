@@ -217,6 +217,7 @@
         "ferry": "Ferry",
         "cabin": "Cabin",
         "booking": "Booking",
+        "seaport_add": "Add seaport",
         "route": "Route"
     },
     "session-timeout": {
@@ -315,6 +316,11 @@
         "modified_by": "Modified by",
         "creation_date": "Creation date",
         "created_by": "Created by"
+    },
+    "add-seaport": {
+        "new_seaport": "New seaport",
+        "city": "*City",
+        "code": "*Code"
     },
     "cabin-form": {
         "choose_cabin_type": "Choose cabin type",

@@ -34,4 +34,8 @@ export class SeaportsTableComponent implements OnInit {
         return this.seaportGeneralService.seaportsList;
     }
 
+    showAddingForm(): void {
+        this.router.navigate(['/ferrytales/seaports/add']);
+    }
+
 }
