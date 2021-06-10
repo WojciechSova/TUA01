@@ -30,7 +30,6 @@ const ferrytalesChildren: Routes = [
     { path: 'bookings', component: BookingTableComponent },
     { path: 'accounts/edit/:login', component: EditUserComponent },
     { path: 'ferries', component: FerriesTableComponent },
-    { path: 'accounts/edit/:login', component: EditUserComponent },
     { path: 'seaports/:code', component: SeaportDetailsComponent },
     { path: 'routes', component: RoutesTableComponent },
     { path: 'routes/:code', component: RouteDetailsComponent },
