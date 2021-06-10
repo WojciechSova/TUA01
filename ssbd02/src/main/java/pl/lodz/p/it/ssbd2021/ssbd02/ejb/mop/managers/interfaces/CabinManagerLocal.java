@@ -48,9 +48,10 @@ public interface CabinManagerLocal {
     /**
      * Metoda tworząca kajutę.
      *
-     * @param cabin Encja typu {@link Cabin}
+     * @param cabin     Encja typu {@link Cabin}
+     * @param createdBy Login użytkownika, który utworzył encję
      */
-    void createCabin(Cabin cabin);
+    void createCabin(Cabin cabin, String createdBy);
 
     /**
      * Metoda aktualizuje kajutę o numerze zawartym w encji {@link Cabin} oraz ustawia konto w polu modifiedBy na konto
