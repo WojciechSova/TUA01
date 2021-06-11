@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
@@ -94,5 +93,17 @@ class BookingManagerTest {
         when(bookingFacadeLocal.findByNumber(nonExistentNumber)).thenReturn(null);
 
         assertThrows(CommonExceptions.class, () -> bookingManager.getBookingByNumber(nonExistentNumber));
+    }
+
+    @Test
+    void getBookingByAccountAndNumber() {
+        when(bookingFacadeLocal.findByAccountAndNumber(account1, bookingNumber1)).thenReturn(booking1);
+        when(accountMopFacadeLocal.findByLogin("login")).thenReturn(account1);
+
+        Booking foundBooking = bookingManager.getBookingByAccountAndNumber("login", bookingNumber1);
+
+        assertEquals(booking1, foundBooking);
+        assertEquals(booking1.getNumber(), foundBooking.getNumber());
+        assertEquals(booking1.hashCode(), foundBooking.hashCode());
     }
 }
