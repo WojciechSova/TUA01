@@ -203,6 +203,7 @@
     "breadcrumb": {
         "home": "Strona główna",
         "account_list": "Lista kont",
+        "booking_list": "Lista rezerwacji",
         "account": "Szczegóły konta",
         "account_edit": "Edycja konta",
         "routes": {
@@ -210,12 +211,15 @@
         },
         "ferries_list": "Lista promów",
         "seaport-list": "Lista portów",
-        "booking-list": "Lista rezerwacji",
+        "current_cruises_list": "Lista aktualnych rejsów",
         "seaport": "Port",
         "cruise": "Rejs",
         "ferry": "Prom",
         "cabin": "Kajuta",
-        "booking": "Rezerwacja"
+        "cabin-edit": "Edycja kajuty",
+        "booking": "Rezerwacja",
+        "route": "Trasa",
+        "seaport_add": "Dodaj port"
     },
     "session-timeout": {
         "info": {
@@ -226,6 +230,13 @@
         "ok": "Ok",
         "renew": "Odśwież",
         "signOut": "Wyloguj się"
+    },
+    "booking-list": {
+        "client": "Klient",
+        "cruise": "Rejs",
+        "cruise_date": "Data rejsu",
+        "creation_date": "Data rezerwacji",
+        "number": "Numer"
     },
     "route": {
         "start": "Port początkowy",
@@ -259,7 +270,8 @@
         "cruises": "Rejsy:",
         "creation_date": "Data utworzenia:",
         "created_by": "Utworzony przez:",
-        "add_cruise": "Dodaj rejs"
+        "add_cruise": "Dodaj rejs",
+        "no_cruises_on_route": "Brak rejsów na trasie"
     },
     "cabin-table": {
         "capacity": "Pojemność",
@@ -312,5 +324,18 @@
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
         "created_by": "Utworzony przez"
+    },
+    "cabin-form": {
+        "choose_cabin_type": "Wybierz typ kajuty",
+        "first": "Pierwsza klasa",
+        "second": "Druga klasa",
+        "third": "Trzecia klasa",
+        "disabled": "Klasa inwalidzka",
+        "capacity": "Liczba miejsc w kajucie"
+    },
+    "add-seaport": {
+        "new_seaport": "Nowy port",
+        "city": "*Miasto",
+        "code": "*Kod"
     }
 }

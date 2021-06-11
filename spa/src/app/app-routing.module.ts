@@ -12,26 +12,36 @@ import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidde
 import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
 import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
 import { UnauthorizedComponent } from './other-views/error-pages/unauthorized/unauthorized.component';
+import { BookingTableComponent } from './ferrytales/booking-table/booking-table.component';
 import { SeaportsTableComponent } from './ferrytales/seaports-table/seaports-table.component';
 import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
 import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
-import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
 import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
+import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
+import { CurrentCruisesTableComponent } from './ferrytales/current-cruises-table/current-cruises-table.component';
+import { AddSeaportComponent } from './ferrytales/add-seaport/add-seaport.component';
+import { EditCabinComponent } from './ferrytales/edit-cabin/edit-cabin.component';
+import { RouteDetailsComponent } from './ferrytales/route-details/route-details.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
     { path: 'accounts/:login', component: AccountDetailsComponent },
     { path: 'accounts/edit/:login', component: EditUserComponent },
-    { path: 'ferries', component: FerriesTableComponent },
+    { path: 'bookings', component: BookingTableComponent },
     { path: 'accounts/edit/:login', component: EditUserComponent },
+    { path: 'seaports/add', component: AddSeaportComponent },
+    { path: 'ferries', component: FerriesTableComponent },
     { path: 'seaports/:code', component: SeaportDetailsComponent },
     { path: 'routes', component: RoutesTableComponent },
+    { path: 'routes/:code', component: RouteDetailsComponent },
     { path: 'cruise/:number', component: CruiseDetailsComponent },
     { path: 'seaports', component: SeaportsTableComponent },
+    { path: 'cabin/edit', component: EditCabinComponent },
     { path: 'ferries/:name', component: FerryDetailsComponent },
-    { path: 'bookings/:number', component: BookingDetailsComponent }
+    { path: 'bookings/:number', component: BookingDetailsComponent },
+    { path: 'current', component: CurrentCruisesTableComponent }
 ];
 
 const routes: Routes = [

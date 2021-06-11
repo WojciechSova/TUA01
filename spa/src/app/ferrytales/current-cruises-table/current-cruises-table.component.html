@@ -1,3 +1,16 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.current_cruises_list</li>
+</ol>
+
+<div class="button-cruises-container">
+    <button class="button-cruises-table" (click)="getCurrentCruises()" translate>general.refresh</button>
+</div>
+
 <div class="current-cruises-list-container">
     <table id="cruises">
         <tr>
@@ -9,12 +22,12 @@
             <th translate>cruise-general.book_a_ticket</th>
         </tr>
 
-        <tr *ngFor="let cruise of currentCruises">
-            <td>{{cruise.route?.start?.city}}</td>
-            <td>{{cruise.route?.destination?.city}}</td>
-            <td>{{cruise.startDate | date :'short':identityService.getTimezone()}}</td>
-            <td>{{cruise.endDate | date :'short':identityService.getTimezone()}}</td>
-            <td>{{cruise.ferry.name}}</td>
+        <tr *ngFor="let currentCruise of listCurrentCruises()">
+            <td>{{currentCruise.route?.start?.city}}</td>
+            <td>{{currentCruise.route?.destination?.city}}</td>
+            <td>{{currentCruise.startDate | date :'short':identityService.getTimezone()}}</td>
+            <td>{{currentCruise.endDate | date :'short':identityService.getTimezone()}}</td>
+            <td>{{currentCruise.ferry.name}}</td>
             <td>
                 <button class="button-cruises-table" translate>cruise-general.book</button>
             </td>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CruiseGeneral } from '../../model/mop/CruiseGeneral';
 import { CruiseGeneralService } from '../../services/mop/cruise-general.service';
 import { IdentityService } from '../../services/utils/identity.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-current-cruises-table',
@@ -10,10 +11,9 @@ import { IdentityService } from '../../services/utils/identity.service';
 })
 export class CurrentCruisesTableComponent implements OnInit {
 
-    currentCruises: CruiseGeneral[] = [];
-
-    constructor(private cruiseGeneralService: CruiseGeneralService,
-                public identityService: IdentityService) {
+    constructor(public identityService: IdentityService,
+                private cruiseGeneralService: CruiseGeneralService,
+                private router: Router) {
         this.getCurrentCruises();
     }
 
@@ -21,6 +21,17 @@ export class CurrentCruisesTableComponent implements OnInit {
     }
 
     getCurrentCruises(): void {
-        this.currentCruises = this.cruiseGeneralService.getCurrentCruises();
+        this.cruiseGeneralService.getCurrentCruises().subscribe(
+            (response: CruiseGeneral[]) => {
+                this.cruiseGeneralService.readCurrentCruises(response);
+            });
+    }
+
+    listCurrentCruises(): CruiseGeneral[] {
+        return this.cruiseGeneralService.currentCruises;
+    }
+
+    goToHomeBreadcrumb(): void {
+        this.router.navigate(['/']);
     }
 }
