@@ -55,6 +55,7 @@ export class BookingDetailsComponent implements OnInit {
                 lastName: '',
                 accessLevel: ['']
             },
+            version: 2
         },
         number: '1234567890',
         numberOfPeople: 1,
@@ -119,6 +120,7 @@ export class BookingDetailsComponent implements OnInit {
                     lastName: '',
                     accessLevel: ['']
                 },
+                version: 2
             },
             number: '1234567890',
             numberOfPeople: 1,

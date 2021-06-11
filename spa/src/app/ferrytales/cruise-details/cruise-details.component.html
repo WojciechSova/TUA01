@@ -4,12 +4,16 @@
             breadcrumb.home </a>
         <img src="assets/wind.png" alt="" class="bullet">
     </li>
-    <!--    TODO w dalszej części zadania-->
-    <!--    <li class="breadcrumb-item">-->
-    <!--        <a href="" (click)="goToUserListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>-->
-    <!--            breadcrumb.cruise_list </a>-->
-    <!--        <img src="assets/wind.png" alt="" class="bullet">-->
-    <!--    </li>-->
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToRoutesListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.routes.list </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToRouteBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.route </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
     <li class="breadcrumb-item active" translate> breadcrumb.cruise</li>
 </ol>
 <div class="outer-div">
@@ -25,15 +29,18 @@
         <div class="col">
             <div class="row">
                 <label class="uppercase" translate>cruise-details.start_date</label>
-                <label id="login">{{cruiseDetailsService.cruise.startDate | date :'short':identityService.getTimezone()}}</label>
+                <label
+                    id="login">{{cruiseDetailsService.cruise.startDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>cruise-details.end_date</label>
-                <label id="firstName">{{cruiseDetailsService.cruise.endDate | date :'short':identityService.getTimezone()}}</label>
+                <label
+                    id="firstName">{{cruiseDetailsService.cruise.endDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>cruise-details.route</label>
-                <label id="lastName">{{cruiseDetailsService.cruise.route.start.city}}-{{cruiseDetailsService.cruise.route.destination.city}}
+                <label id="lastName">{{cruiseDetailsService.cruise.route.start.city}}
+                    -{{cruiseDetailsService.cruise.route.destination.city}}
                     {{cruiseDetailsService.cruise.route.code}}</label>
             </div>
             <div class="row">
