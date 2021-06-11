@@ -8,7 +8,7 @@ export class CabinDetailsService {
 
     cabin: CabinDetails = {
         capacity: '1',
-        cabinType: "VIP",
+        cabinType: 'First class',
         number: 'ABCXYZ100200',
         modificationDate: new Date(),
         modifiedBy: undefined,

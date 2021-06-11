@@ -37,19 +37,19 @@
                 </div>
                 <div class="checkbox-container">
                     <label id="firstClass-label" class="container" translate>cabin-form.first
-                        <input type="radio" name="radio" [(ngModel)]="cabinTypes[0]">
+                        <input type="checkbox" name="radio" [checked]="cabinTypes.firstClass" [(ngModel)]="cabinTypes.firstClass">
                         <span class="checkmark"></span>
                     </label>
                     <label id="secondClass-label" class="container" translate>cabin-form.second
-                        <input type="radio" name="radio" [(ngModel)]="cabinTypes[1]">
+                        <input type="checkbox" name="radio" [checked]="cabinTypes.secondClass" [(ngModel)]="cabinTypes.secondClass">
                         <span class="checkmark"></span>
                     </label>
                     <label id="thirdClass-label" class="container" translate>cabin-form.third
-                        <input type="radio" name="radio" [(ngModel)]="cabinTypes[2]">
+                        <input type="checkbox" name="radio" [checked]="cabinTypes.thirdClass" [(ngModel)]="cabinTypes.thirdClass">
                         <span class="checkmark"></span>
                     </label>
                     <label id="disabledClass-label" class="container" translate>cabin-form.disabled
-                        <input type="radio" name="radio" [(ngModel)]="cabinTypes[3]">
+                        <input type="checkbox" name="radio" [checked]="cabinTypes.disabledClass" [(ngModel)]="cabinTypes.disabledClass">
                         <span class="checkmark"></span>
                     </label>
                 </div>

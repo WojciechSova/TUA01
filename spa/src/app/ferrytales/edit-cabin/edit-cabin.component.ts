@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
 import {IdentityService} from '../../services/utils/identity.service';
 import {CabinDetailsService} from '../../services/mop/cabin-details.service';
@@ -9,14 +9,14 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
     templateUrl: './edit-cabin.component.html',
     styleUrls: ['./edit-cabin.component.less']
 })
-export class EditCabinComponent implements OnInit {
+export class EditCabinComponent implements OnChanges {
 
-    public cabinTypes: string[] = [
-        'First class',
-        'Second class',
-        'Third class',
-        'Disabled class'
-    ];
+    public cabinTypes = {
+        firstClass: false,
+        secondClass: false,
+        thirdClass: false,
+        disabledClass: false
+    };
 
     form = new FormGroup({
         capacity: new FormControl('')
@@ -29,7 +29,29 @@ export class EditCabinComponent implements OnInit {
                 public cabinDetailsService: CabinDetailsService) {
     }
 
-    ngOnInit(): void {
+    ngOnChanges(): void {
+        this.cabinTypes = {
+            firstClass: false,
+            secondClass: false,
+            thirdClass: false,
+            disabledClass: false
+        };
+        console.log(this.cabinDetailsService.cabin.cabinType);
+        if (this.cabinDetailsService.cabin.cabinType === 'First class') {
+            this.cabinTypes.firstClass = true;
+        } else if (this.cabinDetailsService.cabin.cabinType === 'Second class') {
+            this.cabinTypes.secondClass = true;
+        } else if (this.cabinDetailsService.cabin.cabinType === 'Third class') {
+            this.cabinTypes.thirdClass = true;
+        } else if (this.cabinDetailsService.cabin.cabinType === 'Disabled class') {
+            this.cabinTypes.disabledClass = true;
+        }
+        console.log(this.cabinTypes);
+    }
+
+    modelChange(event: any, cabinType: any): void{
+        console.log(this.cabinTypes);
+        console.log(cabinType);
     }
 
     isUpdating(): boolean {
@@ -41,15 +63,15 @@ export class EditCabinComponent implements OnInit {
     }
 
     goToFerriesListBreadcrumb(): void {
-
+        this.router.navigate(['/']);
     }
 
     goToFerryBreadcrumb(): void {
-
+        this.router.navigate(['/']);
     }
 
     goToCabinBreadcrumb(): void {
-
+        this.router.navigate(['/']);
     }
 
     showCabin(cabinNumber: string): void {
@@ -57,6 +79,6 @@ export class EditCabinComponent implements OnInit {
     }
 
     editCabin(value: string): void {
-
+        console.log(this.cabinTypes);
     }
 }
