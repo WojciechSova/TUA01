@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
@@ -31,7 +32,7 @@ class BookingManagerTest {
     @Mock
     private BookingFacadeLocal bookingFacadeLocal;
     @Mock
-    private AccountFacadeLocal accountFacadeLocal;
+    private AccountMopFacadeLocal accountMopFacadeLocal;
 
     @InjectMocks
     private BookingManager bookingManager;
@@ -68,7 +69,7 @@ class BookingManagerTest {
     void getAllBookingsByAccount() {
         List<Booking> byAccount2 = bookings.subList(1,3);
         when(bookingFacadeLocal.findAllByAccount(account2)).thenReturn(byAccount2);
-        when(accountFacadeLocal.findByLogin("login2")).thenReturn(account2);
+        when(accountMopFacadeLocal.findByLogin("login2")).thenReturn(account2);
 
         assertEquals(byAccount2, bookingManager.getAllBookingsByAccount("login2"));
         assertEquals(2, bookingManager.getAllBookingsByAccount("login2").size());
