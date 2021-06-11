@@ -14,15 +14,16 @@
 <div class="booking-list-container">
     <table id="users">
         <tr>
+            <th translate>booking-list.number</th>
             <th translate>booking-list.client</th>
             <th translate>booking-list.cruise</th>
             <th translate>booking-list.cruise_date</th>
             <th translate>booking-list.creation_date</th>
-            <th translate>booking-list.number</th>
             <th translate>general.details</th>
         </tr>
 
         <tr *ngFor="let booking of bookingGeneralService.bookings">
+            <td>{{booking.number}}</td>
             <td>{{booking.account.login}}</td>
             <td>{{booking.cruise.route?.start?.city}}→{{booking.cruise.route?.destination?.city}}</td>
             <td>
@@ -31,7 +32,6 @@
                 booking.cruise.endDate | date :'short':identityService.getTimezone()}}
             </td>
             <td>{{booking.creationDate | date :'short':identityService.getTimezone()}}</td>
-            <td>{{booking.number}}</td>
             <td>
                 <button id="details" class="button-booking-table" (click)="showBookingDetails(booking.number)" translate>
                     general.details
