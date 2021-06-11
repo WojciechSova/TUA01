@@ -2,8 +2,12 @@ package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinTypeManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinTypeExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
@@ -12,10 +16,16 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
@@ -29,7 +39,9 @@ import javax.ws.rs.core.SecurityContext;
 public class CabinEndpoint {
 
     @Inject
-    private CabinManagerLocal cabinManagerLocal;
+    private CabinManagerLocal cabinManager;
+    @Inject
+    private CabinTypeManagerLocal cabinTypeManager;
 
     @POST
     @Path("add")
@@ -50,7 +62,7 @@ public class CabinEndpoint {
     public Response getCabin(@PathParam("number") String number) {
         try {
             CabinDetailsDTO cabinDetailsDTO = CabinMapper
-                    .createCabinDetailsDTOFromEntity(cabinManagerLocal.getCabinByNumber(number));
+                    .createCabinDetailsDTOFromEntity(cabinManager.getCabinByNumber(number));
 
             return Response.ok()
                     .entity(cabinDetailsDTO)
@@ -81,8 +93,29 @@ public class CabinEndpoint {
 
     @PUT
     @Path("update")
+    @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateCabin(CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response updateCabin(@Valid CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext,
+                                @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
+
+        if (cabinDTO.getNumber() == null || cabinDTO.getVersion() == null) {
+            throw CommonExceptions.createPreconditionFailedException();
+        }
+        if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, cabinDTO)) {
+            throw CommonExceptions.createPreconditionFailedException();
+        }
+        try {
+            CabinType cabinType = cabinTypeManager.getCabinTypeByName(cabinDTO.getCabinType());
+            cabinManager.updateCabin(CabinMapper.createEntityFromCabinDetailsDTO(cabinDTO, cabinType),
+                    securityContext.getUserPrincipal().getName());
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 }

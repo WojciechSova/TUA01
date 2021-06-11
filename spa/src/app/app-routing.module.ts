@@ -17,9 +17,11 @@ import { SeaportsTableComponent } from './ferrytales/seaports-table/seaports-tab
 import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
 import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
-import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
 import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
+import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
+import { CurrentCruisesTableComponent } from './ferrytales/current-cruises-table/current-cruises-table.component';
+import { AddSeaportComponent } from './ferrytales/add-seaport/add-seaport.component';
 import { EditCabinComponent } from './ferrytales/edit-cabin/edit-cabin.component';
 import { RouteDetailsComponent } from './ferrytales/route-details/route-details.component';
 
@@ -29,6 +31,7 @@ const ferrytalesChildren: Routes = [
     { path: 'accounts/edit/:login', component: EditUserComponent },
     { path: 'bookings', component: BookingTableComponent },
     { path: 'accounts/edit/:login', component: EditUserComponent },
+    { path: 'seaports/add', component: AddSeaportComponent },
     { path: 'ferries', component: FerriesTableComponent },
     { path: 'seaports/:code', component: SeaportDetailsComponent },
     { path: 'routes', component: RoutesTableComponent },
@@ -37,7 +40,8 @@ const ferrytalesChildren: Routes = [
     { path: 'seaports', component: SeaportsTableComponent },
     { path: 'cabin/edit', component: EditCabinComponent },
     { path: 'ferries/:name', component: FerryDetailsComponent },
-    { path: 'bookings/:number', component: BookingDetailsComponent }
+    { path: 'bookings/:number', component: BookingDetailsComponent },
+    { path: 'current', component: CurrentCruisesTableComponent }
 ];
 
 const routes: Routes = [

@@ -211,13 +211,15 @@
         },
         "ferries_list": "Lista promów",
         "seaport-list": "Lista portów",
+        "current_cruises_list": "Lista aktualnych rejsów",
         "seaport": "Port",
         "cruise": "Rejs",
         "ferry": "Prom",
         "cabin": "Kajuta",
         "cabin-edit": "Edycja kajuty",
         "booking": "Rezerwacja",
-        "route": "Trasa"
+        "route": "Trasa",
+        "seaport_add": "Dodaj port"
     },
     "session-timeout": {
         "info": {
@@ -330,5 +332,10 @@
         "third": "Trzecia klasa",
         "disabled": "Klasa inwalidzka",
         "capacity": "Liczba miejsc w kajucie"
+    },
+    "add-seaport": {
+        "new_seaport": "Nowy port",
+        "city": "*Miasto",
+        "code": "*Kod"
     }
 }

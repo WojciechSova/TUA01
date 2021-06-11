@@ -2,7 +2,9 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinGeneralDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 
 /**
  * Klasa mapująca obiekty kajut pomiędzy encjami a DTO
@@ -53,5 +55,24 @@ public class CabinMapper {
         }
         cabinDTO.setNumber(cabin.getNumber());
         return cabinDTO;
+    }
+
+    /**
+     * Metoda mapująca obiekty typu {@link CabinDetailsDTO} i {@link CabinType} na obiekt typu {@link Cabin}.
+     *
+     * @param cabinDetailsDTO Obiekt typu {@link CabinDetailsDTO}, który będzie mapowany
+     * @param cabinType Obiekty typu {@link CabinType}, określający typ mapowanej kajuty
+     * @return Obiekt typu {@link Cabin}
+     */
+    public static Cabin createEntityFromCabinDetailsDTO(CabinDetailsDTO cabinDetailsDTO, CabinType cabinType){
+        if(cabinDetailsDTO == null){
+            return null;
+        }
+        Cabin cabin = new Cabin();
+        cabin.setVersion(cabinDetailsDTO.getVersion());
+        cabin.setCapacity(cabinDetailsDTO.getCapacity());
+        cabin.setCabinType(cabinType);
+        cabin.setNumber(cabinDetailsDTO.getNumber());
+        return cabin;
     }
 }
