@@ -68,13 +68,15 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
         Seaport databaseSeaport = Optional.ofNullable(seaportFacadeLocal.findByCode(seaport.getCode()))
                 .orElseThrow(CommonExceptions::createNoResultException);
         Seaport seaportClone = SerializationUtils.clone(databaseSeaport);
-        seaportClone.setVersion(databaseSeaport.getVersion());
+        seaportClone.setVersion(seaport.getVersion());
 
         seaportClone.setCity(seaport.getCity());
 
         seaportClone.setModifiedBy(Optional.ofNullable(accountMopFacadeLocal.findByLogin(modifiedBy))
                 .orElseThrow(CommonExceptions::createNoResultException));
         seaportClone.setModificationDate(Timestamp.from(Instant.now()));
+
+        seaportClone.setCreatedBy(databaseSeaport.getCreatedBy());
 
         seaportFacadeLocal.edit(seaportClone);
     }
