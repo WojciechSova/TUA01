@@ -232,6 +232,13 @@
         "renew": "Refresh",
         "signOut": "Sign out"
     },
+    "booking-list": {
+        "client": "Client",
+        "cruise": "Cruise",
+        "cruise_date": "Cruise date",
+        "creation_date": "Booking date",
+        "number": "Number"
+    },
     "route": {
         "start": "Starting seaport",
         "destination": "Destination seaport",

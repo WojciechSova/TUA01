@@ -7,6 +7,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.SeaportFacadeLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.SeaportManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.SeaportExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
@@ -16,6 +17,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -66,7 +68,7 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
         Seaport databaseSeaport = Optional.ofNullable(seaportFacadeLocal.findByCode(seaport.getCode()))
                 .orElseThrow(CommonExceptions::createNoResultException);
         Seaport seaportClone = SerializationUtils.clone(databaseSeaport);
-        seaportClone.setVersion(databaseSeaport.getVersion());
+        seaportClone.setVersion(seaport.getVersion());
 
         seaportClone.setCity(seaport.getCity());
 
@@ -74,12 +76,22 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
                 .orElseThrow(CommonExceptions::createNoResultException));
         seaportClone.setModificationDate(Timestamp.from(Instant.now()));
 
+        seaportClone.setCreatedBy(databaseSeaport.getCreatedBy());
+
         seaportFacadeLocal.edit(seaportClone);
     }
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void removeSeaport(Seaport seaport) {
+        try {
+            seaportFacadeLocal.remove(seaport);
+        } catch (CommonExceptions ce) {
+            if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
+                && ce.getResponse().getEntity().equals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION)){
+                throw SeaportExceptions.createConflictException(SeaportExceptions.ERROR_SEAPORT_USED_BY_ROUTE);
+            }
+        }
 
     }
 }

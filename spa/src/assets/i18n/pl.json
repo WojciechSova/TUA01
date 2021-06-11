@@ -203,6 +203,7 @@
     "breadcrumb": {
         "home": "Strona główna",
         "account_list": "Lista kont",
+        "booking_list": "Lista rezerwacji",
         "account": "Szczegóły konta",
         "account_edit": "Edycja konta",
         "routes": {
@@ -210,7 +211,6 @@
         },
         "ferries_list": "Lista promów",
         "seaport-list": "Lista portów",
-        "booking-list": "Lista rezerwacji",
         "current_cruises_list": "Lista aktualnych rejsów",
         "seaport": "Port",
         "cruise": "Rejs",
@@ -231,6 +231,13 @@
         "ok": "Ok",
         "renew": "Odśwież",
         "signOut": "Wyloguj się"
+    },
+    "booking-list": {
+        "client": "Klient",
+        "cruise": "Rejs",
+        "cruise_date": "Data rejsu",
+        "creation_date": "Data rezerwacji",
+        "number": "Numer"
     },
     "route": {
         "start": "Port początkowy",

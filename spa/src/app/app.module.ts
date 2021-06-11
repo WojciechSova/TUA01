@@ -53,6 +53,7 @@ import { CruiseTableComponent } from './ferrytales/route-details/route-table/cru
 import { SeaportEditComponent } from './ferrytales/seaport-details/seaport-edit/seaport-edit.component';
 import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
 import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.component';
+import { BookingTableComponent } from './ferrytales/booking-table/booking-table.component';
 import { EditCabinComponent } from './ferrytales/edit-cabin/edit-cabin.component';
 import { AddSeaportComponent } from './ferrytales/add-seaport/add-seaport.component';
 import { AddCabinComponent } from './ferrytales/add-cabin/add-cabin.component';
@@ -121,10 +122,9 @@ export const localeServiceProviders = [
         SeaportEditComponent,
         CabinDetailsComponent,
         EditCabinComponent,
-        SeaportsTableComponent,
-        CruiseDetailsComponent,
         AddSeaportComponent,
-        EditCabinComponent,
+        BookingTableComponent,
+        CruiseDetailsComponent,
         AddCabinComponent
     ],
     imports: [
