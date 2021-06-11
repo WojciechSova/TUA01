@@ -18,6 +18,7 @@ export class CruiseDetailsService implements OnDestroy {
     }
 
     getCruise(code: string): Observable<HttpResponse<CruiseDetails>> {
+        this.cruise = this.getEmptyCruiseDetails();
         return this.http.get<CruiseDetails>(this.url + code, {
             observe: 'response',
             responseType: 'json'
