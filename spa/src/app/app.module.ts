@@ -56,6 +56,7 @@ import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.
 import { BookingTableComponent } from './ferrytales/booking-table/booking-table.component';
 import { EditCabinComponent } from './ferrytales/edit-cabin/edit-cabin.component';
 import { AddSeaportComponent } from './ferrytales/add-seaport/add-seaport.component';
+import { BookingsTableOwnComponent } from './ferrytales/bookings-table-own/bookings-table-own.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -123,6 +124,7 @@ export const localeServiceProviders = [
         EditCabinComponent,
         AddSeaportComponent,
         BookingTableComponent,
+        BookingsTableOwnComponent,
     ],
     imports: [
         BrowserModule,

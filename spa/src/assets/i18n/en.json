@@ -219,7 +219,8 @@
         "cabin": "Cabin",
         "booking": "Booking",
         "route": "Route",
-        "seaport_add": "Add seaport"
+        "seaport_add": "Add seaport",
+        "booking_list_own": "Your bookings"
     },
     "session-timeout": {
         "info": {
@@ -236,7 +237,8 @@
         "cruise": "Cruise",
         "cruise_date": "Cruise date",
         "creation_date": "Booking date",
-        "number": "Number"
+        "number": "Number",
+        "cancel": "Cancel"
     },
     "route": {
         "start": "Starting seaport",

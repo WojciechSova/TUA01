@@ -118,7 +118,7 @@
         "creation_date": "Data utworzenia:"
     },
     "booking-details": {
-        "number_of_people": "Liczba ludzi:",
+        "number_of_people": "Liczba osób:",
         "cabin": "Typ kajuty:",
         "cabin_number": "Numer kajuty:",
         "vehicle_type": "Typ pojazdu:",
@@ -219,7 +219,8 @@
         "cabin-edit": "Edycja kajuty",
         "booking": "Rezerwacja",
         "route": "Trasa",
-        "seaport_add": "Dodaj port"
+        "seaport_add": "Dodaj port",
+        "booking_list_own": "Twoje rezerwacje"
     },
     "session-timeout": {
         "info": {
@@ -236,7 +237,8 @@
         "cruise": "Rejs",
         "cruise_date": "Data rejsu",
         "creation_date": "Data rezerwacji",
-        "number": "Numer"
+        "number": "Numer",
+        "cancel": "Anuluj"
     },
     "route": {
         "start": "Port początkowy",
