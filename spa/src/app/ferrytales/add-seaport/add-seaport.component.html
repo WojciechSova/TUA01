@@ -49,6 +49,9 @@
                 (click)="addSeaport(newCity.value, newCode.value)"
                 [disabled]=form.invalid translate>form.save
         </button>
+        <div class="validation-error validation-info" *ngIf="error">
+            <p id="invalidCredentialsLabel" translate>ERROR.DUPLICATE_CODE</p>
+        </div>
         <img class="return-arrow" (click)="goToSeaportListBreadcrumb()"
              src="assets/imgs/back-arrow.png"
              alt=""/>
