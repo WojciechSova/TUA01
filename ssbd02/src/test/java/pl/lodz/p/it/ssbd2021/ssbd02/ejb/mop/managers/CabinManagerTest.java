@@ -8,9 +8,11 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
 import javax.ws.rs.WebApplicationException;
@@ -30,6 +32,9 @@ class CabinManagerTest {
     CabinFacadeLocal cabinFacadeLocal;
     @Mock
     AccountMopFacadeLocal accountMopFacadeLocal;
+    @Mock
+    FerryFacadeLocal ferryFacadeLocal;
+
 
     @InjectMocks
     CabinManager cabinManager;
@@ -39,7 +44,10 @@ class CabinManagerTest {
     Cabin cabin2 = new Cabin();
     @Spy
     Account account = new Account();
+    @Spy
+    Ferry ferry = new Ferry();
     String login = "Franek";
+    String ferryName = "Perl";
 
     private List<Cabin> cabins;
 
@@ -51,6 +59,7 @@ class CabinManagerTest {
         cabins.add(cabin1);
 
         account.setLogin(login);
+        ferry.setName(ferryName);
     }
 
     @Test
@@ -67,16 +76,18 @@ class CabinManagerTest {
             cabins.add(cabin2);
             return null;
         }).when(cabinFacadeLocal).create(cabin2);
-        when(accountFacadeLocal.findByLogin(login)).thenReturn(account);
+        when(accountMopFacadeLocal.findByLogin(login)).thenReturn(account);
+        when(ferryFacadeLocal.findByName(ferryName)).thenReturn(ferry);
 
-        cabinManager.createCabin(cabin2, login);
-        WebApplicationException exception = assertThrows(CommonExceptions.class, () -> cabinManager.createCabin(cabin2, "NieFranek"));
+        cabinManager.createCabin(cabin2, login, ferryName);
+        WebApplicationException exception = assertThrows(CommonExceptions.class, () -> cabinManager.createCabin(cabin2, "NieFranek", ferryName));
 
         assertAll(
                 () -> assertEquals(2, cabins.size()),
                 () -> assertEquals(cabin2.hashCode(), cabins.get(cabins.size() - 1).hashCode()),
                 () -> assertEquals(account.getLogin(), cabin2.getCreatedBy().getLogin()),
                 () -> assertEquals(0L, cabin2.getVersion()),
+                () -> assertEquals(ferry.getName(), cabin2.getFerry().getName()),
                 () -> assertEquals(CommonExceptions.createNoResultException().getResponse().getStatus(), exception.getResponse().getStatus())
         );
     }

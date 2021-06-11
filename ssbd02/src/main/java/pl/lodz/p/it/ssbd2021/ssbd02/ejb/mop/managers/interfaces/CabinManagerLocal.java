@@ -50,8 +50,9 @@ public interface CabinManagerLocal {
      *
      * @param cabin     Encja typu {@link Cabin}
      * @param createdBy Login użytkownika, który utworzył encję
+     * @param ferryName Nazwa promu, do którego zostanie przypisana kajuta
      */
-    void createCabin(Cabin cabin, String createdBy);
+    void createCabin(Cabin cabin, String createdBy, String ferryName);
 
     /**
      * Metoda aktualizuje kajutę o numerze zawartym w encji {@link Cabin} oraz ustawia konto w polu modifiedBy na konto

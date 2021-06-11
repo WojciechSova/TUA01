@@ -2,13 +2,13 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import org.apache.commons.lang3.SerializationUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.AccountMopFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
@@ -39,6 +39,8 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     private CabinFacadeLocal cabinFacadeLocal;
     @Inject
     private AccountMopFacadeLocal accountMopFacadeLocal;
+    @Inject
+    private FerryFacadeLocal ferryFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -66,10 +68,12 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void createCabin(Cabin cabin, String createdBy) {
-        Account accCreatedBy = Optional.ofNullable(accountFacadeLocal.findByLogin(createdBy)).orElseThrow(CommonExceptions::createNoResultException);
+    public void createCabin(Cabin cabin, String createdBy, String ferryName) {
+        Account accCreatedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(createdBy)).orElseThrow(CommonExceptions::createNoResultException);
+        Ferry ferry = Optional.ofNullable(ferryFacadeLocal.findByName(ferryName)).orElseThrow(CommonExceptions::createNoResultException);
         cabin.setVersion(0L);
         cabin.setCreatedBy(accCreatedBy);
+        cabin.setFerry(ferry);
         cabinFacadeLocal.create(cabin);
         logger.info("The user with login {} has created cabin with code {}",
                 createdBy, cabin.getNumber());
