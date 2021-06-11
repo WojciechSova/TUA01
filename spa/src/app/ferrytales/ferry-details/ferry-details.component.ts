@@ -38,4 +38,8 @@ export class FerryDetailsComponent implements OnInit {
     goToFerryListBreadcrumb(): void {
         this.router.navigate(['/ferrytales/ferries']);
     }
+
+    addCabin(): void {
+        this.router.navigate(['ferrytales/ferries/' + this.name + '/addCabin']);
+    }
 }
