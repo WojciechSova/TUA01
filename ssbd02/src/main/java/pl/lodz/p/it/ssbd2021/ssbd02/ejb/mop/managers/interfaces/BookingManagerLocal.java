@@ -51,7 +51,7 @@ public interface BookingManagerLocal {
     Booking getBookingByNumber(String number);
 
     /**
-     * Metoda wyszukująca rezerwacje o podanym loginie i o podanym numerze.
+     * Metoda wyszukująca rezerwację o podanym loginie i o podanym numerze.
      *
      * @param login Login użytkownika, którego rezerwacji chcemy wyszukać
      * @param number Numer rezerwacji, który chcemy wyszukać
