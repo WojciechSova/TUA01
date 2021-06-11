@@ -50,7 +50,7 @@ class SeaportEndpointTest {
     void initMocks() {
         MockitoAnnotations.openMocks(this);
         s1.setCity("Warszawa");
-        s1.setCity("WAR");
+        s1.setCode("WAR");
         s2.setCity("Ciechocinek");
         s3.setCity("Pabianice");
         s3.setCode("PAB");
