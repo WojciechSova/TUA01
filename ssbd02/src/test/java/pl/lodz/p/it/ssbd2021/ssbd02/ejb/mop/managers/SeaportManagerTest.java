@@ -13,7 +13,9 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.SeaportExceptions;
 
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -126,5 +128,20 @@ class SeaportManagerTest {
                 () -> assertEquals(1L, oldSeaport.getVersion())
         );
 
+    }
+
+    @Test
+    void removeSeaport() {
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createConstraintViolationException();
+        }).when(seaportFacadeLocal).remove(s1);
+
+        SeaportExceptions exception = assertThrows(SeaportExceptions.class,
+                () -> seaportManager.removeSeaport(s1));
+
+        verify(seaportFacadeLocal).remove(s1);
+
+        assertEquals(Response.Status.CONFLICT.getStatusCode(), exception.getResponse().getStatus());
+        assertEquals(SeaportExceptions.ERROR_SEAPORT_USED_BY_ROUTE, exception.getResponse().getEntity());
     }
 }
