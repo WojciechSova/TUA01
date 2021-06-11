@@ -67,7 +67,7 @@ class CabinManagerTest {
             cabins.add(cabin2);
             return null;
         }).when(cabinFacadeLocal).create(cabin2);
-        when(accountFacadeLocal.findByLogin(login)).thenReturn(account);
+        when(accountMopFacadeLocal.findByLogin(login)).thenReturn(account);
 
         cabinManager.createCabin(cabin2, login);
         WebApplicationException exception = assertThrows(CommonExceptions.class, () -> cabinManager.createCabin(cabin2, "NieFranek"));
