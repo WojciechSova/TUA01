@@ -12,6 +12,9 @@ import { SeaportGeneralService } from '../mop/seaport-general.service';
 import { SeaportDetailsService } from '../mop/seaport-details.service';
 import { RouteDetailsService } from '../mop/route-details.service';
 import { CruiseDetailsService } from '../mop/cruise-details.service';
+import { CruiseGeneralService } from '../mop/cruise-general.service';
+import { FerryDetailsService } from '../mop/ferry-details.service';
+import { FerryGeneralService } from '../mop/ferry-general.service';
 
 @Injectable({
     providedIn: 'root'
@@ -29,6 +32,9 @@ export class AuthService {
                 private seaportDetailsService: SeaportDetailsService,
                 private routeDetailsService: RouteDetailsService,
                 private cruiseDetailsService: CruiseDetailsService,
+                private ferryGeneralService: FerryGeneralService,
+                private ferryDetailsService: FerryDetailsService,
+                private cruiseGeneralService: CruiseGeneralService,
                 private cookieService: CookieService,
                 private router: Router) {
         this.url = environment.appUrl + '/auth';
@@ -66,6 +72,9 @@ export class AuthService {
         this.seaportDetailsService.ngOnDestroy();
         this.routeDetailsService.ngOnDestroy();
         this.cruiseDetailsService.ngOnDestroy();
+        this.ferryGeneralService.ngOnDestroy();
+        this.ferryDetailsService.ngOnDestroy();
+        this.cruiseGeneralService.ngOnDestroy();
         this.cookieService.delete('token');
         this.cookieService.delete('login');
         this.cookieService.delete('currentAccessLevel');

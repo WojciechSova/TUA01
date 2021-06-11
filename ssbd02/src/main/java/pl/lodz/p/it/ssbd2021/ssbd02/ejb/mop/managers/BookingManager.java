@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
@@ -33,7 +34,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     @Inject
     private BookingFacadeLocal bookingFacadeLocal;
     @Inject
-    private AccountFacadeLocal accountFacadeLocal;
+    private AccountMopFacadeLocal accountMopFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -56,7 +57,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     @Override
     @RolesAllowed({"CLIENT"})
     public List<Booking> getAllBookingsByAccount(String login) {
-        return Optional.of(bookingFacadeLocal.findAllByAccount(accountFacadeLocal.findByLogin(login))).
+        return Optional.of(bookingFacadeLocal.findAllByAccount(accountMopFacadeLocal.findByLogin(login))).
                 orElseThrow(CommonExceptions::createNoResultException);
     }
 

@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
@@ -20,8 +21,10 @@ class CabinMapperTest {
     private Ferry ferry;
     private Cabin cabin;
     private Account accountModifiedBy;
+    private AccountGeneralDTO accountDTOModifiedBy;
     private Account accountCreatedBy;
     private CabinType cabinType;
+    private CabinDetailsDTO cabinDetailsDTO;
 
     @BeforeEach
     public void setUp() {
@@ -30,8 +33,11 @@ class CabinMapperTest {
         accountCreatedBy.setLogin("CreatedByLogin");
         accountModifiedBy = new Account();
         accountModifiedBy.setLogin("ModifiedByLogin");
+        accountDTOModifiedBy = new AccountGeneralDTO();
+        accountDTOModifiedBy.setLogin("ModifiedByLoginDTO");
         cabinType = createCabinType();
         cabin = createCabin();
+        cabinDetailsDTO = createCabinDetailsDTO();
     }
 
     @Test
@@ -59,6 +65,17 @@ class CabinMapperTest {
                 () -> assertEquals(cabin.getCapacity(), cabinDTO.getCapacity()),
                 () -> assertEquals(cabinType.getCabinTypeName(), cabinDTO.getCabinType()),
                 () -> assertEquals(cabin.getNumber(), cabinDTO.getNumber())
+        );
+    }
+
+    @Test
+    void createEntityFromCabinDetailsDTO() {
+        Cabin cabin = CabinMapper.createEntityFromCabinDetailsDTO(cabinDetailsDTO, cabinType);
+        assertAll(
+                () -> assertEquals(cabin.getVersion(), cabinDetailsDTO.getVersion()),
+                () -> assertEquals(cabin.getCapacity(), cabinDetailsDTO.getCapacity()),
+                () -> assertEquals(cabinType.getCabinTypeName(), cabinDetailsDTO.getCabinType()),
+                () -> assertEquals(cabin.getNumber(), cabinDetailsDTO.getNumber())
         );
     }
 
@@ -90,4 +107,18 @@ class CabinMapperTest {
         cabin.setVersion(1L);
         return cabin;
     }
+
+    private CabinDetailsDTO createCabinDetailsDTO() {
+        CabinDetailsDTO cabin = new CabinDetailsDTO();
+        cabin.setCapacity(100);
+        cabin.setCabinType(cabinType.getCabinTypeName());
+        cabin.setNumber("J123");
+        cabin.setModificationDate(Timestamp.from(Instant.now()));
+        cabin.setModifiedBy(accountDTOModifiedBy);
+        cabin.setCreationDate(Timestamp.valueOf("2021-06-01 11:11:11"));
+        cabin.setCreatedBy(accountDTOModifiedBy);
+        cabin.setVersion(1L);
+        return cabin;
+    }
+
 }

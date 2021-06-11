@@ -211,13 +211,15 @@
         "ferries_list": "Ferries list",
         "seaport_list": "Seaport list",
         "booking_list": "Booking list",
+        "current_cruises_list": "Current cruises list",
         "seaport": "Seaport",
         "cruise": "Cruise",
         "cabin-edit": "Edit cabin",
         "ferry": "Ferry",
         "cabin": "Cabin",
         "booking": "Booking",
-        "route": "Route"
+        "route": "Route",
+        "seaport_add": "Add seaport"
     },
     "session-timeout": {
         "info": {
@@ -228,6 +230,13 @@
         "ok": "Ok",
         "renew": "Refresh",
         "signOut": "Sign out"
+    },
+    "booking-list": {
+        "client": "Client",
+        "cruise": "Cruise",
+        "cruise_date": "Cruise date",
+        "creation_date": "Booking date",
+        "number": "Number"
     },
     "route": {
         "start": "Starting seaport",
@@ -323,5 +332,10 @@
         "third": "Third class",
         "disabled": "Disabled class",
         "capacity": "Cabin capacity"
+    },
+    "add-seaport": {
+        "new_seaport": "New seaport",
+        "city": "*City",
+        "code": "*Code"
     }
 }

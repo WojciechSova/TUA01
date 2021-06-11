@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinTypeFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
@@ -15,6 +16,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -45,7 +47,9 @@ public class CabinTypeFacade extends AbstractFacade<CabinType> implements CabinT
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public CabinType findByName(String name) {
-        return null;
+        TypedQuery<CabinType> typedQuery = entityManager.createNamedQuery("CabinType.findByCabinTypeName", CabinType.class);
+        typedQuery.setParameter("cabinTypeName", name);
+        return typedQuery.getSingleResult();
     }
 
     @Override

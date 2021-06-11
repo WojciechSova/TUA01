@@ -1,7 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import org.apache.commons.lang3.SerializationUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.AccountMopFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
@@ -35,7 +38,7 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     @Inject
     private CabinFacadeLocal cabinFacadeLocal;
     @Inject
-    private AccountFacadeLocal accountFacadeLocal;
+    private AccountMopFacadeLocal accountMopFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -64,7 +67,7 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void createCabin(Cabin cabin, String createdBy) {
-        Account accCreatedBy = Optional.ofNullable(accountFacadeLocal.findByLogin(createdBy)).orElseThrow(CommonExceptions::createNoResultException);
+        Account accCreatedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(createdBy)).orElseThrow(CommonExceptions::createNoResultException);
         cabin.setVersion(0L);
         cabin.setCreatedBy(accCreatedBy);
         cabinFacadeLocal.create(cabin);
@@ -77,19 +80,20 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     public void updateCabin(Cabin cabin, String modifiedBy) {
         Cabin cabinFromDB = Optional.ofNullable(cabinFacadeLocal.findByNumber(cabin.getNumber())).
                 orElseThrow(CommonExceptions::createNoResultException);
+        Cabin cab = SerializationUtils.clone(cabinFromDB);
 
-        cabinFromDB.setVersion(cabin.getVersion());
+        cab.setVersion(cabin.getVersion());
         if (cabin.getCabinType() != null) {
-            cabinFromDB.setCabinType(cabin.getCabinType());
+            cab.setCabinType(cabin.getCabinType());
         }
         if (cabin.getCapacity() != null) {
-            cabinFromDB.setCapacity(cabin.getCapacity());
+            cab.setCapacity(cabin.getCapacity());
         }
-        Account cabModifiedBy = Optional.ofNullable(accountFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException);
-        cabinFromDB.setModifiedBy(cabModifiedBy);
-        cabinFromDB.setModificationDate(Timestamp.from(Instant.now()));
+        Account cabModifiedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException);
+        cab.setModifiedBy(cabModifiedBy);
+        cab.setModificationDate(Timestamp.from(Instant.now()));
 
-        cabinFacadeLocal.edit(cabinFromDB);
+        cabinFacadeLocal.edit(cab);
         logger.info("The user with login {} updated the cabin with number {}",
                 this.getInvokerId(), cabinFromDB.getNumber());
     }
