@@ -32,15 +32,10 @@ class BookingEndpointTest {
     private SecurityContext securityContext;
     @Mock
     private UserPrincipal userPrincipal;
-    private BookingManagerLocal bookingManagerLocal;
-    @Mock
-    private SecurityContext securityContext;
-    @Mock
-    private UserPrincipal userPrincipal;
     @InjectMocks
     private BookingEndpoint bookingEndpoint;
     @Mock
-    private BookingManagerLocal bookingManager;
+    private BookingManagerLocal bookingManagerLocal;
 
     private Booking booking2;
     private Account account1;
@@ -60,7 +55,7 @@ class BookingEndpointTest {
 
     @Test
     void getBooking() {
-        when(bookingManager.getBookingByNumber("1234567890")).thenReturn(booking1);
+        when(bookingManagerLocal.getBookingByNumber("1234567890")).thenReturn(booking1);
 
         BookingDetailsDTO bookingDetailsDTO = BookingMapper.createBookingDetailsDTOFromEntity(booking1);
 
@@ -86,7 +81,7 @@ class BookingEndpointTest {
 
     @Test
     void getOwnBooking() {
-        when(bookingManager.getBookingByAccountAndNumber("login", "1234567890")).thenReturn(booking1);
+        when(bookingManagerLocal.getBookingByAccountAndNumber("login", "1234567890")).thenReturn(booking1);
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(securityContext.getUserPrincipal().getName()).thenReturn("login");
 
@@ -114,7 +109,7 @@ class BookingEndpointTest {
 
     @Test
     void getAllBookings() {
-        when(bookingManager.getAllBookings()).thenReturn(List.of(booking1, booking2));
+        when(bookingManagerLocal.getAllBookings()).thenReturn(List.of(booking1, booking2));
 
         Response response = bookingEndpoint.getAllBookings();
 

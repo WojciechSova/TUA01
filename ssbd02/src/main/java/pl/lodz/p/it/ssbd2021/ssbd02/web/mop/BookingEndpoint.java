@@ -42,7 +42,7 @@ public class BookingEndpoint {
     private static final Logger logger = LogManager.getLogger();
 
     @Inject
-    private BookingManagerLocal bookingManager;
+    private BookingManagerLocal bookingManagerLocal;
 
     /**
      * Metoda udostępniająca ogólne informacje o rezerwacjach.
@@ -53,7 +53,7 @@ public class BookingEndpoint {
     @RolesAllowed({"EMPLOYEE"})
     public Response getAllBookings() {
         try {
-            List<BookingGeneralDTO> bookingGeneralDTOList = bookingManager.getAllBookings().stream()
+            List<BookingGeneralDTO> bookingGeneralDTOList = bookingManagerLocal.getAllBookings().stream()
                     .map(BookingMapper::createBookingGeneralDTOFromEntity)
                     .collect(Collectors.toList());
 
@@ -80,13 +80,13 @@ public class BookingEndpoint {
     @RolesAllowed({"EMPLOYEE"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBooking(@PathParam("number") String number) {
-        if (number == null || number.length() != 10) {
+        if (number == null || !number.matches("[0-9]{10}")) {
             throw CommonExceptions.createConstraintViolationException();
         }
 
         try {
             BookingDetailsDTO bookingDetailsDTO = BookingMapper
-                    .createBookingDetailsDTOFromEntity(bookingManager.getBookingByNumber(number));
+                    .createBookingDetailsDTOFromEntity(bookingManagerLocal.getBookingByNumber(number));
 
             return Response.ok()
                     .entity(bookingDetailsDTO)
@@ -113,13 +113,13 @@ public class BookingEndpoint {
     @RolesAllowed({"CLIENT"})
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOwnBooking(@Context SecurityContext securityContext, @PathParam("number") String number) {
-        if (number == null || number.length() != 10) {
+        if (number == null || !number.matches("[0-9]{10}")) {
             throw CommonExceptions.createConstraintViolationException();
         }
 
         try {
             BookingDetailsDTO bookingDetailsDTO = BookingMapper
-                    .createBookingDetailsDTOFromEntity(bookingManager
+                    .createBookingDetailsDTOFromEntity(bookingManagerLocal
                             .getBookingByAccountAndNumber(securityContext.getUserPrincipal().getName(), number));
 
             return Response.ok()
