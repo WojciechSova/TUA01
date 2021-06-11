@@ -35,7 +35,7 @@ public interface BookingFacadeLocal extends AbstractFacadeInterface<Booking> {
 
     /**
      * Metoda wyszukująca listę encji typu {@link Booking} o przekazanym biznesowym numerze identyfikacyjnym
-     * , które należą do podanego konta.
+     * która należy do podanego konta.
      *
      * @param number Biznesowy numer identyfikacyjny.
      * @param account Encja typu {@link Account}.
