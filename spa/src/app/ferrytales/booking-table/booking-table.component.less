@@ -1,0 +1,23 @@
+@import "src/app/ferrytales/users-table/users-table.component.less";
+
+.booking-list-container {
+    padding: 0 10% 2%;
+}
+
+.button-booking-table {
+    transition: 0.3s;
+    height: 2.5rem;
+    width: 100%;
+    border: none;
+    border-radius: 35px;
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, @primary-color 0%, @secondary-color 100%);
+    font: lighter 1.3rem Source Sans Pro;
+    color: @primary-text-color;
+    text-align: center;
+
+    &:hover {
+        background-position: right center;
+        cursor: pointer;
+    }
+}

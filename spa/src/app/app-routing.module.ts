@@ -12,6 +12,7 @@ import { ForbiddenComponent } from './other-views/error-pages/forbidden/forbidde
 import { InternalServerErrorComponent } from './other-views/error-pages/internal-server-error/internal-server-error.component';
 import { NotFoundComponent } from './other-views/error-pages/not-found/not-found.component';
 import { UnauthorizedComponent } from './other-views/error-pages/unauthorized/unauthorized.component';
+import { BookingTableComponent } from './ferrytales/booking-table/booking-table.component';
 import { SeaportsTableComponent } from './ferrytales/seaports-table/seaports-table.component';
 import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
 import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
@@ -28,9 +29,10 @@ const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
     { path: 'accounts/:login', component: AccountDetailsComponent },
     { path: 'accounts/edit/:login', component: EditUserComponent },
-    { path: 'ferries', component: FerriesTableComponent },
+    { path: 'bookings', component: BookingTableComponent },
     { path: 'accounts/edit/:login', component: EditUserComponent },
     { path: 'seaports/add', component: AddSeaportComponent },
+    { path: 'ferries', component: FerriesTableComponent },
     { path: 'seaports/:code', component: SeaportDetailsComponent },
     { path: 'routes', component: RoutesTableComponent },
     { path: 'routes/:code', component: RouteDetailsComponent },
