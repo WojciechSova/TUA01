@@ -58,7 +58,7 @@ public interface CruiseManagerLocal {
      * @param cruise Encja typu {@link Cruise}
      * @param name Identyfikator encji typu {@link Ferry}
      * @param code Identyfikator encji typu {@link Route}
-     * @param login Login użytkownika, ktory edytuje encje
+     * @param login Login użytkownika, ktory tworzy encje
      */
     void createCruise(Cruise cruise, String name, String code, String login);
 

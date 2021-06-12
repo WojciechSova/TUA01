@@ -106,12 +106,7 @@ class CruiseManagerTest {
         cruise1.setFerry(null);
         cruise1.setRoute(null);
 
-        doAnswer(invocationOnMock -> {
-            cruise1.setModifiedBy(account);
-            cruise1.setFerry(ferry);
-            cruise1.setRoute(route);
-            return null;
-        }).when(cruiseFacadeLocal).create(cruise1);
+        doAnswer(invocationOnMock -> null).when(cruiseFacadeLocal).create(cruise1);
 
         when(ferryFacadeLocal.findByName(ferry.getName())).thenReturn(ferry);
         when(routeFacadeLocal.findByCode(route.getCode())).thenReturn(route);
