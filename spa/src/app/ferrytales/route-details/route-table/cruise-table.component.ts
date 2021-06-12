@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IdentityService } from '../../../services/utils/identity.service';
-import { CruiseGeneral } from "../../../model/mop/CruiseGeneral";
+import { CruiseGeneral } from '../../../model/mop/CruiseGeneral';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-cruise-table',
@@ -9,7 +10,8 @@ import { CruiseGeneral } from "../../../model/mop/CruiseGeneral";
 })
 export class CruiseTableComponent implements OnInit {
 
-    constructor(public identityService: IdentityService) {
+    constructor(public identityService: IdentityService,
+                private router: Router) {
     }
 
     @Input()
@@ -18,4 +20,7 @@ export class CruiseTableComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    cruiseDetails(cruiseNumber: string): void {
+        this.router.navigate([`/ferrytales/cruises/${cruiseNumber}`]);
+    }
 }
