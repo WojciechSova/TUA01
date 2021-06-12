@@ -1,10 +1,10 @@
 import { AccountGeneral } from '../mok/AccountGeneral';
 import { VehicleType } from './VehicleType';
 import { CabinGeneral } from './CabinGeneral';
-import { CruiseDetails } from './CruiseDetails';
+import { CruiseGeneral } from './CruiseGeneral';
 
 export interface BookingDetails {
-    cruise: CruiseDetails;
+    cruise: CruiseGeneral;
     account: AccountGeneral;
     numberOfPeople: number;
     cabin?: CabinGeneral;
