@@ -62,8 +62,9 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public Cabin getCabinByNumber(String number) {
-        return cabinFacadeLocal.findByNumber(number);
+    public Cabin getCabinByFerryAndNumber(String ferryName, String cabinNumber) {
+        Ferry ferry = ferryFacadeLocal.findByName(ferryName);
+        return cabinFacadeLocal.findByFerryAndNumber(ferry, cabinNumber);
     }
 
     @Override

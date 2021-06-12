@@ -71,9 +71,9 @@ class CabinEndpointTest {
 
     @Test
     void getCabin() {
-        when(cabinManagerLocal.getCabinByNumber("123")).thenReturn(cabin);
+        when(cabinManagerLocal.getCabinByFerryAndNumber("ferry", "123")).thenReturn(cabin);
 
-        Response response = cabinEndpoint.getCabin("123");
+        Response response = cabinEndpoint.getCabin("ferry", "123");
 
         assertEquals(CabinMapper.createCabinDetailsDTOFromEntity(cabin), response.getEntity());
         assertTrue(DTOIdentitySignerVerifier.verifyDTOIntegrity(response.getEntityTag().getValue(),

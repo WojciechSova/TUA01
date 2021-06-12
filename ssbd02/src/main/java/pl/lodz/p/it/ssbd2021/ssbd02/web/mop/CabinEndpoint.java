@@ -72,18 +72,19 @@ public class CabinEndpoint {
     }
 
     /**
-     * Metoda udostępniająca szczegółowe informacje dotyczące kajuty o podanym numerze
+     * Metoda udostępniająca szczegółowe informacje dotyczące kajuty o podanym numerze i znajdującej się na podanym promie.
      *
-     * @param number Numer wyszukiwanej kajuty
+     * @param ferryName Nazwa promu, na którym znajduje się kajuta
+     * @param cabinNumber Numer wyszukiwanej kajuty
      * @return Szczegółowe informacje o kajucie
      */
     @GET
-    @Path("{number}")
+    @Path("{ferry}/{number}")
     @RolesAllowed({"EMPLOYEE"})
-    public Response getCabin(@PathParam("number") String number) {
+    public Response getCabin(@PathParam("ferry") String ferryName, @PathParam("number") String cabinNumber) {
         try {
             CabinDetailsDTO cabinDetailsDTO = CabinMapper
-                    .createCabinDetailsDTOFromEntity(cabinManager.getCabinByNumber(number));
+                    .createCabinDetailsDTOFromEntity(cabinManager.getCabinByFerryAndNumber(ferryName, cabinNumber));
 
             return Response.ok()
                     .entity(cabinDetailsDTO)

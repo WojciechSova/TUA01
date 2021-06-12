@@ -63,11 +63,12 @@ class CabinManagerTest {
     }
 
     @Test
-    void getCabinByNumber() {
+    void getCabinByFerryAndNumber() {
         String cabinNumber = "123";
-        when(cabinFacadeLocal.findByNumber(cabinNumber)).thenReturn(cabin1);
-        assertEquals(cabin1, cabinManager.getCabinByNumber(cabinNumber));
-        assertEquals(cabin1.hashCode(), cabinManager.getCabinByNumber(cabinNumber).hashCode());
+        when(ferryFacadeLocal.findByName(ferryName)).thenReturn(ferry);
+        when(cabinFacadeLocal.findByFerryAndNumber(ferry, cabinNumber)).thenReturn(cabin1);
+        assertEquals(cabin1, cabinManager.getCabinByFerryAndNumber(ferryName, cabinNumber));
+        assertEquals(cabin1.hashCode(), cabinManager.getCabinByFerryAndNumber(ferryName, cabinNumber).hashCode());
     }
 
     @Test
