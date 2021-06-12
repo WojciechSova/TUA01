@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FerryDetailsService } from '../../services/mop/ferry-details.service';
+import { CabinGeneralService } from '../../services/mop/cabin-general.service';
+import { CabinGeneral } from '../../model/mop/CabinGeneral';
 
 @Component({
     selector: 'app-add-cabin',
@@ -11,9 +13,11 @@ import { FerryDetailsService } from '../../services/mop/ferry-details.service';
 export class AddCabinComponent implements OnInit {
 
     name = "";
+    error: boolean = false;
 
     constructor(private router: Router,
-                private ferryDetailsService: FerryDetailsService) {
+                private ferryDetailsService: FerryDetailsService,
+                private cabinGeneralService: CabinGeneralService) {
         this.name = ferryDetailsService.ferry.name;
     }
 
@@ -38,12 +42,19 @@ export class AddCabinComponent implements OnInit {
     }
 
     addCabin(capacity: string, cabinType: string, number: string): any {
-        //TODO zamiana na właściwą metodę przy łączeniu spa z endpointem
-        console.log("POJEMNOSC: " + capacity + "\nTYP: " + cabinType + "\nNUMER:" + number)
+        var cabin: CabinGeneral = {
+            capacity: capacity,
+            cabinType: cabinType,
+            number: number
+        }
+        this.cabinGeneralService.addCabin(cabin, this.name).subscribe(
+            () => this.goToFerryBreadcrumb(),
+            (error: any) => this.error = true
+        )
     }
 
     getCurrentType(): string {
-        var selector = document.querySelector('input[name="radio"]:checked');
+        const selector = document.querySelector('input[name="radio"]:checked');
         if (selector != null) {
             return (selector as HTMLInputElement).value;
         } else {
