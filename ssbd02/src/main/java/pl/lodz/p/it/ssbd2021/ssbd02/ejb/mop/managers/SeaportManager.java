@@ -93,6 +93,8 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
             if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
                 && ce.getResponse().getEntity().equals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION)){
                 throw SeaportExceptions.createConflictException(SeaportExceptions.ERROR_SEAPORT_USED_BY_ROUTE);
+            } else {
+                throw ce;
             }
         }
 
