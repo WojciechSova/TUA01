@@ -107,6 +107,10 @@ public class AccountMapper {
      * @return Obiekt konta typu {@link Account}
      */
     public static Account createAccountFromAccountDetailsDTO(AccountDetailsDTO acc) {
+        if (acc == null) {
+            return null;
+        }
+
         Account account = new Account();
         account.setLogin(acc.getLogin());
         account.setPassword(acc.getPassword());
@@ -127,6 +131,10 @@ public class AccountMapper {
      * @return Obiekt konta typu {@link Account}
      */
     public static Account createAccountFromAccountGeneralDTO(AccountGeneralDTO acc) {
+        if (acc == null) {
+            return null;
+        }
+
         Account account = new Account();
         account.setLogin(acc.getLogin());
         account.setFirstName(acc.getFirstName());
