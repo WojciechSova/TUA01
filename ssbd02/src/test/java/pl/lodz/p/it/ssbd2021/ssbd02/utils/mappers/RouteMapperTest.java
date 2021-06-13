@@ -22,6 +22,8 @@ class RouteMapperTest {
 
     private Route route1;
 
+    private RouteGeneralDTO routeGeneralDTO;
+
     private Seaport seaport1;
     private Seaport seaport2;
 
@@ -37,6 +39,7 @@ class RouteMapperTest {
         seaport2 = new Seaport();
 
         route1 = createRoute();
+        routeGeneralDTO = createRouteGeneral();
     }
 
     private Route createRoute() {
@@ -49,6 +52,16 @@ class RouteMapperTest {
         route.setCreationDate(Timestamp.valueOf("2020-03-25 11:21:15"));
         route.setCreatedBy(accountCreatedBy);
         return route;
+    }
+
+    private RouteGeneralDTO createRouteGeneral() {
+        RouteGeneralDTO routeGeneralDTO = new RouteGeneralDTO();
+
+        routeGeneralDTO.setVersion(0L);
+        routeGeneralDTO.setStart(SeaportMapper.createSeaportGeneralDTOFromEntities(seaport1));
+        routeGeneralDTO.setDestination(SeaportMapper.createSeaportGeneralDTOFromEntities(seaport2));
+        routeGeneralDTO.setCode(code);
+        return routeGeneralDTO;
     }
 
 
@@ -91,5 +104,15 @@ class RouteMapperTest {
 
     @Test
     void createRouteFromRouteGeneralDTO() {
+        Route route = RouteMapper.createRouteFromRouteGeneralDTO(routeGeneralDTO);
+
+        assertEquals(routeGeneralDTO.getVersion(), route.getVersion());
+        assertEquals(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getStart()).getCity(), route.getStart().getCity());
+        assertEquals(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getStart()).getCode(), route.getStart().getCode());
+        assertEquals(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getStart()).getVersion(), route.getStart().getVersion());
+        assertEquals(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getDestination()).getCity(), route.getDestination().getCity());
+        assertEquals(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getDestination()).getCode(), route.getDestination().getCode());
+        assertEquals(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getDestination()).getVersion(), route.getDestination().getVersion());
+        assertEquals(routeGeneralDTO.getCode(), route.getCode());
     }
 }

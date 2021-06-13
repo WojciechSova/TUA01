@@ -80,7 +80,7 @@ public class RouteMapper {
         route.setCode(routeGeneralDTO.getCode());
         route.setStart(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getStart()));
         route.setDestination(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getDestination()));
-        route.setVersion(route.getVersion());
+        route.setVersion(routeGeneralDTO.getVersion());
 
         return route;
     }

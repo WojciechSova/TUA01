@@ -73,6 +73,7 @@ public class FerryMapper {
         }
 
         Ferry ferry = new Ferry();
+        ferry.setVersion(ferryGeneralDTO.getVersion());
         ferry.setName(ferryGeneralDTO.getName());
         ferry.setVehicleCapacity(ferryGeneralDTO.getVehicleCapacity());
         ferry.setOnDeckCapacity(ferryGeneralDTO.getOnDeckCapacity());

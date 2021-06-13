@@ -33,6 +33,7 @@ class FerryMapperTest {
     @BeforeEach
     public void setUp() {
         ferry = createFerry();
+        ferryGeneralDTO = createFerryGeneral();
         accountCreatedBy = new Account();
         accountCreatedBy.setLogin("CreatedByLogin");
         accountModifiedBy = new Account();
@@ -82,6 +83,15 @@ class FerryMapperTest {
         return ferry;
     }
 
+    private FerryGeneralDTO createFerryGeneral() {
+        FerryGeneralDTO ferryGeneralDTO = new FerryGeneralDTO();
+        ferryGeneralDTO.setName("Prom");
+        ferryGeneralDTO.setOnDeckCapacity(50);
+        ferryGeneralDTO.setVehicleCapacity(20);
+        ferryGeneralDTO.setVersion(1L);
+        return ferryGeneralDTO;
+    }
+
     private CabinType createCabinType() {
         CabinType cabinType = new CabinType();
         cabinType.setCabinTypeName("First class");
@@ -104,5 +114,13 @@ class FerryMapperTest {
 
     @Test
     void createFerryFromFerryGeneralDTO() {
+        ferry = FerryMapper.createFerryFromFerryGeneralDTO(ferryGeneralDTO);
+
+        assertAll(
+                () -> assertEquals(ferryGeneralDTO.getVersion(), ferry.getVersion()),
+                () -> assertEquals(ferryGeneralDTO.getName(), ferry.getName()),
+                () -> assertEquals(ferryGeneralDTO.getOnDeckCapacity(), ferry.getOnDeckCapacity()),
+                () -> assertEquals(ferryGeneralDTO.getVehicleCapacity(), ferry.getVehicleCapacity())
+        );
     }
 }

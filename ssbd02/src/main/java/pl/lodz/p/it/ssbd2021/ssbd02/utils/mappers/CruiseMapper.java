@@ -75,11 +75,11 @@ public class CruiseMapper {
         cruise.setRoute(RouteMapper.createRouteFromRouteGeneralDTO(cruiseDetailsDTO.getRoute()));
         cruise.setFerry(FerryMapper.createFerryFromFerryGeneralDTO(cruiseDetailsDTO.getFerry()));
         cruise.setNumber(cruiseDetailsDTO.getNumber());
-        cruise.setModificationDate(cruise.getModificationDate());
+        cruise.setModificationDate(cruiseDetailsDTO.getModificationDate());
         cruise.setModifiedBy(AccountMapper.createAccountFromAccountGeneralDTO(cruiseDetailsDTO.getModifiedBy()));
-        cruise.setCreationDate(cruise.getCreationDate());
+        cruise.setCreationDate(cruiseDetailsDTO.getCreationDate());
         cruise.setCreatedBy(AccountMapper.createAccountFromAccountGeneralDTO(cruiseDetailsDTO.getCreatedBy()));
-        cruise.setVersion(cruise.getVersion());
+        cruise.setVersion(cruiseDetailsDTO.getVersion());
         return cruise;
     }
 }
