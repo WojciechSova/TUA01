@@ -15,6 +15,7 @@ import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,6 +23,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
@@ -100,16 +102,39 @@ public class CruiseEndpoint {
         }
     }
 
+    /**
+     * Metoda umożliwiająca dodanie nowego rejsu.
+     *
+     * @param cruiseDetailsDTO Obiekt typu {@link CruiseDetailsDTO} przechowujący szczegóły nowego rejsu
+     * @param ferry Identyfikator biznesowy promu
+     * @param route Identyfikator biznesowy trasy
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego dodania portu
+     */
     @POST
     @Path("add/{ferry}/{route}")
     @RolesAllowed({"EMPLOYEE"})
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response addCruise(@Valid CruiseDetailsDTO cruiseDetailsDTO,
                               @PathParam("ferry") String ferry,
                               @PathParam("route") String route,
                               @Context SecurityContext securityContext) {
-        cruiseManagerLocal.createCruise(CruiseMapper.createCruiseFromCruiseDetailsDTO(cruiseDetailsDTO),
-                ferry, route, securityContext.getUserPrincipal().getName());
-        return null;
+        if (ferry.length() > 30 || !route.matches("[A-Z]{6}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
+        try {
+            cruiseManagerLocal.createCruise(CruiseMapper.createCruiseFromCruiseDetailsDTO(cruiseDetailsDTO),
+                    ferry, route, securityContext.getUserPrincipal().getName());
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @DELETE
