@@ -65,9 +65,10 @@ public class RouteMapper {
     }
 
     /**
+     * Metoda mapująca obiekt encji {@link RouteGeneralDTO} na obiekt typu {@link Route}
      *
-     * @param routeGeneralDTO
-     * @return
+     * @param routeGeneralDTO Obiekt typu {@link RouteGeneralDTO}, który będzie mapowany.
+     * @return Obiekt typu {@link Route}
      */
     public static Route createRouteFromRouteGeneralDTO(RouteGeneralDTO routeGeneralDTO) {
         if (routeGeneralDTO == null) {

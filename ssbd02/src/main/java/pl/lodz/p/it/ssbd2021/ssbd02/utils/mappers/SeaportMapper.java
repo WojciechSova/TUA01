@@ -64,9 +64,10 @@ public class SeaportMapper {
     }
 
     /**
+     * Metoda mapująca obiekt {@link SeaportGeneralDTO} na obiekt {@link Seaport}
      *
-     * @param seaportGeneralDTO
-     * @return
+     * @param seaportGeneralDTO Obiekt {@link SeaportGeneralDTO}, który chcemy mapować
+     * @return Obiekt typu {@link Seaport}
      */
     public static Seaport createSeaportFromSeaportGeneralDTO(SeaportGeneralDTO seaportGeneralDTO) {
         if (seaportGeneralDTO == null) {

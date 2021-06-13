@@ -62,9 +62,10 @@ public class FerryMapper {
     }
 
     /**
+     * Metoda mapująca obiekt typu {@link FerryGeneralDTO} na obiekt typu {@link Ferry}.
      *
-     * @param ferryGeneralDTO
-     * @return
+     * @param ferryGeneralDTO Obiekt typu {@link FerryGeneralDTO}, który będzie mapowany.
+     * @return Obiekt typu {@link Ferry}
      */
     public static Ferry createFerryFromFerryGeneralDTO(FerryGeneralDTO ferryGeneralDTO) {
         if (ferryGeneralDTO == null) {
