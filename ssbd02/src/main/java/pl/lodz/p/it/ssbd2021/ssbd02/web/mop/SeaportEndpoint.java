@@ -152,6 +152,13 @@ public class SeaportEndpoint {
         }
     }
 
+    /**
+     * Metoda umożliwiająca usunięcie portu.
+     *
+     * @param code kod identyfikujący port który chcemy usunąć
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku udanego usunięcia portu
+     */
     @DELETE
     @Path("remove/{code}")
     @RolesAllowed({"EMPLOYEE"})
