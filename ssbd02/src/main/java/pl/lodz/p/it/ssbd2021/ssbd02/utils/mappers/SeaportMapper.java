@@ -62,4 +62,20 @@ public class SeaportMapper {
         seaport.setVersion(seaportDetailsDTO.getVersion());
         return seaport;
     }
+
+    /**
+     *
+     * @param seaportGeneralDTO
+     * @return
+     */
+    public static Seaport createSeaportFromSeaportGeneralDTO(SeaportGeneralDTO seaportGeneralDTO) {
+        if (seaportGeneralDTO == null) {
+            return null;
+        }
+        Seaport seaport = new Seaport();
+        seaport.setCity(seaportGeneralDTO.getCity());
+        seaport.setCode(seaportGeneralDTO.getCode());
+        seaport.setVersion(seaportGeneralDTO.getVersion());
+        return seaport;
+    }
 }

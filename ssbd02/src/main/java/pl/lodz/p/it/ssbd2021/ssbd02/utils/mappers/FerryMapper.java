@@ -60,4 +60,21 @@ public class FerryMapper {
         ferryDetailsDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(ferry.getCreatedBy()));
         return ferryDetailsDTO;
     }
+
+    /**
+     *
+     * @param ferryGeneralDTO
+     * @return
+     */
+    public static Ferry createFerryFromFerryGeneralDTO(FerryGeneralDTO ferryGeneralDTO) {
+        if (ferryGeneralDTO == null) {
+            return null;
+        }
+
+        Ferry ferry = new Ferry();
+        ferry.setName(ferryGeneralDTO.getName());
+        ferry.setVehicleCapacity(ferryGeneralDTO.getVehicleCapacity());
+        ferry.setOnDeckCapacity(ferryGeneralDTO.getOnDeckCapacity());
+        return ferry;
+    }
 }

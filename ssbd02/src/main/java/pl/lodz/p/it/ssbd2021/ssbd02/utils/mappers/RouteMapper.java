@@ -63,4 +63,24 @@ public class RouteMapper {
 
         return routeDetailsDTO;
     }
+
+    /**
+     *
+     * @param routeGeneralDTO
+     * @return
+     */
+    public static Route createRouteFromRouteGeneralDTO(RouteGeneralDTO routeGeneralDTO) {
+        if (routeGeneralDTO == null) {
+            return null;
+        }
+
+        Route route = new Route();
+
+        route.setCode(routeGeneralDTO.getCode());
+        route.setStart(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getStart()));
+        route.setDestination(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getDestination()));
+        route.setVersion(route.getVersion());
+
+        return route;
+    }
 }

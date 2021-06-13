@@ -97,4 +97,8 @@ class CruiseMapperTest {
         assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getModifiedBy()), cruiseDetailsDTO.getModifiedBy());
         assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getCreatedBy()), cruiseDetailsDTO.getCreatedBy());
     }
+
+    @Test
+    void createCruiseFromCruiseDetailsDTO() {
+    }
 }

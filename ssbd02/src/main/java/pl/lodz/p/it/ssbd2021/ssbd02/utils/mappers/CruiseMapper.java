@@ -57,4 +57,29 @@ public class CruiseMapper {
         return cruiseDetailsDTO;
 
     }
+
+    /**
+     * Metoda mapująca obiekt typu {@link CruiseDetailsDTO} na obiekt typu {@link Cruise}.
+     *
+     * @param cruiseDetailsDTO Obiekt typu {@link CruiseDetailsDTO}, który będzie mapowany
+     * @return Wynik mapowania, obiekt typu {@link Cruise}
+     */
+    public static Cruise createCruiseFromCruiseDetailsDTO(CruiseDetailsDTO cruiseDetailsDTO) {
+        if (cruiseDetailsDTO == null) {
+            return null;
+        }
+
+        Cruise cruise = new Cruise();
+        cruise.setStartDate(cruiseDetailsDTO.getStartDate());
+        cruise.setEndDate(cruiseDetailsDTO.getEndDate());
+        cruise.setRoute(RouteMapper.createRouteFromRouteGeneralDTO(cruiseDetailsDTO.getRoute()));
+        cruise.setFerry(FerryMapper.createFerryFromFerryGeneralDTO(cruiseDetailsDTO.getFerry()));
+        cruise.setNumber(cruiseDetailsDTO.getNumber());
+        cruise.setModificationDate(cruise.getModificationDate());
+        cruise.setModifiedBy(AccountMapper.createAccountFromAccountGeneralDTO(cruiseDetailsDTO.getModifiedBy()));
+        cruise.setCreationDate(cruise.getCreationDate());
+        cruise.setCreatedBy(AccountMapper.createAccountFromAccountGeneralDTO(cruiseDetailsDTO.getCreatedBy()));
+        cruise.setVersion(cruise.getVersion());
+        return cruise;
+    }
 }

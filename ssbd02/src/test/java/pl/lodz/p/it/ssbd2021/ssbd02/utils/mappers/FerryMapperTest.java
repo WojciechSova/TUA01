@@ -101,4 +101,8 @@ class FerryMapperTest {
         cabin.setVersion(1L);
         return cabin;
     }
+
+    @Test
+    void createFerryFromFerryGeneralDTO() {
+    }
 }

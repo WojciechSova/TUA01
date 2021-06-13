@@ -88,4 +88,8 @@ class RouteMapperTest {
         cruise.setVersion(1L);
         return cruise;
     }
+
+    @Test
+    void createRouteFromRouteGeneralDTO() {
+    }
 }

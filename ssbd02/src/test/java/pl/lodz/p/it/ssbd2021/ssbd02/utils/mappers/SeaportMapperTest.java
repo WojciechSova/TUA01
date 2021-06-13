@@ -96,4 +96,8 @@ class SeaportMapperTest {
         assertEquals(seaport.getCode(), seaportDetailsDTO.getCode());
         assertEquals(seaport.getVersion(), seaportDetailsDTO.getVersion());
     }
+
+    @Test
+    void createSeaportFromSeaportGeneralDTO() {
+    }
 }
