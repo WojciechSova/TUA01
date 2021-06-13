@@ -319,7 +319,9 @@
         "result_gone": "Zmiana miasta portu nie powiodła się ponieważ wybrany port został usunięty",
         "result_failure": "Zmiana miasta portu nie powiodła się",
         "result_opl": "Stan portu został zmieniony, proszę spróbować ponownie",
-        "result_name_not_unique": "Wprowadzona nazwa miasta nie jest unikalna"
+        "result_name_not_unique": "Wprowadzona nazwa miasta nie jest unikalna",
+        "name_required": "Nazwa miasta jest wymagana",
+        "name_too_long": "Nazwa miasta nie może być dłuższa niż 30 znaków"
     },
     "cabin-details": {
         "edit_cabin": "Edytuj kajutę",

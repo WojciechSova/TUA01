@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { SeaportDetailsService } from '../../../services/mop/seaport-details.service';
+import { FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
     selector: 'app-seaport-edit',
     templateUrl: './seaport-edit.component.html',
     styleUrls: ['./seaport-edit.component.less']
 })
-export class SeaportEditComponent {
+export class SeaportEditComponent implements OnInit {
 
     readonly HIDDEN = 'hide';
     readonly SUCCESS = 'success';
@@ -14,6 +15,10 @@ export class SeaportEditComponent {
     readonly FAILURE = 'failure';
     readonly OPTIMISTIC_LOCK = 'optimisticLock';
     readonly NAME_NOT_UNIQUE = 'nameNotUnique';
+
+    form = new FormGroup({
+        cityName: new FormControl('', [Validators.required, Validators.maxLength(30)])
+    });
 
     @Output()
     isEditSeaportFormVisible = new EventEmitter<any>();
@@ -57,5 +62,9 @@ export class SeaportEditComponent {
         } else {
             this.emit(this.FAILURE);
         }
+    }
+
+    ngOnInit(): void {
+
     }
 }

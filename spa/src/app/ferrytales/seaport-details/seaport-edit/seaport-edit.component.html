@@ -1,11 +1,23 @@
 <div class="overlay">
     <div class="box-container">
         <div class="header-div" translate>seaport-edit.city_name</div>
-        <form id="edit-seaport-form" class="edit-form">
-            <input class="city-input" type="text" id="new-city-name" name="City" #city
-                    placeholder="{{'seaport-edit.required_city' | translate}}">
+        <form id="edit-seaport-form" class="edit-form" [formGroup]="form">
+            <label for="new-city"></label>
+            <input type="text" id="new-city" name="City"#cityName
+                   placeholder="{{'seaport-edit.required_city' | translate}}"
+                   [ngClass]="{'is-invalid': form.controls.cityName.touched && form.controls.cityName.invalid}"
+                   formControllName="cityName">
+
+            <div *ngIf="form.controls.cityName.hasError('required') && form.controls.cityName.touched"
+                 class="validation-error" translate>
+                seaport-edit.name_required
+            </div>
+            <div *ngIf="form.controls.cityName.hasError('maxLength') && form.controls.cityName.touched"
+                 class="validation-error" translate>
+                seaport-edit.name_too_long
+            </div>
         </form>
-        <button id="confirm" class="form-button" (click)="changeSeaport(city.value)" translate>form.confirm</button>
+        <button id="confirm" class="form-button" (click)="changeSeaport(cityName.value)" translate>form.confirm</button>
         <img class="return-arrow" (click)="closeComponent()" src="assets/imgs/back-arrow.png" alt=""/>
     </div>
 </div>
