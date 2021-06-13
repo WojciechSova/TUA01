@@ -83,9 +83,12 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeSeaport(Seaport seaport) {
+    public void removeSeaport(String seaportCode, String userLogin) {
         try {
+            Seaport seaport = seaportFacadeLocal.findByCode(seaportCode);
             seaportFacadeLocal.remove(seaport);
+            logger.info("The employee with login {} has deleted seaport with code {}",
+                    userLogin, seaportCode);
         } catch (CommonExceptions ce) {
             if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
                 && ce.getResponse().getEntity().equals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION)){

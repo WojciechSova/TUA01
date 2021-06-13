@@ -141,7 +141,8 @@ public class SeaportEndpoint {
         try {
             seaportManager.updateSeaport(SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO),
                     securityContext.getUserPrincipal().getName());
-            return Response.ok().build();
+            return Response.ok()
+                    .build();
         } catch (GeneralException generalException) {
             throw generalException;
         } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -155,6 +156,17 @@ public class SeaportEndpoint {
     @Path("remove/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeSeaport(@PathParam("code") String code, @Context SecurityContext securityContext) {
-        return null;
+        try {
+            String userLogin = securityContext.getUserPrincipal().getName();
+            seaportManager.removeSeaport(code, userLogin);
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 }
