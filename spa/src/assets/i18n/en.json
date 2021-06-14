@@ -220,7 +220,8 @@
         "booking": "Booking",
         "seaport_add": "Add seaport",
         "cabin_add": "Add cabin",
-        "route": "Route"
+        "route": "Route",
+        "ferry_add": "Add ferry"
     },
     "session-timeout": {
         "info": {
@@ -250,7 +251,8 @@
     "ferries-table": {
         "name": "Name",
         "vehicle_capacity": "Vehicle capacity",
-        "on_deck_capacity": "On deck capacity"
+        "on_deck_capacity": "On deck capacity",
+        "add_ferry": "Add ferry"
     },
     "ferry-details": {
         "name": "Name:",
@@ -344,5 +346,11 @@
         "capacity": "Capacity",
         "cabin_type": "Cabin type",
         "number": "Number"
+    },
+    "add-ferry": {
+        "new_ferry": "New ferry",
+        "name": "*Ferry name",
+        "vehicle_capacity": "*Vehicle capacity",
+        "on_deck_capacity": "*On deck capacity"
     }
 }
