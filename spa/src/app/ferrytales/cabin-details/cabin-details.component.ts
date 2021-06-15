@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CabinDetailsService } from '../../services/mop/cabin-details.service';
 import { IdentityService } from '../../services/utils/identity.service';
-import { CabinDetails } from "../../model/mop/CabinDetails";
 
 @Component({
     selector: 'app-cabin-details',
@@ -11,12 +10,16 @@ import { CabinDetails } from "../../model/mop/CabinDetails";
 })
 export class CabinDetailsComponent implements OnInit {
 
-    cabin: CabinDetails;
+    cabinNumber = '';
+    ferryName = '';
 
     constructor(private router: Router,
+                private route: ActivatedRoute,
                 public cabinDetailsService: CabinDetailsService,
                 public identityService: IdentityService) {
-        this.cabin = cabinDetailsService.getCabin("123");
+        this.cabinNumber = (this.route.snapshot.paramMap.get('cabin') as string);
+        this.ferryName = (this.route.snapshot.paramMap.get('ferry') as string);
+        this.getCabin();
     }
 
     ngOnInit(): void {
@@ -26,7 +29,18 @@ export class CabinDetailsComponent implements OnInit {
         this.router.navigate(['/']);
     }
 
+    goToFerryListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/ferries']);
+    }
+
+    goToFerryBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/ferries', this.ferryName]);
+    }
+
+
     getCabin(): void {
-        this.cabinDetailsService.getCabin("123");
+        this.cabinDetailsService.getCabin(this.ferryName, this.cabinNumber).subscribe(
+            (response) => this.cabinDetailsService.readCabinAndEtagFromResponse(response)
+        );
     }
 }

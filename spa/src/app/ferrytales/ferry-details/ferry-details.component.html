@@ -54,7 +54,7 @@
             <div *ngIf="ferryDetailsService.ferry.cabins.length > 0; then showCabinTable else doNotShowCabinTable"></div>
             <ng-template #showCabinTable>
                 <label class="uppercase-cabins" translate>ferry-details.cabins</label>
-                <app-cabin-table id="cabins" [cabins]="ferryDetailsService.ferry.cabins"></app-cabin-table>
+                <app-cabin-table id="cabins" [ferry]="ferryDetailsService.ferry.name" [cabins]="ferryDetailsService.ferry.cabins"></app-cabin-table>
             </ng-template>
             <ng-template #doNotShowCabinTable>
                 <label class="uppercase-cabins" translate>ferry-details.no_cabins</label>

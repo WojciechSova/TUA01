@@ -11,7 +11,7 @@
         <td>{{cabin.capacity}}</td>
         <td>{{cabin.cabinType}}</td>
         <td>
-            <button class="edit-button" translate>cabin-table.cabin_details</button>
+            <button (click)="goToCabinDetails(cabin.number)" class="edit-button" translate>cabin-table.cabin_details</button>
         </td>
         <td>
             <button class="edit-button button-remove" translate>cabin-table.remove_cabin</button>
