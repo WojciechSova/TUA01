@@ -4,7 +4,7 @@
             breadcrumb.home </a>
         <img src="assets/wind.png" alt="" class="bullet">
     </li>
-    <li class="breadcrumb-item active" translate> breadcrumb.booking_list</li>
+    <li class="breadcrumb-item active" translate> breadcrumb.booking_list_own</li>
 </ol>
 
 <div class="button-container">
@@ -15,16 +15,15 @@
     <table id="users">
         <tr>
             <th translate>booking-list.number</th>
-            <th translate>booking-list.client</th>
             <th translate>booking-list.cruise</th>
             <th translate>booking-list.cruise_date</th>
             <th translate>booking-list.creation_date</th>
             <th translate>general.details</th>
+            <th translate>booking-list.cancel</th>
         </tr>
 
         <tr *ngFor="let booking of bookingGeneralService.bookings">
             <td>{{booking.number}}</td>
-            <td>{{booking.account.login}}</td>
             <td>{{booking.cruise.route?.start?.city}} → {{booking.cruise.route?.destination?.city}}</td>
             <td>
                 {{booking.cruise.startDate | date :'short':identityService.getTimezone()
@@ -33,9 +32,15 @@
             </td>
             <td>{{booking.creationDate | date :'short':identityService.getTimezone()}}</td>
             <td>
-                <button id="details" class="button-booking-table" (click)="showBookingDetails(booking.number)" translate>general.details</button>
+                <button id="details" class="button-booking-table" (click)="showBookingDetails(booking.number)" translate>
+                    general.details
+                </button>
+            </td>
+            <td>
+                <button id="cancel" class="button-booking-table" (click)="showBookingDetails(booking.number)" translate>
+                    booking-list.cancel
+                </button>
             </td>
         </tr>
     </table>
 </div>
-
