@@ -33,6 +33,6 @@ export class BookingTableComponent implements OnInit {
     }
 
     showBookingDetails(bookingNumber: string): void {
-        return;
+        this.router.navigate(['/ferrytales/bookings/' + bookingNumber]);
     }
 }

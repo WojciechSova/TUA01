@@ -218,9 +218,10 @@
         "ferry": "Ferry",
         "cabin": "Cabin",
         "booking": "Booking",
+        "route": "Route",
         "seaport_add": "Add seaport",
-        "cabin_add": "Add cabin",
-        "route": "Route"
+        "booking_list_own": "Your bookings",
+        "cabin_add": "Add cabin"
     },
     "session-timeout": {
         "info": {
@@ -237,7 +238,8 @@
         "cruise": "Cruise",
         "cruise_date": "Cruise date",
         "creation_date": "Booking date",
-        "number": "Number"
+        "number": "Number",
+        "cancel": "Cancel"
     },
     "route": {
         "start": "Starting seaport",
