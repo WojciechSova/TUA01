@@ -40,7 +40,7 @@ public interface CabinManagerLocal {
     /**
      * Metoda wyszukująca kajutę o podanym numerze, znajdującej się na podanym promie.
      *
-     * @param ferryName Nazwa promu, na którym znajduje się kajuta
+     * @param ferryName   Nazwa promu, na którym znajduje się kajuta
      * @param cabinNumber Numer kajuty, którą chcemy wyszukać
      * @return Encja typu {@link Cabin}
      */

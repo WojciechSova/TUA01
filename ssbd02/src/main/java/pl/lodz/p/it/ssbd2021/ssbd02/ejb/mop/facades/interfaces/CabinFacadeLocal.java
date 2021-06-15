@@ -28,9 +28,9 @@ public interface CabinFacadeLocal extends AbstractFacadeInterface<Cabin> {
     /**
      * Metoda wyszukująca encje typu {@link Cabin} o przekazanym biznesowym numerze identyfikacyjnym, na podanym promie.
      *
-     * @param ferry Encja typu {@link Ferry}.
+     * @param ferry       Encja typu {@link Ferry}.
      * @param cabinNumber Biznesowy numer identyfikacyjny kajutę.
-     * @return Obiekt typu {@link Cabin} o przekazanym biznesowym numerze identyfikacyjnym.
+     * @return Obiekt typu {@link Cabin} o przekazanym biznesowym numerze identyfikacyjnym, znajdująca się na podanym promie.
      */
     Cabin findByFerryAndNumber(Ferry ferry, String cabinNumber);
 

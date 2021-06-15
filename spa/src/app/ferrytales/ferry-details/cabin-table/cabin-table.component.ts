@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { IdentityService } from '../../../services/utils/identity.service';
 import { CabinGeneral } from '../../../model/mop/CabinGeneral';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-cabin-table',
@@ -18,9 +18,9 @@ export class CabinTableComponent {
     cabins: CabinGeneral[] = [];
 
     @Input()
-    ferry: String = '';
+    ferry = '';
 
-    goToCabinDetails(cabinName: String): void {
+    goToCabinDetails(cabinName: string): void {
         this.router.navigate(['/ferrytales/ferries/', this.ferry, cabinName]);
     }
 

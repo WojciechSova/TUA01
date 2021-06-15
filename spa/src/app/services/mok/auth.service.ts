@@ -16,7 +16,7 @@ import { CruiseGeneralService } from '../mop/cruise-general.service';
 import { FerryDetailsService } from '../mop/ferry-details.service';
 import { FerryGeneralService } from '../mop/ferry-general.service';
 import { BookingGeneralService } from '../mop/booking-general.service';
-import { CabinDetailsService } from "../mop/cabin-details.service";
+import { CabinDetailsService } from '../mop/cabin-details.service';
 
 @Injectable({
     providedIn: 'root'

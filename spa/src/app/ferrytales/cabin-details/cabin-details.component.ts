@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common'
 import { CabinDetailsService } from '../../services/mop/cabin-details.service';
 import { IdentityService } from '../../services/utils/identity.service';
 
@@ -14,11 +13,10 @@ export class CabinDetailsComponent implements OnInit {
     cabinNumber = '';
     ferryName = '';
 
-     constructor(private router: Router,
-                 private route: ActivatedRoute,
+    constructor(private router: Router,
+                private route: ActivatedRoute,
                 public cabinDetailsService: CabinDetailsService,
-                public identityService: IdentityService,
-                private location: Location) {
+                public identityService: IdentityService) {
         this.cabinNumber = (this.route.snapshot.paramMap.get('cabin') as string);
         this.ferryName = (this.route.snapshot.paramMap.get('ferry') as string);
         this.getCabin();
@@ -36,7 +34,7 @@ export class CabinDetailsComponent implements OnInit {
     }
 
     goToFerryBreadcrumb(): void {
-        this.location.back()
+        this.router.navigate(['/ferrytales/ferries', this.ferryName]);
     }
 
 
