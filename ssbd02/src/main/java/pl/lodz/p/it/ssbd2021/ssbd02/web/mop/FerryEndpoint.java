@@ -92,7 +92,22 @@ public class FerryEndpoint {
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
     public Response addFerry(FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+        if(ferryDetailsDTO.getName() == null || ferryDetailsDTO.getVehicleCapacity() == null
+                || ferryDetailsDTO.getOnDeckCapacity() == null) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        try {
+            ferryManagerLocal.createFerry(securityContext.getUserPrincipal().getName(),
+                    FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO));
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @DELETE
