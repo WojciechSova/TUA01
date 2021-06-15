@@ -38,12 +38,13 @@ public interface CabinManagerLocal {
     List<Cabin> getAllCabinsByFerryCodeAndCabinType(String code, String cabinType);
 
     /**
-     * Metoda wyszukująca kajutę o podanym numerze.
+     * Metoda wyszukująca kajutę o podanym numerze, znajdującej się na podanym promie.
      *
-     * @param number Numer kajuty, którą chcemy wyszukać
+     * @param ferryName   Nazwa promu, na którym znajduje się kajuta
+     * @param cabinNumber Numer kajuty, którą chcemy wyszukać
      * @return Encja typu {@link Cabin}
      */
-    Cabin getCabinByNumber(String number);
+    Cabin getCabinByFerryAndNumber(String ferryName, String cabinNumber);
 
     /**
      * Metoda tworząca kajutę.
