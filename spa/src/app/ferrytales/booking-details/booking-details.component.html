@@ -4,9 +4,14 @@
             breadcrumb.home </a>
         <img src="assets/wind.png" alt="" class="bullet">
     </li>
-    <li class="breadcrumb-item">
+    <li class="breadcrumb-item" *ngIf="identityService.isEmployee()">
         <a href="" (click)="goToBookingListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
             breadcrumb.booking_list </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item" *ngIf="identityService.isClient()">
+        <a href="" (click)="goToOwnBookingListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.booking_list_own </a>
         <img src="assets/wind.png" alt="" class="bullet">
     </li>
     <li class="breadcrumb-item active" translate> breadcrumb.booking</li>

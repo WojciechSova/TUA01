@@ -48,4 +48,7 @@ export class BookingDetailsComponent implements OnInit {
         this.router.navigate(['/ferrytales/bookings']);
     }
 
+    goToOwnBookingListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/my/bookings']);
+    }
 }
