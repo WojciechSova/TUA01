@@ -68,7 +68,6 @@ class FerryEndpointTest {
         when(ferry2.getVehicleCapacity()).thenReturn(200);
         when(ferry2.getVersion()).thenReturn(2L);
 
-        ferry3.setVersion(0L);
         ferry3.setName("Nowy prom");
         ferry3.setVehicleCapacity(100);
         ferry3.setOnDeckCapacity(1000);
