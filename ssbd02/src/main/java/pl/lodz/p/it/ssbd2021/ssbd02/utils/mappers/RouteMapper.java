@@ -63,4 +63,25 @@ public class RouteMapper {
 
         return routeDetailsDTO;
     }
+
+    /**
+     * Metoda mapująca obiekt encji {@link RouteGeneralDTO} na obiekt typu {@link Route}
+     *
+     * @param routeGeneralDTO Obiekt typu {@link RouteGeneralDTO}, który będzie mapowany.
+     * @return Obiekt typu {@link Route}
+     */
+    public static Route createRouteFromRouteGeneralDTO(RouteGeneralDTO routeGeneralDTO) {
+        if (routeGeneralDTO == null) {
+            return null;
+        }
+
+        Route route = new Route();
+
+        route.setCode(routeGeneralDTO.getCode());
+        route.setStart(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getStart()));
+        route.setDestination(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getDestination()));
+        route.setVersion(routeGeneralDTO.getVersion());
+
+        return route;
+    }
 }

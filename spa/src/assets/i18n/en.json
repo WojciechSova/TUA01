@@ -219,6 +219,7 @@
         "cabin": "Cabin",
         "booking": "Booking",
         "seaport_add": "Add seaport",
+        "booking_list_own": "Your bookings",
         "cabin_add": "Add cabin",
         "route": "Route",
         "ferry_add": "Add ferry"
@@ -238,7 +239,8 @@
         "cruise": "Cruise",
         "cruise_date": "Cruise date",
         "creation_date": "Booking date",
-        "number": "Number"
+        "number": "Number",
+        "cancel": "Cancel"
     },
     "route": {
         "start": "Starting seaport",
