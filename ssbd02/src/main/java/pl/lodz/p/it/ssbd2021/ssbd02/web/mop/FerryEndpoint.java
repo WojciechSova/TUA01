@@ -13,6 +13,7 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -98,7 +99,7 @@ public class FerryEndpoint {
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addFerry(FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
+    public Response addFerry(@Valid FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
         if (ferryDetailsDTO.getName() == null || ferryDetailsDTO.getVehicleCapacity() == null
                 || ferryDetailsDTO.getOnDeckCapacity() == null) {
             throw CommonExceptions.createConstraintViolationException();
