@@ -15,6 +15,7 @@ public class SeaportExceptions extends GeneralException {
     public static String ERROR_SEAPORT_CITY_UNIQUE = "ERROR.SEAPORT_CITY_UNIQUE";
     public static String ERROR_SEAPORT_CODE_UNIQUE = "ERROR.SEAPORT_CODE_UNIQUE";
     public static String ERROR_SEAPORT_NOT_FOUND = "ERROR.SEAPORT_NOT_FOUND";
+    public static String ERROR_SEAPORT_USED_BY_ROUTE = "ERROR.SEAPORT_USED_BY_ROUTE";
 
     public SeaportExceptions(Response.Status status, String key) {
         super(status, key);

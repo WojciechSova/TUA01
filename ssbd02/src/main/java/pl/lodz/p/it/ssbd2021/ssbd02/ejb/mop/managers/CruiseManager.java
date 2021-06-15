@@ -1,9 +1,16 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.AccountMopFacade;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.RouteFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CruiseManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
@@ -15,6 +22,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +40,15 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
 
     @Inject
     private CruiseFacadeLocal cruiseFacadeLocal;
+
+    @Inject
+    private RouteFacadeLocal routeFacadeLocal;
+
+    @Inject
+    private FerryFacadeLocal ferryFacadeLocal;
+
+    @Inject
+    private AccountMopFacadeLocal accountMopFacade;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -65,8 +83,26 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void createCruise(Cruise cruise) {
+    public void createCruise(Cruise cruise, String name, String code, String login) {
+        Account account = Optional.ofNullable(accountMopFacade.findByLogin(login))
+                .orElseThrow(CommonExceptions::createNoResultException);
 
+        Ferry ferry = Optional.ofNullable(ferryFacadeLocal.findByName(name))
+                .orElseThrow(CommonExceptions::createNoResultException);
+
+        Route route = Optional.ofNullable(routeFacadeLocal.findByCode(code))
+                .orElseThrow(CommonExceptions::createNoResultException);
+
+        cruise.setVersion(0L);
+        cruise.setFerry(ferry);
+        cruise.setRoute(route);
+        cruise.setModificationDate(null);
+        cruise.setModifiedBy(null);
+        cruise.setCreationDate(Timestamp.from(Instant.now()));
+        cruise.setCreatedBy(account);
+        cruiseFacadeLocal.create(cruise);
+        logger.info("The user with login {} has created cruise with number {}",
+                login, cruise.getNumber());
     }
 
     @Override

@@ -2,8 +2,10 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.RouteFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.SeaportFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.RouteManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
@@ -17,6 +19,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,10 +36,16 @@ import java.util.Optional;
 public class RouteManager extends AbstractManager implements RouteManagerLocal, SessionSynchronization {
 
     @Inject
-    RouteFacadeLocal routeFacadeLocal;
+    private RouteFacadeLocal routeFacadeLocal;
 
     @Inject
-    CruiseFacadeLocal cruiseFacadeLocal;
+    private CruiseFacadeLocal cruiseFacadeLocal;
+
+    @Inject
+    private SeaportFacadeLocal seaportFacadeLocal;
+
+    @Inject
+    private AccountMopFacadeLocal accountMopFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -71,8 +81,17 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void createRoute(Route route) {
+    public void createRoute(Route route, String startCode, String destCode, String createdBy) {
+        route.setStart(seaportFacadeLocal.findByCode(startCode));
+        route.setDestination(seaportFacadeLocal.findByCode(destCode));
+        route.setCreationDate(Timestamp.from(Instant.now()));
+        route.setCreatedBy(accountMopFacadeLocal.findByLogin(createdBy));
+        route.setVersion(0L);
 
+        routeFacadeLocal.create(route);
+
+        logger.info("The user with login {} has created route from {} to {}",
+                createdBy, startCode, destCode);
     }
 
     @Override
