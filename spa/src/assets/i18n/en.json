@@ -220,7 +220,8 @@
         "booking": "Booking",
         "route": "Route",
         "seaport_add": "Add seaport",
-        "booking_list_own": "Your bookings"
+        "booking_list_own": "Your bookings",
+        "cabin_add": "Add cabin"
     },
     "session-timeout": {
         "info": {
@@ -327,6 +328,11 @@
         "creation_date": "Creation date",
         "created_by": "Created by"
     },
+    "add-seaport": {
+        "new_seaport": "New seaport",
+        "city": "*City",
+        "code": "*Code"
+    },
     "cabin-form": {
         "choose_cabin_type": "Choose cabin type",
         "first": "First class",
@@ -335,9 +341,10 @@
         "disabled": "Disabled class",
         "capacity": "Cabin capacity"
     },
-    "add-seaport": {
-        "new_seaport": "New seaport",
-        "city": "*City",
-        "code": "*Code"
+    "add-cabin": {
+        "new_cabin": "New cabin",
+        "capacity": "Capacity",
+        "cabin_type": "Cabin type",
+        "number": "Number"
     }
 }

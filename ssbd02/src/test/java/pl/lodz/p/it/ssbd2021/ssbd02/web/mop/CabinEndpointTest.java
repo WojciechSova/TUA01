@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,24 +11,23 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinTypeManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
 import java.nio.file.attribute.UserPrincipal;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 class CabinEndpointTest {
 
+    private final String ferryName = "Perl";
     @Mock
     private CabinManagerLocal cabinManagerLocal;
     @Mock
@@ -43,9 +41,12 @@ class CabinEndpointTest {
     @Spy
     private Cabin cabin;
     @Spy
+    private Cabin cabin2;
+    @Spy
     private CabinType cabinType;
     @Spy
     private CabinType cabinType2;
+    private List<Cabin> cabins;
 
     @BeforeEach
     void initMocks() {
@@ -58,6 +59,14 @@ class CabinEndpointTest {
         cabinType.setCabinTypeName("Luksus");
         cabinType2 = new CabinType();
         cabinType2.setCabinTypeName("Normal");
+        cabinType2.setCabinTypeName("Normal");
+
+        cabin2.setVersion(1L);
+        cabin2.setCapacity(15);
+        cabin2.setNumber("A555");
+        cabin2.setCabinType(cabinType2);
+        cabins = new ArrayList<>();
+        cabins.add(cabin);
     }
 
     @Test
@@ -70,6 +79,23 @@ class CabinEndpointTest {
         assertTrue(DTOIdentitySignerVerifier.verifyDTOIntegrity(response.getEntityTag().getValue(),
                 ((CabinDetailsDTO) response.getEntity())));
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    void addCabin() {
+        doAnswer(invocationOnMock -> {
+            cabins.add(cabin2);
+            return null;
+        }).when(cabinManagerLocal).createCabin(any(), any(), any());
+        when(cabinTypeManagerLocal.getCabinTypeByName(cabinType2.getCabinTypeName())).thenReturn(cabinType2);
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        Response response = cabinEndpoint.addCabin(CabinMapper.createCabinDetailsDTOFromEntity(cabin2), securityContext, ferryName);
+
+        assertAll(
+                () -> assertEquals(2, cabins.size()),
+                () -> assertEquals(cabin2, cabins.get(cabins.size() - 1)),
+                () -> assertEquals(Response.Status.ACCEPTED.getStatusCode(), response.getStatus())
+        );
     }
 
     @Test

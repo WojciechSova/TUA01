@@ -36,13 +36,13 @@ public class SeaportMapper {
             return null;
         }
         SeaportDetailsDTO seaportDetailsDTO = new SeaportDetailsDTO();
+        seaportDetailsDTO.setVersion(seaport.getVersion());
         seaportDetailsDTO.setCity(seaport.getCity());
         seaportDetailsDTO.setCode(seaport.getCode());
         seaportDetailsDTO.setModificationDate(seaport.getModificationDate());
         seaportDetailsDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(seaport.getModifiedBy()));
         seaportDetailsDTO.setCreationDate(seaport.getCreationDate());
         seaportDetailsDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(seaport.getCreatedBy()));
-        seaportDetailsDTO.setVersion(seaport.getVersion());
         return seaportDetailsDTO;
     }
 

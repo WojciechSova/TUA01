@@ -216,8 +216,9 @@
         "cruise": "Rejs",
         "ferry": "Prom",
         "cabin": "Kajuta",
-        "cabin-edit": "Edycja kajuty",
         "booking": "Rezerwacja",
+        "cabin_add": "Dodaj kajutę",
+        "cabin-edit": "Edycja kajuty",
         "route": "Trasa",
         "seaport_add": "Dodaj port",
         "booking_list_own": "Twoje rezerwacje"
@@ -327,6 +328,11 @@
         "creation_date": "Data utworzenia",
         "created_by": "Utworzony przez"
     },
+    "add-seaport": {
+        "new_seaport": "Nowy port",
+        "city": "*Miasto",
+        "code": "*Kod"
+    },
     "cabin-form": {
         "choose_cabin_type": "Wybierz typ kajuty",
         "first": "Pierwsza klasa",
@@ -335,9 +341,10 @@
         "disabled": "Klasa inwalidzka",
         "capacity": "Liczba miejsc w kajucie"
     },
-    "add-seaport": {
-        "new_seaport": "Nowy port",
-        "city": "*Miasto",
-        "code": "*Kod"
+    "add-cabin": {
+        "new_cabin": "Nowa kajuta",
+        "capacity": "Pojemność",
+        "cabin_type": "Typ kajuty",
+        "number": "Numer"
     }
 }

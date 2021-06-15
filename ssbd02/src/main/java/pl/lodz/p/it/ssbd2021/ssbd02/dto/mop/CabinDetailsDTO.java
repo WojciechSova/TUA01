@@ -4,6 +4,8 @@ import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import java.sql.Timestamp;
 
 /**
@@ -19,10 +21,12 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(callSuper = true)
 public class CabinDetailsDTO extends AbstractDTO {
 
+    @Positive(message = "Cabin capacity must be positive")
     private Integer capacity;
 
     private String cabinType;
 
+    @Pattern(regexp = "[A-Z][0-9]{3}", message = "Cabin number must be a capital letter and 3 digits")
     private String number;
 
     private Timestamp modificationDate;

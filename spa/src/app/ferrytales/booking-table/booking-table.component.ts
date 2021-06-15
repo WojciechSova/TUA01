@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookingGeneralService } from '../../services/mop/booking-general.service';
 import { IdentityService } from '../../services/utils/identity.service';
+import { BookingGeneral } from '../../model/mop/BookingGeneral';
 
 @Component({
     selector: 'app-booking-table',
@@ -24,7 +25,11 @@ export class BookingTableComponent implements OnInit {
     }
 
     getBookings(): void {
-
+        this.bookingGeneralService.getBookings().subscribe(
+            (bookingGenerals: BookingGeneral[]) => {
+                this.bookingGeneralService.readBookings(bookingGenerals);
+            }
+        );
     }
 
     showBookingDetails(bookingNumber: string): void {

@@ -6,8 +6,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinTypeManager
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinTypeExceptions;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
@@ -24,8 +22,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
@@ -43,11 +39,36 @@ public class CabinEndpoint {
     @Inject
     private CabinTypeManagerLocal cabinTypeManager;
 
+    /**
+     * Metoda dodająca nową kajutę.
+     *
+     * @param cabinDTO        Tworzona kajuta
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param ferryName       Nazwa promu, do którego zostanie przypisana kajuta
+     * @return Kod 202 w przypadku poprawnego dodania
+     */
     @POST
-    @Path("add")
+    @Path("{ferryName}/add")
+    @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"EMPLOYEE"})
-    public Response addCabin(CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response addCabin(@Valid CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext, @PathParam("ferryName") String ferryName) {
+        if (cabinDTO.getCapacity() == null || cabinDTO.getCabinType() == null || cabinDTO.getNumber() == null) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        try {
+            cabinManager.createCabin(
+                    CabinMapper.createEntityFromCabinDetailsDTO(cabinDTO, cabinTypeManager.getCabinTypeByName(cabinDTO.getCabinType())),
+                    securityContext.getUserPrincipal().getName(),
+                    ferryName);
+            return Response.accepted()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**

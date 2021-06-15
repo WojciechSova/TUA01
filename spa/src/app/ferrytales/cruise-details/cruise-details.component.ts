@@ -17,14 +17,10 @@ export class CruiseDetailsComponent implements OnInit {
                 public cruiseDetailsService: CruiseDetailsService,
                 public identityService: IdentityService) {
         this.number = (this.route.snapshot.paramMap.get('number') as string);
-        cruiseDetailsService.getCruise(this.number);
+        this.getCruise();
     }
 
     ngOnInit(): void {
-    }
-
-    goToHomeBreadcrumb(): void {
-        this.router.navigate(['/']);
     }
 
     edit(cruiseNumber: string): void {
@@ -32,6 +28,20 @@ export class CruiseDetailsComponent implements OnInit {
     }
 
     getCruise(): void {
-        this.cruiseDetailsService.getCruise(this.number);
+        this.cruiseDetailsService.getCruise(this.number).subscribe(
+            (response) => this.cruiseDetailsService.readCruiseAndEtagFromResponse(response)
+        );
+    }
+
+    goToHomeBreadcrumb(): void {
+        this.router.navigate(['/']);
+    }
+
+    goToRoutesListBreadcrumb(): void {
+        this.router.navigate(['/ferrytales/routes']);
+    }
+
+    goToRouteBreadcrumb(): void {
+        this.router.navigate([`ferrytales/routes/${this.cruiseDetailsService.cruise.route.code}`]);
     }
 }

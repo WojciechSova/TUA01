@@ -16,6 +16,8 @@ import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -127,8 +129,26 @@ public class SeaportEndpoint {
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateSeaport(SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response updateSeaport(@Valid SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext,
+                                  @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
+        if (seaportDetailsDTO.getCity() == null || seaportDetailsDTO.getCity().isBlank()
+                || seaportDetailsDTO.getVersion() == null) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, seaportDetailsDTO)) {
+            throw CommonExceptions.createPreconditionFailedException();
+        }
+        try {
+            seaportManager.updateSeaport(SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO),
+                    securityContext.getUserPrincipal().getName());
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @DELETE
