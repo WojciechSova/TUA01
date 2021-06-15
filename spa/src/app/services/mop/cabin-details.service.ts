@@ -19,7 +19,7 @@ export class CabinDetailsService implements OnDestroy{
 
     getCabin(ferryName: string, cabinNumber: string): Observable<HttpResponse<CabinDetails>> {
         this.cabin = this.getEmptyCabinDetails();
-        return this.http.get<CabinDetails>(this.url + ferryName + '/' + cabinNumber, {
+        return this.http.get<CabinDetails>(this.url + 'details/' + ferryName + '/' + cabinNumber, {
             observe: 'response',
             responseType: 'json'
         });
@@ -66,8 +66,8 @@ export class CabinDetailsService implements OnDestroy{
         };
     }
 
-    updateCabin(cabin: CabinDetails): Observable<object> {
-        const completeUrl = this.url + '/update';
+    updateCabin(cabin: CabinDetails, ferryName: string): Observable<object> {
+        const completeUrl = this.url + 'update/' + ferryName;
         return this.http.put(completeUrl, cabin,
             {
                 observe: 'body',

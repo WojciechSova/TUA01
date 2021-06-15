@@ -4,7 +4,7 @@
         <img src="assets/wind.png" alt="" class="bullet">
     </li>
     <li *ngIf="identityService.isEmployee()" class="breadcrumb-item">
-        <a href="" (click)="goToFerriesListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.ferries-list </a>
+        <a href="" (click)="goToFerriesListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.ferries_list </a>
         <img src="assets/wind.png" alt="" class="bullet">
     </li>
  <li *ngIf="identityService.isEmployee()" class="breadcrumb-item">
@@ -30,26 +30,31 @@
                 <div class="row">
                     <label for="edit-capacity">{{cabinDetailsService.cabin.capacity}}</label>
                     <input #newCapacity type="text" id="edit-capacity" name="edit" formControlName="capacity"
+                           [ngClass]="{'is-invalid': form.controls.capacity.touched && form.controls.capacity.invalid}"
                            placeholder="{{'cabin-form.capacity' | translate}}"/>
                 </div>
+                <div class="validation-error" *ngIf="form.controls.capacity.hasError('required') && form.controls.capacity.touched"
+                     translate>form.field_required</div>
+                <div class="validation-error" *ngIf="form.controls.capacity.hasError('pattern') && form.controls.capacity.touched"
+                     translate>form.invalid_format</div>
                 <div class="top-center" translate>
                     cabin-form.choose_cabin_type
                 </div>
                 <div class="checkbox-container">
-                    <label id="firstClass-label" class="container" translate>cabin-form.first {{cabinTypes.firstClass}}
-                        <input type="radio" name="edit" [checked]="cabinTypes.firstClass" [(ngModel)]="cabinTypes.firstClass">
+                    <label id="firstClass-label" class="container" translate>cabin-form.first
+                        <input type="radio" name="edit" [checked]="cabinTypes.firstClass" (change)="onValueChange('first')">
                         <span class="checkmark"></span>
                     </label>
-                    <label id="secondClass-label" class="container" translate>cabin-form.second {{cabinTypes.secondClass}}
-                        <input type="radio" name="edit" [checked]="cabinTypes.secondClass" [(ngModel)]="cabinTypes.secondClass">
+                    <label id="secondClass-label" class="container" translate>cabin-form.second
+                        <input type="radio" name="edit" [checked]="cabinTypes.secondClass" (change)="onValueChange('second')">
                         <span class="checkmark"></span>
                     </label>
-                    <label id="thirdClass-label" class="container" translate>cabin-form.third {{cabinTypes.thirdClass}}
-                        <input type="radio" name="edit" [checked]="cabinTypes.thirdClass" [(ngModel)]="cabinTypes.thirdClass">
+                    <label id="thirdClass-label" class="container" translate>cabin-form.third
+                        <input type="radio" name="edit" [checked]="cabinTypes.thirdClass" (change)="onValueChange('third')">
                         <span class="checkmark"></span>
                     </label>
-                    <label id="disabledClass-label" class="container" translate>cabin-form.disabled {{cabinTypes.disabledClass}}
-                        <input type="radio" name="edit" [checked]="cabinTypes.disabledClass" [(ngModel)]="cabinTypes.disabledClass">
+                    <label id="disabledClass-label" class="container" translate>cabin-form.disabled
+                        <input type="radio" name="edit" [checked]="cabinTypes.disabledClass" (change)="onValueChange('disabled')">
                         <span class="checkmark"></span>
                     </label>
                 </div>
@@ -58,7 +63,7 @@
                     (click)="editCabin(newCapacity.value)"
                     [disabled]="form.invalid" translate>form.save
             </button>
-            <img class="return-arrow" (click)="showCabin(cabinDetailsService.cabin.number)" src="assets/imgs/back-arrow.png"
+            <img class="return-arrow" (click)="goToCabinBreadcrumb()" src="assets/imgs/back-arrow.png"
                  alt=""/>
         </form>
 
