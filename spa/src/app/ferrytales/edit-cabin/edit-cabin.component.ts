@@ -9,7 +9,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
     templateUrl: './edit-cabin.component.html',
     styleUrls: ['./edit-cabin.component.less']
 })
-export class EditCabinComponent implements OnChanges {
+export class EditCabinComponent implements OnInit {
 
     public cabinTypes = {
         firstClass: false,
@@ -29,14 +29,7 @@ export class EditCabinComponent implements OnChanges {
                 public cabinDetailsService: CabinDetailsService) {
     }
 
-    ngOnChanges(): void {
-        this.cabinTypes = {
-            firstClass: false,
-            secondClass: false,
-            thirdClass: false,
-            disabledClass: false
-        };
-        console.log(this.cabinDetailsService.cabin.cabinType);
+    ngOnInit(): void {
         if (this.cabinDetailsService.cabin.cabinType === 'First class') {
             this.cabinTypes.firstClass = true;
         } else if (this.cabinDetailsService.cabin.cabinType === 'Second class') {
@@ -46,12 +39,6 @@ export class EditCabinComponent implements OnChanges {
         } else if (this.cabinDetailsService.cabin.cabinType === 'Disabled class') {
             this.cabinTypes.disabledClass = true;
         }
-        console.log(this.cabinTypes);
-    }
-
-    modelChange(event: any, cabinType: any): void{
-        console.log(this.cabinTypes);
-        console.log(cabinType);
     }
 
     isUpdating(): boolean {

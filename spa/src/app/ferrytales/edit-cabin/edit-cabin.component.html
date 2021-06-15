@@ -29,27 +29,27 @@
 
                 <div class="row">
                     <label for="edit-capacity">{{cabinDetailsService.cabin.capacity}}</label>
-                    <input #newCapacity type="text" id="edit-capacity" formControlName="capacity"
+                    <input #newCapacity type="text" id="edit-capacity" name="edit" formControlName="capacity"
                            placeholder="{{'cabin-form.capacity' | translate}}"/>
                 </div>
                 <div class="top-center" translate>
                     cabin-form.choose_cabin_type
                 </div>
                 <div class="checkbox-container">
-                    <label id="firstClass-label" class="container" translate>cabin-form.first
-                        <input type="checkbox" name="radio" [checked]="cabinTypes.firstClass" [(ngModel)]="cabinTypes.firstClass">
+                    <label id="firstClass-label" class="container" translate>cabin-form.first {{cabinTypes.firstClass}}
+                        <input type="radio" name="edit" [checked]="cabinTypes.firstClass" [(ngModel)]="cabinTypes.firstClass">
                         <span class="checkmark"></span>
                     </label>
-                    <label id="secondClass-label" class="container" translate>cabin-form.second
-                        <input type="checkbox" name="radio" [checked]="cabinTypes.secondClass" [(ngModel)]="cabinTypes.secondClass">
+                    <label id="secondClass-label" class="container" translate>cabin-form.second {{cabinTypes.secondClass}}
+                        <input type="radio" name="edit" [checked]="cabinTypes.secondClass" [(ngModel)]="cabinTypes.secondClass">
                         <span class="checkmark"></span>
                     </label>
-                    <label id="thirdClass-label" class="container" translate>cabin-form.third
-                        <input type="checkbox" name="radio" [checked]="cabinTypes.thirdClass" [(ngModel)]="cabinTypes.thirdClass">
+                    <label id="thirdClass-label" class="container" translate>cabin-form.third {{cabinTypes.thirdClass}}
+                        <input type="radio" name="edit" [checked]="cabinTypes.thirdClass" [(ngModel)]="cabinTypes.thirdClass">
                         <span class="checkmark"></span>
                     </label>
-                    <label id="disabledClass-label" class="container" translate>cabin-form.disabled
-                        <input type="checkbox" name="radio" [checked]="cabinTypes.disabledClass" [(ngModel)]="cabinTypes.disabledClass">
+                    <label id="disabledClass-label" class="container" translate>cabin-form.disabled {{cabinTypes.disabledClass}}
+                        <input type="radio" name="edit" [checked]="cabinTypes.disabledClass" [(ngModel)]="cabinTypes.disabledClass">
                         <span class="checkmark"></span>
                     </label>
                 </div>
