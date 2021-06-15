@@ -121,11 +121,11 @@ class FerryEndpointTest {
         GeneralException ex3 = assertThrows(CommonExceptions.class, () -> ferryEndpoint.addFerry(ferry3, securityContext));
         assertAll(
                 () -> assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, ex1.getResponse().getEntity()),
-                () ->  assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), ex1.getResponse().getStatus()),
+                () -> assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), ex1.getResponse().getStatus()),
                 () -> assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, ex2.getResponse().getEntity()),
-                () ->  assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), ex2.getResponse().getStatus()),
+                () -> assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), ex2.getResponse().getStatus()),
                 () -> assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, ex3.getResponse().getEntity()),
-                () ->  assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), ex3.getResponse().getStatus())
+                () -> assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), ex3.getResponse().getStatus())
         );
     }
 }

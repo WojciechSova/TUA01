@@ -92,7 +92,7 @@ public class FerryEndpoint {
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
     public Response addFerry(FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
-        if(ferryDetailsDTO.getName() == null || ferryDetailsDTO.getVehicleCapacity() == null
+        if (ferryDetailsDTO.getName() == null || ferryDetailsDTO.getVehicleCapacity() == null
                 || ferryDetailsDTO.getOnDeckCapacity() == null) {
             throw CommonExceptions.createConstraintViolationException();
         }
