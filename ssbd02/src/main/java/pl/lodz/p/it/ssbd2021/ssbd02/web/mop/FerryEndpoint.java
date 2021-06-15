@@ -88,6 +88,13 @@ public class FerryEndpoint {
         }
     }
 
+    /**
+     * Metoda dodająca nowy prom.
+     *
+     * @param ferryDetailsDTO Tworzony prom
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego utworzenia promu
+     */
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
