@@ -38,6 +38,13 @@ export class BookingGeneralService implements OnDestroy {
         });
     }
 
+    getOwnBookings(): Observable<BookingGeneral[]> {
+        return this.http.get<BookingGeneral[]>(this.url + '/own', {
+            observe: 'body',
+            responseType: 'json'
+        });
+    }
+
     readBookings(bookings: BookingGeneral[]): void {
         this.bookings = bookings;
         this.bookings = BookingGeneralService.parseDates(this.bookings);
