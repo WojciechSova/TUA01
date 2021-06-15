@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouteDetails } from '../../model/mop/RouteDetails';
 import { IdentityService } from '../../services/utils/identity.service';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouteDetailsService } from '../../services/mop/route-details.service';
 
 @Component({
