@@ -62,4 +62,21 @@ public class SeaportMapper {
         seaport.setVersion(seaportDetailsDTO.getVersion());
         return seaport;
     }
+
+    /**
+     * Metoda mapująca obiekt {@link SeaportGeneralDTO} na obiekt {@link Seaport}
+     *
+     * @param seaportGeneralDTO Obiekt {@link SeaportGeneralDTO}, który chcemy mapować
+     * @return Obiekt typu {@link Seaport}
+     */
+    public static Seaport createSeaportFromSeaportGeneralDTO(SeaportGeneralDTO seaportGeneralDTO) {
+        if (seaportGeneralDTO == null) {
+            return null;
+        }
+        Seaport seaport = new Seaport();
+        seaport.setCity(seaportGeneralDTO.getCity());
+        seaport.setCode(seaportGeneralDTO.getCode());
+        seaport.setVersion(seaportGeneralDTO.getVersion());
+        return seaport;
+    }
 }

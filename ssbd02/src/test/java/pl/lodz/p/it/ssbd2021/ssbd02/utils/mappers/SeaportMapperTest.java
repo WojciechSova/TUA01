@@ -64,6 +64,15 @@ class SeaportMapperTest {
         return seaportDetailsDTO;
     }
 
+    private SeaportGeneralDTO createSeaportGeneralDTO() {
+        SeaportGeneralDTO seaportGeneralDTO = new SeaportGeneralDTO();
+        seaportGeneralDTO.setCode("AZS");
+        seaportGeneralDTO.setCity("Pabianice");
+        seaportGeneralDTO.setVersion(1L);
+
+        return seaportGeneralDTO;
+    }
+
     @Test
     void createSeaportGeneralDTOFromEntities() {
         SeaportGeneralDTO seaportGeneralDTO = SeaportMapper.createSeaportGeneralDTOFromEntities(seaport);
@@ -95,5 +104,15 @@ class SeaportMapperTest {
         assertEquals(seaport.getCity(), seaportDetailsDTO.getCity());
         assertEquals(seaport.getCode(), seaportDetailsDTO.getCode());
         assertEquals(seaport.getVersion(), seaportDetailsDTO.getVersion());
+    }
+
+    @Test
+    void createSeaportFromSeaportGeneralDTO() {
+        SeaportGeneralDTO seaportGeneralDTO = createSeaportGeneralDTO();
+        Seaport seaport = SeaportMapper.createSeaportFromSeaportGeneralDTO(seaportGeneralDTO);
+
+        assertEquals(seaport.getCity(), seaportGeneralDTO.getCity());
+        assertEquals(seaport.getCode(), seaportGeneralDTO.getCode());
+        assertEquals(seaport.getVersion(), seaportGeneralDTO.getVersion());
     }
 }
