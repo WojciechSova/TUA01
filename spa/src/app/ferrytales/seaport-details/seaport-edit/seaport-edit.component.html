@@ -5,7 +5,7 @@
             <input class="city-input" type="text" id="new-city-name" name="City" #city
                     placeholder="{{'seaport-edit.required_city' | translate}}">
         </form>
-        <button id="confirm" class="form-button" (click)="changeSeaport()" translate>form.confirm</button>
+        <button id="confirm" class="form-button" (click)="changeSeaport(city.value)" translate>form.confirm</button>
         <img class="return-arrow" (click)="closeComponent()" src="assets/imgs/back-arrow.png" alt=""/>
     </div>
 </div>
