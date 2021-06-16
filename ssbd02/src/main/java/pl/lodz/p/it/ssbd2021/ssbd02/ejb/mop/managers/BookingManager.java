@@ -99,5 +99,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
             throw BookingExceptions.createConflictException(BookingExceptions.ERROR_CANNOT_CANCEL_RESERVATION);
         }
         bookingFacadeLocal.remove(bookingFromDB);
+        logger.info("The user with login {} cancelled the reservation with number {}",
+                login, number);
     }
 }
