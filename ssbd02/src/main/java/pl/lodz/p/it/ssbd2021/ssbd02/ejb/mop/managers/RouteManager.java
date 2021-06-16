@@ -105,6 +105,8 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
             if (ex.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
                     && ex.getResponse().getEntity() == CommonExceptions.ERROR_CONSTRAINT_VIOLATION) {
                 throw RouteExceptions.createConflictException(RouteExceptions.ERROR_ROUTE_USED_BY_CRUISE);
+            } else {
+                throw ex;
             }
         }
         logger.info("The user with login {} has removed the route from {} to {}",
