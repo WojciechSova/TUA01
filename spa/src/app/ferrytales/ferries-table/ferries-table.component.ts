@@ -35,7 +35,7 @@ export class FerriesTableComponent implements OnInit {
     }
 
     goToAddFerryForm(): void {
-        this.router.navigate(['/ferrytales/ferries/add/ferry']);
+        this.router.navigate(['/ferrytales/ferries/add']);
     }
 
     goToFerryDetails(name: string): void {

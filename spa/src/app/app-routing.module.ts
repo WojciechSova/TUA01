@@ -43,6 +43,7 @@ const ferrytalesChildren: Routes = [
     { path: 'cruises/:number', component: CruiseDetailsComponent },
     { path: 'seaports', component: SeaportsTableComponent },
     { path: 'cabin/edit', component: EditCabinComponent },
+    { path: 'ferries/add', component: AddFerryComponent },
     { path: 'ferries/:name', component: FerryDetailsComponent },
     { path: 'bookings/:number', component: BookingDetailsComponent },
     { path: 'bookings/own/:number', component: BookingDetailsComponent },
@@ -50,7 +51,6 @@ const ferrytalesChildren: Routes = [
     { path: 'ferries/:name/addCabin', component: AddCabinComponent },
     { path: 'my/bookings', component: BookingsTableOwnComponent },
     { path: 'ferries/:ferry/:cabin', component: CabinDetailsComponent },
-    { path: 'ferries/add/ferry', component: AddFerryComponent }
 ];
 
 const routes: Routes = [

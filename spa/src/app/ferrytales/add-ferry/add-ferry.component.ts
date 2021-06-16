@@ -13,7 +13,7 @@ export class AddFerryComponent implements OnInit {
     }
 
     form = new FormGroup({
-        name: new FormControl('', [Validators.required, Validators.max(30)]),
+        name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
         vehicleCapacity: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')]),
         onDeckCapacity: new FormControl('', [Validators.required, Validators.pattern('[1-9][0-9]{0,3}')])
     });
