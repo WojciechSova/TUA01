@@ -53,7 +53,7 @@ public interface BookingManagerLocal {
     /**
      * Metoda wyszukująca rezerwację o podanym loginie i o podanym numerze.
      *
-     * @param login Login użytkownika, którego rezerwacji chcemy wyszukać
+     * @param login  Login użytkownika, którego rezerwacji chcemy wyszukać
      * @param number Numer rezerwacji, który chcemy wyszukać
      * @return Encja typu {@link Booking}
      */
@@ -77,7 +77,8 @@ public interface BookingManagerLocal {
     /**
      * Metoda usuwa rezerwacje o kodzie zawartym w encji {@link Booking}.
      *
-     * @param booking Encja typu {@link Booking}
+     * @param login  Login użytkownika, który usuwa swoją rezerwację
+     * @param number Numer rezerwacji, którą chcemy usunąć
      */
-    void removeBooking(Booking booking);
+    void removeBooking(String login, String number);
 }
