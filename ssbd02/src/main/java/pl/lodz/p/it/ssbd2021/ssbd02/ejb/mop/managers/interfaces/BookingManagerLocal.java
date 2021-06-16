@@ -71,8 +71,12 @@ public interface BookingManagerLocal {
      * Metoda tworząca rezerwacje.
      *
      * @param booking Encja typu {@link Booking}
+     * @param cruiseNumber Numer rejsu przypisanego do rezerwacji
+     * @param cabinNumber Numer kajuty przypisanej do rezerwacji
+     * @param login Login użytkownika tworzącego rezerwację
+     * @param vehicleTypeName Typ pojazdu wybrany przez użytkownika
      */
-    void createBooking(Booking booking);
+    void createBooking(Booking booking, String cruiseNumber, String cabinNumber, String login, String vehicleTypeName);
 
     /**
      * Metoda usuwa rezerwacje o kodzie zawartym w encji {@link Booking}.

@@ -1,10 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
@@ -16,6 +16,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +37,15 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @Inject
     private AccountMopFacadeLocal accountMopFacadeLocal;
+
+    @Inject
+    private CruiseFacadeLocal cruiseFacadeLocal;
+
+    @Inject
+    private CabinFacadeLocal cabinFacadeLocal;
+
+    @Inject
+    private VehicleTypeFacadeLocal vehicleTypeFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -84,8 +95,25 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @Override
     @RolesAllowed({"CLIENT"})
-    public void createBooking(Booking booking) {
+    public void createBooking(Booking booking, String cruiseNumber, String cabinNumber, String login, String vehicleTypeName) {
+        //jeśli kajuta jest wolna
+        //jeśli na promie są jeszcze miejsca
+        //jeśli rejs się jeszcze nie rozpoczął
+        //jeśli liczba osób nie przekracza miejsc w kajucie
+        //jeśli jest miejsce na pojazd
+        Cruise cruise = Optional.ofNullable(cruiseFacadeLocal.findByNumber(cruiseNumber))
+                .orElseThrow(CommonExceptions::createNoResultException);
+        Cabin cabin = cabinFacadeLocal.findByFerryAndNumber(cruise.getFerry(), cabinNumber);
+        Account account = Optional.ofNullable(accountMopFacadeLocal.findByLogin(login))
+                .orElseThrow(CommonExceptions::createNoResultException);
+        VehicleType vehicleType = Optional.ofNullable(vehicleTypeFacadeLocal.findByName(vehicleTypeName))
+                .orElseThrow(CommonExceptions::createNoResultException);
 
+        booking.setAccount(account);
+        booking.setCabin(cabin);
+        booking.setCruise(cruise);
+        booking.setVehicleType(vehicleType);
+        booking.setCreationDate(Timestamp.from(Instant.now()));
     }
 
     @Override
