@@ -580,7 +580,7 @@ public class AccountManagerTest {
         assertEquals("e-mail", url.getActionType());
         assertEquals(oneTimeUrl.getNewEmail(), url.getNewEmail());
         assertEquals(oneTimeUrl.getModifiedBy(), url.getModifiedBy());
-        assertTrue(oldExpireDate.before(url.getExpireDate()));
+        assertTrue(oldExpireDate.before(url.getExpireDate()) || oldExpireDate.equals(url.getExpireDate()));
         assertTrue(url.getCreationDate().before(url.getModificationDate()));
     }
 
@@ -627,7 +627,7 @@ public class AccountManagerTest {
         OneTimeUrl url2 = urlCaptor.getValue();
         assertEquals(a3, url2.getModifiedBy());
         assertTrue(Timestamp.from(Instant.now().minus(10, SECONDS)).before(url2.getModificationDate()));
-        assertTrue(url.getExpireDate().before(url2.getExpireDate()));
+        assertTrue(url.getExpireDate().before(url2.getExpireDate()) || url.getExpireDate().equals(url2.getExpireDate()));
     }
 
     @Test

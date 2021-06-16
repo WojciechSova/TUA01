@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Klasa DTO zawierająca promy.
+ * Używana przy wyświetlaniu szczegółów danego promu.
  *
  * @author Artur Madaj
  */
@@ -17,11 +18,11 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class FerryDTO extends AbstractDTO {
+public class FerryDetailsDTO extends AbstractDTO {
 
     private String name;
 
-    private List<CabinDTO> cabins;
+    private List<CabinGeneralDTO> cabins;
 
     private Integer vehicleCapacity;
 

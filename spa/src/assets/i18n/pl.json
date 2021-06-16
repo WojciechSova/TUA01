@@ -4,7 +4,8 @@
         "employee": "Pracownik",
         "client": "Klient",
         "refresh": "Odśwież",
-        "details": "Szczegóły"
+        "details": "Szczegóły",
+        "edit": "Edytuj"
     },
     "form": {
         "invalid_format": "Niepoprawny format",
@@ -81,6 +82,7 @@
         "block": "Zablokuj"
     },
     "account-details": {
+        "login": "Login",
         "edit_account": "Edytuj konto",
         "change_password": "Zmień hasło",
         "edit_access_levels": "Edytuj poziomy dostępu",
@@ -95,6 +97,7 @@
         "confirmed": "Potwierdzone:",
         "last_modification_date": "Data ostatniej modyfikacji:",
         "modified_by": "Autor ostatniej modyfikacji:",
+        "created_by": "Utworzony przez",
         "creation_date": "Data utworzenia:",
         "last_known_good_login": "Data ostatniej udanej próby logowania:",
         "last_known_good_login_ip": "Adres ip ostatniej udanej próby logowania:",
@@ -108,6 +111,21 @@
         "last_password_modification_date":  "Data ostatniej modyfikacji hasła:",
         "last_email_modification_date":  "Data ostatniej modyfikacji e-mailu:"
     },
+    "seaport-details": {
+        "city": "Miasto:",
+        "code": "Kod:",
+        "modification_date": "Data modyfikacji:",
+        "creation_date": "Data utworzenia:"
+    },
+    "booking-details": {
+        "number_of_people": "Liczba osób:",
+        "cabin": "Typ kajuty:",
+        "cabin_number": "Numer kajuty:",
+        "vehicle_type": "Typ pojazdu:",
+        "price": "Cena:",
+        "number":  "Numer rezerwacji:",
+        "creation_date": "Data utworzenia:"
+    },
     "access-level-table": {
         "level": "Poziom",
         "active": "Aktywne",
@@ -115,6 +133,12 @@
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
         "created_by": "Utworzony przez"
+    },
+    "seaports-table": {
+        "city": "Miasto",
+        "code": "Kod portu",
+        "add": "Dodaj port",
+        "remove": "Usuń port"
     },
     "main-page": {
         "advert": "Przeprawy promowe jak z bajki",
@@ -163,7 +187,8 @@
         "SAME_PASSWORD_AS_PREVIOUS": "Podane hasło jest takie samo jak wcześniejsze",
         "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
-        "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje"
+        "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
+        "DUPLICATE_CODE": "Podany kod już istnieje"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -179,11 +204,25 @@
     "breadcrumb": {
         "home": "Strona główna",
         "account_list": "Lista kont",
+        "booking_list": "Lista rezerwacji",
         "account": "Szczegóły konta",
         "account_edit": "Edycja konta",
         "routes": {
             "list": "Lista tras"
-        }
+        },
+        "ferries_list": "Lista promów",
+        "seaport-list": "Lista portów",
+        "current_cruises_list": "Lista aktualnych rejsów",
+        "seaport": "Port",
+        "cruise": "Rejs",
+        "ferry": "Prom",
+        "cabin": "Kajuta",
+        "booking": "Rezerwacja",
+        "cabin_add": "Dodaj kajutę",
+        "cabin-edit": "Edycja kajuty",
+        "route": "Trasa",
+        "seaport_add": "Dodaj port",
+        "booking_list_own": "Twoje rezerwacje"
     },
     "session-timeout": {
         "info": {
@@ -195,6 +234,14 @@
         "renew": "Odśwież",
         "signOut": "Wyloguj się"
     },
+    "booking-list": {
+        "client": "Klient",
+        "cruise": "Rejs",
+        "cruise_date": "Data rejsu",
+        "creation_date": "Data rezerwacji",
+        "number": "Numer",
+        "cancel": "Anuluj"
+    },
     "route": {
         "start": "Port początkowy",
         "destination": "Port docelowy",
@@ -202,5 +249,103 @@
         "add": "Utwórz trasę",
         "delete": "Usuń trasę",
         "details": "Rejsy"
+    },
+    "ferries-table": {
+        "name": "Nazwa",
+        "vehicle_capacity": "Pojemność garażowa",
+        "on_deck_capacity": "Pojemność pokładowa"
+    },
+    "ferry-details": {
+        "name": "Nazwa:",
+        "cabins": "Kajuty:",
+        "vehicle_capacity": "Pojemność parkingowa:",
+        "on_deck_capacity": "Pojemność pokładowa:",
+        "modification_date": "Data ostatniej modyfikacji:",
+        "modified_by": "Autor ostatniej modyfikacji:",
+        "creation_date": "Data utworzenia:",
+        "created_by": "Utworzony przez:",
+        "add_cabin": "Dodaj kajutę",
+        "no_cabins": "Brak kajut"
+    },
+    "route-details": {
+        "code": "Kod:",
+        "start": "Start:",
+        "destination": "Cel:",
+        "cruises": "Rejsy:",
+        "creation_date": "Data utworzenia:",
+        "created_by": "Utworzony przez:",
+        "add_cruise": "Dodaj rejs",
+        "no_cruises_on_route": "Brak rejsów na trasie"
+    },
+    "cabin-table": {
+        "capacity": "Pojemność",
+        "cabinType": "Typ",
+        "number": "Numer",
+        "cabin_details": "Szczegóły",
+        "remove_cabin": "Usuń kajutę"
+    },
+    "cruise-table": {
+        "start_date": "Data rozpoczęcia",
+        "end_date": "Data zakończenia",
+        "number": "Numer",
+        "name_of_ferry": "Nazwa promu",
+        "cruise_details": "Szczegóły",
+        "remove_cruise": "Usuń rejs"
+    },
+    "cruise-details": {
+        "edit_cruise": "Edytuj rejs",
+        "start_date": "Data rozpoczęcia",
+        "end_date": "Data zakończenia",
+        "route": "Trasa",
+        "ferry": "Prom",
+        "number": "Numer rejsu",
+        "modification_date": "Data modyfikacji",
+        "modified_by": "Autor ostatniej modyfikacji",
+        "creation_date": "Data utworzenia",
+        "created_by": "Utworzony przez"
+    },
+    "cruise-general": {
+        "start_date": "Data rozpoczęcia",
+        "end_date": "Data zakończenia",
+        "route_start": "Port początkowy",
+        "route_destination": "Port docelowy",
+        "ferry_name": "Nazwa promu",
+        "book_a_ticket": "Zarezerwuj bilet",
+        "book": "Zarezerwuj"
+    },
+    "seaport-edit": {
+        "required_city": "*Nazwa miasta",
+        "city_name": "Wprowadź nową nazwę miasta:",
+        "result_success": "Zmiana miasta portu przebiegła pomyślnie",
+        "result_failure": "Zmiana miasta portu nie powiodła się"
+    },
+    "cabin-details": {
+        "edit_cabin": "Edytuj kajutę",
+        "number": "Numer kajuty",
+        "cabin_type": "Typ kajuty",
+        "capacity": "Pojemność",
+        "modification_date": "Data modyfikacji",
+        "modified_by": "Autor ostatniej modyfikacji",
+        "creation_date": "Data utworzenia",
+        "created_by": "Utworzony przez"
+    },
+    "add-seaport": {
+        "new_seaport": "Nowy port",
+        "city": "*Miasto",
+        "code": "*Kod"
+    },
+    "cabin-form": {
+        "choose_cabin_type": "Wybierz typ kajuty",
+        "first": "Pierwsza klasa",
+        "second": "Druga klasa",
+        "third": "Trzecia klasa",
+        "disabled": "Klasa inwalidzka",
+        "capacity": "Liczba miejsc w kajucie"
+    },
+    "add-cabin": {
+        "new_cabin": "Nowa kajuta",
+        "capacity": "Pojemność",
+        "cabin_type": "Typ kajuty",
+        "number": "Numer"
     }
 }

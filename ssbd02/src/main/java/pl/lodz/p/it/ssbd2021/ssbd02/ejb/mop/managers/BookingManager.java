@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
@@ -32,6 +33,9 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     @Inject
     private BookingFacadeLocal bookingFacadeLocal;
 
+    @Inject
+    private AccountMopFacadeLocal accountMopFacadeLocal;
+
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Booking> getAllBookings() {
@@ -51,15 +55,25 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"CLIENT"})
     public List<Booking> getAllBookingsByAccount(String login) {
-        return null;
+        return Optional.of(bookingFacadeLocal.findAllByAccount(accountMopFacadeLocal.findByLogin(login))).
+                orElseThrow(CommonExceptions::createNoResultException);
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public Booking getBookingByNumber(String code) {
-        return null;
+    @RolesAllowed({"EMPLOYEE"})
+    public Booking getBookingByNumber(String number) {
+        return Optional.ofNullable(bookingFacadeLocal.findByNumber(number))
+                .orElseThrow(CommonExceptions::createNoResultException);
+    }
+
+    @Override
+    @RolesAllowed({"CLIENT"})
+    public Booking getBookingByAccountAndNumber(String login, String number) {
+        return Optional.ofNullable(bookingFacadeLocal
+                .findByAccountAndNumber(accountMopFacadeLocal.findByLogin(login), number))
+                .orElseThrow(CommonExceptions::createNoResultException);
     }
 
     @Override

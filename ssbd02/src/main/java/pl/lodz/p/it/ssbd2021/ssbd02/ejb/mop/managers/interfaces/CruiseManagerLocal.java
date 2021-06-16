@@ -1,6 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -43,14 +45,6 @@ public interface CruiseManagerLocal {
     Cruise getCruiseByNumber(String number);
 
     /**
-     * Metoda wyszukująca wszystkie rejsy, które zawierają trasę o podanym kodzie.
-     *
-     * @param code Kod trasy, po której chcemy wyszukać
-     * @return Lista rejsów {@link Cruise}, które zawierają trasę o podanym kodzie.
-     */
-    List<Cruise> getCruisesByRouteCode(String code);
-
-    /**
      * Metoda wyszukująca wszystkie rejsy, które zawierają prom o podanej nazwie.
      *
      * @param name Nazwa promu, po której chcemy wyszukać
@@ -62,8 +56,11 @@ public interface CruiseManagerLocal {
      * Metoda tworząca rejs.
      *
      * @param cruise Encja typu {@link Cruise}
+     * @param name Identyfikator encji typu {@link Ferry}
+     * @param code Identyfikator encji typu {@link Route}
+     * @param login Login użytkownika, który tworzy encje
      */
-    void createCruise(Cruise cruise);
+    void createCruise(Cruise cruise, String name, String code, String login);
 
     /**
      * Metoda aktualizuje rejs o numerze zawartym w encji {@link Cruise} oraz ustawia konto w polu modifiedBy na konto

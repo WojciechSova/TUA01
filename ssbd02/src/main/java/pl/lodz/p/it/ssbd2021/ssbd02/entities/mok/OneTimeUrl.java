@@ -22,7 +22,7 @@ import java.time.Instant;
         @NamedQuery(name = "OneTimeUrl.findByAccount", query = "SELECT o FROM OneTimeUrl o WHERE o.account = :account"),
         @NamedQuery(name = "OneTimeUrl.findByAccountLogin", query = "SELECT o FROM OneTimeUrl o WHERE o.account.login = :login"),
         @NamedQuery(name = "OneTimeUrl.findByNewEmail", query = "SELECT o FROM OneTimeUrl o WHERE o.newEmail = :newEmail"),
-        @NamedQuery(name = "OneTimeUrl.findExpiredUrl", query = "SELECT o FROM OneTimeUrl o WHERE o.expireDate < current_timestamp")
+        @NamedQuery(name = "OneTimeUrl.findExpiredUrl", query = "SELECT o FROM OneTimeUrl o WHERE o.expireDate < now()")
 })
 @Data
 @NoArgsConstructor

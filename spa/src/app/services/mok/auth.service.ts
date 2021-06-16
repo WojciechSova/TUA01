@@ -8,6 +8,16 @@ import { AccountGeneralService } from './account-general.service';
 import { UpdateAccountService } from './update-account.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { SeaportGeneralService } from '../mop/seaport-general.service';
+import { SeaportDetailsService } from '../mop/seaport-details.service';
+import { RouteDetailsService } from '../mop/route-details.service';
+import { CruiseDetailsService } from '../mop/cruise-details.service';
+import { CruiseGeneralService } from '../mop/cruise-general.service';
+import { FerryDetailsService } from '../mop/ferry-details.service';
+import { FerryGeneralService } from '../mop/ferry-general.service';
+import { BookingGeneralService } from '../mop/booking-general.service';
+import { BookingDetailsService } from '../mop/booking-details.service';
+import { CabinDetailsService } from '../mop/cabin-details.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +31,16 @@ export class AuthService {
                 private accountDetailsService: AccountDetailsService,
                 private accountGeneralService: AccountGeneralService,
                 private updateAccountService: UpdateAccountService,
+                private seaportGeneralService: SeaportGeneralService,
+                private seaportDetailsService: SeaportDetailsService,
+                private routeDetailsService: RouteDetailsService,
+                private cruiseDetailsService: CruiseDetailsService,
+                private ferryGeneralService: FerryGeneralService,
+                private ferryDetailsService: FerryDetailsService,
+                private cruiseGeneralService: CruiseGeneralService,
+                private bookingGeneralService: BookingGeneralService,
+                private bookingDetailsService: BookingDetailsService,
+                private cabinDetailsService: CabinDetailsService,
                 private cookieService: CookieService,
                 private router: Router) {
         this.url = environment.appUrl + '/auth';
@@ -54,6 +74,16 @@ export class AuthService {
         this.accountDetailsService.ngOnDestroy();
         this.accountGeneralService.ngOnDestroy();
         this.updateAccountService.ngOnDestroy();
+        this.seaportGeneralService.ngOnDestroy();
+        this.seaportDetailsService.ngOnDestroy();
+        this.routeDetailsService.ngOnDestroy();
+        this.cruiseDetailsService.ngOnDestroy();
+        this.ferryGeneralService.ngOnDestroy();
+        this.ferryDetailsService.ngOnDestroy();
+        this.cruiseGeneralService.ngOnDestroy();
+        this.bookingGeneralService.ngOnDestroy();
+        this.bookingDetailsService.ngOnDestroy();
+        this.cabinDetailsService.ngOnDestroy();
         this.cookieService.delete('token');
         this.cookieService.delete('login');
         this.cookieService.delete('currentAccessLevel');

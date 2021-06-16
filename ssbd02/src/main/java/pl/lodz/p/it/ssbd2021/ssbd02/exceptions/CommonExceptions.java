@@ -10,14 +10,14 @@ import javax.ws.rs.core.Response;
  */
 @ApplicationException(rollback = true)
 public class CommonExceptions extends GeneralException {
-    protected final static String ERROR_OPTIMISTIC_LOCK = "ERROR.OPTIMISTIC_LOCK";
-    protected final static String ERROR_UNKNOWN = "ERROR.UNKNOWN";
-    protected final static String ERROR_NO_RESULT = "ERROR.NO_RESULT";
-    protected final static String ERROR_PRECONDITION_FAILED = "ERROR.PRECONDITION_FAILED";
-    protected final static String ERROR_ACCESS_DENIED = "ERROR.ACCESS_DENIED";
-    protected final static String ERROR_JDBC_CONNECTION = "ERROR.JDBC_CONNECTION";
-    protected final static String ERROR_CONSTRAINT_VIOLATION = "ERROR.CONSTRAINT_VIOLATION";
-    protected final static String ERROR_CREDENTIALS_INVALID = "ERROR.CREDENTIALS_INVALID";
+    public final static String ERROR_OPTIMISTIC_LOCK = "ERROR.OPTIMISTIC_LOCK";
+    public final static String ERROR_UNKNOWN = "ERROR.UNKNOWN";
+    public final static String ERROR_NO_RESULT = "ERROR.NO_RESULT";
+    public final static String ERROR_PRECONDITION_FAILED = "ERROR.PRECONDITION_FAILED";
+    public final static String ERROR_ACCESS_DENIED = "ERROR.ACCESS_DENIED";
+    public final static String ERROR_JDBC_CONNECTION = "ERROR.JDBC_CONNECTION";
+    public final static String ERROR_CONSTRAINT_VIOLATION = "ERROR.CONSTRAINT_VIOLATION";
+    public final static String ERROR_CREDENTIALS_INVALID = "ERROR.CREDENTIALS_INVALID";
 
     protected CommonExceptions(Response.Status status, String key) {
         super(status, key);
