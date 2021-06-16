@@ -19,7 +19,7 @@ export class EditCabinComponent implements OnInit {
     };
 
     form = new FormGroup({
-        capacity: new FormControl('', [Validators.required, Validators.pattern('[1-9]\d*')])
+        capacity: new FormControl('', [Validators.pattern('[1-9][0-9]*')])
     });
 
     private updating = false;
@@ -88,7 +88,9 @@ export class EditCabinComponent implements OnInit {
     }
 
     editCabin(value: string): void {
-        this.cabinDetailsService.cabin.capacity = value;
+        if (value != null && value !== '') {
+            this.cabinDetailsService.cabin.capacity = value;
+        }
         this.cabinDetailsService.updateCabin(this.cabinDetailsService.cabin, this.ferryName).subscribe(
             () => {
                 this.router.navigate(['ferrytales/ferries/', this.ferryName, this.cabinNumber]);

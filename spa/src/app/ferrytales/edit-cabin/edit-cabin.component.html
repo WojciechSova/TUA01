@@ -33,8 +33,6 @@
                            [ngClass]="{'is-invalid': form.controls.capacity.touched && form.controls.capacity.invalid}"
                            placeholder="{{'cabin-form.capacity' | translate}}"/>
                 </div>
-                <div class="validation-error" *ngIf="form.controls.capacity.hasError('required') && form.controls.capacity.touched"
-                     translate>form.field_required</div>
                 <div class="validation-error" *ngIf="form.controls.capacity.hasError('pattern') && form.controls.capacity.touched"
                      translate>form.invalid_format</div>
                 <div class="top-center" translate>
