@@ -56,7 +56,7 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Route getRouteByCode(String code) {
-        return null;
+        return routeFacadeLocal.findByCode(code);
     }
 
     @Override
@@ -96,7 +96,9 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeRoute(Route route) {
-
+    public void removeRoute(Route route, String start, String destination, String login) {
+        routeFacadeLocal.remove(route);
+        logger.info("The user with login {} has removed the route from {} to {}",
+                login, start, destination);
     }
 }

@@ -68,6 +68,7 @@ public interface RouteManagerLocal {
      * Metoda usuwa trasę o kodzie zawartym w encji {@link Route}.
      *
      * @param route Encja typu {@link Route}
+     * @param login Login użytkownika usuwającego trasę
      */
-    void removeRoute(Route route);
+    void removeRoute(Route route, String start, String destination, String login);
 }
