@@ -1,114 +1,158 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToCurrentCruises()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.current_cruises_list </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.booking</li>
+</ol>
 <div class="outer-div">
-    <div class="zone-picker">
-        <img class="ferry" src="../../../assets/imgs/ferry.png" alt="">
-            <img *ngIf="!zoneA" (click)="pickZoneA()" class="zone az" src="../../../assets/imgs/zoneAinactive.png" alt="">
-            <img *ngIf="!zoneB" (click)="pickZoneB()" class="zone bz" src="../../../assets/imgs/zoneBinactive.png" alt="">
-            <img *ngIf="!zoneC" (click)="pickZoneC()" class="zone cz" src="../../../assets/imgs/zoneCinactive.png" alt="">
-            <img *ngIf="!zoneD" (click)="pickZoneD()" class="zone dz" src="../../../assets/imgs/zoneDinactive.png" alt="">
-            <img *ngIf="zoneA" (click)="pickZoneA()" class="zone az" src="../../../assets/imgs/zoneA.png" alt="">
-            <img *ngIf="zoneB" (click)="pickZoneB()" class="zone bz" src="../../../assets/imgs/zoneB.png" alt="">
-            <img *ngIf="zoneC" (click)="pickZoneC()" class="zone cz" src="../../../assets/imgs/zoneC.png" alt="">
-            <img *ngIf="zoneD" (click)="pickZoneD()" class="zone dz" src="../../../assets/imgs/zoneD.png" alt="">
-    </div>
-    <div *ngIf="zoneA || zoneB || zoneC || zoneD" class="picked">
-        <div class="checkbox-container">
-            <label class="container admin" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark admin"></span>
-            </label>
-            <label class="container employee" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark employee"></span>
-            </label>
-            <label class="container client" translate>
-                <input type="checkbox" name="radio" >
-                <span class="checkmark client"></span>
-            </label>
-            <label class="container admin" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark admin"></span>
-            </label>
-            <label class="container employee" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark employee"></span>
-            </label>
-            <label class="container client" translate>
-                <input type="checkbox" name="radio" >
-                <span class="checkmark client"></span>
-            </label>
-            <label class="container admin" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark admin"></span>
-            </label>
-            <label class="container employee" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark employee"></span>
-            </label>
-            <label class="container client" translate>
-                <input type="checkbox" name="radio" >
-                <span class="checkmark client"></span>
-            </label>
-            <label class="container admin" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark admin"></span>
-            </label>
-            <label class="container employee" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark employee"></span>
-            </label>
-            <label class="container client" translate>
-                <input type="checkbox" name="radio" >
-                <span class="checkmark client"></span>
-            </label>
-            <label class="container admin" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark admin"></span>
-            </label>
-            <label class="container employee" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark employee"></span>
-            </label>
-            <label class="container client" translate>
-                <input type="checkbox" name="radio" >
-                <span class="checkmark client"></span>
-            </label>
-            <label class="container admin" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark admin"></span>
-            </label>
-            <label class="container employee" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark employee"></span>
-            </label>
-            <label class="container client" translate>
-                <input type="checkbox" name="radio" >
-                <span class="checkmark client"></span>
-            </label>
-            <label class="container admin" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark admin"></span>
-            </label>
-            <label class="container employee" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark employee"></span>
-            </label>
-            <label class="container client" translate>
-                <input type="checkbox" name="radio" >
-                <span class="checkmark client"></span>
-            </label>
-            <label class="container admin" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark admin"></span>
-            </label>
-            <label class="container employee" translate>
-                <input type="checkbox" name="radio">
-                <span class="checkmark employee"></span>
-            </label>
-            <label class="container client" translate>
-                <input type="checkbox" name="radio" >
-                <span class="checkmark client"></span>
-            </label>
-    </div>
+    <div class="booking-details" id="bookingDetails">
+        <div class="col">
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.number</label>
+                <label>{{bookingDetailsService.booking?.cruise?.number}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>booking.date</label>
+                <label>{{bookingDetailsService.booking?.cruise?.startDate | date :'short':identityService.getTimezone()}}
+                    -
+                    {{bookingDetailsService.booking?.cruise?.endDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>booking.route</label>
+                <label>{{bookingDetailsService.booking.cruise.route?.start?.city}}
+                    → {{bookingDetailsService.booking.cruise.route?.destination?.city}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>account-details.first_name</label>
+                <label>{{bookingDetailsService.booking?.account?.firstName}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>account-details.last_name</label>
+                <label>{{bookingDetailsService.booking?.account?.lastName}}</label>
+            </div>
 
+            <hr/>
+
+
+            <form [formGroup]="bookingForm">
+                <div class="row">
+                    <label class="uppercase" translate>booking.set_people</label>
+                    <input #numberOfPeople type="text" id="edit-capacity" name="people" formControlName="numberOfPeople"
+                           [ngClass]="{'is-invalid': bookingForm.controls.numberOfPeople.touched && bookingForm.controls.numberOfPeople.invalid}"
+                           placeholder="{{'Liczba osób' | translate}}"/>
+
+                </div>
+                <div class="validation-error"
+                     *ngIf="bookingForm.controls.numberOfPeople.hasError('pattern') && bookingForm.controls.numberOfPeople.touched"
+                     translate>form.positive
+                </div>
+                <div class="validation-error"
+                     *ngIf="bookingForm.controls.numberOfPeople.hasError('required') && bookingForm.controls.numberOfPeople.touched"
+                     translate>form.field_required
+                </div>
+            </form>
+            <div class="row">
+                <label class="uppercase" translate>booking.want_cabin</label>
+            </div>
+
+            <div class="row-radio">
+                <div class="checkbox-container">
+                    <label id="yes" class="container" translate>booking.yes
+                        <input type="radio" name="radio" [checked]="wantCabin" (change)="changeWantCabin('yes')">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="checkbox-container">
+                    <label id="no" class="container" translate>booking.no
+                        <input type="radio" name="radio" [checked]="!wantCabin" (change)="changeWantCabin('no')">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+
+            <hr class="hr-booking"/>
+
+            <div *ngIf="wantCabin">
+                <div class="row">
+                    <label class="uppercase" translate>booking.cabin_type</label>
+                </div>
+                <div class="stars">
+                    <input type="radio" name="rate" id="one" [checked]="cabinTypes.firstClass"
+                           (change)="chooseCabinType('first')"/>
+                    <label for="one"></label>
+                    <input type="radio" name="rate" id="two" [checked]="cabinTypes.secondClass"
+                           (change)="chooseCabinType('second')"/>
+                    <label for="two"></label>
+                    <input type="radio" name="rate" id="three" [checked]="cabinTypes.thirdClass"
+                           (change)="chooseCabinType('third')"/>
+                    <label for="three"></label>
+                    <img class="disabled-img" #disabledClass src="assets/imgs/disabled.png" alt="alt"
+                         (click)="chooseCabinType('disabled')">
+                </div>
+                <div class="row" *ngIf="cabinTypeChosen">
+                    <label class="uppercase" translate>booking.pick_cabin_number</label>
+                    <select class="edit-content-select" #cabinNumber id="edit-number">
+                        <option value="" disabled selected translate>booking.cabin_number</option>
+                        <option *ngFor="let number of numbers" [value]="number"
+                                [selected]="number === bookingDetailsService.booking?.cabin?.number" id="{{number}}">
+                            {{number}}</option>
+                    </select>
+                </div>
+                <hr class="hr-booking"/>
+            </div>
+
+
+            <div class="row">
+                <label class="uppercase" translate>booking.vehicle_type</label>
+            </div>
+            <div class="row-radio-vehicle">
+                <div class="checkbox-container">
+                    <label id="none" class="container"> <img class="vehicle-img-cross" src="assets/imgs/close.png"
+                                                             alt="">
+                        <input type="radio" name="vehicle" [checked]="vehicleTypes.none"
+                               (change)="chooseVehicleType('none')">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="checkbox-container">
+                    <label id="bike" class="container"> <img class="vehicle-img" src="assets/imgs/motorcycle.png"
+                                                             alt="">
+                        <input type="radio" name="vehicle" [checked]="vehicleTypes.bike"
+                               (change)="chooseVehicleType('bike')">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="checkbox-container">
+                    <label id="car" class="container"> <img class="vehicle-img" src="assets/imgs/car.png" alt="">
+                        <input type="radio" name="vehicle" [checked]="vehicleTypes.car"
+                               (change)="chooseVehicleType('car')">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="checkbox-container">
+                    <label id="bus" class="container"> <img class="vehicle-img" src="assets/imgs/bus.png" alt="">
+                        <input type="radio" name="vehicle" [checked]="vehicleTypes.bus"
+                               (change)="chooseVehicleType('bus')">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <hr class="hr-booking"/>
+            <div class="row">
+                <label class="uppercase" translate>booking-details.price</label>
+                <label>{{currentPrice}}</label>
+            </div>
+            <button class="edit-button" id="saveBtn" [disabled]="bookingForm.invalid" translate>booking.ok
+            </button>
+            <img class="return-arrow" src="assets/imgs/back-arrow.png"
+                 alt=""/>
+        </div>
     </div>
 </div>

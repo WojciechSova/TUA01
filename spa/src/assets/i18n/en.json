@@ -28,7 +28,8 @@
         "save": "Save",
         "confirm": "Confirm",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "positive": "Liczba osób musi być dodatnia"
     },
     "links": {
         "about_us": "About us",
@@ -347,5 +348,18 @@
         "capacity": "Capacity",
         "cabin_type": "Cabin type",
         "number": "Number"
+    },
+    "booking": {
+        "date": "Date:",
+        "route": "Route:",
+        "set_people": "Enter the number of people:",
+        "want_cabin": "Do you want to book a cabin?",
+        "yes": "Yes",
+        "no": "No",
+        "cabin_type": "Select cabin type:",
+        "pick_cabin_number": "Select cabin number:",
+        "cabin_number": "Cabin number",
+        "vehicle_type": "Select vehicle type",
+        "ok": "Book it"
     }
 }

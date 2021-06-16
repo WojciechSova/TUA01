@@ -28,7 +28,8 @@
         "save": "Zapisz",
         "confirm": "Potwierdź",
         "yes": "Tak",
-        "no": "Nie"
+        "no": "Nie",
+        "positive": "Liczba osób musi być dodatnia"
     },
     "links": {
         "about_us": "O nas",
@@ -347,5 +348,18 @@
         "capacity": "Pojemność",
         "cabin_type": "Typ kajuty",
         "number": "Numer"
+    },
+    "booking": {
+        "date": "Data:",
+        "route": "Trasa:",
+        "set_people": "*Podaj liczbę osób:",
+        "want_cabin": "Czy chcesz zarezerwować kajutę?",
+        "yes": "Tak",
+        "no": "Nie",
+        "cabin_type": "Wybierz typ kajuty:",
+        "pick_cabin_number": "Wybierz numer kajuty:",
+        "cabin_number": "*Numer kajuty",
+        "vehicle_type": "*Wybierz typ pojazdu:",
+        "ok": "Zarezerwuj"
     }
 }
