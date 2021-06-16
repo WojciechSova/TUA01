@@ -106,10 +106,10 @@ public class CruiseEndpoint {
      * Metoda umożliwiająca dodanie nowego rejsu.
      *
      * @param cruiseDetailsDTO Obiekt typu {@link CruiseDetailsDTO} przechowujący szczegóły nowego rejsu
-     * @param ferry Identyfikator biznesowy promu
-     * @param route Identyfikator biznesowy trasy
-     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
-     * @return Kod 200 w przypadku poprawnego dodania portu
+     * @param ferry            Identyfikator biznesowy promu
+     * @param route            Identyfikator biznesowy trasy
+     * @param securityContext  Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego dodania rejsu
      */
     @POST
     @Path("add/{ferry}/{route}")

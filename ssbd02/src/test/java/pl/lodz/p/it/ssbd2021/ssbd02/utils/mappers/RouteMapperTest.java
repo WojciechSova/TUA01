@@ -64,6 +64,18 @@ class RouteMapperTest {
         return routeGeneralDTO;
     }
 
+    private RouteDetailsDTO createRouteDetails() {
+        RouteDetailsDTO routeDetailsDTO = new RouteDetailsDTO();
+
+        routeDetailsDTO.setVersion(0L);
+        routeDetailsDTO.setStart(SeaportMapper.createSeaportGeneralDTOFromEntities(seaport1));
+        routeDetailsDTO.setDestination(SeaportMapper.createSeaportGeneralDTOFromEntities(seaport2));
+        routeDetailsDTO.setCode(code);
+        routeDetailsDTO.setCreationDate(Timestamp.from(Instant.now()));
+        routeDetailsDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(accountCreatedBy));
+        return routeDetailsDTO;
+    }
+
 
     @Test
     void createRouteGeneralDTOFromEntity() {
@@ -114,5 +126,20 @@ class RouteMapperTest {
         assertEquals(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getDestination()).getCode(), route.getDestination().getCode());
         assertEquals(SeaportMapper.createSeaportFromSeaportGeneralDTO(routeGeneralDTO.getDestination()).getVersion(), route.getDestination().getVersion());
         assertEquals(routeGeneralDTO.getCode(), route.getCode());
+    }
+
+    @Test
+    void createRouteFromRouteDetailsDTO() {
+        RouteDetailsDTO routeDetailsDTO = createRouteDetails();
+
+        Route route = RouteMapper.createRouteFromRouteDetailsDTO(routeDetailsDTO);
+
+        assertEquals(routeDetailsDTO.getVersion(), route.getVersion());
+        assertEquals(routeDetailsDTO.getCreatedBy().getLogin(), route.getCreatedBy().getLogin());
+        assertEquals(routeDetailsDTO.getCreationDate(), route.getCreationDate());
+        assertEquals(routeDetailsDTO.getCode(), route.getCode());
+        assertEquals(routeDetailsDTO.getStart().getCode(), route.getStart().getCode());
+        assertEquals(routeDetailsDTO.getDestination().getCode(), route.getDestination().getCode());
+        assertEquals(routeDetailsDTO.getCode(), route.getCode());
     }
 }
