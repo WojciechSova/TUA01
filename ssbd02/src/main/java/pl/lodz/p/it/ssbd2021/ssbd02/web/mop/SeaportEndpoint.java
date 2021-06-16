@@ -127,7 +127,7 @@ public class SeaportEndpoint {
     }
 
     /**
-     * Metoda umożliwiająca edycje portu.
+     * Metoda umożliwiająca edycję portu.
      *
      * @param seaportDetailsDTO Obiekt typu {@link SeaportDetailsDTO} przechowujący sczegóły edytowanego portu
      * @param securityContext   Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
