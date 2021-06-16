@@ -10,6 +10,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.RouteManagerLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.RouteExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
@@ -19,6 +20,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -97,7 +99,14 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void removeRoute(Route route, String start, String destination, String login) {
-        routeFacadeLocal.remove(route);
+        try{
+            routeFacadeLocal.remove(route);
+        } catch (CommonExceptions ex) {
+            if (ex.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
+                    && ex.getResponse().getEntity() == CommonExceptions.ERROR_CONSTRAINT_VIOLATION) {
+                throw RouteExceptions.createConflictException(RouteExceptions.ERROR_ROUTE_USED_BY_CRUISE);
+            }
+        }
         logger.info("The user with login {} has removed the route from {} to {}",
                 login, start, destination);
     }

@@ -17,7 +17,9 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.RouteExceptions;
 
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -26,10 +28,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class RouteManagerTest {
+
+    private final String code = "Code";
 
     @Mock
     RouteFacadeLocal routeFacadeLocal;
@@ -119,5 +122,38 @@ class RouteManagerTest {
         assertEquals(0L, route.getVersion());
 
         verify(routeFacadeLocal).create(route);
+    }
+
+    @Test
+    void getRouteByCode() {
+        when(routeFacadeLocal.findByCode(code)).thenReturn(route1);
+        assertDoesNotThrow(() -> routeManager.getRouteByCode(code));
+        assertEquals(route1.hashCode(), routeManager.getRouteByCode(code).hashCode());
+        verify(routeFacadeLocal, times(2)).findByCode(code);
+    }
+
+    @Test
+    void removeRoute() {
+        doAnswer(invocationOnMock -> {
+            routes.remove(route2);
+            return null;
+        }).when(routeFacadeLocal).remove(route2);
+
+        assertEquals(2, routes.size());
+        assertDoesNotThrow(() -> routeManager.removeRoute(route2, "Start", "Destination", "Login"));
+        assertEquals(1, routes.size());
+
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createConstraintViolationException();
+        }).when(routeFacadeLocal).remove(route1);
+
+        RouteExceptions ex = assertThrows(RouteExceptions.class,
+                () -> routeManager.removeRoute(route1, "Start", "Destination", "Login"));
+
+        assertEquals(Response.Status.CONFLICT.getStatusCode(), ex.getResponse().getStatus());
+        assertEquals(RouteExceptions.ERROR_ROUTE_USED_BY_CRUISE, ex.getResponse().getEntity());
+
+        verify(routeFacadeLocal).remove(route1);
+        verify(routeFacadeLocal).remove(route2);
     }
 }

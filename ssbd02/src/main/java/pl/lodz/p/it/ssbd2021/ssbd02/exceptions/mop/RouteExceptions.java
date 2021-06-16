@@ -15,6 +15,7 @@ public class RouteExceptions extends GeneralException {
     public static String ERROR_ROUTE_START_DESTINATION_UNIQUE = "ERROR.ROUTE_START_DESTINATION_UNIQUE";
     public static String ERROR_ROUTE_CODE_UNIQUE = "ERROR.ROUTE_CODE_UNIQUE";
     public static String ERROR_ROUTE_NOT_FOUND = "ERROR.ROUTE_NOT_FOUND";
+    public static String ERROR_ROUTE_USED_BY_CRUISE = "ERROR.ROUTE_USER_BY_CRUISE";
 
     public RouteExceptions(Response.Status status, String key) {
         super(status, key);
