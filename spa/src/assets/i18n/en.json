@@ -188,7 +188,8 @@
         "EMAIL_UNIQUE": "The e-mail address you entered already exists",
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists",
-        "DUPLICATE_CODE": "Provided code already exists"
+        "DUPLICATE_CODE": "Provided code already exists",
+        "DUPLICATE_FERRY_NAME": "Provided ferry name already exists"
     },
     "error-page": {
         "forbidden_code": "Error 403",

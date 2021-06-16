@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FerryGeneralService } from '../../services/mop/ferry-general.service';
+import { FerryGeneral } from '../../model/mop/FerryGeneral';
 
 @Component({
     selector: 'app-add-ferry',
@@ -9,7 +11,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class AddFerryComponent implements OnInit {
 
-    constructor(private router: Router) {
+    error = false;
+
+    constructor(private router: Router,
+                private ferryGeneralService: FerryGeneralService) {
     }
 
     form = new FormGroup({
@@ -19,6 +24,19 @@ export class AddFerryComponent implements OnInit {
     });
 
     ngOnInit(): void {
+    }
+
+    addFerry(newName: string, newVehicleCapacity: number, newOnDeckCapacity: number): void {
+        const ferry: FerryGeneral = {
+            name: newName,
+            vehicleCapacity: newVehicleCapacity,
+            onDeckCapacity: newOnDeckCapacity
+        };
+
+        this.ferryGeneralService.addFerry(ferry).subscribe(
+            () => this.goToFerryListBreadcrumb(),
+            (error: any) => this.error = true
+        );
     }
 
     goToHomeBreadcrumb(): void {
