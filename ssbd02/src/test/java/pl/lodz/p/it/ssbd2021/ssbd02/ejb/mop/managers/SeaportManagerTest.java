@@ -83,10 +83,13 @@ class SeaportManagerTest {
     @Test
     void createSeaport() {
         String login = "przykladowy";
+        Account account = new Account();
+        account.setLogin(login);
         doAnswer(invocationOnMock -> {
             seaports.add(s3);
             return null;
         }).when(seaportFacadeLocal).create(s3);
+        when(accountMopFacadeLocal.findByLogin(login)).thenReturn(account);
 
         seaportManager.createSeaport(login, s3);
 
