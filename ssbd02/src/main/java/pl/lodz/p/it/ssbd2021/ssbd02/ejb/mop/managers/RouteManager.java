@@ -99,7 +99,7 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void removeRoute(Route route, String start, String destination, String login) {
-        try{
+        try {
             routeFacadeLocal.remove(route);
         } catch (CommonExceptions ex) {
             if (ex.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
