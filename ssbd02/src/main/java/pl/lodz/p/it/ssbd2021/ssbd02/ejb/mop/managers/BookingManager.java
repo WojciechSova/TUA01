@@ -104,26 +104,58 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     @Override
     @RolesAllowed({"CLIENT"})
     public void createBooking(Booking booking, String cruiseNumber, String cabinNumber, String login, String vehicleTypeName) {
-        //jeśli kajuta jest wolna
         double price = 0;
         Cruise cruise = cruiseFacadeLocal.findByNumber(cruiseNumber);
         Cabin cabin = null;
+
         if (cabinNumber != null) {
             cabin = cabinFacadeLocal.findByFerryAndNumber(cruise.getFerry(), cabinNumber);
         }
+
         Account account = accountMopFacadeLocal.findByLogin(login);
         VehicleType vehicleType = vehicleTypeFacadeLocal.findByName(vehicleTypeName);
 
         if (cruise.getStartDate().compareTo(Timestamp.from(Instant.now())) <= 0) {
             throw CruiseExceptions.createConflictException("Cruise has already started");
         }
+
         double sumOfVehiclesSpace = bookingFacadeLocal.getSumVehicleSpaceByCruise(cruise);
+
         if (cruise.getFerry().getVehicleCapacity() < sumOfVehiclesSpace + vehicleType.getRequiredSpace()) {
-            throw FerryExceptions.createConflictException("There is not enough for a vehicle space on the ferry");
+            throw FerryExceptions.createConflictException("There is not enough space for a vehicle on the ferry");
         }
+
+        price = getPrice(booking, price, cruise, cabin);
+
+        price += vehicleType.getRequiredSpace() * 200;
+
+        String number = "";
+        String finalNumber = number;
+        do {
+            number = String.valueOf((long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L);
+        } while (bookingFacadeLocal.findAll().stream().anyMatch(b -> b.getNumber().equals(finalNumber)));
+
+        booking.setNumber(number);
+        booking.setPrice(price);
+        booking.setAccount(account);
+        booking.setCabin(cabin);
+        booking.setCruise(cruise);
+        booking.setVehicleType(vehicleType);
+        booking.setCreationDate(Timestamp.from(Instant.now()));
+
+        bookingFacadeLocal.create(booking);
+        logger.info("The user with login {} created the reservation with number {}",
+                login, number);
+    }
+
+    @RolesAllowed({"CLIENT"})
+    private double getPrice(Booking booking, double price, Cruise cruise, Cabin cabin) {
         if (cabin != null) {
-            if (booking.getNumberOfPeople() <= cabin.getCapacity()) {
+            if (booking.getNumberOfPeople() > cabin.getCapacity()) {
                 throw CabinExceptions.createConflictException("Number of people is greater than cabin's capacity");
+            }
+            if(cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise).contains(cabin)){
+                throw CabinExceptions.createConflictException("Cabin is already occupied");
             }
             if (cabin.getCabinType().getCabinTypeName().equals("Disabled class")) {
                 price += 120 * cabin.getCapacity();
@@ -137,27 +169,17 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
             if (cabin.getCabinType().getCabinTypeName().equals("Third class")) {
                 price += 100 * cabin.getCapacity();
             }
-            //sprawdzenie czy jest wolna
         } else {
             int sumOfPeople = bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
+
             if (cruise.getFerry().getOnDeckCapacity() < sumOfPeople + booking.getNumberOfPeople()) {
                 throw FerryExceptions.createConflictException("There is not enough space on the ferry's deck");
             }
             price += 30 * booking.getNumberOfPeople();
         }
-
-        price += vehicleType.getRequiredSpace() * 200;
-        String number = "";
-////////////////////
-        booking.setPrice(price);
-        booking.setAccount(account);
-        booking.setCabin(cabin);
-        booking.setCruise(cruise);
-        booking.setVehicleType(vehicleType);
-        booking.setCreationDate(Timestamp.from(Instant.now()));
-
-        bookingFacadeLocal.create(booking);
+        return price;
     }
+
 
     @Override
     @RolesAllowed({"CLIENT"})

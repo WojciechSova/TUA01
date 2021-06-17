@@ -5,31 +5,45 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
+import org.mockito.Spy;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.BookingExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.*;
 
 import javax.ws.rs.core.Response;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 class BookingManagerTest {
 
     private Booking booking1;
     private Booking booking2;
     private Booking booking3;
+    @Spy
+    private Booking booking4;
+    @Spy
+    private Cruise cruise = new Cruise();
+    @Spy
+    private Cabin cabin = new Cabin();
+    @Spy
+    private CabinType cabinType = new CabinType();
+    @Spy
+    private VehicleType vehicleType = new VehicleType();
+    @Spy
+    private Ferry ferry = new Ferry();
 
     private List<Booking> bookings;
+    @Spy
+    private List<Booking> bookings2;
 
     private Account account1;
     private Account account2;
@@ -38,6 +52,12 @@ class BookingManagerTest {
     private BookingFacadeLocal bookingFacadeLocal;
     @Mock
     private AccountMopFacadeLocal accountMopFacadeLocal;
+    @Mock
+    private CruiseFacadeLocal cruiseFacadeLocal;
+    @Mock
+    private CabinFacadeLocal cabinFacadeLocal;
+    @Mock
+    private VehicleTypeFacadeLocal vehicleTypeFacadeLocal;
 
     @InjectMocks
     private BookingManager bookingManager;
@@ -57,10 +77,152 @@ class BookingManagerTest {
         booking3 = new Booking();
         booking3.setAccount(account2);
 
+        booking4 = new Booking();
+        booking4.setNumberOfPeople(2);
+
         bookings = List.of(booking1, booking2, booking3);
+        bookings2 = new ArrayList<>();
+        bookings2.add(booking1);
 
         when(accountMopFacadeLocal.findByLogin("login")).thenReturn(account1);
+
+        cruise.setStartDate(Timestamp.from(Instant.now().plusSeconds(99999999L)));
+        cabinType.setCabinTypeName("First class");
+        cabin.setCabinType(cabinType);
+        cabin.setCapacity(5);
+        vehicleType.setRequiredSpace(1D);
+        ferry.setVehicleCapacity(100);
+        ferry.setOnDeckCapacity(100);
+        cruise.setFerry(ferry);
     }
+
+    @Test
+    void createBookingWithCabin() {
+        when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
+        when(cabinFacadeLocal.findByFerryAndNumber(any(), any())).thenReturn(cabin);
+        when(accountMopFacadeLocal.findByLogin(any())).thenReturn(account2);
+        when(vehicleTypeFacadeLocal.findByName(any())).thenReturn(vehicleType);
+        when(bookingFacadeLocal.getSumVehicleSpaceByCruise(cruise)).thenReturn(15D);
+        when(cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise)).thenReturn(new ArrayList<>());
+        when(bookingFacadeLocal.findAll()).thenReturn(bookings2);
+        int initialLength = bookings2.size();
+
+        doAnswer(invocation -> {
+            booking4.setNumber("numbernumb");
+            booking4.setPrice(123D);
+            booking4.setAccount(account2);
+            booking4.setCabin(cabin);
+            booking4.setCruise(cruise);
+            booking4.setVehicleType(vehicleType);
+            booking4.setCreationDate(Timestamp.from(Instant.now()));
+            bookings2.add(booking4);
+            return null;
+        }).when(bookingFacadeLocal).create(any());
+
+        assertDoesNotThrow(() -> bookingManager.createBooking(booking4, "ABCDEF000000", "A123", "Login2", "Car"));
+        assertEquals(initialLength + 1, bookings2.size());
+        verify(bookingFacadeLocal).create(any());
+    }
+
+    @Test
+    void createBookingWithoutCabin() {
+        when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
+        when(accountMopFacadeLocal.findByLogin(any())).thenReturn(account2);
+        when(vehicleTypeFacadeLocal.findByName(any())).thenReturn(vehicleType);
+        when(bookingFacadeLocal.getSumVehicleSpaceByCruise(cruise)).thenReturn(15D);
+        when(bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise)).thenReturn(1);
+        when(bookingFacadeLocal.findAll()).thenReturn(bookings2);
+        int initialLength = bookings2.size();
+
+        doAnswer(invocation -> {
+            booking4.setNumber("numbernumb");
+            booking4.setPrice(123D);
+            booking4.setAccount(account2);
+            booking4.setCabin(null);
+            booking4.setCruise(cruise);
+            booking4.setVehicleType(vehicleType);
+            booking4.setCreationDate(Timestamp.from(Instant.now()));
+            bookings2.add(booking4);
+            return null;
+        }).when(bookingFacadeLocal).create(any());
+
+        assertDoesNotThrow(() -> bookingManager.createBooking(booking4, "ABCDEF000000", null, "Login2", "Car"));
+        assertEquals(initialLength + 1, bookings2.size());
+        verify(bookingFacadeLocal).create(any());
+    }
+
+    @Test
+    void isNumber10digits() {
+        for(int i = 0; i < 50; i++){
+            String number = String.valueOf((long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L);
+            assertEquals(10, number.length());
+        }
+    }
+
+    @Test
+    void createBookingCruiseStartedException() {
+        cruise.setStartDate(Timestamp.from(Instant.now().minusSeconds(99999999L)));
+        when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
+        when(accountMopFacadeLocal.findByLogin(any())).thenReturn(account2);
+        when(vehicleTypeFacadeLocal.findByName(any())).thenReturn(vehicleType);
+
+        assertThrows(CruiseExceptions.class, () -> bookingManager.createBooking(booking4, "a", "a", "a", "a"));
+    }
+
+    @Test
+    void createBookingVehicleCapacityException() {
+        ferry.setVehicleCapacity(1);
+        vehicleType.setRequiredSpace(2.5);
+        when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
+        when(accountMopFacadeLocal.findByLogin(any())).thenReturn(account2);
+        when(vehicleTypeFacadeLocal.findByName(any())).thenReturn(vehicleType);
+        when(bookingFacadeLocal.getSumVehicleSpaceByCruise(cruise)).thenReturn(15D);
+
+        assertThrows(FerryExceptions.class, () -> bookingManager.createBooking(booking4, "a", "a", "a", "a"));
+    }
+
+    @Test
+    void createBookingCabinCapacityException() {
+        cabin.setCapacity(1);
+        booking4.setNumberOfPeople(10);
+        when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
+        when(cabinFacadeLocal.findByFerryAndNumber(any(), any())).thenReturn(cabin);
+        when(accountMopFacadeLocal.findByLogin(any())).thenReturn(account2);
+        when(vehicleTypeFacadeLocal.findByName(any())).thenReturn(vehicleType);
+        when(bookingFacadeLocal.getSumVehicleSpaceByCruise(cruise)).thenReturn(15D);
+        when(bookingFacadeLocal.findAll()).thenReturn(bookings2);
+        when(cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise)).thenReturn(new ArrayList<>());
+
+        assertThrows(CabinExceptions.class, () -> bookingManager.createBooking(booking4, "a", "a", "a", "a"));
+    }
+
+    @Test
+    void createBookingCabinOccupiedException() {
+        when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
+        when(cabinFacadeLocal.findByFerryAndNumber(any(), any())).thenReturn(cabin);
+        when(accountMopFacadeLocal.findByLogin(any())).thenReturn(account2);
+        when(vehicleTypeFacadeLocal.findByName(any())).thenReturn(vehicleType);
+        when(bookingFacadeLocal.getSumVehicleSpaceByCruise(cruise)).thenReturn(15D);
+        when(bookingFacadeLocal.findAll()).thenReturn(bookings2);
+        when(cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise)).thenReturn(List.of(cabin));
+
+        assertThrows(CabinExceptions.class, () -> bookingManager.createBooking(booking4, "a", "a", "a", "a"));
+    }
+
+    @Test
+    void createBookingFerryOnDeckException() {
+        ferry.setOnDeckCapacity(1);
+        booking4.setNumberOfPeople(10);
+        when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
+        when(accountMopFacadeLocal.findByLogin(any())).thenReturn(account2);
+        when(vehicleTypeFacadeLocal.findByName(any())).thenReturn(vehicleType);
+        when(bookingFacadeLocal.getSumVehicleSpaceByCruise(cruise)).thenReturn(15D);
+        when(bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise)).thenReturn(1);
+        when(bookingFacadeLocal.findAll()).thenReturn(bookings2);
+
+        assertThrows(FerryExceptions.class, () -> bookingManager.createBooking(booking4, "a", "a", "a", "a"));
+    }
+
 
     @Test
     void getAllBookings() {
@@ -137,4 +299,6 @@ class BookingManagerTest {
         assertEquals(Response.Status.CONFLICT.getStatusCode(), bookingExceptions.getResponse().getStatus());
         assertEquals(BookingExceptions.ERROR_CANNOT_CANCEL_RESERVATION, bookingExceptions.getResponse().getEntity());
     }
+
+
 }

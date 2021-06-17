@@ -4,10 +4,12 @@ import org.apache.commons.lang3.SerializationUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
@@ -23,6 +25,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Manager kajut
@@ -41,6 +44,8 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     private AccountMopFacadeLocal accountMopFacadeLocal;
     @Inject
     private FerryFacadeLocal ferryFacadeLocal;
+    @Inject
+    private CruiseFacadeLocal cruiseFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -58,6 +63,15 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public List<Cabin> getAllCabinsByFerryCodeAndCabinType(String code, String cabinType) {
         return null;
+    }
+
+    @Override
+    @RolesAllowed({"CLIENT"})
+    public List<Cabin> getFreeCabinsOnCruise(String number) {
+        Cruise cruise = cruiseFacadeLocal.findByNumber(number);
+        return cabinFacadeLocal.findCabinsOnCruise(cruise).stream()
+                .filter(c -> !cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise).contains(c))
+                .collect(Collectors.toList());
     }
 
     @Override
