@@ -65,12 +65,10 @@ public interface RouteManagerLocal {
     void createRoute(Route route, String startCode, String destCode, String createdBy);
 
     /**
-     * Metoda usuwa trasę o kodzie zawartym w encji {@link Route}.
+     * Metoda usuwająca trasę o podanym kodzie.
      *
-     * @param route       Encja typu {@link Route}
-     * @param start       Kod portu startowego usuwanej trasy
-     * @param destination Kod portu docelowego usuwanej trasy
-     * @param login       Login użytkownika usuwającego trasę
+     * @param code  Kod trasy, którą chcemy usunąć
+     * @param login Login użytkownika usuwającego trasę
      */
-    void removeRoute(Route route, String start, String destination, String login);
+    void removeRoute(String code, String login);
 }

@@ -98,16 +98,20 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeRoute(Route route, String start, String destination, String login) {
+    public void removeRoute(String code, String login) {
         try {
+            Route route = routeFacadeLocal.findByCode(code);
             routeFacadeLocal.remove(route);
+            logger.info("The user with login {} has removed the route from {} to {}",
+                    login, route.getStart().getCity(), route.getDestination().getCity());
         } catch (CommonExceptions ex) {
             if (ex.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
                     && ex.getResponse().getEntity() == CommonExceptions.ERROR_CONSTRAINT_VIOLATION) {
                 throw RouteExceptions.createConflictException(RouteExceptions.ERROR_ROUTE_USED_BY_CRUISE);
+            } else {
+                throw ex;
             }
         }
-        logger.info("The user with login {} has removed the route from {} to {}",
-                login, start, destination);
+
     }
 }
