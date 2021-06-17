@@ -221,7 +221,8 @@
         "route": "Route",
         "seaport_add": "Add seaport",
         "booking_list_own": "Your bookings",
-        "cabin_add": "Add cabin"
+        "cabin_add": "Add cabin",
+        "route_add": "Add route"
     },
     "session-timeout": {
         "info": {

@@ -221,7 +221,8 @@
         "cabin-edit": "Edycja kajuty",
         "route": "Trasa",
         "seaport_add": "Dodaj port",
-        "booking_list_own": "Twoje rezerwacje"
+        "booking_list_own": "Twoje rezerwacje",
+        "route_add": "Dodaj trasę"
     },
     "session-timeout": {
         "info": {

@@ -58,6 +58,8 @@ import { EditCabinComponent } from './ferrytales/edit-cabin/edit-cabin.component
 import { AddSeaportComponent } from './ferrytales/add-seaport/add-seaport.component';
 import { BookingsTableOwnComponent } from './ferrytales/bookings-table-own/bookings-table-own.component';
 import { AddCabinComponent } from './ferrytales/add-cabin/add-cabin.component';
+import { AddRouteComponent } from './ferrytales/add-route/add-route.component';
+// import { NgSelectModule } from '@ng-select/ng-select';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);

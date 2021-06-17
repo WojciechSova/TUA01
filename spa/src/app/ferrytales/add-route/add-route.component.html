@@ -1,0 +1,58 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToRouteListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.routes.list</a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.route_add</li>
+</ol>
+
+
+<div class="outer-div">
+    <form action="" class="edit-form" [formGroup]="form">
+        <div class="col">
+            <div class="row">
+                <label translate>add-route.new_route</label>
+            </div>
+            <div class="row">
+                <input #code type="text" id="add-code" formControlName="code"
+                       placeholder="{{'add-route.code' | translate}}"
+                       [ngClass]="{'is-invalid': form.controls.code.touched && form.controls.code.invalid}"/>
+                <div class="validation-error"
+                     *ngIf="form.controls.code.hasError('required') && form.controls.code.touched"
+                     translate>form.field_required
+                </div>
+                <div class="validation-error"
+                     *ngIf="form.controls.code.hasError('pattern') && form.controls.code.touched"
+                     translate>form.invalid_format
+                </div>
+            </div>
+            <div class="row">
+<!--                <ng-select class="select" [(ngModel)]="start">-->
+<!--                    <ng-option *ngFor="let seaport of seaportGeneralService.seaportsList" [value]="seaport">-->
+<!--                        {{seaport.city}}-->
+<!--                    </ng-option>-->
+<!--                </ng-select>-->
+                <select id="select-start" [(ngModel)]="start" name="startCode">
+                    <option *ngFor="let seaport of seaportGeneralService.seaportsList" [value]="seaport"
+                            (change)="setStartSeaport(seaport.code)">
+                        {{seaport.city}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <button class="edit-button"
+                (click)="addRoute(code.value)"
+                translate>form.save
+        </button>
+
+<!--        <img class="return-arrow" (click)="goToFerryBreadcrumb()"-->
+<!--             src="assets/imgs/back-arrow.png"-->
+<!--             alt=""/>-->
+    </form>
+</div>
