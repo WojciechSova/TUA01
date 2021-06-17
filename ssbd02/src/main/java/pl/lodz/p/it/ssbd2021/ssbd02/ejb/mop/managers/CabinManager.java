@@ -10,6 +10,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
@@ -19,6 +20,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -105,7 +107,19 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeCabin(Cabin cabin) {
-
+    public void removeCabin(String number, String removedBy) {
+        try {
+            Cabin cabin = cabinFacadeLocal.findByNumber(number);
+            cabinFacadeLocal.remove(cabin);
+            logger.info("The employee with login {} has deleted cabin with number {}",
+                    removedBy, number);
+        } catch (CommonExceptions ce) {
+            if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode() &&
+                    ce.getResponse().getEntity().equals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION)) {
+                throw CabinExceptions.createConflictException(CabinExceptions.ERROR_CABIN_USED_BY_BOOKING);
+            } else {
+                throw ce;
+            }
+        }
     }
 }

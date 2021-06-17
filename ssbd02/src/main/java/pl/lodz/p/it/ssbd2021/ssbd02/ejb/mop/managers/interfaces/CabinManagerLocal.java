@@ -67,7 +67,8 @@ public interface CabinManagerLocal {
     /**
      * Metoda usuwa kajutę o numerze zawartym w encji {@link Cabin}.
      *
-     * @param cabin Encja typu {@link Cabin}
+     * @param number    Numer biznesowy usuwanej kajuty
+     * @param removedBy Login użytkownika, który usunął encję
      */
-    void removeCabin(Cabin cabin);
+    void removeCabin(String number, String removedBy);
 }
