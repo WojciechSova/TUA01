@@ -123,10 +123,28 @@ public class RouteEndpoint {
         }
     }
 
+    /**
+     * Metoda umożliwiająca usunięcie trasy.
+     *
+     * @param code            Kod trasy, którą chcemy usunąć
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod odpowiedzi 200 w przypadku poprawnego usunięcia trasy
+     */
     @DELETE
     @Path("remove/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeRoute(@PathParam("code") String code, @Context SecurityContext securityContext) {
-        return null;
+        try {
+            Route route = routeManager.getRouteByCode(code);
+            routeManager.removeRoute(route, route.getStart().getCity(), route.getDestination().getCity(), securityContext.getUserPrincipal().getName());
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 }
