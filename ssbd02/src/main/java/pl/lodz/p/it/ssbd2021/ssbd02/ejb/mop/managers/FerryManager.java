@@ -99,7 +99,11 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeFerry(Ferry ferry) {
+    public void removeFerry(String ferryName, String login) {
+        Ferry ferry = ferryFacadeLocal.findByName(ferryName);
+        ferryFacadeLocal.remove(ferry);
 
+        logger.info("The user with login {} removed the ferry with name {}",
+                login, ferry.getName());
     }
 }

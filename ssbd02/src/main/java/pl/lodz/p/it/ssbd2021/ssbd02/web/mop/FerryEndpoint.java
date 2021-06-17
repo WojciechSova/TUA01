@@ -122,7 +122,10 @@ public class FerryEndpoint {
     @Path("remove/{name}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeFerry(@PathParam("name") String name, @Context SecurityContext securityContext) {
-        return null;
+        ferryManagerLocal.removeFerry(name, securityContext.getUserPrincipal().getName());
+
+        return Response.ok()
+                .build();
     }
 
     @PUT
