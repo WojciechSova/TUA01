@@ -28,7 +28,8 @@
         "save": "Save",
         "confirm": "Confirm",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "positive": "Number of people must be positive"
     },
     "links": {
         "about_us": "About us",
@@ -359,5 +360,19 @@
         "name": "*Ferry name",
         "vehicle_capacity": "*Vehicle capacity",
         "on_deck_capacity": "*On deck capacity"
+    },
+    "booking": {
+        "date": "Date:",
+        "route": "Route:",
+        "set_people": "Enter the number of people:",
+        "want_cabin": "Do you want to book a cabin?",
+        "yes": "Yes",
+        "no": "No",
+        "cabin_type": "Select cabin type:",
+        "pick_cabin_number": "Select cabin number:",
+        "cabin_number": "*Cabin number",
+        "vehicle_type": "Select vehicle type",
+        "ok": "Book it",
+        "people_number": "Number of people"
     }
 }
