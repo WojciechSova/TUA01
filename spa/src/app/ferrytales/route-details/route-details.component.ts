@@ -41,7 +41,7 @@ export class RouteDetailsComponent implements OnInit {
         this.router.navigate(['/ferrytales/routes']);
     }
 
-    addSeaport(): void {
+    addCruise(): void {
         this.router.navigate(['/ferrytales/routes/' + this.code + '/cruise/add']);
     }
 }
