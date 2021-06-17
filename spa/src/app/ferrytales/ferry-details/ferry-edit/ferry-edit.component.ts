@@ -16,8 +16,8 @@ export class FerryEditComponent {
     }
 
     form = new FormGroup({
-        onDeckCapacity: new FormControl('', [Validators.min(1)]),
-        vehicleCapacity: new FormControl('', [Validators.min(0)])
+        onDeckCapacity: new FormControl('', [Validators.pattern('[1-9][0-9]*')]),
+        vehicleCapacity: new FormControl('', [Validators.pattern('[0-9]*')])
     });
 
     changeFerry(): void {

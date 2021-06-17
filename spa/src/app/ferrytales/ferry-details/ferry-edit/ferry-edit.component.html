@@ -15,11 +15,11 @@
                        [ngClass]="{'is-invalid': form.controls.vehicleCapacity.touched && form.controls.vehicleCapacity.invalid}">
             </div>
             <div class="validation-error"
-                 *ngIf="form.controls.onDeckCapacity.hasError('min') && form.controls.onDeckCapacity.touched"
+                 *ngIf="form.controls.onDeckCapacity.hasError('pattern') && form.controls.onDeckCapacity.touched"
                  translate>ferry-edit.invalid_on_deck_capacity
             </div>
             <div class="validation-error"
-                 *ngIf="form.controls.vehicleCapacity.hasError('min') && form.controls.vehicleCapacity.touched"
+                 *ngIf="form.controls.vehicleCapacity.hasError('pattern') && form.controls.vehicleCapacity.touched"
                  translate>ferry-edit.invalid_vehicle_capacity
             </div>
             <button [disabled]="form.invalid" id="confirm" class="form-button" (click)="changeFerry()" translate>form.confirm</button>
