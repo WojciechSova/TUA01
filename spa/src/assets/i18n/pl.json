@@ -187,7 +187,8 @@
         "SAME_PASSWORD_AS_PREVIOUS": "Podane hasło jest takie samo jak wcześniejsze",
         "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
-        "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje"
+        "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
+        "DUPLICATE_CODE": "Podany kod już istnieje"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -210,19 +211,20 @@
             "list": "Lista tras"
         },
         "ferries_list": "Lista promów",
-        "seaport-list": "Lista portów",
+        "seaport_list": "Lista portów",
         "current_cruises_list": "Lista aktualnych rejsów",
         "seaport": "Port",
         "cruise": "Rejs",
         "cruise_add": "Dodaj rejs",
+        "cabin-edit": "Edycja kajuty",
         "ferry": "Prom",
         "cabin": "Kajuta",
         "booking": "Rezerwacja",
-        "cabin_add": "Dodaj kajutę",
-        "cabin-edit": "Edycja kajuty",
-        "route": "Trasa",
         "seaport_add": "Dodaj port",
-        "booking_list_own": "Twoje rezerwacje"
+        "booking_list_own": "Twoje rezerwacje",
+        "cabin_add": "Dodaj kajutę",
+        "route": "Trasa",
+        "ferry_add": "Dodaj prom"
     },
     "session-timeout": {
         "info": {
@@ -253,7 +255,8 @@
     "ferries-table": {
         "name": "Nazwa",
         "vehicle_capacity": "Pojemność garażowa",
-        "on_deck_capacity": "Pojemność pokładowa"
+        "on_deck_capacity": "Pojemność pokładowa",
+        "add_ferry": "Dodaj prom"
     },
     "ferry-details": {
         "name": "Nazwa:",
@@ -354,5 +357,11 @@
         "capacity": "Pojemność",
         "cabin_type": "Typ kajuty",
         "number": "Numer"
+    },
+    "add-ferry": {
+        "new_ferry": "Nowy prom",
+        "name": "*Nazwa promu",
+        "vehicle_capacity": "*Pojemność parkingowa",
+        "on_deck_capacity": "*Pojemność pokładowa"
     }
 }

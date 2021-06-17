@@ -69,6 +69,7 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
     @RolesAllowed({"EMPLOYEE"})
     public void createFerry(String login, Ferry ferry) {
         ferry.setVersion(0L);
+        ferry.setCreatedBy(accountMopFacadeLocal.findByLogin(login));
         ferryFacadeLocal.create(ferry);
         logger.info("The user with login {} created ferry with name {}",
                 login, ferry.getName());
