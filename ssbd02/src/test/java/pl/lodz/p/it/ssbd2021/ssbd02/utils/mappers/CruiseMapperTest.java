@@ -21,6 +21,7 @@ class CruiseMapperTest {
     Account accountModifiedBy;
     Account accountCreatedBy;
     Cruise cruise;
+    CruiseDetailsDTO cruiseDetailsDTO;
 
     @BeforeEach
     void setUp() {
@@ -29,6 +30,7 @@ class CruiseMapperTest {
         accountCreatedBy = new Account();
         accountCreatedBy.setLogin("CreatedLogin");
         cruise = createCruise();
+        cruiseDetailsDTO = createCruiseDetails();
     }
 
     @Test
@@ -68,6 +70,21 @@ class CruiseMapperTest {
         return cruise;
     }
 
+    private CruiseDetailsDTO createCruiseDetails() {
+        CruiseDetailsDTO cruiseDetailsDTO = new CruiseDetailsDTO();
+        cruiseDetailsDTO.setStartDate(Timestamp.valueOf("2020-09-23 10:10:10.0"));
+        cruiseDetailsDTO.setEndDate(Timestamp.valueOf("2020-09-24 10:10:10.0"));
+        cruiseDetailsDTO.setFerry(FerryMapper.createFerryGeneralDTOFromEntity(createFerry()));
+        cruiseDetailsDTO.setRoute(RouteMapper.createRouteGeneralDTOFromEntity(createRoute()));
+        cruiseDetailsDTO.setNumber("BARVEN000002");
+        cruiseDetailsDTO.setModificationDate(Timestamp.from(Instant.now()));
+        cruiseDetailsDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(accountModifiedBy));
+        cruiseDetailsDTO.setCreationDate(Timestamp.valueOf("2020-03-25 11:21:15"));
+        cruiseDetailsDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(accountCreatedBy));
+        cruiseDetailsDTO.setVersion(1L);
+        return cruiseDetailsDTO;
+    }
+
     private Route createRoute() {
         Route route = new Route();
         Seaport start = new Seaport();
@@ -96,5 +113,21 @@ class CruiseMapperTest {
         assertEquals(cruise.getCreationDate(), cruiseDetailsDTO.getCreationDate());
         assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getModifiedBy()), cruiseDetailsDTO.getModifiedBy());
         assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getCreatedBy()), cruiseDetailsDTO.getCreatedBy());
+    }
+
+    @Test
+    void createCruiseFromCruiseDetailsDTO() {
+        Cruise cruise = CruiseMapper.createCruiseFromCruiseDetailsDTO(this.cruiseDetailsDTO);
+
+        assertEquals(cruise.getVersion(), this.cruiseDetailsDTO.getVersion());
+        assertEquals(cruise.getStartDate(), this.cruiseDetailsDTO.getStartDate());
+        assertEquals(cruise.getEndDate(), this.cruiseDetailsDTO.getEndDate());
+        assertEquals(FerryMapper.createFerryGeneralDTOFromEntity(cruise.getFerry()), this.cruiseDetailsDTO.getFerry());
+        assertEquals(RouteMapper.createRouteGeneralDTOFromEntity(cruise.getRoute()), this.cruiseDetailsDTO.getRoute());
+        assertEquals(cruise.getNumber(), this.cruiseDetailsDTO.getNumber());
+        assertEquals(cruise.getModificationDate(), this.cruiseDetailsDTO.getModificationDate());
+        assertEquals(cruise.getCreationDate(), this.cruiseDetailsDTO.getCreationDate());
+        assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getModifiedBy()), this.cruiseDetailsDTO.getModifiedBy());
+        assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getCreatedBy()), this.cruiseDetailsDTO.getCreatedBy());
     }
 }
