@@ -1,0 +1,83 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToFerriesListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.ferries_list</a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToFerryBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.ferry</a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.cabin_add</li>
+</ol>
+
+<div class="outer-div">
+    <form class="edit-form" [formGroup]="form">
+        <div class="col">
+            <div class="row">
+                <label translate>add-cabin.new_cabin</label>
+            </div>
+            <div class="row">
+                <input #newNumber type="text" id="add-number" formControlName="number"
+                       placeholder="{{'add-cabin.number' | translate}}"
+                       [ngClass]="{'is-invalid': form.controls.number.touched && form.controls.number.invalid}"/>
+                <div class="validation-error"
+                     *ngIf="form.controls.number.hasError('required') && form.controls.number.touched"
+                     translate>form.field_required
+                </div>
+                <div class="validation-error"
+                     *ngIf="form.controls.number.hasError('pattern') && form.controls.number.touched"
+                     translate>form.invalid_format
+                </div>
+            </div>
+
+            <div class="row">
+                <input #newCapacity type="number" id="add-capacity" formControlName="capacity"
+                       placeholder="{{'add-cabin.capacity' | translate}}"
+                       [ngClass]="{'is-invalid': form.controls.capacity.touched && form.controls.capacity.invalid}"/>
+                <div class="validation-error"
+                     *ngIf="form.controls.capacity.hasError('required') && form.controls.capacity.touched"
+                     translate>form.field_required
+                </div>
+                <div class="validation-error"
+                     *ngIf="form.controls.capacity.hasError('min') && form.controls.capacity.touched"
+                     translate>form.invalid_format
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="checkbox-container">
+                    <label id="firstClass-label" class="container" translate>cabin-form.first
+                        <input type="radio" name="radio" value="{{'cabin-form.first' | translate}}" checked>
+                        <span class="checkmark"></span>
+                    </label>
+                    <label id="secondClass-label" class="container" translate>cabin-form.second
+                        <input type="radio" name="radio" value="{{'cabin-form.second' | translate}}">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label id="thirdClass-label" class="container" translate>cabin-form.third
+                        <input type="radio" name="radio" value="{{'cabin-form.third' | translate}}">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label id="disabledClass-label" class="container" translate>cabin-form.disabled
+                        <input type="radio" name="radio" value="{{'cabin-form.disabled' | translate}}">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button class="edit-button"
+                (click)="addCabin(newCapacity.value, getCurrentType(), newNumber.value)"
+                [disabled]=form.invalid translate>form.save
+        </button>
+        <img class="return-arrow" (click)="goToFerryBreadcrumb()"
+             src="assets/imgs/back-arrow.png"
+             alt=""/>
+    </form>
+</div>

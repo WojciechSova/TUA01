@@ -50,7 +50,7 @@ public class FerryMapper {
         ferryDetailsDTO.setVersion(ferry.getVersion());
         ferryDetailsDTO.setName(ferry.getName());
         ferryDetailsDTO.setCabins(cabins.stream()
-                .map(CabinMapper::createCabinDTOFromEntity)
+                .map(CabinMapper::createCabinGeneralDTOFromEntity)
                 .collect(Collectors.toList()));
         ferryDetailsDTO.setVehicleCapacity(ferry.getVehicleCapacity());
         ferryDetailsDTO.setOnDeckCapacity(ferry.getOnDeckCapacity());
@@ -59,5 +59,43 @@ public class FerryMapper {
         ferryDetailsDTO.setCreationDate(ferry.getCreationDate());
         ferryDetailsDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(ferry.getCreatedBy()));
         return ferryDetailsDTO;
+    }
+
+    /**
+     * Metoda mapująca obiekt typu {@link FerryGeneralDTO} na obiekt typu {@link Ferry}.
+     *
+     * @param ferryGeneralDTO Obiekt typu {@link FerryGeneralDTO}, który będzie mapowany.
+     * @return Obiekt typu {@link Ferry}
+     */
+    public static Ferry createFerryFromFerryGeneralDTO(FerryGeneralDTO ferryGeneralDTO) {
+        if (ferryGeneralDTO == null) {
+            return null;
+        }
+
+        Ferry ferry = new Ferry();
+        ferry.setVersion(ferryGeneralDTO.getVersion());
+        ferry.setName(ferryGeneralDTO.getName());
+        ferry.setVehicleCapacity(ferryGeneralDTO.getVehicleCapacity());
+        ferry.setOnDeckCapacity(ferryGeneralDTO.getOnDeckCapacity());
+        return ferry;
+    }
+
+    /**
+     * Metoda mapująca obiekt typu {@link FerryDetailsDTO} na obiekt typu {@link Ferry}.
+     *
+     * @param ferryDetailsDTO Obiekt typu {@link FerryDetailsDTO}, który będzie mapowany.
+     * @return Obiekt typu {@link Ferry}
+     */
+    public static Ferry createFerryFromFerryDetailsDTO(FerryDetailsDTO ferryDetailsDTO) {
+        if (ferryDetailsDTO == null) {
+            return null;
+        }
+
+        Ferry ferry = new Ferry();
+        ferry.setVersion(ferryDetailsDTO.getVersion());
+        ferry.setName(ferryDetailsDTO.getName());
+        ferry.setVehicleCapacity(ferryDetailsDTO.getVehicleCapacity());
+        ferry.setOnDeckCapacity(ferryDetailsDTO.getOnDeckCapacity());
+        return ferry;
     }
 }

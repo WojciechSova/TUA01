@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +44,21 @@ import { SeaportsTableComponent } from './ferrytales/seaports-table/seaports-tab
 import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
 import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
+import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
+import { CabinTableComponent } from './ferrytales/ferry-details/cabin-table/cabin-table.component';
+import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
+import { CurrentCruisesTableComponent } from './ferrytales/current-cruises-table/current-cruises-table.component';
+import { RouteDetailsComponent } from './ferrytales/route-details/route-details.component';
+import { CruiseTableComponent } from './ferrytales/route-details/route-table/cruise-table.component';
+import { SeaportEditComponent } from './ferrytales/seaport-details/seaport-edit/seaport-edit.component';
+import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
+import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.component';
+import { BookingTableComponent } from './ferrytales/booking-table/booking-table.component';
+import { EditCabinComponent } from './ferrytales/edit-cabin/edit-cabin.component';
+import { AddSeaportComponent } from './ferrytales/add-seaport/add-seaport.component';
+import { BookingsTableOwnComponent } from './ferrytales/bookings-table-own/bookings-table-own.component';
+import { AddCabinComponent } from './ferrytales/add-cabin/add-cabin.component';
+import { AddFerryComponent } from './ferrytales/add-ferry/add-ferry.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -58,7 +73,8 @@ export const errorHandlerProviders = [
 ];
 
 export const localeServiceProviders = [
-    { provide: LOCALE_ID,
+    {
+        provide: LOCALE_ID,
         useFactory: (localeService: LocaleService) => localeService.getLocale(),
         deps: [LocaleService]
     },
@@ -97,7 +113,23 @@ export const localeServiceProviders = [
         FerriesTableComponent,
         RoutesTableComponent,
         SeaportDetailsComponent,
-        SeaportsTableComponent
+        SeaportsTableComponent,
+        BookingDetailsComponent,
+        FerryDetailsComponent,
+        CabinTableComponent,
+        CruiseDetailsComponent,
+        CurrentCruisesTableComponent,
+        RouteDetailsComponent,
+        CruiseTableComponent,
+        SeaportEditComponent,
+        CabinDetailsComponent,
+        EditCabinComponent,
+        AddSeaportComponent,
+        BookingTableComponent,
+        CruiseDetailsComponent,
+        AddCabinComponent,
+        BookingsTableOwnComponent,
+        AddFerryComponent
     ],
     imports: [
         BrowserModule,

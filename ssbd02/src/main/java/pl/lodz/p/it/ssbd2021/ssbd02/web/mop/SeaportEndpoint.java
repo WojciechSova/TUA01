@@ -15,6 +15,9 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -96,18 +99,56 @@ public class SeaportEndpoint {
         }
     }
 
+    /**
+     * Metoda umożliwiająca dodanie nowego portu.
+     *
+     * @param seaportDetailsDTO Obiekt typu {@link SeaportDetailsDTO} przechowujący szczegóły nowego portu
+     * @param securityContext   Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego dodania portu
+     */
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addSeaport(SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response addSeaport(@Valid SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext) {
+        if (seaportDetailsDTO.getCity() == null || seaportDetailsDTO.getCode() == null) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        try {
+            seaportManager.createSeaport(securityContext.getUserPrincipal().getName(), SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO));
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateSeaport(SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext){
-        return null;
+    public Response updateSeaport(@Valid SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext,
+                                  @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
+        if (seaportDetailsDTO.getCity() == null || seaportDetailsDTO.getCity().isBlank()
+                || seaportDetailsDTO.getVersion() == null) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, seaportDetailsDTO)) {
+            throw CommonExceptions.createPreconditionFailedException();
+        }
+        try {
+            seaportManager.updateSeaport(SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO),
+                    securityContext.getUserPrincipal().getName());
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @DELETE

@@ -6,12 +6,14 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.FerryManagerLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.FerryMapper;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -68,7 +70,7 @@ public class FerryEndpoint {
      */
     @GET
     @Path("{name}")
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Response getFerry(@PathParam("name") String name) {
         try {
             FerryDetailsDTO ferryDetailsDTO = FerryMapper
@@ -76,6 +78,7 @@ public class FerryEndpoint {
 
             return Response.ok()
                     .entity(ferryDetailsDTO)
+                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(ferryDetailsDTO))
                     .build();
         } catch (GeneralException generalException) {
             throw generalException;
@@ -86,11 +89,33 @@ public class FerryEndpoint {
         }
     }
 
+    /**
+     * Metoda dodająca nowy prom.
+     *
+     * @param ferryDetailsDTO Tworzony prom
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego utworzenia promu
+     */
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addFerry(FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response addFerry(@Valid FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
+        if (ferryDetailsDTO.getName() == null || ferryDetailsDTO.getVehicleCapacity() == null
+                || ferryDetailsDTO.getOnDeckCapacity() == null) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        try {
+            ferryManagerLocal.createFerry(securityContext.getUserPrincipal().getName(),
+                    FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO));
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @DELETE

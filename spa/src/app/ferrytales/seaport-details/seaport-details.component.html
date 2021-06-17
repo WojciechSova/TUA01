@@ -13,31 +13,36 @@
 </ol>
 
 <div class="outer-div">
+    <div *ngIf="(seaportEdit.response) !== 'hide'" class="info-popup">
+        <p *ngIf="(seaportEdit.response) === 'success'" class="edit-success" translate>seaport-edit.result_success</p>
+        <p *ngIf="(seaportEdit.response) === 'failure'" class="edit-failure" translate>seaport-edit.result_failure</p>
+    </div>
     <div class="seaport-details" id="seaportDetails">
         <div class="button-container">
-            <button class="edit-button" translate>general.edit</button>
+            <button class="edit-button" (click)="changeEditSeaportFormVisible(seaportEdit = {
+                    isFormVisible: true, response: 'hide'})" translate>general.edit</button>
             <button class="edit-button" (click)="getSeaport()" translate>general.refresh</button>
         </div>
         <div class="col">
             <div class="row">
                 <label class="uppercase" translate>seaport-details.city</label>
-                <label id="login">{{seaportDetailsService.seaport?.city}}</label>
+                <label>{{seaportDetailsService.seaport?.city}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>seaport-details.code</label>
-                <label id="firstName">{{seaportDetailsService.seaport?.code}}</label>
+                <label>{{seaportDetailsService.seaport?.code}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>seaport-details.modification_date</label>
-                <label id="lastName">{{seaportDetailsService.seaport?.modificationDate | date :'short':identityService.getTimezone()}}</label>
+                <label>{{seaportDetailsService.seaport?.modificationDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>account-details.modified_by</label>
-                <label id="email">{{seaportDetailsService.seaport?.modifiedBy?.login}}</label>
+                <label>{{seaportDetailsService.seaport?.modifiedBy?.login}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>seaport-details.creation_date</label>
-                <label id="phoneNumber">{{seaportDetailsService.seaport?.creationDate | date :'short':identityService.getTimezone()}}</label>
+                <label>{{seaportDetailsService.seaport?.creationDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>account-details.created_by</label>
@@ -46,3 +51,5 @@
         </div>
     </div>
 </div>
+<app-seaport-edit *ngIf="seaportEdit.isFormVisible"
+                  (isEditSeaportFormVisible)="changeEditSeaportFormVisible($event)"></app-seaport-edit>

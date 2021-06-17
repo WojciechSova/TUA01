@@ -33,4 +33,12 @@ export class FerriesTableComponent implements OnInit {
     listFerries(): FerryGeneral[] {
         return this.ferryGeneralService.ferriesGeneralList;
     }
+
+    goToAddFerryForm(): void {
+        this.router.navigate(['/ferrytales/ferries/add']);
+    }
+
+    goToFerryDetails(name: string): void {
+        this.router.navigate(['/ferrytales/ferries/', name]);
+    }
 }

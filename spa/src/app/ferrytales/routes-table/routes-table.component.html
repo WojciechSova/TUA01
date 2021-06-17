@@ -22,13 +22,13 @@
         </tr>
         <tr *ngFor="let route of routes">
             <td>{{route.code}}</td>
-            <td>{{route.start}}</td>
-            <td>{{route.destination}}</td>
+            <td>{{route.start.city}}</td>
+            <td>{{route.destination.city}}</td>
             <td>
                 <button class="top-table-button delete-button" translate>route.delete</button>
             </td>
             <td>
-                <button class="top-table-button" translate>route.details</button>
+                <button class="top-table-button" routerLink="{{'/ferrytales/routes/' + route.code}}" translate>route.details</button>
             </td>
         </tr>
     </table>

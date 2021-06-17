@@ -1,11 +1,12 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.BookingExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -16,6 +17,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +35,9 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @Inject
     private BookingFacadeLocal bookingFacadeLocal;
+
     @Inject
-    private AccountFacadeLocal accountFacadeLocal;
+    private AccountMopFacadeLocal accountMopFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -56,14 +60,22 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     @Override
     @RolesAllowed({"CLIENT"})
     public List<Booking> getAllBookingsByAccount(String login) {
-        return Optional.of(bookingFacadeLocal.findAllByAccount(accountFacadeLocal.findByLogin(login))).
+        return Optional.of(bookingFacadeLocal.findAllByAccount(accountMopFacadeLocal.findByLogin(login))).
                 orElseThrow(CommonExceptions::createNoResultException);
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Booking getBookingByNumber(String number) {
         return Optional.ofNullable(bookingFacadeLocal.findByNumber(number))
+                .orElseThrow(CommonExceptions::createNoResultException);
+    }
+
+    @Override
+    @RolesAllowed({"CLIENT"})
+    public Booking getBookingByAccountAndNumber(String login, String number) {
+        return Optional.ofNullable(bookingFacadeLocal
+                .findByAccountAndNumber(accountMopFacadeLocal.findByLogin(login), number))
                 .orElseThrow(CommonExceptions::createNoResultException);
     }
 
@@ -81,7 +93,13 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @Override
     @RolesAllowed({"CLIENT"})
-    public void removeBooking(Booking booking) {
-
+    public void removeBooking(String login, String number) {
+        Booking bookingFromDB = bookingFacadeLocal.findByAccountAndNumber(accountMopFacadeLocal.findByLogin(login), number);
+        if (bookingFromDB.getCruise().getStartDate().before(Timestamp.from(Instant.now()))) {
+            throw BookingExceptions.createConflictException(BookingExceptions.ERROR_CANNOT_CANCEL_RESERVATION);
+        }
+        bookingFacadeLocal.remove(bookingFromDB);
+        logger.info("The user with login {} cancelled the reservation with number {}",
+                login, number);
     }
 }

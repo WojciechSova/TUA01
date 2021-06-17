@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.mop.BookingInterceptor;
 
 import javax.annotation.security.DenyAll;
@@ -29,7 +30,7 @@ import java.util.List;
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
-@Interceptors({GeneralInterceptor.class, BookingInterceptor.class, PersistenceInterceptor.class})
+@Interceptors({GeneralInterceptor.class, BookingInterceptor.class, PersistenceInterceptor.class, TrackerInterceptor.class})
 public class BookingFacade extends AbstractFacade<Booking> implements BookingFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")
@@ -45,7 +46,7 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Booking findByNumber(String number) {
         TypedQuery<Booking> typedQuery = entityManager.createNamedQuery("Booking.findByNumber", Booking.class);
         typedQuery.setParameter("number", number);
@@ -58,6 +59,15 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
         TypedQuery<Booking> typedQuery = entityManager.createNamedQuery("Booking.findByAccount", Booking.class);
         typedQuery.setParameter("account", account);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    @RolesAllowed({"CLIENT"})
+    public Booking findByAccountAndNumber(Account account, String number) {
+        TypedQuery<Booking> typedQuery = entityManager.createNamedQuery("Booking.findByAccountAndNumber", Booking.class);
+        typedQuery.setParameter("account", account);
+        typedQuery.setParameter("number", number);
+        return typedQuery.getSingleResult();
     }
 
     @Override

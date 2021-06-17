@@ -1,7 +1,9 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.FerryManagerLocal;
@@ -17,6 +19,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +40,9 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
 
     @Inject
     CabinFacadeLocal cabinFacadeLocal;
+
+    @Inject
+    AccountMopFacadeLocal accountMopFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -60,14 +67,34 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void createFerry(Ferry ferry) {
-
+    public void createFerry(String login, Ferry ferry) {
+        ferry.setVersion(0L);
+        ferry.setCreatedBy(accountMopFacadeLocal.findByLogin(login));
+        ferryFacadeLocal.create(ferry);
+        logger.info("The user with login {} created ferry with name {}",
+                login, ferry.getName());
     }
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void updateFerry(Ferry ferry, String modifiedBy) {
+        Ferry ferryFromDB = ferryFacadeLocal.findByName(ferry.getName());
 
+        Ferry ferryClone = SerializationUtils.clone(ferryFromDB);
+
+        ferryClone.setVersion(ferry.getVersion());
+        if (ferry.getOnDeckCapacity() != null) {
+            ferryClone.setOnDeckCapacity(ferry.getOnDeckCapacity());
+        }
+        if (ferry.getVehicleCapacity() != null) {
+            ferryClone.setVehicleCapacity(ferry.getVehicleCapacity());
+        }
+        ferryClone.setModifiedBy(accountMopFacadeLocal.findByLogin(modifiedBy));
+        ferryClone.setModificationDate(Timestamp.from(Instant.now()));
+
+        ferryFacadeLocal.edit(ferryClone);
+        logger.info("The user with login {} updated the ferry with name {}",
+                this.getInvokerId(), ferryFromDB.getName());
     }
 
     @Override

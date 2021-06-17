@@ -38,19 +38,22 @@ public interface CabinManagerLocal {
     List<Cabin> getAllCabinsByFerryCodeAndCabinType(String code, String cabinType);
 
     /**
-     * Metoda wyszukująca kajutę o podanym numerze.
+     * Metoda wyszukująca kajutę o podanym numerze, znajdującej się na podanym promie.
      *
-     * @param number Numer kajuty, którą chcemy wyszukać
+     * @param ferryName   Nazwa promu, na którym znajduje się kajuta
+     * @param cabinNumber Numer kajuty, którą chcemy wyszukać
      * @return Encja typu {@link Cabin}
      */
-    Cabin getCabinByNumber(String number);
+    Cabin getCabinByFerryAndNumber(String ferryName, String cabinNumber);
 
     /**
      * Metoda tworząca kajutę.
      *
-     * @param cabin Encja typu {@link Cabin}
+     * @param cabin     Encja typu {@link Cabin}
+     * @param createdBy Login użytkownika, który utworzył encję
+     * @param ferryName Nazwa promu, do którego zostanie przypisana kajuta
      */
-    void createCabin(Cabin cabin);
+    void createCabin(Cabin cabin, String createdBy, String ferryName);
 
     /**
      * Metoda aktualizuje kajutę o numerze zawartym w encji {@link Cabin} oraz ustawia konto w polu modifiedBy na konto

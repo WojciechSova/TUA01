@@ -2,12 +2,12 @@ package pl.lodz.p.it.ssbd2021.ssbd02.dto.mop;
 
 import lombok.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.AbstractDTO;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountGeneralDTO;
 
 import java.sql.Timestamp;
 
 /**
  * Klasa DTO zawierająca rejsy.
+ * Używana przy wyświetlania listy rejsów.
  *
  * @author Artur Madaj
  */
@@ -16,23 +16,16 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class CruiseDTO extends AbstractDTO {
+public class CruiseGeneralDTO extends AbstractDTO {
 
     private Timestamp startDate;
 
     private Timestamp endDate;
 
-    private RouteDetailsDTO route;
+    private RouteGeneralDTO route;
 
-    private FerryDetailsDTO ferry;
+    private FerryGeneralDTO ferry;
 
     private String number;
 
-    private Timestamp modificationDate;
-
-    private AccountGeneralDTO modifiedBy;
-
-    private Timestamp creationDate;
-
-    private AccountGeneralDTO createdBy;
 }

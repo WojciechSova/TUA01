@@ -31,9 +31,10 @@ public interface SeaportManagerLocal {
     /**
      * Metoda tworząca port.
      *
+     * @param login   Login użytkownika, który stworzył port
      * @param seaport Encja typu {@link Seaport}
      */
-    void createSeaport(Seaport seaport);
+    void createSeaport(String login, Seaport seaport);
 
     /**
      * Metoda aktualizuje port o kodzie zawartym w encji {@link Seaport} oraz ustawia konto w polu modifiedBy na konto

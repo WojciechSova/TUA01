@@ -36,13 +36,47 @@ public class SeaportMapper {
             return null;
         }
         SeaportDetailsDTO seaportDetailsDTO = new SeaportDetailsDTO();
+        seaportDetailsDTO.setVersion(seaport.getVersion());
         seaportDetailsDTO.setCity(seaport.getCity());
         seaportDetailsDTO.setCode(seaport.getCode());
         seaportDetailsDTO.setModificationDate(seaport.getModificationDate());
         seaportDetailsDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(seaport.getModifiedBy()));
         seaportDetailsDTO.setCreationDate(seaport.getCreationDate());
         seaportDetailsDTO.setCreatedBy(AccountMapper.createAccountGeneralDTOFromEntity(seaport.getCreatedBy()));
-        seaportDetailsDTO.setVersion(seaport.getVersion());
         return seaportDetailsDTO;
+    }
+
+    /**
+     * Metoda mapująca obiekt {@link SeaportDetailsDTO} na obiekt {@link Seaport}
+     *
+     * @param seaportDetailsDTO Obiekt {@link SeaportDetailsDTO}, który chcemy mapować
+     * @return Obiekt typu {@link Seaport}
+     */
+    public static Seaport createSeaportFromSeaportDetailsDTO(SeaportDetailsDTO seaportDetailsDTO) {
+        if (seaportDetailsDTO == null) {
+            return null;
+        }
+        Seaport seaport = new Seaport();
+        seaport.setCity(seaportDetailsDTO.getCity());
+        seaport.setCode(seaportDetailsDTO.getCode());
+        seaport.setVersion(seaportDetailsDTO.getVersion());
+        return seaport;
+    }
+
+    /**
+     * Metoda mapująca obiekt {@link SeaportGeneralDTO} na obiekt {@link Seaport}
+     *
+     * @param seaportGeneralDTO Obiekt {@link SeaportGeneralDTO}, który chcemy mapować
+     * @return Obiekt typu {@link Seaport}
+     */
+    public static Seaport createSeaportFromSeaportGeneralDTO(SeaportGeneralDTO seaportGeneralDTO) {
+        if (seaportGeneralDTO == null) {
+            return null;
+        }
+        Seaport seaport = new Seaport();
+        seaport.setCity(seaportGeneralDTO.getCity());
+        seaport.setCode(seaportGeneralDTO.getCode());
+        seaport.setVersion(seaportGeneralDTO.getVersion());
+        return seaport;
     }
 }

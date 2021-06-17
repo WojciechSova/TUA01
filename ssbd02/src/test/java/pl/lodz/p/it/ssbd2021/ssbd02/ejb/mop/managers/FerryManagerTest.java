@@ -3,17 +3,18 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
 import javax.ws.rs.WebApplicationException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +25,8 @@ import static org.mockito.Mockito.*;
 class FerryManagerTest {
 
     private final String ferryName1 = "ferry1";
+    private final String accountLogin1 = "login1";
+    private final String login = "login";
     private final List<Cabin> cabins = new ArrayList<>();
 
     @Mock
@@ -32,13 +35,23 @@ class FerryManagerTest {
     @Mock
     CabinFacadeLocal cabinFacadeLocal;
 
+    @Mock
+    AccountMopFacadeLocal accountMopFacadeLocal;
+
     @InjectMocks
     FerryManager ferryManager;
+
+    @Captor
+    private ArgumentCaptor<Ferry> ferryCaptor;
 
     @Spy
     Ferry ferry1 = new Ferry();
     @Spy
     Ferry ferry2 = new Ferry();
+    @Spy
+    Ferry ferry3 = new Ferry();
+    @Spy
+    Account account = new Account();
 
     private List<Ferry> ferries;
 
@@ -96,5 +109,45 @@ class FerryManagerTest {
         assertEquals(cabins, ferryManager.getFerryAndCabinsByFerryName(ferryName1).getValue());
         verify(ferryFacadeLocal, times(5)).findByName(ferryName1);
         verify(cabinFacadeLocal, times(5)).findAllByFerry(ferry1);
+    }
+
+    @Test
+    void createFerry() {
+        doAnswer(invocationOnMock -> {
+            ferries.add(ferry3);
+            return null;
+        }).when(ferryFacadeLocal).create(ferry3);
+
+        assertEquals(2, ferries.size());
+        assertDoesNotThrow(() -> ferryManager.createFerry(login, ferry3));
+        assertEquals(3, ferries.size());
+        assertEquals(ferry3.hashCode(), ferries.get(2).hashCode());
+        verify(ferryFacadeLocal).create(ferry3);
+    }
+
+    @Test
+    void updateFerry() {
+        Ferry ferry = new Ferry();
+
+        Timestamp timestamp = Timestamp.from(Instant.now());
+        ferry.setName(ferryName1);
+        ferry.setVersion(1L);
+        ferry.setVehicleCapacity(12);
+        ferry.setOnDeckCapacity(13);
+        ferry.setModifiedBy(account);
+        ferry.setModificationDate(timestamp);
+
+        when(ferryFacadeLocal.findByName(ferryName1)).thenReturn(ferry);
+        when(accountMopFacadeLocal.findByLogin(accountLogin1)).thenReturn(account);
+
+        ferryManager.updateFerry(ferry, accountLogin1);
+        verify(ferryFacadeLocal).edit(ferryCaptor.capture());
+        Ferry capturedFerry = ferryCaptor.getValue();
+
+        assertEquals(1L, capturedFerry.getVersion());
+        assertEquals(12, capturedFerry.getVehicleCapacity());
+        assertEquals(13, capturedFerry.getOnDeckCapacity());
+        assertEquals(account, capturedFerry.getModifiedBy());
+        assertTrue(timestamp.before(capturedFerry.getModificationDate()));
     }
 }

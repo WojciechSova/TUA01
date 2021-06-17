@@ -2,8 +2,8 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportDetailsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 
@@ -14,11 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SeaportMapperTest {
 
+    Account account;
     private Seaport seaport;
     private Seaport seaport2;
+    private SeaportDetailsDTO seaportDetailsDTO;
     private Account accountModifiedBy;
     private Account accountCreatedBy;
-    Account account;
 
     @BeforeEach
     void setUp() {
@@ -40,7 +41,7 @@ class SeaportMapperTest {
     }
 
     private Seaport createSeaport(String city, String code, Long version, Timestamp creationDate, Account createdBy,
-                                   Account modifiedBy, Timestamp modificationDate) {
+                                  Account modifiedBy, Timestamp modificationDate) {
         Seaport seaport = new Seaport();
         seaport.setCity(city);
         seaport.setCode(code);
@@ -50,6 +51,26 @@ class SeaportMapperTest {
         seaport.setModificationDate(modificationDate);
         seaport.setModifiedBy(modifiedBy);
         return seaport;
+    }
+
+    private SeaportDetailsDTO createSeaportDetailsDTO() {
+        SeaportDetailsDTO seaportDetailsDTO = new SeaportDetailsDTO();
+        seaportDetailsDTO.setCode("AZS");
+        seaportDetailsDTO.setCity("Pabianice");
+        seaportDetailsDTO.setVersion(1L);
+        seaportDetailsDTO.setCreationDate(Timestamp.from(Instant.now()));
+        seaportDetailsDTO.setModificationDate(Timestamp.from(Instant.now()));
+
+        return seaportDetailsDTO;
+    }
+
+    private SeaportGeneralDTO createSeaportGeneralDTO() {
+        SeaportGeneralDTO seaportGeneralDTO = new SeaportGeneralDTO();
+        seaportGeneralDTO.setCode("AZS");
+        seaportGeneralDTO.setCity("Pabianice");
+        seaportGeneralDTO.setVersion(1L);
+
+        return seaportGeneralDTO;
     }
 
     @Test
@@ -73,5 +94,25 @@ class SeaportMapperTest {
         assertEquals(seaport2.getCreationDate(), seaportDetailsDTO.getCreationDate());
         assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(seaport2.getCreatedBy()).hashCode(), seaportDetailsDTO.getCreatedBy().hashCode());
         assertEquals(seaport2.getVersion(), seaportDetailsDTO.getVersion());
+    }
+
+    @Test
+    void createSeaportFromSeaportDetailsDTO() {
+        SeaportDetailsDTO seaportDetailsDTO = createSeaportDetailsDTO();
+        Seaport seaport = SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO);
+
+        assertEquals(seaport.getCity(), seaportDetailsDTO.getCity());
+        assertEquals(seaport.getCode(), seaportDetailsDTO.getCode());
+        assertEquals(seaport.getVersion(), seaportDetailsDTO.getVersion());
+    }
+
+    @Test
+    void createSeaportFromSeaportGeneralDTO() {
+        SeaportGeneralDTO seaportGeneralDTO = createSeaportGeneralDTO();
+        Seaport seaport = SeaportMapper.createSeaportFromSeaportGeneralDTO(seaportGeneralDTO);
+
+        assertEquals(seaport.getCity(), seaportGeneralDTO.getCity());
+        assertEquals(seaport.getCode(), seaportGeneralDTO.getCode());
+        assertEquals(seaport.getVersion(), seaportGeneralDTO.getVersion());
     }
 }

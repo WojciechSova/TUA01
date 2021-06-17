@@ -2,9 +2,11 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinTypeFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
@@ -14,6 +16,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -26,7 +29,7 @@ import java.util.List;
 @Stateless
 @TransactionAttribute(TransactionAttributeType.MANDATORY)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
-@Interceptors({GeneralInterceptor.class, PersistenceInterceptor.class})
+@Interceptors({GeneralInterceptor.class, PersistenceInterceptor.class, TrackerInterceptor.class})
 public class CabinTypeFacade extends AbstractFacade<CabinType> implements CabinTypeFacadeLocal {
 
     @PersistenceContext(unitName = "ssbd02mopPU")
@@ -44,7 +47,9 @@ public class CabinTypeFacade extends AbstractFacade<CabinType> implements CabinT
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public CabinType findByName(String name) {
-        return null;
+        TypedQuery<CabinType> typedQuery = entityManager.createNamedQuery("CabinType.findByCabinTypeName", CabinType.class);
+        typedQuery.setParameter("cabinTypeName", name);
+        return typedQuery.getSingleResult();
     }
 
     @Override

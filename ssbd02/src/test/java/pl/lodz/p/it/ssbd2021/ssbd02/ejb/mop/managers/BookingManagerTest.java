@@ -5,16 +5,22 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.facades.interfaces.AccountFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.BookingExceptions;
 
+import javax.ws.rs.core.Response;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class BookingManagerTest {
@@ -31,7 +37,7 @@ class BookingManagerTest {
     @Mock
     private BookingFacadeLocal bookingFacadeLocal;
     @Mock
-    private AccountFacadeLocal accountFacadeLocal;
+    private AccountMopFacadeLocal accountMopFacadeLocal;
 
     @InjectMocks
     private BookingManager bookingManager;
@@ -40,6 +46,7 @@ class BookingManagerTest {
 
     @BeforeEach
     void initMocks() {
+        MockitoAnnotations.openMocks(this);
         account2 = new Account();
         account2.setLogin("login2");
         booking1 = new Booking();
@@ -52,7 +59,7 @@ class BookingManagerTest {
 
         bookings = List.of(booking1, booking2, booking3);
 
-        MockitoAnnotations.openMocks(this);
+        when(accountMopFacadeLocal.findByLogin("login")).thenReturn(account1);
     }
 
     @Test
@@ -66,9 +73,9 @@ class BookingManagerTest {
 
     @Test
     void getAllBookingsByAccount() {
-        List<Booking> byAccount2 = bookings.subList(1,3);
+        List<Booking> byAccount2 = bookings.subList(1, 3);
         when(bookingFacadeLocal.findAllByAccount(account2)).thenReturn(byAccount2);
-        when(accountFacadeLocal.findByLogin("login2")).thenReturn(account2);
+        when(accountMopFacadeLocal.findByLogin("login2")).thenReturn(account2);
 
         assertEquals(byAccount2, bookingManager.getAllBookingsByAccount("login2"));
         assertEquals(2, bookingManager.getAllBookingsByAccount("login2").size());
@@ -93,5 +100,41 @@ class BookingManagerTest {
         when(bookingFacadeLocal.findByNumber(nonExistentNumber)).thenReturn(null);
 
         assertThrows(CommonExceptions.class, () -> bookingManager.getBookingByNumber(nonExistentNumber));
+    }
+
+    @Test
+    void getBookingByAccountAndNumber() {
+        when(bookingFacadeLocal.findByAccountAndNumber(account1, bookingNumber1)).thenReturn(booking1);
+
+        Booking foundBooking = bookingManager.getBookingByAccountAndNumber("login", bookingNumber1);
+
+        assertEquals(booking1, foundBooking);
+        assertEquals(booking1.getNumber(), foundBooking.getNumber());
+        assertEquals(booking1.hashCode(), foundBooking.hashCode());
+    }
+
+    @Test
+    void removeBooking() {
+        Cruise cruise = new Cruise();
+        cruise.setStartDate(Timestamp.from(Instant.now().plusSeconds(60 * 60)));
+        booking1.setCruise(cruise);
+        when(bookingFacadeLocal.findByAccountAndNumber(account1, bookingNumber1)).thenReturn(booking1);
+
+        bookingManager.removeBooking("login", bookingNumber1);
+
+        verify(bookingFacadeLocal).remove(booking1);
+    }
+
+    @Test
+    void removeBookingException() {
+        Cruise cruise = new Cruise();
+        cruise.setStartDate(Timestamp.from(Instant.now().minusSeconds(60 * 60)));
+        booking1.setCruise(cruise);
+        when(bookingFacadeLocal.findByAccountAndNumber(account1, bookingNumber1)).thenReturn(booking1);
+
+        BookingExceptions bookingExceptions = assertThrows(BookingExceptions.class, () -> bookingManager.removeBooking("login", bookingNumber1));
+
+        assertEquals(Response.Status.CONFLICT.getStatusCode(), bookingExceptions.getResponse().getStatus());
+        assertEquals(BookingExceptions.ERROR_CANNOT_CANCEL_RESERVATION, bookingExceptions.getResponse().getEntity());
     }
 }
