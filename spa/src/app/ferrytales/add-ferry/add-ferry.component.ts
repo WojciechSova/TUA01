@@ -19,8 +19,8 @@ export class AddFerryComponent implements OnInit {
 
     form = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.maxLength(30)]),
-        vehicleCapacity: new FormControl('', [Validators.required, Validators.pattern('[0-9]{1,3}')]),
-        onDeckCapacity: new FormControl('', [Validators.required, Validators.pattern('[1-9][0-9]{0,3}')])
+        vehicleCapacity: new FormControl('', [Validators.required, Validators.min(0)]),
+        onDeckCapacity: new FormControl('', [Validators.required, Validators.min(1)])
     });
 
     ngOnInit(): void {
@@ -35,8 +35,11 @@ export class AddFerryComponent implements OnInit {
 
         this.ferryGeneralService.addFerry(ferry).subscribe(
             () => this.goToFerryListBreadcrumb(),
-            (error: any) => this.error = true
-        );
+            (error: any) => {
+                if (error.status === 409) {
+                    this.error = true;
+                }
+            });
     }
 
     goToHomeBreadcrumb(): void {

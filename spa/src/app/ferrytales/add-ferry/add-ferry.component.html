@@ -41,7 +41,7 @@
                      translate>form.field_required
                 </div>
                 <div class="validation-error"
-                     *ngIf="form.controls.vehicleCapacity.hasError('pattern') && form.controls.vehicleCapacity.touched"
+                     *ngIf="form.controls.vehicleCapacity.hasError('min') && form.controls.vehicleCapacity.touched"
                      translate>form.invalid_format
                 </div>
             </div>
@@ -55,7 +55,7 @@
                      translate>form.field_required
                 </div>
                 <div class="validation-error"
-                     *ngIf="form.controls.onDeckCapacity.hasError('pattern') && form.controls.onDeckCapacity.touched"
+                     *ngIf="form.controls.onDeckCapacity.hasError('min') && form.controls.onDeckCapacity.touched"
                      translate>form.invalid_format
                 </div>
             </div>
