@@ -10,10 +10,12 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.BookingExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CruiseExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.FerryExceptions;
 
 import javax.ws.rs.core.Response;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;

@@ -4,12 +4,15 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.*;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.VehicleType;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.BookingExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CruiseExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.FerryExceptions;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.BookingExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -22,12 +25,8 @@ import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import java.sql.Timestamp;
 import java.time.Instant;
-import javax.ws.rs.core.Response;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Manager rezerwacji
