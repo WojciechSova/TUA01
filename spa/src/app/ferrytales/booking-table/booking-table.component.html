@@ -25,10 +25,10 @@
         <tr *ngFor="let booking of bookingGeneralService.bookings">
             <td>{{booking.number}}</td>
             <td>{{booking.account.login}}</td>
-            <td>{{booking.cruise.route?.start?.city}}→{{booking.cruise.route?.destination?.city}}</td>
+            <td>{{booking.cruise.route?.start?.city}} → {{booking.cruise.route?.destination?.city}}</td>
             <td>
                 {{booking.cruise.startDate | date :'short':identityService.getTimezone()
-                }}-{{
+                }} - {{
                 booking.cruise.endDate | date :'short':identityService.getTimezone()}}
             </td>
             <td>{{booking.creationDate | date :'short':identityService.getTimezone()}}</td>

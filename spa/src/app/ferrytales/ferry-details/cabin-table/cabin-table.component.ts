@@ -1,21 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IdentityService } from '../../../services/utils/identity.service';
 import { CabinGeneral } from '../../../model/mop/CabinGeneral';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-cabin-table',
     templateUrl: './cabin-table.component.html',
     styleUrls: ['./cabin-table.component.less']
 })
-export class CabinTableComponent implements OnInit {
+export class CabinTableComponent {
 
-    constructor(public identityService: IdentityService) {
+    constructor(public identityService: IdentityService,
+                private router: Router) {
     }
 
     @Input()
     cabins: CabinGeneral[] = [];
 
-    ngOnInit(): void {
+    @Input()
+    ferry = '';
+
+    goToCabinDetails(cabinName: string): void {
+        this.router.navigate(['/ferrytales/ferries/', this.ferry, cabinName]);
     }
 
 }

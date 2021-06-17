@@ -28,7 +28,8 @@
         "save": "Save",
         "confirm": "Confirm",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "positive": "Number of people must be positive"
     },
     "links": {
         "about_us": "About us",
@@ -72,6 +73,10 @@
         "new": "New",
         "choose_a_time_zone": "Select a time zone",
         "UTC_time_zone": "UTC"
+    },
+    "ferry-edit": {
+        "invalid_on_deck_capacity": "On deck capacity must be positive",
+        "invalid_vehicle_capacity": "On deck capacity must be positive or zero"
     },
     "users-table": {
         "enter_your_search": "Enter your search...",
@@ -188,7 +193,8 @@
         "EMAIL_UNIQUE": "The e-mail address you entered already exists",
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists",
-        "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists"
+        "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists",
+        "DUPLICATE_CODE": "Provided code already exists"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -220,8 +226,10 @@
         "cabin": "Cabin",
         "booking": "Booking",
         "seaport_add": "Add seaport",
+        "booking_list_own": "Your bookings",
         "cabin_add": "Add cabin",
-        "route": "Route"
+        "route": "Route",
+        "ferry_add": "Add ferry"
     },
     "session-timeout": {
         "info": {
@@ -238,7 +246,8 @@
         "cruise": "Cruise",
         "cruise_date": "Cruise date",
         "creation_date": "Booking date",
-        "number": "Number"
+        "number": "Number",
+        "cancel": "Cancel"
     },
     "route": {
         "start": "Starting seaport",
@@ -251,7 +260,8 @@
     "ferries-table": {
         "name": "Name",
         "vehicle_capacity": "Vehicle capacity",
-        "on_deck_capacity": "On deck capacity"
+        "on_deck_capacity": "On deck capacity",
+        "add_ferry": "Add ferry"
     },
     "ferry-details": {
         "name": "Name:",
@@ -345,5 +355,25 @@
         "capacity": "Capacity",
         "cabin_type": "Cabin type",
         "number": "Number"
+    },
+    "add-ferry": {
+        "new_ferry": "New ferry",
+        "name": "*Ferry name",
+        "vehicle_capacity": "*Vehicle capacity",
+        "on_deck_capacity": "*On deck capacity"
+    },
+    "booking": {
+        "date": "Date:",
+        "route": "Route:",
+        "set_people": "Enter the number of people:",
+        "want_cabin": "Do you want to book a cabin?",
+        "yes": "Yes",
+        "no": "No",
+        "cabin_type": "Select cabin type:",
+        "pick_cabin_number": "Select cabin number:",
+        "cabin_number": "*Cabin number",
+        "vehicle_type": "Select vehicle type",
+        "ok": "Book it",
+        "people_number": "Number of people"
     }
 }

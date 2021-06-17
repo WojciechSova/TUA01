@@ -12,17 +12,22 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.RouteManagerLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.RouteMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.nio.file.attribute.UserPrincipal;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class RouteEndpointTest {
@@ -32,6 +37,11 @@ class RouteEndpointTest {
 
     @Mock
     private RouteManagerLocal routeManagerLocal;
+
+    @Mock
+    private SecurityContext securityContext;
+    @Mock
+    private UserPrincipal userPrincipal;
 
     private Route route1;
     private Route route2;
@@ -90,5 +100,42 @@ class RouteEndpointTest {
         assertTrue(DTOIdentitySignerVerifier.verifyDTOIntegrity(response.getEntityTag().getValue(),
                 ((RouteDetailsDTO) response.getEntity())));
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+    }
+
+    @Test
+    void addRoute() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("login");
+
+        RouteDetailsDTO routeDetailsDTO = new RouteDetailsDTO();
+        routeDetailsDTO.setCode("ABCBAC");
+        routeDetailsDTO.setCreationDate(Timestamp.from(Instant.now()));
+
+        routeEndpoint.addRoute("STA", "DES", routeDetailsDTO, securityContext);
+
+        verify(routeManagerLocal).createRoute(RouteMapper.createRouteFromRouteDetailsDTO(routeDetailsDTO),
+                "STA", "DES", "login");
+    }
+
+    @Test
+    void addRouteException() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("login");
+
+        RouteDetailsDTO routeDetailsDTO = new RouteDetailsDTO();
+        routeDetailsDTO.setCode("ABCBAC");
+        routeDetailsDTO.setCreationDate(Timestamp.from(Instant.now()));
+
+        assertThrows(CommonExceptions.class, () -> {
+            routeEndpoint.addRoute("STAwrong", "DES", routeDetailsDTO, securityContext);
+        });
+
+        assertThrows(CommonExceptions.class, () -> {
+            routeEndpoint.addRoute("STA", "DESwrong", routeDetailsDTO, securityContext);
+        });
+
+        assertThrows(CommonExceptions.class, () -> {
+            routeEndpoint.addRoute("STA", "STA", routeDetailsDTO, securityContext);
+        });
     }
 }

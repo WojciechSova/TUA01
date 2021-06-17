@@ -5,6 +5,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.SeaportFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.SeaportManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.SeaportExceptions;
@@ -55,7 +56,9 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void createSeaport(String login, Seaport seaport) {
+        Account accCreatedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
         seaport.setVersion(0L);
+        seaport.setCreatedBy(accCreatedBy);
         seaportFacadeLocal.create(seaport);
         logger.info("The user with login {} has created seaport with code {}",
                 login, seaport.getCode());
@@ -83,13 +86,18 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeSeaport(Seaport seaport) {
+    public void removeSeaport(String seaportCode, String userLogin) {
         try {
+            Seaport seaport = seaportFacadeLocal.findByCode(seaportCode);
             seaportFacadeLocal.remove(seaport);
+            logger.info("The employee with login {} has deleted seaport with code {}",
+                    userLogin, seaportCode);
         } catch (CommonExceptions ce) {
             if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
                 && ce.getResponse().getEntity().equals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION)){
                 throw SeaportExceptions.createConflictException(SeaportExceptions.ERROR_SEAPORT_USED_BY_ROUTE);
+            } else {
+                throw ce;
             }
         }
 

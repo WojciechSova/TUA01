@@ -33,6 +33,8 @@ class FerryMapperTest {
     @BeforeEach
     public void setUp() {
         ferry = createFerry();
+        ferryGeneralDTO = createFerryGeneral();
+        ferryDetailsDTO = createFerryDetails();
         accountCreatedBy = new Account();
         accountCreatedBy.setLogin("CreatedByLogin");
         accountModifiedBy = new Account();
@@ -73,6 +75,30 @@ class FerryMapperTest {
         );
     }
 
+    @Test
+    void createFerryFromFerryGeneralDTO() {
+        ferry = FerryMapper.createFerryFromFerryGeneralDTO(ferryGeneralDTO);
+
+        assertAll(
+                () -> assertEquals(ferryGeneralDTO.getVersion(), ferry.getVersion()),
+                () -> assertEquals(ferryGeneralDTO.getName(), ferry.getName()),
+                () -> assertEquals(ferryGeneralDTO.getOnDeckCapacity(), ferry.getOnDeckCapacity()),
+                () -> assertEquals(ferryGeneralDTO.getVehicleCapacity(), ferry.getVehicleCapacity())
+        );
+    }
+
+    @Test
+    void createFerryFromFerryDetailsDTO() {
+        ferry = FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO);
+
+        assertAll(
+                () -> assertEquals(ferryDetailsDTO.getVersion(), ferry.getVersion()),
+                () -> assertEquals(ferryDetailsDTO.getName(), ferry.getName()),
+                () -> assertEquals(ferryDetailsDTO.getOnDeckCapacity(), ferry.getOnDeckCapacity()),
+                () -> assertEquals(ferryDetailsDTO.getVehicleCapacity(), ferry.getVehicleCapacity())
+        );
+    }
+
     private Ferry createFerry() {
         Ferry ferry = new Ferry();
         ferry.setName("Prom");
@@ -80,6 +106,26 @@ class FerryMapperTest {
         ferry.setVehicleCapacity(20);
         ferry.setVersion(1L);
         return ferry;
+    }
+
+    private FerryGeneralDTO createFerryGeneral() {
+        FerryGeneralDTO ferryGeneralDTO = new FerryGeneralDTO();
+        ferryGeneralDTO.setName("Prom");
+        ferryGeneralDTO.setOnDeckCapacity(50);
+        ferryGeneralDTO.setVehicleCapacity(20);
+        ferryGeneralDTO.setVersion(1L);
+        return ferryGeneralDTO;
+    }
+
+    private FerryDetailsDTO createFerryDetails() {
+        FerryDetailsDTO ferryDetailsDTO = new FerryDetailsDTO();
+        ferryDetailsDTO.setVersion(1L);
+        ferryDetailsDTO.setName("Prom");
+        ferryDetailsDTO.setOnDeckCapacity(50);
+        ferryDetailsDTO.setVehicleCapacity(20);
+        ferryDetailsDTO.setModificationDate(Timestamp.from(Instant.now()));
+        ferryDetailsDTO.setCreationDate(Timestamp.from(Instant.now()));
+        return ferryDetailsDTO;
     }
 
     private CabinType createCabinType() {

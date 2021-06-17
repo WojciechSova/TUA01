@@ -17,6 +17,7 @@ import { SeaportsTableComponent } from './ferrytales/seaports-table/seaports-tab
 import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
 import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
+import {BookingFormComponent} from './ferrytales/booking-form/booking-form.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
 import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
 import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
@@ -24,7 +25,10 @@ import { CurrentCruisesTableComponent } from './ferrytales/current-cruises-table
 import { AddSeaportComponent } from './ferrytales/add-seaport/add-seaport.component';
 import { EditCabinComponent } from './ferrytales/edit-cabin/edit-cabin.component';
 import { RouteDetailsComponent } from './ferrytales/route-details/route-details.component';
+import { BookingsTableOwnComponent } from './ferrytales/bookings-table-own/bookings-table-own.component';
 import { AddCabinComponent } from './ferrytales/add-cabin/add-cabin.component';
+import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.component';
+import { AddFerryComponent } from './ferrytales/add-ferry/add-ferry.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
@@ -36,14 +40,19 @@ const ferrytalesChildren: Routes = [
     { path: 'ferries', component: FerriesTableComponent },
     { path: 'seaports/:code', component: SeaportDetailsComponent },
     { path: 'routes', component: RoutesTableComponent },
+    { path: 'booking/create', component: BookingFormComponent },
     { path: 'routes/:code', component: RouteDetailsComponent },
     { path: 'cruises/:number', component: CruiseDetailsComponent },
     { path: 'seaports', component: SeaportsTableComponent },
     { path: 'cabin/edit', component: EditCabinComponent },
+    { path: 'ferries/add', component: AddFerryComponent },
     { path: 'ferries/:name', component: FerryDetailsComponent },
     { path: 'bookings/:number', component: BookingDetailsComponent },
+    { path: 'bookings/own/:number', component: BookingDetailsComponent },
     { path: 'current', component: CurrentCruisesTableComponent },
-    { path: 'ferries/:name/addCabin', component: AddCabinComponent }
+    { path: 'ferries/:name/addCabin', component: AddCabinComponent },
+    { path: 'my/bookings', component: BookingsTableOwnComponent },
+    { path: 'ferries/:ferry/:cabin', component: CabinDetailsComponent },
 ];
 
 const routes: Routes = [

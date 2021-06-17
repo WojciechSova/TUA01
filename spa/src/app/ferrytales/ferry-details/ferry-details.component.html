@@ -16,7 +16,8 @@
     <div class="ferry-details" id="ferryDetails">
         <div class="button-container">
             <button class="edit-button button-add" (click)="addCabin()" translate>ferry-details.add_cabin</button>
-            <button class="edit-button" translate>general.edit</button>
+            <button class="edit-button" (click)="changeEditFerryFormVisible(ferryEdit = {
+                    isFormVisible: true, response: 'hide'})" translate>general.edit</button>
             <button class="edit-button" (click)="getFerry()" translate>general.refresh</button>
         </div>
         <div class="col">
@@ -54,7 +55,7 @@
             <div *ngIf="ferryDetailsService.ferry.cabins.length > 0; then showCabinTable else doNotShowCabinTable"></div>
             <ng-template #showCabinTable>
                 <label class="uppercase-cabins" translate>ferry-details.cabins</label>
-                <app-cabin-table id="cabins" [cabins]="ferryDetailsService.ferry.cabins"></app-cabin-table>
+                <app-cabin-table id="cabins" [ferry]="ferryDetailsService.ferry.name" [cabins]="ferryDetailsService.ferry.cabins"></app-cabin-table>
             </ng-template>
             <ng-template #doNotShowCabinTable>
                 <label class="uppercase-cabins" translate>ferry-details.no_cabins</label>
@@ -62,3 +63,5 @@
         </div>
     </div>
 </div>
+<app-ferry-edit *ngIf="ferryEdit.isFormVisible"
+                  (isEditFerryFormVisible)="changeEditFerryFormVisible($event)"></app-ferry-edit>
