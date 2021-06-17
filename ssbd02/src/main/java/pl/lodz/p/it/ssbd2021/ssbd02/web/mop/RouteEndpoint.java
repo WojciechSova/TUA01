@@ -134,9 +134,12 @@ public class RouteEndpoint {
     @Path("remove/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeRoute(@PathParam("code") String code, @Context SecurityContext securityContext) {
+        if (!code.matches("[A-Z]{6}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
         try {
-            Route route = routeManager.getRouteByCode(code);
-            routeManager.removeRoute(route, route.getStart().getCity(), route.getDestination().getCity(), securityContext.getUserPrincipal().getName());
+            routeManager.removeRoute(code, securityContext.getUserPrincipal().getName());
             return Response.ok()
                     .build();
         } catch (GeneralException generalException) {
