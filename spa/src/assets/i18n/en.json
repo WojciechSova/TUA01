@@ -73,6 +73,10 @@
         "choose_a_time_zone": "Select a time zone",
         "UTC_time_zone": "UTC"
     },
+    "ferry-edit": {
+        "invalid_on_deck_capacity": "On deck capacity must be positive",
+        "invalid_vehicle_capacity": "On deck capacity must be positive or zero"
+    },
     "users-table": {
         "enter_your_search": "Enter your search...",
         "access_levels": "Access levels",
