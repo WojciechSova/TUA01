@@ -212,18 +212,19 @@
             "list": "Lista tras"
         },
         "ferries_list": "Lista promów",
-        "seaport-list": "Lista portów",
+        "seaport_list": "Lista portów",
         "current_cruises_list": "Lista aktualnych rejsów",
         "seaport": "Port",
         "cruise": "Rejs",
+        "cabin-edit": "Edycja kajuty",
         "ferry": "Prom",
         "cabin": "Kajuta",
         "booking": "Rezerwacja",
-        "cabin_add": "Dodaj kajutę",
-        "cabin-edit": "Edycja kajuty",
-        "route": "Trasa",
         "seaport_add": "Dodaj port",
-        "booking_list_own": "Twoje rezerwacje"
+        "booking_list_own": "Twoje rezerwacje",
+        "cabin_add": "Dodaj kajutę",
+        "route": "Trasa",
+        "ferry_add": "Dodaj prom"
     },
     "session-timeout": {
         "info": {
@@ -254,7 +255,8 @@
     "ferries-table": {
         "name": "Nazwa",
         "vehicle_capacity": "Pojemność garażowa",
-        "on_deck_capacity": "Pojemność pokładowa"
+        "on_deck_capacity": "Pojemność pokładowa",
+        "add_ferry": "Dodaj prom"
     },
     "ferry-details": {
         "name": "Nazwa:",
@@ -348,6 +350,12 @@
         "capacity": "Pojemność",
         "cabin_type": "Typ kajuty",
         "number": "Numer"
+    },
+    "add-ferry": {
+        "new_ferry": "Nowy prom",
+        "name": "*Nazwa promu",
+        "vehicle_capacity": "*Pojemność parkingowa",
+        "on_deck_capacity": "*Pojemność pokładowa"
     },
     "booking": {
         "date": "Data:",
