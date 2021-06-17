@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CruiseExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.FerryExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.BookingExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -19,6 +20,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import java.sql.Timestamp;
+import java.time.Instant;
 import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -158,7 +161,13 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @Override
     @RolesAllowed({"CLIENT"})
-    public void removeBooking(Booking booking) {
-
+    public void removeBooking(String login, String number) {
+        Booking bookingFromDB = bookingFacadeLocal.findByAccountAndNumber(accountMopFacadeLocal.findByLogin(login), number);
+        if (bookingFromDB.getCruise().getStartDate().before(Timestamp.from(Instant.now()))) {
+            throw BookingExceptions.createConflictException(BookingExceptions.ERROR_CANNOT_CANCEL_RESERVATION);
+        }
+        bookingFacadeLocal.remove(bookingFromDB);
+        logger.info("The user with login {} cancelled the reservation with number {}",
+                login, number);
     }
 }

@@ -79,4 +79,23 @@ public class FerryMapper {
         ferry.setOnDeckCapacity(ferryGeneralDTO.getOnDeckCapacity());
         return ferry;
     }
+
+    /**
+     * Metoda mapująca obiekt typu {@link FerryDetailsDTO} na obiekt typu {@link Ferry}.
+     *
+     * @param ferryDetailsDTO Obiekt typu {@link FerryDetailsDTO}, który będzie mapowany.
+     * @return Obiekt typu {@link Ferry}
+     */
+    public static Ferry createFerryFromFerryDetailsDTO(FerryDetailsDTO ferryDetailsDTO) {
+        if (ferryDetailsDTO == null) {
+            return null;
+        }
+
+        Ferry ferry = new Ferry();
+        ferry.setVersion(ferryDetailsDTO.getVersion());
+        ferry.setName(ferryDetailsDTO.getName());
+        ferry.setVehicleCapacity(ferryDetailsDTO.getVehicleCapacity());
+        ferry.setOnDeckCapacity(ferryDetailsDTO.getOnDeckCapacity());
+        return ferry;
+    }
 }
