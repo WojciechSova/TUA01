@@ -59,6 +59,7 @@ public interface FerryManagerLocal {
      * Metoda usuwa prom o podanej nazwie.
      *
      * @param ferryName Nazwa promu, który ma zostać usunięty
+     * @param login     Login użytkownika, który chce usunąć prom
      */
     void removeFerry(String ferryName, String login);
 }
