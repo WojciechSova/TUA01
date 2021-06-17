@@ -29,7 +29,7 @@
         "confirm": "Confirm",
         "yes": "Yes",
         "no": "No",
-        "positive": "Liczba osób musi być dodatnia"
+        "positive": "Number of people must be positive"
     },
     "links": {
         "about_us": "About us",
