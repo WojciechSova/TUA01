@@ -1,7 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import org.apache.commons.lang3.SerializationUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.AccountMopFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
@@ -108,7 +108,23 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void updateCruise(Cruise cruise, String modifiedBy) {
+        Cruise databaseCruise = cruiseFacadeLocal.findByNumber(cruise.getNumber());
 
+        Cruise cruiseClone = SerializationUtils.clone(databaseCruise);
+
+        cruiseClone.setVersion(databaseCruise.getVersion());
+
+        cruiseClone.setStartDate(cruise.getStartDate());
+        cruiseClone.setEndDate(cruise.getEndDate());
+        cruiseClone.setRoute(databaseCruise.getRoute());
+        cruiseClone.setFerry(databaseCruise.getFerry());
+        cruiseClone.setModifiedBy(accountMopFacade.findByLogin(modifiedBy));
+        cruiseClone.setModificationDate(Timestamp.from(Instant.now()));
+        cruiseClone.setCreatedBy(databaseCruise.getCreatedBy());
+
+        cruiseFacadeLocal.edit(cruiseClone);
+        logger.info("The user with login {} updated the cruise with number {}",
+                modifiedBy, cruise.getNumber());
     }
 
     @Override

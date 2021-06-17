@@ -8,12 +8,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.RouteFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
@@ -21,6 +19,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -116,5 +115,32 @@ class CruiseManagerTest {
         Assertions.assertEquals(account, cruise1.getCreatedBy());
         Assertions.assertEquals(ferry, cruise1.getFerry());
         Assertions.assertEquals(route, cruise1.getRoute());
+    }
+
+    @Test
+    void updateCruise() {
+        Timestamp startDate = Timestamp.from(Instant.now());
+        Timestamp endDate = Timestamp.from(Instant.now().plus(1, ChronoUnit.HOURS));
+
+        cruise2.setVersion(10L);
+        cruise2.setNumber(cruise1.getNumber());
+        cruise2.setStartDate(startDate);
+        cruise2.setEndDate(endDate);
+
+        doAnswer(invocationOnMock -> {
+            cruise1.setVersion(cruise2.getVersion());
+            cruise1.setStartDate(cruise2.getStartDate());
+            cruise1.setEndDate(cruise2.getEndDate());
+            cruise1.setModifiedBy(account);
+            return null;
+        }).when(cruiseFacadeLocal).edit(any());
+
+        when(cruiseFacadeLocal.findByNumber(cruise1.getNumber())).thenReturn(cruise1);
+        when(accountMopFacadeLocal.findByLogin("login")).thenReturn(account);
+
+        cruiseManager.updateCruise(cruise2, "login");
+        Assertions.assertEquals(account, cruise1.getModifiedBy());
+        Assertions.assertEquals(startDate, cruise1.getStartDate());
+        Assertions.assertEquals(endDate, cruise1.getEndDate());
     }
 }
