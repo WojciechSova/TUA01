@@ -59,6 +59,7 @@ import { AddSeaportComponent } from './ferrytales/add-seaport/add-seaport.compon
 import { BookingsTableOwnComponent } from './ferrytales/bookings-table-own/bookings-table-own.component';
 import { AddCabinComponent } from './ferrytales/add-cabin/add-cabin.component';
 import { BookingFormComponent } from './ferrytales/booking-form/booking-form.component';
+import { FerryEditComponent } from './ferrytales/ferry-details/ferry-edit/ferry-edit.component';
 import { AddFerryComponent } from './ferrytales/add-ferry/add-ferry.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
@@ -131,7 +132,8 @@ export const localeServiceProviders = [
         CruiseDetailsComponent,
         AddCabinComponent,
         BookingsTableOwnComponent,
-        AddFerryComponent
+        AddFerryComponent,
+        FerryEditComponent
     ],
     imports: [
         BrowserModule,
