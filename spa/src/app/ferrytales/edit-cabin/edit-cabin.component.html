@@ -63,6 +63,8 @@
             </button>
             <img class="return-arrow" (click)="goToCabinBreadcrumb()" src="assets/imgs/back-arrow.png"
                  alt=""/>
+            <div class="edit-error" *ngIf="editFailed"
+                 translate>form.cabin_edit_failed</div>
         </form>
 
     </ng-template>

@@ -28,7 +28,8 @@
         "save": "Zapisz",
         "confirm": "Potwierdź",
         "yes": "Tak",
-        "no": "Nie"
+        "no": "Nie",
+        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem"
     },
     "links": {
         "about_us": "O nas",

@@ -19,12 +19,13 @@ export class EditCabinComponent implements OnInit {
     };
 
     form = new FormGroup({
-        capacity: new FormControl('', [Validators.pattern('[1-9][0-9]*')])
+        capacity: new FormControl('', [Validators.pattern('[1-9][0-9]?')])
     });
 
     private updating = false;
     private cabinNumber = '';
     private ferryName = '';
+    editFailed = false;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -96,6 +97,9 @@ export class EditCabinComponent implements OnInit {
                 this.router.navigate(['ferrytales/ferries/', this.ferryName, this.cabinNumber]);
                 this.updating = true;
                 this.getCabin();
+            }, () => {
+                    this.editFailed = true;
+                    this.getCabin();
             }
         );
     }
