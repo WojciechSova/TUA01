@@ -317,7 +317,8 @@
         "new_cruise": "Nowy rejs",
         "number": "*Numer rejsu",
         "start_date": "*Data rozpoczęcia rejsu",
-        "end_date": "*Data zakończenia rejsu"
+        "end_date": "*Data zakończenia rejsu",
+        "ferry": "*Prom"
     },
     "seaport-edit": {
         "required_city": "*City name",

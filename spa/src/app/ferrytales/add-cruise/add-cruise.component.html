@@ -56,6 +56,19 @@
                      translate>form.field_required
                 </div>
             </div>
+
+            <div class="row">
+                <select [(ngModel)]="ferry" id="choose-ferry" formControlName="ferry"
+                        [ngClass]="{'is-invalid': form.controls.ferry.touched && form.controls.ferry.invalid}">
+                    <option value="" translate>add-cruise.ferry</option>
+                    <option *ngFor="let ferry of ferryGeneralService.ferriesGeneralList"
+                            value="{{ferry.name}}">{{ferry.name}}</option>
+                </select>
+                <div class="validation-error"
+                     *ngIf="form.controls.ferry.hasError('required') && form.controls.ferry.touched"
+                     translate>form.field_required
+                </div>
+            </div>
         </div>
         <button class="edit-button"
                 [disabled]=form.invalid translate>form.save

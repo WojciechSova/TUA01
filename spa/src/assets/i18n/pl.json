@@ -317,7 +317,8 @@
         "new_cruise": "New cruise",
         "number": "*Number",
         "start_date": "*Start date",
-        "end_date": "*End date"
+        "end_date": "*End date",
+        "ferry": "*Ferry"
     },
     "seaport-edit": {
         "required_city": "*Nazwa miasta",
