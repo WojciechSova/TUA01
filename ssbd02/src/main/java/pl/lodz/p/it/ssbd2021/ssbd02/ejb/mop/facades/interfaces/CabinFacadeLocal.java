@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacadeInterface;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 
 import javax.ejb.Local;
@@ -42,4 +43,12 @@ public interface CabinFacadeLocal extends AbstractFacadeInterface<Cabin> {
      * @return Listę obiektów typu {@link Cabin}, które są na danym promie.
      */
     List<Cabin> findAllByFerry(Ferry ferry);
+
+    /**
+     * Metoda wyszukująca listę encji typu {@link Cabin}, które są zajęte na danym rejsie.
+     *
+     * @param cruise Encja typu {@link Cruise}.
+     * @return Listę obiektów typu {@link Cabin}, które są zajęte na danym rejsie.
+     */
+    List<Cabin> findOccupiedCabinsOnCruise(Cruise cruise);
 }

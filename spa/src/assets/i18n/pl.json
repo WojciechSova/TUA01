@@ -73,6 +73,10 @@
         "choose_a_time_zone": "Wybierz strefę czasową",
         "UTC_time_zone": "Strefa UTC"
     },
+    "ferry-edit": {
+        "invalid_on_deck_capacity": "Pojemność pokładowa musi być dodatnia",
+        "invalid_vehicle_capacity": "Pojemność parkingowa nie może być negatywna"
+    },
     "users-table": {
         "enter_your_search": "Wpisz szukaną frazę...",
         "access_levels": "Poziomy dostępu",
