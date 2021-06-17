@@ -147,18 +147,11 @@ class FerryEndpointTest {
         ferryDetailsDTO.setVehicleCapacity(20);
         String eTag = DTOIdentitySignerVerifier.calculateDTOSignature(ferryDetailsDTO);
 
-        doAnswer(invocationOnMock -> {
-            f1.setName("newName");
-            f1.setVersion(2L);
-            f1.setOnDeckCapacity(10);
-            f1.setVehicleCapacity(20);
-            f1.setModifiedBy(account);
-            return null;
-        }).when(ferryManagerLocal).updateFerry(FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO), "Login");
+        doAnswer(invocationOnMock -> null).when(ferryManagerLocal).updateFerry(any(), anyString());
 
         Response response = ferryEndpoint.updateFerry(ferryDetailsDTO, securityContext, eTag);
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-        verify(ferryManagerLocal, times(1));
+        verify(ferryManagerLocal).updateFerry(any(), anyString());
 
         GeneralException badEtag = assertThrows(GeneralException.class,
                 () -> ferryEndpoint.updateFerry(ferryDetailsDTO, securityContext, "not.an.etag"));

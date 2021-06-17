@@ -120,6 +120,14 @@ public class FerryEndpoint {
         }
     }
 
+    /**
+     * Metoda edytująca prom.
+     *
+     * @param ferryDetailsDTO Obiekt typu {@link FerryDetailsDTO} zawierający zaktualizowane pola konta.
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param eTag            ETag podawany w zawartości nagłówka "If-Match"
+     * @return Kod 200 w przypadku poprawnej aktualizacji.
+     */
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
