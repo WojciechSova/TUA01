@@ -54,75 +54,50 @@ export class BookingFormComponent implements OnInit {
 
 
     changeWantCabin(want: string): void {
-        console.log(want);
         this.wantCabin = want === 'yes';
-        console.log(this.wantCabin);
         this.cabinTypeChosen = false;
-        console.log(this.cabinTypeChosen);
-        console.log(this.cabinTypes);
         this.cabinTypes.firstClass = false;
         this.cabinTypes.secondClass = false;
         this.cabinTypes.thirdClass = false;
         this.cabinTypes.disabledClass = false;
         this.disabledClass.nativeElement.style.cssText = 'opacity: 0.6;';
-        console.log(this.cabinTypes);
     }
 
     chooseVehicleType(value: string): void {
+        this.vehicleTypes.none = false;
+        this.vehicleTypes.bike = false;
+        this.vehicleTypes.car = false;
+        this.vehicleTypes.bus = false;
         if (value === 'none') {
             this.vehicleTypes.none = true;
-            this.vehicleTypes.bike = false;
-            this.vehicleTypes.car = false;
-            this.vehicleTypes.bus = false;
         } else if (value === 'bike') {
-            this.vehicleTypes.none = false;
             this.vehicleTypes.bike = true;
-            this.vehicleTypes.car = false;
-            this.vehicleTypes.bus = false;
         } else if (value === 'car') {
-            this.vehicleTypes.none = false;
-            this.vehicleTypes.bike = false;
             this.vehicleTypes.car = true;
-            this.vehicleTypes.bus = false;
         } else if (value === 'bus') {
-            this.vehicleTypes.none = false;
-            this.vehicleTypes.bike = false;
-            this.vehicleTypes.car = false;
             this.vehicleTypes.bus = true;
         }
     }
 
     chooseCabinType(value: string): void {
         this.cabinTypeChosen = true;
+        this.cabinTypes.firstClass = false;
+        this.cabinTypes.secondClass = false;
+        this.cabinTypes.thirdClass = false;
+        this.cabinTypes.disabledClass = false;
         if (value === 'disabled') {
             this.disabledClass.nativeElement.style.cssText = 'opacity: 1;';
-
-            this.cabinTypes.firstClass = false;
-            this.cabinTypes.secondClass = false;
-            this.cabinTypes.thirdClass = false;
             this.cabinTypes.disabledClass = true;
 
         } else if (value === 'first') {
             this.disabledClass.nativeElement.style.cssText = 'opacity: 0.6;';
-
             this.cabinTypes.firstClass = true;
-            this.cabinTypes.secondClass = false;
-            this.cabinTypes.thirdClass = false;
-            this.cabinTypes.disabledClass = false;
         } else if (value === 'second') {
             this.disabledClass.nativeElement.style.cssText = 'opacity: 0.6;';
-
-            this.cabinTypes.firstClass = false;
             this.cabinTypes.secondClass = true;
-            this.cabinTypes.thirdClass = false;
-            this.cabinTypes.disabledClass = false;
         } else if (value === 'third') {
             this.disabledClass.nativeElement.style.cssText = 'opacity: 0.6;';
-
-            this.cabinTypes.firstClass = false;
-            this.cabinTypes.secondClass = false;
             this.cabinTypes.thirdClass = true;
-            this.cabinTypes.disabledClass = false;
         }
     }
 

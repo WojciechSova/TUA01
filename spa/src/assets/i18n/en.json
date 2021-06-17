@@ -368,6 +368,7 @@
         "pick_cabin_number": "Select cabin number:",
         "cabin_number": "Cabin number",
         "vehicle_type": "Select vehicle type",
-        "ok": "Book it"
+        "ok": "Book it",
+        "people_number": "Number of people"
     }
 }

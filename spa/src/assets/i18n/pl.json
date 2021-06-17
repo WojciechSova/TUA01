@@ -368,6 +368,7 @@
         "pick_cabin_number": "Wybierz numer kajuty:",
         "cabin_number": "*Numer kajuty",
         "vehicle_type": "*Wybierz typ pojazdu:",
-        "ok": "Zarezerwuj"
+        "ok": "Zarezerwuj",
+        "people_number": "Liczba osób"
     }
 }

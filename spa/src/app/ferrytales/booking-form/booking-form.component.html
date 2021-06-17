@@ -46,7 +46,7 @@
                     <label class="uppercase" translate>booking.set_people</label>
                     <input #numberOfPeople type="text" id="edit-capacity" name="people" formControlName="numberOfPeople"
                            [ngClass]="{'is-invalid': bookingForm.controls.numberOfPeople.touched && bookingForm.controls.numberOfPeople.invalid}"
-                           placeholder="{{'Liczba osób' | translate}}"/>
+                           placeholder="{{'booking.people_number' | translate}}"/>
 
                 </div>
                 <div class="validation-error"
