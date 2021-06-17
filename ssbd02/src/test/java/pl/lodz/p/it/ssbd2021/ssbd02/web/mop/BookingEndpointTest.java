@@ -138,7 +138,7 @@ class BookingEndpointTest {
         doAnswer(invocationOnMock -> null).when(bookingManagerLocal).removeBooking("login", booking1.getNumber());
 
         bookingEndpoint.cancelBooking(booking1.getNumber(), securityContext);
-        verify(bookingManagerLocal, calls(1));
+        verify(bookingManagerLocal).removeBooking("login", booking1.getNumber());
 
         booking1.setNumber(null);
         GeneralException noNumber = assertThrows(GeneralException.class,

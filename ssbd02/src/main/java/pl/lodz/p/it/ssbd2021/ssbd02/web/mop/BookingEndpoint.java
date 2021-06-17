@@ -165,6 +165,13 @@ public class BookingEndpoint {
         return null;
     }
 
+    /**
+     * Metoda pozwalająca anulować rezerwację zalogowanego użytkownika.
+     *
+     * @param number          Numer rezerwacji
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego anulowania rezerwacji.
+     */
     @DELETE
     @Path("cancel/{number}")
     @RolesAllowed({"CLIENT"})
