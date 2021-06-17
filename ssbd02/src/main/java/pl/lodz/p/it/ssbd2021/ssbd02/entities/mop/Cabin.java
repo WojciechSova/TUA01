@@ -22,6 +22,7 @@ import java.time.Instant;
         @NamedQuery(name = "Cabin.findByFerry", query = "SELECT c FROM Cabin c WHERE c.ferry = :ferry"),
         @NamedQuery(name = "Cabin.findByNumber", query = "SELECT c FROM Cabin c WHERE c.number = :number"),
         @NamedQuery(name = "Cabin.findByFerryAndNumber", query = "SELECT c FROM Cabin c WHERE c.ferry = :ferry AND c.number = :number")
+        //kajuty, które są na promie, który jest w aktualnym rejsie
 })
 @Data
 @NoArgsConstructor

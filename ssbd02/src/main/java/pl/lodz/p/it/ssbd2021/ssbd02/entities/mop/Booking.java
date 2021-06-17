@@ -20,7 +20,9 @@ import java.time.Instant;
         @NamedQuery(name = "Booking.findByCruise", query = "SELECT b FROM Booking b WHERE b.cruise = :cruise"),
         @NamedQuery(name = "Booking.findByAccount", query = "SELECT b FROM Booking b WHERE b.account = :account"),
         @NamedQuery(name = "Booking.findByNumber", query = "SELECT b FROM Booking b WHERE b.number = :number"),
-        @NamedQuery(name = "Booking.findByAccountAndNumber", query = "SELECT b FROM Booking b WHERE b.account = :account AND b.number = :number")
+        @NamedQuery(name = "Booking.findByAccountAndNumber", query = "SELECT b FROM Booking b WHERE b.account = :account AND b.number = :number"),
+        @NamedQuery(name = "Booking.getNumberOfPeopleOnDeckByCruise", query = "SELECT SUM(b.numberOfPeople) FROM Booking b WHERE (b.cabin IS NULL AND b.cruise = :cruise)"),
+        @NamedQuery(name = "Booking.getSumVehicleSpaceByCruise", query = "SELECT SUM(b.vehicleType.requiredSpace) FROM Booking b WHERE b.cruise = :cruise")
 })
 @Data
 @NoArgsConstructor
