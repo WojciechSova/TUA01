@@ -17,7 +17,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinExceptions;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.SeaportExceptions;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;

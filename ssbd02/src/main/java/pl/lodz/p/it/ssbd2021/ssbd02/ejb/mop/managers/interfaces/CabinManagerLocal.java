@@ -40,7 +40,7 @@ public interface CabinManagerLocal {
     /**
      * Metoda wyszukująca wszystkie wolne kajuty dla danego rejsu
      *
-     * @param number            Numer rejsu
+     * @param number Numer rejsu
      * @return Lista wolnych kajut {@link Cabin} na danym rejsie
      */
     List<Cabin> getFreeCabinsOnCruise(String number);
