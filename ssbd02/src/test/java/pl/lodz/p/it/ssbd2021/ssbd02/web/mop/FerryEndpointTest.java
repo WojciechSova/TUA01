@@ -162,4 +162,15 @@ class FerryEndpointTest {
                 () -> ferryEndpoint.updateFerry(ferryDetailsDTO, securityContext, eTag));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), noName.getResponse().getStatus());
     }
+
+    @Test
+    void removeFerry() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("Login");
+
+        Response response = ferryEndpoint.removeFerry("ferryName", securityContext);
+
+        verify(ferryManagerLocal).removeFerry("ferryName", "Login");
+        assertEquals(200, response.getStatus());
+    }
 }
