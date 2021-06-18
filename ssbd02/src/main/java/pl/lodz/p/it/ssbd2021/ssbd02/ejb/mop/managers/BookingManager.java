@@ -25,6 +25,8 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.validation.ConstraintViolationException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -108,6 +110,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     @Override
     @RolesAllowed({"CLIENT"})
     public void createBooking(Booking booking, String cruiseNumber, String cabinNumber, String login, String vehicleTypeName) {
+
         double price = 0;
         Cruise cruise = cruiseFacadeLocal.findByNumber(cruiseNumber);
         Cabin cabin = null;
@@ -129,9 +132,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
             throw FerryExceptions.createConflictException("There is not enough space for a vehicle on the ferry");
         }
 
-        price = getPrice(booking, price, cruise, cabin);
-
-        price += vehicleType.getRequiredSpace() * Integer.parseInt(prop.getProperty("price.vehicle"));
+        price = getPrice(booking, price, cruise, cabin, vehicleType);
 
         String number = RandomStringUtils.random(10, false, true);
 
@@ -158,7 +159,23 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     }
 
     @RolesAllowed({"CLIENT"})
-    private double getPrice(Booking booking, double price, Cruise cruise, Cabin cabin) {
+    private double getPrice(Booking booking, double price, Cruise cruise, Cabin cabin, VehicleType vehicleType) {
+        int disabledPrice = 120;
+        int thirdPrice = 100;
+        int secondPrice = 200;
+        int firstPrice = 300;
+        int vehiclePrice = 200;
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("booking.properties")) {
+            prop.load(input);
+            disabledPrice = Integer.parseInt(prop.getProperty("price.disabled_class"));
+            thirdPrice = Integer.parseInt(prop.getProperty("price.third_class"));
+            secondPrice = Integer.parseInt(prop.getProperty("price.second_class"));
+            firstPrice = Integer.parseInt(prop.getProperty("price.first_class"));
+            vehiclePrice = Integer.parseInt(prop.getProperty("price.on_deck"));
+        } catch (IOException e) {
+            logger.warn(e);
+        }
+
         if (cabin != null) {
             if (booking.getNumberOfPeople() > cabin.getCapacity()) {
                 throw CabinExceptions.createConflictException("Number of people is greater than cabin's capacity");
@@ -167,16 +184,16 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
                 throw CabinExceptions.createConflictException("Cabin is already occupied");
             }
             if (cabin.getCabinType().getCabinTypeName().equals("Disabled class")) {
-                price += Integer.parseInt(prop.getProperty("price.disabled_class")) * cabin.getCapacity();
+                price += disabledPrice * cabin.getCapacity();
             }
             if (cabin.getCabinType().getCabinTypeName().equals("First class")) {
-                price += Integer.parseInt(prop.getProperty("price.first_class")) * cabin.getCapacity();
+                price += firstPrice * cabin.getCapacity();
             }
             if (cabin.getCabinType().getCabinTypeName().equals("Second class")) {
-                price += Integer.parseInt(prop.getProperty("price.second_class")) * cabin.getCapacity();
+                price += secondPrice * cabin.getCapacity();
             }
             if (cabin.getCabinType().getCabinTypeName().equals("Third class")) {
-                price += Integer.parseInt(prop.getProperty("price.third_class")) * cabin.getCapacity();
+                price += thirdPrice * cabin.getCapacity();
             }
         } else {
             int sumOfPeople = bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
@@ -184,8 +201,9 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
             if (cruise.getFerry().getOnDeckCapacity() < sumOfPeople + booking.getNumberOfPeople()) {
                 throw FerryExceptions.createConflictException("There is not enough space on the ferry's deck");
             }
-            price += Integer.parseInt(prop.getProperty("price.on_deck")) * booking.getNumberOfPeople();
+            price += vehiclePrice * booking.getNumberOfPeople();
         }
+        price += vehicleType.getRequiredSpace() * Integer.parseInt(prop.getProperty("price.vehicle"));
         return price;
     }
 
