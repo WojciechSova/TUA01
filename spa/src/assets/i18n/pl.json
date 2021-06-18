@@ -195,7 +195,8 @@
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
         "DUPLICATE_CODE": "Podany kod już istnieje",
-        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje"
+        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
+        "FERRY_IS_BEING_USED": "Prom jest wykorzystywany przez inny obiekt"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -263,7 +264,8 @@
         "name": "Nazwa",
         "vehicle_capacity": "Pojemność garażowa",
         "on_deck_capacity": "Pojemność pokładowa",
-        "add_ferry": "Dodaj prom"
+        "add_ferry": "Dodaj prom",
+        "remove": "Usuń prom"
     },
     "ferry-details": {
         "name": "Nazwa:",
