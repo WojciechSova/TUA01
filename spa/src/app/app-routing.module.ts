@@ -27,6 +27,7 @@ import { RouteDetailsComponent } from './ferrytales/route-details/route-details.
 import { BookingsTableOwnComponent } from './ferrytales/bookings-table-own/bookings-table-own.component';
 import { AddCabinComponent } from './ferrytales/add-cabin/add-cabin.component';
 import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.component';
+import { AddCruiseComponent } from './ferrytales/add-cruise/add-cruise.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
@@ -39,6 +40,7 @@ const ferrytalesChildren: Routes = [
     { path: 'seaports/:code', component: SeaportDetailsComponent },
     { path: 'routes', component: RoutesTableComponent },
     { path: 'routes/:code', component: RouteDetailsComponent },
+    { path: 'routes/:code/cruise/add', component: AddCruiseComponent },
     { path: 'cruises/:number', component: CruiseDetailsComponent },
     { path: 'seaports', component: SeaportsTableComponent },
     { path: 'cabin/edit', component: EditCabinComponent },

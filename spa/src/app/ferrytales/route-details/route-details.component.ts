@@ -40,4 +40,8 @@ export class RouteDetailsComponent implements OnInit {
     goToRoutesListBreadcrumb(): void {
         this.router.navigate(['/ferrytales/routes']);
     }
+
+    addRoute(): void {
+        this.router.navigate(['/ferrytales/routes/' + this.code + '/cruise/add']);
+    }
 }
