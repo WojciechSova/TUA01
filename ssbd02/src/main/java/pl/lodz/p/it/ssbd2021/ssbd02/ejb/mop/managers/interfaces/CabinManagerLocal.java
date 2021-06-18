@@ -38,6 +38,14 @@ public interface CabinManagerLocal {
     List<Cabin> getAllCabinsByFerryCodeAndCabinType(String code, String cabinType);
 
     /**
+     * Metoda wyszukująca wszystkie wolne kajuty dla danego rejsu
+     *
+     * @param number Numer rejsu
+     * @return Lista wolnych kajut {@link Cabin} na danym rejsie
+     */
+    List<Cabin> getFreeCabinsOnCruise(String number);
+
+    /**
      * Metoda wyszukująca kajutę o podanym numerze, znajdującej się na podanym promie.
      *
      * @param ferryName   Nazwa promu, na którym znajduje się kajuta

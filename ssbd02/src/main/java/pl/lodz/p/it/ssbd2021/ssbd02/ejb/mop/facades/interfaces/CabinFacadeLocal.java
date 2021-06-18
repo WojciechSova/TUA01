@@ -51,4 +51,12 @@ public interface CabinFacadeLocal extends AbstractFacadeInterface<Cabin> {
      * @return Listę obiektów typu {@link Cabin}, które są zajęte na danym rejsie.
      */
     List<Cabin> findOccupiedCabinsOnCruise(Cruise cruise);
+
+    /**
+     * Metoda wyszukująca listę encji typu {@link Cabin} na danym rejsie.
+     *
+     * @param cruise Encja typu {@link Cruise}.
+     * @return Listę obiektów typu {@link Cabin} na danym rejsie.
+     */
+    List<Cabin> findCabinsOnCruise(Cruise cruise);
 }
