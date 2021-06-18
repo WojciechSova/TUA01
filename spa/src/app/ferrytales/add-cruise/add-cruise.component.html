@@ -1,18 +1,67 @@
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
         <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
-            breadcrumb.home </a>
+            breadcrumb.home</a>
         <img src="assets/wind.png" alt="" class="bullet">
     </li>
     <li class="breadcrumb-item">
         <a href="" (click)="goToRoutesListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
-            breadcrumb.routes.list </a>
+            breadcrumb.routes.list</a>
         <img src="assets/wind.png" alt="" class="bullet">
     </li>
     <li class="breadcrumb-item active" translate>
         <a href="" (click)="goToRouteDetailsBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
-            breadcrumb.route </a>
+            breadcrumb.route</a>
         <img src="assets/wind.png" alt="" class="bullet">
     </li>
     <li class="breadcrumb-item active" translate>breadcrumb.cruise_add</li>
 </ol>
+
+<div class="outer-div">
+    <form class="edit-form" [formGroup]="form">
+        <div class="col">
+            <div class="row">
+                <label translate>add-cruise.new_cruise</label>
+            </div>
+            <div class="row">
+                <input #newNumber type="text" id="add-number" formControlName="number"
+                       placeholder="{{'add-cruise.number' | translate}}"
+                       [ngClass]="{'is-invalid': form.controls.number.touched && form.controls.number.invalid}"/>
+                <div class="validation-error"
+                     *ngIf="form.controls.number.hasError('required') && form.controls.number.touched"
+                     translate>form.field_required
+                </div>
+                <div class="validation-error"
+                     *ngIf="form.controls.number.hasError('pattern') && form.controls.number.touched"
+                     translate>form.invalid_format
+                </div>
+            </div>
+
+            <div class="row">
+                <input #startDate type="text" id="add-start-date" formControlName="startDate"
+                       placeholder="{{'add-cruise.start_date' | translate}}"
+                       [ngClass]="{'is-invalid': form.controls.startDate.touched && form.controls.startDate.invalid}"/>
+                <div class="validation-error"
+                     *ngIf="form.controls.startDate.hasError('required') && form.controls.startDate.touched"
+                     translate>form.field_required
+                </div>
+            </div>
+
+            <div class="row">
+                <input #endDate type="text" id="add-end-date" formControlName="endDate"
+                       placeholder="{{'add-cruise.end_date' | translate}}"
+                       [ngClass]="{'is-invalid': form.controls.endDate.touched && form.controls.endDate.invalid}"/>
+                <div class="validation-error"
+                     *ngIf="form.controls.endDate.hasError('required') && form.controls.endDate.touched"
+                     translate>form.field_required
+                </div>
+            </div>
+        </div>
+        <button class="edit-button"
+                [disabled]=form.invalid translate>form.save
+        </button>
+        <img class="return-arrow" (click)="goToRouteDetailsBreadcrumb()"
+             src="assets/imgs/back-arrow.png"
+             alt=""/>
+    </form>
+</div>

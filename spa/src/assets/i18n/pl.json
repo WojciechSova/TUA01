@@ -313,6 +313,12 @@
         "book_a_ticket": "Zarezerwuj bilet",
         "book": "Zarezerwuj"
     },
+    "add-cruise": {
+        "new_cruise": "New cruise",
+        "number": "*Number",
+        "start_date": "*Start date",
+        "end_date": "*End date"
+    },
     "seaport-edit": {
         "required_city": "*Nazwa miasta",
         "city_name": "Wprowadź nową nazwę miasta:",

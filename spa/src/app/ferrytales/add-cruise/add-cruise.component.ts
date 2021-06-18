@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-add-cruise',
@@ -9,6 +10,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AddCruiseComponent implements OnInit {
 
     code = '';
+
+    form = new FormGroup({
+        number: new FormControl('', [Validators.required, Validators.pattern('[A-Z]{6}[0-9]{6}')]),
+        startDate: new FormControl('', Validators.required),
+        endDate: new FormControl('', Validators.required)
+    });
 
     constructor(private route: ActivatedRoute,
                 private router: Router) {

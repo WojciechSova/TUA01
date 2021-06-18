@@ -313,6 +313,12 @@
         "book_a_ticket": "Book a ticket",
         "book": "Book"
     },
+    "add-cruise": {
+        "new_cruise": "Nowy rejs",
+        "number": "*Numer rejsu",
+        "start_date": "*Data rozpoczęcia rejsu",
+        "end_date": "*Data zakończenia rejsu"
+    },
     "seaport-edit": {
         "required_city": "*City name",
         "city_name": "Enter new city name:",
