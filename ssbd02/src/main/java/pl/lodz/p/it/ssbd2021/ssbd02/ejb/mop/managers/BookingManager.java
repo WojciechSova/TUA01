@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
@@ -23,10 +24,12 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.validation.ConstraintViolationException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 
 /**
  * Manager rezerwacji
@@ -53,6 +56,8 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @Inject
     private VehicleTypeFacadeLocal vehicleTypeFacadeLocal;
+
+    private static final Properties prop = new Properties();
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -126,13 +131,9 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
         price = getPrice(booking, price, cruise, cabin);
 
-        price += vehicleType.getRequiredSpace() * 200;
+        price += vehicleType.getRequiredSpace() * Integer.parseInt(prop.getProperty("price.vehicle"));
 
-        String number = "";
-        String finalNumber = number;
-        do {
-            number = String.valueOf((long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L);
-        } while (bookingFacadeLocal.findAll().stream().anyMatch(b -> b.getNumber().equals(finalNumber)));
+        String number = RandomStringUtils.random(10, false, true);
 
         booking.setNumber(number);
         booking.setPrice(price);
@@ -142,7 +143,16 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
         booking.setVehicleType(vehicleType);
         booking.setCreationDate(Timestamp.from(Instant.now()));
 
-        bookingFacadeLocal.create(booking);
+        while(true) {
+            try{
+                bookingFacadeLocal.create(booking);
+                break;
+            } catch (ConstraintViolationException e){
+                number = RandomStringUtils.random(10, false, true);
+                booking.setNumber(number);
+            }
+        }
+
         logger.info("The user with login {} created the reservation with number {}",
                 login, number);
     }
@@ -157,16 +167,16 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
                 throw CabinExceptions.createConflictException("Cabin is already occupied");
             }
             if (cabin.getCabinType().getCabinTypeName().equals("Disabled class")) {
-                price += 120 * cabin.getCapacity();
+                price += Integer.parseInt(prop.getProperty("price.disabled_class")) * cabin.getCapacity();
             }
             if (cabin.getCabinType().getCabinTypeName().equals("First class")) {
-                price += 300 * cabin.getCapacity();
+                price += Integer.parseInt(prop.getProperty("price.first_class")) * cabin.getCapacity();
             }
             if (cabin.getCabinType().getCabinTypeName().equals("Second class")) {
-                price += 200 * cabin.getCapacity();
+                price += Integer.parseInt(prop.getProperty("price.second_class")) * cabin.getCapacity();
             }
             if (cabin.getCabinType().getCabinTypeName().equals("Third class")) {
-                price += 100 * cabin.getCapacity();
+                price += Integer.parseInt(prop.getProperty("price.third_class")) * cabin.getCapacity();
             }
         } else {
             int sumOfPeople = bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
@@ -174,7 +184,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
             if (cruise.getFerry().getOnDeckCapacity() < sumOfPeople + booking.getNumberOfPeople()) {
                 throw FerryExceptions.createConflictException("There is not enough space on the ferry's deck");
             }
-            price += 30 * booking.getNumberOfPeople();
+            price += Integer.parseInt(prop.getProperty("price.on_deck")) * booking.getNumberOfPeople();
         }
         return price;
     }

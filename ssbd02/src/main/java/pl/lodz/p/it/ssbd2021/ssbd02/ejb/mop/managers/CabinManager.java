@@ -69,8 +69,9 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     @RolesAllowed({"CLIENT"})
     public List<Cabin> getFreeCabinsOnCruise(String number) {
         Cruise cruise = cruiseFacadeLocal.findByNumber(number);
+        List<Cabin> occupiedCabins = cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise);
         return cabinFacadeLocal.findCabinsOnCruise(cruise).stream()
-                .filter(c -> !cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise).contains(c))
+                .filter(c -> !occupiedCabins.contains(c))
                 .collect(Collectors.toList());
     }
 

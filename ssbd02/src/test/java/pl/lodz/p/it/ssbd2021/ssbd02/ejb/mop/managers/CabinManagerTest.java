@@ -163,8 +163,10 @@ class CabinManagerTest {
         assertDoesNotThrow(() -> cabinManager.getFreeCabinsOnCruise(cruise.getNumber()));
         List<Cabin> freeCabins = cabinManager.getFreeCabinsOnCruise(cruise.getNumber());
 
+        assertEquals(2, freeCabins.size());
         assertTrue(freeCabins.contains(cabin1));
         assertTrue(freeCabins.contains(cabin3));
+        assertFalse(freeCabins.contains(cabin4));
 
     }
 }

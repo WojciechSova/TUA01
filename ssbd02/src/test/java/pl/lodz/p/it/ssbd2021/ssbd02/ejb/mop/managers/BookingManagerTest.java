@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -151,14 +152,6 @@ class BookingManagerTest {
         assertDoesNotThrow(() -> bookingManager.createBooking(booking4, "ABCDEF000000", null, "Login2", "Car"));
         assertEquals(initialLength + 1, bookings2.size());
         verify(bookingFacadeLocal).create(any());
-    }
-
-    @Test
-    void isNumber10digits() {
-        for(int i = 0; i < 50; i++){
-            String number = String.valueOf((long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L);
-            assertEquals(10, number.length());
-        }
     }
 
     @Test

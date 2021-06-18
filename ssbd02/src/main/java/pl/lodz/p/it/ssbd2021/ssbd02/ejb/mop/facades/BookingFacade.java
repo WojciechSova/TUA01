@@ -80,6 +80,7 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
     }
 
     @Override
+    @RolesAllowed({"CLIENT"})
     public double getSumVehicleSpaceByCruise(Cruise cruise) {
         TypedQuery<Double> typedQuery = entityManager.createNamedQuery("Booking.getSumVehicleSpaceByCruise", Double.class);
         typedQuery.setParameter("cruise", cruise);
