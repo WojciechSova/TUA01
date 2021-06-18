@@ -193,7 +193,8 @@
         "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
-        "DUPLICATE_CODE": "Podany kod już istnieje"
+        "DUPLICATE_CODE": "Podany kod już istnieje",
+        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
