@@ -321,11 +321,11 @@
         "book": "Book"
     },
     "add-cruise": {
-        "new_cruise": "Nowy rejs",
-        "number": "*Numer rejsu",
-        "start_date": "*Data rozpoczęcia rejsu",
-        "end_date": "*Data zakończenia rejsu",
-        "ferry": "*Prom"
+        "new_cruise": "New cruise",
+        "number": "*Number",
+        "start_date": "*Start date",
+        "end_date": "*End date",
+        "ferry": "*Ferry"
     },
     "seaport-edit": {
         "required_city": "*City name",
