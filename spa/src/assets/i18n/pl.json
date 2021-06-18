@@ -29,7 +29,8 @@
         "confirm": "Potwierdź",
         "yes": "Tak",
         "no": "Nie",
-        "positive": "Liczba osób musi być dodatnia"
+        "positive": "Liczba osób musi być dodatnia",
+        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem"
     },
     "links": {
         "about_us": "O nas",
@@ -193,8 +194,9 @@
         "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
-        "DUPLICATE_NUMBER_CABIN": "Podany numer kajuty już istnieje",
-        "DUPLICATE_CODE": "Podany kod już istnieje"
+        "DUPLICATE_CODE": "Podany kod już istnieje",
+        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
+        "DUPLICATE_NUMBER_CABIN": "Podany numer kajuty już istnieje"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -221,6 +223,7 @@
         "current_cruises_list": "Lista aktualnych rejsów",
         "seaport": "Port",
         "cruise": "Rejs",
+        "cruise_add": "Dodaj rejs",
         "cabin-edit": "Edycja kajuty",
         "ferry": "Prom",
         "cabin": "Kajuta",
@@ -321,11 +324,23 @@
         "book_a_ticket": "Zarezerwuj bilet",
         "book": "Zarezerwuj"
     },
+    "add-cruise": {
+        "new_cruise": "Nowy rejs",
+        "number": "*Numer rejsu",
+        "start_date": "*Data rozpoczęcia rejsu",
+        "end_date": "*Data zakończenia rejsu",
+        "ferry": "*Prom"
+    },
     "seaport-edit": {
         "required_city": "*Nazwa miasta",
         "city_name": "Wprowadź nową nazwę miasta:",
         "result_success": "Zmiana miasta portu przebiegła pomyślnie",
-        "result_failure": "Zmiana miasta portu nie powiodła się"
+        "result_gone": "Zmiana miasta portu nie powiodła się ponieważ wybrany port został usunięty",
+        "result_failure": "Zmiana miasta portu nie powiodła się",
+        "result_opl": "Stan portu został zmieniony, proszę spróbować ponownie",
+        "result_name_not_unique": "Wprowadzona nazwa miasta nie jest unikalna",
+        "name_required": "Nazwa miasta jest wymagana",
+        "name_too_long": "Nazwa miasta nie może być dłuższa niż 30 znaków"
     },
     "cabin-details": {
         "edit_cabin": "Edytuj kajutę",

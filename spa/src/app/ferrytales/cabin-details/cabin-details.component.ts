@@ -43,4 +43,8 @@ export class CabinDetailsComponent implements OnInit {
             (response) => this.cabinDetailsService.readCabinAndEtagFromResponse(response)
         );
     }
+
+    updateCabin(): void {
+        this.router.navigate(['/ferrytales/ferries/edit/', this.ferryName, this.cabinNumber]);
+    }
 }

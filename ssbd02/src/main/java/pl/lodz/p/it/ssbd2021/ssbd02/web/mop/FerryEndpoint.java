@@ -153,10 +153,31 @@ public class FerryEndpoint {
         }
     }
 
+    /**
+     * Metoda usuwająca prom.
+     *
+     * @param name            Nazwa promu, który ma zostać usunięty
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego usunięcia promu.
+     */
     @DELETE
     @Path("remove/{name}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeFerry(@PathParam("name") String name, @Context SecurityContext securityContext) {
-        return null;
+        if (name == null || name.isBlank() || name.length() > 30) {
+            throw  CommonExceptions.createConstraintViolationException();
+        }
+
+        try {
+            ferryManagerLocal.removeFerry(name, securityContext.getUserPrincipal().getName());
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 }

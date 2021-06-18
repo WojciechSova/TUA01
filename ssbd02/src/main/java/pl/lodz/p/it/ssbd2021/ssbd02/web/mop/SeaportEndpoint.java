@@ -126,6 +126,14 @@ public class SeaportEndpoint {
         }
     }
 
+    /**
+     * Metoda umożliwiająca edycję portu.
+     *
+     * @param seaportDetailsDTO Obiekt typu {@link SeaportDetailsDTO} przechowujący sczegóły edytowanego portu
+     * @param securityContext   Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param eTag              ETag podawany w zawartości nagłówka "If-Match"
+     * @return Kod 200 w przypadku poprawnej edycji portu
+     */
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})

@@ -79,7 +79,7 @@ public class CabinEndpoint {
      * @return Szczegółowe informacje o kajucie
      */
     @GET
-    @Path("{ferry}/{number}")
+    @Path("details/{ferry}/{number}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getCabin(@PathParam("ferry") String ferryName, @PathParam("number") String cabinNumber) {
         try {
@@ -114,11 +114,11 @@ public class CabinEndpoint {
     }
 
     @PUT
-    @Path("update")
+    @Path("update/{ferry}")
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateCabin(@Valid CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext,
-                                @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
+    public Response updateCabin(@Valid CabinDetailsDTO cabinDTO, @PathParam("ferry") String ferryName,
+                                @Context SecurityContext securityContext, @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
 
         if (cabinDTO.getNumber() == null || cabinDTO.getVersion() == null) {
             throw CommonExceptions.createPreconditionFailedException();
@@ -129,7 +129,7 @@ public class CabinEndpoint {
         try {
             CabinType cabinType = cabinTypeManager.getCabinTypeByName(cabinDTO.getCabinType());
             cabinManager.updateCabin(CabinMapper.createEntityFromCabinDetailsDTO(cabinDTO, cabinType),
-                    securityContext.getUserPrincipal().getName());
+                    securityContext.getUserPrincipal().getName(), ferryName);
             return Response.ok()
                     .build();
         } catch (GeneralException generalException) {

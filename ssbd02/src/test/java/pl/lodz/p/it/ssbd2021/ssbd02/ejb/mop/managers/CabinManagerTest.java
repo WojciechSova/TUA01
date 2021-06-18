@@ -8,14 +8,18 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinExceptions;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -23,8 +27,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CabinManagerTest {
 
@@ -34,12 +37,16 @@ class CabinManagerTest {
     AccountMopFacadeLocal accountMopFacadeLocal;
     @Mock
     FerryFacadeLocal ferryFacadeLocal;
+    @Mock
+    CruiseFacadeLocal cruiseFacadeLocal;
 
 
     @InjectMocks
     CabinManager cabinManager;
 
     Cabin cabin1 = new Cabin();
+    Cabin cabin3 = new Cabin();
+    Cabin cabin4 = new Cabin();
     @Spy
     Cabin cabin2 = new Cabin();
     @Spy
@@ -49,17 +56,25 @@ class CabinManagerTest {
     String login = "Franek";
     String ferryName = "Perl";
 
+    Cruise cruise = new Cruise();
+
+
     private List<Cabin> cabins;
 
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
 
+        cabin1.setNumber("A123");
+        cabin3.setNumber("B124");
+        cabin4.setNumber("H666");
         cabins = new ArrayList<>();
         cabins.add(cabin1);
 
         account.setLogin(login);
         ferry.setName(ferryName);
+        cruise.setNumber("ABCDEF000000");
+
     }
 
     @Test
@@ -101,7 +116,7 @@ class CabinManagerTest {
         cabinType.setCabinTypeName("Luksusowa");
         cabin1.setCabinType(cabinType);
         cabin1.setCapacity(123);
-        when(cabinFacadeLocal.findByNumber("H666")).thenReturn(cabin1);
+        when(cabinFacadeLocal.findByFerryAndNumber(any(), any())).thenReturn(cabin1);
 
         assertEquals("H666", cabin1.getNumber());
         assertEquals(1L, cabin1.getVersion());
@@ -129,7 +144,7 @@ class CabinManagerTest {
             return null;
         }).when(cabinFacadeLocal).edit(any());
 
-        assertDoesNotThrow(() -> cabinManager.updateCabin(updateCabin, "Autor"));
+        assertDoesNotThrow(() -> cabinManager.updateCabin(updateCabin, "Autor", "Name"));
 
         assertEquals("H666", cabin1.getNumber());
         assertEquals(2L, cabin1.getVersion());
@@ -137,5 +152,42 @@ class CabinManagerTest {
         assertEquals(666, cabin1.getCapacity());
         assertTrue(cabin1.getModificationDate().compareTo(Timestamp.from(Instant.now())) < 10000);
         assertEquals(modifiedBy, cabin1.getModifiedBy());
+    }
+
+    @Test
+    void getFreeCabinsOnCruise() {
+        when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
+
+        when(cabinFacadeLocal.findCabinsOnCruise(cruise)).thenReturn(List.of(cabin1, cabin3, cabin4));
+        when(cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise)).thenReturn(List.of(cabin4));
+
+        assertDoesNotThrow(() -> cabinManager.getFreeCabinsOnCruise(cruise.getNumber()));
+        List<Cabin> freeCabins = cabinManager.getFreeCabinsOnCruise(cruise.getNumber());
+
+        assertEquals(2, freeCabins.size());
+        assertTrue(freeCabins.contains(cabin1));
+        assertTrue(freeCabins.contains(cabin3));
+        assertFalse(freeCabins.contains(cabin4));
+
+    }
+
+    @Test
+    void removeCabin() {
+        when(cabinFacadeLocal.findByNumber(cabin1.getNumber())).thenReturn(cabin1);
+        cabinManager.removeCabin(cabin1.getNumber(), login);
+        verify(cabinFacadeLocal).remove(cabin1);
+    }
+
+    @Test
+    void removeCabinException() {
+        when(cabinFacadeLocal.findByNumber(cabin1.getNumber())).thenReturn(cabin1);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createConstraintViolationException();
+        }).when(cabinFacadeLocal).remove(cabin1);
+
+        CabinExceptions exception = assertThrows(CabinExceptions.class, () -> cabinManager.removeCabin(cabin1.getNumber(), login));
+
+        assertEquals(Response.Status.CONFLICT.getStatusCode(), exception.getResponse().getStatus());
+        assertEquals(CabinExceptions.ERROR_CABIN_USED_BY_BOOKING, exception.getResponse().getEntity());
     }
 }

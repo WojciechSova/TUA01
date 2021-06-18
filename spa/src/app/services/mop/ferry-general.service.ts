@@ -22,6 +22,10 @@ export class FerryGeneralService implements OnDestroy {
         });
     }
 
+    addFerry(ferry: FerryGeneral): any {
+        return this.http.post(this.url.concat('/add'), ferry);
+    }
+
     ngOnDestroy(): void {
         this.ferriesGeneralList = [];
     }

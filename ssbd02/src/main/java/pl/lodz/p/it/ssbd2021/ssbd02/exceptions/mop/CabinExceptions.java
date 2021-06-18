@@ -15,6 +15,7 @@ public class CabinExceptions extends GeneralException {
     public static String ERROR_CABIN_FERRY_NUMBER_UNIQUE = "ERROR.CABIN_FERRY_NUMBER_UNIQUE";
     public static String ERROR_CABIN_CAPACITY_GREATER_THAN_ZERO = "ERROR.CABIN_CAPACITY_GREATER_THAN_ZERO";
     public static String ERROR_CABIN_NOT_FOUND = "ERROR.CABIN_NOT_FOUND";
+    public static String ERROR_CABIN_USED_BY_BOOKING = "ERROR.SEAPORT_USED_BY_BOOKING";
 
     public CabinExceptions(Response.Status status, String key) {
         super(status, key);

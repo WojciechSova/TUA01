@@ -56,9 +56,10 @@ public interface FerryManagerLocal {
     void updateFerry(Ferry ferry, String modifiedBy);
 
     /**
-     * Metoda usuwa prom o nazwie zawartej w encji {@link Ferry}.
+     * Metoda usuwa prom o podanej nazwie.
      *
-     * @param ferry Encja typu {@link Ferry}
+     * @param ferryName Nazwa promu, który ma zostać usunięty
+     * @param login     Login użytkownika, który chce usunąć prom
      */
-    void removeFerry(Ferry ferry);
+    void removeFerry(String ferryName, String login);
 }

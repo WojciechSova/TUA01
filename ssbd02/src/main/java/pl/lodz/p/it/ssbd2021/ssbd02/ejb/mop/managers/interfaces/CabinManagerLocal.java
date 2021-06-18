@@ -38,6 +38,14 @@ public interface CabinManagerLocal {
     List<Cabin> getAllCabinsByFerryCodeAndCabinType(String code, String cabinType);
 
     /**
+     * Metoda wyszukująca wszystkie wolne kajuty dla danego rejsu
+     *
+     * @param number Numer rejsu
+     * @return Lista wolnych kajut {@link Cabin} na danym rejsie
+     */
+    List<Cabin> getFreeCabinsOnCruise(String number);
+
+    /**
      * Metoda wyszukująca kajutę o podanym numerze, znajdującej się na podanym promie.
      *
      * @param ferryName   Nazwa promu, na którym znajduje się kajuta
@@ -61,13 +69,15 @@ public interface CabinManagerLocal {
      *
      * @param cabin      Encja typu {@link Cabin}
      * @param modifiedBy Login użytkownika, który edytuje encje
+     * @param ferryName Nazwa promu, do którego przypisana jest modyfikowana kajuta
      */
-    void updateCabin(Cabin cabin, String modifiedBy);
+    void updateCabin(Cabin cabin, String modifiedBy, String ferryName);
 
     /**
      * Metoda usuwa kajutę o numerze zawartym w encji {@link Cabin}.
      *
-     * @param cabin Encja typu {@link Cabin}
+     * @param number    Numer biznesowy usuwanej kajuty
+     * @param removedBy Login użytkownika, który usunął encję
      */
-    void removeCabin(Cabin cabin);
+    void removeCabin(String number, String removedBy);
 }

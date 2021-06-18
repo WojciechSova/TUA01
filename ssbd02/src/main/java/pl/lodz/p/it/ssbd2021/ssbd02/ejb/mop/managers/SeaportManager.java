@@ -82,6 +82,7 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
         seaportClone.setCreatedBy(databaseSeaport.getCreatedBy());
 
         seaportFacadeLocal.edit(seaportClone);
+        logger.info("The user with login {} has updated seaport with code {}", modifiedBy, seaport.getCode());
     }
 
     @Override

@@ -29,7 +29,8 @@
         "confirm": "Confirm",
         "yes": "Yes",
         "no": "No",
-        "positive": "Number of people must be positive"
+        "positive": "Number of people must be positive",
+        "cabin_edit_failed": "An error occured"
     },
     "links": {
         "about_us": "About us",
@@ -193,8 +194,9 @@
         "EMAIL_UNIQUE": "The e-mail address you entered already exists",
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists",
-        "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists",
-        "DUPLICATE_CODE": "Provided code already exists"
+        "DUPLICATE_CODE": "Provided code already exists",
+        "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
+        "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -221,6 +223,7 @@
         "current_cruises_list": "Current cruises list",
         "seaport": "Seaport",
         "cruise": "Cruise",
+        "cruise_add": "Add cruise",
         "cabin-edit": "Edit cabin",
         "ferry": "Ferry",
         "cabin": "Cabin",
@@ -321,11 +324,23 @@
         "book_a_ticket": "Book a ticket",
         "book": "Book"
     },
+    "add-cruise": {
+        "new_cruise": "New cruise",
+        "number": "*Number",
+        "start_date": "*Start date",
+        "end_date": "*End date",
+        "ferry": "*Ferry"
+    },
     "seaport-edit": {
         "required_city": "*City name",
         "city_name": "Enter new city name:",
         "result_success": "Seaport city change successful",
-        "result_failure": "Seaport city change failed"
+        "result_gone": "Seaport city change failed because the selected port was deleted",
+        "result_failure": "Seaport city change failed",
+        "result_opl": "State of the seaport changed, please try again",
+        "result_name_not_unique": "Provided city name is not unique",
+        "name_required": "City name is required",
+        "name_too_long": "City name has to be no longer than 30 characters"
     },
     "cabin-details": {
         "edit_cabin": "Edit cabin",
