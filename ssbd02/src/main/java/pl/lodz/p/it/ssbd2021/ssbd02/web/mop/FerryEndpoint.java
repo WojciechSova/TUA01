@@ -164,6 +164,10 @@ public class FerryEndpoint {
     @Path("remove/{name}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeFerry(@PathParam("name") String name, @Context SecurityContext securityContext) {
+        if (name == null || name.isBlank() || name.length() > 30) {
+            throw  CommonExceptions.createConstraintViolationException();
+        }
+
         try {
             ferryManagerLocal.removeFerry(name, securityContext.getUserPrincipal().getName());
             return Response.ok()
