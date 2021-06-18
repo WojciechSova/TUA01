@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { SeaportDetailsService } from '../../../services/mop/seaport-details.service';
-import { FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-seaport-edit',

@@ -10,6 +10,8 @@ import { SeaportGeneralService } from '../../services/mop/seaport-general.servic
 })
 export class SeaportsTableComponent implements OnInit {
 
+    deleteResultMessage = 'HIDDEN';
+
     constructor(private router: Router,
                 private seaportGeneralService: SeaportGeneralService) {
         this.getSeaports();
@@ -20,6 +22,11 @@ export class SeaportsTableComponent implements OnInit {
 
     goToHomeBreadcrumb(): void {
         this.router.navigate(['/']);
+    }
+
+    refresh(): void {
+        this.deleteResultMessage = 'HIDDEN';
+        this.getSeaports();
     }
 
     getSeaports(): void {
@@ -38,4 +45,12 @@ export class SeaportsTableComponent implements OnInit {
         this.router.navigate(['/ferrytales/seaports/add']);
     }
 
+    deleteSeaport(code: string): void {
+        this.seaportGeneralService.deleteSeaport(code).subscribe(() => {
+            this.deleteResultMessage = 'SUCCESS';
+        }, () => {
+            this.deleteResultMessage = 'FAILURE';
+        });
+        this.getSeaports();
+    }
 }
