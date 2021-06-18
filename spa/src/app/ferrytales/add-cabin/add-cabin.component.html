@@ -33,7 +33,7 @@
                 </div>
                 <div class="validation-error"
                      *ngIf="form.controls.number.hasError('pattern') && form.controls.number.touched"
-                     translate>form.invalid_format
+                     translate>form.invalid_format_cabin_number
                 </div>
             </div>
 
@@ -46,8 +46,8 @@
                      translate>form.field_required
                 </div>
                 <div class="validation-error"
-                     *ngIf="form.controls.capacity.hasError('min') && form.controls.capacity.touched"
-                     translate>form.invalid_format
+                     *ngIf="(form.controls.capacity.hasError('min') || form.controls.capacity.hasError('max')) && form.controls.capacity.touched"
+                     translate>form.invalid_capacity
                 </div>
             </div>
 

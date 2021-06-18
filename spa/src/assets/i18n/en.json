@@ -30,7 +30,9 @@
         "yes": "Yes",
         "no": "No",
         "positive": "Number of people must be positive",
-        "cabin_edit_failed": "An error occured"
+        "cabin_edit_failed": "An error occured",
+        "invalid_format_cabin_number": "Cabin number should have 1 upper case letter and 3 digits",
+        "invalid_capacity": "Capacity should be a number in the range from 1 to 99"
     },
     "links": {
         "about_us": "About us",

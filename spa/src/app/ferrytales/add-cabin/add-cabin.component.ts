@@ -25,7 +25,7 @@ export class AddCabinComponent implements OnInit {
     }
 
     form = new FormGroup({
-        capacity: new FormControl('', [Validators.required, Validators.min(1)]),
+        capacity: new FormControl('', [Validators.required, Validators.min(1), Validators.max(99)]),
         number: new FormControl('', [Validators.required, Validators.pattern("[A-Z][0-9]{3}")]),
     })
 
@@ -42,6 +42,20 @@ export class AddCabinComponent implements OnInit {
     }
 
     addCabin(capacity: string, cabinType: string, number: string): any {
+        switch (cabinType) {
+            case "Pierwsza klasa":
+                cabinType = "First class";
+                break;
+            case "Druga klasa":
+                cabinType = "Second class";
+                break;
+            case "Trzecia klasa":
+                cabinType = "Third class";
+                break;
+            case "Klasa inwalidzka":
+                cabinType = "Disabled class";
+                break;
+        }
         var cabin: CabinGeneral = {
             capacity: capacity,
             cabinType: cabinType,
