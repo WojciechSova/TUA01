@@ -30,7 +30,8 @@
         "yes": "Tak",
         "no": "Nie",
         "positive": "Liczba osób musi być dodatnia",
-        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem"
+        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem",
+        "route_code_format": "Kod trasy powinien składać się z 6 wielkich liter"
     },
     "links": {
         "about_us": "O nas",
@@ -395,6 +396,8 @@
         "new_route": "Nowa trasa",
         "start": "*Start",
         "dest": "*Cel",
-        "code": "*Kod"
+        "code": "*Kod",
+        "start_destination_unique": "Trasa o podanym początku i końcu już istnieje",
+        "code_unique": "Trasa o podanym kodzie już istnieje"
     }
 }

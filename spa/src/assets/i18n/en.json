@@ -30,7 +30,8 @@
         "yes": "Yes",
         "no": "No",
         "positive": "Number of people must be positive",
-        "cabin_edit_failed": "An error occured"
+        "cabin_edit_failed": "An error occured",
+        "route_code_format": "Route code should consist of 6 capital letters"
     },
     "links": {
         "about_us": "About us",
@@ -393,8 +394,10 @@
     },
     "add-route": {
         "new_route": "New route",
-        "start": "Start",
-        "dest": "Destination",
-        "code": "*Code"
+        "start": "*Start",
+        "dest": "*Destination",
+        "code": "*Code",
+        "start_destination_unique": "Route with selected start and destination already exists",
+        "code_unique": "Route with given code already exists"
     }
 }
