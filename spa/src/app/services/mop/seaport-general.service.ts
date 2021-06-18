@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { SeaportGeneral } from '../../model/mop/SeaportGeneral';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +16,8 @@ export class SeaportGeneralService implements OnDestroy {
         this.url = environment.appUrl + '/seaports';
     }
 
-    getSeaports(): any {
-        return this.http.get<any>(this.url, {
+    getSeaports(): Observable<SeaportGeneral[]> {
+        return this.http.get<SeaportGeneral[]>(this.url, {
             observe: 'body',
             responseType: 'json'
         });
