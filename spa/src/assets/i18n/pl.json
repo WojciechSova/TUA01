@@ -29,7 +29,8 @@
         "confirm": "Potwierdź",
         "yes": "Tak",
         "no": "Nie",
-        "positive": "Liczba osób musi być dodatnia"
+        "positive": "Liczba osób musi być dodatnia",
+        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem"
     },
     "links": {
         "about_us": "O nas",

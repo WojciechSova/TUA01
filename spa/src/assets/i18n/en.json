@@ -29,7 +29,8 @@
         "confirm": "Confirm",
         "yes": "Yes",
         "no": "No",
-        "positive": "Number of people must be positive"
+        "positive": "Number of people must be positive",
+        "cabin_edit_failed": "An error occured"
     },
     "links": {
         "about_us": "About us",
