@@ -69,13 +69,15 @@ public interface CabinManagerLocal {
      *
      * @param cabin      Encja typu {@link Cabin}
      * @param modifiedBy Login użytkownika, który edytuje encje
+     * @param ferryName Nazwa promu, do którego przypisana jest modyfikowana kajuta
      */
-    void updateCabin(Cabin cabin, String modifiedBy);
+    void updateCabin(Cabin cabin, String modifiedBy, String ferryName);
 
     /**
      * Metoda usuwa kajutę o numerze zawartym w encji {@link Cabin}.
      *
-     * @param cabin Encja typu {@link Cabin}
+     * @param number    Numer biznesowy usuwanej kajuty
+     * @param removedBy Login użytkownika, który usunął encję
      */
-    void removeCabin(Cabin cabin);
+    void removeCabin(String number, String removedBy);
 }

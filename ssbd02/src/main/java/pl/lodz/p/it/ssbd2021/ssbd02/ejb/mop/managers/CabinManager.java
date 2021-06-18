@@ -12,6 +12,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
@@ -21,6 +22,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -97,8 +99,9 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void updateCabin(Cabin cabin, String modifiedBy) {
-        Cabin cabinFromDB = Optional.ofNullable(cabinFacadeLocal.findByNumber(cabin.getNumber())).
+    public void updateCabin(Cabin cabin, String modifiedBy, String ferryName) {
+        Ferry ferry = ferryFacadeLocal.findByName(ferryName);
+        Cabin cabinFromDB = Optional.ofNullable(cabinFacadeLocal.findByFerryAndNumber(ferry, cabin.getNumber())).
                 orElseThrow(CommonExceptions::createNoResultException);
         Cabin cab = SerializationUtils.clone(cabinFromDB);
 
@@ -112,7 +115,8 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
         Account cabModifiedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException);
         cab.setModifiedBy(cabModifiedBy);
         cab.setModificationDate(Timestamp.from(Instant.now()));
-
+        cab.setCreatedBy(cabinFromDB.getCreatedBy());
+        cab.setFerry(ferry);
         cabinFacadeLocal.edit(cab);
         logger.info("The user with login {} updated the cabin with number {}",
                 this.getInvokerId(), cabinFromDB.getNumber());
@@ -120,7 +124,19 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeCabin(Cabin cabin) {
-
+    public void removeCabin(String number, String removedBy) {
+        try {
+            Cabin cabin = cabinFacadeLocal.findByNumber(number);
+            cabinFacadeLocal.remove(cabin);
+            logger.info("The employee with login {} has deleted cabin with number {}",
+                    removedBy, number);
+        } catch (CommonExceptions ce) {
+            if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode() &&
+                    ce.getResponse().getEntity().equals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION)) {
+                throw CabinExceptions.createConflictException(CabinExceptions.ERROR_CABIN_USED_BY_BOOKING);
+            } else {
+                throw ce;
+            }
+        }
     }
 }

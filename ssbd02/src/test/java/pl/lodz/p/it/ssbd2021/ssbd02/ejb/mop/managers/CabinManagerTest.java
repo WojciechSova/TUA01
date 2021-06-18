@@ -16,8 +16,11 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.SeaportExceptions;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -25,8 +28,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CabinManagerTest {
 
@@ -115,7 +117,7 @@ class CabinManagerTest {
         cabinType.setCabinTypeName("Luksusowa");
         cabin1.setCabinType(cabinType);
         cabin1.setCapacity(123);
-        when(cabinFacadeLocal.findByNumber("H666")).thenReturn(cabin1);
+        when(cabinFacadeLocal.findByFerryAndNumber(any(), any())).thenReturn(cabin1);
 
         assertEquals("H666", cabin1.getNumber());
         assertEquals(1L, cabin1.getVersion());
@@ -143,7 +145,7 @@ class CabinManagerTest {
             return null;
         }).when(cabinFacadeLocal).edit(any());
 
-        assertDoesNotThrow(() -> cabinManager.updateCabin(updateCabin, "Autor"));
+        assertDoesNotThrow(() -> cabinManager.updateCabin(updateCabin, "Autor", "Name"));
 
         assertEquals("H666", cabin1.getNumber());
         assertEquals(2L, cabin1.getVersion());
@@ -168,5 +170,25 @@ class CabinManagerTest {
         assertTrue(freeCabins.contains(cabin3));
         assertFalse(freeCabins.contains(cabin4));
 
+    }
+
+    @Test
+    void removeCabin() {
+        when(cabinFacadeLocal.findByNumber(cabin1.getNumber())).thenReturn(cabin1);
+        cabinManager.removeCabin(cabin1.getNumber(), login);
+        verify(cabinFacadeLocal).remove(cabin1);
+    }
+
+    @Test
+    void removeCabinException() {
+        when(cabinFacadeLocal.findByNumber(cabin1.getNumber())).thenReturn(cabin1);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createConstraintViolationException();
+        }).when(cabinFacadeLocal).remove(cabin1);
+
+        CabinExceptions exception = assertThrows(CabinExceptions.class, () -> cabinManager.removeCabin(cabin1.getNumber(), login));
+
+        assertEquals(Response.Status.CONFLICT.getStatusCode(), exception.getResponse().getStatus());
+        assertEquals(CabinExceptions.ERROR_CABIN_USED_BY_BOOKING, exception.getResponse().getEntity());
     }
 }

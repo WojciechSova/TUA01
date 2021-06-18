@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SeaportDetails } from '../../model/mop/SeaportDetails';
 import { IdentityService } from '../../services/utils/identity.service';
 import { SeaportDetailsService } from '../../services/mop/seaport-details.service';
 
@@ -10,6 +9,13 @@ import { SeaportDetailsService } from '../../services/mop/seaport-details.servic
     styleUrls: ['./seaport-details.component.less']
 })
 export class SeaportDetailsComponent implements OnInit {
+
+    readonly HIDDEN = 'hide';
+    readonly SUCCESS = 'success';
+    readonly GONE = 'gone';
+    readonly FAILURE = 'failure';
+    readonly OPTIMISTIC_LOCK = 'optimisticLock';
+    readonly NAME_NOT_UNIQUE = 'nameNotUnique';
 
     seaportEdit = {
         isFormVisible: false,
@@ -30,12 +36,15 @@ export class SeaportDetailsComponent implements OnInit {
     }
 
     getSeaport(): void {
-        this.seaportEdit.response = 'hide';
-        this.seaportDetailsService.getSeaportByCode(this.code).subscribe(
-            (response: SeaportDetails) => {
+        this.seaportDetailsService.getSeaportByCode(this.code).subscribe(response => {
                 this.seaportDetailsService.readSeaportDetails(response);
             }
         );
+    }
+
+    refreshButton(): void {
+        this.seaportEdit.response = this.HIDDEN;
+        this.getSeaport();
     }
 
     goToHomeBreadcrumb(): void {
@@ -48,5 +57,6 @@ export class SeaportDetailsComponent implements OnInit {
 
     changeEditSeaportFormVisible(seaportEdit: any): void {
         this.seaportEdit = seaportEdit;
+        this.getSeaport();
     }
 }

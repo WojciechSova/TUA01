@@ -19,10 +19,7 @@
 <div class="outer-div">
     <div class="cabin-details" id="cabinDetails">
         <div class="button-container">
-            <button id="edit-button"
-                    class="edit-button"
-                    translate>cabin-details.edit_cabin
-            </button>
+            <button id="edit-button" class="edit-button" (click)="updateCabin()" translate>cabin-details.edit_cabin</button>
             <button class="edit-button" (click)="getCabin()" translate>general.refresh</button>
         </div>
         <div class="col">
