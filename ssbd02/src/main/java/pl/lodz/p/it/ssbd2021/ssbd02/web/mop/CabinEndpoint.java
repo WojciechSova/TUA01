@@ -1,8 +1,10 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinTypeManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
@@ -22,6 +24,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
@@ -104,6 +108,32 @@ public class CabinEndpoint {
     @RolesAllowed({"CLIENT", "EMPLOYEE"})
     public Response getCabinsByFerry(@PathParam("name") String name) {
         return null;
+    }
+
+    /**
+     * Metoda udostępniająca listę ogólnych informacji o wolnych kajutach dla danego rejsu
+     *
+     * @param cruiseNumber Rejs, dla którego wyszukiwane są kajuty
+     * @return Lista ogólnych informacji o kajutach
+     */
+    @GET
+    @Path("cruise/{number}")
+    @RolesAllowed({"CLIENT"})
+    public Response getFreeCabinsOnCruise(@PathParam("number") String cruiseNumber){
+        try {
+            List<CabinGeneralDTO> cabinGeneralDTOList = cabinManager.getFreeCabinsOnCruise(cruiseNumber).stream()
+                    .map(CabinMapper::createCabinGeneralDTOFromEntity).collect(Collectors.toList());
+
+            return Response.ok()
+                    .entity(cabinGeneralDTOList)
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @DELETE

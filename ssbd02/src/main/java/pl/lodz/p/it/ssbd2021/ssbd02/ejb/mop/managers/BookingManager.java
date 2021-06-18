@@ -115,7 +115,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
         Cruise cruise = cruiseFacadeLocal.findByNumber(cruiseNumber);
         Cabin cabin = null;
 
-        if (cabinNumber != null) {
+        if (cabinNumber != null && !cabinNumber.equals("")) {
             cabin = cabinFacadeLocal.findByFerryAndNumber(cruise.getFerry(), cabinNumber);
         }
 
