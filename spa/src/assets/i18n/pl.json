@@ -28,7 +28,8 @@
         "save": "Zapisz",
         "confirm": "Potwierdź",
         "yes": "Tak",
-        "no": "Nie"
+        "no": "Nie",
+        "positive": "Liczba osób musi być dodatnia"
     },
     "links": {
         "about_us": "O nas",
@@ -72,6 +73,10 @@
         "new": "Nowe",
         "choose_a_time_zone": "Wybierz strefę czasową",
         "UTC_time_zone": "Strefa UTC"
+    },
+    "ferry-edit": {
+        "invalid_on_deck_capacity": "Pojemność pokładowa musi być dodatnia",
+        "invalid_vehicle_capacity": "Pojemność parkingowa nie może być negatywna"
     },
     "users-table": {
         "enter_your_search": "Wpisz szukaną frazę...",
@@ -188,7 +193,8 @@
         "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
-        "DUPLICATE_CODE": "Podany kod już istnieje"
+        "DUPLICATE_CODE": "Podany kod już istnieje",
+        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -355,5 +361,19 @@
         "name": "*Nazwa promu",
         "vehicle_capacity": "*Pojemność parkingowa",
         "on_deck_capacity": "*Pojemność pokładowa"
+    },
+    "booking": {
+        "date": "Data:",
+        "route": "Trasa:",
+        "set_people": "*Podaj liczbę osób:",
+        "want_cabin": "Czy chcesz zarezerwować kajutę?",
+        "yes": "Tak",
+        "no": "Nie",
+        "cabin_type": "Wybierz typ kajuty:",
+        "pick_cabin_number": "Wybierz numer kajuty:",
+        "cabin_number": "*Numer kajuty",
+        "vehicle_type": "*Wybierz typ pojazdu:",
+        "ok": "Zarezerwuj",
+        "people_number": "Liczba osób"
     }
 }

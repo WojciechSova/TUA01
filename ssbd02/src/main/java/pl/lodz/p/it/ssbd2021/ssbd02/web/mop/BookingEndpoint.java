@@ -15,12 +15,7 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -105,7 +100,7 @@ public class BookingEndpoint {
      * Metoda udostępniająca informacje o własnej rezerwacji po podaniu numeru rezerwacji.
      *
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
-     * @param number Numer rezerwacji
+     * @param number          Numer rezerwacji
      * @return Informacje o rezerwacji
      */
     @GET
@@ -137,8 +132,8 @@ public class BookingEndpoint {
 
     /**
      * Metoda udostępniająca ogólne informacje o rezerwacjach zalogowanego użytkownika.
-     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
      *
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
      * @return Lista rezerwacji zalogowanego użytkownika, zawierających zestaw ogólnych informacji.
      */
     @GET
@@ -170,11 +165,30 @@ public class BookingEndpoint {
         return null;
     }
 
+    /**
+     * Metoda pozwalająca anulować rezerwację zalogowanego użytkownika.
+     *
+     * @param number          Numer rezerwacji
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego anulowania rezerwacji.
+     */
     @DELETE
-    @Path("cancel")
+    @Path("cancel/{number}")
     @RolesAllowed({"CLIENT"})
-    public Response cancelBooking(BookingDetailsDTO bookingDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response cancelBooking(@PathParam("number") String number, @Context SecurityContext securityContext) {
+        if (number == null || number.isBlank()) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        try {
+            bookingManagerLocal.removeBooking(securityContext.getUserPrincipal().getName(), number);
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
 }

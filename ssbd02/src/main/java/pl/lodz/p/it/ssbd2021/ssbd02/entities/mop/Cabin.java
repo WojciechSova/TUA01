@@ -5,7 +5,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -21,7 +24,8 @@ import java.time.Instant;
         @NamedQuery(name = "Cabin.findById", query = "SELECT c FROM Cabin c WHERE c.id = :id"),
         @NamedQuery(name = "Cabin.findByFerry", query = "SELECT c FROM Cabin c WHERE c.ferry = :ferry"),
         @NamedQuery(name = "Cabin.findByNumber", query = "SELECT c FROM Cabin c WHERE c.number = :number"),
-        @NamedQuery(name = "Cabin.findByFerryAndNumber", query = "SELECT c FROM Cabin c WHERE c.ferry = :ferry AND c.number = :number")
+        @NamedQuery(name = "Cabin.findByFerryAndNumber", query = "SELECT c FROM Cabin c WHERE c.ferry = :ferry AND c.number = :number"),
+        @NamedQuery(name = "Cabin.findOccupiedCabinsOnCruise", query = "SELECT c FROM Cabin c, Booking b WHERE b.cabin = c AND b.cruise = :cruise")
 })
 @Data
 @NoArgsConstructor

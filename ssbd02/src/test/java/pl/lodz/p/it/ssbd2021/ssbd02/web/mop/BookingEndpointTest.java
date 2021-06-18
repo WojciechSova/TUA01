@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingDetailsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
@@ -20,9 +20,8 @@ import javax.ws.rs.core.SecurityContext;
 import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class BookingEndpointTest {
 
@@ -130,5 +129,20 @@ class BookingEndpointTest {
         assertEquals(1, ((List<BookingGeneralDTO>) (response.getEntity())).size());
         assertEquals(BookingMapper.createBookingGeneralDTOFromEntity(booking1), ((List<BookingGeneralDTO>) (response.getEntity())).get(0));
         assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    void cancelBooking() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(securityContext.getUserPrincipal().getName()).thenReturn("login");
+        doAnswer(invocationOnMock -> null).when(bookingManagerLocal).removeBooking("login", booking1.getNumber());
+
+        bookingEndpoint.cancelBooking(booking1.getNumber(), securityContext);
+        verify(bookingManagerLocal).removeBooking("login", booking1.getNumber());
+
+        booking1.setNumber(null);
+        GeneralException noNumber = assertThrows(GeneralException.class,
+                () -> bookingEndpoint.cancelBooking(booking1.getNumber(), securityContext));
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), noNumber.getResponse().getStatus());
     }
 }

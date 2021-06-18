@@ -11,6 +11,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class FerryDetailsComponent implements OnInit {
 
+    ferryEdit = {
+        isFormVisible: false,
+        response: 'hide'
+    };
+
     name = '';
 
     constructor(public identityService: IdentityService,
@@ -25,6 +30,7 @@ export class FerryDetailsComponent implements OnInit {
     }
 
     getFerry(): void {
+        this.ferryEdit.response = 'hide';
         this.ferryDetailsService.getFerry(this.name).subscribe(
             (response: FerryDetails) => {
                 this.ferryDetailsService.readFerryDetails(response);
@@ -41,5 +47,9 @@ export class FerryDetailsComponent implements OnInit {
 
     addCabin(): void {
         this.router.navigate(['ferrytales/ferries/' + this.name + '/addCabin']);
+    }
+
+    changeEditFerryFormVisible(seaportEdit: any): void {
+        this.ferryEdit = seaportEdit;
     }
 }
