@@ -222,6 +222,7 @@
         "current_cruises_list": "Current cruises list",
         "seaport": "Seaport",
         "cruise": "Cruise",
+        "cruise_add": "Add cruise",
         "cabin-edit": "Edit cabin",
         "ferry": "Ferry",
         "cabin": "Cabin",
@@ -322,6 +323,13 @@
         "ferry_name": "Ferry name",
         "book_a_ticket": "Book a ticket",
         "book": "Book"
+    },
+    "add-cruise": {
+        "new_cruise": "New cruise",
+        "number": "*Number",
+        "start_date": "*Start date",
+        "end_date": "*End date",
+        "ferry": "*Ferry"
     },
     "seaport-edit": {
         "required_city": "*City name",
