@@ -40,6 +40,11 @@
     cursor: pointer;
 }
 
+.edit-button:disabled {
+    background-image: linear-gradient(to right, darkgray 0%, darkgray 100%);
+    cursor: auto;
+}
+
 /* Create a custom radio button */
 .checkmark {
     position: absolute;
@@ -74,12 +79,25 @@
 
 /* Style the indicator (dot/circle) */
 .container .checkmark:after {
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 25px;
     height: 25px;
     border-radius: 50%;
     background-color: #0F084B;
     color: #0F084B;
     box-shadow: 0 0 0 0.05em #0F084B, 0 0 0.15em 0.1em #0F084B;
+}
+
+.validation-error{
+    top: 24%;
+    left: 99%;
+    padding: 0.8vh calc(0.2vw + 10px);
+}
+
+.edit-error{
+    .validation-error;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
 }

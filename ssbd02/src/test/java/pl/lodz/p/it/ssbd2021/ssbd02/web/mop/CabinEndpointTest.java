@@ -105,7 +105,7 @@ class CabinEndpointTest {
             cabin.setCabinType(cabinType);
             cabin.setCapacity(10);
             return null;
-        }).when(cabinManagerLocal).updateCabin(any(), any());
+        }).when(cabinManagerLocal).updateCabin(any(), any(), any());
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(cabinTypeManagerLocal.getCabinTypeByName(any())).thenReturn(cabinType);
 
@@ -118,7 +118,7 @@ class CabinEndpointTest {
 
         assertEquals(0L, cabin.getVersion());
 
-        Response response = cabinEndpoint.updateCabin(CabinMapper.createCabinDetailsDTOFromEntity(cabin), securityContext, tag);
+        Response response = cabinEndpoint.updateCabin(CabinMapper.createCabinDetailsDTOFromEntity(cabin), "name", securityContext, tag);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals(1L, cabin.getVersion());

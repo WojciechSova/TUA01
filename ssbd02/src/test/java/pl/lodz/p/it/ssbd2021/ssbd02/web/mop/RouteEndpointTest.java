@@ -13,6 +13,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.RouteMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
@@ -27,8 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class RouteEndpointTest {
 
@@ -137,5 +137,23 @@ class RouteEndpointTest {
         assertThrows(CommonExceptions.class, () -> {
             routeEndpoint.addRoute("STA", "STA", routeDetailsDTO, securityContext);
         });
+    }
+
+    @Test
+    void removeRoute() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("Login");
+        doAnswer(invocationOnMock -> {
+            routes.remove(route1);
+            return null;
+        }).when(routeManagerLocal).removeRoute("VENVAL", "Login");
+
+        Response response = assertDoesNotThrow(() -> routeEndpoint.removeRoute("VENVAL", securityContext));
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        verify(routeManagerLocal).removeRoute("VENVAL", "Login");
+
+        GeneralException ex = assertThrows(CommonExceptions.class, () -> routeEndpoint.removeRoute("WrongCode", securityContext));
+        assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, ex.getResponse().getEntity());
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), ex.getResponse().getStatus());
     }
 }

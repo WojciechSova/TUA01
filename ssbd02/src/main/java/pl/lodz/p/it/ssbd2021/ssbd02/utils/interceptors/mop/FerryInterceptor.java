@@ -38,6 +38,11 @@ public class FerryInterceptor {
                 throw FerryExceptions.createNotAcceptableException(FerryExceptions.ERROR_FERRY_ON_DECK_CAPACITY_GREATER_THAN_ZERO);
             }
 
+            if (pe.getCause().getCause().toString().contains("fk_ferry_id")) {
+                throw FerryExceptions.createConflictException(FerryExceptions.ERROR_FERRY_IS_BEING_USED);
+            }
+
+
             throw pe;
         }
     }
