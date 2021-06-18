@@ -130,11 +130,11 @@ export const localeServiceProviders = [
         EditCabinComponent,
         AddSeaportComponent,
         BookingTableComponent,
-        CruiseDetailsComponent,
         AddCabinComponent,
         BookingsTableOwnComponent,
         AddFerryComponent,
-        FerryEditComponent
+        FerryEditComponent,
+        AddRouteComponent
     ],
     imports: [
         BrowserModule,
