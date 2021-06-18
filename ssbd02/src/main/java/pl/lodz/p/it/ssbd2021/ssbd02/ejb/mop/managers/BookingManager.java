@@ -165,13 +165,15 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
         int secondPrice = 200;
         int firstPrice = 300;
         int vehiclePrice = 200;
+        int onDeckPrice = 30;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("booking.properties")) {
             prop.load(input);
             disabledPrice = Integer.parseInt(prop.getProperty("price.disabled_class"));
             thirdPrice = Integer.parseInt(prop.getProperty("price.third_class"));
             secondPrice = Integer.parseInt(prop.getProperty("price.second_class"));
             firstPrice = Integer.parseInt(prop.getProperty("price.first_class"));
-            vehiclePrice = Integer.parseInt(prop.getProperty("price.on_deck"));
+            onDeckPrice = Integer.parseInt(prop.getProperty("price.on_deck"));
+            vehiclePrice = Integer.parseInt(prop.getProperty("price.vehicle"));
         } catch (IOException e) {
             logger.warn(e);
         }
@@ -201,9 +203,9 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
             if (cruise.getFerry().getOnDeckCapacity() < sumOfPeople + booking.getNumberOfPeople()) {
                 throw FerryExceptions.createConflictException("There is not enough space on the ferry's deck");
             }
-            price += vehiclePrice * booking.getNumberOfPeople();
+            price += onDeckPrice * booking.getNumberOfPeople();
         }
-        price += vehicleType.getRequiredSpace() * Integer.parseInt(prop.getProperty("price.vehicle"));
+        price += vehicleType.getRequiredSpace() * vehiclePrice;
         return price;
     }
 
