@@ -28,7 +28,7 @@ export class RoutesTableComponent implements OnDestroy {
     }
 
     addRoute(): void {
-        // TODO
+        this.router.navigate(['/ferrytales/routes/add']);
     }
 
     ngOnDestroy(): void {

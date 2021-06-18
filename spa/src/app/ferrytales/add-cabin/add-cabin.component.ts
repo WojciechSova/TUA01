@@ -12,7 +12,7 @@ import { CabinGeneral } from '../../model/mop/CabinGeneral';
 })
 export class AddCabinComponent implements OnInit {
 
-    name = "";
+    name = '';
     error: boolean = false;
 
     constructor(private router: Router,
@@ -21,13 +21,13 @@ export class AddCabinComponent implements OnInit {
         this.name = ferryDetailsService.ferry.name;
     }
 
-    ngOnInit(): void {
-    }
-
     form = new FormGroup({
         capacity: new FormControl('', [Validators.required, Validators.min(1), Validators.max(99)]),
         number: new FormControl('', [Validators.required, Validators.pattern("[A-Z][0-9]{3}")]),
-    })
+    });
+
+    ngOnInit(): void {
+    }
 
     goToHomeBreadcrumb(): void {
         this.router.navigate(['/']);

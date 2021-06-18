@@ -234,7 +234,8 @@
         "booking_list_own": "Twoje rezerwacje",
         "cabin_add": "Dodaj kajutę",
         "route": "Trasa",
-        "ferry_add": "Dodaj prom"
+        "ferry_add": "Dodaj prom",
+        "route_add": "Dodaj trasę"
     },
     "session-timeout": {
         "info": {
@@ -392,5 +393,11 @@
         "vehicle_type": "*Wybierz typ pojazdu:",
         "ok": "Zarezerwuj",
         "people_number": "Liczba osób"
+    },
+    "add-route": {
+        "new_route": "Nowa trasa",
+        "start": "*Start",
+        "dest": "*Cel",
+        "code": "*Kod"
     }
 }
