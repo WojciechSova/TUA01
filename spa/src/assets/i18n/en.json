@@ -29,6 +29,7 @@
         "confirm": "Confirm",
         "yes": "Yes",
         "no": "No",
+        "positive": "Number of people must be positive",
         "cabin_edit_failed": "An error occured"
     },
     "links": {
@@ -73,6 +74,10 @@
         "new": "New",
         "choose_a_time_zone": "Select a time zone",
         "UTC_time_zone": "UTC"
+    },
+    "ferry-edit": {
+        "invalid_on_deck_capacity": "On deck capacity must be positive",
+        "invalid_vehicle_capacity": "On deck capacity must be positive or zero"
     },
     "users-table": {
         "enter_your_search": "Enter your search...",
@@ -189,7 +194,8 @@
         "EMAIL_UNIQUE": "The e-mail address you entered already exists",
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists",
-        "DUPLICATE_CODE": "Provided code already exists"
+        "DUPLICATE_CODE": "Provided code already exists",
+        "DUPLICATE_FERRY_NAME": "Provided ferry name already exists"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -356,5 +362,19 @@
         "name": "*Ferry name",
         "vehicle_capacity": "*Vehicle capacity",
         "on_deck_capacity": "*On deck capacity"
+    },
+    "booking": {
+        "date": "Date:",
+        "route": "Route:",
+        "set_people": "Enter the number of people:",
+        "want_cabin": "Do you want to book a cabin?",
+        "yes": "Yes",
+        "no": "No",
+        "cabin_type": "Select cabin type:",
+        "pick_cabin_number": "Select cabin number:",
+        "cabin_number": "*Cabin number",
+        "vehicle_type": "Select vehicle type",
+        "ok": "Book it",
+        "people_number": "Number of people"
     }
 }

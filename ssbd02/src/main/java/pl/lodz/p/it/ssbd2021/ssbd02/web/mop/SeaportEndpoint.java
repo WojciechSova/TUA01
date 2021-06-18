@@ -141,7 +141,8 @@ public class SeaportEndpoint {
         try {
             seaportManager.updateSeaport(SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO),
                     securityContext.getUserPrincipal().getName());
-            return Response.ok().build();
+            return Response.ok()
+                    .build();
         } catch (GeneralException generalException) {
             throw generalException;
         } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -151,10 +152,28 @@ public class SeaportEndpoint {
         }
     }
 
+    /**
+     * Metoda umożliwiająca usunięcie portu.
+     *
+     * @param code            kod identyfikujący port który chcemy usunąć
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku udanego usunięcia portu
+     */
     @DELETE
     @Path("remove/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeSeaport(@PathParam("code") String code, @Context SecurityContext securityContext) {
-        return null;
+        try {
+            String userLogin = securityContext.getUserPrincipal().getName();
+            seaportManager.removeSeaport(code, userLogin);
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 }

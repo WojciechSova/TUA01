@@ -16,7 +16,8 @@
     <div class="ferry-details" id="ferryDetails">
         <div class="button-container">
             <button class="edit-button button-add" (click)="addCabin()" translate>ferry-details.add_cabin</button>
-            <button class="edit-button" translate>general.edit</button>
+            <button class="edit-button" (click)="changeEditFerryFormVisible(ferryEdit = {
+                    isFormVisible: true, response: 'hide'})" translate>general.edit</button>
             <button class="edit-button" (click)="getFerry()" translate>general.refresh</button>
         </div>
         <div class="col">
@@ -62,3 +63,5 @@
         </div>
     </div>
 </div>
+<app-ferry-edit *ngIf="ferryEdit.isFormVisible"
+                  (isEditFerryFormVisible)="changeEditFerryFormVisible($event)"></app-ferry-edit>
