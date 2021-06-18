@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.AccountMopFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
@@ -12,6 +11,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.FerryExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -84,14 +84,17 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void createCruise(Cruise cruise, String name, String code, String login) {
-        Account account = Optional.ofNullable(accountMopFacade.findByLogin(login))
-                .orElseThrow(CommonExceptions::createNoResultException);
+        Account account = accountMopFacade.findByLogin(login);
 
-        Ferry ferry = Optional.ofNullable(ferryFacadeLocal.findByName(name))
-                .orElseThrow(CommonExceptions::createNoResultException);
+        Ferry ferry = ferryFacadeLocal.findByName(name);
 
-        Route route = Optional.ofNullable(routeFacadeLocal.findByCode(code))
-                .orElseThrow(CommonExceptions::createNoResultException);
+        Route route = routeFacadeLocal.findByCode(code);
+
+        List<Cruise> cruises = cruiseFacadeLocal.findAllUsingFerryInTime(ferry, cruise.getStartDate(), cruise.getEndDate());
+
+        if (!cruises.isEmpty()) {
+            throw FerryExceptions.createConflictException(FerryExceptions.ERROR_FERRY_IS_BEING_USED);
+        }
 
         cruise.setVersion(0L);
         cruise.setFerry(ferry);

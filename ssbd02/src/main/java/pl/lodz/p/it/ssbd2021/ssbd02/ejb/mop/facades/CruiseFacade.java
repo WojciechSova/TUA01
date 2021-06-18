@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
@@ -19,6 +20,7 @@ import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -66,6 +68,15 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
     @PermitAll
     public List<Cruise> findAllFutureDate() {
         return entityManager.createNamedQuery("Cruise.findCurrentCruises", Cruise.class).getResultList();
+    }
+
+    @Override
+    public List<Cruise> findAllUsingFerryInTime(Ferry ferry, Timestamp startDate, Timestamp endDate) {
+        TypedQuery<Cruise> typedQuery = entityManager.createNamedQuery("Cruise.findAllUsingFerryInTime", Cruise.class);
+        typedQuery.setParameter("ferry", ferry);
+        typedQuery.setParameter("startDate", startDate);
+        typedQuery.setParameter("endDate", endDate);
+        return typedQuery.getResultList();
     }
 
     @Override
