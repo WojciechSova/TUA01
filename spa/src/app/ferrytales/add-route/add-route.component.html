@@ -33,26 +33,41 @@
                 </div>
             </div>
             <div class="row">
-<!--                <ng-select class="select" [(ngModel)]="start">-->
-<!--                    <ng-option *ngFor="let seaport of seaportGeneralService.seaportsList" [value]="seaport">-->
-<!--                        {{seaport.city}}-->
-<!--                    </ng-option>-->
-<!--                </ng-select>-->
-                <select id="select-start" [(ngModel)]="start" name="startCode">
-                    <option *ngFor="let seaport of seaportGeneralService.seaportsList" [value]="seaport"
-                            (change)="setStartSeaport(seaport.code)">
+                <select [(ngModel)]="start" id="select-start" formControlName="start"
+                        [ngClass]="{'is-invalid': form.controls.start.touched && form.controls.start.invalid,
+                        'chosen': start !== ''}">
+                    <option value="{{start}}" translate>{{start !== '' ? getCity(start) : 'add-route.start'}}</option>
+                    <option *ngFor="let seaport of getSeaports()" value="{{seaport.code}}">
                         {{seaport.city}}
                     </option>
                 </select>
+                <div class="validation-error"
+                     *ngIf="form.controls.start.hasError('required') && form.controls.start.touched"
+                     translate>form.field_required
+                </div>
+            </div>
+            <div class="row">
+                <select [(ngModel)]="dest" id="select-dest" formControlName="dest"
+                        [ngClass]="{'is-invalid': form.controls.dest.touched && form.controls.dest.invalid,
+                        'chosen': dest !== ''}">
+                    <option value="{{dest}}" translate>{{dest !== '' ? getCity(dest) : 'add-route.dest'}}</option>
+                    <option *ngFor="let seaport of getSeaports()" value="{{seaport.code}}">
+                        {{seaport.city}}
+                    </option>
+                </select>
+                <div class="validation-error"
+                     *ngIf="form.controls.dest.hasError('required') && form.controls.dest.touched"
+                     translate>form.field_required
+                </div>
             </div>
         </div>
         <button class="edit-button"
                 (click)="addRoute(code.value)"
-                translate>form.save
+                [disabled]=form.invalid translate>form.save
         </button>
 
-<!--        <img class="return-arrow" (click)="goToFerryBreadcrumb()"-->
-<!--             src="assets/imgs/back-arrow.png"-->
-<!--             alt=""/>-->
+        <img class="return-arrow" (click)="goToRouteListBreadcrumb()"
+             src="assets/imgs/back-arrow.png"
+             alt=""/>
     </form>
 </div>

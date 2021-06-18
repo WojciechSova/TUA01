@@ -390,5 +390,11 @@
         "vehicle_type": "Select vehicle type",
         "ok": "Book it",
         "people_number": "Number of people"
+    },
+    "add-route": {
+        "new_route": "New route",
+        "start": "Start",
+        "dest": "Destination",
+        "code": "*Code"
     }
 }

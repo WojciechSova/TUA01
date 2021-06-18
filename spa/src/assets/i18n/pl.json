@@ -390,5 +390,11 @@
         "vehicle_type": "*Wybierz typ pojazdu:",
         "ok": "Zarezerwuj",
         "people_number": "Liczba osób"
+    },
+    "add-route": {
+        "new_route": "Nowa trasa",
+        "start": "*Start",
+        "dest": "*Cel",
+        "code": "*Kod"
     }
 }
