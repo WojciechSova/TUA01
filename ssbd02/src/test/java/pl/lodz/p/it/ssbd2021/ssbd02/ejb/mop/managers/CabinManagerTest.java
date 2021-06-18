@@ -14,8 +14,11 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.SeaportExceptions;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -23,8 +26,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CabinManagerTest {
 
@@ -137,5 +139,25 @@ class CabinManagerTest {
         assertEquals(666, cabin1.getCapacity());
         assertTrue(cabin1.getModificationDate().compareTo(Timestamp.from(Instant.now())) < 10000);
         assertEquals(modifiedBy, cabin1.getModifiedBy());
+    }
+
+    @Test
+    void removeCabin() {
+        when(cabinFacadeLocal.findByNumber(cabin1.getNumber())).thenReturn(cabin1);
+        cabinManager.removeCabin(cabin1.getNumber(), login);
+        verify(cabinFacadeLocal).remove(cabin1);
+    }
+
+    @Test
+    void removeCabinException() {
+        when(cabinFacadeLocal.findByNumber(cabin1.getNumber())).thenReturn(cabin1);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createConstraintViolationException();
+        }).when(cabinFacadeLocal).remove(cabin1);
+
+        CabinExceptions exception = assertThrows(CabinExceptions.class, () -> cabinManager.removeCabin(cabin1.getNumber(), login));
+
+        assertEquals(Response.Status.CONFLICT.getStatusCode(), exception.getResponse().getStatus());
+        assertEquals(CabinExceptions.ERROR_CABIN_USED_BY_BOOKING, exception.getResponse().getEntity());
     }
 }
