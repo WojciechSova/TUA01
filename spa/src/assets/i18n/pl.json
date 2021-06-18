@@ -222,6 +222,7 @@
         "current_cruises_list": "Lista aktualnych rejsów",
         "seaport": "Port",
         "cruise": "Rejs",
+        "cruise_add": "Dodaj rejs",
         "cabin-edit": "Edycja kajuty",
         "ferry": "Prom",
         "cabin": "Kajuta",
@@ -321,6 +322,13 @@
         "ferry_name": "Nazwa promu",
         "book_a_ticket": "Zarezerwuj bilet",
         "book": "Zarezerwuj"
+    },
+    "add-cruise": {
+        "new_cruise": "Nowy rejs",
+        "number": "*Numer rejsu",
+        "start_date": "*Data rozpoczęcia rejsu",
+        "end_date": "*Data zakończenia rejsu",
+        "ferry": "*Prom"
     },
     "seaport-edit": {
         "required_city": "*Nazwa miasta",
