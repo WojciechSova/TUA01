@@ -135,12 +135,13 @@ class SeaportManagerTest {
 
     @Test
     void removeSeaport() {
+        when(seaportFacadeLocal.findByCode(s1.getCode())).thenReturn(s1);
         doAnswer(invocationOnMock -> {
             throw CommonExceptions.createConstraintViolationException();
         }).when(seaportFacadeLocal).remove(s1);
 
         SeaportExceptions exception = assertThrows(SeaportExceptions.class,
-                () -> seaportManager.removeSeaport(s1));
+                () -> seaportManager.removeSeaport(s1.getCode(), "sampleLogin"));
 
         verify(seaportFacadeLocal).remove(s1);
 

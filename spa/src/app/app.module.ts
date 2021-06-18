@@ -59,6 +59,7 @@ import { AddSeaportComponent } from './ferrytales/add-seaport/add-seaport.compon
 import { BookingsTableOwnComponent } from './ferrytales/bookings-table-own/bookings-table-own.component';
 import { AddCabinComponent } from './ferrytales/add-cabin/add-cabin.component';
 import { AddCruiseComponent } from './ferrytales/add-cruise/add-cruise.component';
+import { BookingFormComponent } from './ferrytales/booking-form/booking-form.component';
 import { FerryEditComponent } from './ferrytales/ferry-details/ferry-edit/ferry-edit.component';
 import { AddFerryComponent } from './ferrytales/add-ferry/add-ferry.component';
 
@@ -114,6 +115,7 @@ export const localeServiceProviders = [
         UnauthorizedComponent,
         FerriesTableComponent,
         RoutesTableComponent,
+        BookingFormComponent,
         SeaportDetailsComponent,
         SeaportsTableComponent,
         BookingDetailsComponent,
@@ -128,13 +130,10 @@ export const localeServiceProviders = [
         EditCabinComponent,
         AddSeaportComponent,
         BookingTableComponent,
-        CruiseDetailsComponent,
         AddCabinComponent,
         BookingsTableOwnComponent,
         AddFerryComponent,
-        BookingsTableOwnComponent,
         AddCruiseComponent,
-        AddFerryComponent,
         FerryEditComponent
     ],
     imports: [

@@ -14,6 +14,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Seaport;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.SeaportExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.SeaportMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
@@ -26,8 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class SeaportEndpointTest {
 
@@ -150,5 +150,27 @@ class SeaportEndpointTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals(Response.Status.PRECONDITION_FAILED.getStatusCode(), badEtag.getResponse().getStatus());
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), noCity.getResponse().getStatus());
+    }
+
+    @Test
+    void removeSeaport() {
+        Account account = new Account();
+        account.setLogin("Login");
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn(account.getLogin());
+
+        seaportEndpoint.removeSeaport(seaport1.getCode(), securityContext);
+
+        verify(seaportManager).removeSeaport(seaport1.getCode(), "Login");
+
+        doAnswer(invocationOnMock -> {
+            throw SeaportExceptions.createConflictException(SeaportExceptions.ERROR_SEAPORT_USED_BY_ROUTE);
+        }).when(seaportManager).removeSeaport(seaport1.getCode(), "Login");
+
+        SeaportExceptions exception = assertThrows(SeaportExceptions.class,
+                () -> seaportEndpoint.removeSeaport(seaport1.getCode(), securityContext));
+
+        assertEquals(Response.Status.CONFLICT.getStatusCode(), exception.getResponse().getStatus());
+        assertEquals(SeaportExceptions.ERROR_SEAPORT_USED_BY_ROUTE, exception.getResponse().getEntity());
     }
 }
