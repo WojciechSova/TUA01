@@ -17,6 +17,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
+import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -138,9 +139,23 @@ class CruiseManagerTest {
         when(cruiseFacadeLocal.findByNumber(cruise1.getNumber())).thenReturn(cruise1);
         when(accountMopFacadeLocal.findByLogin("login")).thenReturn(account);
 
+        cruise1.setStartDate(Timestamp.from(Instant.now().plus(1, ChronoUnit.HOURS)));
+
         cruiseManager.updateCruise(cruise2, "login");
         Assertions.assertEquals(account, cruise1.getModifiedBy());
         Assertions.assertEquals(startDate, cruise1.getStartDate());
         Assertions.assertEquals(endDate, cruise1.getEndDate());
+
+        cruise1.setStartDate(Timestamp.from(Instant.now().minus(1, ChronoUnit.HOURS)));
+
+        WebApplicationException exception = assertThrows(CommonExceptions.class,
+                () -> cruiseManager.updateCruise(cruise2, "login"));
+
+        assertAll(
+                () -> assertEquals(CommonExceptions.createConstraintViolationException().getResponse().getStatus(),
+                        exception.getResponse().getStatus()),
+                () -> assertEquals(CommonExceptions.createConstraintViolationException().getMessage(),
+                        exception.getMessage())
+        );
     }
 }

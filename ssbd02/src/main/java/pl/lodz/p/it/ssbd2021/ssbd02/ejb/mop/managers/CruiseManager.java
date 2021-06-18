@@ -108,23 +108,26 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void updateCruise(Cruise cruise, String modifiedBy) {
+        Timestamp modificationDate = Timestamp.from(Instant.now());
+
         Cruise databaseCruise = cruiseFacadeLocal.findByNumber(cruise.getNumber());
 
         Cruise cruiseClone = SerializationUtils.clone(databaseCruise);
 
-        cruiseClone.setVersion(databaseCruise.getVersion());
+        if (modificationDate.after(databaseCruise.getStartDate())) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
+        cruiseClone.setVersion(cruise.getVersion());
 
         cruiseClone.setStartDate(cruise.getStartDate());
         cruiseClone.setEndDate(cruise.getEndDate());
-        cruiseClone.setRoute(databaseCruise.getRoute());
-        cruiseClone.setFerry(databaseCruise.getFerry());
         cruiseClone.setModifiedBy(accountMopFacade.findByLogin(modifiedBy));
-        cruiseClone.setModificationDate(Timestamp.from(Instant.now()));
-        cruiseClone.setCreatedBy(databaseCruise.getCreatedBy());
+        cruiseClone.setModificationDate(modificationDate);
 
         cruiseFacadeLocal.edit(cruiseClone);
         logger.info("The user with login {} updated the cruise with number {}",
-                modifiedBy, cruise.getNumber());
+                modifiedBy, cruiseClone.getNumber());
     }
 
     @Override
