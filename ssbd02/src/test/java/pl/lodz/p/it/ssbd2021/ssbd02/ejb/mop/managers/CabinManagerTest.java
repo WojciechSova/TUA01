@@ -101,7 +101,7 @@ class CabinManagerTest {
         cabinType.setCabinTypeName("Luksusowa");
         cabin1.setCabinType(cabinType);
         cabin1.setCapacity(123);
-        when(cabinFacadeLocal.findByNumber("H666")).thenReturn(cabin1);
+        when(cabinFacadeLocal.findByFerryAndNumber(any(), any())).thenReturn(cabin1);
 
         assertEquals("H666", cabin1.getNumber());
         assertEquals(1L, cabin1.getVersion());
@@ -129,7 +129,7 @@ class CabinManagerTest {
             return null;
         }).when(cabinFacadeLocal).edit(any());
 
-        assertDoesNotThrow(() -> cabinManager.updateCabin(updateCabin, "Autor"));
+        assertDoesNotThrow(() -> cabinManager.updateCabin(updateCabin, "Autor", "Name"));
 
         assertEquals("H666", cabin1.getNumber());
         assertEquals(2L, cabin1.getVersion());

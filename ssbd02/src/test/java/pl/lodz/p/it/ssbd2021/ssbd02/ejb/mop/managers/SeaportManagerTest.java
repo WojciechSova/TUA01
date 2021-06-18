@@ -83,10 +83,13 @@ class SeaportManagerTest {
     @Test
     void createSeaport() {
         String login = "przykladowy";
+        Account account = new Account();
+        account.setLogin(login);
         doAnswer(invocationOnMock -> {
             seaports.add(s3);
             return null;
         }).when(seaportFacadeLocal).create(s3);
+        when(accountMopFacadeLocal.findByLogin(login)).thenReturn(account);
 
         seaportManager.createSeaport(login, s3);
 
@@ -132,12 +135,13 @@ class SeaportManagerTest {
 
     @Test
     void removeSeaport() {
+        when(seaportFacadeLocal.findByCode(s1.getCode())).thenReturn(s1);
         doAnswer(invocationOnMock -> {
             throw CommonExceptions.createConstraintViolationException();
         }).when(seaportFacadeLocal).remove(s1);
 
         SeaportExceptions exception = assertThrows(SeaportExceptions.class,
-                () -> seaportManager.removeSeaport(s1));
+                () -> seaportManager.removeSeaport(s1.getCode(), "sampleLogin"));
 
         verify(seaportFacadeLocal).remove(s1);
 

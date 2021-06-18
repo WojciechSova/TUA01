@@ -28,7 +28,9 @@
         "save": "Zapisz",
         "confirm": "Potwierdź",
         "yes": "Tak",
-        "no": "Nie"
+        "no": "Nie",
+        "positive": "Liczba osób musi być dodatnia",
+        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem"
     },
     "links": {
         "about_us": "O nas",
@@ -72,6 +74,10 @@
         "new": "Nowe",
         "choose_a_time_zone": "Wybierz strefę czasową",
         "UTC_time_zone": "Strefa UTC"
+    },
+    "ferry-edit": {
+        "invalid_on_deck_capacity": "Pojemność pokładowa musi być dodatnia",
+        "invalid_vehicle_capacity": "Pojemność parkingowa nie może być negatywna"
     },
     "users-table": {
         "enter_your_search": "Wpisz szukaną frazę...",
@@ -187,7 +193,9 @@
         "SAME_PASSWORD_AS_PREVIOUS": "Podane hasło jest takie samo jak wcześniejsze",
         "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
-        "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje"
+        "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
+        "DUPLICATE_CODE": "Podany kod już istnieje",
+        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -210,18 +218,19 @@
             "list": "Lista tras"
         },
         "ferries_list": "Lista promów",
-        "seaport-list": "Lista portów",
+        "seaport_list": "Lista portów",
         "current_cruises_list": "Lista aktualnych rejsów",
         "seaport": "Port",
         "cruise": "Rejs",
+        "cabin-edit": "Edycja kajuty",
         "ferry": "Prom",
         "cabin": "Kajuta",
         "booking": "Rezerwacja",
-        "cabin_add": "Dodaj kajutę",
-        "cabin-edit": "Edycja kajuty",
-        "route": "Trasa",
         "seaport_add": "Dodaj port",
         "booking_list_own": "Twoje rezerwacje",
+        "cabin_add": "Dodaj kajutę",
+        "route": "Trasa",
+        "ferry_add": "Dodaj prom",
         "route_add": "Dodaj trasę"
     },
     "session-timeout": {
@@ -253,7 +262,8 @@
     "ferries-table": {
         "name": "Nazwa",
         "vehicle_capacity": "Pojemność garażowa",
-        "on_deck_capacity": "Pojemność pokładowa"
+        "on_deck_capacity": "Pojemność pokładowa",
+        "add_ferry": "Dodaj prom"
     },
     "ferry-details": {
         "name": "Nazwa:",
@@ -317,7 +327,12 @@
         "required_city": "*Nazwa miasta",
         "city_name": "Wprowadź nową nazwę miasta:",
         "result_success": "Zmiana miasta portu przebiegła pomyślnie",
-        "result_failure": "Zmiana miasta portu nie powiodła się"
+        "result_gone": "Zmiana miasta portu nie powiodła się ponieważ wybrany port został usunięty",
+        "result_failure": "Zmiana miasta portu nie powiodła się",
+        "result_opl": "Stan portu został zmieniony, proszę spróbować ponownie",
+        "result_name_not_unique": "Wprowadzona nazwa miasta nie jest unikalna",
+        "name_required": "Nazwa miasta jest wymagana",
+        "name_too_long": "Nazwa miasta nie może być dłuższa niż 30 znaków"
     },
     "cabin-details": {
         "edit_cabin": "Edytuj kajutę",
@@ -347,5 +362,25 @@
         "capacity": "Pojemność",
         "cabin_type": "Typ kajuty",
         "number": "Numer"
+    },
+    "add-ferry": {
+        "new_ferry": "Nowy prom",
+        "name": "*Nazwa promu",
+        "vehicle_capacity": "*Pojemność parkingowa",
+        "on_deck_capacity": "*Pojemność pokładowa"
+    },
+    "booking": {
+        "date": "Data:",
+        "route": "Trasa:",
+        "set_people": "*Podaj liczbę osób:",
+        "want_cabin": "Czy chcesz zarezerwować kajutę?",
+        "yes": "Tak",
+        "no": "Nie",
+        "cabin_type": "Wybierz typ kajuty:",
+        "pick_cabin_number": "Wybierz numer kajuty:",
+        "cabin_number": "*Numer kajuty",
+        "vehicle_type": "*Wybierz typ pojazdu:",
+        "ok": "Zarezerwuj",
+        "people_number": "Liczba osób"
     }
 }

@@ -1,0 +1,44 @@
+@import "../edit-user/edit-user.component.less";
+
+.row {
+    width: fit-content;
+
+    > * {
+        width: 100%;
+        margin: 0 0 1.2vh 0;
+        padding: 4px 8px;
+    }
+
+    .validation-error {
+        width: max-content;
+        padding: 7.5px;
+        left: 66%;
+        transform: translateY(3%);
+    }
+
+    @media screen and (max-height: 750px) {
+        .validation-error {
+            left: 66.5%;
+            transform: translateY(3%);
+        }
+    }
+}
+
+.col {
+    align-items: center;
+}
+
+.edit-button {
+    &:disabled {
+        background-image: linear-gradient(to right, darkgray 0%, darkgray 100%);
+        cursor: auto;
+    }
+}
+
+.validation-info {
+    left: 50%;
+    top: 118%;
+    transform: translateX(-50%);
+}
+
+

@@ -150,4 +150,12 @@ class FerryManagerTest {
         assertEquals(account, capturedFerry.getModifiedBy());
         assertTrue(timestamp.before(capturedFerry.getModificationDate()));
     }
+
+    @Test
+    void removeFerry() {
+        when(ferryFacadeLocal.findByName("ferry")).thenReturn(ferry1);
+        ferryManager.removeFerry("ferry", "login");
+
+        verify(ferryFacadeLocal).remove(ferry1);
+    }
 }

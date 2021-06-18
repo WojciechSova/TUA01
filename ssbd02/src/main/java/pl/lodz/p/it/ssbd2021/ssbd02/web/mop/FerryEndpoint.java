@@ -13,6 +13,9 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -88,24 +91,75 @@ public class FerryEndpoint {
         }
     }
 
+    /**
+     * Metoda dodająca nowy prom.
+     *
+     * @param ferryDetailsDTO Tworzony prom
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego utworzenia promu
+     */
     @POST
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addFerry(FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response addFerry(@Valid FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
+        if (ferryDetailsDTO.getName() == null || ferryDetailsDTO.getVehicleCapacity() == null
+                || ferryDetailsDTO.getOnDeckCapacity() == null) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        try {
+            ferryManagerLocal.createFerry(securityContext.getUserPrincipal().getName(),
+                    FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO));
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
+    }
+
+    /**
+     * Metoda edytująca prom.
+     *
+     * @param ferryDetailsDTO Obiekt typu {@link FerryDetailsDTO} zawierający zaktualizowane pola promu.
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param eTag            ETag podawany w zawartości nagłówka "If-Match"
+     * @return Kod 200 w przypadku poprawnej aktualizacji.
+     */
+    @PUT
+    @Path("update")
+    @RolesAllowed({"EMPLOYEE"})
+    public Response updateFerry(@Valid FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext,
+                                @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
+        if (ferryDetailsDTO.getName() == null || ferryDetailsDTO.getName().isBlank()
+                || ferryDetailsDTO.getVersion() == null) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, ferryDetailsDTO)) {
+            throw CommonExceptions.createPreconditionFailedException();
+        }
+        try {
+            ferryManagerLocal.updateFerry(FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO),
+                    securityContext.getUserPrincipal().getName());
+            return Response.ok().build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @DELETE
     @Path("remove/{name}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeFerry(@PathParam("name") String name, @Context SecurityContext securityContext) {
-        return null;
-    }
+        ferryManagerLocal.removeFerry(name, securityContext.getUserPrincipal().getName());
 
-    @PUT
-    @Path("update")
-    @RolesAllowed({"EMPLOYEE"})
-    public Response updateFerry(FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+        return Response.ok()
+                .build();
     }
 }

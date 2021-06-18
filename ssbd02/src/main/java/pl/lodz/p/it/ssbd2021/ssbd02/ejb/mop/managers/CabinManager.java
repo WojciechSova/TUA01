@@ -82,8 +82,9 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void updateCabin(Cabin cabin, String modifiedBy) {
-        Cabin cabinFromDB = Optional.ofNullable(cabinFacadeLocal.findByNumber(cabin.getNumber())).
+    public void updateCabin(Cabin cabin, String modifiedBy, String ferryName) {
+        Ferry ferry = ferryFacadeLocal.findByName(ferryName);
+        Cabin cabinFromDB = Optional.ofNullable(cabinFacadeLocal.findByFerryAndNumber(ferry, cabin.getNumber())).
                 orElseThrow(CommonExceptions::createNoResultException);
         Cabin cab = SerializationUtils.clone(cabinFromDB);
 
@@ -97,7 +98,8 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
         Account cabModifiedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException);
         cab.setModifiedBy(cabModifiedBy);
         cab.setModificationDate(Timestamp.from(Instant.now()));
-
+        cab.setCreatedBy(cabinFromDB.getCreatedBy());
+        cab.setFerry(ferry);
         cabinFacadeLocal.edit(cab);
         logger.info("The user with login {} updated the cabin with number {}",
                 this.getInvokerId(), cabinFromDB.getNumber());

@@ -16,6 +16,7 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -89,17 +90,64 @@ public class RouteEndpoint {
         }
     }
 
+    /**
+     * Metoda umożliwiająca dodanie nowej trasy.
+     *
+     * @param start           Identyfikator biznesowy portu startowego
+     * @param dest            Identyfikator biznesowy portu docelowego
+     * @param routeDetailsDTO Obiekt typu {@link RouteDetailsDTO} przechowujący szczegóły nowej trasy
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego dodania trasy
+     */
     @POST
-    @Path("add")
+    @Path("add/from/{start}/to/{dest}")
     @RolesAllowed({"EMPLOYEE"})
-    public Response addRoute(RouteDetailsDTO routeDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response addRoute(@PathParam("start") String start, @PathParam("dest") String dest,
+                             @Valid RouteDetailsDTO routeDetailsDTO, @Context SecurityContext securityContext) {
+        if (!start.matches("[A-Z]{3}") || !dest.matches("[A-Z]{3}") || start.equals(dest)) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
+        try {
+            routeManager.createRoute(RouteMapper.createRouteFromRouteDetailsDTO(routeDetailsDTO),
+                    start, dest, securityContext.getUserPrincipal().getName());
+
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
+    /**
+     * Metoda umożliwiająca usunięcie trasy.
+     *
+     * @param code            Kod trasy, którą chcemy usunąć
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod odpowiedzi 200 w przypadku poprawnego usunięcia trasy
+     */
     @DELETE
     @Path("remove/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeRoute(@PathParam("code") String code, @Context SecurityContext securityContext) {
-        return null;
+        if (!code.matches("[A-Z]{6}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
+        try {
+            routeManager.removeRoute(code, securityContext.getUserPrincipal().getName());
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 }

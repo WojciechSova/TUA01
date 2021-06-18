@@ -16,6 +16,7 @@ public class BookingExceptions extends GeneralException {
     public static String ERROR_BOOKING_NUMBER_OF_PEOPLE_GREATER_THAN_ZERO = "ERROR.BOOKING_NUMBER_OF_PEOPLE_GREATER_THAN_ZERO";
     public static String ERROR_BOOKING_PRICE_GREATER_THAN_ZERO = "ERROR.BOOKING_PRICE_GREATER_THAN_ZERO";
     public static String ERROR_BOOKING_NOT_FOUND = "ERROR.BOOKING_NOT_FOUND";
+    public static String ERROR_CANNOT_CANCEL_RESERVATION = "ERROR.CANNOT_CANCEL_RESERVATION";
 
     public BookingExceptions(Response.Status status, String key) {
         super(status, key);
