@@ -144,7 +144,12 @@
         "city": "Miasto",
         "code": "Kod portu",
         "add": "Dodaj port",
-        "remove": "Usuń port"
+        "remove": "Usuń port",
+        "response": {
+            "success": "Usuwanie portu przebiegło pomyślnie",
+            "in_use": "Port jest wykorzystywany przez trasę i nie mógł zostać usunięty",
+            "result_gone": "Port który chciałeś usunąć został usunięty przez kogoś innego"
+        }
     },
     "main-page": {
         "advert": "Przeprawy promowe jak z bajki",

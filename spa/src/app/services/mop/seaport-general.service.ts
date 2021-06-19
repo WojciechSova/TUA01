@@ -28,7 +28,11 @@ export class SeaportGeneralService implements OnDestroy {
     }
 
     addSeaport(seaport: SeaportGeneral): any {
-        return this.http.post(this.url.concat("/add"), seaport, {responseType: 'text'});
+        return this.http.post(this.url.concat('/add'), seaport, {responseType: 'text'});
+    }
+
+    deleteSeaport(code: string): any {
+        return this.http.delete(this.url.concat('/remove/', code));
     }
 
 }

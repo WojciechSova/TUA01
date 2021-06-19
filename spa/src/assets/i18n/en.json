@@ -144,7 +144,12 @@
         "city": "City",
         "code": "Seaport code",
         "add": "Add new seaport",
-        "remove": "Remove seaport"
+        "remove": "Remove seaport",
+        "response": {
+            "success": "Seaport deleted successfully",
+            "in_use": "Seaport is used by a route it could not be deleted",
+            "result_gone": "Seaport you tried to delete was deleted by someone else"
+        }
     },
     "main-page": {
         "advert": "Fairytale-like ferry crossings",
