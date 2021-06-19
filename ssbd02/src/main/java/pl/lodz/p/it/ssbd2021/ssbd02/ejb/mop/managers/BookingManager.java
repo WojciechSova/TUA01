@@ -30,7 +30,6 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -64,7 +63,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Booking> getAllBookings() {
-        return Optional.ofNullable(bookingFacadeLocal.findAll()).orElseThrow(CommonExceptions::createNoResultException);
+        return bookingFacadeLocal.findAll();
     }
 
     @Override
@@ -82,23 +81,19 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     @Override
     @RolesAllowed({"CLIENT"})
     public List<Booking> getAllBookingsByAccount(String login) {
-        return Optional.of(bookingFacadeLocal.findAllByAccount(accountMopFacadeLocal.findByLogin(login))).
-                orElseThrow(CommonExceptions::createNoResultException);
+        return bookingFacadeLocal.findAllByAccount(accountMopFacadeLocal.findByLogin(login));
     }
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public Booking getBookingByNumber(String number) {
-        return Optional.ofNullable(bookingFacadeLocal.findByNumber(number))
-                .orElseThrow(CommonExceptions::createNoResultException);
+        return bookingFacadeLocal.findByNumber(number);
     }
 
     @Override
     @RolesAllowed({"CLIENT"})
     public Booking getBookingByAccountAndNumber(String login, String number) {
-        return Optional.ofNullable(bookingFacadeLocal
-                .findByAccountAndNumber(accountMopFacadeLocal.findByLogin(login), number))
-                .orElseThrow(CommonExceptions::createNoResultException);
+        return bookingFacadeLocal.findByAccountAndNumber(accountMopFacadeLocal.findByLogin(login), number);
     }
 
     @Override

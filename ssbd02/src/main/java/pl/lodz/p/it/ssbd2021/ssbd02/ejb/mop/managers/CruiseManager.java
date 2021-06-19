@@ -1,7 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.AccountMopFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
@@ -11,7 +10,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -25,7 +23,6 @@ import javax.interceptor.Interceptors;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Manager rejsów
@@ -59,7 +56,7 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     @Override
     @PermitAll
     public List<Cruise> getAllCurrentCruises() {
-        return Optional.ofNullable(cruiseFacadeLocal.findAllFutureDate()).orElseThrow(CommonExceptions::createNoResultException);
+        return cruiseFacadeLocal.findAllFutureDate();
     }
 
     @Override
@@ -84,14 +81,11 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void createCruise(Cruise cruise, String name, String code, String login) {
-        Account account = Optional.ofNullable(accountMopFacade.findByLogin(login))
-                .orElseThrow(CommonExceptions::createNoResultException);
+        Account account = accountMopFacade.findByLogin(login);
 
-        Ferry ferry = Optional.ofNullable(ferryFacadeLocal.findByName(name))
-                .orElseThrow(CommonExceptions::createNoResultException);
+        Ferry ferry = ferryFacadeLocal.findByName(name);
 
-        Route route = Optional.ofNullable(routeFacadeLocal.findByCode(code))
-                .orElseThrow(CommonExceptions::createNoResultException);
+        Route route = routeFacadeLocal.findByCode(code);
 
         cruise.setVersion(0L);
         cruise.setFerry(ferry);
