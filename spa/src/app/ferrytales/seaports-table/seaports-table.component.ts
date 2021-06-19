@@ -46,11 +46,13 @@ export class SeaportsTableComponent implements OnInit {
     }
 
     deleteSeaport(code: string): void {
+        this.deleteResultMessage = 'HIDDEN';
         this.seaportGeneralService.deleteSeaport(code).subscribe(() => {
             this.deleteResultMessage = 'SUCCESS';
         }, () => {
             this.deleteResultMessage = 'FAILURE';
+        }).then(() => {
+            this.getSeaports();
         });
-        this.getSeaports();
     }
 }
