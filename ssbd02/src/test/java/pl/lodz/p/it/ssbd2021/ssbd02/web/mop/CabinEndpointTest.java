@@ -14,6 +14,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
@@ -29,8 +30,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CabinEndpointTest {
 
@@ -131,6 +131,18 @@ class CabinEndpointTest {
         assertEquals(1L, cabin.getVersion());
         assertEquals(10, cabin.getCapacity());
         assertEquals(cabinType.getCabinTypeName(), cabin.getCabinType().getCabinTypeName());
+    }
+
+    @Test
+    void removeCabin() {
+        cabin.setNumber("P123");
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        cabinEndpoint.removeCabin(cabin.getNumber(), securityContext);
+        verify(cabinManagerLocal).removeCabin(cabin.getNumber(), userPrincipal.getName());
+
+        cabin.setNumber("Niepoprawny");
+        CommonExceptions exception = assertThrows(CommonExceptions.class, () -> cabinEndpoint.removeCabin(cabin.getNumber(), securityContext));
+        assertEquals(400, exception.getResponse().getStatus());
     }
 
     @Test

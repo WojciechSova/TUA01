@@ -78,7 +78,7 @@ public class CabinEndpoint {
     /**
      * Metoda udostępniająca szczegółowe informacje dotyczące kajuty o podanym numerze i znajdującej się na podanym promie.
      *
-     * @param ferryName Nazwa promu, na którym znajduje się kajuta
+     * @param ferryName   Nazwa promu, na którym znajduje się kajuta
      * @param cabinNumber Numer wyszukiwanej kajuty
      * @return Szczegółowe informacje o kajucie
      */
@@ -136,11 +136,32 @@ public class CabinEndpoint {
         }
     }
 
+    /**
+     * Metoda usuwająca kajutę.
+     *
+     * @param number          Numer identyfikujący kajutę, która będzie usuwana
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku udanego usunięcia kajuty
+     */
     @DELETE
     @Path("remove/{number}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeCabin(@PathParam("number") String number, @Context SecurityContext securityContext) {
-        return null;
+        if (number == null || number.isBlank() || !number.matches("[A-Z][0-9]{3}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
+        try {
+            cabinManager.removeCabin(number, securityContext.getUserPrincipal().getName());
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @PUT

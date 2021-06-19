@@ -128,7 +128,7 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
         try {
             Cabin cabin = cabinFacadeLocal.findByNumber(number);
             cabinFacadeLocal.remove(cabin);
-            logger.info("The employee with login {} has deleted cabin with number {}",
+            logger.info("The user with login {} has deleted cabin with number {}",
                     removedBy, number);
         } catch (CommonExceptions ce) {
             if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode() &&
