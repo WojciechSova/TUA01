@@ -10,6 +10,8 @@ import { RouteGeneral } from '../../model/mop/RouteGeneral';
 })
 export class RoutesTableComponent implements OnDestroy {
 
+    result = 'hidden';
+
     routes: RouteGeneral[] = [];
 
     constructor(private router: Router,
@@ -29,6 +31,23 @@ export class RoutesTableComponent implements OnDestroy {
 
     addRoute(): void {
         this.router.navigate(['/ferrytales/routes/add']);
+    }
+
+    refresh(): void {
+        this.getRoutes();
+        this.result = 'hidden';
+    }
+
+    removeRoute(code: string): void {
+        this.result = 'hidden';
+        this.routeGeneralService.removeRoute(code).subscribe(
+            () => {
+                this.result = 'success';
+                this.getRoutes();
+            },
+            () => {
+                this.result = 'failure';
+            });
     }
 
     ngOnDestroy(): void {

@@ -19,4 +19,8 @@ export class RouteGeneralService {
             responseType: 'json'
         });
     }
+
+    removeRoute(code: string): any {
+        return this.httpClient.delete<any>(this.url.concat('/remove/', encodeURIComponent(code)));
+    }
 }
