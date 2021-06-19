@@ -5,6 +5,6 @@ export interface CruiseGeneral {
     startDate: Date;
     endDate: Date;
     route?: RouteGeneral;
-    ferry: FerryGeneral;
+    ferry?: FerryGeneral;
     number: string;
 }

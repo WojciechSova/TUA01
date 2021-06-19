@@ -71,6 +71,7 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
     }
 
     @Override
+    @RolesAllowed({"EMPLOYEE"})
     public List<Cruise> findAllUsingFerryInTime(Ferry ferry, Timestamp startDate, Timestamp endDate) {
         TypedQuery<Cruise> typedQuery = entityManager.createNamedQuery("Cruise.findAllUsingFerryInTime", Cruise.class);
         typedQuery.setParameter("ferry", ferry);

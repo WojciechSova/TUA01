@@ -9,6 +9,7 @@
     },
     "form": {
         "invalid_format": "Invalid format",
+        "invalid_number": "Cruise number should have 6 capital letters and 6 digits",
         "invalid_phone_number": "Phone number should have between 3 and 15 digits",
         "field_required": "Field required",
         "login": "Login",
@@ -195,7 +196,8 @@
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists",
         "DUPLICATE_CODE": "Provided code already exists",
-        "DUPLICATE_FERRY_NAME": "Provided ferry name already exists"
+        "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
+        "FERRY_IS_BEING_USED": "Ferry is being used"
     },
     "error-page": {
         "forbidden_code": "Error 403",
