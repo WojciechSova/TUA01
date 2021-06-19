@@ -74,7 +74,8 @@ public interface CruiseManagerLocal {
     /**
      * Metoda usuwa rejs o numerze cruiseNumber.
      *
-     * @param cruiseNumber numer identyfikujący rejs typu {@link String}
+     * @param cruiseNumber Numer identyfikujący rejs typu {@link String}
+     * @param userLogin Login użytkownika, który usuwa encje {@link String}
      */
-    void removeCruise(String cruiseNumber);
+    void removeCruise(String cruiseNumber, String userLogin);
 }
