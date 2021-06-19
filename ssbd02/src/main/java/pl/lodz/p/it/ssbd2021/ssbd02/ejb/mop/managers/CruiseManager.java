@@ -113,7 +113,7 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeCruise(Cruise cruise) {
+    public void removeCruise(String cruiseNumber) {
 
     }
 }

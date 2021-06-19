@@ -72,9 +72,9 @@ public interface CruiseManagerLocal {
     void updateCruise(Cruise cruise, String modifiedBy);
 
     /**
-     * Metoda usuwa rejs o numerze zawartym w encji {@link Cruise}.
+     * Metoda usuwa rejs o numerze cruiseNumber.
      *
-     * @param cruise Encja typu {@link Cruise}
+     * @param cruiseNumber numer identyfikujący rejs typu {@link String}
      */
-    void removeCruise(Cruise cruise);
+    void removeCruise(String cruiseNumber);
 }
