@@ -260,8 +260,8 @@
         "delete": "Delete route",
         "details": "Cruises",
         "response": {
-            "success": "The route has been deleted successfully",
-            "failure": "Failed to delete the route (the route has cruises assigned) "
+            "success": "The route deleted successfully",
+            "failure": "Failed to delete the route (the route has cruises assigned)"
         }
     },
     "ferries-table": {
