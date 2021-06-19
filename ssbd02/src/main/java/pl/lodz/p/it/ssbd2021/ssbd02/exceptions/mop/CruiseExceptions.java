@@ -15,6 +15,8 @@ public class CruiseExceptions extends GeneralException {
     public static String ERROR_CRUISE_NUMBER_UNIQUE = "ERROR.CRUISE_NUMBER_UNIQUE";
     public static String ERROR_CRUISE_END_DATE_AFTER_START_DATE = "ERROR.CRUISE_END_DATE_AFTER_START_DATE";
     public static String ERROR_CRUISE_NOT_FOUND = "ERROR.CRUISE_NOT_FOUND";
+    public static String ERROR_CRUISE_IS_BEING_USED = "ERROR.CRUISE_IS_BEING_USED";
+    public static String ERROR_CRUISE_ALREADY_STARTED = "ERROR.CRUISE_ALREADY_STARTED";
 
     public CruiseExceptions(Response.Status status, String key) {
         super(status, key);
