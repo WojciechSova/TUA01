@@ -27,11 +27,11 @@
                 <input #newNumber type="text" id="add-number" formControlName="number"
                        placeholder="{{'add-cabin.number' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.number.touched && form.controls.number.invalid}"/>
-                <div class="validation-error"
+                <div class="validation-error upper"
                      *ngIf="form.controls.number.hasError('required') && form.controls.number.touched"
                      translate>form.field_required
                 </div>
-                <div class="validation-error"
+                <div class="validation-error upper"
                      *ngIf="form.controls.number.hasError('pattern') && form.controls.number.touched"
                      translate>form.invalid_format_cabin_number
                 </div>
