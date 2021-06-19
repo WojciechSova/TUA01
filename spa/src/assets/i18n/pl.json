@@ -147,7 +147,8 @@
         "remove": "Usuń port",
         "response": {
             "success": "Usuwanie portu przebiegło pomyślnie",
-            "failure": "Port jest wykorzystywany przez trasę i nie mógł zostać usunięty"
+            "in_use": "Port jest wykorzystywany przez trasę i nie mógł zostać usunięty",
+            "result_gone": "Port który chciałeś usunąć został usunięty przez kogoś innego"
         }
     },
     "main-page": {

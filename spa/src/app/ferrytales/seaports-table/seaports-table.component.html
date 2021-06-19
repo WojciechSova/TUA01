@@ -9,7 +9,8 @@
 
 <div *ngIf="(deleteResultMessage) !== 'HIDDEN'" class="info-popup">
     <p *ngIf="(deleteResultMessage) === 'SUCCESS'" class="success" translate>seaports-table.response.success</p>
-    <p *ngIf="(deleteResultMessage) === 'FAILURE'" class="failure" translate>seaports-table.response.failure</p>
+    <p *ngIf="(deleteResultMessage) === 'FAILURE'" class="success" translate>seaports-table.response.result_gone</p>
+    <p *ngIf="(deleteResultMessage) === 'IN_USE'" class="failure" translate>seaports-table.response.in_use</p>
 </div>
 
 <div class="button-container">
