@@ -171,17 +171,22 @@ public class BookingEndpoint {
      * @param vehicleTypeName   Nazwa typu pojazdu
      * @param bookingDetailsDTO Obiekt typu {@link BookingDetailsDTO}
      * @param securityContext   Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
-     * @return Kod 200 w przypadku poprawnej rezerwacji.
+     * @return Kod 202 w przypadku poprawnej rezerwacji.
      */
     @POST
-    @Path("add/{cruise}/{vehicleType}/{cabin}")
+    @Path("add/{cruise}/{vehicleType}/{cabin: .*}")
     @RolesAllowed({"CLIENT"})
     public Response addBooking(@PathParam("cruise") String cruiseNumber, @PathParam("cabin") String cabinNumber,
                                @PathParam("vehicleType") String vehicleTypeName,  BookingDetailsDTO bookingDetailsDTO,
                                @Context SecurityContext securityContext) {
+        if(!cabinNumber.equals("")){
+            if(!cabinNumber.matches("[A-Z][0-9]{3}")){
+                throw CommonExceptions.createConstraintViolationException();
+            }
+        }
+
         if (bookingDetailsDTO.getNumberOfPeople() == null || bookingDetailsDTO.getNumberOfPeople() <= 0 ||
-            !cruiseNumber.matches("[A-Z]{6}[0-9]{6}") || !cabinNumber.matches("[A-Z][0-9]{3}") ||
-            !List.of("None", "Motorcycle", "Car", "Bus").contains(vehicleTypeName)){
+            !cruiseNumber.matches("[A-Z]{6}[0-9]{6}") || !List.of("None", "Motorcycle", "Car", "Bus").contains(vehicleTypeName)){
             throw CommonExceptions.createConstraintViolationException();
         }
         try {

@@ -115,7 +115,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
         Cruise cruise = cruiseFacadeLocal.findByNumber(cruiseNumber);
         Cabin cabin = null;
 
-        if (cabinNumber != null && !cabinNumber.equals("")) {
+        if (!cabinNumber.equals("")) {
             cabin = cabinFacadeLocal.findByFerryAndNumber(cruise.getFerry(), cabinNumber);
         }
 
@@ -198,7 +198,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
                 price += thirdPrice * cabin.getCapacity();
             }
         } else {
-            int sumOfPeople = bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
+            long sumOfPeople = bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
 
             if (cruise.getFerry().getOnDeckCapacity() < sumOfPeople + booking.getNumberOfPeople()) {
                 throw FerryExceptions.createConflictException("There is not enough space on the ferry's deck");

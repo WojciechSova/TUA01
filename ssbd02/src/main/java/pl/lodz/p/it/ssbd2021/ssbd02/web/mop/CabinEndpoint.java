@@ -117,7 +117,7 @@ public class CabinEndpoint {
      * @return Lista ogólnych informacji o kajutach
      */
     @GET
-    @Path("cruise/{number}")
+    @Path("cruise/free/{number}")
     @RolesAllowed({"CLIENT"})
     public Response getFreeCabinsOnCruise(@PathParam("number") String cruiseNumber){
         try {

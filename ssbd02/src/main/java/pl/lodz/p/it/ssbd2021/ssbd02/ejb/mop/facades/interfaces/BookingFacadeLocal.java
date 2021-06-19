@@ -50,7 +50,7 @@ public interface BookingFacadeLocal extends AbstractFacadeInterface<Booking> {
      * @param cruise Encja typu {@link Cruise}
      * @return Suma osób zajmujących miejsce na pokładzie promu danego rejsu.
      */
-    int getSumNumberOfPeopleByCruise(Cruise cruise);
+    Long getSumNumberOfPeopleByCruise(Cruise cruise);
 
     /**
      * Metoda sumująca ilosć miejsca zajętą przez pojazdy na promie dla danego rejsu
