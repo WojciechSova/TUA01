@@ -72,8 +72,9 @@ class FerryManagerTest {
 
     @Test
     void getAllFerriesExceptionTest() {
-        when(ferryFacadeLocal.findAll()).thenReturn(null);
-
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createNoResultException();
+        }).when(ferryFacadeLocal).findAll();
         WebApplicationException exception = assertThrows(CommonExceptions.class, () -> ferryManager.getAllFerries());
 
         assertAll(
@@ -93,7 +94,10 @@ class FerryManagerTest {
 
     @Test
     void getFerryByNameExceptionTest() {
-        when(ferryFacadeLocal.findByName(ferryName1)).thenReturn(null);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createNoResultException();
+        }).when(ferryFacadeLocal).findByName(ferryName1);
+
         assertThrows(CommonExceptions.class, () -> ferryManager.getFerryByName(ferryName1));
         verify(ferryFacadeLocal).findByName(ferryName1);
     }

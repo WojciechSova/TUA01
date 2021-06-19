@@ -254,7 +254,9 @@ class BookingManagerTest {
     @Test
     void getBookingByNumberException() {
         String nonExistentNumber = "3453766425";
-        when(bookingFacadeLocal.findByNumber(nonExistentNumber)).thenReturn(null);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createNoResultException();
+        }).when(bookingFacadeLocal).findByNumber(nonExistentNumber);
 
         assertThrows(CommonExceptions.class, () -> bookingManager.getBookingByNumber(nonExistentNumber));
     }

@@ -95,7 +95,9 @@ class CruiseManagerTest {
 
     @Test
     void getAllCurrentCruisesException() {
-        when(cruiseFacadeLocal.findAllFutureDate()).thenReturn(null);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createNoResultException();
+        }).when(cruiseFacadeLocal).findAllFutureDate();
         assertThrows(CommonExceptions.class, () -> cruiseManager.getAllCurrentCruises());
         verify(cruiseFacadeLocal).findAllFutureDate();
     }

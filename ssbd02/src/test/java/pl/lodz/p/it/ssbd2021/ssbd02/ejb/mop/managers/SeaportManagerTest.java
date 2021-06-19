@@ -68,7 +68,9 @@ class SeaportManagerTest {
     @Test
     void getSeaportByCode() {
         when(seaportFacadeLocal.findByCode("CODE")).thenReturn(s1);
-        when(seaportFacadeLocal.findByCode(null)).thenReturn(null);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createNoResultException();
+        }).when(seaportFacadeLocal).findByCode(null);
 
         Seaport seaport = seaportManager.getSeaportByCode("CODE");
         assertEquals(s1, seaport);
