@@ -90,13 +90,15 @@ export class AddCruiseComponent implements OnInit {
         this.error = false;
 
         this.startDate.singleDate?.jsDate?.setUTCHours(this.startHour - parseInt(this.identityService.getTimezone(), 10), this.startMinute);
+        this.startDate.singleDate?.jsDate?.setDate(this.startDate.singleDate?.jsDate?.getDate() + 1);
 
         this.endDate.singleDate?.jsDate?.setUTCHours(this.endHour - parseInt(this.identityService.getTimezone(), 10), this.endMinute);
+        this.endDate.singleDate?.jsDate?.setDate(this.endDate.singleDate?.jsDate?.getDate() + 1);
 
         const cruise: CruiseGeneral = {
             number: cruiseNumber,
-            startDate: new Date(this.startDate.singleDate?.jsDate ? this.startDate.singleDate?.jsDate : 0).toJSON(),
-            endDate: new Date(this.endDate.singleDate?.jsDate ? this.endDate.singleDate?.jsDate : 0).toJSON()
+            startDate: this.startDate.singleDate?.jsDate ? this.startDate.singleDate?.jsDate.toJSON() : new Date(0).toJSON(),
+            endDate: this.endDate.singleDate?.jsDate ? this.endDate.singleDate?.jsDate.toJSON() : new Date(0).toJSON()
         };
 
         this.cruiseDetailsService.addCruise(cruise, this.ferry, this.code).subscribe(
@@ -109,15 +111,13 @@ export class AddCruiseComponent implements OnInit {
         this.error = true;
 
         if (error.status === 400) {
-            if (error.error === 'ERROR.DUPLICATE_CODE') {
-                this.errorCode = error.error;
-            } else {
-                this.errorCode = 'ERROR.BAD_REQUEST';
-            }
+            this.errorCode = 'ERROR.BAD_REQUEST';
         }
 
         if (error.status === 409) {
-            if (error.error === 'ERROR.FERRY_IS_BEING_USED') {
+            if (error.error === 'ERROR.CRUISE_NUMBER_UNIQUE') {
+                this.errorCode = error.error;
+            } else if (error.error === 'ERROR.FERRY_IS_BEING_USED') {
                 this.errorCode = error.error;
             }
         }

@@ -205,7 +205,8 @@
         "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
         "FERRY_IS_BEING_USED": "Ferry is being used",
         "BAD_REQUEST": "Bad request",
-        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking"
+        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
+        "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists"
     },
     "error-page": {
         "forbidden_code": "Error 403",

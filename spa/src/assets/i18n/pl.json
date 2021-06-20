@@ -205,7 +205,8 @@
         "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
         "FERRY_IS_BEING_USED": "Prom aktualnie znajduje się w użyciu",
         "BAD_REQUEST": "Niepoprawne żądanie",
-        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji"
+        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji",
+        "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
