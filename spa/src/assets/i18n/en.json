@@ -320,7 +320,14 @@
         "number": "Number",
         "name_of_ferry": "Ferry name",
         "cruise_details": "Details",
-        "remove_cruise": "Remove cruise"
+        "remove_cruise": "Remove cruise",
+        "remove_result": {
+            "success": "Cruise deleted successfully",
+            "gone": "Cruise you tried to delete was deleted by someone else",
+            "other_failure": "Deleting cruise failed",
+            "in_use": "Cruise you tried to delete is used by reservation",
+            "already_started": "Cruise you tried to delete has already started"
+        }
     },
     "cruise-details": {
         "edit_cruise": "Edit cruise",
