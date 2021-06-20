@@ -81,7 +81,11 @@
     },
     "ferry-edit": {
         "invalid_on_deck_capacity": "On deck capacity must be positive",
-        "invalid_vehicle_capacity": "On deck capacity must be positive or zero"
+        "invalid_vehicle_capacity": "On deck capacity must be positive or zero",
+        "result_success": "Ferry change successful",
+        "result_gone": "Ferry change failed because the selected ferry was deleted",
+        "result_failure": "Ferry change failed",
+        "result_opl": "State of the ferry changed, please try again"
     },
     "users-table": {
         "enter_your_search": "Enter your search...",
