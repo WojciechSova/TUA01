@@ -16,9 +16,11 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CruiseExceptions;
 
 import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -157,5 +159,31 @@ class CruiseManagerTest {
                 () -> assertEquals(CommonExceptions.createConstraintViolationException().getMessage(),
                         exception.getMessage())
         );
+    }
+
+    @Test
+    void removeCruise() {
+        when(cruiseFacadeLocal.findByNumber(number1)).thenReturn(cruise1);
+
+        cruise1.setStartDate(Timestamp.from(Instant.now().minus(Duration.ofDays(2))));
+
+        CruiseExceptions cruiseExceptionStarted = assertThrows(CruiseExceptions.class,
+                () -> cruiseManager.removeCruise(cruise1.getNumber(), "Login"));
+
+        assertEquals(409, cruiseExceptionStarted.getResponse().getStatus());
+        assertEquals(CruiseExceptions.ERROR_CRUISE_ALREADY_STARTED, cruiseExceptionStarted.getResponse().getEntity());
+
+        cruise1.setStartDate(Timestamp.from(Instant.now().plus(Duration.ofDays(1))));
+        doAnswer(invocationOnMock -> {
+            throw CruiseExceptions.createConflictException(CruiseExceptions.ERROR_CRUISE_IS_BEING_USED);
+        }).when(cruiseFacadeLocal).remove(cruise1);
+
+        CruiseExceptions cruiseExceptionUsed = assertThrows(CruiseExceptions.class,
+                () -> cruiseManager.removeCruise(cruise1.getNumber(), "Login"));
+
+        assertEquals(409, cruiseExceptionUsed.getResponse().getStatus());
+        assertEquals(CruiseExceptions.ERROR_CRUISE_IS_BEING_USED, cruiseExceptionUsed.getResponse().getEntity());
+
+        verify(cruiseFacadeLocal).remove(cruise1);
     }
 }

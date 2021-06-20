@@ -25,7 +25,8 @@ import java.time.Instant;
         @NamedQuery(name = "Cabin.findByFerry", query = "SELECT c FROM Cabin c WHERE c.ferry = :ferry"),
         @NamedQuery(name = "Cabin.findByNumber", query = "SELECT c FROM Cabin c WHERE c.number = :number"),
         @NamedQuery(name = "Cabin.findByFerryAndNumber", query = "SELECT c FROM Cabin c WHERE c.ferry = :ferry AND c.number = :number"),
-        @NamedQuery(name = "Cabin.findOccupiedCabinsOnCruise", query = "SELECT c FROM Cabin c, Booking b WHERE b.cabin = c AND b.cruise = :cruise")
+        @NamedQuery(name = "Cabin.findOccupiedCabinsOnCruise", query = "SELECT c FROM Cabin c, Booking b WHERE b.cabin = c AND b.cruise = :cruise"),
+        @NamedQuery(name = "Cabin.findCabinsOnCruise", query = "SELECT c FROM Cabin c, Cruise cr WHERE cr = :cruise AND c.ferry = cr.ferry")
 })
 @Data
 @NoArgsConstructor

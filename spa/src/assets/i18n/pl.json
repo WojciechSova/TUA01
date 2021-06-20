@@ -30,7 +30,8 @@
         "yes": "Tak",
         "no": "Nie",
         "positive": "Liczba osób musi być dodatnia",
-        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem"
+        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem",
+        "confirmation": "Czy jesteś pewny?"
     },
     "links": {
         "about_us": "O nas",
@@ -144,7 +145,12 @@
         "city": "Miasto",
         "code": "Kod portu",
         "add": "Dodaj port",
-        "remove": "Usuń port"
+        "remove": "Usuń port",
+        "response": {
+            "success": "Usuwanie portu przebiegło pomyślnie",
+            "in_use": "Port jest wykorzystywany przez trasę i nie mógł zostać usunięty",
+            "result_gone": "Port który chciałeś usunąć został usunięty przez kogoś innego"
+        }
     },
     "main-page": {
         "advert": "Przeprawy promowe jak z bajki",
@@ -195,7 +201,8 @@
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
         "DUPLICATE_CODE": "Podany kod już istnieje",
-        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje"
+        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
+        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -231,7 +238,8 @@
         "booking_list_own": "Twoje rezerwacje",
         "cabin_add": "Dodaj kajutę",
         "route": "Trasa",
-        "ferry_add": "Dodaj prom"
+        "ferry_add": "Dodaj prom",
+        "route_add": "Dodaj trasę"
     },
     "session-timeout": {
         "info": {
@@ -389,5 +397,11 @@
         "vehicle_type": "*Wybierz typ pojazdu:",
         "ok": "Zarezerwuj",
         "people_number": "Liczba osób"
+    },
+    "add-route": {
+        "new_route": "Nowa trasa",
+        "start": "*Start",
+        "dest": "*Cel",
+        "code": "*Kod"
     }
 }
