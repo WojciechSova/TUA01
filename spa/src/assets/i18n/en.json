@@ -32,6 +32,7 @@
         "positive": "Number of people must be positive",
         "cabin_edit_failed": "An error occured",
         "confirmation": "Are you sure?",
+        "route_code_format": "Route code should consist of 6 capital letters",
         "invalid_format_cabin_number": "Cabin number should have 1 upper case letter and 3 digits",
         "invalid_capacity": "Capacity should be a number in the range from 1 to 99"
     },
@@ -405,8 +406,10 @@
     },
     "add-route": {
         "new_route": "New route",
-        "start": "Start",
-        "dest": "Destination",
-        "code": "*Code"
+        "start": "*Start",
+        "dest": "*Destination",
+        "code": "*Code",
+        "start_destination_unique": "Route with selected start and destination already exists",
+        "code_unique": "Route with given code already exists"
     }
 }

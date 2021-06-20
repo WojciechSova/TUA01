@@ -31,6 +31,7 @@
         "no": "Nie",
         "positive": "Liczba osób musi być dodatnia",
         "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem",
+        "route_code_format": "Kod trasy powinien składać się z 6 wielkich liter",
         "confirmation": "Czy jesteś pewny?",
         "invalid_format_cabin_number": "Numer kajuty powinien mieć 1 wielką literę i 3 cyfry",
         "invalid_capacity": "Pojemność powinna być wyrażona liczbą z zakresu od 1 do 99"
@@ -407,6 +408,8 @@
         "new_route": "Nowa trasa",
         "start": "*Start",
         "dest": "*Cel",
-        "code": "*Kod"
+        "code": "*Kod",
+        "start_destination_unique": "Trasa o podanym początku i końcu już istnieje",
+        "code_unique": "Trasa o podanym kodzie już istnieje"
     }
 }
