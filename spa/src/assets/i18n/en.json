@@ -30,7 +30,8 @@
         "yes": "Yes",
         "no": "No",
         "positive": "Number of people must be positive",
-        "cabin_edit_failed": "An error occured"
+        "cabin_edit_failed": "An error occured",
+        "confirmation": "Are you sure?"
     },
     "links": {
         "about_us": "About us",
@@ -200,7 +201,8 @@
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists",
         "DUPLICATE_CODE": "Provided code already exists",
-        "DUPLICATE_FERRY_NAME": "Provided ferry name already exists"
+        "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
+        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking"
     },
     "error-page": {
         "forbidden_code": "Error 403",
