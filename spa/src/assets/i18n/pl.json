@@ -31,6 +31,7 @@
         "no": "Nie",
         "positive": "Liczba osób musi być dodatnia",
         "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem",
+        "confirmation": "Czy jesteś pewny?",
         "invalid_format_cabin_number": "Numer kajuty powinien mieć 1 wielką literę i 3 cyfry",
         "invalid_capacity": "Pojemność powinna być wyrażona liczbą z zakresu od 1 do 99"
     },
@@ -146,7 +147,12 @@
         "city": "Miasto",
         "code": "Kod portu",
         "add": "Dodaj port",
-        "remove": "Usuń port"
+        "remove": "Usuń port",
+        "response": {
+            "success": "Usuwanie portu przebiegło pomyślnie",
+            "in_use": "Port jest wykorzystywany przez trasę i nie mógł zostać usunięty",
+            "result_gone": "Port który chciałeś usunąć został usunięty przez kogoś innego"
+        }
     },
     "main-page": {
         "advert": "Przeprawy promowe jak z bajki",
@@ -198,7 +204,8 @@
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
         "DUPLICATE_CODE": "Podany kod już istnieje",
         "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
-        "DUPLICATE_NUMBER_CABIN": "Podany numer kajuty już istnieje"
+        "DUPLICATE_NUMBER_CABIN": "Podany numer kajuty już istnieje",
+        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",

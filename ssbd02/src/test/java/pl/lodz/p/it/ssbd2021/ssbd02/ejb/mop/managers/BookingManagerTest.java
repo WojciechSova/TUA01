@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -292,7 +291,7 @@ class BookingManagerTest {
         BookingExceptions bookingExceptions = assertThrows(BookingExceptions.class, () -> bookingManager.removeBooking("login", bookingNumber1));
 
         assertEquals(Response.Status.CONFLICT.getStatusCode(), bookingExceptions.getResponse().getStatus());
-        assertEquals(BookingExceptions.ERROR_CANNOT_CANCEL_RESERVATION, bookingExceptions.getResponse().getEntity());
+        assertEquals(BookingExceptions.ERROR_CANNOT_CANCEL_BOOKING, bookingExceptions.getResponse().getEntity());
     }
 
 

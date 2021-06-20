@@ -7,9 +7,15 @@
     <li class="breadcrumb-item active" translate> breadcrumb.seaport_list</li>
 </ol>
 
+<div *ngIf="(deleteResultMessage) !== 'HIDDEN'" class="info-popup">
+    <p *ngIf="(deleteResultMessage) === 'SUCCESS'" class="success" translate>seaports-table.response.success</p>
+    <p *ngIf="(deleteResultMessage) === 'FAILURE'" class="success" translate>seaports-table.response.result_gone</p>
+    <p *ngIf="(deleteResultMessage) === 'IN_USE'" class="failure" translate>seaports-table.response.in_use</p>
+</div>
+
 <div class="button-container">
     <button class="button-seaport-table add" (click)="showAddingForm()" translate>seaports-table.add</button>
-    <button class="button-seaport-table" (click)="getSeaports()" translate>general.refresh</button>
+    <button class="button-seaport-table" (click)="refresh()" translate>general.refresh</button>
 </div>
 
 <div class="seaports-list-container">
@@ -34,7 +40,7 @@
                 </button>
             </td>
             <td>
-                <button class="button-seaport-table remove" translate>seaports-table.remove</button>
+                <button class="button-seaport-table remove" (click)="deleteSeaport(seaport.code)" translate>seaports-table.remove</button>
             </td>
         </tr>
     </table>

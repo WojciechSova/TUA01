@@ -48,7 +48,7 @@ public interface SeaportManagerLocal {
     /**
      * Metoda usuwa port o kodzie zawartym w encji {@link Seaport}.
      *
-     * @param seaportCode Encja typu {@link Seaport}
+     * @param seaportCode Łańcuch znaków identyfikujący usuwany port
      * @param userLogin   Login użytkownika usuwającego port
      */
     void removeSeaport(String seaportCode, String userLogin);

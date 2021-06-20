@@ -215,7 +215,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     public void removeBooking(String login, String number) {
         Booking bookingFromDB = bookingFacadeLocal.findByAccountAndNumber(accountMopFacadeLocal.findByLogin(login), number);
         if (bookingFromDB.getCruise().getStartDate().before(Timestamp.from(Instant.now()))) {
-            throw BookingExceptions.createConflictException(BookingExceptions.ERROR_CANNOT_CANCEL_RESERVATION);
+            throw BookingExceptions.createConflictException(BookingExceptions.ERROR_CANNOT_CANCEL_BOOKING);
         }
         bookingFacadeLocal.remove(bookingFromDB);
         logger.info("The user with login {} cancelled the reservation with number {}",
