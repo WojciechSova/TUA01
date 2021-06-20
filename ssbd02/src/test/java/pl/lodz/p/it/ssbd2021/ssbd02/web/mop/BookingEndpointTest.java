@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,13 +12,21 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.BookingMapper;
 
+import javax.ejb.AccessLocalException;
+import javax.ejb.EJBAccessException;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.nio.file.attribute.UserPrincipal;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +46,10 @@ class BookingEndpointTest {
     private BookingManagerLocal bookingManagerLocal;
 
     private Booking booking2;
+    private Booking booking3 = new Booking();
     private Account account1;
+    private Cabin cabin = new Cabin();
+    private List<Booking> bookings = new ArrayList<>();
 
 
     @BeforeEach
@@ -50,6 +62,7 @@ class BookingEndpointTest {
         booking1.setAccount(account1);
         booking2 = new Booking();
         booking2.setNumber("CBA");
+        booking3.setNumberOfPeople(2);
     }
 
     @Test
@@ -144,5 +157,64 @@ class BookingEndpointTest {
         GeneralException noNumber = assertThrows(GeneralException.class,
                 () -> bookingEndpoint.cancelBooking(booking1.getNumber(), securityContext));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), noNumber.getResponse().getStatus());
+    }
+
+
+    @Test
+    void addBookingWithCabin() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(securityContext.getUserPrincipal().getName()).thenReturn("login");
+        doAnswer(invocation -> {
+            booking3.setNumber("numbernumb");
+            bookings.add(booking3);
+            return null;
+        }).when(bookingManagerLocal).createBooking(any(), any(), any(), any(), any());
+
+        int initialSize = bookings.size();
+
+        Response response = bookingEndpoint.addBooking("ABCDEF123456", "A123", "Car",
+                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext);
+
+        assertEquals(Response.Status.ACCEPTED.getStatusCode(), response.getStatus());
+        assertEquals(initialSize + 1, bookings.size());
+    }
+
+    @Test
+    void addBookingWithoutCabin() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(securityContext.getUserPrincipal().getName()).thenReturn("login");
+        doAnswer(invocation -> {
+            booking3.setNumber("numbernumb");
+            bookings.add(booking3);
+            return null;
+        }).when(bookingManagerLocal).createBooking(any(), any(), any(), any(), any());
+
+        int initialSize = bookings.size();
+
+        Response response = bookingEndpoint.addBooking("ABCDEF123456", "", "Car",
+                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext);
+
+        assertEquals(Response.Status.ACCEPTED.getStatusCode(), response.getStatus());
+        assertEquals(initialSize + 1, bookings.size());
+    }
+
+    @Test
+    void addBookingExceptions() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(securityContext.getUserPrincipal().getName()).thenReturn("login");
+
+        assertThrows(CommonExceptions.class, () -> bookingEndpoint.addBooking("sdgthgd", "A123", "Car",
+                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext));
+
+        assertThrows(CommonExceptions.class, () -> bookingEndpoint.addBooking("ABCDEF123456", "A1dfg23", "Car",
+                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext));
+
+        assertThrows(CommonExceptions.class, () -> bookingEndpoint.addBooking("ABCDEF123456", "A123", "Cdafgar",
+                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext));
+
+        booking3.setNumberOfPeople(-5);
+        assertThrows(CommonExceptions.class, () -> bookingEndpoint.addBooking("ABCDEF123456", "A123", "Car",
+                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext));
+
     }
 }

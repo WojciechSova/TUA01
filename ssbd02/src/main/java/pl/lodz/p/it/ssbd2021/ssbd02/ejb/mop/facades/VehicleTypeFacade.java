@@ -15,6 +15,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -45,7 +46,9 @@ public class VehicleTypeFacade extends AbstractFacade<VehicleType> implements Ve
     @Override
     @RolesAllowed({"CLIENT", "EMPLOYEE"})
     public VehicleType findByName(String name) {
-        return null;
+        TypedQuery<VehicleType> vehicleTypeTypedQuery = entityManager.createNamedQuery("VehicleType.findByVehicleTypeName", VehicleType.class);
+        vehicleTypeTypedQuery.setParameter("vehicleTypeName", name);
+        return vehicleTypeTypedQuery.getSingleResult();
     }
 
     @Override

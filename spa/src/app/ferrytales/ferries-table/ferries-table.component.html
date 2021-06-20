@@ -11,7 +11,9 @@
     <button class="button-ferry-add button-add" (click)="goToAddFerryForm()" translate>ferries-table.add_ferry</button>
     <button class="button-ferries-table" (click)="getFerries()" translate>general.refresh</button>
 </div>
-
+<div *ngIf="ferryUsed" class="validation-error" translate>
+    ERROR.FERRY_IS_BEING_USED
+</div>
 <div class="ferries-list-container">
     <table id="users">
         <tr>
@@ -19,6 +21,7 @@
             <th translate>ferries-table.on_deck_capacity</th>
             <th translate>ferries-table.vehicle_capacity</th>
             <th translate>general.details</th>
+            <th translate>ferries-table.remove</th>
         </tr>
         <tr *ngFor="let ferry of listFerries()">
             <td>{{ferry['name']}}</td>
@@ -29,6 +32,13 @@
                     general.details
                 </button>
             </td>
+            <td>
+                <button id="remove" class="button-ferries-table remove" (click)="displayPrompt(ferry['name'])" translate>
+                    ferries-table.remove
+                </button>
+            </td>
         </tr>
     </table>
 </div>
+<app-confirmation *ngIf="isPromptVisible"
+                  (isPromptVisibleAndAnswer)="getConfirmationResult($event)"></app-confirmation>

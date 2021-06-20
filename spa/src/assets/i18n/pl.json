@@ -32,7 +32,9 @@
         "positive": "Liczba osób musi być dodatnia",
         "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem",
         "route_code_format": "Kod trasy powinien składać się z 6 wielkich liter",
-        "confirmation": "Czy jesteś pewny?"
+        "confirmation": "Czy jesteś pewny?",
+        "invalid_format_cabin_number": "Numer kajuty powinien mieć 1 wielką literę i 3 cyfry",
+        "invalid_capacity": "Pojemność powinna być wyrażona liczbą z zakresu od 1 do 99"
     },
     "links": {
         "about_us": "O nas",
@@ -203,6 +205,8 @@
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
         "DUPLICATE_CODE": "Podany kod już istnieje",
         "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
+        "DUPLICATE_NUMBER_CABIN": "Podany numer kajuty już istnieje",
+        "FERRY_IS_BEING_USED": "Prom jest wykorzystywany przez inny obiekt",
         "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji"
     },
     "error-page": {
@@ -272,7 +276,8 @@
         "name": "Nazwa",
         "vehicle_capacity": "Pojemność garażowa",
         "on_deck_capacity": "Pojemność pokładowa",
-        "add_ferry": "Dodaj prom"
+        "add_ferry": "Dodaj prom",
+        "remove": "Usuń prom"
     },
     "ferry-details": {
         "name": "Nazwa:",

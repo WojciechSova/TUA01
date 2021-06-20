@@ -47,7 +47,7 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Cruise findByNumber(String number) {
         TypedQuery<Cruise> typedQuery = entityManager.createNamedQuery("Cruise.findByNumber", Cruise.class);
         typedQuery.setParameter("number", number);

@@ -32,7 +32,9 @@
         "positive": "Number of people must be positive",
         "cabin_edit_failed": "An error occured",
         "confirmation": "Are you sure?",
-        "route_code_format": "Route code should consist of 6 capital letters"
+        "route_code_format": "Route code should consist of 6 capital letters",
+        "invalid_format_cabin_number": "Cabin number should have 1 upper case letter and 3 digits",
+        "invalid_capacity": "Capacity should be a number in the range from 1 to 99"
     },
     "links": {
         "about_us": "About us",
@@ -203,7 +205,9 @@
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists",
         "DUPLICATE_CODE": "Provided code already exists",
         "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
-        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking"
+        "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists",
+        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
+        "FERRY_IS_BEING_USED": "Ferry is being used by other object"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -272,7 +276,8 @@
         "name": "Name",
         "vehicle_capacity": "Vehicle capacity",
         "on_deck_capacity": "On deck capacity",
-        "add_ferry": "Add ferry"
+        "add_ferry": "Add ferry",
+        "remove": "Remove ferry"
     },
     "ferry-details": {
         "name": "Name:",
