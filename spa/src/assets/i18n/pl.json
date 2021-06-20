@@ -270,7 +270,11 @@
         "code": "Kod trasy",
         "add": "Utwórz trasę",
         "delete": "Usuń trasę",
-        "details": "Rejsy"
+        "details": "Rejsy",
+        "response": {
+            "success": "Trasa została pomyślnie usunięta",
+            "failure": "Usunięcie trasy nie powiodło się (trasa przypisana do rejsu)"
+        }
     },
     "ferries-table": {
         "name": "Nazwa",

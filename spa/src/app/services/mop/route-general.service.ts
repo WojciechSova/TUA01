@@ -26,4 +26,8 @@ export class RouteGeneralService {
             code: routeCode
         });
     }
+
+    removeRoute(code: string): any {
+        return this.httpClient.delete<any>(this.url.concat('/remove/', encodeURIComponent(code)));
+    }
 }

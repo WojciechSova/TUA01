@@ -270,7 +270,11 @@
         "code": "Route code",
         "add": "Create route",
         "delete": "Delete route",
-        "details": "Cruises"
+        "details": "Cruises",
+        "response": {
+            "success": "The route deleted successfully",
+            "failure": "Failed to delete the route (the route has cruises assigned)"
+        }
     },
     "ferries-table": {
         "name": "Name",
