@@ -202,7 +202,7 @@
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
         "DUPLICATE_CODE": "Podany kod już istnieje",
         "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
-        "CANNOT_CANCEL_BOOKING": "Nie można usunąć rezerwacji"
+        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
