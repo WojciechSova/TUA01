@@ -30,7 +30,8 @@
         "yes": "Yes",
         "no": "No",
         "positive": "Number of people must be positive",
-        "cabin_edit_failed": "An error occured"
+        "cabin_edit_failed": "An error occured",
+        "confirmation": "Are you sure?"
     },
     "links": {
         "about_us": "About us",
@@ -144,7 +145,12 @@
         "city": "City",
         "code": "Seaport code",
         "add": "Add new seaport",
-        "remove": "Remove seaport"
+        "remove": "Remove seaport",
+        "response": {
+            "success": "Seaport deleted successfully",
+            "in_use": "Seaport is used by a route it could not be deleted",
+            "result_gone": "Seaport you tried to delete was deleted by someone else"
+        }
     },
     "main-page": {
         "advert": "Fairytale-like ferry crossings",
@@ -196,6 +202,7 @@
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists",
         "DUPLICATE_CODE": "Provided code already exists",
         "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
+        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
         "FERRY_IS_BEING_USED": "Ferry is being used by other object"
     },
     "error-page": {
@@ -232,7 +239,8 @@
         "booking_list_own": "Your bookings",
         "cabin_add": "Add cabin",
         "route": "Route",
-        "ferry_add": "Add ferry"
+        "ferry_add": "Add ferry",
+        "route_add": "Add route"
     },
     "session-timeout": {
         "info": {
@@ -391,5 +399,11 @@
         "vehicle_type": "Select vehicle type",
         "ok": "Book it",
         "people_number": "Number of people"
+    },
+    "add-route": {
+        "new_route": "New route",
+        "start": "Start",
+        "dest": "Destination",
+        "code": "*Code"
     }
 }
