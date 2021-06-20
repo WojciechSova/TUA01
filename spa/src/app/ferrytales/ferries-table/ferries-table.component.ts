@@ -11,6 +11,8 @@ import { FerryGeneralService } from '../../services/mop/ferry-general.service';
 export class FerriesTableComponent implements OnInit {
 
     public ferryUsed = false;
+    isPromptVisible = false;
+    private ferryNameToRemove = '';
 
     constructor(private router: Router,
                 private ferryGeneralService: FerryGeneralService) {
@@ -46,7 +48,6 @@ export class FerriesTableComponent implements OnInit {
     }
 
     removeFerry(ferryName: string): void {
-        this.ferryUsed = false;
         this.ferryGeneralService.remove(ferryName).subscribe(
             () => this.getFerries(),
             (error => {
@@ -55,5 +56,18 @@ export class FerriesTableComponent implements OnInit {
                 }
             })
         );
+    }
+
+    getConfirmationResult(confirmationResult: any): void {
+        if (confirmationResult) {
+            this.removeFerry(this.ferryNameToRemove);
+        }
+        this.isPromptVisible = false;
+    }
+
+    displayPrompt(ferryName: string): void {
+        this.ferryUsed = false;
+        this.ferryNameToRemove = ferryName;
+        this.isPromptVisible = true;
     }
 }

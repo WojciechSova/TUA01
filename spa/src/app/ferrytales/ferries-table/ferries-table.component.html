@@ -33,10 +33,12 @@
                 </button>
             </td>
             <td>
-                <button id="remove" class="button-ferries-table remove" (click)="removeFerry(ferry['name'])" translate>
+                <button id="remove" class="button-ferries-table remove" (click)="displayPrompt(ferry['name'])" translate>
                     ferries-table.remove
                 </button>
             </td>
         </tr>
     </table>
 </div>
+<app-confirmation *ngIf="isPromptVisible"
+                  (isPromptVisibleAndAnswer)="getConfirmationResult($event)"></app-confirmation>
