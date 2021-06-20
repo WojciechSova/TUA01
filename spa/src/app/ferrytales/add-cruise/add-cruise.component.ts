@@ -6,6 +6,7 @@ import { FerryGeneral } from '../../model/mop/FerryGeneral';
 import { CruiseDetailsService } from '../../services/mop/cruise-details.service';
 import { CruiseGeneral } from '../../model/mop/CruiseGeneral';
 import { HttpErrorResponse } from '@angular/common/http';
+import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 
 @Component({
     selector: 'app-add-cruise',
@@ -35,7 +36,24 @@ export class AddCruiseComponent implements OnInit {
         this.getFerries();
     }
 
+    actualDate: Date | undefined;
+
+    myDpOptions: IAngularMyDpOptions = {};
+
+    myDateInit = false;
+    startDate: IMyDateModel = { isRange: false };
+    endDate: IMyDateModel = { isRange: false };
+
     ngOnInit(): void {
+        this.actualDate = new Date();
+
+        this.myDpOptions = {
+            dateRange: false,
+            dateFormat: 'dd.mm.yyyy'
+        };
+
+        this.startDate = { isRange: false, singleDate: { jsDate: this.actualDate } };
+        this.endDate = { isRange: false, singleDate: { jsDate: this.actualDate } };
     }
 
     getFerries(): void {
@@ -58,13 +76,13 @@ export class AddCruiseComponent implements OnInit {
         this.router.navigate(['/ferrytales/routes/' + this.code]);
     }
 
-    addCruise(cruiseNumber: string, startDate: string, endDate: string): void {
+    addCruise(cruiseNumber: string): void {
         this.error = false;
 
         const cruise: CruiseGeneral = {
             number: cruiseNumber,
-            startDate: new Date(),
-            endDate: new Date()
+            startDate: new Date(this.startDate.singleDate?.jsDate ? this.startDate.singleDate?.jsDate : 0).toJSON(),
+            endDate: new Date(this.endDate.singleDate?.jsDate ? this.endDate.singleDate?.jsDate : 0).toJSON()
         };
 
         this.cruiseDetailsService.addCruise(cruise, this.ferry, this.code).subscribe(
@@ -77,7 +95,11 @@ export class AddCruiseComponent implements OnInit {
         this.error = true;
 
         if (error.status === 400) {
-            this.errorCode = 'ERROR.DUPLICATE_CODE';
+            if (error.error === 'ERROR.DUPLICATE_CODE') {
+                this.errorCode = error.error;
+            } else {
+                this.errorCode = 'ERROR.BAD_REQUEST';
+            }
         }
 
         if (error.status === 409) {

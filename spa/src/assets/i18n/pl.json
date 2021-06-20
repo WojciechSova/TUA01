@@ -197,7 +197,8 @@
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
         "DUPLICATE_CODE": "Podany kod już istnieje",
         "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
-        "FERRY_IS_BEING_USED": "Prom aktualnie znajduje się w użyciu"
+        "FERRY_IS_BEING_USED": "Prom aktualnie znajduje się w użyciu",
+        "BAD_REQUEST": "Niepoprawne żądanie"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
