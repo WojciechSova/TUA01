@@ -31,6 +31,7 @@ import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.
 import { AddCruiseComponent } from './ferrytales/add-cruise/add-cruise.component';
 import { AddFerryComponent } from './ferrytales/add-ferry/add-ferry.component';
 import { AddRouteComponent } from './ferrytales/add-route/add-route.component';
+import { GoneComponent } from './other-views/error-pages/gone/gone.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
@@ -70,6 +71,7 @@ const routes: Routes = [
     { path: 'error/forbidden', component: ForbiddenComponent },
     { path: 'error/notfound', component: NotFoundComponent },
     { path: 'error/unauthorized', component: UnauthorizedComponent },
+    { path: 'error/gone', component: GoneComponent },
     { path: '**', component: NotFoundComponent },
 ];
 
