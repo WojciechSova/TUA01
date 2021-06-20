@@ -30,7 +30,8 @@
         "yes": "Tak",
         "no": "Nie",
         "positive": "Liczba osób musi być dodatnia",
-        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem"
+        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem",
+        "confirmation": "Czy jesteś pewny?"
     },
     "links": {
         "about_us": "O nas",
@@ -200,7 +201,8 @@
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
         "DUPLICATE_CODE": "Podany kod już istnieje",
-        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje"
+        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
+        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
