@@ -1,5 +1,6 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
+import org.apache.commons.lang3.SerializationUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
@@ -10,6 +11,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CruiseExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.FerryExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
@@ -110,7 +112,34 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void updateCruise(Cruise cruise, String modifiedBy) {
+        Timestamp modificationDate = Timestamp.from(Instant.now());
 
+        Cruise databaseCruise = cruiseFacadeLocal.findByNumber(cruise.getNumber());
+
+        Cruise cruiseClone = SerializationUtils.clone(databaseCruise);
+
+        if (modificationDate.after(databaseCruise.getStartDate())) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
+        List<Cruise> cruises = cruiseFacadeLocal
+                .findAllUsingFerryInTime(databaseCruise.getFerry(), cruise.getStartDate(), cruise.getEndDate());
+
+        if (!cruises.isEmpty()) {
+            throw FerryExceptions.createConflictException(FerryExceptions.ERROR_FERRY_IS_BEING_USED);
+        }
+
+        cruiseClone.setVersion(cruise.getVersion());
+
+        cruiseClone.setStartDate(cruise.getStartDate());
+        cruiseClone.setEndDate(cruise.getEndDate());
+        cruiseClone.setModifiedBy(accountMopFacade.findByLogin(modifiedBy));
+        cruiseClone.setModificationDate(modificationDate);
+        cruiseClone.setCreatedBy(databaseCruise.getCreatedBy());
+
+        cruiseFacadeLocal.edit(cruiseClone);
+        logger.info("The user with login {} updated the cruise with number {}",
+                modifiedBy, cruiseClone.getNumber());
     }
 
     @Override
