@@ -53,6 +53,7 @@ export class BookingsTableOwnComponent implements OnInit {
     }
 
     cancelBooking(bookingNumber: string): void {
+        this.confirmationPrompt.response = false;
         this.bookingGeneralService.remove(bookingNumber).subscribe(
             () => this.getBookings(),
             (error => {
@@ -61,6 +62,5 @@ export class BookingsTableOwnComponent implements OnInit {
                 }
             })
         );
-        this.confirmationPrompt.response = false;
     }
 }

@@ -139,7 +139,6 @@ export const localeServiceProviders = [
         FerryEditComponent,
         AddRouteComponent,
         ConfirmationComponent,
-        NewPasswordComponent
     ],
     imports: [
         BrowserModule,
