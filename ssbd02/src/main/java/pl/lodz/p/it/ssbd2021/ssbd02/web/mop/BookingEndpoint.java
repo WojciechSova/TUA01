@@ -2,12 +2,16 @@ package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.AccountDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.BookingManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.BookingMapper;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.annotation.security.RolesAllowed;
@@ -15,6 +19,7 @@ import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -158,11 +163,44 @@ public class BookingEndpoint {
         }
     }
 
+    /**
+     * Metoda umożliwiająca klientowi utworzenie rezerwacji
+     *
+     * @param cruiseNumber      Numer rejsu, na który tworzona jest rezerwacja
+     * @param cabinNumber       Numer rezerwowanej kajuty lub pusty string w przypadku rezerwacji miejsca na pokładzie promu
+     * @param vehicleTypeName   Nazwa typu pojazdu
+     * @param bookingDetailsDTO Obiekt typu {@link BookingDetailsDTO}
+     * @param securityContext   Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 202 w przypadku poprawnej rezerwacji.
+     */
     @POST
-    @Path("add")
+    @Path("add/{cruise}/{vehicleType}/{cabin: .*}")
     @RolesAllowed({"CLIENT"})
-    public Response addBooking(BookingDetailsDTO bookingDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response addBooking(@PathParam("cruise") String cruiseNumber, @PathParam("cabin") String cabinNumber,
+                               @PathParam("vehicleType") String vehicleTypeName,  BookingDetailsDTO bookingDetailsDTO,
+                               @Context SecurityContext securityContext) {
+        if(!cabinNumber.equals("")){
+            if(!cabinNumber.matches("[A-Z][0-9]{3}")){
+                throw CommonExceptions.createConstraintViolationException();
+            }
+        }
+
+        if (bookingDetailsDTO.getNumberOfPeople() == null || bookingDetailsDTO.getNumberOfPeople() <= 0 ||
+            !cruiseNumber.matches("[A-Z]{6}[0-9]{6}") || !List.of("None", "Motorcycle", "Car", "Bus").contains(vehicleTypeName)){
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        try {
+            bookingManagerLocal.createBooking(BookingMapper.createEntityFromBookingDetailsDTO(bookingDetailsDTO),
+                    cruiseNumber, cabinNumber, securityContext.getUserPrincipal().getName(), vehicleTypeName);
+            return Response.accepted()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     /**

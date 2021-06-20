@@ -115,7 +115,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
         Cruise cruise = cruiseFacadeLocal.findByNumber(cruiseNumber);
         Cabin cabin = null;
 
-        if (cabinNumber != null) {
+        if (!cabinNumber.equals("")) {
             cabin = cabinFacadeLocal.findByFerryAndNumber(cruise.getFerry(), cabinNumber);
         }
 
@@ -198,7 +198,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
                 price += thirdPrice * cabin.getCapacity();
             }
         } else {
-            int sumOfPeople = bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
+            long sumOfPeople = bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
 
             if (cruise.getFerry().getOnDeckCapacity() < sumOfPeople + booking.getNumberOfPeople()) {
                 throw FerryExceptions.createConflictException("There is not enough space on the ferry's deck");
@@ -215,7 +215,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     public void removeBooking(String login, String number) {
         Booking bookingFromDB = bookingFacadeLocal.findByAccountAndNumber(accountMopFacadeLocal.findByLogin(login), number);
         if (bookingFromDB.getCruise().getStartDate().before(Timestamp.from(Instant.now()))) {
-            throw BookingExceptions.createConflictException(BookingExceptions.ERROR_CANNOT_CANCEL_RESERVATION);
+            throw BookingExceptions.createConflictException(BookingExceptions.ERROR_CANNOT_CANCEL_BOOKING);
         }
         bookingFacadeLocal.remove(bookingFromDB);
         logger.info("The user with login {} cancelled the reservation with number {}",

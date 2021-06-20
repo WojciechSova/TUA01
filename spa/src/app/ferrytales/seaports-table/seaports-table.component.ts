@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SeaportGeneral } from '../../model/mop/SeaportGeneral';
 import { SeaportGeneralService } from '../../services/mop/seaport-general.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-seaports-table',
@@ -9,6 +10,8 @@ import { SeaportGeneralService } from '../../services/mop/seaport-general.servic
     styleUrls: ['./seaports-table.component.less']
 })
 export class SeaportsTableComponent implements OnInit {
+
+    deleteResultMessage = 'HIDDEN';
 
     constructor(private router: Router,
                 private seaportGeneralService: SeaportGeneralService) {
@@ -20,6 +23,11 @@ export class SeaportsTableComponent implements OnInit {
 
     goToHomeBreadcrumb(): void {
         this.router.navigate(['/']);
+    }
+
+    refresh(): void {
+        this.deleteResultMessage = 'HIDDEN';
+        this.getSeaports();
     }
 
     getSeaports(): void {
@@ -38,4 +46,19 @@ export class SeaportsTableComponent implements OnInit {
         this.router.navigate(['/ferrytales/seaports/add']);
     }
 
+    deleteSeaport(code: string): void {
+        this.deleteResultMessage = 'HIDDEN';
+        this.seaportGeneralService.deleteSeaport(code).subscribe(
+            () => {
+                this.deleteResultMessage = 'SUCCESS';
+                this.getSeaports();
+            }, (error: HttpErrorResponse) => {
+                if (error.status === 409) {
+                    this.deleteResultMessage = 'IN_USE';
+                } else {
+                    this.deleteResultMessage = 'FAILURE';
+                }
+                this.getSeaports();
+            });
+    }
 }

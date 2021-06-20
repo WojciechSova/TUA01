@@ -2,7 +2,10 @@ package pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.BookingGeneralDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 
 /**
  * Klasa mapująca obiekty portów pomiędzy encjami, a DTO
@@ -53,5 +56,21 @@ public class BookingMapper {
         bookingGeneralDTO.setNumber(booking.getNumber());
         bookingGeneralDTO.setVersion(booking.getVersion());
         return bookingGeneralDTO;
+    }
+
+    /**
+     * Metoda mapująca obiekty typu {@link BookingDetailsDTO} na obiekt typu {@link Booking}.
+     *
+     * @param bookingDetailsDTO Obiekt typu {@link BookingDetailsDTO}, który będzie mapowany
+     * @return Obiekt typu {@link Booking}
+     */
+    public static Booking createEntityFromBookingDetailsDTO(BookingDetailsDTO bookingDetailsDTO){
+        if(bookingDetailsDTO == null){
+            return null;
+        }
+        Booking booking = new Booking();
+        booking.setVersion(bookingDetailsDTO.getVersion());
+        booking.setNumberOfPeople(bookingDetailsDTO.getNumberOfPeople());
+        return booking;
     }
 }
