@@ -207,7 +207,8 @@
         "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
         "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists",
         "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
-        "FERRY_IS_BEING_USED": "Ferry is being used by other object"
+        "FERRY_IS_BEING_USED": "Ferry is being used by other object",
+        "CANNOT_REMOVE_CABIN": "Cannot remove cabin"
     },
     "error-page": {
         "forbidden_code": "Error 403",

@@ -78,4 +78,11 @@ export class CabinDetailsService implements OnDestroy{
             });
     }
 
+    removeCabin(cabinNumber: string): Observable<any> {
+        return this.http.delete(this.url.concat('remove/', cabinNumber), {
+            observe: 'body',
+            responseType: 'text'
+        });
+    }
+
 }

@@ -14,7 +14,13 @@
             <button (click)="goToCabinDetails(cabin.number)" class="edit-button" translate>cabin-table.cabin_details</button>
         </td>
         <td>
-            <button class="edit-button button-remove" translate>cabin-table.remove_cabin</button>
+            <button (click)="displayPrompt(cabin.number)" class="edit-button button-remove" translate>cabin-table.remove_cabin</button>
         </td>
     </tr>
 </table>
+<div *ngIf="cabinRemovalError" class="validation-error" translate>
+    ERROR.CANNOT_REMOVE_CABIN
+</div>
+
+<app-confirmation *ngIf="isPromptVisible"
+                  (isPromptVisibleAndAnswer)="getConfirmationResult($event)"></app-confirmation>

@@ -207,7 +207,8 @@
         "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
         "DUPLICATE_NUMBER_CABIN": "Podany numer kajuty już istnieje",
         "FERRY_IS_BEING_USED": "Prom jest wykorzystywany przez inny obiekt",
-        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji"
+        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji",
+        "CANNOT_REMOVE_CABIN": "Nie można usunąć kajuty"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
