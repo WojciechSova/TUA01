@@ -39,14 +39,12 @@
                 </button>
             </td>
             <td>
-                <button id="cancel" class="button-booking-table" (click)="bookingToCancel=booking.number;
-                showPrompt(confirmationPrompt = {isPromptVisible: true, response: false})" translate>
+                <button id="cancel" class="button-booking-table" (click)="displayPrompt(booking.number)" translate>
                     booking-list.cancel
                 </button>
             </td>
         </tr>
     </table>
 </div>
-<div *ngIf="(confirmationPrompt.response) === true && cancelBooking(bookingToCancel)"></div>
-<app-confirmation *ngIf="confirmationPrompt.isPromptVisible"
-                  (isPromptVisibleAndAnswer)="showPrompt($event)"></app-confirmation>
+<app-confirmation *ngIf="isPromptVisible"
+                  (isPromptVisibleAndAnswer)="getConfirmationResult($event)"></app-confirmation>

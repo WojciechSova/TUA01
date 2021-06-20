@@ -205,7 +205,8 @@
         "DUPLICATE_CODE": "Provided code already exists",
         "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
         "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists",
-        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking"
+        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
+        "FERRY_IS_BEING_USED": "Ferry is being used by other object"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -274,7 +275,8 @@
         "name": "Name",
         "vehicle_capacity": "Vehicle capacity",
         "on_deck_capacity": "On deck capacity",
-        "add_ferry": "Add ferry"
+        "add_ferry": "Add ferry",
+        "remove": "Remove ferry"
     },
     "ferry-details": {
         "name": "Name:",

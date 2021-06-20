@@ -7,19 +7,26 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
+import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinTypeManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
+import javax.ejb.AccessLocalException;
+import javax.ejb.EJBAccessException;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.nio.file.attribute.UserPrincipal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -136,5 +143,16 @@ class CabinEndpointTest {
         cabin.setNumber("Niepoprawny");
         CommonExceptions exception = assertThrows(CommonExceptions.class, () -> cabinEndpoint.removeCabin(cabin.getNumber(), securityContext));
         assertEquals(400, exception.getResponse().getStatus());
+    }
+
+    @Test
+    void getFreeCabinsOnCruise() {
+        List<Cabin> freeCabins = List.of(cabin, cabin2);
+        when(cabinManagerLocal.getFreeCabinsOnCruise("ABCDEF123456")).thenReturn(freeCabins);
+
+        Response response = cabinEndpoint.getFreeCabinsOnCruise("ABCDEF123456");
+
+        assertEquals(freeCabins.stream().map(CabinMapper::createCabinGeneralDTOFromEntity).collect(Collectors.toList()), response.getEntity());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 }
