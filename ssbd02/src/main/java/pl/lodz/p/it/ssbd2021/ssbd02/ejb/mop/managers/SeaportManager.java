@@ -22,7 +22,6 @@ import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Manager portów
@@ -44,19 +43,19 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Seaport> getAllSeaports() {
-        return Optional.ofNullable(seaportFacadeLocal.findAll()).orElseThrow(CommonExceptions::createNoResultException);
+        return seaportFacadeLocal.findAll();
     }
 
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Seaport getSeaportByCode(String code) {
-        return Optional.ofNullable(seaportFacadeLocal.findByCode(code)).orElseThrow(CommonExceptions::createNoResultException);
+        return seaportFacadeLocal.findByCode(code);
     }
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void createSeaport(String login, Seaport seaport) {
-        Account accCreatedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+        Account accCreatedBy = accountMopFacadeLocal.findByLogin(login);
         seaport.setVersion(0L);
         seaport.setCreatedBy(accCreatedBy);
         seaportFacadeLocal.create(seaport);
@@ -68,15 +67,13 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     @RolesAllowed({"EMPLOYEE"})
     public void updateSeaport(Seaport seaport, String modifiedBy) {
 
-        Seaport databaseSeaport = Optional.ofNullable(seaportFacadeLocal.findByCode(seaport.getCode()))
-                .orElseThrow(CommonExceptions::createNoResultException);
+        Seaport databaseSeaport = seaportFacadeLocal.findByCode(seaport.getCode());
         Seaport seaportClone = SerializationUtils.clone(databaseSeaport);
         seaportClone.setVersion(seaport.getVersion());
 
         seaportClone.setCity(seaport.getCity());
 
-        seaportClone.setModifiedBy(Optional.ofNullable(accountMopFacadeLocal.findByLogin(modifiedBy))
-                .orElseThrow(CommonExceptions::createNoResultException));
+        seaportClone.setModifiedBy(accountMopFacadeLocal.findByLogin(modifiedBy));
         seaportClone.setModificationDate(Timestamp.from(Instant.now()));
 
         seaportClone.setCreatedBy(databaseSeaport.getCreatedBy());

@@ -92,6 +92,10 @@ class CabinManagerTest {
             cabins.add(cabin2);
             return null;
         }).when(cabinFacadeLocal).create(cabin2);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createNoResultException();
+        }).when(accountMopFacadeLocal).findByLogin("NieFranek");
+
         when(accountMopFacadeLocal.findByLogin(login)).thenReturn(account);
         when(ferryFacadeLocal.findByName(ferryName)).thenReturn(ferry);
 

@@ -81,7 +81,9 @@ class RouteManagerTest {
 
     @Test
     void getAllRoutesException() {
-        when(routeFacadeLocal.findAll()).thenReturn(null);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createNoResultException();
+        }).when(routeFacadeLocal).findAll();
 
         GeneralException exception = assertThrows(CommonExceptions.class, () -> routeManager.getAllRoutes());
 

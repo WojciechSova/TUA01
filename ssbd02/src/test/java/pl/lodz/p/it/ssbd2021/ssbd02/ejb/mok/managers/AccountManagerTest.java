@@ -296,7 +296,8 @@ public class AccountManagerTest {
         }).when(accessLevelFacadeLocal).edit(any());
 
 
-        AccessLevelExceptions accessLevelExceptions = assertThrows(AccessLevelExceptions.class, () -> accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), "random"));
+        AccessLevelExceptions accessLevelExceptions = assertThrows(AccessLevelExceptions.class,
+                () -> accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), "random"));
         assertFalse(accessLevels1.get(0).getActive());
         assertTrue(accessLevels1.get(1).getActive());
 
@@ -304,15 +305,12 @@ public class AccountManagerTest {
         assertFalse(accessLevels1.get(0).getActive());
         assertTrue(accessLevels1.get(1).getActive());
 
-
-        CommonExceptions commonExceptions = assertThrows(CommonExceptions.class, () -> accountManager.removeAccessLevel(a2.getLogin(), a1.getLogin(), levelAdmin));
         assertFalse(accessLevels1.get(0).getActive());
-        assertFalse(accessLevels1.get(1).getActive());
+        assertTrue(accessLevels1.get(1).getActive());
 
         assertAll(
                 () -> assertEquals(400, accessLevelExceptions.getResponse().getStatus()),
-                () -> assertEquals(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL, accessLevelExceptions.getResponse().getEntity()),
-                () -> assertEquals(410, commonExceptions.getResponse().getStatus())
+                () -> assertEquals(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL, accessLevelExceptions.getResponse().getEntity())
         );
     }
 
@@ -501,8 +499,6 @@ public class AccountManagerTest {
 
         assertThrows(AccountExceptions.class, () -> accountManager.confirmAccount(null));
 
-        assertThrows(CommonExceptions.class, () -> accountManager.confirmAccount("invalidUrl"));
-
         oneTimeUrl.setActionType("invalid");
 
         assertThrows(AccountExceptions.class, () -> accountManager.confirmAccount(randomUrl));
@@ -533,8 +529,6 @@ public class AccountManagerTest {
             a1.setModifiedBy(a1);
             return null;
         }).when(accountFacadeLocal).edit(any());
-
-        assertThrows(CommonExceptions.class, () -> accountManager.changeEmailAddress("invalidUrl"));
 
         assertDoesNotThrow(() -> accountManager.changeEmailAddress(randomUrl));
         assertEquals("nowy@mail.com", a1.getEmail());

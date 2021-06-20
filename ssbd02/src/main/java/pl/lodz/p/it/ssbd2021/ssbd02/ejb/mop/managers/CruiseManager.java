@@ -10,7 +10,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CruiseExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.FerryExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
@@ -26,7 +25,6 @@ import javax.interceptor.Interceptors;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Manager rejsów
@@ -60,7 +58,7 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     @Override
     @PermitAll
     public List<Cruise> getAllCurrentCruises() {
-        return Optional.ofNullable(cruiseFacadeLocal.findAllFutureDate()).orElseThrow(CommonExceptions::createNoResultException);
+        return cruiseFacadeLocal.findAllFutureDate();
     }
 
     @Override
