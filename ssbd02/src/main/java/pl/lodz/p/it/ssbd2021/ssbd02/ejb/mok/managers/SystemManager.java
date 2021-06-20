@@ -30,7 +30,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -80,8 +79,8 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
         List<List<OneTimeUrl>> urlsToDelete = new ArrayList<>();
         accountsToDelete.forEach(
                 account -> {
-                    accessLevelsToDelete.add(Optional.ofNullable(accessLevelFacadeLocal.findAllByAccount(account)).orElseThrow(CommonExceptions::createNoResultException));
-                    urlsToDelete.add(Optional.ofNullable(oneTimeUrlFacadeLocal.findByAccount(account)).orElseThrow(CommonExceptions::createNoResultException));
+                    accessLevelsToDelete.add(accessLevelFacadeLocal.findAllByAccount(account));
+                    urlsToDelete.add(oneTimeUrlFacadeLocal.findByAccount(account));
                 });
 
         accessLevelsToDelete.stream()

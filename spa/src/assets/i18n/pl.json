@@ -9,6 +9,7 @@
     },
     "form": {
         "invalid_format": "Niepoprawny format",
+        "invalid_number": "Numer rejsu powinien zawierać 6 dużych liter i 6 cyfr",
         "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
         "field_required": "Pole wymagane",
         "login": "Login",
@@ -31,7 +32,10 @@
         "no": "Nie",
         "positive": "Liczba osób musi być dodatnia",
         "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem",
-        "confirmation": "Czy jesteś pewny?"
+        "route_code_format": "Kod trasy powinien składać się z 6 wielkich liter",
+        "confirmation": "Czy jesteś pewny?",
+        "invalid_format_cabin_number": "Numer kajuty powinien mieć 1 wielką literę i 3 cyfry",
+        "invalid_capacity": "Pojemność powinna być wyrażona liczbą z zakresu od 1 do 99"
     },
     "links": {
         "about_us": "O nas",
@@ -78,7 +82,11 @@
     },
     "ferry-edit": {
         "invalid_on_deck_capacity": "Pojemność pokładowa musi być dodatnia",
-        "invalid_vehicle_capacity": "Pojemność parkingowa nie może być negatywna"
+        "invalid_vehicle_capacity": "Pojemność parkingowa nie może być negatywna",
+        "result_success": "Zmiana promu przebiegła pomyślnie",
+        "result_gone": "Zmiana promu nie powiodła się ponieważ wybrany prom został usunięty",
+        "result_failure": "Zmiana promu nie powiodła się",
+        "result_opl": "Stan promu został zmieniony, proszę spróbować ponownie"
     },
     "users-table": {
         "enter_your_search": "Wpisz szukaną frazę...",
@@ -202,7 +210,11 @@
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
         "DUPLICATE_CODE": "Podany kod już istnieje",
         "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
-        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji"
+        "DUPLICATE_NUMBER_CABIN": "Podany numer kajuty już istnieje",
+        "FERRY_IS_BEING_USED": "Prom jest wykorzystywany przez inny obiekt",
+        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji",
+        "BAD_REQUEST": "Niepoprawne żądanie",
+        "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -211,6 +223,8 @@
         "internal_server_error_message": "Ups, coś poszło nie tak :(",
         "not_found_code": "Kod błędu 404",
         "not_found_text": "Nie odnaleziono strony",
+        "gone_code": "Error 410",
+        "gone_text": "Zasób nie jest już dostępny",
         "unauthorized_code": "Kod błędu 401",
         "unauthorized_text": "Nieautoryzowany dostęp",
         "go_to_home_page": "Powrót do strony głównej"
@@ -265,13 +279,18 @@
         "code": "Kod trasy",
         "add": "Utwórz trasę",
         "delete": "Usuń trasę",
-        "details": "Rejsy"
+        "details": "Rejsy",
+        "response": {
+            "success": "Trasa została pomyślnie usunięta",
+            "failure": "Usunięcie trasy nie powiodło się (trasa przypisana do rejsu)"
+        }
     },
     "ferries-table": {
         "name": "Nazwa",
         "vehicle_capacity": "Pojemność garażowa",
         "on_deck_capacity": "Pojemność pokładowa",
-        "add_ferry": "Dodaj prom"
+        "add_ferry": "Dodaj prom",
+        "remove": "Usuń prom"
     },
     "ferry-details": {
         "name": "Nazwa:",
@@ -402,6 +421,8 @@
         "new_route": "Nowa trasa",
         "start": "*Start",
         "dest": "*Cel",
-        "code": "*Kod"
+        "code": "*Kod",
+        "start_destination_unique": "Trasa o podanym początku i końcu już istnieje",
+        "code_unique": "Trasa o podanym kodzie już istnieje"
     }
 }

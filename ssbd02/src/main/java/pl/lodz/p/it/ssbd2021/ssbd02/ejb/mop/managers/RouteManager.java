@@ -24,7 +24,6 @@ import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Manager tras
@@ -52,7 +51,7 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Route> getAllRoutes() {
-        return Optional.ofNullable(routeFacadeLocal.findAll()).orElseThrow(CommonExceptions::createNoResultException);
+        return routeFacadeLocal.findAll();
     }
 
     @Override
@@ -78,6 +77,7 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     public Pair<Route, List<Cruise>> getRouteAndCruisesByRouteCode(String code) {
         Route route = routeFacadeLocal.findByCode(code);
         List<Cruise> cruiseList = cruiseFacadeLocal.findAllByRoute(route);
+
         return Pair.of(route, cruiseList);
     }
 

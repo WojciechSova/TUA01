@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { CruiseDetails } from '../../model/mop/CruiseDetails';
 import { Observable } from 'rxjs';
+import { CruiseGeneral } from '../../model/mop/CruiseGeneral';
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +24,10 @@ export class CruiseDetailsService implements OnDestroy {
             observe: 'response',
             responseType: 'json'
         });
+    }
+
+    addCruise(cruise: CruiseGeneral, ferry: string, route: string): any {
+        return this.http.post(this.url + 'add/' + ferry + '/' + route, cruise, { responseType: 'text' });
     }
 
     readCruiseAndEtagFromResponse(response: HttpResponse<CruiseDetails>): void {

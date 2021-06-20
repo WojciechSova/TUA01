@@ -26,7 +26,6 @@ import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -87,8 +86,8 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void createCabin(Cabin cabin, String createdBy, String ferryName) {
-        Account accCreatedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(createdBy)).orElseThrow(CommonExceptions::createNoResultException);
-        Ferry ferry = Optional.ofNullable(ferryFacadeLocal.findByName(ferryName)).orElseThrow(CommonExceptions::createNoResultException);
+        Account accCreatedBy = accountMopFacadeLocal.findByLogin(createdBy);
+        Ferry ferry = ferryFacadeLocal.findByName(ferryName);
         cabin.setVersion(0L);
         cabin.setCreatedBy(accCreatedBy);
         cabin.setFerry(ferry);
@@ -101,8 +100,7 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     @RolesAllowed({"EMPLOYEE"})
     public void updateCabin(Cabin cabin, String modifiedBy, String ferryName) {
         Ferry ferry = ferryFacadeLocal.findByName(ferryName);
-        Cabin cabinFromDB = Optional.ofNullable(cabinFacadeLocal.findByFerryAndNumber(ferry, cabin.getNumber())).
-                orElseThrow(CommonExceptions::createNoResultException);
+        Cabin cabinFromDB = cabinFacadeLocal.findByFerryAndNumber(ferry, cabin.getNumber());
         Cabin cab = SerializationUtils.clone(cabinFromDB);
 
         cab.setVersion(cabin.getVersion());
@@ -112,7 +110,7 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
         if (cabin.getCapacity() != null) {
             cab.setCapacity(cabin.getCapacity());
         }
-        Account cabModifiedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(modifiedBy)).orElseThrow(CommonExceptions::createNoResultException);
+        Account cabModifiedBy = accountMopFacadeLocal.findByLogin(modifiedBy);
         cab.setModifiedBy(cabModifiedBy);
         cab.setModificationDate(Timestamp.from(Instant.now()));
         cab.setCreatedBy(cabinFromDB.getCreatedBy());
