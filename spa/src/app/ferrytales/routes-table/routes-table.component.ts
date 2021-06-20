@@ -45,8 +45,11 @@ export class RoutesTableComponent implements OnDestroy {
                 this.result = 'success';
                 this.getRoutes();
             },
-            () => {
-                this.result = 'failure';
+            (error: any) => {
+                if (error.status === 409) {
+                    this.result = 'failure';
+                }
+                this.getRoutes();
             });
     }
 
