@@ -123,6 +123,11 @@ public class CruiseEndpoint {
             throw CommonExceptions.createConstraintViolationException();
         }
 
+        if (cruiseDetailsDTO.getStartDate() == null || cruiseDetailsDTO.getEndDate() == null
+                || cruiseDetailsDTO.getStartDate().after(cruiseDetailsDTO.getEndDate())) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
         try {
             cruiseManagerLocal.createCruise(CruiseMapper.createCruiseFromCruiseDetailsDTO(cruiseDetailsDTO),
                     ferry, route, securityContext.getUserPrincipal().getName());

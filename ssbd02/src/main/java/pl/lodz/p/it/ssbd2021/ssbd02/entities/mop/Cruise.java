@@ -1,11 +1,20 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.entities.mop;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -22,8 +31,10 @@ import java.time.Instant;
         @NamedQuery(name = "Cruise.findByRoute", query = "SELECT cr FROM Cruise cr WHERE cr.route = :route"),
         @NamedQuery(name = "Cruise.findByFerry", query = "SELECT cr FROM Cruise cr WHERE cr.ferry = :ferry"),
         @NamedQuery(name = "Cruise.findByNumber", query = "SELECT cr FROM Cruise cr WHERE cr.number = :number"),
-        @NamedQuery(name = "Cruise.findCurrentCruises", query = "SELECT cr FROM Cruise cr WHERE cr.startDate > current_timestamp")
-})
+        @NamedQuery(name = "Cruise.findCurrentCruises", query = "SELECT cr FROM Cruise cr WHERE cr.startDate > current_timestamp"),
+        @NamedQuery(name = "Cruise.findAllUsingFerryInTime", query = "SELECT cr FROM Cruise cr WHERE cr.ferry = :ferry AND " +
+                "cr.startDate < :endDate AND cr.endDate > :startDate")
+        })
 @Data
 @NoArgsConstructor
 public class Cruise extends AbstractEntity implements Serializable {

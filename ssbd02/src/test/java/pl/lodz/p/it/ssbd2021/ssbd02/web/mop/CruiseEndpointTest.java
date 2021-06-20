@@ -1,6 +1,5 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
-import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,6 +21,7 @@ import java.nio.file.attribute.UserPrincipal;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -84,6 +84,12 @@ class CruiseEndpointTest {
 
     @Test
     void addCruise() {
+        Timestamp startDate = Timestamp.from(Instant.now());
+        Timestamp endDate = Timestamp.from(Instant.now().plus(1, ChronoUnit.HOURS));
+
+        cruiseDetailsDTO.setStartDate(startDate);
+        cruiseDetailsDTO.setEndDate(endDate);
+
         currentCruises = new ArrayList<>();
 
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
@@ -114,6 +120,17 @@ class CruiseEndpointTest {
         assertAll(
                 () -> assertEquals(400, exception1.getResponse().getStatus()),
                 () -> assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, exception1.getResponse().getEntity())
+        );
+
+        cruiseDetailsDTO.setStartDate(endDate);
+        cruiseDetailsDTO.setEndDate(startDate);
+
+        WebApplicationException exception2 = assertThrows(CommonExceptions.class,
+                () -> cruiseEndpoint.addCruise(cruiseDetailsDTO, "ferry", "VALIDD", securityContext));
+
+        assertAll(
+                () -> assertEquals(400, exception2.getResponse().getStatus()),
+                () -> assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, exception2.getResponse().getEntity())
         );
     }
 

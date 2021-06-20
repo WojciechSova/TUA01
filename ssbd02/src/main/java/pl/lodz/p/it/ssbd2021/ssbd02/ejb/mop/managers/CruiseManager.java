@@ -10,8 +10,8 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CruiseExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.FerryExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -88,6 +88,12 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
         Ferry ferry = ferryFacadeLocal.findByName(name);
 
         Route route = routeFacadeLocal.findByCode(code);
+
+        List<Cruise> cruises = cruiseFacadeLocal.findAllUsingFerryInTime(ferry, cruise.getStartDate(), cruise.getEndDate());
+
+        if (!cruises.isEmpty()) {
+            throw FerryExceptions.createConflictException(FerryExceptions.ERROR_FERRY_IS_BEING_USED);
+        }
 
         cruise.setVersion(0L);
         cruise.setFerry(ferry);

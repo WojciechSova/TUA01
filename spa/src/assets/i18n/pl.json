@@ -9,6 +9,7 @@
     },
     "form": {
         "invalid_format": "Niepoprawny format",
+        "invalid_number": "Numer rejsu powinien zawierać 6 dużych liter i 6 cyfr",
         "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
         "field_required": "Pole wymagane",
         "login": "Login",
@@ -211,7 +212,9 @@
         "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
         "DUPLICATE_NUMBER_CABIN": "Podany numer kajuty już istnieje",
         "FERRY_IS_BEING_USED": "Prom jest wykorzystywany przez inny obiekt",
-        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji"
+        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji",
+        "BAD_REQUEST": "Niepoprawne żądanie",
+        "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
