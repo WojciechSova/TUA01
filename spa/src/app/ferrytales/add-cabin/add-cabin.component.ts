@@ -10,20 +10,20 @@ import { FerryDetailsService } from '../../services/mop/ferry-details.service';
 })
 export class AddCabinComponent implements OnInit {
 
-    name = "";
+    name = '';
 
     constructor(private router: Router,
                 private ferryDetailsService: FerryDetailsService) {
         this.name = ferryDetailsService.ferry.name;
     }
 
-    ngOnInit(): void {
-    }
-
     form = new FormGroup({
         capacity: new FormControl('', [Validators.required, Validators.min(1)]),
-        number: new FormControl('', [Validators.required, Validators.pattern("[A-Z][0-9]{3}")]),
-    })
+        number: new FormControl('', [Validators.required, Validators.pattern('[A-Z][0-9]{3}')]),
+    });
+
+    ngOnInit(): void {
+    }
 
     goToHomeBreadcrumb(): void {
         this.router.navigate(['/']);
