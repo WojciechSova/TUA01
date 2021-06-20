@@ -137,6 +137,13 @@ public class CruiseEndpoint {
         }
     }
 
+    /**
+     * Metoda punktu dostępowego umożliwiająca usunięcie rejsu.
+     *
+     * @param number          Identyfikator biznesowy usuwanego rejsu
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego usunięcia rejsu
+     */
     @DELETE
     @Path("remove/{number}")
     @RolesAllowed({"EMPLOYEE"})
