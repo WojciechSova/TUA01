@@ -39,7 +39,7 @@
 
             <div class="row">
                 <div class="input-box-container">
-                    <input #startDate class="input-box" placeholder="Click to select a date"
+                    <input #startDate class="input-box" placeholder="{{'add-cruise.start_date' | translate}}"
                            angular-mydatepicker name="mydate1" (click)="dp1.toggleCalendar()"
                            [(ngModel)]="startDate" [options]="myDpOptions" formControlName="startDate"
                            #dp1="angular-mydatepicker"/>
@@ -52,7 +52,7 @@
 
             <div class="row">
                 <div class="input-box-container">
-                    <input #endDate class="input-box" placeholder="Click to select a date"
+                    <input #endDate class="input-box" placeholder="{{'add-cruise.end_date' | translate}}"
                            angular-mydatepicker name="mydate" (click)="dp2.toggleCalendar()"
                            [(ngModel)]="endDate" [options]="myDpOptions" formControlName="endDate"
                            #dp2="angular-mydatepicker"/>
