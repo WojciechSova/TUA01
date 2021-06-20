@@ -21,7 +21,7 @@
         <div class="button-container">
             <button id="edit-button"
                     class="edit-button"
-                    (click)="edit(number)"
+                    (click)="changeEditCruiseFormVisible(cruiseEdit = { isFormVisible: true, response: 'hide' })"
                     translate>cruise-details.edit_cruise
             </button>
             <button class="edit-button" (click)="getCruise()" translate>general.refresh</button>
@@ -70,3 +70,5 @@
         </div>
     </div>
 </div>
+<app-edit-cruise *ngIf="cruiseEdit.isFormVisible"
+                 (isEditCruiseFormVisible)="changeEditCruiseFormVisible($event)"></app-edit-cruise>

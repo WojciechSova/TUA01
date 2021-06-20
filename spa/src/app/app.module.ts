@@ -65,6 +65,7 @@ import { AddFerryComponent } from './ferrytales/add-ferry/add-ferry.component';
 import { ConfirmationComponent } from './common/confirmation/confirmation.component';
 import { AddRouteComponent } from './ferrytales/add-route/add-route.component';
 import { GoneComponent } from './other-views/error-pages/gone/gone.component';
+import { EditCruiseComponent } from './ferrytales/cruise-details/edit-cruise/edit-cruise.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -141,6 +142,7 @@ export const localeServiceProviders = [
         AddRouteComponent,
         ConfirmationComponent,
         GoneComponent,
+        EditCruiseComponent,
     ],
     imports: [
         BrowserModule,
