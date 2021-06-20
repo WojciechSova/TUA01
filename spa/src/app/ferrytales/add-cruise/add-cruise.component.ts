@@ -7,6 +7,7 @@ import { CruiseDetailsService } from '../../services/mop/cruise-details.service'
 import { CruiseGeneral } from '../../model/mop/CruiseGeneral';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
+import { IdentityService } from '../../services/utils/identity.service';
 
 @Component({
     selector: 'app-add-cruise',
@@ -21,17 +22,28 @@ export class AddCruiseComponent implements OnInit {
     error = false;
     errorCode = '';
 
+    startHour = 0;
+    startMinute = 0;
+
+    endHour = 0;
+    endMinute = 0;
+
     form = new FormGroup({
         number: new FormControl('', [Validators.required, Validators.pattern('[A-Z]{6}[0-9]{6}')]),
         startDate: new FormControl('', Validators.required),
+        startHour: new FormControl('', Validators.required),
+        startMinute: new FormControl('', Validators.required),
         endDate: new FormControl('', Validators.required),
+        endHour: new FormControl('', Validators.required),
+        endMinute: new FormControl('', Validators.required),
         ferry: new FormControl('', Validators.required)
     });
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 public ferryGeneralService: FerryGeneralService,
-                private cruiseDetailsService: CruiseDetailsService) {
+                private cruiseDetailsService: CruiseDetailsService,
+                private identityService: IdentityService) {
         this.code = this.route.snapshot.paramMap.get('code') as string;
         this.getFerries();
     }
@@ -45,8 +57,6 @@ export class AddCruiseComponent implements OnInit {
     endDate: IMyDateModel = { isRange: false };
 
     ngOnInit(): void {
-        this.actualDate = new Date();
-
         this.myDpOptions = {
             dateRange: false,
             dateFormat: 'dd.mm.yyyy'
@@ -79,6 +89,10 @@ export class AddCruiseComponent implements OnInit {
     addCruise(cruiseNumber: string): void {
         this.error = false;
 
+        this.startDate.singleDate?.jsDate?.setUTCHours(this.startHour - parseInt(this.identityService.getTimezone(), 10), this.startMinute);
+
+        this.endDate.singleDate?.jsDate?.setUTCHours(this.endHour - parseInt(this.identityService.getTimezone(), 10), this.endMinute);
+
         const cruise: CruiseGeneral = {
             number: cruiseNumber,
             startDate: new Date(this.startDate.singleDate?.jsDate ? this.startDate.singleDate?.jsDate : 0).toJSON(),
@@ -107,5 +121,15 @@ export class AddCruiseComponent implements OnInit {
                 this.errorCode = error.error;
             }
         }
+    }
+
+    range(start: number, end: number): number[] {
+        const ans = [];
+
+        for (let i = start; i <= end; i++) {
+            ans.push(i);
+        }
+
+        return ans;
     }
 }
