@@ -14,10 +14,6 @@ export class ConfirmationComponent {
     }
 
     setAnswer(answer: boolean): void {
-        this.isPromptVisibleAndAnswer.emit({
-                isPromptVisible: false,
-                response: answer
-            }
-        );
+        this.isPromptVisibleAndAnswer.emit(answer);
     }
 }

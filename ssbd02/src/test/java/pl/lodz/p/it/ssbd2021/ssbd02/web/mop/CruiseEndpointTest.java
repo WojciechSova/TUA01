@@ -11,6 +11,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CruiseGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CruiseManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CruiseExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CruiseMapper;
 
 import javax.ws.rs.WebApplicationException;
@@ -18,9 +19,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.nio.file.attribute.UserPrincipal;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -131,5 +132,33 @@ class CruiseEndpointTest {
                 () -> assertEquals(400, exception2.getResponse().getStatus()),
                 () -> assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, exception2.getResponse().getEntity())
         );
+    }
+
+    @Test
+    void removeCruise() {
+        cruise.setStartDate(Timestamp.from(Instant.now().minus(Duration.ofDays(2))));
+        cruise.setNumber("BLABLA000001");
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("Login");
+
+        doAnswer(invocationOnMock -> {
+            throw CruiseExceptions.createConflictException(CruiseExceptions.ERROR_CRUISE_ALREADY_STARTED);
+        }).when(cruiseManagerLocal).removeCruise(cruise.getNumber(), "Login");
+
+        CommonExceptions constraintViolationException = assertThrows(CommonExceptions.class,
+                () -> cruiseEndpoint.removeCruise("notValidNumber", securityContext));
+
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(),
+                constraintViolationException.getResponse().getStatus());
+        assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION,
+                constraintViolationException.getResponse().getEntity());
+
+        CruiseExceptions alreadyStartedException = assertThrows(CruiseExceptions.class,
+                () -> cruiseEndpoint.removeCruise(cruise.getNumber(), securityContext));
+
+        assertEquals(Response.Status.CONFLICT.getStatusCode(), alreadyStartedException.getResponse().getStatus());
+        assertEquals(CruiseExceptions.ERROR_CRUISE_ALREADY_STARTED, alreadyStartedException.getResponse().getEntity());
+
+        verify(cruiseManagerLocal).removeCruise(cruise.getNumber(), "Login");
     }
 }

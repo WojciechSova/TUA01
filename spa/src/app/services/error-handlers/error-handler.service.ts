@@ -18,6 +18,8 @@ export class ErrorHandlerService implements ErrorHandler {
             this.zone.run(() => this.router.navigateByUrl('/error/forbidden'));
         } else if (error.status === 404) {
             this.zone.run(() => this.router.navigateByUrl('error/notfound'));
+        } else if (error.status === 410) {
+            this.zone.run(() => this.router.navigateByUrl('error/gone'));
         } else if (error.status === 500) {
             this.zone.run(() => this.router.navigateByUrl('error/internal'));
         }

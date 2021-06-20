@@ -11,14 +11,9 @@ import { BookingGeneral } from '../../model/mop/BookingGeneral';
 })
 export class BookingsTableOwnComponent implements OnInit {
 
-    confirmationPrompt = {
-        isPromptVisible: false,
-        response: false
-    };
-
-    bookingCancelError = false;
-
     bookingToCancel = '';
+    bookingCancelError = false;
+    isPromptVisible = false;
 
     constructor(private router: Router,
                 public bookingGeneralService: BookingGeneralService,
@@ -34,8 +29,6 @@ export class BookingsTableOwnComponent implements OnInit {
     }
 
     getBookings(): void {
-        this.bookingCancelError = false;
-        this.confirmationPrompt.response = false;
         this.bookingGeneralService.getOwnBookings().subscribe(
             (bookingGenerals: BookingGeneral[]) => {
                 this.bookingGeneralService.readBookings(bookingGenerals);
@@ -47,13 +40,13 @@ export class BookingsTableOwnComponent implements OnInit {
         this.router.navigate(['/ferrytales/bookings/own/' + bookingNumber]);
     }
 
-    showPrompt(confirmationPrompt: any): void {
+    displayPrompt(bookingNumber: string): void {
         this.bookingCancelError = false;
-        this.confirmationPrompt = confirmationPrompt;
+        this.bookingToCancel = bookingNumber;
+        this.isPromptVisible = true;
     }
 
     cancelBooking(bookingNumber: string): void {
-        this.confirmationPrompt.response = false;
         this.bookingGeneralService.remove(bookingNumber).subscribe(
             () => this.getBookings(),
             (error => {
@@ -62,5 +55,12 @@ export class BookingsTableOwnComponent implements OnInit {
                 }
             })
         );
+    }
+
+    getConfirmationResult(confirmationResult: boolean): void {
+        if (confirmationResult) {
+            this.cancelBooking(this.bookingToCancel);
+        }
+        this.isPromptVisible = false;
     }
 }

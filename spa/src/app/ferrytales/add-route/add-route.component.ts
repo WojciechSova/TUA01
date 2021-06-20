@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl , FormGroup, Validators } from '@angular/forms';
 import { SeaportGeneralService } from '../../services/mop/seaport-general.service';
 import { SeaportGeneral } from '../../model/mop/SeaportGeneral';
+import { RouteGeneralService } from '../../services/mop/route-general.service';
 
 @Component({
     selector: 'app-add-route',
@@ -19,9 +20,13 @@ export class AddRouteComponent implements OnInit {
 
     start = '';
     dest = '';
+    routeCode = '';
+    startDestinationUniqueViolation = false;
+    codeUniqueViolation = false;
 
     constructor(private router: Router,
-                public seaportGeneralService: SeaportGeneralService) {
+                public seaportGeneralService: SeaportGeneralService,
+                private routeGeneralService: RouteGeneralService) {
         seaportGeneralService.getSeaports().subscribe(
             (seaports: SeaportGeneral[]) => seaportGeneralService.seaportsList = seaports
         );
@@ -38,8 +43,19 @@ export class AddRouteComponent implements OnInit {
         this.router.navigate(['/ferrytales/routes']);
     }
 
-    addRoute(value: string): void {
-        return;
+    addRoute(): void {
+        this.clearErrors();
+        this.routeGeneralService.addRoute(this.routeCode, this.start, this.dest).subscribe(
+            () => this.goToRouteListBreadcrumb(),
+            (error => {
+                if (error.error === 'ERROR.ROUTE_START_DESTINATION_UNIQUE') {
+                    this.startDestinationUniqueViolation = true;
+                }
+                if (error.error === 'ERROR.ROUTE_CODE_UNIQUE') {
+                    this.codeUniqueViolation = true;
+                }
+            })
+        );
     }
 
     getSeaports(): SeaportGeneral[] {
@@ -50,5 +66,10 @@ export class AddRouteComponent implements OnInit {
 
     getCity(code: string): string | undefined {
         return this.seaportGeneralService.seaportsList.find(seaport => seaport.code === code)?.city;
+    }
+
+    private clearErrors(): void {
+        this.codeUniqueViolation = false;
+        this.startDestinationUniqueViolation = false;
     }
 }

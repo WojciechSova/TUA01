@@ -75,4 +75,16 @@ class BookingMapperTest {
         assertEquals(booking.getCreationDate(), bookingGeneralDTO.getCreationDate());
         assertEquals(booking.getVersion(), bookingGeneralDTO.getVersion());
     }
+
+    @Test
+    void createEntityFromBookingDetailsDTO(){
+        BookingDetailsDTO bookingDetailsDTO = new BookingDetailsDTO();
+        bookingDetailsDTO.setVersion(1L);
+        bookingDetailsDTO.setNumberOfPeople(7);
+
+        Booking booking = BookingMapper.createEntityFromBookingDetailsDTO(bookingDetailsDTO);
+
+        assertEquals(1L,  booking.getVersion());
+        assertEquals(7, booking.getNumberOfPeople());
+    }
 }

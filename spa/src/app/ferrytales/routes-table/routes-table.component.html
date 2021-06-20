@@ -7,8 +7,12 @@
 </ol>
 
 <div class="button-container">
+    <div *ngIf="(result) !== 'hidden'" class="info-popup">
+        <p *ngIf="(result) === 'success'" class="success" translate>route.response.success</p>
+        <p *ngIf="(result) === 'failure'" class="failure" translate>route.response.failure</p>
+    </div>
     <button class="top-table-button create-button" (click)="addRoute()" translate>route.add</button>
-    <button class="top-table-button" (click)="getRoutes()" translate>general.refresh</button>
+    <button class="top-table-button" (click)="refresh()" translate>general.refresh</button>
 </div>
 
 <div class="route-list-container">
@@ -25,10 +29,14 @@
             <td>{{route.start.city}}</td>
             <td>{{route.destination.city}}</td>
             <td>
-                <button class="top-table-button delete-button" translate>route.delete</button>
+                <button class="top-table-button delete-button" (click)="removeRoute(route.code)" translate>
+                    route.delete
+                </button>
             </td>
             <td>
-                <button class="top-table-button" routerLink="{{'/ferrytales/routes/' + route.code}}" translate>route.details</button>
+                <button class="top-table-button" routerLink="{{'/ferrytales/routes/' + route.code}}" translate>
+                    route.details
+                </button>
             </td>
         </tr>
     </table>

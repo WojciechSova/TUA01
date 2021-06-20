@@ -20,7 +20,7 @@
                 <label translate>add-route.new_route</label>
             </div>
             <div class="row">
-                <input #code type="text" id="add-code" formControlName="code"
+                <input [(ngModel)]="routeCode" type="text" id="add-code" formControlName="code"
                        placeholder="{{'add-route.code' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.code.touched && form.controls.code.invalid}"/>
                 <div class="validation-error"
@@ -29,7 +29,7 @@
                 </div>
                 <div class="validation-error"
                      *ngIf="form.controls.code.hasError('pattern') && form.controls.code.touched"
-                     translate>form.invalid_format
+                     translate>form.route_code_format
                 </div>
             </div>
             <div class="row">
@@ -60,9 +60,13 @@
                      translate>form.field_required
                 </div>
             </div>
+            <div class="row">
+                <div *ngIf="startDestinationUniqueViolation" class="validation-error result" translate>add-route.start_destination_unique</div>
+                <div *ngIf="codeUniqueViolation" class="validation-error result" translate>add-route.code_unique</div>
+            </div>
         </div>
         <button class="edit-button"
-                (click)="addRoute(code.value)"
+                (click)="addRoute()"
                 [disabled]=form.invalid translate>form.save
         </button>
 

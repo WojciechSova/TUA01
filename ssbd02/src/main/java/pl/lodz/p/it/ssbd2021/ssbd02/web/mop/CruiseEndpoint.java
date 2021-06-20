@@ -142,11 +142,34 @@ public class CruiseEndpoint {
         }
     }
 
+    /**
+     * Metoda punktu dostępowego umożliwiająca usunięcie rejsu.
+     *
+     * @param number          Identyfikator biznesowy usuwanego rejsu
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 200 w przypadku poprawnego usunięcia rejsu
+     */
     @DELETE
     @Path("remove/{number}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeCruise(@PathParam("number") String number, @Context SecurityContext securityContext) {
-        return null;
+        if (!(number.matches("[A-Z]{6}[0-9]{6}"))) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
+        try {
+            String userLogin = securityContext.getUserPrincipal().getName();
+            cruiseManagerLocal.removeCruise(number, userLogin);
+
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
     @PUT
