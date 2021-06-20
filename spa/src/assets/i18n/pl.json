@@ -216,6 +216,8 @@
         "internal_server_error_message": "Ups, coś poszło nie tak :(",
         "not_found_code": "Kod błędu 404",
         "not_found_text": "Nie odnaleziono strony",
+        "gone_code": "Error 410",
+        "gone_text": "Zasób nie jest już dostępny",
         "unauthorized_code": "Kod błędu 401",
         "unauthorized_text": "Nieautoryzowany dostęp",
         "go_to_home_page": "Powrót do strony głównej"

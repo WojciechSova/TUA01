@@ -215,6 +215,8 @@
         "internal_server_error_code": "Error 500",
         "internal_server_error_message": "Oops, something went wrong :(",
         "not_found_code": "Error 404",
+        "gone_code": "Error 410",
+        "gone_text": "Resource is no longer available",
         "not_found_text": "Page not found",
         "unauthorized_code": "Error 401",
         "unauthorized_text": "Unauthorized",
