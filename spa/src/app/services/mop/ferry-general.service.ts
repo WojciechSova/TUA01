@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FerryGeneral } from '../../model/mop/FerryGeneral';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -30,5 +31,10 @@ export class FerryGeneralService implements OnDestroy {
         this.ferriesGeneralList = [];
     }
 
-
+    remove(ferryName: string): Observable<any> {
+        return this.http.delete(this.url.concat('/remove/', ferryName), {
+            observe: 'body',
+            responseType: 'text'
+        });
+    }
 }

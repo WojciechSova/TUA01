@@ -30,7 +30,11 @@
         "yes": "Yes",
         "no": "No",
         "positive": "Number of people must be positive",
-        "cabin_edit_failed": "An error occured"
+        "cabin_edit_failed": "An error occured",
+        "confirmation": "Are you sure?",
+        "route_code_format": "Route code should consist of 6 capital letters",
+        "invalid_format_cabin_number": "Cabin number should have 1 upper case letter and 3 digits",
+        "invalid_capacity": "Capacity should be a number in the range from 1 to 99"
     },
     "links": {
         "about_us": "About us",
@@ -144,7 +148,12 @@
         "city": "City",
         "code": "Seaport code",
         "add": "Add new seaport",
-        "remove": "Remove seaport"
+        "remove": "Remove seaport",
+        "response": {
+            "success": "Seaport deleted successfully",
+            "in_use": "Seaport is used by a route it could not be deleted",
+            "result_gone": "Seaport you tried to delete was deleted by someone else"
+        }
     },
     "main-page": {
         "advert": "Fairytale-like ferry crossings",
@@ -195,7 +204,10 @@
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists",
         "DUPLICATE_CODE": "Provided code already exists",
-        "DUPLICATE_FERRY_NAME": "Provided ferry name already exists"
+        "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
+        "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists",
+        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
+        "FERRY_IS_BEING_USED": "Ferry is being used by other object"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -264,7 +276,8 @@
         "name": "Name",
         "vehicle_capacity": "Vehicle capacity",
         "on_deck_capacity": "On deck capacity",
-        "add_ferry": "Add ferry"
+        "add_ferry": "Add ferry",
+        "remove": "Remove ferry"
     },
     "ferry-details": {
         "name": "Name:",
@@ -393,8 +406,10 @@
     },
     "add-route": {
         "new_route": "New route",
-        "start": "Start",
-        "dest": "Destination",
-        "code": "*Code"
+        "start": "*Start",
+        "dest": "*Destination",
+        "code": "*Code",
+        "start_destination_unique": "Route with selected start and destination already exists",
+        "code_unique": "Route with given code already exists"
     }
 }

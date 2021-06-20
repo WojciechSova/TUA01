@@ -10,6 +10,8 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CruiseExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.PermitAll;
@@ -107,7 +109,16 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeCruise(Cruise cruise) {
+    public void removeCruise(String cruiseNumber, String userLogin) {
+        Cruise cruise = cruiseFacadeLocal.findByNumber(cruiseNumber);
 
+        if (cruise.getStartDate().before(Timestamp.from(Instant.now()))) {
+            throw CruiseExceptions.createConflictException(CruiseExceptions.ERROR_CRUISE_ALREADY_STARTED);
+        }
+
+        cruiseFacadeLocal.remove(cruise);
+
+        logger.info("The user with login {} has removed the cruise with number {}",
+                userLogin, cruiseNumber);
     }
 }
