@@ -415,7 +415,12 @@
         "cabin_number": "*Cabin number",
         "vehicle_type": "Select vehicle type",
         "ok": "Book it",
-        "people_number": "Number of people"
+        "people_number": "Number of people",
+        "no_cabins": "There are no cabins with such type and capacity",
+        "number_first": "Enter number of people first",
+        "people": "-person",
+        "error_conflict": "Could not create a booking",
+        "error_constraint": "Provided data is invalid"
     },
     "add-route": {
         "new_route": "New route",

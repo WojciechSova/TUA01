@@ -104,8 +104,9 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @Override
     @RolesAllowed({"CLIENT"})
-    public void createBooking(Booking booking, String cruiseNumber, String cabinNumber, String login, String vehicleTypeName) {
-
+    public void createBooking(int numberOfPeople, String cruiseNumber, String cabinNumber, String login, String vehicleTypeName) {
+        Booking booking = new Booking();
+        booking.setNumberOfPeople(numberOfPeople);
         double price = 0;
         Cruise cruise = cruiseFacadeLocal.findByNumber(cruiseNumber);
         Cabin cabin = null;

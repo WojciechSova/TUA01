@@ -169,15 +169,15 @@ public class BookingEndpoint {
      * @param cruiseNumber      Numer rejsu, na który tworzona jest rezerwacja
      * @param cabinNumber       Numer rezerwowanej kajuty lub pusty string w przypadku rezerwacji miejsca na pokładzie promu
      * @param vehicleTypeName   Nazwa typu pojazdu
-     * @param bookingDetailsDTO Obiekt typu {@link BookingDetailsDTO}
+     * @param peopleNumber      Liczba osób
      * @param securityContext   Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 202 w przypadku poprawnej rezerwacji.
      */
     @POST
-    @Path("add/{cruise}/{vehicleType}/{cabin: .*}")
+    @Path("add/{cruise}/{vehicleType}/{cabin:.*}")
     @RolesAllowed({"CLIENT"})
     public Response addBooking(@PathParam("cruise") String cruiseNumber, @PathParam("cabin") String cabinNumber,
-                               @PathParam("vehicleType") String vehicleTypeName,  BookingDetailsDTO bookingDetailsDTO,
+                               @PathParam("vehicleType") String vehicleTypeName, int peopleNumber,
                                @Context SecurityContext securityContext) {
         if(!cabinNumber.equals("")){
             if(!cabinNumber.matches("[A-Z][0-9]{3}")){
@@ -185,13 +185,13 @@ public class BookingEndpoint {
             }
         }
 
-        if (bookingDetailsDTO.getNumberOfPeople() == null || bookingDetailsDTO.getNumberOfPeople() <= 0 ||
-            !cruiseNumber.matches("[A-Z]{6}[0-9]{6}") || !List.of("None", "Motorcycle", "Car", "Bus").contains(vehicleTypeName)){
+        if (peopleNumber <= 0 || !cruiseNumber.matches("[A-Z]{6}[0-9]{6}") ||
+                !List.of("None", "Motorcycle", "Car", "Bus").contains(vehicleTypeName)){
             throw CommonExceptions.createConstraintViolationException();
         }
         try {
-            bookingManagerLocal.createBooking(BookingMapper.createEntityFromBookingDetailsDTO(bookingDetailsDTO),
-                    cruiseNumber, cabinNumber, securityContext.getUserPrincipal().getName(), vehicleTypeName);
+            bookingManagerLocal.createBooking(peopleNumber, cruiseNumber, cabinNumber,
+                    securityContext.getUserPrincipal().getName(), vehicleTypeName);
             return Response.accepted()
                     .build();
         } catch (GeneralException generalException) {

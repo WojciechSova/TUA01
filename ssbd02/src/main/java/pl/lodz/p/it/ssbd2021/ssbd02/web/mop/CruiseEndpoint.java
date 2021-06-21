@@ -57,7 +57,7 @@ public class CruiseEndpoint {
      */
     @GET
     @Path("/{number}")
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Response getCruise(@PathParam("number") String number) {
         try {
             CruiseDetailsDTO cruiseDetailsDTO = CruiseMapper

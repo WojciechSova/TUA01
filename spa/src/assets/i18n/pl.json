@@ -415,7 +415,13 @@
         "cabin_number": "*Numer kajuty",
         "vehicle_type": "*Wybierz typ pojazdu:",
         "ok": "Zarezerwuj",
-        "people_number": "Liczba osób"
+        "people_number": "Liczba osób",
+        "no_cabins": "Brak kajut spełniających podane kryteria",
+        "number_first": "Najpierw podaj poprawną liczbę osob",
+        "people": "-osobowa",
+        "error_conflict": "Nie udało sie utworzyć rezerwacji",
+        "error_constraint": "Przesłane dane są niepoprawne"
+
     },
     "add-route": {
         "new_route": "Nowa trasa",
