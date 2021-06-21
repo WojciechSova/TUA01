@@ -34,7 +34,7 @@ import java.util.List;
  * @author Wojciech Sowa
  */
 @Stateful
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class CruiseManager extends AbstractManager implements CruiseManagerLocal, SessionSynchronization {
