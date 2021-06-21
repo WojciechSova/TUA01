@@ -125,7 +125,7 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
         List<Cruise> cruises = cruiseFacadeLocal
                 .findAllUsingFerryInTime(databaseCruise.getFerry(), cruise.getStartDate(), cruise.getEndDate());
 
-        if (!cruises.isEmpty() && cruises.size() != 1 && !cruises.get(0).equals(databaseCruise)) {
+        if (!cruises.isEmpty() && !(cruises.size() == 1 && cruises.get(0).equals(databaseCruise))) {
             throw FerryExceptions.createConflictException(FerryExceptions.ERROR_FERRY_IS_BEING_USED);
         }
 
