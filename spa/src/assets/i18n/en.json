@@ -9,6 +9,7 @@
     },
     "form": {
         "invalid_format": "Invalid format",
+        "invalid_number": "Cruise number should have 6 capital letters and 6 digits",
         "invalid_phone_number": "Phone number should have between 3 and 15 digits",
         "field_required": "Field required",
         "login": "Login",
@@ -81,7 +82,11 @@
     },
     "ferry-edit": {
         "invalid_on_deck_capacity": "On deck capacity must be positive",
-        "invalid_vehicle_capacity": "On deck capacity must be positive or zero"
+        "invalid_vehicle_capacity": "On deck capacity must be positive or zero",
+        "result_success": "Ferry change successful",
+        "result_gone": "Ferry change failed because the selected ferry was deleted",
+        "result_failure": "Ferry change failed",
+        "result_opl": "State of the ferry changed, please try again"
     },
     "users-table": {
         "enter_your_search": "Enter your search...",
@@ -207,7 +212,9 @@
         "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
         "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists",
         "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
-        "FERRY_IS_BEING_USED": "Ferry is being used by other object"
+        "FERRY_IS_BEING_USED": "Ferry is being used by other object",
+        "BAD_REQUEST": "Bad request",
+        "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists"
     },
     "error-page": {
         "forbidden_code": "Error 403",

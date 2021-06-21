@@ -253,7 +253,7 @@ CREATE TABLE Cruise
     modification_date timestamp with time zone,
     modified_by       bigint,
     creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    created_by        bigint                                             NOT NULL,
+    created_by        bigint,
     PRIMARY KEY (id),
     CONSTRAINT end_date_after_start_date CHECK (end_date > start_date),
     CONSTRAINT fk_route_id FOREIGN KEY (route) REFERENCES Route (id),

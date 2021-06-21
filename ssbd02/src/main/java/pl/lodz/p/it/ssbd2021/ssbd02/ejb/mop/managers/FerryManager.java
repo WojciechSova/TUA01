@@ -89,6 +89,7 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
         }
         ferryClone.setModifiedBy(accountMopFacadeLocal.findByLogin(modifiedBy));
         ferryClone.setModificationDate(Timestamp.from(Instant.now()));
+        ferryClone.setCreatedBy(ferryFromDB.getCreatedBy());
 
         ferryFacadeLocal.edit(ferryClone);
         logger.info("The user with login {} updated the ferry with name {}",
