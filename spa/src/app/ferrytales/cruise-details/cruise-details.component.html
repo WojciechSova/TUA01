@@ -71,4 +71,6 @@
     </div>
 </div>
 <app-edit-cruise *ngIf="cruiseEdit.isFormVisible"
-                 (isEditCruiseFormVisible)="changeEditCruiseFormVisible($event)"></app-edit-cruise>
+                 (isEditCruiseFormVisible)="changeEditCruiseFormVisible($event)"
+                 [beginStartDate]="cruiseDetailsService.cruise.startDate"
+                 [beginEndDate]="cruiseDetailsService.cruise.endDate"></app-edit-cruise>

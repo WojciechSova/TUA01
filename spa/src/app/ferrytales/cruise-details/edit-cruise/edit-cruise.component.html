@@ -4,16 +4,17 @@
         <form id="edit-seaport-form" class="edit-form" [formGroup]="form">
             <div class="col">
                 <div class="row">
-                    <!--                    <div class="input-box-container">-->
-                    <!--                        <input class="input-box" placeholder="{{'add-cruise.start_date' | translate}}"-->
-                    <!--                               angular-mydatepicker name="mydate1" (click)="dp1.toggleCalendar()"-->
-                    <!--                               [(ngModel)]="startDate" [options]="myDpOptions" formControlName="startDate"-->
-                    <!--                               #dp1="angular-mydatepicker"/>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="validation-error"-->
-                    <!--                         *ngIf="form.controls.startDate.hasError('required') && form.controls.startDate.touched"-->
-                    <!--                         translate>form.field_required-->
-                    <!--                    </div>-->
+                    <div class="input-box-container">
+                        <input class="input-box" placeholder="{{'add-cruise.start_date' | translate}}"
+                               angular-mydatepicker name="mydate1" (click)="dp1.toggleCalendar()"
+                               [(ngModel)]="startDate" [options]="myDpOptions" formControlName="startDate"
+                               #dp1="angular-mydatepicker"/>
+
+                    </div>
+                    <div class="validation-error"
+                         *ngIf="form.controls.startDate.hasError('required') && form.controls.startDate.touched"
+                         translate>form.field_required
+                    </div>
                 </div>
 
                 <div class="row">
@@ -32,16 +33,16 @@
                 </div>
 
                 <div class="row">
-<!--                    <div class="input-box-container">-->
-<!--                        <input class="input-box" placeholder="{{'add-cruise.end_date' | translate}}"-->
-<!--                               angular-mydatepicker name="mydate" (click)="dp2.toggleCalendar()"-->
-<!--                               [(ngModel)]="endDate" [options]="myDpOptions" formControlName="endDate"-->
-<!--                               #dp2="angular-mydatepicker"/>-->
-<!--                    </div>-->
-<!--                    <div class="validation-error"-->
-<!--                         *ngIf="form.controls.endDate.hasError('required') && form.controls.endDate.touched"-->
-<!--                         translate>form.field_required-->
-<!--                    </div>-->
+                    <div class="input-box-container">
+                        <input class="input-box" placeholder="{{'add-cruise.end_date' | translate}}"
+                               angular-mydatepicker name="mydate" (click)="dp2.toggleCalendar()"
+                               [(ngModel)]="endDate" [options]="myDpOptions" formControlName="endDate"
+                               #dp2="angular-mydatepicker"/>
+                    </div>
+                    <div class="validation-error"
+                         *ngIf="form.controls.endDate.hasError('required') && form.controls.endDate.touched"
+                         translate>form.field_required
+                    </div>
                 </div>
 
                 <div class="row">
