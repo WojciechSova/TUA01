@@ -20,7 +20,7 @@
              class="edit-validation-error general-error" *ngIf="optimisticLockError" translate>ERROR.OPTIMISTIC_LOCK_ERROR
         </div>
         <div id="general-error"
-             class="edit-validation-error general-error" *ngIf="optimisticLockError" translate>ERROR.UNKNOWN_ERROR
+             class="edit-validation-error general-error" *ngIf="unknownError" translate>ERROR.UNKNOWN_ERROR
         </div>
         <form class="edit-form" [formGroup]="form">
             <div class="col">
