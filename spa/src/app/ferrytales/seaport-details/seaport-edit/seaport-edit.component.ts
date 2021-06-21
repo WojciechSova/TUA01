@@ -16,6 +16,9 @@ export class SeaportEditComponent implements OnInit {
     readonly OPTIMISTIC_LOCK = 'optimisticLock';
     readonly NAME_NOT_UNIQUE = 'nameNotUnique';
 
+    isConfirmationVisible = false;
+    editCityName = '';
+
     form = new FormGroup({
         cityName: new FormControl('', [Validators.required, Validators.maxLength(30)])
     });
@@ -26,7 +29,24 @@ export class SeaportEditComponent implements OnInit {
     constructor(private seaportDetailsService: SeaportDetailsService) {
     }
 
-    changeSeaport(city: string): void {
+    changeSeaportConfirmClick(city: string): void {
+        this.isConfirmationVisible = true;
+        this.editCityName = city;
+    }
+
+    closeComponent(): void {
+        this.emit(this.HIDDEN);
+    }
+
+    confirmationResult(confirmationResult: boolean): void {
+        this.isConfirmationVisible = false;
+        if (confirmationResult) {
+            this.changeSeaport(this.editCityName);
+            this.editCityName = '';
+        }
+    }
+
+    private changeSeaport(city: string): void {
         this.seaportDetailsService.seaport.city = city;
         this.seaportDetailsService.updateSeaport(this.seaportDetailsService.seaport)
             .subscribe(() => {
@@ -35,10 +55,6 @@ export class SeaportEditComponent implements OnInit {
                 (error) => {
                     this.handleError(error);
                 });
-    }
-
-    closeComponent(): void {
-        this.emit(this.HIDDEN);
     }
 
     private emit(response: string): void {
