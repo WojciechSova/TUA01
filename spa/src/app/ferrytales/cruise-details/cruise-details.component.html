@@ -17,14 +17,22 @@
     <li class="breadcrumb-item active" translate> breadcrumb.cruise</li>
 </ol>
 <div class="outer-div">
+    <div *ngIf="(cruiseEdit.response) !== HIDDEN" class="info-popup">
+        <p *ngIf="(cruiseEdit.response) === SUCCESS" class="edit-success" translate>cruise-edit.result_success</p>
+        <p *ngIf="(cruiseEdit.response) === GONE" class="edit-failure" translate>cruise-edit.result_gone</p>
+        <p *ngIf="(cruiseEdit.response) === FAILURE" class="edit-failure" translate>cruise-edit.result_failure</p>
+        <p *ngIf="(cruiseEdit.response) === OPTIMISTIC_LOCK" class="edit-failure" translate>cruise-edit.result_opl</p>
+        <p *ngIf="(cruiseEdit.response) === FERRY_BEING_USED" class="edit-failure" translate>cruise-edit.ferry_being_used</p>
+    </div>
     <div class="cruise-details" id="cruiseDetails">
         <div class="button-container">
             <button id="edit-button"
                     class="edit-button"
+                    *ngIf="cruiseDetailsService.cruise.endDate > this.actualDate"
                     (click)="changeEditCruiseFormVisible(cruiseEdit = { isFormVisible: true, response: 'hide' })"
                     translate>cruise-details.edit_cruise
             </button>
-            <button class="edit-button" (click)="getCruise()" translate>general.refresh</button>
+            <button class="edit-button" (click)="refresh()" translate>general.refresh</button>
         </div>
         <div class="col">
             <div class="row">

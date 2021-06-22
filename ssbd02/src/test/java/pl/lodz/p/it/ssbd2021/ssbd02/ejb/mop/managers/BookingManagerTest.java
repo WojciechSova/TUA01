@@ -121,7 +121,7 @@ class BookingManagerTest {
             return null;
         }).when(bookingFacadeLocal).create(any());
 
-        assertDoesNotThrow(() -> bookingManager.createBooking(booking4, "ABCDEF000000", "A123", "Login2", "Car"));
+        assertDoesNotThrow(() -> bookingManager.createBooking(1, "ABCDEF000000", "A123", "Login2", "Car"));
         assertEquals(initialLength + 1, bookings2.size());
         verify(bookingFacadeLocal).create(any());
     }
@@ -148,7 +148,7 @@ class BookingManagerTest {
             return null;
         }).when(bookingFacadeLocal).create(any());
 
-        assertDoesNotThrow(() -> bookingManager.createBooking(booking4, "ABCDEF000000", "", "Login2", "Car"));
+        assertDoesNotThrow(() -> bookingManager.createBooking(1, "ABCDEF000000", "", "Login2", "Car"));
         assertEquals(initialLength + 1, bookings2.size());
         verify(bookingFacadeLocal).create(any());
     }
@@ -160,7 +160,7 @@ class BookingManagerTest {
         when(accountMopFacadeLocal.findByLogin(any())).thenReturn(account2);
         when(vehicleTypeFacadeLocal.findByName(any())).thenReturn(vehicleType);
 
-        assertThrows(CruiseExceptions.class, () -> bookingManager.createBooking(booking4, "a", "a", "a", "a"));
+        assertThrows(CruiseExceptions.class, () -> bookingManager.createBooking(1, "a", "a", "a", "a"));
     }
 
     @Test
@@ -172,13 +172,12 @@ class BookingManagerTest {
         when(vehicleTypeFacadeLocal.findByName(any())).thenReturn(vehicleType);
         when(bookingFacadeLocal.getSumVehicleSpaceByCruise(cruise)).thenReturn(15D);
 
-        assertThrows(FerryExceptions.class, () -> bookingManager.createBooking(booking4, "a", "a", "a", "a"));
+        assertThrows(FerryExceptions.class, () -> bookingManager.createBooking(1, "a", "a", "a", "a"));
     }
 
     @Test
     void createBookingCabinCapacityException() {
         cabin.setCapacity(1);
-        booking4.setNumberOfPeople(10);
         when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
         when(cabinFacadeLocal.findByFerryAndNumber(any(), any())).thenReturn(cabin);
         when(accountMopFacadeLocal.findByLogin(any())).thenReturn(account2);
@@ -187,7 +186,7 @@ class BookingManagerTest {
         when(bookingFacadeLocal.findAll()).thenReturn(bookings2);
         when(cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise)).thenReturn(new ArrayList<>());
 
-        assertThrows(CabinExceptions.class, () -> bookingManager.createBooking(booking4, "a", "a", "a", "a"));
+        assertThrows(CabinExceptions.class, () -> bookingManager.createBooking(10, "a", "a", "a", "a"));
     }
 
     @Test
@@ -200,13 +199,12 @@ class BookingManagerTest {
         when(bookingFacadeLocal.findAll()).thenReturn(bookings2);
         when(cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise)).thenReturn(List.of(cabin));
 
-        assertThrows(CabinExceptions.class, () -> bookingManager.createBooking(booking4, "a", "a", "a", "a"));
+        assertThrows(CabinExceptions.class, () -> bookingManager.createBooking(1, "a", "a", "a", "a"));
     }
 
     @Test
     void createBookingFerryOnDeckException() {
         ferry.setOnDeckCapacity(1);
-        booking4.setNumberOfPeople(10);
         when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
         when(accountMopFacadeLocal.findByLogin(any())).thenReturn(account2);
         when(vehicleTypeFacadeLocal.findByName(any())).thenReturn(vehicleType);
@@ -214,7 +212,7 @@ class BookingManagerTest {
         when(bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise)).thenReturn(1L);
         when(bookingFacadeLocal.findAll()).thenReturn(bookings2);
 
-        assertThrows(FerryExceptions.class, () -> bookingManager.createBooking(booking4, "a", "a", "a", "a"));
+        assertThrows(FerryExceptions.class, () -> bookingManager.createBooking(10, "a", "a", "a", "a"));
     }
 
 

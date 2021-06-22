@@ -8,4 +8,5 @@ export interface CruiseGeneral {
     ferry?: FerryGeneral;
     number: string;
     popularity?: number;
+    version?: number;
 }

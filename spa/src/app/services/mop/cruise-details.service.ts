@@ -30,6 +30,15 @@ export class CruiseDetailsService implements OnDestroy {
         return this.http.post(this.url + 'add/' + ferry + '/' + route, cruise, { responseType: 'text' });
     }
 
+    updateCruise(cruise: CruiseGeneral): any {
+        return this.http.put<any>(this.url + 'update', cruise, {
+            observe: 'response',
+            headers: {
+                'If-Match': this.eTag
+            }
+        });
+    }
+
     removeCruise(cruiseNumber: string): any {
         return this.http.delete(this.url.concat('remove/', cruiseNumber));
     }

@@ -40,7 +40,7 @@ const ferrytalesChildren: Routes = [
     { path: 'bookings', component: BookingTableComponent },
     { path: 'bookings/:number', component: BookingDetailsComponent },
     { path: 'bookings/own/:number', component: BookingDetailsComponent },
-    { path: 'booking/create', component: BookingFormComponent },
+    { path: 'booking/create/:number', component: BookingFormComponent },
     { path: 'my/bookings', component: BookingsTableOwnComponent },
     { path: 'routes', component: RoutesTableComponent },
     { path: 'routes/add', component: AddRouteComponent },

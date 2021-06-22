@@ -33,16 +33,17 @@ class BookingEndpointTest {
     private SecurityContext securityContext;
     @Mock
     private UserPrincipal userPrincipal;
-    @InjectMocks
-    private BookingEndpoint bookingEndpoint;
     @Mock
     private BookingManagerLocal bookingManagerLocal;
+    @InjectMocks
+    private BookingEndpoint bookingEndpoint;
+
 
     private Booking booking2;
     private Booking booking3 = new Booking();
     private Account account1;
     private Cabin cabin = new Cabin();
-    private List<Booking> bookings = new ArrayList<>();
+    private final List<Booking> bookings = new ArrayList<>();
 
 
     @BeforeEach
@@ -157,38 +158,22 @@ class BookingEndpointTest {
     void addBookingWithCabin() {
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(securityContext.getUserPrincipal().getName()).thenReturn("login");
-        doAnswer(invocation -> {
-            booking3.setNumber("numbernumb");
-            bookings.add(booking3);
-            return null;
-        }).when(bookingManagerLocal).createBooking(any(), any(), any(), any(), any());
-
-        int initialSize = bookings.size();
 
         Response response = bookingEndpoint.addBooking("ABCDEF123456", "A123", "Car",
-                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext);
+                1, securityContext);
 
         assertEquals(Response.Status.ACCEPTED.getStatusCode(), response.getStatus());
-        assertEquals(initialSize + 1, bookings.size());
     }
 
     @Test
     void addBookingWithoutCabin() {
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(securityContext.getUserPrincipal().getName()).thenReturn("login");
-        doAnswer(invocation -> {
-            booking3.setNumber("numbernumb");
-            bookings.add(booking3);
-            return null;
-        }).when(bookingManagerLocal).createBooking(any(), any(), any(), any(), any());
-
-        int initialSize = bookings.size();
 
         Response response = bookingEndpoint.addBooking("ABCDEF123456", "", "Car",
-                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext);
+                1, securityContext);
 
         assertEquals(Response.Status.ACCEPTED.getStatusCode(), response.getStatus());
-        assertEquals(initialSize + 1, bookings.size());
     }
 
     @Test
@@ -197,17 +182,17 @@ class BookingEndpointTest {
         when(securityContext.getUserPrincipal().getName()).thenReturn("login");
 
         assertThrows(CommonExceptions.class, () -> bookingEndpoint.addBooking("sdgthgd", "A123", "Car",
-                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext));
+                1, securityContext));
 
         assertThrows(CommonExceptions.class, () -> bookingEndpoint.addBooking("ABCDEF123456", "A1dfg23", "Car",
-                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext));
+                1, securityContext));
 
         assertThrows(CommonExceptions.class, () -> bookingEndpoint.addBooking("ABCDEF123456", "A123", "Cdafgar",
-                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext));
+                1, securityContext));
 
         booking3.setNumberOfPeople(-5);
         assertThrows(CommonExceptions.class, () -> bookingEndpoint.addBooking("ABCDEF123456", "A123", "Car",
-                BookingMapper.createBookingDetailsDTOFromEntity(booking3), securityContext));
+                -5, securityContext));
 
     }
 }
