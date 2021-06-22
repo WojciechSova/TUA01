@@ -64,9 +64,11 @@
             </div>
         </form>
         <button id="confirm" class="form-button" [disabled]="form.invalid"
-                (click)="changeCruise()" translate>
+                (click)="displayPrompt()" translate>
             form.confirm
         </button>
         <img class="return-arrow" (click)="closeComponent()" src="assets/imgs/back-arrow.png" alt=""/>
     </div>
 </div>
+<app-confirmation *ngIf="isPromptVisible"
+                  (isPromptVisibleAndAnswer)="getConfirmationResult($event)"></app-confirmation>

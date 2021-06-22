@@ -13,6 +13,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class EditCruiseComponent implements OnInit, OnChanges {
 
+    isPromptVisible = false;
+
     readonly HIDDEN = 'hide';
     readonly SUCCESS = 'success';
     readonly GONE = 'gone';
@@ -58,6 +60,7 @@ export class EditCruiseComponent implements OnInit, OnChanges {
                 private identityService: IdentityService) {
         this.startDate = { isRange: false, singleDate: { jsDate: this.beginStartDate } };
         this.endDate = { isRange: false, singleDate: { jsDate: this.beginEndDate } };
+        // setInterval(() => console.log(this.startDate), 1000);
     }
 
     ngOnInit(): void {
@@ -138,5 +141,17 @@ export class EditCruiseComponent implements OnInit, OnChanges {
         this.endDate = { isRange: false, singleDate: { jsDate: this.beginEndDate } };
         this.endHour = this.beginEndDate.getUTCHours();
         this.endMinute = this.beginEndDate.getMinutes();
+    }
+
+    displayPrompt(): void {
+        this.isPromptVisible = true;
+    }
+
+    getConfirmationResult(event: boolean): void {
+        if (event) {
+            this.changeCruise();
+        }
+
+        this.isPromptVisible = false;
     }
 }
