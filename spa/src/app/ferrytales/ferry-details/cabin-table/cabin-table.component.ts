@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CabinDetailsService } from '../../../services/mop/cabin-details.service';
 import { FerryDetailsService } from '../../../services/mop/ferry-details.service';
 import { FerryDetails } from '../../../model/mop/FerryDetails';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-cabin-table',
@@ -14,6 +15,8 @@ import { FerryDetails } from '../../../model/mop/FerryDetails';
 export class CabinTableComponent {
 
     cabinRemovalError = false;
+    cabinGoneError = false;
+    cabinRemoved = false;
     cabinToRemove = '';
     isPromptVisible = false;
 
@@ -35,23 +38,35 @@ export class CabinTableComponent {
 
     displayPrompt(cabinNumber: string): void {
         this.cabinRemovalError = false;
+        this.cabinGoneError = false;
         this.cabinToRemove = cabinNumber;
         this.isPromptVisible = true;
     }
 
     getFerry(): void {
         this.ferryDetailsService.getFerry(this.ferry).subscribe(
-            (response: FerryDetails) => {
+            (response: HttpResponse<FerryDetails>) => {
                 this.ferryDetailsService.readFerryDetails(response);
             });
     }
 
     removeCabin(cabinNumber: string): void {
         this.cabinDetailsService.removeCabin(cabinNumber).subscribe(
-            () => this.getFerry(),
+            () => {
+                this.getFerry();
+                this.cabinRemoved = true;
+            },
             (error => {
                 if (error.error === 'ERROR.CABIN_USED_BY_BOOKING') {
                     this.cabinRemovalError = true;
+                    this.cabinGoneError = false;
+                    this.cabinRemoved = false;
+                }
+                else if (error.status === 410) {
+                    this.getFerry();
+                    this.cabinGoneError = true;
+                    this.cabinRemovalError = false;
+                    this.cabinRemoved = false;
                 }
             })
         );

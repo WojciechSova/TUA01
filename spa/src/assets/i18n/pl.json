@@ -215,7 +215,8 @@
         "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji",
         "BAD_REQUEST": "Niepoprawne żądanie",
         "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje",
-        "CANNOT_REMOVE_CABIN": "Nie można usunąć kajuty"
+        "CANNOT_REMOVE_CABIN": "Nie można usunąć kajuty",
+        "CABIN_ALREADY_REMOVED": "Kajuta została już usunięta przez kogoś innego"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -320,7 +321,8 @@
         "cabinType": "Typ",
         "number": "Numer",
         "cabin_details": "Szczegóły",
-        "remove_cabin": "Usuń kajutę"
+        "remove_cabin": "Usuń kajutę",
+        "cabin_removed": "Kajuta została usunięta pomyślnie"
     },
     "cruise-table": {
         "start_date": "Data rozpoczęcia",

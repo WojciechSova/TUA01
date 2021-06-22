@@ -215,7 +215,8 @@
         "FERRY_IS_BEING_USED": "Ferry is being used by other object",
         "BAD_REQUEST": "Bad request",
         "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists",
-        "CANNOT_REMOVE_CABIN": "Cannot remove cabin"
+        "CANNOT_REMOVE_CABIN": "Cannot remove cabin",
+        "CABIN_ALREADY_REMOVED": "Cabin has already been removed by someone else"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -320,7 +321,8 @@
         "cabinType": "Type",
         "number": "Number",
         "cabin_details": "Details",
-        "remove_cabin": "Remove cabin"
+        "remove_cabin": "Remove cabin",
+        "cabin_removed": "Cabin deleted successfully"
     },
     "cruise-table": {
         "start_date": "Start date",

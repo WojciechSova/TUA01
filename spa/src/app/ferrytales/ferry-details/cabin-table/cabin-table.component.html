@@ -21,6 +21,12 @@
 <div *ngIf="cabinRemovalError" class="validation-error" translate>
     ERROR.CANNOT_REMOVE_CABIN
 </div>
+<div *ngIf="cabinGoneError" class="success" translate>
+    ERROR.CABIN_ALREADY_REMOVED
+</div>
+<div *ngIf="cabinRemoved" class="success" translate>
+    cabin-table.cabin_removed
+</div>
 
 <app-confirmation *ngIf="isPromptVisible"
                   (isPromptVisibleAndAnswer)="getConfirmationResult($event)"></app-confirmation>
