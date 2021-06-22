@@ -27,7 +27,7 @@
             <td>{{currentCruise.route?.destination?.city}}</td>
             <td>{{currentCruise.startDate | date :'short':identityService.getTimezone()}}</td>
             <td>{{currentCruise.endDate | date :'short':identityService.getTimezone()}}</td>
-            <td>{{currentCruise.ferry.name}}</td>
+            <td>{{currentCruise.ferry?.name}}</td>
             <td>
                 <button class="button-cruises-table" translate>cruise-general.book</button>
             </td>

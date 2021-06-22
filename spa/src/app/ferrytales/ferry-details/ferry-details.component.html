@@ -13,12 +13,19 @@
 </ol>
 
 <div class="outer-div">
+    <div *ngIf="(ferryEdit.response) !== HIDDEN" class="info-popup">
+        <p *ngIf="(ferryEdit.response) === SUCCESS" class="edit-success" translate>ferry-edit.result_success</p>
+        <p *ngIf="(ferryEdit.response) === GONE" class="edit-failure" translate>ferry-edit.result_gone</p>
+        <p *ngIf="(ferryEdit.response) === FAILURE" class="edit-failure" translate>ferry-edit.result_failure</p>
+        <p *ngIf="(ferryEdit.response) === OPTIMISTIC_LOCK" class="edit-failure" translate>ferry-edit.result_opl</p>
+    </div>
     <div class="ferry-details" id="ferryDetails">
+
         <div class="button-container">
             <button class="edit-button button-add" (click)="addCabin()" translate>ferry-details.add_cabin</button>
             <button class="edit-button" (click)="changeEditFerryFormVisible(ferryEdit = {
                     isFormVisible: true, response: 'hide'})" translate>general.edit</button>
-            <button class="edit-button" (click)="getFerry()" translate>general.refresh</button>
+            <button class="edit-button" (click)="getFerry(true)" translate>general.refresh</button>
         </div>
         <div class="col">
             <div class="row">
@@ -64,4 +71,4 @@
     </div>
 </div>
 <app-ferry-edit *ngIf="ferryEdit.isFormVisible"
-                  (isEditFerryFormVisible)="changeEditFerryFormVisible($event)"></app-ferry-edit>
+                  (isEditFerryFormVisible)="changeEditFerryFormVisible($event); getFerry(false)"></app-ferry-edit>

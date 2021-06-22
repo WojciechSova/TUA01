@@ -23,7 +23,7 @@ export class AddSeaportComponent implements OnInit {
     form = new FormGroup({
         city: new FormControl('', [Validators.required, Validators.max(30)]),
         code: new FormControl('', [Validators.required, Validators.pattern('[A-Z]{3}')])
-    })
+    });
 
     goToHomeBreadcrumb(): void {
         this.router.navigate(['/']);
@@ -42,6 +42,6 @@ export class AddSeaportComponent implements OnInit {
         this.seaportGeneralService.addSeaport(seaport).subscribe(
             () => this.goToSeaportListBreadcrumb(),
             (error: any) => this.error = true
-        )
+        );
     }
 }

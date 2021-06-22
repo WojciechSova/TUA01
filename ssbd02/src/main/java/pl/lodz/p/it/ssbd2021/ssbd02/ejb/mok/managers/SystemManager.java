@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  */
 @Singleton
 @Startup
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class SystemManager extends AbstractManager implements SystemManagerLocal, SessionSynchronization {
