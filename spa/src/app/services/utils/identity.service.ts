@@ -47,6 +47,8 @@ export class IdentityService {
     }
 
     getTimezone(): string {
-        return this.cookieService.get('timezone') || '+00:00';
+        const date = new Date();
+        const indexOfGMT = date.toTimeString().indexOf('GMT');
+        return this.cookieService.get('timezone') || date.toTimeString().substring(indexOfGMT + 3, indexOfGMT + 6) + ':00';
     }
 }
