@@ -2,10 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import org.apache.commons.lang3.SerializationUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
@@ -47,6 +44,8 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     private FerryFacadeLocal ferryFacadeLocal;
     @Inject
     private CruiseFacadeLocal cruiseFacadeLocal;
+    @Inject
+    private BookingFacadeLocal bookingFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -92,6 +91,19 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
         cabin.setCreatedBy(accCreatedBy);
         cabin.setFerry(ferry);
         cabinFacadeLocal.create(cabin);
+
+        List<Cruise> cruisesWithFerryFromCabin = cruiseFacadeLocal.findAll().stream()
+                .filter(cr -> cr.getFerry().getName().equals(ferryName)).collect(Collectors.toList());
+
+        for (Cruise cruise: cruisesWithFerryFromCabin) {
+            if (cruise.getStartDate().compareTo(Timestamp.from(Instant.now())) > 0) {
+                cruise.setPopularity(calculatePopularity(cruise));
+                cruiseFacadeLocal.edit(cruise);
+                logger.info("The popularity of cruise {} has been recalculated",
+                        cruise.getNumber());
+            }
+        }
+
         logger.info("The user with login {} has created cabin with code {}",
                 createdBy, cabin.getNumber());
     }
@@ -116,6 +128,19 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
         cab.setCreatedBy(cabinFromDB.getCreatedBy());
         cab.setFerry(ferry);
         cabinFacadeLocal.edit(cab);
+
+        List<Cruise> cruisesWithFerryFromCabin = cruiseFacadeLocal.findAll().stream()
+                .filter(cr -> cr.getFerry().getName().equals(ferryName)).collect(Collectors.toList());
+
+        for (Cruise cruise: cruisesWithFerryFromCabin) {
+            if (cruise.getStartDate().compareTo(Timestamp.from(Instant.now())) > 0) {
+                cruise.setPopularity(calculatePopularity(cruise));
+                cruiseFacadeLocal.edit(cruise);
+                logger.info("The popularity of cruise {} has been recalculated",
+                        cruise.getNumber());
+            }
+        }
+
         logger.info("The user with login {} updated the cabin with number {}",
                 this.getInvokerId(), cabinFromDB.getNumber());
     }
@@ -125,9 +150,24 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     public void removeCabin(String number, String removedBy) {
         try {
             Cabin cabin = cabinFacadeLocal.findByNumber(number);
+
             cabinFacadeLocal.remove(cabin);
+
+            List<Cruise> cruisesWithFerryFromCabin = cruiseFacadeLocal.findAll().stream()
+                    .filter(cr -> cr.getFerry().getName().equals(cabin.getFerry().getName())).collect(Collectors.toList());
+
+            for (Cruise cruise: cruisesWithFerryFromCabin) {
+                if (cruise.getStartDate().compareTo(Timestamp.from(Instant.now())) > 0) {
+                    cruise.setPopularity(calculatePopularity(cruise));
+                    cruiseFacadeLocal.edit(cruise);
+                    logger.info("The popularity of cruise {} has been recalculated",
+                            cruise.getNumber());
+                }
+            }
+
             logger.info("The user with login {} has deleted cabin with number {}",
                     removedBy, number);
+
         } catch (CommonExceptions ce) {
             if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode() &&
                     ce.getResponse().getEntity().equals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION)) {
@@ -136,5 +176,23 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
                 throw ce;
             }
         }
+    }
+
+    @Override
+    @RolesAllowed({"EMPLOYEE"})
+    public double calculatePopularity(Cruise cruise) {
+
+        double taken = cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise).stream().mapToInt(Cabin::getCapacity).sum();
+        double all = cabinFacadeLocal.findCabinsOnCruise(cruise).stream().mapToInt(Cabin::getCapacity).sum();
+
+        taken += bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
+        all += cruise.getFerry().getOnDeckCapacity();
+
+        double popularity = taken / all * 100;
+
+        if (popularity > 100) {
+            return 100;
+        }
+        return popularity;
     }
 }

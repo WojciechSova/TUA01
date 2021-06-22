@@ -7,11 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.RouteFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
@@ -25,6 +23,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,6 +43,10 @@ class CruiseManagerTest {
     private RouteFacadeLocal routeFacadeLocal;
     @Mock
     private AccountMopFacadeLocal accountMopFacadeLocal;
+    @Mock
+    private CabinFacadeLocal cabinFacadeLocal;
+    @Mock
+    private BookingFacadeLocal bookingFacadeLocal;
 
     @InjectMocks
     private CruiseManager cruiseManager;
@@ -56,7 +59,10 @@ class CruiseManagerTest {
     private Route route;
     @Spy
     private Account account;
-
+    private Cabin cabin1 = new Cabin();
+    private Cabin cabin2 = new Cabin();
+    private Cabin cabin3 = new Cabin();
+    private Cabin cabin4 = new Cabin();
 
     @BeforeEach
     void initMocks() {
@@ -70,9 +76,16 @@ class CruiseManagerTest {
         account.setLogin("login");
 
         cruise1 = new Cruise();
+        ferry.setOnDeckCapacity(120);
         cruise1.setNumber(number1);
+        cruise1.setFerry(ferry);
+        cruise2.setFerry(ferry);
         cruises = new ArrayList<>();
         cruises.addAll(Arrays.asList(cruise2, cruise3));
+        cabin1.setCapacity(5);
+        cabin2.setCapacity(7);
+        cabin3.setCapacity(3);
+        cabin4.setCapacity(10);
     }
 
     @Test
@@ -129,6 +142,7 @@ class CruiseManagerTest {
 
         cruise2.setVersion(10L);
         cruise2.setNumber(cruise1.getNumber());
+        cruise2.setFerry(ferry);
         cruise2.setStartDate(startDate);
         cruise2.setEndDate(endDate);
 
@@ -142,6 +156,9 @@ class CruiseManagerTest {
 
         when(cruiseFacadeLocal.findByNumber(cruise1.getNumber())).thenReturn(cruise1);
         when(accountMopFacadeLocal.findByLogin("login")).thenReturn(account);
+        when(cabinFacadeLocal.findOccupiedCabinsOnCruise(any())).thenReturn(List.of());
+        when(cabinFacadeLocal.findCabinsOnCruise(any())).thenReturn(List.of());
+        when(bookingFacadeLocal.getSumNumberOfPeopleByCruise(any())).thenReturn(10L);
 
         cruise1.setStartDate(Timestamp.from(Instant.now().plus(1, ChronoUnit.HOURS)));
 
@@ -187,5 +204,37 @@ class CruiseManagerTest {
         assertEquals(CruiseExceptions.ERROR_CRUISE_IS_BEING_USED, cruiseExceptionUsed.getResponse().getEntity());
 
         verify(cruiseFacadeLocal).remove(cruise1);
+    }
+
+    @Test
+    void calculatePopularity() {
+        ferry.setOnDeckCapacity(100);
+        List<Cabin> takenCabins = List.of(cabin1, cabin3);
+        List<Cabin> allCabins = List.of(cabin1, cabin2, cabin3, cabin4);
+
+        when(cabinFacadeLocal.findOccupiedCabinsOnCruise(any())).thenReturn(takenCabins);
+        when(cabinFacadeLocal.findCabinsOnCruise(any())).thenReturn(allCabins);
+        when(bookingFacadeLocal.getSumNumberOfPeopleByCruise(any())).thenReturn(70L);
+
+        doAnswer(invocationOnMock -> null).when(cruiseFacadeLocal).edit(any());
+        assertDoesNotThrow(() -> cruiseManager.calculatePopularity(cruise2));
+        assertEquals(62.4, cruiseManager.calculatePopularity(cruise2), 0.01);
+
+        takenCabins = List.of(cabin1, cabin3, cabin4);
+        when(cabinFacadeLocal.findOccupiedCabinsOnCruise(any())).thenReturn(takenCabins);
+        when(bookingFacadeLocal.getSumNumberOfPeopleByCruise(any())).thenReturn(98L);
+        assertDoesNotThrow(() -> cruiseManager.calculatePopularity(cruise2));
+        assertEquals(92.8, cruiseManager.calculatePopularity(cruise2), 0.01);
+
+        when(bookingFacadeLocal.getSumNumberOfPeopleByCruise(any())).thenReturn(7000L);
+        assertDoesNotThrow(() -> cruiseManager.calculatePopularity(cruise2));
+        assertEquals(100, cruiseManager.calculatePopularity(cruise2));
+
+        takenCabins = Collections.emptyList();
+        when(cabinFacadeLocal.findOccupiedCabinsOnCruise(any())).thenReturn(takenCabins);
+        when(bookingFacadeLocal.getSumNumberOfPeopleByCruise(any())).thenReturn(0L);
+        assertDoesNotThrow(() -> cruiseManager.calculatePopularity(cruise2));
+
+        assertEquals(0, cruiseManager.calculatePopularity(cruise2));
     }
 }

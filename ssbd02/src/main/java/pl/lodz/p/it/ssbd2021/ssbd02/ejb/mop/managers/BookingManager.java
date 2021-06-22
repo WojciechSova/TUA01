@@ -142,6 +142,8 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
         while(true) {
             try{
                 bookingFacadeLocal.create(booking);
+                cruise.setPopularity(calculatePopularity(cruise));
+                cruiseFacadeLocal.edit(cruise);
                 break;
             } catch (ConstraintViolationException e){
                 number = RandomStringUtils.random(10, false, true);
@@ -213,7 +215,34 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
             throw BookingExceptions.createConflictException(BookingExceptions.ERROR_CANNOT_CANCEL_BOOKING);
         }
         bookingFacadeLocal.remove(bookingFromDB);
+
+        Cruise cruise = cruiseFacadeLocal.findByNumber(bookingFromDB.getCruise().getNumber());
+        if (cruise.getStartDate().compareTo(Timestamp.from(Instant.now())) > 0) {
+            cruise.setPopularity(calculatePopularity(cruise));
+            cruiseFacadeLocal.edit(cruise);
+            logger.info("The popularity of cruise {} has been recalculated",
+                    cruise.getNumber());
+        }
+
         logger.info("The user with login {} cancelled the reservation with number {}",
                 login, number);
+    }
+
+    @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    public double calculatePopularity(Cruise cruise) {
+
+        double taken = cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise).stream().mapToInt(Cabin::getCapacity).sum();
+        double all = cabinFacadeLocal.findCabinsOnCruise(cruise).stream().mapToInt(Cabin::getCapacity).sum();
+
+        taken += bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
+        all += cruise.getFerry().getOnDeckCapacity();
+
+        double popularity = taken / all * 100;
+
+        if (popularity > 100) {
+            return 100;
+        }
+        return popularity;
     }
 }

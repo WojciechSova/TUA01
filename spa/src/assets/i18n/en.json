@@ -327,7 +327,8 @@
         "number": "Number",
         "name_of_ferry": "Ferry name",
         "cruise_details": "Details",
-        "remove_cruise": "Remove cruise"
+        "remove_cruise": "Remove cruise",
+        "popularity": "Popularity"
     },
     "cruise-details": {
         "edit_cruise": "Edit cruise",
@@ -339,7 +340,8 @@
         "modification_date": "Modification date",
         "modified_by": "Modified by",
         "creation_date": "Creation date",
-        "created_by": "Created by"
+        "created_by": "Created by",
+        "popularity": "Popularity"
     },
     "cruise-general": {
         "start_date": "Start date",

@@ -76,6 +76,7 @@ export class CruiseDetailsService implements OnDestroy {
                 vehicleCapacity: 0,
             },
             number: '',
+            popularity: 0,
             modificationDate: new Date(),
             modifiedBy: undefined,
             creationDate: new Date(),

@@ -3,11 +3,10 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.FerryManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
@@ -21,6 +20,7 @@ import javax.interceptor.Interceptors;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Manager promów
@@ -34,13 +34,19 @@ import java.util.List;
 public class FerryManager extends AbstractManager implements FerryManagerLocal, SessionSynchronization {
 
     @Inject
-    FerryFacadeLocal ferryFacadeLocal;
+    private FerryFacadeLocal ferryFacadeLocal;
 
     @Inject
-    CabinFacadeLocal cabinFacadeLocal;
+    private CabinFacadeLocal cabinFacadeLocal;
 
     @Inject
-    AccountMopFacadeLocal accountMopFacadeLocal;
+    private AccountMopFacadeLocal accountMopFacadeLocal;
+
+    @Inject
+    private BookingFacadeLocal bookingFacadeLocal;
+
+    @Inject
+    private CruiseFacadeLocal cruiseFacadeLocal;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -92,6 +98,19 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
         ferryClone.setCreatedBy(ferryFromDB.getCreatedBy());
 
         ferryFacadeLocal.edit(ferryClone);
+
+        List<Cruise> cruisesWithFerry = cruiseFacadeLocal.findAll().stream()
+                .filter(cr -> cr.getFerry().getName().equals(ferryClone.getName())).collect(Collectors.toList());
+
+        for (Cruise cruise: cruisesWithFerry) {
+            if (cruise.getStartDate().compareTo(Timestamp.from(Instant.now())) > 0) {
+                cruise.setPopularity(calculatePopularity(cruise));
+                cruiseFacadeLocal.edit(cruise);
+                logger.info("The popularity of cruise {} has been recalculated",
+                        cruise.getNumber());
+            }
+        }
+
         logger.info("The user with login {} updated the ferry with name {}",
                 this.getInvokerId(), ferryFromDB.getName());
     }
@@ -104,5 +123,23 @@ public class FerryManager extends AbstractManager implements FerryManagerLocal, 
 
         logger.info("The user with login {} removed the ferry with name {}",
                 login, ferry.getName());
+    }
+
+    @Override
+    @RolesAllowed({"EMPLOYEE"})
+    public double calculatePopularity(Cruise cruise) {
+
+        double taken = cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise).stream().mapToInt(Cabin::getCapacity).sum();
+        double all = cabinFacadeLocal.findCabinsOnCruise(cruise).stream().mapToInt(Cabin::getCapacity).sum();
+
+        taken += bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
+        all += cruise.getFerry().getOnDeckCapacity();
+
+        double popularity = taken / all * 100;
+
+        if (popularity > 100) {
+            return 100;
+        }
+        return popularity;
     }
 }

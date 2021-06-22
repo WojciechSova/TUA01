@@ -327,7 +327,8 @@
         "number": "Numer",
         "name_of_ferry": "Nazwa promu",
         "cruise_details": "Szczegóły",
-        "remove_cruise": "Usuń rejs"
+        "remove_cruise": "Usuń rejs",
+        "popularity": "Popularność"
     },
     "cruise-details": {
         "edit_cruise": "Edytuj rejs",
@@ -339,7 +340,8 @@
         "modification_date": "Data modyfikacji",
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
-        "created_by": "Utworzony przez"
+        "created_by": "Utworzony przez",
+        "popularity": "Popularność"
     },
     "cruise-general": {
         "start_date": "Data rozpoczęcia",

@@ -42,6 +42,7 @@ class CruiseMapperTest {
                 () -> assertEquals(cruise.getEndDate(), cruiseGeneralDTO.getEndDate()),
                 () -> assertEquals(FerryMapper.createFerryGeneralDTOFromEntity(cruise.getFerry()), cruiseGeneralDTO.getFerry()),
                 () -> assertEquals(cruise.getNumber(), cruiseGeneralDTO.getNumber()),
+                () -> assertEquals(cruise.getPopularity(), cruiseGeneralDTO.getPopularity()),
                 () -> assertEquals(cruise.getVersion(), cruiseGeneralDTO.getVersion())
         );
     }
@@ -62,6 +63,7 @@ class CruiseMapperTest {
         cruise.setFerry(createFerry());
         cruise.setRoute(createRoute());
         cruise.setNumber("BARVEN000002");
+        cruise.setPopularity(50D);
         cruise.setModificationDate(Timestamp.from(Instant.now()));
         cruise.setModifiedBy(accountModifiedBy);
         cruise.setCreationDate(Timestamp.valueOf("2020-03-25 11:21:15"));
@@ -77,6 +79,7 @@ class CruiseMapperTest {
         cruiseDetailsDTO.setFerry(FerryMapper.createFerryGeneralDTOFromEntity(createFerry()));
         cruiseDetailsDTO.setRoute(RouteMapper.createRouteGeneralDTOFromEntity(createRoute()));
         cruiseDetailsDTO.setNumber("BARVEN000002");
+        cruiseDetailsDTO.setPopularity(13D);
         cruiseDetailsDTO.setModificationDate(Timestamp.from(Instant.now()));
         cruiseDetailsDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(accountModifiedBy));
         cruiseDetailsDTO.setCreationDate(Timestamp.valueOf("2020-03-25 11:21:15"));
@@ -109,6 +112,7 @@ class CruiseMapperTest {
         assertEquals(FerryMapper.createFerryGeneralDTOFromEntity(cruise.getFerry()), cruiseDetailsDTO.getFerry());
         assertEquals(RouteMapper.createRouteGeneralDTOFromEntity(cruise.getRoute()), cruiseDetailsDTO.getRoute());
         assertEquals(cruise.getNumber(), cruiseDetailsDTO.getNumber());
+        assertEquals(cruise.getPopularity(), cruiseDetailsDTO.getPopularity());
         assertEquals(cruise.getModificationDate(), cruiseDetailsDTO.getModificationDate());
         assertEquals(cruise.getCreationDate(), cruiseDetailsDTO.getCreationDate());
         assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getModifiedBy()), cruiseDetailsDTO.getModifiedBy());
@@ -125,6 +129,7 @@ class CruiseMapperTest {
         assertEquals(FerryMapper.createFerryGeneralDTOFromEntity(cruise.getFerry()), this.cruiseDetailsDTO.getFerry());
         assertEquals(RouteMapper.createRouteGeneralDTOFromEntity(cruise.getRoute()), this.cruiseDetailsDTO.getRoute());
         assertEquals(cruise.getNumber(), this.cruiseDetailsDTO.getNumber());
+        assertEquals(cruise.getPopularity(), this.cruiseDetailsDTO.getPopularity());
         assertEquals(cruise.getModificationDate(), this.cruiseDetailsDTO.getModificationDate());
         assertEquals(cruise.getCreationDate(), this.cruiseDetailsDTO.getCreationDate());
         assertEquals(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getModifiedBy()), this.cruiseDetailsDTO.getModifiedBy());

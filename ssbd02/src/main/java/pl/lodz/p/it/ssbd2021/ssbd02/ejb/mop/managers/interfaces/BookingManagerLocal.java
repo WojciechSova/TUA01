@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -85,4 +86,12 @@ public interface BookingManagerLocal {
      * @param number Numer rezerwacji, którą chcemy usunąć
      */
     void removeBooking(String login, String number);
+
+    /**
+     * Metoda obliczająca popularność rejsu
+     *
+     * @param cruise Rejs, dla którego obliczany jest agregat
+     * @return Procentowa wartość popularności rejsu
+     */
+    double calculatePopularity(Cruise cruise);
 }
