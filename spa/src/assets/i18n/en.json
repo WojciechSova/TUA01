@@ -297,7 +297,8 @@
         "details": "Cruises",
         "response": {
             "success": "The route deleted successfully",
-            "failure": "Failed to delete the route (the route has cruises assigned)"
+            "failure": "Failed to delete the route (the route has cruises assigned)",
+            "gone": "Route was deleted by someone else"
         }
     },
     "ferries-table": {
@@ -320,7 +321,8 @@
         "created_by": "Created by:",
         "add_cabin": "Add cabin",
         "no_cabins": "No cabins",
-        "add_cabin_success": "Cabin added"
+        "add_cabin_success": "Cabin added",
+        "gone": "Ferry was deleted by someone else"
     },
     "route-details": {
         "code": "Code:",

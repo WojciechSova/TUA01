@@ -297,7 +297,8 @@
         "details": "Rejsy",
         "response": {
             "success": "Trasa została pomyślnie usunięta",
-            "failure": "Usunięcie trasy nie powiodło się (trasa przypisana do rejsu)"
+            "failure": "Usunięcie trasy nie powiodło się (trasa przypisana do rejsu)",
+            "gone": "Trasa została już usunięta przez kogoś innego"
         }
     },
     "ferries-table": {
@@ -307,7 +308,8 @@
         "add_ferry": "Dodaj prom",
         "remove": "Usuń prom",
         "add_success": "Pomyślnie dodano prom",
-        "success": "Pomyślnie usunięto prom"
+        "success": "Pomyślnie usunięto prom",
+        "gone": "Prom został już usunięty przez kogoś innego"
     },
     "ferry-details": {
         "name": "Nazwa:",
