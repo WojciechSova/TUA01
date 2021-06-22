@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { CruiseDetailsService } from '../../../services/mop/cruise-details.service';
 import { IdentityService } from '../../../services/utils/identity.service';
+import { CruiseGeneral } from '../../../model/mop/CruiseGeneral';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-edit-cruise',
@@ -11,8 +13,18 @@ import { IdentityService } from '../../../services/utils/identity.service';
 })
 export class EditCruiseComponent implements OnInit, OnChanges {
 
+    readonly HIDDEN = 'hide';
+    readonly SUCCESS = 'success';
+    readonly GONE = 'gone';
+    readonly FAILURE = 'failure';
+    readonly OPTIMISTIC_LOCK = 'optimisticLock';
+    readonly FERRY_BEING_USED = 'ferryBeingUsed';
+
     @Output()
     isEditCruiseFormVisible = new EventEmitter<any>();
+
+    @Input()
+    cruiseNumber = '';
 
     @Input()
     beginStartDate: Date = new Date();
@@ -56,7 +68,41 @@ export class EditCruiseComponent implements OnInit, OnChanges {
     }
 
     changeCruise(): void {
+        this.startDate.singleDate?.jsDate?.setUTCHours(this.startHour - parseInt(this.identityService.getTimezone(), 10), this.startMinute);
+        this.startDate.singleDate?.jsDate?.setDate(this.startDate.singleDate?.jsDate?.getDate() + 1);
 
+        this.endDate.singleDate?.jsDate?.setUTCHours(this.endHour - parseInt(this.identityService.getTimezone(), 10), this.endMinute);
+        this.endDate.singleDate?.jsDate?.setDate(this.endDate.singleDate?.jsDate?.getDate() + 1);
+
+        const cruise: CruiseGeneral = {
+            number: this.cruiseDetailsService.cruise.number,
+            startDate: this.startDate.singleDate?.jsDate ? this.startDate.singleDate?.jsDate.toJSON() : new Date(0).toJSON(),
+            endDate: this.endDate.singleDate?.jsDate ? this.endDate.singleDate?.jsDate.toJSON() : new Date(0).toJSON(),
+            version: this.cruiseDetailsService.cruise.version
+        };
+
+        this.cruiseDetailsService.updateCruise(cruise).subscribe(
+            () => this.emit(this.SUCCESS),
+            (error: HttpErrorResponse) => this.handleError(error)
+        );
+    }
+
+    private handleError(error: any): void {
+        if (error.status === 400) {
+            this.emit(this.FAILURE);
+        } else if (error.status === 410) {
+            this.emit(this.GONE);
+        } else if (error.status === 409) {
+            if (error.error === 'ERROR.OPTIMISTIC_LOCK') {
+                this.emit(this.OPTIMISTIC_LOCK);
+            } else if (error.error === 'ERROR.FERRY_IS_BEING_USED') {
+                this.emit(this.FERRY_BEING_USED);
+            } else {
+                this.emit(this.FAILURE);
+            }
+        } else {
+            this.emit(this.FAILURE);
+        }
     }
 
     private emit(response: string): void {

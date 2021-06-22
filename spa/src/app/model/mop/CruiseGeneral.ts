@@ -7,4 +7,5 @@ export interface CruiseGeneral {
     route?: RouteGeneral;
     ferry?: FerryGeneral;
     number: string;
+    version?: number;
 }

@@ -115,7 +115,9 @@ export class AddCruiseComponent implements OnInit {
         }
 
         if (error.status === 409) {
-            if (error.error === 'ERROR.CRUISE_NUMBER_UNIQUE') {
+            if (error.error === 'ERROR.OPTIMISTIC_LOCK') {
+                this.errorCode = error.error;
+            } else if (error.error === 'ERROR.CRUISE_NUMBER_UNIQUE') {
                 this.errorCode = error.error;
             } else if (error.error === 'ERROR.FERRY_IS_BEING_USED') {
                 this.errorCode = error.error;

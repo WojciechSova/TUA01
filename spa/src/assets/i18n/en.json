@@ -214,7 +214,8 @@
         "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
         "FERRY_IS_BEING_USED": "Ferry is being used by other object",
         "BAD_REQUEST": "Bad request",
-        "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists"
+        "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists",
+        "OPTIMISTIC_LOCK": "Optimistic lock"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -356,6 +357,14 @@
         "start_date": "*Start date",
         "end_date": "*End date",
         "ferry": "*Ferry"
+    },
+    "cruise-edit": {
+        "change-date": "Change cruise date",
+        "result_success": "Cruise date change successful",
+        "result_gone": "Cruise date change failed because the selected cruise, route or ferry was deleted",
+        "result_failure": "Cruise date change failed",
+        "result_opl": "State of the seaport changed, please try again",
+        "ferry_being_used": "Ferry is being used"
     },
     "seaport-edit": {
         "required_city": "*City name",

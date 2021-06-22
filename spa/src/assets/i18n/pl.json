@@ -214,7 +214,8 @@
         "FERRY_IS_BEING_USED": "Prom jest wykorzystywany przez inny obiekt",
         "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji",
         "BAD_REQUEST": "Niepoprawne żądanie",
-        "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje"
+        "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje",
+        "OPTIMISTIC_LOCK": "Błąd blokady optymistycznej"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -356,6 +357,14 @@
         "start_date": "*Data rozpoczęcia rejsu",
         "end_date": "*Data zakończenia rejsu",
         "ferry": "*Prom"
+    },
+    "cruise-edit": {
+        "change-date": "Zmień datę rejsu",
+        "result_success": "Zmiana daty rejsu przebiegła pomyślnie",
+        "result_gone": "Zmiana daty rejsu nie powiodła się, ponieważ wybrany rejs, miasto lub prom został usunięty",
+        "result_failure": "Zmiana daty rejsu nie powiodła się",
+        "result_opl": "Stan rejsu został zmieniony, proszę spróbować ponownie",
+        "ferry_being_used": "Prom jest wykorzystywany przez inny obiekt"
     },
     "seaport-edit": {
         "required_city": "*Nazwa miasta",
