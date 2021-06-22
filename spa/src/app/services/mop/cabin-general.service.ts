@@ -15,6 +15,13 @@ export class CabinGeneralService {
     }
 
     addCabin(cabin: CabinGeneral, ferryName: string): any {
-        return this.http.post(this.url.concat("/" + ferryName).concat("/add"), cabin, {responseType: 'text'});
+        return this.http.post(this.url.concat('/' + ferryName).concat('/add'), cabin, {responseType: 'text'});
+    }
+
+    getFreeCabinsOnCruise(cruiseNumber: string): any{
+        return this.http.get(this.url + '/cruise/free/' + cruiseNumber, {
+            observe: 'body',
+            responseType: 'json'
+        });
     }
 }

@@ -157,7 +157,7 @@
         "response": {
             "success": "Usuwanie portu przebiegło pomyślnie",
             "in_use": "Port jest wykorzystywany przez trasę i nie mógł zostać usunięty",
-            "result_gone": "Port który chciałeś usunąć został usunięty przez kogoś innego"
+            "result_gone": "Port, który chciałeś usunąć został usunięty przez kogoś innego"
         }
     },
     "main-page": {
@@ -210,7 +210,9 @@
         "FERRY_IS_BEING_USED": "Prom jest wykorzystywany przez inny obiekt",
         "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji",
         "BAD_REQUEST": "Niepoprawne żądanie",
-        "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje"
+        "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje",
+        "CANNOT_REMOVE_CABIN": "Nie można usunąć kajuty",
+        "CABIN_ALREADY_REMOVED": "Kajuta została już usunięta przez kogoś innego"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -315,7 +317,8 @@
         "cabinType": "Typ",
         "number": "Numer",
         "cabin_details": "Szczegóły",
-        "remove_cabin": "Usuń kajutę"
+        "remove_cabin": "Usuń kajutę",
+        "cabin_removed": "Kajuta została usunięta pomyślnie"
     },
     "cruise-table": {
         "start_date": "Data rozpoczęcia",
@@ -323,7 +326,14 @@
         "number": "Numer",
         "name_of_ferry": "Nazwa promu",
         "cruise_details": "Szczegóły",
-        "remove_cruise": "Usuń rejs"
+        "remove_cruise": "Usuń rejs",
+        "remove_result": {
+            "success": "Rejs usunięty pomyślnie",
+            "gone": "Rejs, który próbowałeś usunąć zastał usunięty przez kogoś innego",
+            "other_failure": "Usuwanie rejsu nie powiodło się",
+            "in_use": "Rejs, który próbujesz usunąć jest wykorzystywany przez rezerwację",
+            "already_started": "Rejs, który próbujesz usunąć jest po dacie rozpoczęcia"
+        }
     },
     "cruise-details": {
         "edit_cruise": "Edytuj rejs",
@@ -411,7 +421,13 @@
         "cabin_number": "*Numer kajuty",
         "vehicle_type": "*Wybierz typ pojazdu:",
         "ok": "Zarezerwuj",
-        "people_number": "Liczba osób"
+        "people_number": "Liczba osób",
+        "no_cabins": "Brak kajut spełniających podane kryteria",
+        "number_first": "Najpierw podaj poprawną liczbę osob",
+        "people": "-osobowa",
+        "error_conflict": "Nie udało sie utworzyć rezerwacji",
+        "error_constraint": "Przesłane dane są niepoprawne"
+
     },
     "add-route": {
         "new_route": "Nowa trasa",

@@ -39,6 +39,10 @@ export class BookingDetailsService implements OnDestroy {
         });
     }
 
+    addBooking(peopleNumber: number, cruiseNumber: string, cabinNumber: string, vehicleTypeName: string): any{
+        return this.http.post(this.url + 'add/' + cruiseNumber + '/' + vehicleTypeName + '/' + cabinNumber, peopleNumber);
+    }
+
     getOwnBooking(bookingNumber: string): Observable<BookingDetails> {
         return this.http.get<BookingDetails>(this.url + 'own/' + bookingNumber, {
             observe: 'body',
