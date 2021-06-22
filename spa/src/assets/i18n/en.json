@@ -166,15 +166,11 @@
         "sign_in_to_book": "Sign in to book a ticket!"
     },
     "popular-offers": {
-        "popular_routes": "Popular routes"
+        "current_routes": "Current routes"
     },
     "offer": {
         "starting_at": "Starting at {{price}}PLN per person",
         "book": "Book"
-    },
-    "cities": {
-        "warsaw": "Warsaw",
-        "ciechocinek": "Ciechocinek"
     },
     "confirm-account": {
         "welcome_on_board": "Welcome on board!",

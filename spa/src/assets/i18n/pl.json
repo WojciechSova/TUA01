@@ -166,15 +166,11 @@
         "sign_in_to_book": "Zaloguj się, aby zarezerwować bilet!"
     },
     "popular-offers": {
-        "popular_routes": "Najpopularniejsze trasy"
+        "current_routes": "Aktualne trasy"
     },
     "offer": {
         "starting_at": "Już od {{price}}zł od osoby",
         "book": "Zarezerwuj"
-    },
-    "cities": {
-        "warsaw": "Warszawa",
-        "ciechocinek": "Ciechocinek"
     },
     "confirm-account": {
         "welcome_on_board": "Witamy na pokładzie!",
