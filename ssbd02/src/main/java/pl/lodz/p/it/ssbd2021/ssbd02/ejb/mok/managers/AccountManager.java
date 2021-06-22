@@ -456,6 +456,10 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             throw AccountExceptions.createBadRequestException(AccountExceptions.ERROR_URL_TYPE);
         }
 
+        if(DigestUtils.sha512Hex(String.valueOf(newPassword.getValue())).equals(oneTimeUrl.getAccount().getPassword())) {
+            throw AccountExceptions.createExceptionConflict(AccountExceptions.ERROR_SAME_PASSWORD);
+        }
+
         oneTimeUrl.getAccount().setPassword(DigestUtils.sha512Hex(String.valueOf(newPassword.getValue())));
         oneTimeUrl.getAccount().setPasswordModificationDate(Timestamp.from(Instant.now()));
         logger.info("The user with login {} reset their password",

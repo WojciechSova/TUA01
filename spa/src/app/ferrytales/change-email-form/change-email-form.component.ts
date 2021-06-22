@@ -5,6 +5,8 @@ import { ChangeEmailService } from '../../services/mok/change-email.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AccountDetailsService } from '../../services/mok/account-details.service';
 import { IdentityService } from '../../services/utils/identity.service';
+import {ChangePasswordService} from "../../services/mok/change-password.service";
+import {ErrorHandlerService} from "../../services/error-handlers/error-handler.service";
 
 @Component({
     selector: 'app-change-email-form',
@@ -25,7 +27,8 @@ export class ChangeEmailFormComponent implements OnInit {
 
     constructor(private changeEmailService: ChangeEmailService,
                 private accountDetailsService: AccountDetailsService,
-                private identityService: IdentityService) {
+                private identityService: IdentityService,
+                private errorHandlerService: ErrorHandlerService) {
     }
 
     ngOnInit(): void {
@@ -44,6 +47,8 @@ export class ChangeEmailFormComponent implements OnInit {
                 (err: HttpErrorResponse) => {
                     if (err.status === 409) {
                         this.existingEmail = true;
+                    } else {
+                        this.errorHandlerService.handleError(err);
                     }
                 }
             );

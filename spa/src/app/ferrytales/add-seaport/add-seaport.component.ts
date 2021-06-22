@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SeaportGeneralService } from '../../services/mop/seaport-general.service';
 import { SeaportGeneral } from '../../model/mop/SeaportGeneral';
+import {ErrorHandlerService} from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-add-seaport',
@@ -14,7 +15,8 @@ export class AddSeaportComponent implements OnInit {
     error = false;
 
     constructor(private router: Router,
-                private seaportGeneralService: SeaportGeneralService) {
+                private seaportGeneralService: SeaportGeneralService,
+                private errorHandlerService: ErrorHandlerService) {
     }
 
     ngOnInit(): void {
@@ -41,7 +43,13 @@ export class AddSeaportComponent implements OnInit {
 
         this.seaportGeneralService.addSeaport(seaport).subscribe(
             () => this.goToSeaportListBreadcrumb(),
-            (error: any) => this.error = true
+            (error: any) => {
+                if (error.status === 409) {
+                    this.error = true;
+                } else {
+                    this.errorHandlerService.handleError(error);
+                }
+            }
         );
     }
 }

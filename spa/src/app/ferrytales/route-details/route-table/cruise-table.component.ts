@@ -4,6 +4,7 @@ import { CruiseGeneral } from '../../../model/mop/CruiseGeneral';
 import { Router } from '@angular/router';
 import { CruiseDetailsService } from '../../../services/mop/cruise-details.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandlerService } from '../../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-cruise-table',
@@ -24,7 +25,8 @@ export class CruiseTableComponent implements OnInit {
 
     constructor(public identityService: IdentityService,
                 private router: Router,
-                private cruiseDetailsService: CruiseDetailsService) {
+                private cruiseDetailsService: CruiseDetailsService,
+                private errorHandlerService: ErrorHandlerService) {
         this.cruiseNumber = '';
         this.cruiseDeleteAttempt = false;
     }
@@ -73,7 +75,7 @@ export class CruiseTableComponent implements OnInit {
                 this.cruiseRemoveResult.emit('IN_USE');
             }
         } else {
-            this.cruiseRemoveResult.emit('OTHER_FAILURE');
+            this.errorHandlerService.handleError(error);
         }
     }
 }

@@ -175,12 +175,14 @@
     },
     "confirm-account": {
         "welcome_on_board": "Witamy na pokładzie!",
-        "account_confirm_error": "Wystąpił błąd podczas weryfikacji konta!",
+        "badUrl": "Url z którego skorzystałeś jest niepoprawny",
+        "gone": "Url z którego skorzystałeś wygasł",
         "go_to_main_page": "Za chwilę nastąpi przeniesienie na stronę główną"
     },
     "confirm-email-change": {
         "email_change_successful": "Zmiana adres e-mail przypisanego do konta przebiegła pomyślnie",
-        "email_change_error": "Wystąpił błąd podczas zmiany adresu e-mail!",
+        "badUrl": "Url z którego skorzystałeś jest niepoprawny",
+        "gone": "Url z którego skorzystałeś wygasł",
         "go_to_main_page": "Za chwilę nastąpi przekierowanie na stronę główną"
     },
     "password-reset": {
@@ -196,7 +198,8 @@
         },
         "reset": {
             "successful": "Pomyślnie zresetowano hasło",
-            "failed": "Zresetowanie hasła nie powiodło się"
+            "conflict": "Hasło nie może być identyczne z poprzednim",
+            "gone": "Url wygasł"
         }
     },
     "ERROR":{
@@ -209,7 +212,7 @@
         "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
         "DUPLICATE_NUMBER_CABIN": "Podany numer kajuty już istnieje",
         "FERRY_IS_BEING_USED": "Prom jest wykorzystywany przez inny obiekt",
-        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji",
+        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji, rejs już się rozpoczął",
         "BAD_REQUEST": "Niepoprawne żądanie",
         "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje",
         "CANNOT_REMOVE_CABIN": "Nie można usunąć kajuty",

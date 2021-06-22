@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BookingGeneralService } from '../../services/mop/booking-general.service';
 import { IdentityService } from '../../services/utils/identity.service';
 import { BookingGeneral } from '../../model/mop/BookingGeneral';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-bookings-table-own',
@@ -17,7 +18,8 @@ export class BookingsTableOwnComponent implements OnInit {
 
     constructor(private router: Router,
                 public bookingGeneralService: BookingGeneralService,
-                public identityService: IdentityService) {
+                public identityService: IdentityService,
+                private errorHandlerService: ErrorHandlerService) {
         this.getBookings();
     }
 
@@ -52,6 +54,8 @@ export class BookingsTableOwnComponent implements OnInit {
             (error => {
                 if (error.error === 'ERROR.CANNOT_CANCEL_BOOKING') {
                     this.bookingCancelError = true;
+                } else {
+                    this.errorHandlerService.handleError(error);
                 }
             })
         );

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validatePassword } from '../../common/navigation/register/matching.validator';
 import { ChangePasswordService } from '../../services/mok/change-password.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-change-password-form',
@@ -14,7 +15,8 @@ export class ChangePasswordFormComponent {
     public samePassword = false;
     public incorrectPassword = false;
 
-    constructor(private changePasswordService: ChangePasswordService) {
+    constructor(private changePasswordService: ChangePasswordService,
+                private errorHandlerService: ErrorHandlerService) {
     }
 
     @Output()
@@ -42,6 +44,8 @@ export class ChangePasswordFormComponent {
                     this.incorrectPassword = true;
                 } else if (err.status === 409) {
                     this.samePassword = true;
+                } else {
+                    this.errorHandlerService.handleError(err);
                 }
             }
         );

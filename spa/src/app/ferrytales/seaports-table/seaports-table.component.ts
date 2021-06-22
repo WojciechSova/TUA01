@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SeaportGeneral } from '../../model/mop/SeaportGeneral';
 import { SeaportGeneralService } from '../../services/mop/seaport-general.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-seaports-table',
@@ -17,7 +18,8 @@ export class SeaportsTableComponent implements OnInit {
     deleteResultMessage = 'HIDDEN';
 
     constructor(private router: Router,
-                private seaportGeneralService: SeaportGeneralService) {
+                private seaportGeneralService: SeaportGeneralService,
+                private errorHandlerService: ErrorHandlerService) {
         this.getSeaports();
     }
 
@@ -81,8 +83,10 @@ export class SeaportsTableComponent implements OnInit {
     private handleDeleteSeaportError(error: HttpErrorResponse): void {
         if (error.status === 409) {
             this.deleteResultMessage = 'IN_USE';
-        } else {
+        } else if (error.status === 410){
             this.deleteResultMessage = 'FAILURE';
+        } else {
+            this.errorHandlerService.handleError(error);
         }
     }
 }
