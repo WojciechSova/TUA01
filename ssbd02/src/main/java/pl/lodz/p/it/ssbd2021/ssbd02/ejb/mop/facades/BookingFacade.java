@@ -76,10 +76,11 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
     public Long getSumNumberOfPeopleByCruise(Cruise cruise){
         TypedQuery<Long> typedQuery = entityManager.createNamedQuery("Booking.getNumberOfPeopleOnDeckByCruise", Long.class);
         typedQuery.setParameter("cruise", cruise);
-        if (typedQuery.getSingleResult() == null){
+        Long result = typedQuery.getSingleResult();
+        if (result == null){
             return 0L;
         }
-        return typedQuery.getSingleResult();
+        return result;
     }
 
     @Override
@@ -87,10 +88,11 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
     public Double getSumVehicleSpaceByCruise(Cruise cruise) {
         TypedQuery<Double> typedQuery = entityManager.createNamedQuery("Booking.getSumVehicleSpaceByCruise", Double.class);
         typedQuery.setParameter("cruise", cruise);
-        if (typedQuery.getSingleResult() == null){
+        Double result = typedQuery.getSingleResult();
+        if (result == null){
             return 0D;
         }
-        return typedQuery.getSingleResult();
+        return result;
     }
 
     @Override
