@@ -215,7 +215,9 @@
         "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
         "FERRY_IS_BEING_USED": "Ferry is being used by other object",
         "BAD_REQUEST": "Bad request",
-        "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists"
+        "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists",
+        "CANNOT_REMOVE_CABIN": "Cannot remove cabin",
+        "CABIN_ALREADY_REMOVED": "Cabin has already been removed by someone else"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -320,7 +322,8 @@
         "cabinType": "Type",
         "number": "Number",
         "cabin_details": "Details",
-        "remove_cabin": "Remove cabin"
+        "remove_cabin": "Remove cabin",
+        "cabin_removed": "Cabin deleted successfully"
     },
     "cruise-table": {
         "start_date": "Start date",
@@ -431,7 +434,12 @@
         "cabin_number": "*Cabin number",
         "vehicle_type": "Select vehicle type",
         "ok": "Book it",
-        "people_number": "Number of people"
+        "people_number": "Number of people",
+        "no_cabins": "There are no cabins with such type and capacity",
+        "number_first": "Enter number of people first",
+        "people": "-person",
+        "error_conflict": "Could not create a booking",
+        "error_constraint": "Provided data is invalid"
     },
     "add-route": {
         "new_route": "New route",

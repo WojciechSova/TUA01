@@ -29,7 +29,7 @@
             <td>{{currentCruise.endDate | date :'short':identityService.getTimezone()}}</td>
             <td>{{currentCruise.ferry?.name}}</td>
             <td>
-                <button class="button-cruises-table" translate>cruise-general.book</button>
+                <button class="button-cruises-table" (click)="createBooking(currentCruise.number)" translate>cruise-general.book</button>
             </td>
         </tr>
     </table>

@@ -70,7 +70,7 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Cruise getCruiseByNumber(String number) {
         return cruiseFacadeLocal.findByNumber(number);
     }
