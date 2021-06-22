@@ -18,9 +18,11 @@
             </div>
         </form>
         <button id="confirm" class="form-button" [disabled]="form.invalid"
-                (click)="changeSeaport(cityName.value)" translate>
+                (click)="changeSeaportConfirmClick(cityName.value)" translate>
             form.confirm
         </button>
         <img class="return-arrow" (click)="closeComponent()" src="assets/imgs/back-arrow.png" alt=""/>
     </div>
 </div>
+<app-confirmation *ngIf="isConfirmationVisible"
+                  (isPromptVisibleAndAnswer)="confirmationResult($event)"></app-confirmation>

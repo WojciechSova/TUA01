@@ -30,6 +30,10 @@ export class CruiseDetailsService implements OnDestroy {
         return this.http.post(this.url + 'add/' + ferry + '/' + route, cruise, { responseType: 'text' });
     }
 
+    removeCruise(cruiseNumber: string): any {
+        return this.http.delete(this.url.concat('remove/', cruiseNumber));
+    }
+
     readCruiseAndEtagFromResponse(response: HttpResponse<CruiseDetails>): void {
         this.cruise = response.body as CruiseDetails;
         this.cruise = this.parseDates(this.cruise);

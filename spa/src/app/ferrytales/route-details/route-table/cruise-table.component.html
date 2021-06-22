@@ -11,10 +11,12 @@
         <td>{{cruise.endDate | date :'short':identityService.getTimezone()}}</td>
         <td>{{cruise.ferry?.name}}</td>
         <td>
-            <button class="edit-button button-remove" translate>cruise-table.remove_cruise</button>
+            <button class="edit-button button-remove" (click)="removeCruiseClick(cruise.number)" translate>cruise-table.remove_cruise</button>
         </td>
         <td>
             <button class="edit-button" (click)="cruiseDetails(cruise.number)" translate>cruise-table.cruise_details</button>
         </td>
     </tr>
 </table>
+<app-confirmation *ngIf="isConfirmationVisible"
+                  (isPromptVisibleAndAnswer)="confirmationResult($event)"></app-confirmation>
