@@ -156,11 +156,11 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @RolesAllowed({"CLIENT"})
     private double getPrice(Booking booking, double price, Cruise cruise, Cabin cabin, VehicleType vehicleType) {
-        int disabledPrice = 120;
-        int thirdPrice = 100;
-        int secondPrice = 200;
-        int firstPrice = 300;
-        int vehiclePrice = 200;
+        int disabledPrice = 100;
+        int thirdPrice = 80;
+        int secondPrice = 150;
+        int firstPrice = 200;
+        int vehiclePrice = 100;
         int onDeckPrice = 30;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("booking.properties")) {
             prop.load(input);

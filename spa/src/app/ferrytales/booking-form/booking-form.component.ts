@@ -196,29 +196,29 @@ export class BookingFormComponent implements OnInit {
         const people = parseInt(this.selectedCabin?.capacity as string, 10);
         if (this.wantCabin){
             if (this.currentType === 'Disabled class'){
-                this.currentPrice += 120 * people;
-            }
-            if (this.currentType === 'Third class'){
                 this.currentPrice += 100 * people;
             }
+            if (this.currentType === 'Third class'){
+                this.currentPrice += 80 * people;
+            }
             if (this.currentType === 'Second class'){
-                this.currentPrice += 200 * people;
+                this.currentPrice += 150 * people;
             }
             if (this.currentType === 'First class'){
-                this.currentPrice += 300 * people;
+                this.currentPrice += 200 * people;
             }
         }
         else {
             this.currentPrice += 30 * parseInt(this.currentPeopleNumber, 10);
         }
         if (this.vehicleTypes.bike){
-            this.currentPrice += 100;
+            this.currentPrice += 50;
         }
         if (this.vehicleTypes.car){
-            this.currentPrice += 200;
+            this.currentPrice += 100;
         }
         if (this.vehicleTypes.bus){
-            this.currentPrice += 500;
+            this.currentPrice += 250;
         }
 
         if (isNaN(this.currentPrice) || (this.selectedNumber.length < 4 && this.wantCabin) || (this.noCabinsAvailable && this.wantCabin)){
