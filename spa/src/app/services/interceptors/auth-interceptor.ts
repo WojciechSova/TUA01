@@ -46,8 +46,6 @@ export class AuthInterceptor implements HttpInterceptor {
                     if (error.status === 403) {
                         this.authService.signOut();
                         this.zone.run(() => this.router.navigateByUrl('/error/forbidden'));
-                    } else {
-                        this.errorHandlerService.handleError(error);
                     }
                 }
             );
