@@ -165,8 +165,8 @@
             </button>
             <img class="return-arrow" src="assets/imgs/back-arrow.png"
                  alt="" (click)="goToCurrentCruises()"/>
-            <div class="booking-error" *ngIf="conflict">booking.error_conflict</div>
-            <div class="booking-error" *ngIf="errorConstraint">booking.error_constraint</div>
+            <div class="booking-error" *ngIf="conflict" translate>booking.error_conflict</div>
+            <div class="booking-error" *ngIf="errorConstraint" translate>booking.error_constraint</div>
         </div>
     </div>
 </div>
