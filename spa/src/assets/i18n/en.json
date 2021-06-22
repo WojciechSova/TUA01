@@ -215,8 +215,7 @@
         "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
         "FERRY_IS_BEING_USED": "Ferry is being used by other object",
         "BAD_REQUEST": "Bad request",
-        "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists",
-        "OPTIMISTIC_LOCK": "Optimistic lock"
+        "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists"
     },
     "error-page": {
         "forbidden_code": "Error 403",

@@ -46,6 +46,11 @@ export class CruiseDetailsComponent implements OnInit {
         );
     }
 
+    refresh(): void {
+        this.cruiseEdit.response = 'hide';
+        this.getCruise();
+    }
+
     goToHomeBreadcrumb(): void {
         this.router.navigate(['/']);
     }
