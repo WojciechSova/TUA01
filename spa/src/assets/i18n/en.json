@@ -333,7 +333,7 @@
         "created_by": "Created by:",
         "add_cruise": "Add cruise",
         "no_cruises_on_route": "No cruises on route",
-        "add_success": "Added a route"
+        "add_success": "Added a route successfully"
     },
     "cabin-table": {
         "capacity": "Capacity",

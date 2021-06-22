@@ -333,7 +333,7 @@
         "created_by": "Utworzony przez:",
         "add_cruise": "Dodaj rejs",
         "no_cruises_on_route": "Brak rejsów na trasie",
-        "add_success": "Pomyślnie dodano rejs"
+        "add_success": "Pomyślnie dodano trasę"
     },
     "cabin-table": {
         "capacity": "Pojemność",
