@@ -12,6 +12,7 @@
         "invalid_number": "Numer rejsu powinien zawierać 6 dużych liter i 6 cyfr",
         "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
         "field_required": "Pole wymagane",
+        "confirm_date": "Potwierdź datę",
         "login": "Login",
         "first_name": "Imię",
         "last_name": "Nazwisko",
@@ -366,6 +367,14 @@
         "start_date": "*Data rozpoczęcia rejsu",
         "end_date": "*Data zakończenia rejsu",
         "ferry": "*Prom"
+    },
+    "cruise-edit": {
+        "change-date": "Zmień datę rejsu",
+        "result_success": "Zmiana daty rejsu przebiegła pomyślnie",
+        "result_gone": "Zmiana daty rejsu nie powiodła się, ponieważ wybrany rejs, miasto lub prom został usunięty",
+        "result_failure": "Zmiana daty rejsu nie powiodła się",
+        "result_opl": "Stan rejsu został zmieniony, proszę spróbować ponownie",
+        "ferry_being_used": "Prom jest wykorzystywany przez inny obiekt"
     },
     "seaport-edit": {
         "required_city": "*Nazwa miasta",

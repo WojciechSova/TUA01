@@ -12,6 +12,7 @@
         "invalid_number": "Cruise number should have 6 capital letters and 6 digits",
         "invalid_phone_number": "Phone number should have between 3 and 15 digits",
         "field_required": "Field required",
+        "confirm_date": "Confirm date",
         "login": "Login",
         "first_name": "First name",
         "last_name": "Last name",
@@ -366,6 +367,14 @@
         "start_date": "*Start date",
         "end_date": "*End date",
         "ferry": "*Ferry"
+    },
+    "cruise-edit": {
+        "change-date": "Change cruise date",
+        "result_success": "Cruise date change successful",
+        "result_gone": "Cruise date change failed because the selected cruise, route or ferry was deleted",
+        "result_failure": "Cruise date change failed",
+        "result_opl": "State of the seaport changed, please try again",
+        "ferry_being_used": "Ferry is being used"
     },
     "seaport-edit": {
         "required_city": "*City name",
