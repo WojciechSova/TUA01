@@ -424,7 +424,11 @@
     "add-seaport": {
         "new_seaport": "Nowy port",
         "city": "*Miasto",
-        "code": "*Kod"
+        "code": "*Kod",
+        "response": {
+            "city_unique": "Podana nazwa miasta nie jest unikalna",
+            "code_unique": "Podany kod nie jest unikalny"
+        }
     },
     "cabin-form": {
         "choose_cabin_type": "Wybierz typ kajuty",

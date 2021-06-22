@@ -424,7 +424,11 @@
     "add-seaport": {
         "new_seaport": "New seaport",
         "city": "*City",
-        "code": "*Code"
+        "code": "*Code",
+        "response": {
+            "city_unique": "Provided city name is not unique",
+            "code_unique": "Provided code is not unique"
+        }
     },
     "cabin-form": {
         "choose_cabin_type": "Choose cabin type",

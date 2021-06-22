@@ -50,7 +50,8 @@
                 [disabled]=form.invalid translate>form.save
         </button>
         <div class="validation-error validation-info" *ngIf="error">
-            <p id="invalidCredentialsLabel" translate>ERROR.DUPLICATE_CODE</p>
+            <p *ngIf="response === 'city_unique'" translate>add-seaport.response.city_unique</p>
+            <p *ngIf="response === 'code_unique'" translate>add-seaport.response.code_unique</p>
         </div>
         <img class="return-arrow" (click)="goToSeaportListBreadcrumb()"
              src="assets/imgs/back-arrow.png"
