@@ -1,16 +1,15 @@
 <div class="overlay">
     <form [formGroup]="form">
         <div class="box-container">
-
             <div class="row">
                 <label class="uppercase" translate>ferry-details.on_deck_capacity</label>
-                <input #newOnDeckCapacity type="number" formControlName="onDeckCapacity"
+                <input [(ngModel)]="onDeckCapacity" type="number" formControlName="onDeckCapacity"
                        placeholder="{{ferryDetailsService.ferry.onDeckCapacity}}"
                        [ngClass]="{'is-invalid': form.controls.onDeckCapacity.touched && form.controls.onDeckCapacity.invalid}">
             </div>
             <div class="row">
                 <label class="uppercase" translate>ferry-details.vehicle_capacity</label>
-                <input #newVehicleCapacity type="number" formControlName="vehicleCapacity"
+                <input [(ngModel)]="vehicleCapacity" type="number" formControlName="vehicleCapacity"
                        placeholder="{{ferryDetailsService.ferry.vehicleCapacity}}"
                        [ngClass]="{'is-invalid': form.controls.vehicleCapacity.touched && form.controls.vehicleCapacity.invalid}">
             </div>

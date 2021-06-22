@@ -23,11 +23,9 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(callSuper = true)
 public class CruiseDetailsDTO extends AbstractDTO {
 
-    @NotBlank
     @Future
     private Timestamp startDate;
 
-    @NotBlank
     @Future
     private Timestamp endDate;
 

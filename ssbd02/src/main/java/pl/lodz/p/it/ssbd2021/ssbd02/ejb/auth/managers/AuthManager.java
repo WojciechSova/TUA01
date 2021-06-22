@@ -23,7 +23,7 @@ import java.util.List;
  * @author Julia Kołodziej
  */
 @Stateful
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class AuthManager extends AbstractManager implements AuthManagerLocal, SessionSynchronization {

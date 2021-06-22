@@ -62,9 +62,11 @@ import { AddCruiseComponent } from './ferrytales/add-cruise/add-cruise.component
 import { BookingFormComponent } from './ferrytales/booking-form/booking-form.component';
 import { FerryEditComponent } from './ferrytales/ferry-details/ferry-edit/ferry-edit.component';
 import { AddFerryComponent } from './ferrytales/add-ferry/add-ferry.component';
+import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { ConfirmationComponent } from './common/confirmation/confirmation.component';
 import { AddRouteComponent } from './ferrytales/add-route/add-route.component';
 import { GoneComponent } from './other-views/error-pages/gone/gone.component';
+import { EditCruiseComponent } from './ferrytales/cruise-details/edit-cruise/edit-cruise.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -141,6 +143,7 @@ export const localeServiceProviders = [
         AddRouteComponent,
         ConfirmationComponent,
         GoneComponent,
+        EditCruiseComponent,
     ],
     imports: [
         BrowserModule,
@@ -155,6 +158,7 @@ export const localeServiceProviders = [
                 deps: [HttpClient]
             }
         }),
+        AngularMyDatePickerModule,
     ],
     providers: [
         IdentityService,

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FerryDetails } from '../../model/mop/FerryDetails';
 import { IdentityService } from '../../services/utils/identity.service';
 import { FerryDetailsService } from '../../services/mop/ferry-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +9,12 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: ['./ferry-details.component.less']
 })
 export class FerryDetailsComponent implements OnInit {
+
+    readonly HIDDEN = 'hide';
+    readonly SUCCESS = 'success';
+    readonly GONE = 'gone';
+    readonly FAILURE = 'failure';
+    readonly OPTIMISTIC_LOCK = 'optimisticLock';
 
     ferryEdit = {
         isFormVisible: false,
@@ -23,18 +28,19 @@ export class FerryDetailsComponent implements OnInit {
                 private router: Router,
                 private route: ActivatedRoute) {
         this.name = this.route.snapshot.paramMap.get('name') as string;
-        this.getFerry();
+        this.getFerry(true);
     }
 
     ngOnInit(): void {
     }
 
-    getFerry(): void {
-        this.ferryEdit.response = 'hide';
-        this.ferryDetailsService.getFerry(this.name).subscribe(
-            (response: FerryDetails) => {
-                this.ferryDetailsService.readFerryDetails(response);
-            });
+    getFerry(hideResponse: boolean): void {
+        if (hideResponse) {
+            this.ferryEdit.response = 'hide';
+        }
+        this.ferryDetailsService.getFerry(this.name).subscribe(response => {
+            this.ferryDetailsService.readFerryDetails(response);
+        });
     }
 
     goToHomeBreadcrumb(): void {

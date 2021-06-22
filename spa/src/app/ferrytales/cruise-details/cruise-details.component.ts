@@ -12,6 +12,11 @@ export class CruiseDetailsComponent implements OnInit {
 
     number = '';
 
+    cruiseEdit = {
+        isFormVisible: false,
+        response: 'hide'
+    };
+
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 public cruiseDetailsService: CruiseDetailsService,
@@ -21,10 +26,6 @@ export class CruiseDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-    }
-
-    edit(cruiseNumber: string): void {
-        return;
     }
 
     getCruise(): void {
@@ -43,5 +44,10 @@ export class CruiseDetailsComponent implements OnInit {
 
     goToRouteBreadcrumb(): void {
         this.router.navigate([`ferrytales/routes/${this.cruiseDetailsService.cruise.route.code}`]);
+    }
+
+    changeEditCruiseFormVisible(cruiseEdit: any): void {
+        this.cruiseEdit = cruiseEdit;
+        this.getCruise();
     }
 }
