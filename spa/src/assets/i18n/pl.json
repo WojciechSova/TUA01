@@ -5,7 +5,9 @@
         "client": "Klient",
         "refresh": "Odśwież",
         "details": "Szczegóły",
-        "edit": "Edytuj"
+        "edit": "Edytuj",
+        "true": "Prawda",
+        "false": "Fałsz"
     },
     "form": {
         "invalid_format": "Niepoprawny format",

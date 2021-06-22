@@ -5,7 +5,9 @@
         "client": "Client",
         "refresh": "Refresh",
         "details": "Details",
-        "edit": "Edit"
+        "edit": "Edit",
+        "true": "True",
+        "false": "False"
     },
     "form": {
         "invalid_format": "Invalid format",
