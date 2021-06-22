@@ -438,7 +438,13 @@
         "number_first": "Enter number of people first",
         "people": "-person",
         "error_conflict": "Could not create a booking",
-        "error_constraint": "Provided data is invalid"
+        "error_constraint": "Provided data is invalid",
+        "vehicle": {
+            "none": "None",
+            "motorcycle": "Motorcycle",
+            "car": "Car",
+            "bus": "Bus"
+        }
     },
     "add-route": {
         "new_route": "New route",

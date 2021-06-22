@@ -64,4 +64,16 @@ export class BookingDetailsComponent implements OnInit {
         }
         return 'cabin-form.disabled';
     }
+
+    translateVehicleType(vehicleType: string | undefined): string {
+        if (vehicleType === 'None') {
+            return 'booking.vehicle.none';
+        } else if (vehicleType === 'Motorcycle') {
+            return 'booking.vehicle.motorcycle';
+        } else if (vehicleType === 'Car') {
+            return 'booking.vehicle.car';
+        } else {
+            return 'booking.vehicle.bus';
+        }
+    }
 }

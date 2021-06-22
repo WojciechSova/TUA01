@@ -69,7 +69,7 @@
             </div>
             <div class="row">
                 <label class="uppercase" translate>booking-details.vehicle_type</label>
-                <label>{{bookingDetailsService.booking?.vehicleType?.vehicleTypeName}}</label>
+                <label>{{translateVehicleType(bookingDetailsService.booking?.vehicleType?.vehicleTypeName) | translate}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>booking-details.price</label>
