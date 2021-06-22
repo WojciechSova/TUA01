@@ -61,7 +61,7 @@
             </div>
             <div class="row">
                 <label class="uppercase" translate>booking-details.cabin</label>
-                <label>{{bookingDetailsService.booking?.cabin?.cabinType}}</label>
+                <label translate>{{translateCabinType(bookingDetailsService.booking?.cabin?.cabinType) | translate}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>cabin-table.capacity</label>

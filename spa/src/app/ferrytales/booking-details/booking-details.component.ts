@@ -51,4 +51,17 @@ export class BookingDetailsComponent implements OnInit {
     goToOwnBookingListBreadcrumb(): void {
         this.router.navigate(['/ferrytales/my/bookings']);
     }
+
+    translateCabinType(cabinType: string | undefined): string {
+        if (cabinType === 'First class') {
+            return 'cabin-form.first';
+        }
+        if (cabinType === 'Second class') {
+            return 'cabin-form.second';
+        }
+        if (cabinType === 'Third class') {
+            return 'cabin-form.third';
+        }
+        return 'cabin-form.disabled';
+    }
 }
