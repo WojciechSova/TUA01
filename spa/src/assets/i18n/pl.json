@@ -12,6 +12,7 @@
         "invalid_number": "Numer rejsu powinien zawierać 6 dużych liter i 6 cyfr",
         "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
         "field_required": "Pole wymagane",
+        "confirm_date": "Potwierdź datę",
         "login": "Login",
         "first_name": "Imię",
         "last_name": "Nazwisko",

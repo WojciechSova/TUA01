@@ -15,6 +15,10 @@
                          *ngIf="form.controls.startDate.hasError('required') && form.controls.startDate.touched"
                          translate>form.field_required
                     </div>
+                    <div class="validation-error"
+                         *ngIf="form.controls.startDate.untouched"
+                         translate>form.confirm_date
+                    </div>
                 </div>
 
                 <div class="row">
@@ -43,6 +47,10 @@
                          *ngIf="form.controls.endDate.hasError('required') && form.controls.endDate.touched"
                          translate>form.field_required
                     </div>
+                    <div class="validation-error"
+                         *ngIf="form.controls.endDate.untouched"
+                         translate>form.confirm_date
+                    </div>
                 </div>
 
                 <div class="row">
@@ -63,7 +71,8 @@
                 </div>
             </div>
         </form>
-        <button id="confirm" class="form-button" [disabled]="form.invalid"
+        <button id="confirm" class="form-button" [disabled]="form.invalid
+        || form.controls.startDate.untouched || form.controls.endDate.untouched"
                 (click)="displayPrompt()" translate>
             form.confirm
         </button>

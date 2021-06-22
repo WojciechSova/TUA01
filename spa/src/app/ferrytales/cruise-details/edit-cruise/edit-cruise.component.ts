@@ -60,7 +60,6 @@ export class EditCruiseComponent implements OnInit, OnChanges {
                 private identityService: IdentityService) {
         this.startDate = { isRange: false, singleDate: { jsDate: this.beginStartDate } };
         this.endDate = { isRange: false, singleDate: { jsDate: this.beginEndDate } };
-        // setInterval(() => console.log(this.startDate), 1000);
     }
 
     ngOnInit(): void {
@@ -130,16 +129,30 @@ export class EditCruiseComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        const offset = new Date().getTimezoneOffset() / 60;
+
         this.beginStartDate
-            .setUTCHours(this.beginStartDate.getUTCHours() + parseInt(this.identityService.getTimezone(), 10));
+            .setUTCHours(this.beginStartDate.getUTCHours() + parseInt(this.identityService.getTimezone(), 10) + offset);
         this.startDate = { isRange: false, singleDate: { jsDate: this.beginStartDate } };
-        this.startHour = this.beginStartDate.getUTCHours();
+        this.startHour = this.beginStartDate.getUTCHours() - offset;
+
+        if (this.startHour < 0) {
+            this.startHour = 24 - this.startHour;
+        } else if (this.startHour > 23) {
+            this.startHour = this.startHour - 24;
+        }
         this.startMinute = this.beginStartDate.getMinutes();
 
         this.beginEndDate
-            .setUTCHours(this.beginEndDate.getUTCHours() + parseInt(this.identityService.getTimezone(), 10));
+            .setUTCHours(this.beginEndDate.getUTCHours() + parseInt(this.identityService.getTimezone(), 10) + offset);
         this.endDate = { isRange: false, singleDate: { jsDate: this.beginEndDate } };
-        this.endHour = this.beginEndDate.getUTCHours();
+        this.endHour = this.beginEndDate.getUTCHours() - offset;
+
+        if (this.endHour < 0) {
+            this.endHour = 24 - this.endHour;
+        } else if (this.endHour > 23) {
+            this.endHour = this.endHour - 24;
+        }
         this.endMinute = this.beginEndDate.getMinutes();
     }
 
