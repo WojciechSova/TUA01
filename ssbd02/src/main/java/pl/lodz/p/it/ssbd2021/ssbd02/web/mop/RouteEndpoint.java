@@ -1,6 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.RouteGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.RouteManagerLocal;
@@ -14,6 +16,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
+import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -21,7 +24,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -35,6 +41,8 @@ import java.util.stream.Collectors;
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class RouteEndpoint {
 
+    private static final Logger logger = LogManager.getLogger();
+
     @Inject
     private RouteManagerLocal routeManager;
 
@@ -46,21 +54,33 @@ public class RouteEndpoint {
     @GET
     @RolesAllowed({"EMPLOYEE"})
     public Response getAllRoutes() {
-        try {
-            List<RouteGeneralDTO> routeDTOList = routeManager.getAllRoutes().stream()
-                    .map(RouteMapper::createRouteGeneralDTOFromEntity)
-                    .collect(Collectors.toList());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        List<RouteGeneralDTO> routeDTOList = null;
+        do {
+            try {
+                routeDTOList = routeManager.getAllRoutes().stream()
+                        .map(RouteMapper::createRouteGeneralDTOFromEntity)
+                        .collect(Collectors.toList());
+                transactionRollBack = routeManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(routeDTOList)
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessException) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(routeDTOList)
+                .build();
     }
 
     /**
@@ -73,21 +93,33 @@ public class RouteEndpoint {
     @Path("/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getRouteAndCruisesForRoute(@PathParam("code") String code) {
-        try {
-            Pair<Route, List<Cruise>> pair = routeManager.getRouteAndCruisesByRouteCode(code);
-            RouteDetailsDTO routeDetailsDTO = RouteMapper.createRouteDetailsDTOFromEntity(pair.getLeft(), pair.getRight());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        RouteDetailsDTO routeDetailsDTO = null;
+        do {
+            try {
+                Pair<Route, List<Cruise>> pair = routeManager.getRouteAndCruisesByRouteCode(code);
+                routeDetailsDTO = RouteMapper.createRouteDetailsDTOFromEntity(pair.getLeft(), pair.getRight());
+                transactionRollBack = routeManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(routeDetailsDTO)
-                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(routeDetailsDTO))
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(routeDetailsDTO)
+                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(routeDetailsDTO))
+                .build();
     }
 
     /**
@@ -108,25 +140,80 @@ public class RouteEndpoint {
             throw CommonExceptions.createConstraintViolationException();
         }
 
-        try {
-            routeManager.createRoute(RouteMapper.createRouteFromRouteDetailsDTO(routeDetailsDTO),
-                    start, dest, securityContext.getUserPrincipal().getName());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                routeManager.createRoute(RouteMapper.createRouteFromRouteDetailsDTO(routeDetailsDTO),
+                        start, dest, securityContext.getUserPrincipal().getName());
+                transactionRollBack = routeManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .build();
     }
 
+    /**
+     * Metoda umożliwiająca usunięcie trasy.
+     *
+     * @param code            Kod trasy, którą chcemy usunąć
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod odpowiedzi 200 w przypadku poprawnego usunięcia trasy
+     */
     @DELETE
     @Path("remove/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeRoute(@PathParam("code") String code, @Context SecurityContext securityContext) {
-        return null;
+        if (!code.matches("[A-Z]{6}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                routeManager.removeRoute(code, securityContext.getUserPrincipal().getName());
+                transactionRollBack = routeManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
+    }
+
+    private int getTransactionRepetitionCounter() {
+        Properties prop = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
+            return 3;
+        }
     }
 }

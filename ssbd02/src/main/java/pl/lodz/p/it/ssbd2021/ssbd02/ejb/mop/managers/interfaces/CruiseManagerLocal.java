@@ -16,25 +16,11 @@ import java.util.List;
 public interface CruiseManagerLocal {
 
     /**
-     * Metoda wyszukująca wszystkie rejsy.
-     *
-     * @return Lista rejsów {@link Cruise}
-     */
-    List<Cruise> getAllCruises();
-
-    /**
      * Metoda wyszukująca wszystkie aktualne rejsy.
      *
      * @return Lista aktualnych rejsów {@link Cruise}
      */
     List<Cruise> getAllCurrentCruises();
-
-    /**
-     * Metoda wyszukująca wszystkie zakończone rejsy.
-     *
-     * @return Lista zakończonych rejsów {@link Cruise}
-     */
-    List<Cruise> getAllCompletedCruises();
 
     /**
      * Metoda wyszukująca rejs o podanym numerze.
@@ -43,14 +29,6 @@ public interface CruiseManagerLocal {
      * @return Encja typu {@link Cruise}
      */
     Cruise getCruiseByNumber(String number);
-
-    /**
-     * Metoda wyszukująca wszystkie rejsy, które zawierają prom o podanej nazwie.
-     *
-     * @param name Nazwa promu, po której chcemy wyszukać
-     * @return Lista rejsów {@link Cruise}, które zawierają prom o podanej nazwie.
-     */
-    List<Cruise> getCruisesByFerryName(String name);
 
     /**
      * Metoda tworząca rejs.
@@ -72,9 +50,25 @@ public interface CruiseManagerLocal {
     void updateCruise(Cruise cruise, String modifiedBy);
 
     /**
-     * Metoda usuwa rejs o numerze zawartym w encji {@link Cruise}.
+     * Metoda usuwa rejs o numerze cruiseNumber.
      *
-     * @param cruise Encja typu {@link Cruise}
+     * @param cruiseNumber Numer identyfikujący rejs typu {@link String}
+     * @param userLogin Login użytkownika, który usuwa encje {@link String}
      */
-    void removeCruise(Cruise cruise);
+    void removeCruise(String cruiseNumber, String userLogin);
+
+    /**
+     * Metoda obliczająca popularność rejsu
+     *
+     * @param cruise Rejs, dla którego liczony jest agregat
+     * @return Procentowa wartość popularności rejsu
+     */
+    double calculatePopularity(Cruise cruise);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

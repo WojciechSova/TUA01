@@ -10,12 +10,14 @@ import org.mockito.Spy;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.FerryDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.FerryGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.FerryManagerLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.FerryMapper;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -127,5 +129,48 @@ class FerryEndpointTest {
                 () -> assertEquals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION, ex3.getResponse().getEntity()),
                 () -> assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), ex3.getResponse().getStatus())
         );
+    }
+
+    @Test
+    void updateFerry() {
+        Account account = new Account();
+        account.setLogin("Login");
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("Login");
+
+        Ferry f1 = new Ferry();
+        f1.setVersion(1L);
+        FerryDetailsDTO ferryDetailsDTO = new FerryDetailsDTO();
+        ferryDetailsDTO.setVersion(1L);
+        ferryDetailsDTO.setName("newName");
+        ferryDetailsDTO.setOnDeckCapacity(10);
+        ferryDetailsDTO.setVehicleCapacity(20);
+        String eTag = DTOIdentitySignerVerifier.calculateDTOSignature(ferryDetailsDTO);
+
+        doAnswer(invocationOnMock -> null).when(ferryManagerLocal).updateFerry(any(), anyString());
+
+        Response response = ferryEndpoint.updateFerry(ferryDetailsDTO, securityContext, eTag);
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        verify(ferryManagerLocal).updateFerry(any(), anyString());
+
+        GeneralException badEtag = assertThrows(GeneralException.class,
+                () -> ferryEndpoint.updateFerry(ferryDetailsDTO, securityContext, "not.an.etag"));
+        assertEquals(Response.Status.PRECONDITION_FAILED.getStatusCode(), badEtag.getResponse().getStatus());
+
+        ferryDetailsDTO.setName(null);
+        GeneralException noName = assertThrows(GeneralException.class,
+                () -> ferryEndpoint.updateFerry(ferryDetailsDTO, securityContext, eTag));
+        assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), noName.getResponse().getStatus());
+    }
+
+    @Test
+    void removeFerry() {
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        when(userPrincipal.getName()).thenReturn("Login");
+
+        Response response = ferryEndpoint.removeFerry("ferryName", securityContext);
+
+        verify(ferryManagerLocal).removeFerry("ferryName", "Login");
+        assertEquals(200, response.getStatus());
     }
 }

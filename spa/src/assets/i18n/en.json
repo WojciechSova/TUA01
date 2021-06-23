@@ -9,8 +9,10 @@
     },
     "form": {
         "invalid_format": "Invalid format",
+        "invalid_number": "Cruise number should have 6 capital letters and 6 digits",
         "invalid_phone_number": "Phone number should have between 3 and 15 digits",
         "field_required": "Field required",
+        "-_date": "Confirm date",
         "login": "Login",
         "first_name": "First name",
         "last_name": "Last name",
@@ -28,7 +30,13 @@
         "save": "Save",
         "confirm": "Confirm",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "positive": "Number of people must be positive",
+        "cabin_edit_failed": "An error occured",
+        "confirmation": "Are you sure?",
+        "route_code_format": "Route code should consist of 6 capital letters",
+        "invalid_format_cabin_number": "Cabin number should have 1 upper case letter and 3 digits",
+        "invalid_capacity": "Capacity should be a number in the range from 1 to 99"
     },
     "links": {
         "about_us": "About us",
@@ -71,7 +79,19 @@
         "actual": "Current",
         "new": "New",
         "choose_a_time_zone": "Select a time zone",
-        "UTC_time_zone": "UTC"
+        "UTC_time_zone": "UTC",
+        "successful": "Account edit successful",
+        "successful_access_level": "Access level change successful",
+        "successful_email": "E-mail address change successful",
+        "successful_password": "Password change successful"
+    },
+    "ferry-edit": {
+        "invalid_on_deck_capacity": "On deck capacity must be positive",
+        "invalid_vehicle_capacity": "On deck capacity must be positive or zero",
+        "result_success": "Ferry change successful",
+        "result_gone": "Ferry change failed because the selected ferry was deleted",
+        "result_failure": "Ferry change failed",
+        "result_opl": "State of the ferry changed, please try again"
     },
     "users-table": {
         "enter_your_search": "Enter your search...",
@@ -79,7 +99,9 @@
         "manage": "Manage",
         "unblock_block": "Unblock/Block",
         "unblock": "Unblock",
-        "block": "Block"
+        "block": "Block",
+        "block_success": "User blocked",
+        "unblock_success": "User unblocked"
     },
     "account-details": {
         "login": "Login",
@@ -138,7 +160,13 @@
         "city": "City",
         "code": "Seaport code",
         "add": "Add new seaport",
-        "remove": "Remove seaport"
+        "remove": "Remove seaport",
+        "add_success": "Seaport added",
+        "response": {
+            "success": "Seaport deleted successfully",
+            "in_use": "Seaport is used by a route it could not be deleted",
+            "result_gone": "Seaport you tried to delete was deleted by someone else"
+        }
     },
     "main-page": {
         "advert": "Fairytale-like ferry crossings",
@@ -146,24 +174,22 @@
         "sign_in_to_book": "Sign in to book a ticket!"
     },
     "popular-offers": {
-        "popular_routes": "Popular routes"
+        "upcoming_cruises": "Upcoming cruises"
     },
     "offer": {
         "starting_at": "Starting at {{price}}PLN per person",
         "book": "Book"
     },
-    "cities": {
-        "warsaw": "Warsaw",
-        "ciechocinek": "Ciechocinek"
-    },
     "confirm-account": {
         "welcome_on_board": "Welcome on board!",
-        "account_confirm_error": "An error occurred during account verification!",
+        "badUrl": "Url you used is incorrect",
+        "gone": "Url you used has expired",
         "go_to_main_page": "You will be taken to the home page in a moment"
     },
     "confirm-email-change": {
         "email_change_successful": "Changing the email address associated with your account was successful",
-        "email_change_error": "An error occurred while changing your email address!",
+        "badUrl": "Url you used is incorrect",
+        "gone": "Url you used has expired",
         "go_to_main_page": "You will be taken to the home page in a moment"
     },
     "password-reset": {
@@ -179,7 +205,8 @@
         },
         "reset": {
             "successful": "Password reset successful",
-            "failed": "Password reset failed"
+            "conflict": "Password can not be identical to previous one",
+            "gone": "Url has expired"
         }
     },
     "ERROR":{
@@ -188,7 +215,17 @@
         "EMAIL_UNIQUE": "The e-mail address you entered already exists",
         "INVALID_LOGIN_OR_PASSWORD": "The login or password you entered is incorrect",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "The login, phone number or email already exists",
-        "DUPLICATE_CODE": "Provided code already exists"
+        "DUPLICATE_CODE": "Provided code already exists",
+        "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
+        "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists",
+        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking, the cruise has started",
+        "FERRY_IS_BEING_USED": "Ferry is being used by other object",
+        "BAD_REQUEST": "Bad request",
+        "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists",
+        "CANNOT_REMOVE_CABIN": "Cannot remove cabin",
+        "CABIN_ALREADY_REMOVED": "Cabin has already been removed by someone else",
+        "OPTIMISTIC_LOCK_ERROR": "Data you are trying to update is outdated",
+        "UNKNOWN_ERROR": "Something went wrong"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -196,6 +233,8 @@
         "internal_server_error_code": "Error 500",
         "internal_server_error_message": "Oops, something went wrong :(",
         "not_found_code": "Error 404",
+        "gone_code": "Error 410",
+        "gone_text": "Resource is no longer available",
         "not_found_text": "Page not found",
         "unauthorized_code": "Error 401",
         "unauthorized_text": "Unauthorized",
@@ -215,6 +254,7 @@
         "current_cruises_list": "Current cruises list",
         "seaport": "Seaport",
         "cruise": "Cruise",
+        "cruise_add": "Add cruise",
         "cabin-edit": "Edit cabin",
         "ferry": "Ferry",
         "cabin": "Cabin",
@@ -223,7 +263,8 @@
         "booking_list_own": "Your bookings",
         "cabin_add": "Add cabin",
         "route": "Route",
-        "ferry_add": "Add ferry"
+        "ferry_add": "Add ferry",
+        "route_add": "Add route"
     },
     "session-timeout": {
         "info": {
@@ -241,7 +282,9 @@
         "cruise_date": "Cruise date",
         "creation_date": "Booking date",
         "number": "Number",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "add_success": "Booking created",
+        "remove_success": "Booking cancelled"
     },
     "route": {
         "start": "Starting seaport",
@@ -249,13 +292,20 @@
         "code": "Route code",
         "add": "Create route",
         "delete": "Delete route",
-        "details": "Cruises"
+        "details": "Cruises",
+        "response": {
+            "success": "The route deleted successfully",
+            "failure": "Failed to delete the route (the route has cruises assigned)"
+        }
     },
     "ferries-table": {
         "name": "Name",
         "vehicle_capacity": "Vehicle capacity",
         "on_deck_capacity": "On deck capacity",
-        "add_ferry": "Add ferry"
+        "add_ferry": "Add ferry",
+        "remove": "Remove ferry",
+        "add_success": "Added a ferry",
+        "success": "Ferry removed"
     },
     "ferry-details": {
         "name": "Name:",
@@ -267,7 +317,8 @@
         "creation_date": "Date of creation:",
         "created_by": "Created by:",
         "add_cabin": "Add cabin",
-        "no_cabins": "No cabins"
+        "no_cabins": "No cabins",
+        "add_cabin_success": "Cabin added"
     },
     "route-details": {
         "code": "Code:",
@@ -277,14 +328,16 @@
         "creation_date": "Date of creation:",
         "created_by": "Created by:",
         "add_cruise": "Add cruise",
-        "no_cruises_on_route": "No cruises on route"
+        "no_cruises_on_route": "No cruises on route",
+        "add_success": "Added a route"
     },
     "cabin-table": {
         "capacity": "Capacity",
         "cabinType": "Type",
         "number": "Number",
         "cabin_details": "Details",
-        "remove_cabin": "Remove cabin"
+        "remove_cabin": "Remove cabin",
+        "cabin_removed": "Cabin deleted successfully"
     },
     "cruise-table": {
         "start_date": "Start date",
@@ -292,7 +345,16 @@
         "number": "Number",
         "name_of_ferry": "Ferry name",
         "cruise_details": "Details",
-        "remove_cruise": "Remove cruise"
+        "remove_cruise": "Remove cruise",
+        "popularity": "Popularity",
+        "add_success": "Added a cruise",
+        "remove_result": {
+            "success": "Cruise deleted successfully",
+            "gone": "Cruise you tried to delete was deleted by someone else",
+            "other_failure": "Deleting cruise failed",
+            "in_use": "Cruise you tried to delete is used by reservation",
+            "already_started": "Cruise you tried to delete has already started"
+        }
     },
     "cruise-details": {
         "edit_cruise": "Edit cruise",
@@ -304,7 +366,8 @@
         "modification_date": "Modification date",
         "modified_by": "Modified by",
         "creation_date": "Creation date",
-        "created_by": "Created by"
+        "created_by": "Created by",
+        "popularity": "Popularity"
     },
     "cruise-general": {
         "start_date": "Start date",
@@ -313,13 +376,34 @@
         "route_destination": "Destination seaport",
         "ferry_name": "Ferry name",
         "book_a_ticket": "Book a ticket",
-        "book": "Book"
+        "book": "Book",
+        "log_in_to_book_a_ticket": "Log in to book a ticket"
+    },
+    "add-cruise": {
+        "new_cruise": "New cruise",
+        "number": "*Number",
+        "start_date": "*Start date",
+        "end_date": "*End date",
+        "ferry": "*Ferry"
+    },
+    "cruise-edit": {
+        "change-date": "Change cruise date",
+        "result_success": "Cruise date change successful",
+        "result_gone": "Cruise date change failed because the selected cruise, route or ferry was deleted",
+        "result_failure": "Cruise date change failed",
+        "result_opl": "State of the seaport changed, please try again",
+        "ferry_being_used": "Ferry is being used"
     },
     "seaport-edit": {
         "required_city": "*City name",
         "city_name": "Enter new city name:",
         "result_success": "Seaport city change successful",
-        "result_failure": "Seaport city change failed"
+        "result_gone": "Seaport city change failed because the selected port was deleted",
+        "result_failure": "Seaport city change failed",
+        "result_opl": "State of the seaport changed, please try again",
+        "result_name_not_unique": "Provided city name is not unique",
+        "name_required": "City name is required",
+        "name_too_long": "City name has to be no longer than 30 characters"
     },
     "cabin-details": {
         "edit_cabin": "Edit cabin",
@@ -329,7 +413,8 @@
         "modification_date": "Modification date",
         "modified_by": "Modified by",
         "creation_date": "Creation date",
-        "created_by": "Created by"
+        "created_by": "Created by",
+        "edit_success": "Cabin edited"
     },
     "add-seaport": {
         "new_seaport": "New seaport",
@@ -355,5 +440,43 @@
         "name": "*Ferry name",
         "vehicle_capacity": "*Vehicle capacity",
         "on_deck_capacity": "*On deck capacity"
+    },
+    "booking": {
+        "date": "Date:",
+        "route": "Route:",
+        "set_people": "Enter the number of people:",
+        "want_cabin": "Do you want to book a cabin?",
+        "yes": "Yes",
+        "no": "No",
+        "cabin_type": "Select cabin type:",
+        "pick_cabin_number": "Select cabin number:",
+        "cabin_number": "*Cabin number",
+        "vehicle_type": "Select vehicle type",
+        "ok": "Book it",
+        "people_number": "Number of people",
+        "no_cabins": "There are no cabins with such type and capacity",
+        "number_first": "Enter number of people first",
+        "people": "-person",
+        "error_conflict": "Could not create a booking",
+        "error_constraint": "Provided data is invalid",
+        "cruise_started": "The cruise has already started",
+        "not_enough_vehicle_space": "There is no more vehicle space on the ferry",
+        "not_enough_ferry_space": "There is not enoguh space on ferry's deck",
+        "not_enough_cabin_space": "There is not enough space in the cabin",
+        "cabin_occupied": "The cabin is already occupied",
+        "vehicle": {
+            "none": "None",
+            "motorcycle": "Motorcycle",
+            "car": "Car",
+            "bus": "Bus"
+        }
+    },
+    "add-route": {
+        "new_route": "New route",
+        "start": "*Start",
+        "dest": "*Destination",
+        "code": "*Code",
+        "start_destination_unique": "Route with selected start and destination already exists",
+        "code_unique": "Route with given code already exists"
     }
 }

@@ -23,11 +23,9 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(callSuper = true)
 public class CruiseDetailsDTO extends AbstractDTO {
 
-    @NotBlank
     @Future
     private Timestamp startDate;
 
-    @NotBlank
     @Future
     private Timestamp endDate;
 
@@ -38,6 +36,8 @@ public class CruiseDetailsDTO extends AbstractDTO {
     @NotBlank
     @Pattern(regexp = "[A-Z]{6}[0-9]{6}", message = "Cruise number must have 6 capital letters and 6 digits")
     private String number;
+
+    private Double popularity;
 
     @PastOrPresent
     private Timestamp modificationDate;

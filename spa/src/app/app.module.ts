@@ -58,7 +58,15 @@ import { EditCabinComponent } from './ferrytales/edit-cabin/edit-cabin.component
 import { AddSeaportComponent } from './ferrytales/add-seaport/add-seaport.component';
 import { BookingsTableOwnComponent } from './ferrytales/bookings-table-own/bookings-table-own.component';
 import { AddCabinComponent } from './ferrytales/add-cabin/add-cabin.component';
+import { AddCruiseComponent } from './ferrytales/add-cruise/add-cruise.component';
+import { BookingFormComponent } from './ferrytales/booking-form/booking-form.component';
+import { FerryEditComponent } from './ferrytales/ferry-details/ferry-edit/ferry-edit.component';
 import { AddFerryComponent } from './ferrytales/add-ferry/add-ferry.component';
+import { AngularMyDatePickerModule } from 'angular-mydatepicker';
+import { ConfirmationComponent } from './common/confirmation/confirmation.component';
+import { AddRouteComponent } from './ferrytales/add-route/add-route.component';
+import { GoneComponent } from './other-views/error-pages/gone/gone.component';
+import { EditCruiseComponent } from './ferrytales/cruise-details/edit-cruise/edit-cruise.component';
 
 export function rootLoaderFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -112,6 +120,7 @@ export const localeServiceProviders = [
         UnauthorizedComponent,
         FerriesTableComponent,
         RoutesTableComponent,
+        BookingFormComponent,
         SeaportDetailsComponent,
         SeaportsTableComponent,
         BookingDetailsComponent,
@@ -126,10 +135,15 @@ export const localeServiceProviders = [
         EditCabinComponent,
         AddSeaportComponent,
         BookingTableComponent,
-        CruiseDetailsComponent,
         AddCabinComponent,
         BookingsTableOwnComponent,
-        AddFerryComponent
+        AddFerryComponent,
+        AddCruiseComponent,
+        FerryEditComponent,
+        AddRouteComponent,
+        ConfirmationComponent,
+        GoneComponent,
+        EditCruiseComponent,
     ],
     imports: [
         BrowserModule,
@@ -144,6 +158,7 @@ export const localeServiceProviders = [
                 deps: [HttpClient]
             }
         }),
+        AngularMyDatePickerModule,
     ],
     providers: [
         IdentityService,

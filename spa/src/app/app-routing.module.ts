@@ -17,6 +17,7 @@ import { SeaportsTableComponent } from './ferrytales/seaports-table/seaports-tab
 import { SeaportDetailsComponent } from './ferrytales/seaport-details/seaport-details.component';
 import { FerriesTableComponent } from './ferrytales/ferries-table/ferries-table.component';
 import { RoutesTableComponent } from './ferrytales/routes-table/routes-table.component';
+import { BookingFormComponent } from './ferrytales/booking-form/booking-form.component';
 import { CruiseDetailsComponent } from './ferrytales/cruise-details/cruise-details.component';
 import { FerryDetailsComponent } from './ferrytales/ferry-details/ferry-details.component';
 import { BookingDetailsComponent } from './ferrytales/booking-details/booking-details.component';
@@ -27,30 +28,37 @@ import { RouteDetailsComponent } from './ferrytales/route-details/route-details.
 import { BookingsTableOwnComponent } from './ferrytales/bookings-table-own/bookings-table-own.component';
 import { AddCabinComponent } from './ferrytales/add-cabin/add-cabin.component';
 import { CabinDetailsComponent } from './ferrytales/cabin-details/cabin-details.component';
+import { AddCruiseComponent } from './ferrytales/add-cruise/add-cruise.component';
 import { AddFerryComponent } from './ferrytales/add-ferry/add-ferry.component';
+import { AddRouteComponent } from './ferrytales/add-route/add-route.component';
+import { GoneComponent } from './other-views/error-pages/gone/gone.component';
 
 const ferrytalesChildren: Routes = [
     { path: 'accounts', component: UsersTableComponent },
     { path: 'accounts/:login', component: AccountDetailsComponent },
     { path: 'accounts/edit/:login', component: EditUserComponent },
     { path: 'bookings', component: BookingTableComponent },
-    { path: 'accounts/edit/:login', component: EditUserComponent },
-    { path: 'seaports/add', component: AddSeaportComponent },
-    { path: 'ferries', component: FerriesTableComponent },
-    { path: 'seaports/:code', component: SeaportDetailsComponent },
-    { path: 'routes', component: RoutesTableComponent },
-    { path: 'routes/:code', component: RouteDetailsComponent },
-    { path: 'cruises/:number', component: CruiseDetailsComponent },
-    { path: 'seaports', component: SeaportsTableComponent },
-    { path: 'cabin/edit', component: EditCabinComponent },
-    { path: 'ferries/add', component: AddFerryComponent },
-    { path: 'ferries/:name', component: FerryDetailsComponent },
     { path: 'bookings/:number', component: BookingDetailsComponent },
     { path: 'bookings/own/:number', component: BookingDetailsComponent },
-    { path: 'current', component: CurrentCruisesTableComponent },
-    { path: 'ferries/:name/addCabin', component: AddCabinComponent },
+    { path: 'booking/create/:number', component: BookingFormComponent },
     { path: 'my/bookings', component: BookingsTableOwnComponent },
+    { path: 'routes', component: RoutesTableComponent },
+    { path: 'routes/add', component: AddRouteComponent },
+    { path: 'routes/:code', component: RouteDetailsComponent },
+    { path: 'routes/:code/cruise/add', component: AddCruiseComponent },
+    { path: 'cruises/:number', component: CruiseDetailsComponent },
+    { path: 'ferries', component: FerriesTableComponent },
+    { path: 'ferries/add', component: AddFerryComponent },
+    { path: 'ferries/edit/:ferry/:cabin', component: EditCabinComponent },
+    { path: 'ferries/:name', component: FerryDetailsComponent },
+    { path: 'ferries/:name/addCabin', component: AddCabinComponent },
     { path: 'ferries/:ferry/:cabin', component: CabinDetailsComponent },
+    { path: 'cabin/edit', component: EditCabinComponent },
+    { path: 'current', component: CurrentCruisesTableComponent },
+    { path: 'cruises/:number', component: CruiseDetailsComponent },
+    { path: 'seaports', component: SeaportsTableComponent },
+    { path: 'seaports/add', component: AddSeaportComponent },
+    { path: 'seaports/:code', component: SeaportDetailsComponent },
 ];
 
 const routes: Routes = [
@@ -63,6 +71,7 @@ const routes: Routes = [
     { path: 'error/forbidden', component: ForbiddenComponent },
     { path: 'error/notfound', component: NotFoundComponent },
     { path: 'error/unauthorized', component: UnauthorizedComponent },
+    { path: 'error/gone', component: GoneComponent },
     { path: '**', component: NotFoundComponent },
 ];
 

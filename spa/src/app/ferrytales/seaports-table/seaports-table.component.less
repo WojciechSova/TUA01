@@ -81,3 +81,38 @@
     background-image: linear-gradient(to right, @primary-color-green 0%, @secondary-color-green 100%);
     color: black;
 }
+
+.info-popup {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin-top: 2%;
+}
+
+.generic-popup {
+    left: unset;
+    display: unset;
+    position: relative;
+    margin-top: 2%;
+    padding: 7.5px;
+    height: auto;
+    width: max-content;
+    background-color: @primary-color-red;
+    border-radius: 10px;
+    color: @secondary-color-red;
+    font: normal 1rem Source Sans Pro;
+}
+
+.success {
+     .generic-popup;
+     background-color: @primary-color-green;
+     color: @secondary-color-green;
+ }
+
+.failure {
+    .generic-popup;
+    background-color: @primary-color-red;
+    color: @secondary-color-red;
+}

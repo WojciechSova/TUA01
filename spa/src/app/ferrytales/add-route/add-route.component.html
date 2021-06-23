@@ -1,0 +1,77 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToRouteListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.routes.list</a>
+        <img src="assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.route_add</li>
+</ol>
+
+
+<div class="outer-div">
+    <form action="" class="edit-form" [formGroup]="form">
+        <div class="col">
+            <div class="row">
+                <label translate>add-route.new_route</label>
+            </div>
+            <div class="row">
+                <input [(ngModel)]="routeCode" type="text" id="add-code" formControlName="code"
+                       placeholder="{{'add-route.code' | translate}}"
+                       [ngClass]="{'is-invalid': form.controls.code.touched && form.controls.code.invalid}"/>
+                <div class="validation-error"
+                     *ngIf="form.controls.code.hasError('required') && form.controls.code.touched"
+                     translate>form.field_required
+                </div>
+                <div class="validation-error"
+                     *ngIf="form.controls.code.hasError('pattern') && form.controls.code.touched"
+                     translate>form.route_code_format
+                </div>
+            </div>
+            <div class="row">
+                <select [(ngModel)]="start" id="select-start" formControlName="start"
+                        [ngClass]="{'is-invalid': form.controls.start.touched && form.controls.start.invalid,
+                        'chosen': start !== ''}">
+                    <option value="{{start}}" translate>{{start !== '' ? getCity(start) : 'add-route.start'}}</option>
+                    <option *ngFor="let seaport of getSeaports()" value="{{seaport.code}}">
+                        {{seaport.city}}
+                    </option>
+                </select>
+                <div class="validation-error"
+                     *ngIf="form.controls.start.hasError('required') && form.controls.start.touched"
+                     translate>form.field_required
+                </div>
+            </div>
+            <div class="row">
+                <select [(ngModel)]="dest" id="select-dest" formControlName="dest"
+                        [ngClass]="{'is-invalid': form.controls.dest.touched && form.controls.dest.invalid,
+                        'chosen': dest !== ''}">
+                    <option value="{{dest}}" translate>{{dest !== '' ? getCity(dest) : 'add-route.dest'}}</option>
+                    <option *ngFor="let seaport of getSeaports()" value="{{seaport.code}}">
+                        {{seaport.city}}
+                    </option>
+                </select>
+                <div class="validation-error"
+                     *ngIf="form.controls.dest.hasError('required') && form.controls.dest.touched"
+                     translate>form.field_required
+                </div>
+            </div>
+            <div class="row">
+                <div *ngIf="startDestinationUniqueViolation" class="validation-error result" translate>add-route.start_destination_unique</div>
+                <div *ngIf="codeUniqueViolation" class="validation-error result" translate>add-route.code_unique</div>
+            </div>
+        </div>
+        <button class="edit-button"
+                (click)="addRoute()"
+                [disabled]=form.invalid translate>form.save
+        </button>
+
+        <img class="return-arrow" (click)="goToRouteListBreadcrumb()"
+             src="assets/imgs/back-arrow.png"
+             alt=""/>
+    </form>
+</div>

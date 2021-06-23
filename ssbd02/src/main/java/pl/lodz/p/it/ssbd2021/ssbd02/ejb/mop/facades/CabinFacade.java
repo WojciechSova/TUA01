@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
@@ -54,7 +55,7 @@ public class CabinFacade extends AbstractFacade<Cabin> implements CabinFacadeLoc
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Cabin findByFerryAndNumber(Ferry ferry, String cabinNumber) {
         TypedQuery<Cabin> typedQuery = entityManager.createNamedQuery("Cabin.findByFerryAndNumber", Cabin.class);
         typedQuery.setParameter("ferry", ferry);
@@ -67,6 +68,22 @@ public class CabinFacade extends AbstractFacade<Cabin> implements CabinFacadeLoc
     public List<Cabin> findAllByFerry(Ferry ferry) {
         TypedQuery<Cabin> typedQuery = entityManager.createNamedQuery("Cabin.findByFerry", Cabin.class);
         typedQuery.setParameter("ferry", ferry);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    public List<Cabin> findOccupiedCabinsOnCruise(Cruise cruise) {
+        TypedQuery<Cabin> typedQuery = entityManager.createNamedQuery("Cabin.findOccupiedCabinsOnCruise", Cabin.class);
+        typedQuery.setParameter("cruise", cruise);
+        return typedQuery.getResultList();
+    }
+
+    @Override
+    @RolesAllowed({"CLIENT", "EMPLOYEE"})
+    public List<Cabin> findCabinsOnCruise(Cruise cruise) {
+        TypedQuery<Cabin> typedQuery = entityManager.createNamedQuery("Cabin.findCabinsOnCruise", Cabin.class);
+        typedQuery.setParameter("cruise", cruise);
         return typedQuery.getResultList();
     }
 

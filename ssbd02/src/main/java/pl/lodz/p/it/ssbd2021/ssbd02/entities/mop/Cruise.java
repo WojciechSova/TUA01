@@ -1,6 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.entities.mop;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
@@ -22,8 +27,10 @@ import java.time.Instant;
         @NamedQuery(name = "Cruise.findByRoute", query = "SELECT cr FROM Cruise cr WHERE cr.route = :route"),
         @NamedQuery(name = "Cruise.findByFerry", query = "SELECT cr FROM Cruise cr WHERE cr.ferry = :ferry"),
         @NamedQuery(name = "Cruise.findByNumber", query = "SELECT cr FROM Cruise cr WHERE cr.number = :number"),
-        @NamedQuery(name = "Cruise.findCurrentCruises", query = "SELECT cr FROM Cruise cr WHERE cr.startDate > current_timestamp")
-})
+        @NamedQuery(name = "Cruise.findCurrentCruises", query = "SELECT cr FROM Cruise cr WHERE cr.startDate > current_timestamp"),
+        @NamedQuery(name = "Cruise.findAllUsingFerryInTime", query = "SELECT cr FROM Cruise cr WHERE cr.ferry = :ferry AND " +
+                "cr.startDate < :endDate AND cr.endDate > :startDate")
+        })
 @Data
 @NoArgsConstructor
 public class Cruise extends AbstractEntity implements Serializable {
@@ -59,6 +66,11 @@ public class Cruise extends AbstractEntity implements Serializable {
     @Column(name = "number", nullable = false, unique = true, updatable = false, length = 12)
     private String number;
 
+    @Min(0)
+    @Max(100)
+    @Column(name = "popularity", nullable = false, updatable = true)
+    private Double popularity;
+
     @PastOrPresent
     @Column(name = "modification_date", nullable = true, updatable = true)
     private Timestamp modificationDate;
@@ -72,9 +84,8 @@ public class Cruise extends AbstractEntity implements Serializable {
     @Column(name = "creation_date", nullable = false, updatable = false)
     private Timestamp creationDate = Timestamp.from(Instant.now());
 
-    @NotNull
     @ManyToOne(optional = true, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "created_by", nullable = false, updatable = false, referencedColumnName = "id")
+    @JoinColumn(name = "created_by", nullable = true, updatable = false, referencedColumnName = "id")
     private Account createdBy;
 
     @Override

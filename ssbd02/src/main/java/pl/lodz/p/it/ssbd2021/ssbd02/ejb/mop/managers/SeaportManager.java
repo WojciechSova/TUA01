@@ -22,7 +22,6 @@ import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Manager portów
@@ -30,7 +29,7 @@ import java.util.Optional;
  * @author Wojciech Sowa
  */
 @Stateful
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class SeaportManager extends AbstractManager implements SeaportManagerLocal, SessionSynchronization {
@@ -44,19 +43,19 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Seaport> getAllSeaports() {
-        return Optional.ofNullable(seaportFacadeLocal.findAll()).orElseThrow(CommonExceptions::createNoResultException);
+        return seaportFacadeLocal.findAll();
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Seaport getSeaportByCode(String code) {
-        return Optional.ofNullable(seaportFacadeLocal.findByCode(code)).orElseThrow(CommonExceptions::createNoResultException);
+        return seaportFacadeLocal.findByCode(code);
     }
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public void createSeaport(String login, Seaport seaport) {
-        Account accCreatedBy = Optional.ofNullable(accountMopFacadeLocal.findByLogin(login)).orElseThrow(CommonExceptions::createNoResultException);
+        Account accCreatedBy = accountMopFacadeLocal.findByLogin(login);
         seaport.setVersion(0L);
         seaport.setCreatedBy(accCreatedBy);
         seaportFacadeLocal.create(seaport);
@@ -68,31 +67,35 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     @RolesAllowed({"EMPLOYEE"})
     public void updateSeaport(Seaport seaport, String modifiedBy) {
 
-        Seaport databaseSeaport = Optional.ofNullable(seaportFacadeLocal.findByCode(seaport.getCode()))
-                .orElseThrow(CommonExceptions::createNoResultException);
+        Seaport databaseSeaport = seaportFacadeLocal.findByCode(seaport.getCode());
         Seaport seaportClone = SerializationUtils.clone(databaseSeaport);
         seaportClone.setVersion(seaport.getVersion());
 
         seaportClone.setCity(seaport.getCity());
 
-        seaportClone.setModifiedBy(Optional.ofNullable(accountMopFacadeLocal.findByLogin(modifiedBy))
-                .orElseThrow(CommonExceptions::createNoResultException));
+        seaportClone.setModifiedBy(accountMopFacadeLocal.findByLogin(modifiedBy));
         seaportClone.setModificationDate(Timestamp.from(Instant.now()));
 
         seaportClone.setCreatedBy(databaseSeaport.getCreatedBy());
 
         seaportFacadeLocal.edit(seaportClone);
+        logger.info("The user with login {} has updated seaport with code {}", modifiedBy, seaport.getCode());
     }
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeSeaport(Seaport seaport) {
+    public void removeSeaport(String seaportCode, String userLogin) {
         try {
+            Seaport seaport = seaportFacadeLocal.findByCode(seaportCode);
             seaportFacadeLocal.remove(seaport);
+            logger.info("The employee with login {} has deleted seaport with code {}",
+                    userLogin, seaportCode);
         } catch (CommonExceptions ce) {
             if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
                 && ce.getResponse().getEntity().equals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION)){
                 throw SeaportExceptions.createConflictException(SeaportExceptions.ERROR_SEAPORT_USED_BY_ROUTE);
+            } else {
+                throw ce;
             }
         }
 

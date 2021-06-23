@@ -11,6 +11,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinTypeManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
@@ -19,11 +20,11 @@ import javax.ws.rs.core.SecurityContext;
 import java.nio.file.attribute.UserPrincipal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CabinEndpointTest {
 
@@ -105,7 +106,7 @@ class CabinEndpointTest {
             cabin.setCabinType(cabinType);
             cabin.setCapacity(10);
             return null;
-        }).when(cabinManagerLocal).updateCabin(any(), any());
+        }).when(cabinManagerLocal).updateCabin(any(), any(), any());
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(cabinTypeManagerLocal.getCabinTypeByName(any())).thenReturn(cabinType);
 
@@ -118,11 +119,34 @@ class CabinEndpointTest {
 
         assertEquals(0L, cabin.getVersion());
 
-        Response response = cabinEndpoint.updateCabin(CabinMapper.createCabinDetailsDTOFromEntity(cabin), securityContext, tag);
+        Response response = cabinEndpoint.updateCabin(CabinMapper.createCabinDetailsDTOFromEntity(cabin), "name", securityContext, tag);
 
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals(1L, cabin.getVersion());
         assertEquals(10, cabin.getCapacity());
         assertEquals(cabinType.getCabinTypeName(), cabin.getCabinType().getCabinTypeName());
+    }
+
+    @Test
+    void removeCabin() {
+        cabin.setNumber("P123");
+        when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
+        cabinEndpoint.removeCabin(cabin.getNumber(), securityContext);
+        verify(cabinManagerLocal).removeCabin(cabin.getNumber(), userPrincipal.getName());
+
+        cabin.setNumber("Niepoprawny");
+        CommonExceptions exception = assertThrows(CommonExceptions.class, () -> cabinEndpoint.removeCabin(cabin.getNumber(), securityContext));
+        assertEquals(400, exception.getResponse().getStatus());
+    }
+
+    @Test
+    void getFreeCabinsOnCruise() {
+        List<Cabin> freeCabins = List.of(cabin, cabin2);
+        when(cabinManagerLocal.getFreeCabinsOnCruise("ABCDEF123456")).thenReturn(freeCabins);
+
+        Response response = cabinEndpoint.getFreeCabinsOnCruise("ABCDEF123456");
+
+        assertEquals(freeCabins.stream().map(CabinMapper::createCabinGeneralDTOFromEntity).collect(Collectors.toList()), response.getEntity());
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
     }
 }

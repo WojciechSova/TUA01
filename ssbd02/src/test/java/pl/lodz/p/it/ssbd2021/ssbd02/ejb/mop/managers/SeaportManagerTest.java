@@ -68,7 +68,9 @@ class SeaportManagerTest {
     @Test
     void getSeaportByCode() {
         when(seaportFacadeLocal.findByCode("CODE")).thenReturn(s1);
-        when(seaportFacadeLocal.findByCode(null)).thenReturn(null);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createNoResultException();
+        }).when(seaportFacadeLocal).findByCode(null);
 
         Seaport seaport = seaportManager.getSeaportByCode("CODE");
         assertEquals(s1, seaport);
@@ -135,12 +137,13 @@ class SeaportManagerTest {
 
     @Test
     void removeSeaport() {
+        when(seaportFacadeLocal.findByCode(s1.getCode())).thenReturn(s1);
         doAnswer(invocationOnMock -> {
             throw CommonExceptions.createConstraintViolationException();
         }).when(seaportFacadeLocal).remove(s1);
 
         SeaportExceptions exception = assertThrows(SeaportExceptions.class,
-                () -> seaportManager.removeSeaport(s1));
+                () -> seaportManager.removeSeaport(s1.getCode(), "sampleLogin"));
 
         verify(seaportFacadeLocal).remove(s1);
 

@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { CruiseDetails } from '../../model/mop/CruiseDetails';
 import { Observable } from 'rxjs';
+import { CruiseGeneral } from '../../model/mop/CruiseGeneral';
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +24,23 @@ export class CruiseDetailsService implements OnDestroy {
             observe: 'response',
             responseType: 'json'
         });
+    }
+
+    addCruise(cruise: CruiseGeneral, ferry: string, route: string): any {
+        return this.http.post(this.url + 'add/' + ferry + '/' + route, cruise, { responseType: 'text' });
+    }
+
+    updateCruise(cruise: CruiseGeneral): any {
+        return this.http.put<any>(this.url + 'update', cruise, {
+            observe: 'response',
+            headers: {
+                'If-Match': this.eTag
+            }
+        });
+    }
+
+    removeCruise(cruiseNumber: string): any {
+        return this.http.delete(this.url.concat('remove/', cruiseNumber));
     }
 
     readCruiseAndEtagFromResponse(response: HttpResponse<CruiseDetails>): void {
@@ -71,6 +89,7 @@ export class CruiseDetailsService implements OnDestroy {
                 vehicleCapacity: 0,
             },
             number: '',
+            popularity: 0,
             modificationDate: new Date(),
             modifiedBy: undefined,
             creationDate: new Date(),

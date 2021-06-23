@@ -14,7 +14,9 @@
                name="search"/>
     </form>
 </div>
-
+<div *ngIf="block === 'success'" class="success" translate>users-table.block_success</div>
+<div *ngIf="unblock === 'success'" class="success" translate>users-table.unblock_success</div>
+<div class="success" *ngIf="accessLevelService.popup === 'edit_success'" translate>edit-user.successful_access_level</div>
 <div class="users-list-container">
     <table id="users">
         <tr>

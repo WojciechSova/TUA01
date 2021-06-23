@@ -51,4 +51,29 @@ export class BookingDetailsComponent implements OnInit {
     goToOwnBookingListBreadcrumb(): void {
         this.router.navigate(['/ferrytales/my/bookings']);
     }
+
+    translateCabinType(cabinType: string | undefined): string {
+        if (cabinType === 'First class') {
+            return 'cabin-form.first';
+        }
+        if (cabinType === 'Second class') {
+            return 'cabin-form.second';
+        }
+        if (cabinType === 'Third class') {
+            return 'cabin-form.third';
+        }
+        return 'cabin-form.disabled';
+    }
+
+    translateVehicleType(vehicleType: string | undefined): string {
+        if (vehicleType === 'None') {
+            return 'booking.vehicle.none';
+        } else if (vehicleType === 'Motorcycle') {
+            return 'booking.vehicle.motorcycle';
+        } else if (vehicleType === 'Car') {
+            return 'booking.vehicle.car';
+        } else {
+            return 'booking.vehicle.bus';
+        }
+    }
 }

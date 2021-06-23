@@ -31,22 +31,6 @@ public interface RouteManagerLocal {
     Route getRouteByCode(String code);
 
     /**
-     * Metoda wyszukująca wszystkie trasy, które rozpoczynają się w podanym mieście.
-     *
-     * @param city Nazwa miasta, po którym chcemy wyszukać
-     * @return Lista tras {@link Route}, które rozpoczynają się w podanym mieście
-     */
-    List<Route> getRoutesByStart(String city);
-
-    /**
-     * Metoda wyszukująca wszystkie trasy, które kończą się w podanym mieście.
-     *
-     * @param city Nazwa miasta, po którym chcemy wyszukać
-     * @return Lista tras {@link Route}, które kończą się w podanym mieście
-     */
-    List<Route> getRoutesByDestination(String city);
-
-    /**
      * Metoda wyszukująca trasę oraz wszystkie rejsy na trasie o podanym kodzie.
      *
      * @param code Kod trasy, po której chcemy wyszukać
@@ -65,9 +49,17 @@ public interface RouteManagerLocal {
     void createRoute(Route route, String startCode, String destCode, String createdBy);
 
     /**
-     * Metoda usuwa trasę o kodzie zawartym w encji {@link Route}.
+     * Metoda usuwająca trasę o podanym kodzie.
      *
-     * @param route Encja typu {@link Route}
+     * @param code  Kod trasy, którą chcemy usunąć
+     * @param login Login użytkownika usuwającego trasę
      */
-    void removeRoute(Route route);
+    void removeRoute(String code, String login);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

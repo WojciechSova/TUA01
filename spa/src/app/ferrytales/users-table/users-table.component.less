@@ -89,3 +89,24 @@
     background-image: linear-gradient(to right, @primary-color-green 0%, @secondary-color-green 100%);
     color: black;
 }
+
+.generic-popup {
+    display: unset;
+    position: absolute;
+    margin-top: -5%;
+    padding: 7.5px;
+    height: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    background-color: @primary-color-red;
+    border-radius: 10px;
+    color: @secondary-color-red;
+    font: normal 1rem Source Sans Pro;
+}
+
+.success {
+    .generic-popup;
+    background-color: @primary-color-green;
+    color: @secondary-color-green;
+}

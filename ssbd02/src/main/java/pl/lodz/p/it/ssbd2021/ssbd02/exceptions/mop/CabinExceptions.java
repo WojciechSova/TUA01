@@ -12,9 +12,12 @@ import javax.ws.rs.core.Response;
  */
 @ApplicationException(rollback = true)
 public class CabinExceptions extends GeneralException {
+    public static  String ERROR_CABIN_OCCUPIED = "ERROR.CABIN_OCCUPIED";
     public static String ERROR_CABIN_FERRY_NUMBER_UNIQUE = "ERROR.CABIN_FERRY_NUMBER_UNIQUE";
     public static String ERROR_CABIN_CAPACITY_GREATER_THAN_ZERO = "ERROR.CABIN_CAPACITY_GREATER_THAN_ZERO";
     public static String ERROR_CABIN_NOT_FOUND = "ERROR.CABIN_NOT_FOUND";
+    public static String ERROR_CABIN_USED_BY_BOOKING = "ERROR.CABIN_USED_BY_BOOKING";
+    public static String ERROR_CABIN_CAPACITY_LESS_THAN_PEOPLE_NUMBER = "ERROR.CABIN_CAPACITY_LESS_THAN_PEOPLE_NUMBER";
 
     public CabinExceptions(Response.Status status, String key) {
         super(status, key);

@@ -27,9 +27,17 @@
             <td>{{currentCruise.route?.destination?.city}}</td>
             <td>{{currentCruise.startDate | date :'short':identityService.getTimezone()}}</td>
             <td>{{currentCruise.endDate | date :'short':identityService.getTimezone()}}</td>
-            <td>{{currentCruise.ferry.name}}</td>
+            <td>{{currentCruise.ferry?.name}}</td>
             <td>
-                <button class="button-cruises-table" translate>cruise-general.book</button>
+                <div *ngIf="identityService.isGuest(); then guest else notGuest"></div>
+                <ng-template #guest>
+                    <button class="button-cruises-table" [disabled]="identityService.isGuest()"
+                            translate>cruise-general.log_in_to_book_a_ticket</button>
+                </ng-template>
+                <ng-template #notGuest>
+                    <button class="button-cruises-table" (click)="createBooking(currentCruise.number)"
+                            translate>cruise-general.book</button>
+                </ng-template>
             </td>
         </tr>
     </table>

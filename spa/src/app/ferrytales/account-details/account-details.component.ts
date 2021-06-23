@@ -5,6 +5,7 @@ import { AccessLevel } from '../../model/mok/AccessLevel';
 import { AccountDetailsService } from '../../services/mok/account-details.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
+import {AccessLevelService} from '../../services/mok/access-level.service';
 
 @Component({
     selector: 'app-account-details',
@@ -30,7 +31,8 @@ export class AccountDetailsComponent implements OnInit {
     constructor(public identityService: IdentityService,
                 public accountDetailsService: AccountDetailsService,
                 private route: ActivatedRoute,
-                private router: Router) {
+                private router: Router,
+                public accessLevelService: AccessLevelService) {
     }
 
     ngOnInit(): void {
@@ -66,20 +68,28 @@ export class AccountDetailsComponent implements OnInit {
     }
 
     changeChangePasswordFormVisible(visible: boolean): void {
+        this.accountDetailsService.popup = 'hidden';
+        this.accessLevelService.popup = 'hidden';
         this.isChangePasswordFormVisible = visible;
     }
 
     resetPasswordClick(): void {
+        this.accountDetailsService.popup = 'hidden';
+        this.accessLevelService.popup = 'hidden';
         this.resetPasswordConnect.isResetPasswordVisible = true;
         this.resetPasswordConnect.resetPasswordResponse = 'hide';
         this.changePasswordResetVisible(this.resetPasswordConnect);
     }
 
     changeEmailFormVisible(visible: boolean): void {
+        this.accountDetailsService.popup = 'hidden';
+        this.accessLevelService.popup = 'hidden';
         this.isChangeEmailFormVisible = visible;
     }
 
     changeAccessLevelFormVisible(visible: boolean): void {
+        this.accountDetailsService.popup = 'hidden';
+        this.accessLevelService.popup = 'hidden';
         if (!visible) {
             this.getAccount();
         }
@@ -88,12 +98,16 @@ export class AccountDetailsComponent implements OnInit {
     }
 
     changePasswordResetVisible(resetResponse: any): void {
+        this.accountDetailsService.popup = 'hidden';
+        this.accessLevelService.popup = 'hidden';
         this.getAccount();
         this.resetPasswordConnect.isResetPasswordVisible = resetResponse.isResetPasswordVisible;
         this.resetPasswordConnect.resetPasswordResponse = resetResponse.resetPasswordResponse;
     }
 
     editUser(login: string): void {
+        this.accountDetailsService.popup = 'hidden';
+        this.accessLevelService.popup = 'hidden';
         this.router.navigate(['ferrytales/accounts/edit', login]);
     }
 
@@ -102,10 +116,14 @@ export class AccountDetailsComponent implements OnInit {
     }
 
     goToHomeBreadcrumb(): void {
+        this.accountDetailsService.popup = 'hidden';
+        this.accessLevelService.popup = 'hidden';
         this.router.navigate(['/']);
     }
 
     goToUserListBreadcrumb(): void {
+        this.accountDetailsService.popup = 'hidden';
+        this.accessLevelService.popup = 'hidden';
         this.router.navigate(['/ferrytales/accounts']);
     }
 }

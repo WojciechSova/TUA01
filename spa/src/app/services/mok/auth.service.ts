@@ -80,7 +80,6 @@ export class AuthService {
         this.cruiseDetailsService.ngOnDestroy();
         this.ferryGeneralService.ngOnDestroy();
         this.ferryDetailsService.ngOnDestroy();
-        this.cruiseGeneralService.ngOnDestroy();
         this.bookingGeneralService.ngOnDestroy();
         this.bookingDetailsService.ngOnDestroy();
         this.cabinDetailsService.ngOnDestroy();

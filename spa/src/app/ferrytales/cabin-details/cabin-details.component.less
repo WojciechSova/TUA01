@@ -22,3 +22,25 @@
         margin-top: 2%;
     }
 }
+
+
+.generic-popup {
+    position: relative;
+    margin-top: 2px;
+    z-index: 0;
+    padding: 7.5px;
+    height: auto;
+    width: max-content;
+    background-color: @primary-color-red;
+    border-radius: 10px;
+    color: @secondary-color-red;
+    font: normal 1rem Source Sans Pro;
+}
+
+.success {
+    .generic-popup;
+    left: -85%;
+    background-color: @primary-color-green;
+    color: @secondary-color-green;
+}
+

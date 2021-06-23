@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 export class AccountDetailsService implements OnDestroy {
 
     private readonly url: string;
+    popup = 'hidden';
 
     public account: AccountDetails = {
         accessLevel: [],
@@ -76,6 +77,7 @@ export class AccountDetailsService implements OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.popup = 'hidden';
         this.account = {
             accessLevel: [],
             active: false,

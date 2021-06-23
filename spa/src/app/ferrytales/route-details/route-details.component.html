@@ -12,11 +12,27 @@
     <li class="breadcrumb-item active" translate>breadcrumb.route</li>
 </ol>
 <div class="outer-div">
+    <div *ngIf="(cruiseDeleteResult) !== 'HIDDEN'" class="info-popup">
+        <p *ngIf="(cruiseDeleteResult) === 'SUCCESS'" class="edit-success" translate>
+            cruise-table.remove_result.success</p>
+        <p *ngIf="(cruiseDeleteResult) === 'GONE'" class="edit-success" translate>
+            cruise-table.remove_result.gone</p>
+        <p *ngIf="(cruiseDeleteResult) === 'OTHER_FAILURE'" class="edit-failure" translate>
+            cruise-table.remove_result.other_failure</p>
+        <p *ngIf="(cruiseDeleteResult) === 'IN_USE'" class="edit-failure" translate>
+            cruise-table.remove_result.in_use</p>
+        <p *ngIf="(cruiseDeleteResult) === 'ALREADY_STARTED'" class="edit-failure" translate>
+            cruise-table.remove_result.already_started</p>
+
+    </div>
+    <div class="info-popup" *ngIf="cruiseGeneralService.popup !== 'hidden'">
+        <p *ngIf="cruiseGeneralService.popup === 'add_cruise_success'" class="edit-success" translate>
+            cruise-table.add_success</p>
+    </div>
     <div class="route-details" id="routeDetails">
         <div class="button-container">
-            <button class="edit-button button-add" translate>route-details.add_cruise</button>
-            <button class="edit-button" translate>general.edit</button>
-            <button class="edit-button" (click)="getRoute()" translate>general.refresh</button>
+            <button class="edit-button button-add" (click)="addCruise()" translate>route-details.add_cruise</button>
+            <button class="edit-button" (click)="refreshClick()" translate>general.refresh</button>
         </div>
         <div class="col">
             <div class="row">
@@ -45,7 +61,8 @@
             <div *ngIf="routeDetailsService.routeDetails.cruises.length > 0; then showCruiseTable else notShowCruiseTable"></div>
             <ng-template #showCruiseTable>
                 <label class="uppercase-cruises" translate>route-details.cruises</label>
-                <app-cruise-table id="cruises" [cruises]="routeDetailsService.routeDetails.cruises"></app-cruise-table>
+                <app-cruise-table id="cruises" [cruises]="routeDetailsService.routeDetails.cruises"
+                                  (cruiseRemoveResult)="showCruiseDeleteResult($event)"></app-cruise-table>
             </ng-template>
             <ng-template #notShowCruiseTable>
                 <label class="uppercase-cruises" translate>route-details.no_cruises_on_route</label>

@@ -34,4 +34,8 @@ export class CurrentCruisesTableComponent implements OnInit {
     goToHomeBreadcrumb(): void {
         this.router.navigate(['/']);
     }
+
+    createBooking(cruiseNumber: string): void {
+        this.router.navigate(['/ferrytales/booking/create/' + cruiseNumber]);
+    }
 }

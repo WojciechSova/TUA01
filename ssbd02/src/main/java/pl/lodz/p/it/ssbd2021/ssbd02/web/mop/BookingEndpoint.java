@@ -13,6 +13,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
+import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -20,7 +21,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -47,21 +51,33 @@ public class BookingEndpoint {
     @GET
     @RolesAllowed({"EMPLOYEE"})
     public Response getAllBookings() {
-        try {
-            List<BookingGeneralDTO> bookingGeneralDTOList = bookingManagerLocal.getAllBookings().stream()
-                    .map(BookingMapper::createBookingGeneralDTOFromEntity)
-                    .collect(Collectors.toList());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        List<BookingGeneralDTO> bookingGeneralDTOList = null;
+        do {
+            try {
+                bookingGeneralDTOList = bookingManagerLocal.getAllBookings().stream()
+                        .map(BookingMapper::createBookingGeneralDTOFromEntity)
+                        .collect(Collectors.toList());
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(bookingGeneralDTOList)
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(bookingGeneralDTOList)
+                .build();
     }
 
     /**
@@ -79,21 +95,33 @@ public class BookingEndpoint {
             throw CommonExceptions.createConstraintViolationException();
         }
 
-        try {
-            BookingDetailsDTO bookingDetailsDTO = BookingMapper
-                    .createBookingDetailsDTOFromEntity(bookingManagerLocal.getBookingByNumber(number));
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        BookingDetailsDTO bookingDetailsDTO = null;
+        do {
+            try {
+                bookingDetailsDTO = BookingMapper
+                        .createBookingDetailsDTOFromEntity(bookingManagerLocal.getBookingByNumber(number));
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(bookingDetailsDTO)
-                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(bookingDetailsDTO))
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(bookingDetailsDTO)
+                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(bookingDetailsDTO))
+                .build();
     }
 
     /**
@@ -112,22 +140,34 @@ public class BookingEndpoint {
             throw CommonExceptions.createConstraintViolationException();
         }
 
-        try {
-            BookingDetailsDTO bookingDetailsDTO = BookingMapper
-                    .createBookingDetailsDTOFromEntity(bookingManagerLocal
-                            .getBookingByAccountAndNumber(securityContext.getUserPrincipal().getName(), number));
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        BookingDetailsDTO bookingDetailsDTO = null;
+        do {
+            try {
+                bookingDetailsDTO = BookingMapper
+                        .createBookingDetailsDTOFromEntity(bookingManagerLocal
+                                .getBookingByAccountAndNumber(securityContext.getUserPrincipal().getName(), number));
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(bookingDetailsDTO)
-                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(bookingDetailsDTO))
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(bookingDetailsDTO)
+                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(bookingDetailsDTO))
+                .build();
     }
 
     /**
@@ -140,29 +180,93 @@ public class BookingEndpoint {
     @Path("own")
     @RolesAllowed({"CLIENT"})
     public Response getOwnBookings(@Context SecurityContext securityContext) {
-        try {
-            List<BookingGeneralDTO> bookingGeneralDTOList = bookingManagerLocal.getAllBookingsByAccount(
-                    securityContext.getUserPrincipal().getName()).stream()
-                    .map(BookingMapper::createBookingGeneralDTOFromEntity)
-                    .collect(Collectors.toList());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        List<BookingGeneralDTO> bookingGeneralDTOList = null;
+        do {
+            try {
+                bookingGeneralDTOList = bookingManagerLocal.getAllBookingsByAccount(
+                        securityContext.getUserPrincipal().getName()).stream()
+                        .map(BookingMapper::createBookingGeneralDTOFromEntity)
+                        .collect(Collectors.toList());
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(bookingGeneralDTOList)
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(bookingGeneralDTOList)
+                .build();
     }
 
+    /**
+     * Metoda umożliwiająca klientowi utworzenie rezerwacji
+     *
+     * @param cruiseNumber    Numer rejsu, na który tworzona jest rezerwacja
+     * @param cabinNumber     Numer rezerwowanej kajuty lub pusty string w przypadku rezerwacji miejsca na pokładzie promu
+     * @param vehicleTypeName Nazwa typu pojazdu
+     * @param peopleNumber    Liczba osób
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @return Kod 202 w przypadku poprawnej rezerwacji.
+     */
     @POST
-    @Path("add")
+    @Path("add/{cruise}/{vehicleType}/{cabin:.*}")
     @RolesAllowed({"CLIENT"})
-    public Response addBooking(BookingDetailsDTO bookingDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response addBooking(@PathParam("cruise") String cruiseNumber, @PathParam("cabin") String cabinNumber,
+                               @PathParam("vehicleType") String vehicleTypeName, int peopleNumber,
+                               @Context SecurityContext securityContext) {
+        if (!cabinNumber.equals("")) {
+            if (!cabinNumber.matches("[A-Z][0-9]{3}")) {
+                throw CommonExceptions.createConstraintViolationException();
+            }
+        }
+
+        if (peopleNumber <= 0 || !cruiseNumber.matches("[A-Z]{6}[0-9]{6}") ||
+                !List.of("None", "Motorcycle", "Car", "Bus").contains(vehicleTypeName)) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                bookingManagerLocal.createBooking(peopleNumber, cruiseNumber, cabinNumber,
+                        securityContext.getUserPrincipal().getName(), vehicleTypeName);
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.accepted()
+                .build();
     }
 
     /**
@@ -179,16 +283,51 @@ public class BookingEndpoint {
         if (number == null || number.isBlank()) {
             throw CommonExceptions.createConstraintViolationException();
         }
-        try {
-            bookingManagerLocal.removeBooking(securityContext.getUserPrincipal().getName(), number);
-            return Response.ok().build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                bookingManagerLocal.removeBooking(securityContext.getUserPrincipal().getName(), number);
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
     }
 
+    /**
+     * Metoda pobierająca z właściwości współczynnik określający ilość powtórzeń transakcji.
+     *
+     * @return Współczynnik powtórzeń transakcji
+     */
+    private int getTransactionRepetitionCounter() {
+        Properties prop = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
+            return 3;
+        }
+    }
 }

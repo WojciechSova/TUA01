@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces;
 
 import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 
 import javax.ejb.Local;
@@ -56,9 +57,25 @@ public interface FerryManagerLocal {
     void updateFerry(Ferry ferry, String modifiedBy);
 
     /**
-     * Metoda usuwa prom o nazwie zawartej w encji {@link Ferry}.
+     * Metoda usuwa prom o podanej nazwie.
      *
-     * @param ferry Encja typu {@link Ferry}
+     * @param ferryName Nazwa promu, który ma zostać usunięty
+     * @param login     Login użytkownika, który chce usunąć prom
      */
-    void removeFerry(Ferry ferry);
+    void removeFerry(String ferryName, String login);
+
+    /**
+     * Metoda obliczająca popularność rejsu
+     *
+     * @param cruise Rejs, dla którego liczony jest agregat
+     * @return Procentowa wartość popularności rejsu
+     */
+    double calculatePopularity(Cruise cruise);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

@@ -10,6 +10,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.RouteManagerLoca
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.RouteExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.RolesAllowed;
@@ -19,10 +20,10 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Manager tras
@@ -30,7 +31,7 @@ import java.util.Optional;
  * @author Wojciech Sowa
  */
 @Stateful
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class RouteManager extends AbstractManager implements RouteManagerLocal, SessionSynchronization {
@@ -50,25 +51,13 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Route> getAllRoutes() {
-        return Optional.ofNullable(routeFacadeLocal.findAll()).orElseThrow(CommonExceptions::createNoResultException);
+        return routeFacadeLocal.findAll();
     }
 
     @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Route getRouteByCode(String code) {
-        return null;
-    }
-
-    @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public List<Route> getRoutesByStart(String city) {
-        return null;
-    }
-
-    @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public List<Route> getRoutesByDestination(String city) {
-        return null;
+        return routeFacadeLocal.findByCode(code);
     }
 
     @Override
@@ -76,6 +65,7 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     public Pair<Route, List<Cruise>> getRouteAndCruisesByRouteCode(String code) {
         Route route = routeFacadeLocal.findByCode(code);
         List<Cruise> cruiseList = cruiseFacadeLocal.findAllByRoute(route);
+
         return Pair.of(route, cruiseList);
     }
 
@@ -96,7 +86,20 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
-    public void removeRoute(Route route) {
+    public void removeRoute(String code, String login) {
+        try {
+            Route route = routeFacadeLocal.findByCode(code);
+            routeFacadeLocal.remove(route);
+            logger.info("The user with login {} has removed the route from {} to {}",
+                    login, route.getStart().getCity(), route.getDestination().getCity());
+        } catch (CommonExceptions ex) {
+            if (ex.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
+                    && ex.getResponse().getEntity() == CommonExceptions.ERROR_CONSTRAINT_VIOLATION) {
+                throw RouteExceptions.createConflictException(RouteExceptions.ERROR_ROUTE_USED_BY_CRUISE);
+            } else {
+                throw ex;
+            }
+        }
 
     }
 }

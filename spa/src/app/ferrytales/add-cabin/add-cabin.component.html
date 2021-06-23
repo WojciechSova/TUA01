@@ -27,18 +27,18 @@
                 <input #newNumber type="text" id="add-number" formControlName="number"
                        placeholder="{{'add-cabin.number' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.number.touched && form.controls.number.invalid}"/>
-                <div class="validation-error"
+                <div class="validation-error upper"
                      *ngIf="form.controls.number.hasError('required') && form.controls.number.touched"
                      translate>form.field_required
                 </div>
-                <div class="validation-error"
+                <div class="validation-error upper"
                      *ngIf="form.controls.number.hasError('pattern') && form.controls.number.touched"
-                     translate>form.invalid_format
+                     translate>form.invalid_format_cabin_number
                 </div>
             </div>
 
             <div class="row">
-                <input #newCapacity type="number" id="add-capacity" formControlName="capacity"
+                <input #newCapacity type="number" min="0" id="add-capacity" formControlName="capacity"
                        placeholder="{{'add-cabin.capacity' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.capacity.touched && form.controls.capacity.invalid}"/>
                 <div class="validation-error"
@@ -46,8 +46,8 @@
                      translate>form.field_required
                 </div>
                 <div class="validation-error"
-                     *ngIf="form.controls.capacity.hasError('min') && form.controls.capacity.touched"
-                     translate>form.invalid_format
+                     *ngIf="(form.controls.capacity.hasError('min') || form.controls.capacity.hasError('max')) && form.controls.capacity.touched"
+                     translate>form.invalid_capacity
                 </div>
             </div>
 
@@ -76,6 +76,9 @@
                 (click)="addCabin(newCapacity.value, getCurrentType(), newNumber.value)"
                 [disabled]=form.invalid translate>form.save
         </button>
+        <div class="validation-error validation-info" *ngIf="error">
+            <p id="invalidCredentialsLabel" translate>ERROR.DUPLICATE_NUMBER_CABIN</p>
+        </div>
         <img class="return-arrow" (click)="goToFerryBreadcrumb()"
              src="assets/imgs/back-arrow.png"
              alt=""/>

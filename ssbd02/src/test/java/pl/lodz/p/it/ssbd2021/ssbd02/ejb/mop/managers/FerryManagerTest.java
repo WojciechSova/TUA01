@@ -4,11 +4,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CabinFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
@@ -38,6 +37,13 @@ class FerryManagerTest {
     @Mock
     AccountMopFacadeLocal accountMopFacadeLocal;
 
+    @Mock
+    CruiseFacadeLocal cruiseFacadeLocal;
+
+    @Mock
+    BookingFacadeLocal bookingFacadeLocal;
+
+
     @InjectMocks
     FerryManager ferryManager;
 
@@ -55,12 +61,16 @@ class FerryManagerTest {
 
     private List<Ferry> ferries;
 
+    private Cruise cruise = new Cruise();
+
     @BeforeEach
     void initMocks() {
         MockitoAnnotations.openMocks(this);
 
         ferries = new ArrayList<>();
         ferries.addAll(Arrays.asList(ferry1, ferry2));
+        ferry1.setOnDeckCapacity(12);
+        cruise.setFerry(ferry1);
     }
 
     @Test
@@ -72,8 +82,9 @@ class FerryManagerTest {
 
     @Test
     void getAllFerriesExceptionTest() {
-        when(ferryFacadeLocal.findAll()).thenReturn(null);
-
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createNoResultException();
+        }).when(ferryFacadeLocal).findAll();
         WebApplicationException exception = assertThrows(CommonExceptions.class, () -> ferryManager.getAllFerries());
 
         assertAll(
@@ -93,7 +104,10 @@ class FerryManagerTest {
 
     @Test
     void getFerryByNameExceptionTest() {
-        when(ferryFacadeLocal.findByName(ferryName1)).thenReturn(null);
+        doAnswer(invocationOnMock -> {
+            throw CommonExceptions.createNoResultException();
+        }).when(ferryFacadeLocal).findByName(ferryName1);
+
         assertThrows(CommonExceptions.class, () -> ferryManager.getFerryByName(ferryName1));
         verify(ferryFacadeLocal).findByName(ferryName1);
     }
@@ -139,6 +153,10 @@ class FerryManagerTest {
 
         when(ferryFacadeLocal.findByName(ferryName1)).thenReturn(ferry);
         when(accountMopFacadeLocal.findByLogin(accountLogin1)).thenReturn(account);
+        when(cabinFacadeLocal.findOccupiedCabinsOnCruise(any())).thenReturn(List.of());
+        when(cabinFacadeLocal.findCabinsOnCruise(any())).thenReturn(List.of());
+        when(bookingFacadeLocal.getSumNumberOfPeopleByCruise(any())).thenReturn(10L);
+        when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
 
         ferryManager.updateFerry(ferry, accountLogin1);
         verify(ferryFacadeLocal).edit(ferryCaptor.capture());
@@ -149,5 +167,13 @@ class FerryManagerTest {
         assertEquals(13, capturedFerry.getOnDeckCapacity());
         assertEquals(account, capturedFerry.getModifiedBy());
         assertTrue(timestamp.before(capturedFerry.getModificationDate()));
+    }
+
+    @Test
+    void removeFerry() {
+        when(ferryFacadeLocal.findByName("ferry")).thenReturn(ferry1);
+        ferryManager.removeFerry("ferry", "login");
+
+        verify(ferryFacadeLocal).remove(ferry1);
     }
 }

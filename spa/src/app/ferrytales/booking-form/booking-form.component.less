@@ -1,0 +1,241 @@
+@import "../booking-details/booking-details.component.less";
+
+.outer-div{
+    width: 100%;
+}
+
+.center-text{
+    text-align: center;
+}
+
+.booking-error{
+    .validation-error;
+    position: relative;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+}
+
+.booking-details{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    position: relative;
+    top: revert;
+    left: revert;
+    text-align: left;
+    transform: revert;
+}
+
+form{
+    all: revert;
+}
+
+hr {
+    width: 100%;
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+    border: 1px solid #43BCCD;
+}
+
+.hr-booking{
+    width: 90%;
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+    border: 1px solid rgba(100, 100, 100, 0.15);
+}
+
+.vehicle-img{
+    height: 4vh;
+}
+
+.vehicle-img-cross{
+    height: 3.7vh;
+}
+
+select {
+    position: relative;
+    width: 45%;
+    border: @footer-accent-color 0.2px solid;
+    border-radius: 35px;
+    font: lighter 1.4rem Source Sans Pro;
+    background-color: transparent;
+    color: @footer-accent-color;
+    outline: none;
+    height: 6vh;
+    padding: 4px calc(0.5vw + 15px);
+}
+
+option {
+    color: @primary-color;
+}
+
+.validation-error{
+    left: 94%;
+}
+
+.validation-error-cabin{
+    .validation-error;
+    left: 95%;
+}
+
+.edit-button:disabled {
+
+    background-image: linear-gradient(to right, darkgray 0%, darkgray 100%);
+
+    cursor: auto;
+
+}
+
+.row-radio{
+    .row;
+    width: 50%;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+}
+
+.row-radio-vehicle{
+    .row;
+    width: 65%;
+    justify-content: center;
+    text-align: center;
+}
+
+//YES/NO
+.checkbox-container{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    margin-top: 20px;
+    left: 50% + 5rem;
+    top: 10% ;
+    transform: translateX(-50%);
+    width: fit-content;
+}
+
+.container {
+    display: block;
+    position: relative;
+    margin-bottom: 20px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: -3rem;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+    margin-right: 5vw;
+}
+
+.return-arrow {
+    .return-arrow-base;
+    margin-top: 2vh;
+    position: relative;
+    height: auto;
+    width: 4%;
+}
+
+.edit-button {
+    width: 17%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: 0;
+    margin-top: 2vh;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+    box-shadow: 0 0 0 0.05em #ccc, 0 0 0.15em 0.1em #ccc;
+    transition-duration: 0.3s;
+}
+
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #0F084B;
+    color: #0F084B;
+    box-shadow: 0 0 0 0.05em #0F084B, 0 0 0.15em 0.1em #0F084B;
+}
+
+//GWIAZDKI
+.stars{
+    height: 7vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row-reverse;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.disabled-img{
+    padding-top: 1vh;
+    height: 5.5vh;
+    opacity: 0.6;
+}
+
+.disabled-img:hover{
+    opacity: 1;
+}
+
+.stars input{
+    display: none;
+}
+
+.stars label {
+    font-size: 7vh;
+    color: lightgray;
+    margin: 0 5px;
+    text-shadow: 1px 1px #bbb;
+}
+
+.stars label:before{
+    content: '★';
+}
+
+.stars input:checked ~ label{
+    color:gold;
+    text-shadow: 1px 1px #c60;
+}
+
+.stars:not(:checked) > label:hover,
+.stars:not(:checked) > label:hover ~ label{
+    color: gold;
+    text-shadow: 1px 1px goldenrod;
+}
+

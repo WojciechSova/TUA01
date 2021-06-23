@@ -8,8 +8,7 @@ import { Router } from '@angular/router';
 })
 export class UnauthorizedComponent implements OnInit {
 
-    constructor(private router: Router) {
-    }
+    constructor(private router: Router) {}
 
     goToHomePage(): void {
         this.router.navigate(['/']);

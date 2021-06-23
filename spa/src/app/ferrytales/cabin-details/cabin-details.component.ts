@@ -26,14 +26,17 @@ export class CabinDetailsComponent implements OnInit {
     }
 
     goToHomeBreadcrumb(): void {
+        this.cabinDetailsService.popup = 'hidden';
         this.router.navigate(['/']);
     }
 
     goToFerryListBreadcrumb(): void {
+        this.cabinDetailsService.popup = 'hidden';
         this.router.navigate(['/ferrytales/ferries']);
     }
 
     goToFerryBreadcrumb(): void {
+        this.cabinDetailsService.popup = 'hidden';
         this.router.navigate(['/ferrytales/ferries', this.ferryName]);
     }
 
@@ -42,5 +45,23 @@ export class CabinDetailsComponent implements OnInit {
         this.cabinDetailsService.getCabin(this.ferryName, this.cabinNumber).subscribe(
             (response) => this.cabinDetailsService.readCabinAndEtagFromResponse(response)
         );
+    }
+
+    updateCabin(): void {
+        this.cabinDetailsService.popup = 'hidden';
+        this.router.navigate(['/ferrytales/ferries/edit/', this.ferryName, this.cabinNumber]);
+    }
+
+    translateCabinType(cabinType: string): string {
+        if (cabinType === 'First class') {
+            return 'cabin-form.first';
+        }
+        if (cabinType === 'Second class') {
+            return 'cabin-form.second';
+        }
+        if (cabinType === 'Third class') {
+            return 'cabin-form.third';
+        }
+        return 'cabin-form.disabled';
     }
 }

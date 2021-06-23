@@ -10,6 +10,15 @@
 <div class="button-container">
     <button class="button-user-table" (click)="getBookings()" translate>general.refresh</button>
 </div>
+<div *ngIf="bookingCancelError" class="validation-error" translate>
+    ERROR.CANNOT_CANCEL_BOOKING
+</div>
+<div *ngIf="bookingGeneralService.popup == 'add-success'" class="success" translate>
+    booking-list.add_success
+</div>
+<div *ngIf="bookingCancelSuccess" class="success" translate>
+    booking-list.remove_success
+</div>
 
 <div class="booking-list-container">
     <table id="users">
@@ -37,10 +46,12 @@
                 </button>
             </td>
             <td>
-                <button id="cancel" class="button-booking-table" (click)="showBookingDetails(booking.number)" translate>
+                <button id="cancel" class="button-booking-table" (click)="displayPrompt(booking.number)" translate>
                     booking-list.cancel
                 </button>
             </td>
         </tr>
     </table>
 </div>
+<app-confirmation *ngIf="isPromptVisible"
+                  (isPromptVisibleAndAnswer)="getConfirmationResult($event)"></app-confirmation>

@@ -5,6 +5,7 @@ import { ChangeEmailService } from '../../services/mok/change-email.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AccountDetailsService } from '../../services/mok/account-details.service';
 import { IdentityService } from '../../services/utils/identity.service';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-change-email-form',
@@ -25,7 +26,8 @@ export class ChangeEmailFormComponent implements OnInit {
 
     constructor(private changeEmailService: ChangeEmailService,
                 private accountDetailsService: AccountDetailsService,
-                private identityService: IdentityService) {
+                private identityService: IdentityService,
+                private errorHandlerService: ErrorHandlerService) {
     }
 
     ngOnInit(): void {
@@ -36,14 +38,19 @@ export class ChangeEmailFormComponent implements OnInit {
     }
 
     changeEmail(newEmail: string): void {
+        this.accountDetailsService.popup = 'hidden';
         if (this.accountDetailsService.account.login === this.identityService.getLogin()) {
             this.changeEmailService.changeEmail(newEmail).subscribe(
                 () => {
                     this.closeComponent();
+                    this.accountDetailsService.popup = 'email_success';
+                    setTimeout(() => this.accountDetailsService.popup = 'hidden', 5000);
                 },
                 (err: HttpErrorResponse) => {
                     if (err.status === 409) {
                         this.existingEmail = true;
+                    } else {
+                        this.errorHandlerService.handleError(err);
                     }
                 }
             );
@@ -51,6 +58,8 @@ export class ChangeEmailFormComponent implements OnInit {
             this.changeEmailService.changeOtherAccountEmail(this.accountDetailsService.account.login, newEmail).subscribe(
                 () => {
                     this.closeComponent();
+                    this.accountDetailsService.popup = 'email_success';
+                    setTimeout(() => this.accountDetailsService.popup = 'hidden', 5000);
                 },
                 (err: HttpErrorResponse) => {
                     if (err.status === 409) {

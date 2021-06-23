@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AccountDetails } from '../../model/mok/AccountDetails';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountDetailsService } from '../../services/mok/account-details.service';
@@ -7,22 +7,33 @@ import { UpdateAccountService } from '../../services/mok/update-account.service'
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IdentityService } from '../../services/utils/identity.service';
+import {ChangePasswordService} from "../../services/mok/change-password.service";
+import {ErrorHandlerService} from "../../services/error-handlers/error-handler.service";
 
 @Component({
     selector: 'app-edit-user',
     templateUrl: './edit-user.component.html',
     styleUrls: ['./edit-user.component.less']
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent {
+
+    isConfirmationVisible = false;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    phoneNumber: string | undefined;
+    timeZone: string | undefined;
 
     constructor(public accountDetailsService: AccountDetailsService,
                 private route: ActivatedRoute,
                 private updateAccountService: UpdateAccountService,
                 private router: Router,
-                public identityService: IdentityService) {
+                public identityService: IdentityService,
+                private errorHandlerService: ErrorHandlerService) {
     }
 
     public existingPhoneNumber = false;
+    public optimisticLockError = false;
+    public unknownError = false;
     public timezones: string[] = [
         '-12:00',
         '-11:00',
@@ -97,7 +108,16 @@ export class EditUserComponent implements OnInit {
         }
     }
 
+    editUserClick(firstName?: string, lastName?: string, phoneNumber?: string, timeZone?: string): void {
+        this.isConfirmationVisible = true;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.timeZone = timeZone;
+    }
+
     editUser(firstName?: string, lastName?: string, phoneNumber?: string, timeZone?: string): void {
+        this.clearErrors();
         const acc: AccountDetails = this.accountDetailsService.account;
         if (firstName != null) {
             acc.firstName = firstName;
@@ -112,17 +132,24 @@ export class EditUserComponent implements OnInit {
             acc.timeZone = timeZone;
         }
 
+        this.accountDetailsService.popup = 'hidden';
         this.sendEditRequest(acc).subscribe(
             () => {
                 this.router.navigate(['ferrytales/accounts/' + acc.login]);
                 this.updating = true;
+                this.accountDetailsService.popup = 'edit_user_success';
+                setTimeout(() => this.accountDetailsService.popup = 'hidden', 5000);
                 this.getAccount();
             },
             (err: HttpErrorResponse) => {
-                if (err.status === 409) {
+                if (err.error === 'ERROR.PHONE_NUMBER_UNIQUE') {
                     this.existingPhoneNumber = true;
-                    this.getAccount();
+                } else if (err.error === 'ERROR.OPTIMISTIC_LOCK') {
+                    this.optimisticLockError = true;
+                } else {
+                    this.errorHandlerService.handleError(err);
                 }
+                this.getAccount();
             }
         );
     }
@@ -135,7 +162,18 @@ export class EditUserComponent implements OnInit {
         }
     }
 
-    ngOnInit(): void {
+    private clearErrors(): void {
+        this.optimisticLockError = false;
+        this.existingPhoneNumber = false;
+        this.unknownError = false;
+        this.accountDetailsService.popup = 'hidden';
+    }
+
+    confirmationResult(confirmationResult: boolean): void {
+        this.isConfirmationVisible = false;
+        if (confirmationResult) {
+            this.editUser(this.firstName, this.lastName, this.phoneNumber, this.timeZone);
+        }
     }
 
 }

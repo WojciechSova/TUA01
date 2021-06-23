@@ -28,4 +28,6 @@ public class CruiseGeneralDTO extends AbstractDTO {
 
     private String number;
 
+    private Double popularity;
+
 }

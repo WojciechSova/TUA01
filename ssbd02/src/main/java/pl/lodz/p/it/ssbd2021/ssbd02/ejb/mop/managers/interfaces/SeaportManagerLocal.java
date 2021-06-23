@@ -48,7 +48,15 @@ public interface SeaportManagerLocal {
     /**
      * Metoda usuwa port o kodzie zawartym w encji {@link Seaport}.
      *
-     * @param seaport Encja typu {@link Seaport}
+     * @param seaportCode Łańcuch znaków identyfikujący usuwany port
+     * @param userLogin   Login użytkownika usuwającego port
      */
-    void removeSeaport(Seaport seaport);
+    void removeSeaport(String seaportCode, String userLogin);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

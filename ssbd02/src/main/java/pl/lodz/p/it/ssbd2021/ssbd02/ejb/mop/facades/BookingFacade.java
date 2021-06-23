@@ -4,6 +4,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractFacade;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.BookingFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.GeneralInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.PersistenceInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
@@ -68,6 +69,30 @@ public class BookingFacade extends AbstractFacade<Booking> implements BookingFac
         typedQuery.setParameter("account", account);
         typedQuery.setParameter("number", number);
         return typedQuery.getSingleResult();
+    }
+
+    @Override
+    @RolesAllowed({"CLIENT", "EMPLOYEE"})
+    public Long getSumNumberOfPeopleByCruise(Cruise cruise){
+        TypedQuery<Long> typedQuery = entityManager.createNamedQuery("Booking.getNumberOfPeopleOnDeckByCruise", Long.class);
+        typedQuery.setParameter("cruise", cruise);
+        Long result = typedQuery.getSingleResult();
+        if (result == null){
+            return 0L;
+        }
+        return result;
+    }
+
+    @Override
+    @RolesAllowed({"CLIENT"})
+    public Double getSumVehicleSpaceByCruise(Cruise cruise) {
+        TypedQuery<Double> typedQuery = entityManager.createNamedQuery("Booking.getSumVehicleSpaceByCruise", Double.class);
+        typedQuery.setParameter("cruise", cruise);
+        Double result = typedQuery.getSingleResult();
+        if (result == null){
+            return 0D;
+        }
+        return result;
     }
 
     @Override

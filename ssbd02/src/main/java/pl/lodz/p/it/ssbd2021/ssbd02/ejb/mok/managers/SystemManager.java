@@ -11,16 +11,10 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.utils.interfaces.EmailSenderLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -30,7 +24,6 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -41,7 +34,7 @@ import java.util.stream.Collectors;
  */
 @Singleton
 @Startup
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class SystemManager extends AbstractManager implements SystemManagerLocal, SessionSynchronization {
@@ -80,8 +73,8 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
         List<List<OneTimeUrl>> urlsToDelete = new ArrayList<>();
         accountsToDelete.forEach(
                 account -> {
-                    accessLevelsToDelete.add(Optional.ofNullable(accessLevelFacadeLocal.findAllByAccount(account)).orElseThrow(CommonExceptions::createNoResultException));
-                    urlsToDelete.add(Optional.ofNullable(oneTimeUrlFacadeLocal.findByAccount(account)).orElseThrow(CommonExceptions::createNoResultException));
+                    accessLevelsToDelete.add(accessLevelFacadeLocal.findAllByAccount(account));
+                    urlsToDelete.add(oneTimeUrlFacadeLocal.findByAccount(account));
                 });
 
         accessLevelsToDelete.stream()
@@ -134,9 +127,9 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
                 .collect(Collectors.toList());
 
         oneTimeUrls.forEach(oneTimeUrl -> emailSender.sendRegistrationEmail(
-                                oneTimeUrl.getAccount().getLanguage(),
-                                oneTimeUrl.getAccount().getFirstName(),
-                                oneTimeUrl.getAccount().getEmail(),
-                                oneTimeUrl.getUrl()));
+                oneTimeUrl.getAccount().getLanguage(),
+                oneTimeUrl.getAccount().getFirstName(),
+                oneTimeUrl.getAccount().getEmail(),
+                oneTimeUrl.getUrl()));
     }
 }

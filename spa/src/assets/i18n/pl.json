@@ -9,8 +9,10 @@
     },
     "form": {
         "invalid_format": "Niepoprawny format",
+        "invalid_number": "Numer rejsu powinien zawierać 6 dużych liter i 6 cyfr",
         "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
         "field_required": "Pole wymagane",
+        "confirm_date": "Potwierdź datę",
         "login": "Login",
         "first_name": "Imię",
         "last_name": "Nazwisko",
@@ -28,7 +30,13 @@
         "save": "Zapisz",
         "confirm": "Potwierdź",
         "yes": "Tak",
-        "no": "Nie"
+        "no": "Nie",
+        "positive": "Liczba osób musi być dodatnia",
+        "cabin_edit_failed": "Edycja zakończyła sie niepowodzeniem",
+        "route_code_format": "Kod trasy powinien składać się z 6 wielkich liter",
+        "confirmation": "Czy jesteś pewny?",
+        "invalid_format_cabin_number": "Numer kajuty powinien mieć 1 wielką literę i 3 cyfry",
+        "invalid_capacity": "Pojemność powinna być wyrażona liczbą z zakresu od 1 do 99"
     },
     "links": {
         "about_us": "O nas",
@@ -71,7 +79,19 @@
         "actual": "Aktualne",
         "new": "Nowe",
         "choose_a_time_zone": "Wybierz strefę czasową",
-        "UTC_time_zone": "Strefa UTC"
+        "UTC_time_zone": "Strefa UTC",
+        "successful": "Edycja konta przebiegła pomyślnie",
+        "successful_access_level": "Edycja poziomów dostępu przebiegła pomyślnie",
+        "successful_email": "Edycja adresu e-mail przebiegła pomyślnie",
+        "successful_password": "Edycja hasła przebiegła pomyślnie"
+    },
+    "ferry-edit": {
+        "invalid_on_deck_capacity": "Pojemność pokładowa musi być dodatnia",
+        "invalid_vehicle_capacity": "Pojemność parkingowa nie może być negatywna",
+        "result_success": "Zmiana promu przebiegła pomyślnie",
+        "result_gone": "Zmiana promu nie powiodła się ponieważ wybrany prom został usunięty",
+        "result_failure": "Zmiana promu nie powiodła się",
+        "result_opl": "Stan promu został zmieniony, proszę spróbować ponownie"
     },
     "users-table": {
         "enter_your_search": "Wpisz szukaną frazę...",
@@ -79,7 +99,9 @@
         "manage": "Zarządzaj",
         "unblock_block": "Odblokuj/Zablokuj",
         "unblock": "Odblokuj",
-        "block": "Zablokuj"
+        "block": "Zablokuj",
+        "block_success": "Pomyślnie zablokowano użytkownika",
+        "unblock_success": "Pomyślnie odblokowano użytkownika"
     },
     "account-details": {
         "login": "Login",
@@ -138,7 +160,13 @@
         "city": "Miasto",
         "code": "Kod portu",
         "add": "Dodaj port",
-        "remove": "Usuń port"
+        "remove": "Usuń port",
+        "add_success": "Pomyślnie dodano port",
+        "response": {
+            "success": "Usuwanie portu przebiegło pomyślnie",
+            "in_use": "Port jest wykorzystywany przez trasę i nie mógł zostać usunięty",
+            "result_gone": "Port, który chciałeś usunąć został usunięty przez kogoś innego"
+        }
     },
     "main-page": {
         "advert": "Przeprawy promowe jak z bajki",
@@ -146,24 +174,22 @@
         "sign_in_to_book": "Zaloguj się, aby zarezerwować bilet!"
     },
     "popular-offers": {
-        "popular_routes": "Najpopularniejsze trasy"
+        "upcoming_cruises": "Nadchodzące rejsy"
     },
     "offer": {
         "starting_at": "Już od {{price}}zł od osoby",
         "book": "Zarezerwuj"
     },
-    "cities": {
-        "warsaw": "Warszawa",
-        "ciechocinek": "Ciechocinek"
-    },
     "confirm-account": {
         "welcome_on_board": "Witamy na pokładzie!",
-        "account_confirm_error": "Wystąpił błąd podczas weryfikacji konta!",
+        "badUrl": "Url z którego skorzystałeś jest niepoprawny",
+        "gone": "Url z którego skorzystałeś wygasł",
         "go_to_main_page": "Za chwilę nastąpi przeniesienie na stronę główną"
     },
     "confirm-email-change": {
         "email_change_successful": "Zmiana adres e-mail przypisanego do konta przebiegła pomyślnie",
-        "email_change_error": "Wystąpił błąd podczas zmiany adresu e-mail!",
+        "badUrl": "Url z którego skorzystałeś jest niepoprawny",
+        "gone": "Url z którego skorzystałeś wygasł",
         "go_to_main_page": "Za chwilę nastąpi przekierowanie na stronę główną"
     },
     "password-reset": {
@@ -179,7 +205,8 @@
         },
         "reset": {
             "successful": "Pomyślnie zresetowano hasło",
-            "failed": "Zresetowanie hasła nie powiodło się"
+            "conflict": "Hasło nie może być identyczne z poprzednim",
+            "gone": "Url wygasł"
         }
     },
     "ERROR":{
@@ -188,7 +215,17 @@
         "EMAIL_UNIQUE": "Podany adres e-mail już istnieje",
         "INVALID_LOGIN_OR_PASSWORD": "Podany login lub hasło są nieprawidłowe",
         "DUPLICATE_LOGIN_PHONE_NUMBER_OR_EMAIL": "Podany login, numer telefonu lub email już istnieje",
-        "DUPLICATE_CODE": "Podany kod już istnieje"
+        "DUPLICATE_CODE": "Podany kod już istnieje",
+        "DUPLICATE_FERRY_NAME": "Prom o podanej nazwie już istnieje",
+        "DUPLICATE_NUMBER_CABIN": "Podany numer kajuty już istnieje",
+        "FERRY_IS_BEING_USED": "Prom jest wykorzystywany przez inny obiekt",
+        "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji, rejs już się rozpoczął",
+        "BAD_REQUEST": "Niepoprawne żądanie",
+        "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje",
+        "CANNOT_REMOVE_CABIN": "Nie można usunąć kajuty",
+        "CABIN_ALREADY_REMOVED": "Kajuta została już usunięta przez kogoś innego",
+        "OPTIMISTIC_LOCK_ERROR": "Dane, które próbujesz edytować nie są aktualne",
+        "UNKNOWN_ERROR": "Coś poszło nie tak"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -197,6 +234,8 @@
         "internal_server_error_message": "Ups, coś poszło nie tak :(",
         "not_found_code": "Kod błędu 404",
         "not_found_text": "Nie odnaleziono strony",
+        "gone_code": "Error 410",
+        "gone_text": "Zasób nie jest już dostępny",
         "unauthorized_code": "Kod błędu 401",
         "unauthorized_text": "Nieautoryzowany dostęp",
         "go_to_home_page": "Powrót do strony głównej"
@@ -215,6 +254,7 @@
         "current_cruises_list": "Lista aktualnych rejsów",
         "seaport": "Port",
         "cruise": "Rejs",
+        "cruise_add": "Dodaj rejs",
         "cabin-edit": "Edycja kajuty",
         "ferry": "Prom",
         "cabin": "Kajuta",
@@ -223,7 +263,8 @@
         "booking_list_own": "Twoje rezerwacje",
         "cabin_add": "Dodaj kajutę",
         "route": "Trasa",
-        "ferry_add": "Dodaj prom"
+        "ferry_add": "Dodaj prom",
+        "route_add": "Dodaj trasę"
     },
     "session-timeout": {
         "info": {
@@ -241,7 +282,9 @@
         "cruise_date": "Data rejsu",
         "creation_date": "Data rezerwacji",
         "number": "Numer",
-        "cancel": "Anuluj"
+        "cancel": "Anuluj",
+        "add_success": "Pomyślnie utworzono rezerwację",
+        "remove_success": "Pomyślnie anulowano rezerwację"
     },
     "route": {
         "start": "Port początkowy",
@@ -249,13 +292,20 @@
         "code": "Kod trasy",
         "add": "Utwórz trasę",
         "delete": "Usuń trasę",
-        "details": "Rejsy"
+        "details": "Rejsy",
+        "response": {
+            "success": "Trasa została pomyślnie usunięta",
+            "failure": "Usunięcie trasy nie powiodło się (trasa przypisana do rejsu)"
+        }
     },
     "ferries-table": {
         "name": "Nazwa",
         "vehicle_capacity": "Pojemność garażowa",
         "on_deck_capacity": "Pojemność pokładowa",
-        "add_ferry": "Dodaj prom"
+        "add_ferry": "Dodaj prom",
+        "remove": "Usuń prom",
+        "add_success": "Pomyślnie dodano prom",
+        "success": "Pomyślnie usunięto prom"
     },
     "ferry-details": {
         "name": "Nazwa:",
@@ -267,7 +317,8 @@
         "creation_date": "Data utworzenia:",
         "created_by": "Utworzony przez:",
         "add_cabin": "Dodaj kajutę",
-        "no_cabins": "Brak kajut"
+        "no_cabins": "Brak kajut",
+        "add_cabin_success": "Pomyślnie dodano kajutę"
     },
     "route-details": {
         "code": "Kod:",
@@ -277,14 +328,16 @@
         "creation_date": "Data utworzenia:",
         "created_by": "Utworzony przez:",
         "add_cruise": "Dodaj rejs",
-        "no_cruises_on_route": "Brak rejsów na trasie"
+        "no_cruises_on_route": "Brak rejsów na trasie",
+        "add_success": "Pomyślnie dodano rejs"
     },
     "cabin-table": {
         "capacity": "Pojemność",
         "cabinType": "Typ",
         "number": "Numer",
         "cabin_details": "Szczegóły",
-        "remove_cabin": "Usuń kajutę"
+        "remove_cabin": "Usuń kajutę",
+        "cabin_removed": "Kajuta została usunięta pomyślnie"
     },
     "cruise-table": {
         "start_date": "Data rozpoczęcia",
@@ -292,7 +345,16 @@
         "number": "Numer",
         "name_of_ferry": "Nazwa promu",
         "cruise_details": "Szczegóły",
-        "remove_cruise": "Usuń rejs"
+        "remove_cruise": "Usuń rejs",
+        "add_success": "Pomyślnie dodano rejs",
+        "remove_result": {
+            "success": "Rejs usunięty pomyślnie",
+            "gone": "Rejs, który próbowałeś usunąć zastał usunięty przez kogoś innego",
+            "other_failure": "Usuwanie rejsu nie powiodło się",
+            "in_use": "Rejs, który próbujesz usunąć jest wykorzystywany przez rezerwację",
+            "already_started": "Rejs, który próbujesz usunąć jest po dacie rozpoczęcia"
+        },
+        "popularity": "Popularność"
     },
     "cruise-details": {
         "edit_cruise": "Edytuj rejs",
@@ -304,7 +366,8 @@
         "modification_date": "Data modyfikacji",
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
-        "created_by": "Utworzony przez"
+        "created_by": "Utworzony przez",
+        "popularity": "Popularność"
     },
     "cruise-general": {
         "start_date": "Data rozpoczęcia",
@@ -313,13 +376,34 @@
         "route_destination": "Port docelowy",
         "ferry_name": "Nazwa promu",
         "book_a_ticket": "Zarezerwuj bilet",
-        "book": "Zarezerwuj"
+        "book": "Zarezerwuj",
+        "log_in_to_book_a_ticket": "Zaloguj się, aby zarezerwować bilet"
+    },
+    "add-cruise": {
+        "new_cruise": "Nowy rejs",
+        "number": "*Numer rejsu",
+        "start_date": "*Data rozpoczęcia rejsu",
+        "end_date": "*Data zakończenia rejsu",
+        "ferry": "*Prom"
+    },
+    "cruise-edit": {
+        "change-date": "Zmień datę rejsu",
+        "result_success": "Zmiana daty rejsu przebiegła pomyślnie",
+        "result_gone": "Zmiana daty rejsu nie powiodła się, ponieważ wybrany rejs, miasto lub prom został usunięty",
+        "result_failure": "Zmiana daty rejsu nie powiodła się",
+        "result_opl": "Stan rejsu został zmieniony, proszę spróbować ponownie",
+        "ferry_being_used": "Prom jest wykorzystywany przez inny obiekt"
     },
     "seaport-edit": {
         "required_city": "*Nazwa miasta",
         "city_name": "Wprowadź nową nazwę miasta:",
         "result_success": "Zmiana miasta portu przebiegła pomyślnie",
-        "result_failure": "Zmiana miasta portu nie powiodła się"
+        "result_gone": "Zmiana miasta portu nie powiodła się ponieważ wybrany port został usunięty",
+        "result_failure": "Zmiana miasta portu nie powiodła się",
+        "result_opl": "Stan portu został zmieniony, proszę spróbować ponownie",
+        "result_name_not_unique": "Wprowadzona nazwa miasta nie jest unikalna",
+        "name_required": "Nazwa miasta jest wymagana",
+        "name_too_long": "Nazwa miasta nie może być dłuższa niż 30 znaków"
     },
     "cabin-details": {
         "edit_cabin": "Edytuj kajutę",
@@ -329,7 +413,8 @@
         "modification_date": "Data modyfikacji",
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
-        "created_by": "Utworzony przez"
+        "created_by": "Utworzony przez",
+        "edit_success": "Edycja kajuty przbiegła pomyślnie"
     },
     "add-seaport": {
         "new_seaport": "Nowy port",
@@ -355,5 +440,43 @@
         "name": "*Nazwa promu",
         "vehicle_capacity": "*Pojemność parkingowa",
         "on_deck_capacity": "*Pojemność pokładowa"
+    },
+    "booking": {
+        "date": "Data:",
+        "route": "Trasa:",
+        "set_people": "*Podaj liczbę osób:",
+        "want_cabin": "Czy chcesz zarezerwować kajutę?",
+        "yes": "Tak",
+        "no": "Nie",
+        "cabin_type": "Wybierz typ kajuty:",
+        "pick_cabin_number": "Wybierz numer kajuty:",
+        "cabin_number": "*Numer kajuty",
+        "vehicle_type": "*Wybierz typ pojazdu:",
+        "ok": "Zarezerwuj",
+        "people_number": "Liczba osób",
+        "no_cabins": "Brak kajut spełniających podane kryteria",
+        "number_first": "Najpierw podaj poprawną liczbę osob",
+        "people": "-osobowa",
+        "error_constraint": "Przesłane dane są niepoprawne",
+        "cruise_started": "Rejs już się rozpoczął",
+        "not_enough_vehicle_space": "Na promie nie ma już miejsca na ten typ pojazdu",
+        "not_enough_ferry_space": "Na promie nie ma już miejsca na tyle osób",
+        "not_enough_cabin_space": "W kajucie ma miejsca na tyle osób",
+        "cabin_occupied": "Wybrana kajuta jest już zajęta",
+        "error_conflict": "Nie udało sie utworzyć rezerwacji",
+        "vehicle": {
+            "none": "Brak",
+            "motorcycle": "Motocykl",
+            "car": "Samochód",
+            "bus": "Autobus"
+        }
+    },
+    "add-route": {
+        "new_route": "Nowa trasa",
+        "start": "*Start",
+        "dest": "*Cel",
+        "code": "*Kod",
+        "start_destination_unique": "Trasa o podanym początku i końcu już istnieje",
+        "code_unique": "Trasa o podanym kodzie już istnieje"
     }
 }

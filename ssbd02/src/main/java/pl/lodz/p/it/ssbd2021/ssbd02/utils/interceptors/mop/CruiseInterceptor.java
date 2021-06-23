@@ -34,6 +34,10 @@ public class CruiseInterceptor {
                 throw CruiseExceptions.createNotAcceptableException(CruiseExceptions.ERROR_CRUISE_END_DATE_AFTER_START_DATE);
             }
 
+            if (pe.getCause().getCause().toString().contains("fk_cruise_id")) {
+                throw CruiseExceptions.createConflictException(CruiseExceptions.ERROR_CRUISE_IS_BEING_USED);
+            }
+
             throw pe;
         }
     }

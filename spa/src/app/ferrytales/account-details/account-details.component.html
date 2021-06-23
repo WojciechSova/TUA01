@@ -18,6 +18,16 @@
         <p class="password-reset-failure" *ngIf="(resetPasswordConnect.resetPasswordResponse) === 'failure'"
            id="resetFailedParagraph" translate>password-reset.reset.failed</p>
     </div>
+    <div *ngIf="accountDetailsService.popup !== 'hidden' || accessLevelService.popup !== 'hidden'" class="info-popup">
+        <p class="password-reset-success" *ngIf="accountDetailsService.popup === 'edit_user_success'"
+           translate>edit-user.successful</p>
+        <p class="password-reset-success" *ngIf="accessLevelService.popup === 'edit_success'"
+           translate>edit-user.successful_access_level</p>
+        <p class="password-reset-success" *ngIf="accountDetailsService.popup === 'email_success'"
+           translate>edit-user.successful_email</p>
+        <p class="password-reset-success" *ngIf="accountDetailsService.popup === 'password'"
+           translate>edit-user.successful_password</p>
+    </div>
     <div class="account-details" id="accountDetails">
         <div class="button-container">
             <button id="edit-button"
