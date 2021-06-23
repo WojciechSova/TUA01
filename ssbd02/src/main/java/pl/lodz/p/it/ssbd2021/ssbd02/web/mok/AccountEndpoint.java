@@ -735,6 +735,9 @@ public class AccountEndpoint {
                 }
                 transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
+                if (generalException.getResponse().getStatus() == Response.Status.GONE.getStatusCode()) {
+                    return Response.ok().build();
+                }
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
                 if (transactionRetryCounter < 2) {
