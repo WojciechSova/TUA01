@@ -334,7 +334,8 @@
             "other_failure": "Usuwanie rejsu nie powiodło się",
             "in_use": "Rejs, który próbujesz usunąć jest wykorzystywany przez rezerwację",
             "already_started": "Rejs, który próbujesz usunąć jest po dacie rozpoczęcia"
-        }
+        },
+        "popularity": "Popularność"
     },
     "cruise-details": {
         "edit_cruise": "Edytuj rejs",
@@ -346,7 +347,8 @@
         "modification_date": "Data modyfikacji",
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
-        "created_by": "Utworzony przez"
+        "created_by": "Utworzony przez",
+        "popularity": "Popularność"
     },
     "cruise-general": {
         "start_date": "Data rozpoczęcia",

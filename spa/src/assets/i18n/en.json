@@ -328,6 +328,7 @@
         "name_of_ferry": "Ferry name",
         "cruise_details": "Details",
         "remove_cruise": "Remove cruise",
+        "popularity": "Popularity",
         "remove_result": {
             "success": "Cruise deleted successfully",
             "gone": "Cruise you tried to delete was deleted by someone else",
@@ -346,7 +347,8 @@
         "modification_date": "Modification date",
         "modified_by": "Modified by",
         "creation_date": "Creation date",
-        "created_by": "Created by"
+        "created_by": "Created by",
+        "popularity": "Popularity"
     },
     "cruise-general": {
         "start_date": "Start date",

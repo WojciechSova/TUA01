@@ -28,6 +28,7 @@ public class CruiseMapper {
         cruiseGeneralDTO.setRoute(RouteMapper.createRouteGeneralDTOFromEntity(cruise.getRoute()));
         cruiseGeneralDTO.setFerry(FerryMapper.createFerryGeneralDTOFromEntity(cruise.getFerry()));
         cruiseGeneralDTO.setNumber(cruise.getNumber());
+        cruiseGeneralDTO.setPopularity(cruise.getPopularity());
         cruiseGeneralDTO.setVersion(cruise.getVersion());
         return cruiseGeneralDTO;
     }
@@ -49,6 +50,7 @@ public class CruiseMapper {
         cruiseDetailsDTO.setRoute(RouteMapper.createRouteGeneralDTOFromEntity(cruise.getRoute()));
         cruiseDetailsDTO.setFerry(FerryMapper.createFerryGeneralDTOFromEntity(cruise.getFerry()));
         cruiseDetailsDTO.setNumber(cruise.getNumber());
+        cruiseDetailsDTO.setPopularity(cruise.getPopularity());
         cruiseDetailsDTO.setModificationDate(cruise.getModificationDate());
         cruiseDetailsDTO.setModifiedBy(AccountMapper.createAccountGeneralDTOFromEntity(cruise.getModifiedBy()));
         cruiseDetailsDTO.setCreationDate(cruise.getCreationDate());
@@ -75,6 +77,7 @@ public class CruiseMapper {
         cruise.setRoute(RouteMapper.createRouteFromRouteGeneralDTO(cruiseDetailsDTO.getRoute()));
         cruise.setFerry(FerryMapper.createFerryFromFerryGeneralDTO(cruiseDetailsDTO.getFerry()));
         cruise.setNumber(cruiseDetailsDTO.getNumber());
+        cruise.setPopularity(cruiseDetailsDTO.getPopularity());
         cruise.setModificationDate(cruiseDetailsDTO.getModificationDate());
         cruise.setModifiedBy(AccountMapper.createAccountFromAccountGeneralDTO(cruiseDetailsDTO.getModifiedBy()));
         cruise.setCreationDate(cruiseDetailsDTO.getCreationDate());

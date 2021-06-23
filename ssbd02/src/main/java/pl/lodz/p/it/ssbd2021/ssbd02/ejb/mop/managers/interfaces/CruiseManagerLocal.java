@@ -78,4 +78,12 @@ public interface CruiseManagerLocal {
      * @param userLogin Login użytkownika, który usuwa encje {@link String}
      */
     void removeCruise(String cruiseNumber, String userLogin);
+
+    /**
+     * Metoda obliczająca popularność rejsu
+     *
+     * @param cruise Rejs, dla którego liczony jest agregat
+     * @return Procentowa wartość popularności rejsu
+     */
+    double calculatePopularity(Cruise cruise);
 }

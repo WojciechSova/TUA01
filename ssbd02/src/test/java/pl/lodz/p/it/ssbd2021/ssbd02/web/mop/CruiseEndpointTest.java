@@ -54,6 +54,7 @@ class CruiseEndpointTest {
         MockitoAnnotations.openMocks(this);
         cruise = new Cruise();
         cruise.setNumber("111");
+        cruise1.setPopularity(50D);
         cruiseDetailsDTO = new CruiseDetailsDTO();
     }
 
@@ -69,6 +70,7 @@ class CruiseEndpointTest {
 
     @Test
     void getCurrentCruises() {
+        cruise1.setPopularity(12D);
         when(cruiseManagerLocal.getAllCurrentCruises()).thenReturn(currentCruises);
 
         List<CruiseGeneralDTO> currentCruisesDTOList = currentCruises.stream()

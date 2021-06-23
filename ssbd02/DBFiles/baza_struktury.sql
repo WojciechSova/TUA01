@@ -250,6 +250,7 @@ CREATE TABLE Cruise
     route             bigint                                             NOT NULL,
     ferry             bigint                                             NOT NULL,
     number            varchar(12)                                        NOT NULL,
+    popularity        float                                                NOT NULL,
     modification_date timestamp with time zone,
     modified_by       bigint,
     creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,

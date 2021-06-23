@@ -272,9 +272,15 @@ class BookingManagerTest {
     @Test
     void removeBooking() {
         Cruise cruise = new Cruise();
+        cruise.setFerry(ferry);
+        ferry.setOnDeckCapacity(1000);
         cruise.setStartDate(Timestamp.from(Instant.now().plusSeconds(60 * 60)));
         booking1.setCruise(cruise);
         when(bookingFacadeLocal.findByAccountAndNumber(account1, bookingNumber1)).thenReturn(booking1);
+        when(cabinFacadeLocal.findOccupiedCabinsOnCruise(any())).thenReturn(List.of(cabin));
+        when(cabinFacadeLocal.findCabinsOnCruise(any())).thenReturn(List.of(cabin));
+        when(bookingFacadeLocal.getSumNumberOfPeopleByCruise(any())).thenReturn(10L);
+        when(cruiseFacadeLocal.findByNumber(any())).thenReturn(cruise);
 
         bookingManager.removeBooking("login", bookingNumber1);
 
