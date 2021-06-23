@@ -12,6 +12,7 @@ export class CabinDetailsService implements OnDestroy{
     cabin: CabinDetails  = this.getEmptyCabinDetails();
     eTag = '';
     private readonly url: string;
+    popup = 'hidden';
 
     constructor(private http: HttpClient) {
         this.url = environment.appUrl + '/cabins/';
@@ -46,6 +47,7 @@ export class CabinDetailsService implements OnDestroy{
 
     ngOnDestroy(): void {
         this.cabin = this.getEmptyCabinDetails();
+        this.popup = 'hidden';
     }
 
     private getEmptyCabinDetails(): CabinDetails {

@@ -10,6 +10,7 @@ import { AccountDetailsService } from '../../services/mok/account-details.servic
 import { CabinGeneralService } from '../../services/mop/cabin-general.service';
 import { CabinGeneral } from '../../model/mop/CabinGeneral';
 import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
+import { BookingGeneralService } from '../../services/mop/booking-general.service';
 
 @Component({
     selector: 'app-booking-form',
@@ -46,8 +47,13 @@ export class BookingFormComponent implements OnInit {
     cabinTypeChosen = true;
     noCabinsAvailable = false;
     wantCabin = false;
+
     errorConstraint = false;
-    conflict = false;
+    cruiseStarted = false;
+    notEnoughVehicleSpace = false;
+    notEnoughCabinSpace = false;
+    cabinOccupied = false;
+    notEnoughFerrySpace = false;
 
     currentPrice = 0.0;
 
@@ -68,7 +74,8 @@ export class BookingFormComponent implements OnInit {
                 public cruiseDetailsService: CruiseDetailsService,
                 public accountDetailsService: AccountDetailsService,
                 private cabinGeneralService: CabinGeneralService,
-                private errorHandlerService: ErrorHandlerService) {
+                private errorHandlerService: ErrorHandlerService,
+                private bookingGeneralService: BookingGeneralService) {
         this.disabledClass = new ElementRef('disabledClass');
         this.cruiseNumber = this.route.snapshot.paramMap.get('number') as string;
         this.getCruise();
@@ -251,7 +258,11 @@ export class BookingFormComponent implements OnInit {
 
     createBooking(): void{
         this.errorConstraint = false;
-        this.conflict = false;
+        this.cruiseStarted = false;
+        this.notEnoughVehicleSpace = false;
+        this.notEnoughCabinSpace = false;
+        this.cabinOccupied = false;
+        this.notEnoughFerrySpace = false;
         const people = parseInt(this.currentPeopleNumber, 10);
         let vehicleTypeName = 'None';
         if (this.vehicleTypes.bike){
@@ -264,12 +275,23 @@ export class BookingFormComponent implements OnInit {
             vehicleTypeName = 'Bus';
         }
         this.bookingDetailsService.addBooking(people, this.cruiseNumber, this.selectedNumber, vehicleTypeName).subscribe(
-            () => this.goToOwnBookings(),
+            () => {
+                this.goToOwnBookings();
+                this.bookingGeneralService.popup = 'add-success';
+            },
             (error: any) => {
-                if (error.status === 400) {
+                if (error.error === 'ERROR.CRUISE_ALREADY_STARTED') {
+                    this.cruiseStarted = true;
+                } else if (error.error === 'ERROR.FERRY_NOT_ENOUGH_SPACE_FOR_VEHICLE_ON_FERRY') {
+                    this.notEnoughVehicleSpace = true;
+                } else if (error.error === 'ERROR.CABIN_CAPACITY_LESS_THAN_PEOPLE_NUMBER') {
+                    this.notEnoughCabinSpace = true;
+                } else if (error.error === 'ERROR.CABIN_OCCUPIED') {
+                    this.cabinOccupied = true;
+                } else if (error.error === 'ERROR.FERRY_CAPACITY_LESS_THAN_PEOPLE_NUMBER') {
+                    this.notEnoughFerrySpace = true;
+                } else if (error.status === 409){
                     this.errorConstraint = true;
-                } else if (error.status === 409) {
-                    this.conflict = true;
                 } else {
                     this.errorHandlerService.handleError(error);
                 }

@@ -106,7 +106,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
         double sumOfVehiclesSpace = bookingFacadeLocal.getSumVehicleSpaceByCruise(cruise);
 
         if (cruise.getFerry().getVehicleCapacity() < sumOfVehiclesSpace + vehicleType.getRequiredSpace()) {
-            throw FerryExceptions.createConflictException(CruiseExceptions.ERROR_CRUISE_NOT_ENOUGH_SPACE_FOR_VEHICLE_ON_FERRY);
+            throw FerryExceptions.createConflictException(FerryExceptions.ERROR_FERRY_NOT_ENOUGH_SPACE_FOR_VEHICLE_ON_FERRY);
         }
 
         price = getPrice(booking, price, cruise, cabin, vehicleType);
@@ -159,10 +159,10 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
         if (cabin != null) {
             if (booking.getNumberOfPeople() > cabin.getCapacity()) {
-                throw CabinExceptions.createConflictException("Number of people is greater than cabin's capacity");
+                throw CabinExceptions.createConflictException(CabinExceptions.ERROR_CABIN_CAPACITY_LESS_THAN_PEOPLE_NUMBER);
             }
             if (cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise).contains(cabin)) {
-                throw CabinExceptions.createConflictException("Cabin is already occupied");
+                throw CabinExceptions.createConflictException(CabinExceptions.ERROR_CABIN_OCCUPIED);
             }
             if (cabin.getCabinType().getCabinTypeName().equals("Disabled class")) {
                 price += disabledPrice * cabin.getCapacity();
@@ -180,7 +180,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
             long sumOfPeople = bookingFacadeLocal.getSumNumberOfPeopleByCruise(cruise);
 
             if (cruise.getFerry().getOnDeckCapacity() < sumOfPeople + booking.getNumberOfPeople()) {
-                throw FerryExceptions.createConflictException("There is not enough space on the ferry's deck");
+                throw FerryExceptions.createConflictException(FerryExceptions.ERROR_FERRY_CAPACITY_LESS_THAN_PEOPLE_NUMBER);
             }
             price += onDeckPrice * booking.getNumberOfPeople();
         }

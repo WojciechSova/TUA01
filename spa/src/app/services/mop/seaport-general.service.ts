@@ -11,6 +11,7 @@ export class SeaportGeneralService implements OnDestroy {
 
     private readonly url: string;
     seaportsList: SeaportGeneral[] = [];
+    popup = 'hidden';
 
     constructor(private http: HttpClient) {
         this.url = environment.appUrl + '/seaports';
@@ -25,6 +26,7 @@ export class SeaportGeneralService implements OnDestroy {
 
     ngOnDestroy(): void {
         this.seaportsList = [];
+        this.popup = 'hidden';
     }
 
     addSeaport(seaport: SeaportGeneral): any {

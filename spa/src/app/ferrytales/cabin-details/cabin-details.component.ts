@@ -26,14 +26,17 @@ export class CabinDetailsComponent implements OnInit {
     }
 
     goToHomeBreadcrumb(): void {
+        this.cabinDetailsService.popup = 'hidden';
         this.router.navigate(['/']);
     }
 
     goToFerryListBreadcrumb(): void {
+        this.cabinDetailsService.popup = 'hidden';
         this.router.navigate(['/ferrytales/ferries']);
     }
 
     goToFerryBreadcrumb(): void {
+        this.cabinDetailsService.popup = 'hidden';
         this.router.navigate(['/ferrytales/ferries', this.ferryName]);
     }
 
@@ -45,6 +48,7 @@ export class CabinDetailsComponent implements OnInit {
     }
 
     updateCabin(): void {
+        this.cabinDetailsService.popup = 'hidden';
         this.router.navigate(['/ferrytales/ferries/edit/', this.ferryName, this.cabinNumber]);
     }
 

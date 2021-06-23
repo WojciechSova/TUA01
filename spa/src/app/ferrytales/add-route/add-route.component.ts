@@ -48,7 +48,11 @@ export class AddRouteComponent implements OnInit {
     addRoute(): void {
         this.clearErrors();
         this.routeGeneralService.addRoute(this.routeCode, this.start, this.dest).subscribe(
-            () => this.goToRouteListBreadcrumb(),
+            () => {
+                this.goToRouteListBreadcrumb();
+                this.routeGeneralService.popup = 'add_route_success';
+                setTimeout(() => this.routeGeneralService.popup = 'hidden', 5000);
+            },
             (error => {
                 if (error.error === 'ERROR.ROUTE_START_DESTINATION_UNIQUE') {
                     this.startDestinationUniqueViolation = true;
@@ -74,5 +78,6 @@ export class AddRouteComponent implements OnInit {
     private clearErrors(): void {
         this.codeUniqueViolation = false;
         this.startDestinationUniqueViolation = false;
+        this.routeGeneralService.popup = 'hidden';
     }
 }

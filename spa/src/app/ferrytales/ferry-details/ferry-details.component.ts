@@ -44,18 +44,22 @@ export class FerryDetailsComponent implements OnInit {
     }
 
     goToHomeBreadcrumb(): void {
+        this.ferryDetailsService.popup = 'hidden';
         this.router.navigate(['/']);
     }
 
     goToFerryListBreadcrumb(): void {
+        this.ferryDetailsService.popup = 'hidden';
         this.router.navigate(['/ferrytales/ferries']);
     }
 
     addCabin(): void {
+        this.ferryDetailsService.popup = 'hidden';
         this.router.navigate(['ferrytales/ferries/' + this.name + '/addCabin']);
     }
 
     changeEditFerryFormVisible(seaportEdit: any): void {
+        this.ferryDetailsService.popup = 'hidden';
         this.ferryEdit = seaportEdit;
     }
 }

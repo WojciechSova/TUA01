@@ -79,7 +79,11 @@
         "actual": "Aktualne",
         "new": "Nowe",
         "choose_a_time_zone": "Wybierz strefę czasową",
-        "UTC_time_zone": "Strefa UTC"
+        "UTC_time_zone": "Strefa UTC",
+        "successful": "Edycja konta przebiegła pomyślnie",
+        "successful_access_level": "Edycja poziomów dostępu przebiegła pomyślnie",
+        "successful_email": "Edycja adresu e-mail przebiegła pomyślnie",
+        "successful_password": "Edycja hasła przebiegła pomyślnie"
     },
     "ferry-edit": {
         "invalid_on_deck_capacity": "Pojemność pokładowa musi być dodatnia",
@@ -95,7 +99,9 @@
         "manage": "Zarządzaj",
         "unblock_block": "Odblokuj/Zablokuj",
         "unblock": "Odblokuj",
-        "block": "Zablokuj"
+        "block": "Zablokuj",
+        "block_success": "Pomyślnie zablokowano użytkownika",
+        "unblock_success": "Pomyślnie odblokowano użytkownika"
     },
     "account-details": {
         "login": "Login",
@@ -155,6 +161,7 @@
         "code": "Kod portu",
         "add": "Dodaj port",
         "remove": "Usuń port",
+        "add_success": "Pomyślnie dodano port",
         "response": {
             "success": "Usuwanie portu przebiegło pomyślnie",
             "in_use": "Port jest wykorzystywany przez trasę i nie mógł zostać usunięty",
@@ -275,7 +282,9 @@
         "cruise_date": "Data rejsu",
         "creation_date": "Data rezerwacji",
         "number": "Numer",
-        "cancel": "Anuluj"
+        "cancel": "Anuluj",
+        "add_success": "Pomyślnie utworzono rezerwację",
+        "remove_success": "Pomyślnie anulowano rezerwację"
     },
     "route": {
         "start": "Port początkowy",
@@ -294,7 +303,9 @@
         "vehicle_capacity": "Pojemność garażowa",
         "on_deck_capacity": "Pojemność pokładowa",
         "add_ferry": "Dodaj prom",
-        "remove": "Usuń prom"
+        "remove": "Usuń prom",
+        "add_success": "Pomyślnie dodano prom",
+        "success": "Pomyślnie usunięto prom"
     },
     "ferry-details": {
         "name": "Nazwa:",
@@ -306,7 +317,8 @@
         "creation_date": "Data utworzenia:",
         "created_by": "Utworzony przez:",
         "add_cabin": "Dodaj kajutę",
-        "no_cabins": "Brak kajut"
+        "no_cabins": "Brak kajut",
+        "add_cabin_success": "Pomyślnie dodano kajutę"
     },
     "route-details": {
         "code": "Kod:",
@@ -316,7 +328,8 @@
         "creation_date": "Data utworzenia:",
         "created_by": "Utworzony przez:",
         "add_cruise": "Dodaj rejs",
-        "no_cruises_on_route": "Brak rejsów na trasie"
+        "no_cruises_on_route": "Brak rejsów na trasie",
+        "add_success": "Pomyślnie dodano rejs"
     },
     "cabin-table": {
         "capacity": "Pojemność",
@@ -333,6 +346,7 @@
         "name_of_ferry": "Nazwa promu",
         "cruise_details": "Szczegóły",
         "remove_cruise": "Usuń rejs",
+        "add_success": "Pomyślnie dodano rejs",
         "remove_result": {
             "success": "Rejs usunięty pomyślnie",
             "gone": "Rejs, który próbowałeś usunąć zastał usunięty przez kogoś innego",
@@ -399,7 +413,8 @@
         "modification_date": "Data modyfikacji",
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
-        "created_by": "Utworzony przez"
+        "created_by": "Utworzony przez",
+        "edit_success": "Edycja kajuty przbiegła pomyślnie"
     },
     "add-seaport": {
         "new_seaport": "Nowy port",
@@ -442,8 +457,13 @@
         "no_cabins": "Brak kajut spełniających podane kryteria",
         "number_first": "Najpierw podaj poprawną liczbę osob",
         "people": "-osobowa",
-        "error_conflict": "Nie udało sie utworzyć rezerwacji",
         "error_constraint": "Przesłane dane są niepoprawne",
+        "cruise_started": "Rejs już się rozpoczął",
+        "not_enough_vehicle_space": "Na promie nie ma już miejsca na ten typ pojazdu",
+        "not_enough_ferry_space": "Na promie nie ma już miejsca na tyle osób",
+        "not_enough_cabin_space": "W kajucie ma miejsca na tyle osób",
+        "cabin_occupied": "Wybrana kajuta jest już zajęta",
+        "error_conflict": "Nie udało sie utworzyć rezerwacji",
         "vehicle": {
             "none": "Brak",
             "motorcycle": "Motocykl",

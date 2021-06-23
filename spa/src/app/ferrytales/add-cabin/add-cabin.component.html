@@ -38,7 +38,7 @@
             </div>
 
             <div class="row">
-                <input #newCapacity type="number" id="add-capacity" formControlName="capacity"
+                <input #newCapacity type="number" min="0" id="add-capacity" formControlName="capacity"
                        placeholder="{{'add-cabin.capacity' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.capacity.touched && form.controls.capacity.invalid}"/>
                 <div class="validation-error"

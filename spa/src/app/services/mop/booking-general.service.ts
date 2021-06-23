@@ -11,6 +11,7 @@ export class BookingGeneralService implements OnDestroy {
 
     public bookings: BookingGeneral[];
     private readonly url: string;
+    popup = 'hidden';
 
     constructor(private http: HttpClient) {
         this.url = environment.appUrl + '/bookings';
@@ -59,5 +60,6 @@ export class BookingGeneralService implements OnDestroy {
 
     ngOnDestroy(): void {
         this.bookings = [];
+        this.popup = 'hidden';
     }
 }

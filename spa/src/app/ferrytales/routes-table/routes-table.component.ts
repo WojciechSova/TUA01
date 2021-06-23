@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteGeneralService } from '../../services/mop/route-general.service';
 import { RouteGeneral } from '../../model/mop/RouteGeneral';
-import {ErrorHandlerService} from '../../services/error-handlers/error-handler.service';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-routes-table',
@@ -18,12 +18,13 @@ export class RoutesTableComponent implements OnDestroy {
     routes: RouteGeneral[] = [];
 
     constructor(private router: Router,
-                private routeGeneralService: RouteGeneralService,
+                public routeGeneralService: RouteGeneralService,
                 private errorHandlerService: ErrorHandlerService) {
         this.getRoutes();
     }
 
     goToHomepageBreadcrumb(): void {
+        this.routeGeneralService.popup = 'hidden';
         this.router.navigate(['/']);
     }
 
@@ -34,15 +35,18 @@ export class RoutesTableComponent implements OnDestroy {
     }
 
     addRoute(): void {
+        this.routeGeneralService.popup = 'hidden';
         this.router.navigate(['/ferrytales/routes/add']);
     }
 
     refresh(): void {
+        this.routeGeneralService.popup = 'hidden';
         this.getRoutes();
         this.result = 'hidden';
     }
 
     removeRouteClick(routeCode: string): void {
+        this.routeGeneralService.popup = 'hidden';
         this.isConfirmationVisible = true;
         this.routeCode = routeCode;
     }

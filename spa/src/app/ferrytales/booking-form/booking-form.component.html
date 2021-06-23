@@ -165,8 +165,13 @@
             </button>
             <img class="return-arrow" src="assets/imgs/back-arrow.png"
                  alt="" (click)="goToCurrentCruises()"/>
-            <div class="booking-error" *ngIf="conflict" translate>booking.error_conflict</div>
+
+            <div class="booking-error" *ngIf="cruiseStarted" translate>booking.cruise_started</div>
             <div class="booking-error" *ngIf="errorConstraint" translate>booking.error_constraint</div>
+            <div class="booking-error" *ngIf="notEnoughVehicleSpace" translate>booking.not_enough_vehicle_space</div>
+            <div class="booking-error" *ngIf="notEnoughFerrySpace" translate>booking.not_enough_ferry_space</div>
+            <div class="booking-error" *ngIf="notEnoughCabinSpace" translate>booking.not_enough_cabin_space</div>
+            <div class="booking-error" *ngIf="cabinOccupied" translate>booking.cabin_occupied</div>
         </div>
     </div>
 </div>

@@ -35,8 +35,13 @@ export class AddFerryComponent implements OnInit {
             onDeckCapacity: newOnDeckCapacity
         };
 
+        this.ferryGeneralService.popup = 'hidden';
         this.ferryGeneralService.addFerry(ferry).subscribe(
-            () => this.goToFerryListBreadcrumb(),
+            () => {
+                this.goToFerryListBreadcrumb();
+                this.ferryGeneralService.popup = 'add_ferry_success';
+                setTimeout(() => this.ferryGeneralService.popup = 'hidden', 5000);
+            },
             (error: any) => {
                 if (error.status === 409) {
                     this.error = true;

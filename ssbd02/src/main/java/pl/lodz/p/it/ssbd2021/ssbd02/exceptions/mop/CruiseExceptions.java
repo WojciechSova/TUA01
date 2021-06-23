@@ -17,7 +17,6 @@ public class CruiseExceptions extends GeneralException {
     public static String ERROR_CRUISE_NOT_FOUND = "ERROR.CRUISE_NOT_FOUND";
     public static String ERROR_CRUISE_IS_BEING_USED = "ERROR.CRUISE_IS_BEING_USED";
     public static String ERROR_CRUISE_ALREADY_STARTED = "ERROR.CRUISE_ALREADY_STARTED";
-    public static String ERROR_CRUISE_NOT_ENOUGH_SPACE_FOR_VEHICLE_ON_FERRY = "ERROR.CRUISE_NOT_ENOUGH_SPACE_FOR_VEHICLE_ON_FERRY";
 
     public CruiseExceptions(Response.Status status, String key) {
         super(status, key);

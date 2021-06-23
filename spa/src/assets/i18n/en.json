@@ -79,7 +79,11 @@
         "actual": "Current",
         "new": "New",
         "choose_a_time_zone": "Select a time zone",
-        "UTC_time_zone": "UTC"
+        "UTC_time_zone": "UTC",
+        "successful": "Account edit successful",
+        "successful_access_level": "Access level change successful",
+        "successful_email": "E-mail address change successful",
+        "successful_password": "Password change successful"
     },
     "ferry-edit": {
         "invalid_on_deck_capacity": "On deck capacity must be positive",
@@ -95,7 +99,9 @@
         "manage": "Manage",
         "unblock_block": "Unblock/Block",
         "unblock": "Unblock",
-        "block": "Block"
+        "block": "Block",
+        "block_success": "User blocked",
+        "unblock_success": "User unblocked"
     },
     "account-details": {
         "login": "Login",
@@ -155,6 +161,7 @@
         "code": "Seaport code",
         "add": "Add new seaport",
         "remove": "Remove seaport",
+        "add_success": "Seaport added",
         "response": {
             "success": "Seaport deleted successfully",
             "in_use": "Seaport is used by a route it could not be deleted",
@@ -275,7 +282,9 @@
         "cruise_date": "Cruise date",
         "creation_date": "Booking date",
         "number": "Number",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "add_success": "Booking created",
+        "remove_success": "Booking cancelled"
     },
     "route": {
         "start": "Starting seaport",
@@ -294,7 +303,9 @@
         "vehicle_capacity": "Vehicle capacity",
         "on_deck_capacity": "On deck capacity",
         "add_ferry": "Add ferry",
-        "remove": "Remove ferry"
+        "remove": "Remove ferry",
+        "add_success": "Added a ferry",
+        "success": "Ferry removed"
     },
     "ferry-details": {
         "name": "Name:",
@@ -306,7 +317,8 @@
         "creation_date": "Date of creation:",
         "created_by": "Created by:",
         "add_cabin": "Add cabin",
-        "no_cabins": "No cabins"
+        "no_cabins": "No cabins",
+        "add_cabin_success": "Cabin added"
     },
     "route-details": {
         "code": "Code:",
@@ -316,7 +328,8 @@
         "creation_date": "Date of creation:",
         "created_by": "Created by:",
         "add_cruise": "Add cruise",
-        "no_cruises_on_route": "No cruises on route"
+        "no_cruises_on_route": "No cruises on route",
+        "add_success": "Added a route"
     },
     "cabin-table": {
         "capacity": "Capacity",
@@ -334,6 +347,7 @@
         "cruise_details": "Details",
         "remove_cruise": "Remove cruise",
         "popularity": "Popularity",
+        "add_success": "Added a cruise",
         "remove_result": {
             "success": "Cruise deleted successfully",
             "gone": "Cruise you tried to delete was deleted by someone else",
@@ -399,7 +413,8 @@
         "modification_date": "Modification date",
         "modified_by": "Modified by",
         "creation_date": "Creation date",
-        "created_by": "Created by"
+        "created_by": "Created by",
+        "edit_success": "Cabin edited"
     },
     "add-seaport": {
         "new_seaport": "New seaport",
@@ -444,6 +459,11 @@
         "people": "-person",
         "error_conflict": "Could not create a booking",
         "error_constraint": "Provided data is invalid",
+        "cruise_started": "The cruise has already started",
+        "not_enough_vehicle_space": "There is no more vehicle space on the ferry",
+        "not_enough_ferry_space": "There is not enoguh space on ferry's deck",
+        "not_enough_cabin_space": "There is not enough space in the cabin",
+        "cabin_occupied": "The cabin is already occupied",
         "vehicle": {
             "none": "None",
             "motorcycle": "Motorcycle",
