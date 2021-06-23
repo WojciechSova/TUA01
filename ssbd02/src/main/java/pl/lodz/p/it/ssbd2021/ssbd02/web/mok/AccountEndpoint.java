@@ -730,9 +730,7 @@ public class AccountEndpoint {
         if (email == null || "".equals(email.trim())) {
             throw CommonExceptions.createConstraintViolationException();
         }
-        if (!EmailAddressValidator.isValid(email)) {
-            throw CommonExceptions.createConstraintViolationException();
-        }
+
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         do {
@@ -744,6 +742,9 @@ public class AccountEndpoint {
                 }
                 transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
+                if (generalException.getResponse().getStatus() == Response.Status.GONE.getStatusCode()) {
+                    return Response.ok().build();
+                }
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
                 if (transactionRetryCounter < 2) {
