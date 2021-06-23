@@ -16,26 +16,26 @@
         <div class="col">
             <div class="row">
                 <label class="uppercase" translate>cruise-details.number</label>
-                <label>{{bookingDetailsService.booking?.cruise?.number}}</label>
+                <label>{{cruiseDetailsService.cruise?.number}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>booking.date</label>
-                <label>{{bookingDetailsService.booking?.cruise?.startDate | date :'short':identityService.getTimezone()}}
+                <label>{{cruiseDetailsService.cruise?.startDate | date :'short':identityService.getTimezone()}}
                     -
-                    {{bookingDetailsService.booking?.cruise?.endDate | date :'short':identityService.getTimezone()}}</label>
+                    {{cruiseDetailsService.cruise?.endDate | date :'short':identityService.getTimezone()}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>booking.route</label>
-                <label>{{bookingDetailsService.booking.cruise.route?.start?.city}}
-                    → {{bookingDetailsService.booking.cruise.route?.destination?.city}}</label>
+                <label>{{cruiseDetailsService.cruise.route?.start?.city}}
+                    → {{cruiseDetailsService.cruise.route?.destination?.city}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>account-details.first_name</label>
-                <label>{{bookingDetailsService.booking?.account?.firstName}}</label>
+                <label>{{accountDetailsService.account?.firstName}}</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>account-details.last_name</label>
-                <label>{{bookingDetailsService.booking?.account?.lastName}}</label>
+                <label>{{accountDetailsService.account?.lastName}}</label>
             </div>
 
             <hr/>
@@ -44,7 +44,9 @@
             <form [formGroup]="bookingForm">
                 <div class="row">
                     <label class="uppercase" translate>booking.set_people</label>
-                    <input #numberOfPeople type="text" id="edit-capacity" name="people" formControlName="numberOfPeople"
+                    <input type="text" id="edit-capacity" name="people" formControlName="numberOfPeople"
+                           [(ngModel)]="currentPeopleNumber"
+                           (ngModelChange)="filterFreeCabins(currentType)"
                            [ngClass]="{'is-invalid': bookingForm.controls.numberOfPeople.touched && bookingForm.controls.numberOfPeople.invalid}"
                            placeholder="{{'booking.people_number' | translate}}"/>
 
@@ -79,33 +81,43 @@
 
             <hr class="hr-booking"/>
 
-            <div *ngIf="wantCabin">
+            <div *ngIf="wantCabin && !bookingForm.controls.numberOfPeople.invalid">
                 <div class="row">
                     <label class="uppercase" translate>booking.cabin_type</label>
                 </div>
                 <div class="stars">
                     <input type="radio" name="rate" id="one" [checked]="cabinTypes.firstClass"
-                           (change)="chooseCabinType('first')"/>
+                           (change)="chooseCabinType('First class')"/>
                     <label for="one"></label>
                     <input type="radio" name="rate" id="two" [checked]="cabinTypes.secondClass"
-                           (change)="chooseCabinType('second')"/>
+                           (change)="chooseCabinType('Second class')"/>
                     <label for="two"></label>
                     <input type="radio" name="rate" id="three" [checked]="cabinTypes.thirdClass"
-                           (change)="chooseCabinType('third')"/>
+                           (change)="chooseCabinType('Third class')"/>
                     <label for="three"></label>
-                    <img class="disabled-img" #disabledClass src="assets/imgs/disabled.png" alt="alt"
-                         (click)="chooseCabinType('disabled')">
+                    <img class="disabled-img" #disabledClass src="../../../assets/imgs/disabled.png" alt="alt"
+                         (click)="chooseCabinType('Disabled class')">
                 </div>
-                <div class="row" *ngIf="cabinTypeChosen">
+                <div class="row" *ngIf="cabinTypeChosen && !noCabinsAvailable">
                     <label class="uppercase" translate>booking.pick_cabin_number</label>
-                    <select class="edit-content-select" #cabinNumber id="edit-number">
+                    <select class="edit-content-select" id="edit-number" [ngClass]="{'is-invalid': wantCabin && selectedNumber.length < 4}"
+                            [(ngModel)]="selectedNumber" (ngModelChange)="selectCabin()">
                         <option value="" disabled selected translate>booking.cabin_number</option>
-                        <option *ngFor="let number of numbers" [value]="number"
-                                [selected]="number === bookingDetailsService.booking?.cabin?.number" id="{{number}}">
-                            {{number}}</option>
+                        <option *ngFor="let cabin of filteredCabins" value="{{cabin.number}}" id="{{cabin}}" >
+                            {{cabin.number}}, {{cabin.capacity}}{{'booking.people' | translate}} </option>
                     </select>
                 </div>
+                <div class="validation-error-cabin"
+                     *ngIf="wantCabin && selectedNumber.length < 4 && cabinTypeChosen && !noCabinsAvailable"
+                     translate>form.field_required
+                </div>
+                <div class="center-text" *ngIf="cabinTypeChosen && noCabinsAvailable" translate>booking.no_cabins</div>
                 <hr class="hr-booking"/>
+            </div>
+
+
+            <div *ngIf="wantCabin && bookingForm.controls.numberOfPeople.invalid" class="center-text" translate>
+                booking.number_first
             </div>
 
 
@@ -114,7 +126,7 @@
             </div>
             <div class="row-radio-vehicle">
                 <div class="checkbox-container">
-                    <label id="none" class="container"> <img class="vehicle-img-cross" src="assets/imgs/close.png"
+                    <label id="none" class="container"> <img class="vehicle-img-cross" src="../../../assets/imgs/close.png"
                                                              alt="">
                         <input type="radio" name="vehicle" [checked]="vehicleTypes.none"
                                (change)="chooseVehicleType('none')">
@@ -122,7 +134,7 @@
                     </label>
                 </div>
                 <div class="checkbox-container">
-                    <label id="bike" class="container"> <img class="vehicle-img" src="assets/imgs/motorcycle.png"
+                    <label id="bike" class="container"> <img class="vehicle-img" src="../../../assets/imgs/motorcycle.png"
                                                              alt="">
                         <input type="radio" name="vehicle" [checked]="vehicleTypes.bike"
                                (change)="chooseVehicleType('bike')">
@@ -130,14 +142,14 @@
                     </label>
                 </div>
                 <div class="checkbox-container">
-                    <label id="car" class="container"> <img class="vehicle-img" src="assets/imgs/car.png" alt="">
+                    <label id="car" class="container"> <img class="vehicle-img" src="../../../assets/imgs/car.png" alt="">
                         <input type="radio" name="vehicle" [checked]="vehicleTypes.car"
                                (change)="chooseVehicleType('car')">
                         <span class="checkmark"></span>
                     </label>
                 </div>
                 <div class="checkbox-container">
-                    <label id="bus" class="container"> <img class="vehicle-img" src="assets/imgs/bus.png" alt="">
+                    <label id="bus" class="container"> <img class="vehicle-img" src="../../../assets/imgs/bus.png" alt="">
                         <input type="radio" name="vehicle" [checked]="vehicleTypes.bus"
                                (change)="chooseVehicleType('bus')">
                         <span class="checkmark"></span>
@@ -149,10 +161,14 @@
                 <label class="uppercase" translate>booking-details.price</label>
                 <label>{{currentPrice}}</label>
             </div>
-            <button class="edit-button" id="saveBtn" [disabled]="bookingForm.invalid" translate>booking.ok
+            <button class="edit-button" id="saveBtn" (click)="displayPrompt()" [disabled]="bookingForm.invalid || (wantCabin && selectedNumber.length < 4) || (wantCabin && noCabinsAvailable)" translate>booking.ok
             </button>
             <img class="return-arrow" src="assets/imgs/back-arrow.png"
-                 alt=""/>
+                 alt="" (click)="goToCurrentCruises()"/>
+            <div class="booking-error" *ngIf="conflict" translate>booking.error_conflict</div>
+            <div class="booking-error" *ngIf="errorConstraint" translate>booking.error_constraint</div>
         </div>
     </div>
 </div>
+<app-confirmation *ngIf="isPromptVisible"
+                  (isPromptVisibleAndAnswer)="getConfirmationResult($event)"></app-confirmation>

@@ -6,6 +6,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CruiseManagerLoc
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CruiseMapper;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.SeaportMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.annotation.security.PermitAll;
@@ -15,9 +16,12 @@ import javax.ejb.EJBAccessException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -57,7 +61,7 @@ public class CruiseEndpoint {
      */
     @GET
     @Path("/{number}")
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Response getCruise(@PathParam("number") String number) {
         try {
             CruiseDetailsDTO cruiseDetailsDTO = CruiseMapper
@@ -172,11 +176,41 @@ public class CruiseEndpoint {
         }
     }
 
+    /**
+     * Metoda umożliwiajaca edycję rejsu.
+     *
+     * @param cruiseDetailsDTO Obiekt typu {@link CruiseDetailsDTO} przechowujący szczegóły edytowanego rejsu
+     * @param securityContext  Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param eTag             ETag podawany w zawartości nagłówka "If-Match"
+     * @return Kod 200 w przypadku poprawnego usunięcia rejsu
+     */
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
-    public Response updateCruise(CruiseDetailsDTO cruiseDetailsDTO, @Context SecurityContext securityContext) {
-        return null;
+    public Response updateCruise(@Valid CruiseDetailsDTO cruiseDetailsDTO, @Context SecurityContext securityContext,
+                                 @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
+        if (cruiseDetailsDTO.getStartDate() == null || cruiseDetailsDTO.getEndDate() == null
+                || cruiseDetailsDTO.getStartDate().after(cruiseDetailsDTO.getEndDate())
+                || cruiseDetailsDTO.getVersion() == null) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
+        if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, cruiseDetailsDTO)) {
+            throw CommonExceptions.createPreconditionFailedException();
+        }
+
+        try {
+            cruiseManagerLocal.updateCruise(CruiseMapper.createCruiseFromCruiseDetailsDTO(cruiseDetailsDTO),
+                    securityContext.getUserPrincipal().getName());
+            return Response.ok()
+                    .build();
+        } catch (GeneralException generalException) {
+            throw generalException;
+        } catch (EJBAccessException | AccessLocalException accessExcept) {
+            throw CommonExceptions.createForbiddenException();
+        } catch (Exception e) {
+            throw CommonExceptions.createUnknownException();
+        }
     }
 
 }

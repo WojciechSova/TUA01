@@ -38,7 +38,7 @@ import java.util.Properties;
  * @author Wojciech Sowa
  */
 @Stateful
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class BookingManager extends AbstractManager implements BookingManagerLocal, SessionSynchronization {
@@ -104,8 +104,9 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @Override
     @RolesAllowed({"CLIENT"})
-    public void createBooking(Booking booking, String cruiseNumber, String cabinNumber, String login, String vehicleTypeName) {
-
+    public void createBooking(int numberOfPeople, String cruiseNumber, String cabinNumber, String login, String vehicleTypeName) {
+        Booking booking = new Booking();
+        booking.setNumberOfPeople(numberOfPeople);
         double price = 0;
         Cruise cruise = cruiseFacadeLocal.findByNumber(cruiseNumber);
         Cabin cabin = null;
@@ -155,11 +156,11 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
 
     @RolesAllowed({"CLIENT"})
     private double getPrice(Booking booking, double price, Cruise cruise, Cabin cabin, VehicleType vehicleType) {
-        int disabledPrice = 120;
-        int thirdPrice = 100;
-        int secondPrice = 200;
-        int firstPrice = 300;
-        int vehiclePrice = 200;
+        int disabledPrice = 100;
+        int thirdPrice = 80;
+        int secondPrice = 150;
+        int firstPrice = 200;
+        int vehiclePrice = 100;
         int onDeckPrice = 30;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("booking.properties")) {
             prop.load(input);

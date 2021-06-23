@@ -12,6 +12,7 @@
         "invalid_number": "Numer rejsu powinien zawierać 6 dużych liter i 6 cyfr",
         "invalid_phone_number": "Numer telefonu powinien zawierać od 3 do 15 cyfr",
         "field_required": "Pole wymagane",
+        "confirm_date": "Potwierdź datę",
         "login": "Login",
         "first_name": "Imię",
         "last_name": "Nazwisko",
@@ -157,7 +158,7 @@
         "response": {
             "success": "Usuwanie portu przebiegło pomyślnie",
             "in_use": "Port jest wykorzystywany przez trasę i nie mógł zostać usunięty",
-            "result_gone": "Port który chciałeś usunąć został usunięty przez kogoś innego"
+            "result_gone": "Port, który chciałeś usunąć został usunięty przez kogoś innego"
         }
     },
     "main-page": {
@@ -215,6 +216,8 @@
         "CANNOT_CANCEL_BOOKING": "Nie można anulować rezerwacji",
         "BAD_REQUEST": "Niepoprawne żądanie",
         "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje",
+        "CANNOT_REMOVE_CABIN": "Nie można usunąć kajuty",
+        "CABIN_ALREADY_REMOVED": "Kajuta została już usunięta przez kogoś innego",
         "OPTIMISTIC_LOCK_ERROR": "Dane, które próbujesz edytować nie są aktualne",
         "UNKNOWN_ERROR": "Coś poszło nie tak"
     },
@@ -321,7 +324,8 @@
         "cabinType": "Typ",
         "number": "Numer",
         "cabin_details": "Szczegóły",
-        "remove_cabin": "Usuń kajutę"
+        "remove_cabin": "Usuń kajutę",
+        "cabin_removed": "Kajuta została usunięta pomyślnie"
     },
     "cruise-table": {
         "start_date": "Data rozpoczęcia",
@@ -329,7 +333,14 @@
         "number": "Numer",
         "name_of_ferry": "Nazwa promu",
         "cruise_details": "Szczegóły",
-        "remove_cruise": "Usuń rejs"
+        "remove_cruise": "Usuń rejs",
+        "remove_result": {
+            "success": "Rejs usunięty pomyślnie",
+            "gone": "Rejs, który próbowałeś usunąć zastał usunięty przez kogoś innego",
+            "other_failure": "Usuwanie rejsu nie powiodło się",
+            "in_use": "Rejs, który próbujesz usunąć jest wykorzystywany przez rezerwację",
+            "already_started": "Rejs, który próbujesz usunąć jest po dacie rozpoczęcia"
+        }
     },
     "cruise-details": {
         "edit_cruise": "Edytuj rejs",
@@ -358,6 +369,14 @@
         "start_date": "*Data rozpoczęcia rejsu",
         "end_date": "*Data zakończenia rejsu",
         "ferry": "*Prom"
+    },
+    "cruise-edit": {
+        "change-date": "Zmień datę rejsu",
+        "result_success": "Zmiana daty rejsu przebiegła pomyślnie",
+        "result_gone": "Zmiana daty rejsu nie powiodła się, ponieważ wybrany rejs, miasto lub prom został usunięty",
+        "result_failure": "Zmiana daty rejsu nie powiodła się",
+        "result_opl": "Stan rejsu został zmieniony, proszę spróbować ponownie",
+        "ferry_being_used": "Prom jest wykorzystywany przez inny obiekt"
     },
     "seaport-edit": {
         "required_city": "*Nazwa miasta",
@@ -417,7 +436,13 @@
         "cabin_number": "*Numer kajuty",
         "vehicle_type": "*Wybierz typ pojazdu:",
         "ok": "Zarezerwuj",
-        "people_number": "Liczba osób"
+        "people_number": "Liczba osób",
+        "no_cabins": "Brak kajut spełniających podane kryteria",
+        "number_first": "Najpierw podaj poprawną liczbę osob",
+        "people": "-osobowa",
+        "error_conflict": "Nie udało sie utworzyć rezerwacji",
+        "error_constraint": "Przesłane dane są niepoprawne"
+
     },
     "add-route": {
         "new_route": "Nowa trasa",

@@ -34,7 +34,7 @@ import java.util.List;
  * @author Wojciech Sowa
  */
 @Stateful
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 @Interceptors(TrackerInterceptor.class)
 public class CruiseManager extends AbstractManager implements CruiseManagerLocal, SessionSynchronization {
@@ -70,7 +70,7 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Cruise getCruiseByNumber(String number) {
         return cruiseFacadeLocal.findByNumber(number);
     }
@@ -125,7 +125,7 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
         List<Cruise> cruises = cruiseFacadeLocal
                 .findAllUsingFerryInTime(databaseCruise.getFerry(), cruise.getStartDate(), cruise.getEndDate());
 
-        if (!cruises.isEmpty()) {
+        if (!cruises.isEmpty() && !(cruises.size() == 1 && cruises.get(0).equals(databaseCruise))) {
             throw FerryExceptions.createConflictException(FerryExceptions.ERROR_FERRY_IS_BEING_USED);
         }
 
@@ -135,6 +135,8 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
         cruiseClone.setEndDate(cruise.getEndDate());
         cruiseClone.setModifiedBy(accountMopFacade.findByLogin(modifiedBy));
         cruiseClone.setModificationDate(modificationDate);
+        cruiseClone.setFerry(databaseCruise.getFerry());
+        cruiseClone.setRoute(databaseCruise.getRoute());
         cruiseClone.setCreatedBy(databaseCruise.getCreatedBy());
 
         cruiseFacadeLocal.edit(cruiseClone);

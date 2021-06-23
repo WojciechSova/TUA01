@@ -40,8 +40,11 @@
                 </button>
             </td>
             <td>
-                <button class="button-seaport-table remove" (click)="deleteSeaport(seaport.code)" translate>seaports-table.remove</button>
+                <button class="button-seaport-table remove" (click)="deleteSeaportClick(seaport.code)" translate>
+                    seaports-table.remove</button>
             </td>
         </tr>
     </table>
 </div>
+<app-confirmation *ngIf="isConfirmationVisible"
+                  (isPromptVisibleAndAnswer)="confirmationResult($event)"></app-confirmation>
