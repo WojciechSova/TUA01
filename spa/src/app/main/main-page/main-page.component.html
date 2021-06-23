@@ -7,14 +7,19 @@
         <div class="centered">
             <p class="main-text" translate>main-page.advert</p>
             <p>
-                <button routerLink="{{'/ferrytales/current'}}" class="button" translate>main-page.check_now</button>
+                <button *ngIf="identityService.isClient() || identityService.isGuest()"
+                        routerLink="{{'/ferrytales/current'}}" class="button" translate>main-page.check_now
+                </button>
             </p>
         </div>
     </div>
 
-    <button *ngIf="identityService.isGuest()"  class="login-button" (click)="change()" translate>main-page.sign_in_to_book</button>
+    <button *ngIf="identityService.isGuest()" class="login-button" (click)="change()" translate>
+        main-page.sign_in_to_book
+    </button>
 
-    <app-popular-offers (loginVisible)="change()"></app-popular-offers>
+    <app-popular-offers *ngIf="identityService.isGuest() || identityService.isClient()"
+                        (loginVisible)="change()"></app-popular-offers>
     <app-footer></app-footer>
 </div>
 

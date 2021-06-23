@@ -443,8 +443,13 @@
         "number_first": "Najpierw podaj poprawną liczbę osob",
         "people": "-osobowa",
         "error_conflict": "Nie udało sie utworzyć rezerwacji",
-        "error_constraint": "Przesłane dane są niepoprawne"
-
+        "error_constraint": "Przesłane dane są niepoprawne",
+        "vehicle": {
+            "none": "Brak",
+            "motorcycle": "Motocykl",
+            "car": "Samochód",
+            "bus": "Autobus"
+        }
     },
     "add-route": {
         "new_route": "Nowa trasa",
