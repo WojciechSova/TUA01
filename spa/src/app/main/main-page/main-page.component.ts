@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { IdentityService } from '../../services/utils/identity.service';
 
 @Component({
-  selector: 'app-main-page',
-  templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.less']
+    selector: 'app-main-page',
+    templateUrl: './main-page.component.html',
+    styleUrls: ['./main-page.component.less']
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent {
 
-  constructor() { }
+    constructor(public identityService: IdentityService) {
+    }
 
-  ngOnInit(): void {
-  }
+    loginVisible = false;
 
+    change(): void {
+        this.loginVisible = false;
+        setTimeout(() => {this.loginVisible = true; }, 10);
+    }
 }

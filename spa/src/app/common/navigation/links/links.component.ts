@@ -30,6 +30,8 @@ export class LinksComponent {
     @Input()
     public stickyStyles = true;
 
+    @Input()
+    loginVisible = false;
     isLoginVisible = false;
     isRegisterVisible = false;
     isResetPasswordVisible = false;
@@ -42,6 +44,7 @@ export class LinksComponent {
 
     changeLoginVisible(visible: boolean): void {
         this.isLoginVisible = visible;
+        this.loginVisible = false;
     }
 
     changeRegisterVisible(visible: boolean): void {

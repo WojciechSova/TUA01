@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CruiseGeneral } from '../../../model/mop/CruiseGeneral';
+import { IdentityService } from '../../../services/utils/identity.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-offer',
@@ -11,6 +13,18 @@ export class OfferComponent{
     @Input()
     cruise: CruiseGeneral | undefined;
 
-  constructor() { }
+    @Output()
+    loginVisible = new EventEmitter<boolean>();
 
+  constructor(public identityService: IdentityService,
+              private router: Router) { }
+
+    changeLoginVisible(): void {
+        this.loginVisible.emit(false);
+        setTimeout(() => {this.loginVisible.emit(true); }, 10);
+    }
+
+    createBooking(cruiseNumber: any): void {
+        this.router.navigate(['/ferrytales/booking/create/' + cruiseNumber as string]);
+    }
 }

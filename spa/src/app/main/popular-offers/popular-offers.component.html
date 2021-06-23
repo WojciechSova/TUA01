@@ -1,7 +1,7 @@
-<div class="popular-offers" translate>popular-offers.current_routes</div>
+<div class="popular-offers" translate>popular-offers.upcoming_cruises</div>
 <div class="popular-offers-hr"></div>
 <div class="row">
-    <app-offer [cruise]="getRouteByCruise(0)" imgPath="assets/imgs/offer1.png"></app-offer>
-    <app-offer [cruise]="getRouteByCruise(1)" imgPath="assets/imgs/offer2.png"></app-offer>
-    <app-offer [cruise]="getRouteByCruise(2)" imgPath="assets/imgs/offer3.png"></app-offer>
+    <app-offer (loginVisible)="changeLoginVisible($event)" [cruise]="getRouteByCruise(0)" imgPath="assets/imgs/offer1.png"></app-offer>
+    <app-offer (loginVisible)="changeLoginVisible($event)" [cruise]="getRouteByCruise(1)" imgPath="assets/imgs/offer2.png"></app-offer>
+    <app-offer (loginVisible)="changeLoginVisible($event)" [cruise]="getRouteByCruise(2)" imgPath="assets/imgs/offer3.png"></app-offer>
 </div>

@@ -1,7 +1,8 @@
 <div class="column">
     <img [src]=imgPath alt="Offer 1" class="offer-image"/>
     <div class="offer">
-        <div class="offer-text">{{cruise?.route?.start?.city}} - {{cruise?.route?.destination?.city}}</div>
-        <button class="offer-btn" translate>offer.book</button>
+        <div class="offer-text">{{cruise?.route?.start?.city}} {{cruise?.startDate | date :'short':identityService.getTimezone()}}
+            - {{cruise?.route?.destination?.city}} {{cruise?.endDate | date :'short':identityService.getTimezone()}}</div>
+        <button (click)="identityService.isGuest() ? changeLoginVisible() : createBooking(cruise?.number)" class="offer-btn" translate>offer.book</button>
     </div>
 </div>

@@ -166,7 +166,7 @@
         "sign_in_to_book": "Zaloguj się, aby zarezerwować bilet!"
     },
     "popular-offers": {
-        "current_routes": "Aktualne trasy"
+        "upcoming_cruises": "Nadchodzące rejsy"
     },
     "offer": {
         "starting_at": "Już od {{price}}zł od osoby",
@@ -354,7 +354,8 @@
         "route_destination": "Port docelowy",
         "ferry_name": "Nazwa promu",
         "book_a_ticket": "Zarezerwuj bilet",
-        "book": "Zarezerwuj"
+        "book": "Zarezerwuj",
+        "log_in_to_book_a_ticket": "Zaloguj się, aby zarezerwować bilet"
     },
     "add-cruise": {
         "new_cruise": "Nowy rejs",

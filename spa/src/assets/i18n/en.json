@@ -166,7 +166,7 @@
         "sign_in_to_book": "Sign in to book a ticket!"
     },
     "popular-offers": {
-        "current_routes": "Current routes"
+        "upcoming_cruises": "Upcoming cruises"
     },
     "offer": {
         "starting_at": "Starting at {{price}}PLN per person",
@@ -354,7 +354,8 @@
         "route_destination": "Destination seaport",
         "ferry_name": "Ferry name",
         "book_a_ticket": "Book a ticket",
-        "book": "Book"
+        "book": "Book",
+        "log_in_to_book_a_ticket": "Log in to book a ticket"
     },
     "add-cruise": {
         "new_cruise": "New cruise",
