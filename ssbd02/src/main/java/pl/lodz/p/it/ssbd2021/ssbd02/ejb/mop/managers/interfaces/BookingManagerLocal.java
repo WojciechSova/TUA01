@@ -22,20 +22,6 @@ public interface BookingManagerLocal {
     List<Booking> getAllBookings();
 
     /**
-     * Metoda wyszukująca wszystkie aktualne rezerwacje.
-     *
-     * @return Lista aktualnych rezerwacji {@link Booking}
-     */
-    List<Booking> getAllCurrentBookings();
-
-    /**
-     * Metoda wyszukująca wszystkie zakończone rezerwacje.
-     *
-     * @return Lista zakończonych rezerwacji {@link Booking}
-     */
-    List<Booking> getAllFinishedBookings();
-
-    /**
      * Metoda wyszukująca wszystkie rezerwacje użytkownika o podanym loginie.
      *
      * @param login Login użytkownika, którego rezerwacje chcemy uzyskać
@@ -59,14 +45,6 @@ public interface BookingManagerLocal {
      * @return Encja typu {@link Booking}
      */
     Booking getBookingByAccountAndNumber(String login, String number);
-
-    /**
-     * Metoda zwracająca potrzebne miejsce na promie na pojazd o podanej nazwie typu.
-     *
-     * @param name Nazwa typu pojazdu
-     * @return Wartość typu {@link Float}
-     */
-    Float getRequiredSpaceByVehicleTypeName(String name);
 
     /**
      * Metoda tworząca rezerwacje.

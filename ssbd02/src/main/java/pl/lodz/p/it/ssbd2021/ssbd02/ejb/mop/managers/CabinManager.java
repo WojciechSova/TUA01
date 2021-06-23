@@ -48,24 +48,6 @@ public class CabinManager extends AbstractManager implements CabinManagerLocal, 
     private BookingFacadeLocal bookingFacadeLocal;
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
-    public List<Cabin> getAllCabins() {
-        return null;
-    }
-
-    @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public List<Cabin> getAllCabinsByFerryCode(String code) {
-        return null;
-    }
-
-    @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public List<Cabin> getAllCabinsByFerryCodeAndCabinType(String code, String cabinType) {
-        return null;
-    }
-
-    @Override
     @RolesAllowed({"CLIENT"})
     public List<Cabin> getFreeCabinsOnCruise(String number) {
         Cruise cruise = cruiseFacadeLocal.findByNumber(number);

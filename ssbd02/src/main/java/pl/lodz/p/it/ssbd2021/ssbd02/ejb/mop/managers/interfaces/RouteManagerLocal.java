@@ -31,22 +31,6 @@ public interface RouteManagerLocal {
     Route getRouteByCode(String code);
 
     /**
-     * Metoda wyszukująca wszystkie trasy, które rozpoczynają się w podanym mieście.
-     *
-     * @param city Nazwa miasta, po którym chcemy wyszukać
-     * @return Lista tras {@link Route}, które rozpoczynają się w podanym mieście
-     */
-    List<Route> getRoutesByStart(String city);
-
-    /**
-     * Metoda wyszukująca wszystkie trasy, które kończą się w podanym mieście.
-     *
-     * @param city Nazwa miasta, po którym chcemy wyszukać
-     * @return Lista tras {@link Route}, które kończą się w podanym mieście
-     */
-    List<Route> getRoutesByDestination(String city);
-
-    /**
      * Metoda wyszukująca trasę oraz wszystkie rejsy na trasie o podanym kodzie.
      *
      * @param code Kod trasy, po której chcemy wyszukać
