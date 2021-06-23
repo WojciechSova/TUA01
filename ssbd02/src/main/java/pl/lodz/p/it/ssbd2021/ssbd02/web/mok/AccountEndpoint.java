@@ -721,9 +721,7 @@ public class AccountEndpoint {
         if (email == null || "".equals(email.trim())) {
             throw CommonExceptions.createConstraintViolationException();
         }
-        if (!EmailAddressValidator.isValid(email)) {
-            throw CommonExceptions.createConstraintViolationException();
-        }
+
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         do {
