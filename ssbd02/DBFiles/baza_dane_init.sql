@@ -92,4 +92,5 @@ VALUES ('None', 0),
 INSERT INTO Booking (version, cruise, account, number_of_people, cabin, vehicle_type, price, number)
 VALUES (1, 1, 4, 5, 2, 1, 100, '0000000001'),
        (1, 2, 5, 2, 6, 2, 200, '0000000002'),
-       (1, 3, 6, 2, 9, 3, 300, '0000000003');
+       (1, 3, 6, 2, 9, 3, 300, '0000000003'),
+       (1, 5, 6, 2, 9, 3, 300, '0000000004');
