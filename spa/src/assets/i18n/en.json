@@ -213,7 +213,9 @@
         "BAD_REQUEST": "Bad request",
         "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists",
         "CANNOT_REMOVE_CABIN": "Cannot remove cabin",
-        "CABIN_ALREADY_REMOVED": "Cabin has already been removed by someone else"
+        "CABIN_ALREADY_REMOVED": "Cabin has already been removed by someone else",
+        "OPTIMISTIC_LOCK_ERROR": "Data you are trying to update is outdated",
+        "UNKNOWN_ERROR": "Something went wrong"
     },
     "error-page": {
         "forbidden_code": "Error 403",

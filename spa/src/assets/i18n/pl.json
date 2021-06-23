@@ -213,7 +213,9 @@
         "BAD_REQUEST": "Niepoprawne żądanie",
         "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje",
         "CANNOT_REMOVE_CABIN": "Nie można usunąć kajuty",
-        "CABIN_ALREADY_REMOVED": "Kajuta została już usunięta przez kogoś innego"
+        "CABIN_ALREADY_REMOVED": "Kajuta została już usunięta przez kogoś innego",
+        "OPTIMISTIC_LOCK_ERROR": "Dane, które próbujesz edytować nie są aktualne",
+        "UNKNOWN_ERROR": "Coś poszło nie tak"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",

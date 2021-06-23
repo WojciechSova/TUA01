@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AccountDetails } from '../../model/mok/AccountDetails';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountDetailsService } from '../../services/mok/account-details.service';
@@ -13,7 +13,7 @@ import { IdentityService } from '../../services/utils/identity.service';
     templateUrl: './edit-user.component.html',
     styleUrls: ['./edit-user.component.less']
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent {
 
     isConfirmationVisible = false;
     firstName: string | undefined;
@@ -29,6 +29,8 @@ export class EditUserComponent implements OnInit {
     }
 
     public existingPhoneNumber = false;
+    public optimisticLockError = false;
+    public unknownError = false;
     public timezones: string[] = [
         '-12:00',
         '-11:00',
@@ -112,6 +114,7 @@ export class EditUserComponent implements OnInit {
     }
 
     editUser(firstName?: string, lastName?: string, phoneNumber?: string, timeZone?: string): void {
+        this.clearErrors();
         const acc: AccountDetails = this.accountDetailsService.account;
         if (firstName != null) {
             acc.firstName = firstName;
@@ -133,10 +136,14 @@ export class EditUserComponent implements OnInit {
                 this.getAccount();
             },
             (err: HttpErrorResponse) => {
-                if (err.status === 409) {
+                if (err.error === 'ERROR.PHONE_NUMBER_UNIQUE') {
                     this.existingPhoneNumber = true;
-                    this.getAccount();
+                } else if (err.error === 'ERROR.OPTIMISTIC_LOCK') {
+                    this.optimisticLockError = true;
+                } else {
+                    this.unknownError = true;
                 }
+                this.getAccount();
             }
         );
     }
@@ -149,7 +156,10 @@ export class EditUserComponent implements OnInit {
         }
     }
 
-    ngOnInit(): void {
+    private clearErrors(): void {
+        this.optimisticLockError = false;
+        this.existingPhoneNumber = false;
+        this.unknownError = false;
     }
 
     confirmationResult(confirmationResult: boolean): void {

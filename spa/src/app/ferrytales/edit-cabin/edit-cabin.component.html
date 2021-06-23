@@ -65,6 +65,8 @@
                  alt=""/>
             <div class="edit-error" *ngIf="editFailed"
                  translate>form.cabin_edit_failed</div>
+            <div class="edit-error" *ngIf="optimisticLockError"
+                 translate>ERROR.OPTIMISTIC_LOCK_ERROR</div>
         </form>
 
     </ng-template>
