@@ -9,7 +9,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccessLevelExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.OneTimeUrlExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
@@ -27,7 +26,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -271,7 +277,7 @@ public class AccountEndpoint {
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.TEXT_PLAIN)
     public Response removeAccessLevel(@Context SecurityContext securityContext,
-                                      @PathParam("login") String login, String accessLevel) {
+                                      @PathParam("login") String login, @NotBlank String accessLevel) {
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         do {
@@ -354,8 +360,9 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca użytkownikowi aktualizowanie swojego konta w aplikacji.
      *
-     * @param accountDTO Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta
-     * @param eTag       ETag podawany w zawartości nagłówka "If-Match"
+     * @param accountDTO      Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @param eTag            ETag podawany w zawartości nagłówka "If-Match"
      * @return Kod 200 w przypadku poprawnej aktualizacji konta
      * Kod 400 w przypadku gdy przesyłane dane nie zawierają loginu lub wersji
      * Kod 412 w przypadku gdy eTag nie jest ważny lub próbujemy zmienić nie swoje konto
@@ -580,7 +587,7 @@ public class AccountEndpoint {
     }
 
     /**
-     * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiay adresu e-mail
+     * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiany adresu e-mail
      *
      * @param newEmailAddress Nowy adres e-mail
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
@@ -626,7 +633,8 @@ public class AccountEndpoint {
      * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiany adresu e-mail użytkownika o podanym loginie.
      *
      * @param newEmailAddress Nowy adres e-mail.
-     * @param login           Login użytkownika, któremy ma zostać zmieniony adres e-mail.
+     * @param login           Login użytkownika, któremu ma zostać zmieniony adres e-mail.
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
      */
     @POST
@@ -710,7 +718,8 @@ public class AccountEndpoint {
     /**
      * Metoda obsługująca żądanie resetowania hasła.
      *
-     * @param email Email użytkownika, którego hasło ma zostać zresetowane
+     * @param email           Email użytkownika, którego hasło ma zostać zresetowane
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego formatu adresu email, w przeciwnym razie 400.
      * Aplikacja nie powiadamia użytkownika czy podany email znajduje się w bazie danych.
      */
@@ -777,49 +786,6 @@ public class AccountEndpoint {
         do {
             try {
                 accountManager.resetPassword(url, new Password(newPassword));
-                transactionRollBack = accountManager.isTransactionRolledBack();
-            } catch (GeneralException generalException) {
-                throw generalException;
-            } catch (EJBAccessException | AccessLocalException accessExcept) {
-                if (transactionRetryCounter < 2) {
-                    throw CommonExceptions.createForbiddenException();
-                }
-            } catch (EJBException ejbException) {
-                if (transactionRetryCounter < 2) {
-                    throw CommonExceptions.createUnknownException();
-                }
-            } catch (Exception e) {
-                throw CommonExceptions.createUnknownException();
-            }
-        } while (transactionRollBack && --transactionRetryCounter > 0);
-
-        return Response.ok()
-                .build();
-    }
-
-    /**
-     * Metoda zmianiający aktualny poziom dostępu użytkownika.
-     *
-     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
-     * @param accessLevel     Poziom dostępu, który ma zostać zmieniony
-     * @return Kod 200 w przypadku poprawnej zmiany poziomu dostępu. Kod 400 w przypadku podania nieistniejącego
-     * poziomu dostępu
-     */
-    @POST
-    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Path("change/accesslevel")
-    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @NotBlank String
-            accessLevel) {
-        if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
-            throw AccessLevelExceptions.createBadRequestException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
-        }
-        int transactionRetryCounter = getTransactionRepetitionCounter();
-        boolean transactionRollBack = false;
-        do {
-            try {
-                logger.info("The user with login {} changed the access level to {}",
-                        securityContext.getUserPrincipal().getName(), accessLevel);
                 transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;

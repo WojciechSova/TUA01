@@ -90,7 +90,7 @@ class RouteEndpointTest {
 
     @Test
     public void getRouteAndCruisesForRoute() {
-        String code = "CODE";
+        String code = "CODEDE";
         when(routeManagerLocal.getRouteAndCruisesByRouteCode(code)).thenReturn(Pair.of(route1, cruises));
         RouteDetailsDTO routeDetailsDTO = RouteMapper.createRouteDetailsDTOFromEntity(route1, cruises);
 

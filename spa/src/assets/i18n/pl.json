@@ -415,7 +415,7 @@
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
         "created_by": "Utworzony przez",
-        "edit_success": "Edycja kajuty przbiegła pomyślnie"
+        "edit_success": "Edycja kajuty przebiegła pomyślnie"
     },
     "add-seaport": {
         "new_seaport": "Nowy port",
@@ -432,9 +432,9 @@
     },
     "add-cabin": {
         "new_cabin": "Nowa kajuta",
-        "capacity": "Pojemność",
+        "capacity": "*Pojemność",
         "cabin_type": "Typ kajuty",
-        "number": "Numer"
+        "number": "*Numer"
     },
     "add-ferry": {
         "new_ferry": "Nowy prom",

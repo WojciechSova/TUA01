@@ -93,6 +93,10 @@ public class RouteEndpoint {
     @Path("/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getRouteAndCruisesForRoute(@PathParam("code") String code) {
+        if (!code.matches("[A-Z]{6}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         RouteDetailsDTO routeDetailsDTO = null;

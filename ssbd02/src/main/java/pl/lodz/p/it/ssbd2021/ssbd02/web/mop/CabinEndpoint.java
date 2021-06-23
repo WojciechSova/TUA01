@@ -11,6 +11,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOSignatureValidatorFilterBinding;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
@@ -21,7 +22,14 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -34,7 +42,7 @@ import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
- * Zawiera metody obsługujące żądania związane z rejsami.
+ * Zawiera metody obsługujące żądania związane z kajutami.
  *
  * @author Kacper Świercz
  */
@@ -47,6 +55,7 @@ public class CabinEndpoint {
 
     @Inject
     private CabinManagerLocal cabinManager;
+
     @Inject
     private CabinTypeManagerLocal cabinTypeManager;
 
@@ -62,8 +71,10 @@ public class CabinEndpoint {
     @Path("{ferryName}/add")
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"EMPLOYEE"})
-    public Response addCabin(@Valid CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext, @PathParam("ferryName") String ferryName) {
-        if (cabinDTO.getCapacity() == null || cabinDTO.getCabinType() == null || cabinDTO.getNumber() == null) {
+    public Response addCabin(@Valid CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext,
+                             @PathParam("ferryName") String ferryName) {
+        if (cabinDTO.getCapacity() == null || cabinDTO.getCabinType() == null || cabinDTO.getNumber() == null
+                || ferryName.length() > 30) {
             throw CommonExceptions.createConstraintViolationException();
         }
 
@@ -113,6 +124,10 @@ public class CabinEndpoint {
     @Path("details/{ferry}/{number}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getCabin(@PathParam("ferry") String ferryName, @PathParam("number") String cabinNumber) {
+        if (ferryName.length() > 30 || !cabinNumber.matches("[A-Z][0-9]{3}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         CabinDetailsDTO cabinDetailsDTO = null;
@@ -142,13 +157,6 @@ public class CabinEndpoint {
                 .build();
     }
 
-    @GET
-    @Path("ferry/{name}")
-    @RolesAllowed({"CLIENT", "EMPLOYEE"})
-    public Response getCabinsByFerry(@PathParam("name") String name) {
-        return null;
-    }
-
     /**
      * Metoda udostępniająca listę ogólnych informacji o wolnych kajutach dla danego rejsu
      *
@@ -159,6 +167,10 @@ public class CabinEndpoint {
     @Path("cruise/free/{number}")
     @RolesAllowed({"CLIENT"})
     public Response getFreeCabinsOnCruise(@PathParam("number") String cruiseNumber) {
+        if (!cruiseNumber.matches("[A-Z]{6}[0-9]{6}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         List<CabinGeneralDTO> cabinGeneralDTOList = null;
@@ -234,14 +246,24 @@ public class CabinEndpoint {
                 .build();
     }
 
+    /**
+     * Metoda edytująca kajutę.
+     *
+     * @param cabinDTO        Kajuta, która ma być edytowana
+     * @param ferryName       Nazwa promu
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param eTag            ETag podawany w zawartości nagłówka "If-Match"
+     * @return Kod 200 w przypadku poprawnej modyfikacji kajuty
+     */
     @PUT
     @Path("update/{ferry}")
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"EMPLOYEE"})
+    @DTOSignatureValidatorFilterBinding
     public Response updateCabin(@Valid CabinDetailsDTO cabinDTO, @PathParam("ferry") String ferryName,
                                 @Context SecurityContext securityContext, @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
 
-        if (cabinDTO.getNumber() == null || cabinDTO.getVersion() == null) {
+        if (cabinDTO.getNumber() == null || cabinDTO.getVersion() == null || ferryName.length() > 30) {
             throw CommonExceptions.createPreconditionFailedException();
         }
         if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, cabinDTO)) {
