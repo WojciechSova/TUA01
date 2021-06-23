@@ -61,6 +61,8 @@ export class RoutesTableComponent implements OnDestroy {
             (error: any) => {
                 if (error.status === 409) {
                     this.result = 'failure';
+                } else if (error.status === 410){
+                    this.result = 'gone';
                 } else {
                     this.errorHandlerService.handleError(error);
                 }

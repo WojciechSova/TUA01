@@ -10,6 +10,7 @@
     <div *ngIf="(result) !== 'hidden'" class="info-popup">
         <p *ngIf="(result) === 'success'" class="success" translate>route.response.success</p>
         <p *ngIf="(result) === 'failure'" class="failure" translate>route.response.failure</p>
+        <p *ngIf="(result) === 'gone'" class="success" translate>route.response.gone</p>
     </div>
     <div *ngIf="routeGeneralService.popup !== 'hidden'" class="info-popup">
         <p *ngIf="routeGeneralService.popup === 'add_route_success'" class="success" translate>route-details.add_success</p>

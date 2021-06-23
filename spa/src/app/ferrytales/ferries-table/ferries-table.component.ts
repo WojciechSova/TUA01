@@ -65,6 +65,8 @@ export class FerriesTableComponent implements OnInit {
             (error => {
                 if (error.error === 'ERROR.FERRY_IS_BEING_USED') {
                     this.ferryUsed = true;
+                } else if (error.status === 410) {
+                    this.result = 'gone';
                 } else {
                     this.errorHandlerService.handleError(error);
                 }

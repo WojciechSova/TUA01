@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AccessLevel } from '../../../model/mok/AccessLevel';
 import {IdentityService} from '../../../services/utils/identity.service';
+import { TranslationService } from '../../../services/utils/translation.service';
 
 @Component({
     selector: 'app-access-level-table',
@@ -10,7 +11,8 @@ import {IdentityService} from '../../../services/utils/identity.service';
 export class AccessLevelTableComponent implements OnInit {
 
 
-    constructor(public identityService: IdentityService) {
+    constructor(public identityService: IdentityService,
+                public translationService: TranslationService) {
     }
 
     @Input()
