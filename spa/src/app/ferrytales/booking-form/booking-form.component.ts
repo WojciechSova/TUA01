@@ -288,6 +288,9 @@ export class BookingFormComponent implements OnInit {
                     this.notEnoughCabinSpace = true;
                 } else if (error.error === 'ERROR.CABIN_OCCUPIED') {
                     this.cabinOccupied = true;
+                    this.getFreeCabins();
+                    this.cabinTypeChosen = false;
+                    this.wantCabin = false;
                 } else if (error.error === 'ERROR.FERRY_CAPACITY_LESS_THAN_PEOPLE_NUMBER') {
                     this.notEnoughFerrySpace = true;
                 } else if (error.status === 409){

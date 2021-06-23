@@ -59,7 +59,7 @@
             <td>{{user['lastName']}}</td>
             <td>
                 <div *ngFor="let accessLevel of user.accessLevel">
-                    <div>{{accessLevel}}</div>
+                    <div translate>{{translationService.translateAccessLevel(accessLevel)}}</div>
                 </div>
             </td>
             <td>

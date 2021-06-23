@@ -8,8 +8,8 @@
         <th translate>access-level-table.created_by</th>
     </tr>
     <tr class="access-tr" *ngFor="let accessLvl of accessLevels">
-        <td>{{accessLvl.level}}</td>
-        <td>{{accessLvl.active}}</td>
+        <td translate>{{translationService.translateAccessLevel(accessLvl.level)}}</td>
+        <td translate>{{translationService.translateBoolean(accessLvl.active)}}</td>
         <td>{{accessLvl.modificationDate | date :'short':identityService.getTimezone()}}</td>
         <td>{{accessLvl.modifiedBy?.login}}</td>
         <td>{{accessLvl.creationDate | date :'short':identityService.getTimezone()}}</td>

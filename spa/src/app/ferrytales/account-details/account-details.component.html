@@ -87,11 +87,11 @@
             <div id="adminFields" *ngIf="identityService.isAdmin()">
                 <div class="row">
                     <label class="uppercase" translate>account-details.active</label>
-                    <label>{{accountDetailsService.account.active}}</label>
+                    <label>{{translationService.translateBoolean(accountDetailsService.account.active) | translate}}</label>
                 </div>
                 <div class="row">
                     <label class="uppercase" translate>account-details.confirmed</label>
-                    <label>{{accountDetailsService.account.confirmed}}</label>
+                    <label>{{translationService.translateBoolean(accountDetailsService.account.confirmed) | translate}}</label>
                 </div>
                 <div class="row">
                     <label class="uppercase" translate>account-details.last_modification_date</label>

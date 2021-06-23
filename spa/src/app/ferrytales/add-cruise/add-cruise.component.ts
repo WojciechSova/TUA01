@@ -120,7 +120,7 @@ export class AddCruiseComponent implements OnInit {
         this.error = true;
 
         if (error.status === 400) {
-            this.errorCode = 'ERROR.BAD_REQUEST';
+            this.errorCode = 'cruise-edit.wrong_dates';
         } else if (error.status === 409) {
             if (error.error === 'ERROR.CRUISE_NUMBER_UNIQUE') {
                 this.errorCode = error.error;

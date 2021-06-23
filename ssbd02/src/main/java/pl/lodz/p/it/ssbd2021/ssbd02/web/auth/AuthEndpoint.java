@@ -8,9 +8,9 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.auth.CredentialsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
+import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccountExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.JWTGenerator;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.security.SecurityConstants;
 
@@ -26,7 +26,12 @@ import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.ws.rs.*;
+import javax.validation.constraints.NotBlank;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -46,13 +51,13 @@ import java.util.stream.Collectors;
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class AuthEndpoint {
 
+    private static final Logger logger = LogManager.getLogger();
+
     @Inject
     private IdentityStoreHandler identityStoreHandler;
 
     @Inject
     private AccountManagerLocal accountManagerLocal;
-
-    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Metoda obsługująca operację uwierzytelnienia.
@@ -60,6 +65,7 @@ public class AuthEndpoint {
      * W przypadku niepoprawngo uwierzytelnienia również zapisywana jest data niepoprawnego uwierzytelnienia oraz adres IP.
      *
      * @param credentialsDTO Dane logowania użytkownika.
+     * @param req            Zapytanie wysłane do serwera.
      * @return W przypadku poprawnego uwierzytelnienia zwraca w odpowiedzi wygenerowany token JWT.
      * W przypadku niepoprawnego wyniku uwierzytelnienia zwracana jest odpowiedź o kodzie błędu HTTP 401 - Unauthorized.
      */
@@ -160,7 +166,8 @@ public class AuthEndpoint {
     @POST
     @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
     @Path("change/accesslevel")
-    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @Context HttpServletRequest httpServletRequest, String accessLevel) {
+    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @Context HttpServletRequest httpServletRequest,
+                                                 @NotBlank String accessLevel) {
         String clientAddress = getClientIp(httpServletRequest);
         logger.info("The user with login {} changed the access level to {} (ip: {})",
                 securityContext.getUserPrincipal().getName(), accessLevel, clientAddress);

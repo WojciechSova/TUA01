@@ -5,7 +5,9 @@
         "client": "Client",
         "refresh": "Refresh",
         "details": "Details",
-        "edit": "Edit"
+        "edit": "Edit",
+        "true": "True",
+        "false": "False"
     },
     "form": {
         "invalid_format": "Invalid format",
@@ -295,7 +297,8 @@
         "details": "Cruises",
         "response": {
             "success": "The route deleted successfully",
-            "failure": "Failed to delete the route (the route has cruises assigned)"
+            "failure": "Failed to delete the route (the route has cruises assigned)",
+            "gone": "Route was deleted by someone else"
         }
     },
     "ferries-table": {
@@ -318,7 +321,8 @@
         "created_by": "Created by:",
         "add_cabin": "Add cabin",
         "no_cabins": "No cabins",
-        "add_cabin_success": "Cabin added"
+        "add_cabin_success": "Cabin added",
+        "gone": "Ferry was deleted by someone else"
     },
     "route-details": {
         "code": "Code:",
@@ -329,7 +333,7 @@
         "created_by": "Created by:",
         "add_cruise": "Add cruise",
         "no_cruises_on_route": "No cruises on route",
-        "add_success": "Added a route"
+        "add_success": "Added a route successfully"
     },
     "cabin-table": {
         "capacity": "Capacity",
@@ -392,7 +396,8 @@
         "result_gone": "Cruise date change failed because the selected cruise, route or ferry was deleted",
         "result_failure": "Cruise date change failed",
         "result_opl": "State of the seaport changed, please try again",
-        "ferry_being_used": "Ferry is being used"
+        "ferry_being_used": "Ferry is being used",
+        "wrong_dates": "Wrong dates"
     },
     "seaport-edit": {
         "required_city": "*City name",
@@ -419,7 +424,11 @@
     "add-seaport": {
         "new_seaport": "New seaport",
         "city": "*City",
-        "code": "*Code"
+        "code": "*Code",
+        "response": {
+            "city_unique": "Provided city name is not unique",
+            "code_unique": "Provided code is not unique"
+        }
     },
     "cabin-form": {
         "choose_cabin_type": "Choose cabin type",
@@ -431,9 +440,9 @@
     },
     "add-cabin": {
         "new_cabin": "New cabin",
-        "capacity": "Capacity",
+        "capacity": "*Capacity",
         "cabin_type": "Cabin type",
-        "number": "Number"
+        "number": "*Number"
     },
     "add-ferry": {
         "new_ferry": "New ferry",

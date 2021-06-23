@@ -14,7 +14,6 @@ import { AuthService } from '../mok/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
-import { ErrorHandlerService } from '../error-handlers/error-handler.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -25,15 +24,18 @@ export class AuthInterceptor implements HttpInterceptor {
                 private authService: AuthService,
                 private cookieService: CookieService,
                 private zone: NgZone,
-                private router: Router,
-                private errorHandlerService: ErrorHandlerService) {
+                private router: Router) {
         this.httpClient = new HttpClient(handler);
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const actualDate = new Date();
+        const tokenDate = new Date(parseInt(this.cookieService.get('expirationTime'), 10) * 1000);
+
         if (req.url !== environment.appUrl + '/auth'
             && this.cookieService.get('token') !== null
-            && this.cookieService.get('token') !== '') {
+            && this.cookieService.get('token') !== ''
+            && tokenDate > actualDate) {
             this.httpClient.get(environment.appUrl + '/auth', {
                 headers: {
                     Authorization: 'Bearer ' + this.cookieService.get('token')
@@ -49,6 +51,8 @@ export class AuthInterceptor implements HttpInterceptor {
                     }
                 }
             );
+        } else {
+            this.authService.signOut();
         }
 
         const authReq = req.clone({setHeaders: {Authorization: 'Bearer ' + this.cookieService.get('token')}});

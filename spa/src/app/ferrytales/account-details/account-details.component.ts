@@ -6,6 +6,7 @@ import { AccountDetailsService } from '../../services/mok/account-details.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 import {AccessLevelService} from '../../services/mok/access-level.service';
+import { TranslationService } from '../../services/utils/translation.service';
 
 @Component({
     selector: 'app-account-details',
@@ -32,7 +33,8 @@ export class AccountDetailsComponent implements OnInit {
                 public accountDetailsService: AccountDetailsService,
                 private route: ActivatedRoute,
                 private router: Router,
-                public accessLevelService: AccessLevelService) {
+                public accessLevelService: AccessLevelService,
+                public translationService: TranslationService) {
     }
 
     ngOnInit(): void {

@@ -20,7 +20,7 @@
             </div>
             <div class="row">
                 <input #newCity type="text" id="add-city" formControlName="city"
-                       placeholder="{{'seaports-table.city' | translate}}"
+                       placeholder="{{'add-seaport.city' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.city.touched && form.controls.city.invalid}"/>
                 <div class="validation-error"
                      *ngIf="form.controls.city.hasError('required') && form.controls.city.touched"
@@ -33,7 +33,7 @@
 
             <div class="row">
                 <input #newCode type="text" id="add-code" formControlName="code"
-                       placeholder="{{'seaports-table.code' | translate}}"
+                       placeholder="{{'add-seaport.code' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.code.touched && form.controls.code.invalid}"/>
                 <div class="validation-error"
                      *ngIf="form.controls.code.hasError('required') && form.controls.code.touched"
@@ -50,7 +50,8 @@
                 [disabled]=form.invalid translate>form.save
         </button>
         <div class="validation-error validation-info" *ngIf="error">
-            <p id="invalidCredentialsLabel" translate>ERROR.DUPLICATE_CODE</p>
+            <p *ngIf="response === 'city_unique'" translate>add-seaport.response.city_unique</p>
+            <p *ngIf="response === 'code_unique'" translate>add-seaport.response.code_unique</p>
         </div>
         <img class="return-arrow" (click)="goToSeaportListBreadcrumb()"
              src="assets/imgs/back-arrow.png"

@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.FerryMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOSignatureValidatorFilterBinding;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
@@ -94,6 +95,10 @@ public class FerryEndpoint {
     @Path("{name}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getFerry(@PathParam("name") String name) {
+        if (name.length() > 30) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         FerryDetailsDTO ferryDetailsDTO = null;
@@ -175,6 +180,7 @@ public class FerryEndpoint {
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
+    @DTOSignatureValidatorFilterBinding
     public Response updateFerry(@Valid FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext,
                                 @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
         if (ferryDetailsDTO.getName() == null || ferryDetailsDTO.getName().isBlank()

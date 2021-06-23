@@ -13,6 +13,7 @@ import {ErrorHandlerService} from '../../services/error-handlers/error-handler.s
 export class AddSeaportComponent implements OnInit {
 
     error = false;
+    response = '';
 
     form = new FormGroup({
         city: new FormControl('', [Validators.required, Validators.max(30)]),
@@ -49,7 +50,13 @@ export class AddSeaportComponent implements OnInit {
             },
             (error: any) => {
                 if (error.status === 409) {
-                    this.error = true;
+                    if (error.error === 'ERROR.SEAPORT_CITY_UNIQUE') {
+                        this.response = 'city_unique';
+                        this.error = true;
+                    } else if (error.error === 'ERROR.SEAPORT_CODE_UNIQUE') {
+                        this.response = 'code_unique';
+                        this.error = true;
+                    }
                 } else {
                     this.errorHandlerService.handleError(error);
                 }

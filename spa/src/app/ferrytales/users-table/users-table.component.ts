@@ -6,6 +6,7 @@ import { AccountDetailsService } from '../../services/mok/account-details.servic
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 import { AccessLevelService } from '../../services/mok/access-level.service';
+import { TranslationService } from '../../services/utils/translation.service';
 
 @Component({
     selector: 'app-users-table',
@@ -30,7 +31,8 @@ export class UsersTableComponent {
                 private accountDetailsService: AccountDetailsService,
                 private router: Router,
                 private errorHandlerService: ErrorHandlerService,
-                public accessLevelService: AccessLevelService) {
+                public accessLevelService: AccessLevelService,
+                public translationService: TranslationService) {
         this.getAccounts();
     }
 
