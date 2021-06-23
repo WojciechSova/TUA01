@@ -167,15 +167,11 @@
         "sign_in_to_book": "Zaloguj się, aby zarezerwować bilet!"
     },
     "popular-offers": {
-        "popular_routes": "Najpopularniejsze trasy"
+        "upcoming_cruises": "Nadchodzące rejsy"
     },
     "offer": {
         "starting_at": "Już od {{price}}zł od osoby",
         "book": "Zarezerwuj"
-    },
-    "cities": {
-        "warsaw": "Warszawa",
-        "ciechocinek": "Ciechocinek"
     },
     "confirm-account": {
         "welcome_on_board": "Witamy na pokładzie!",
@@ -359,7 +355,8 @@
         "route_destination": "Port docelowy",
         "ferry_name": "Nazwa promu",
         "book_a_ticket": "Zarezerwuj bilet",
-        "book": "Zarezerwuj"
+        "book": "Zarezerwuj",
+        "log_in_to_book_a_ticket": "Zaloguj się, aby zarezerwować bilet"
     },
     "add-cruise": {
         "new_cruise": "Nowy rejs",

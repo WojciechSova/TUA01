@@ -33,10 +33,10 @@ VALUES (1, 'Ever Given', 10, 100),
        (1, 'White perl', 20, 150);
 
 INSERT INTO Seaport (version, city, code)
-VALUES (1, 'Venice', 'VEN'),
-       (1, 'Valencia', 'VAL'),
+VALUES (1, 'Wenecja', 'VEN'),
+       (1, 'Walencja', 'VAL'),
        (1, 'Barcelona', 'BAR'),
-       (1, 'Alexandria', 'ALE');
+       (1, 'Aleksandria', 'ALE');
 
 INSERT INTO Route (version, start, destination, code)
 VALUES (1, 1, 2, 'VENVAL'),
