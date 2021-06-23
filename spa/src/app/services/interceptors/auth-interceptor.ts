@@ -14,6 +14,7 @@ import { AuthService } from '../mok/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { NgZone } from '@angular/core';
+import { ErrorHandlerService } from '../error-handlers/error-handler.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -24,7 +25,8 @@ export class AuthInterceptor implements HttpInterceptor {
                 private authService: AuthService,
                 private cookieService: CookieService,
                 private zone: NgZone,
-                private router: Router) {
+                private router: Router,
+                private errorHandlerService: ErrorHandlerService) {
         this.httpClient = new HttpClient(handler);
     }
 

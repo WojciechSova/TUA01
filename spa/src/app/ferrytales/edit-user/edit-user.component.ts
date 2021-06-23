@@ -7,6 +7,8 @@ import { UpdateAccountService } from '../../services/mok/update-account.service'
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IdentityService } from '../../services/utils/identity.service';
+import {ChangePasswordService} from "../../services/mok/change-password.service";
+import {ErrorHandlerService} from "../../services/error-handlers/error-handler.service";
 
 @Component({
     selector: 'app-edit-user',
@@ -25,7 +27,8 @@ export class EditUserComponent {
                 private route: ActivatedRoute,
                 private updateAccountService: UpdateAccountService,
                 private router: Router,
-                public identityService: IdentityService) {
+                public identityService: IdentityService,
+                private errorHandlerService: ErrorHandlerService) {
     }
 
     public existingPhoneNumber = false;
@@ -141,7 +144,7 @@ export class EditUserComponent {
                 } else if (err.error === 'ERROR.OPTIMISTIC_LOCK') {
                     this.optimisticLockError = true;
                 } else {
-                    this.unknownError = true;
+                    this.errorHandlerService.handleError(err);
                 }
                 this.getAccount();
             }

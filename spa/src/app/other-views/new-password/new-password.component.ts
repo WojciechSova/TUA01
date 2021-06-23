@@ -4,6 +4,7 @@ import { ResetPasswordService } from '../../services/mok/reset-password.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { validatePassword } from '../../common/navigation/register/matching.validator';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
   selector: 'app-new-password',
@@ -15,13 +16,14 @@ export class NewPasswordComponent {
     timeout = 8000;
     samePassword = false;
     incorrectPassword = false;
+    resultGone = false;
+    resultConflict = false;
     url = '';
     newPassword = '';
 
     invalidUrlVisible = false;
     tooShortVisible = false;
     changeSuccessful = false;
-    otherError = false;
 
     form = new FormGroup({
         password: new FormControl('', [Validators.required, Validators.minLength(8), validatePassword]),
@@ -30,7 +32,8 @@ export class NewPasswordComponent {
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
-                private resetPasswordService: ResetPasswordService) {
+                private resetPasswordService: ResetPasswordService,
+                private errorHandlerService: ErrorHandlerService) {
         this.url = this.route.snapshot.paramMap.get('url') as string;
     }
 
@@ -49,7 +52,8 @@ export class NewPasswordComponent {
         this.invalidUrlVisible = false;
         this.tooShortVisible = false;
         this.changeSuccessful = false;
-        this.otherError = false;
+        this.resultConflict = false;
+        this.resultGone = false;
         this.resetPasswordService.setNewPassword(this.url, password).subscribe(
             () => {
                 this.changeSuccessful = true;
@@ -60,8 +64,12 @@ export class NewPasswordComponent {
                     this.invalidUrlVisible = true;
                 } else if (error.status === 406) {
                     this.tooShortVisible = true;
+                } else if (error.status === 409) {
+                    this.resultConflict = true;
+                } else if (error.status === 410) {
+                    this.resultGone = true;
                 } else {
-                    this.otherError = true;
+                    this.errorHandlerService.handleError(error);
                 }
             }
         );

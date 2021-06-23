@@ -3,6 +3,8 @@ import { AccountGeneral } from '../../model/mok/AccountGeneral';
 import { AccountGeneralService } from '../../services/mok/account-general.service';
 import { Router } from '@angular/router';
 import { AccountDetailsService } from '../../services/mok/account-details.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-users-table',
@@ -23,7 +25,8 @@ export class UsersTableComponent {
 
     constructor(private accountGeneralService: AccountGeneralService,
                 private accountDetailsService: AccountDetailsService,
-                private router: Router) {
+                private router: Router,
+                private errorHandlerService: ErrorHandlerService) {
         this.getAccounts();
     }
 
@@ -102,15 +105,21 @@ export class UsersTableComponent {
     }
 
     blockAccount(login: string): void {
-        this.accountGeneralService.blockAccount(login).subscribe(() => {
-            this.getAccounts();
-        });
+        this.accountGeneralService.blockAccount(login).subscribe(
+            () => {
+                this.getAccounts();
+            }, (error: HttpErrorResponse) => {
+                this.errorHandlerService.handleError(error);
+            });
     }
 
     unblockAccount(login: string): void {
-        this.accountGeneralService.unblockAccount(login).subscribe(() => {
-            this.getAccounts();
-        });
+        this.accountGeneralService.unblockAccount(login).subscribe(
+            () => {
+                this.getAccounts();
+            }, (error: HttpErrorResponse) => {
+                this.errorHandlerService.handleError(error);
+            });
     }
 
     goToHomeBreadcrumb(): void {

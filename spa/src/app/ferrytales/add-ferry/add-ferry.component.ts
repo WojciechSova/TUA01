@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FerryGeneralService } from '../../services/mop/ferry-general.service';
 import { FerryGeneral } from '../../model/mop/FerryGeneral';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-add-ferry',
@@ -14,7 +15,8 @@ export class AddFerryComponent implements OnInit {
     error = false;
 
     constructor(private router: Router,
-                private ferryGeneralService: FerryGeneralService) {
+                private ferryGeneralService: FerryGeneralService,
+                private errorHandlerService: ErrorHandlerService) {
     }
 
     form = new FormGroup({
@@ -38,6 +40,8 @@ export class AddFerryComponent implements OnInit {
             (error: any) => {
                 if (error.status === 409) {
                     this.error = true;
+                } else {
+                    this.errorHandlerService.handleError(error);
                 }
             });
     }

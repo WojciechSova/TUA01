@@ -12,7 +12,7 @@
         "invalid_number": "Cruise number should have 6 capital letters and 6 digits",
         "invalid_phone_number": "Phone number should have between 3 and 15 digits",
         "field_required": "Field required",
-        "confirm_date": "Confirm date",
+        "-_date": "Confirm date",
         "login": "Login",
         "first_name": "First name",
         "last_name": "Last name",
@@ -175,12 +175,14 @@
     },
     "confirm-account": {
         "welcome_on_board": "Welcome on board!",
-        "account_confirm_error": "An error occurred during account verification!",
+        "badUrl": "Url you used is incorrect",
+        "gone": "Url you used has expired",
         "go_to_main_page": "You will be taken to the home page in a moment"
     },
     "confirm-email-change": {
         "email_change_successful": "Changing the email address associated with your account was successful",
-        "email_change_error": "An error occurred while changing your email address!",
+        "badUrl": "Url you used is incorrect",
+        "gone": "Url you used has expired",
         "go_to_main_page": "You will be taken to the home page in a moment"
     },
     "password-reset": {
@@ -196,7 +198,8 @@
         },
         "reset": {
             "successful": "Password reset successful",
-            "failed": "Password reset failed"
+            "conflict": "Password can not be identical to previous one",
+            "gone": "Url has expired"
         }
     },
     "ERROR":{
@@ -208,7 +211,7 @@
         "DUPLICATE_CODE": "Provided code already exists",
         "DUPLICATE_FERRY_NAME": "Provided ferry name already exists",
         "DUPLICATE_NUMBER_CABIN": "Provided cabin number already exists",
-        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking",
+        "CANNOT_CANCEL_BOOKING": "Cannot cancel booking, the cruise has started",
         "FERRY_IS_BEING_USED": "Ferry is being used by other object",
         "BAD_REQUEST": "Bad request",
         "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists",
