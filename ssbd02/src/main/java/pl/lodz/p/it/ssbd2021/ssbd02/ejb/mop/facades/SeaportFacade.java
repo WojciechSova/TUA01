@@ -45,7 +45,7 @@ public class SeaportFacade extends AbstractFacade<Seaport> implements SeaportFac
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Seaport findByCode(String code) {
         TypedQuery<Seaport> typedQuery = entityManager.createNamedQuery("Seaport.findByCode", Seaport.class);
         typedQuery.setParameter("code", code);

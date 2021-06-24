@@ -15,30 +15,6 @@ import java.util.List;
 public interface CabinManagerLocal {
 
     /**
-     * Metoda wyszukująca wszystkie kajuty.
-     *
-     * @return Lista kajut {@link Cabin}
-     */
-    List<Cabin> getAllCabins();
-
-    /**
-     * Metoda wyszukująca wszystkie kajuty, które zawierają się na promie o podanym kodzie.
-     *
-     * @param code Kod promu, po którym chcemy wyszukać
-     * @return Lista kajut {@link Cabin}, które znajdują się na promie o podanym kodzie
-     */
-    List<Cabin> getAllCabinsByFerryCode(String code);
-
-    /**
-     * Metoda wyszukująca wszystkie kajuty, które znajdują się na promie o podanym kodzie i są wybranego typu.
-     *
-     * @param code      Kod promu, po którym chcemy wyszukać
-     * @param cabinType Nazwa typu kajuty
-     * @return Lista kajut {@link Cabin}, które znajdują się na promie o podanym kodzie i są wybranego typu
-     */
-    List<Cabin> getAllCabinsByFerryCodeAndCabinType(String code, String cabinType);
-
-    /**
      * Metoda wyszukująca wszystkie wolne kajuty dla danego rejsu
      *
      * @param number Numer rejsu

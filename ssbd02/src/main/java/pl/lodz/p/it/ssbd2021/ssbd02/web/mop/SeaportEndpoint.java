@@ -76,7 +76,7 @@ public class SeaportEndpoint {
      */
     @GET
     @Path("{code}")
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @RolesAllowed({"EMPLOYEE"})
     public Response getSeaport(@PathParam("code") String code) {
         if (code == null || code.length() != 3) {
             throw CommonExceptions.createConstraintViolationException();

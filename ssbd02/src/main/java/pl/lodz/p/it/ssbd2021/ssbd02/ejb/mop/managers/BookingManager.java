@@ -9,14 +9,12 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.VehicleType;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.BookingExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CabinExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.CruiseExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mop.FerryExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.SessionSynchronization;
 import javax.ejb.Stateful;
@@ -67,18 +65,6 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     }
 
     @Override
-    @PermitAll
-    public List<Booking> getAllCurrentBookings() {
-        return null;
-    }
-
-    @Override
-    @RolesAllowed({"EMPLOYEE"})
-    public List<Booking> getAllFinishedBookings() {
-        return null;
-    }
-
-    @Override
     @RolesAllowed({"CLIENT"})
     public List<Booking> getAllBookingsByAccount(String login) {
         return bookingFacadeLocal.findAllByAccount(accountMopFacadeLocal.findByLogin(login));
@@ -97,15 +83,10 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public Float getRequiredSpaceByVehicleTypeName(String name) {
-        return null;
-    }
-
-    @Override
     @RolesAllowed({"CLIENT"})
     public void createBooking(int numberOfPeople, String cruiseNumber, String cabinNumber, String login, String vehicleTypeName) {
         Booking booking = new Booking();
+        booking.setVersion(0L);
         booking.setNumberOfPeople(numberOfPeople);
         double price = 0;
         Cruise cruise = cruiseFacadeLocal.findByNumber(cruiseNumber);
@@ -119,13 +100,13 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
         VehicleType vehicleType = vehicleTypeFacadeLocal.findByName(vehicleTypeName);
 
         if (cruise.getStartDate().compareTo(Timestamp.from(Instant.now())) <= 0) {
-            throw CruiseExceptions.createConflictException("Cruise has already started");
+            throw CruiseExceptions.createConflictException(CruiseExceptions.ERROR_CRUISE_ALREADY_STARTED);
         }
 
         double sumOfVehiclesSpace = bookingFacadeLocal.getSumVehicleSpaceByCruise(cruise);
 
         if (cruise.getFerry().getVehicleCapacity() < sumOfVehiclesSpace + vehicleType.getRequiredSpace()) {
-            throw FerryExceptions.createConflictException("There is not enough space for a vehicle on the ferry");
+            throw FerryExceptions.createConflictException(CruiseExceptions.ERROR_CRUISE_NOT_ENOUGH_SPACE_FOR_VEHICLE_ON_FERRY);
         }
 
         price = getPrice(booking, price, cruise, cabin, vehicleType);
@@ -140,13 +121,13 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
         booking.setVehicleType(vehicleType);
         booking.setCreationDate(Timestamp.from(Instant.now()));
 
-        while(true) {
-            try{
+        while (true) {
+            try {
                 bookingFacadeLocal.create(booking);
                 cruise.setPopularity(calculatePopularity(cruise));
                 cruiseFacadeLocal.edit(cruise);
                 break;
-            } catch (ConstraintViolationException e){
+            } catch (ConstraintViolationException e) {
                 number = RandomStringUtils.random(10, false, true);
                 booking.setNumber(number);
             }
@@ -180,7 +161,7 @@ public class BookingManager extends AbstractManager implements BookingManagerLoc
             if (booking.getNumberOfPeople() > cabin.getCapacity()) {
                 throw CabinExceptions.createConflictException("Number of people is greater than cabin's capacity");
             }
-            if(cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise).contains(cabin)){
+            if (cabinFacadeLocal.findOccupiedCabinsOnCruise(cruise).contains(cabin)) {
                 throw CabinExceptions.createConflictException("Cabin is already occupied");
             }
             if (cabin.getCabinType().getCabinTypeName().equals("Disabled class")) {

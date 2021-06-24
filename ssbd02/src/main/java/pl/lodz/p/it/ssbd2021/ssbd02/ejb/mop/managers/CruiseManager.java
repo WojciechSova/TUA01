@@ -56,34 +56,15 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     private BookingFacadeLocal bookingFacade;
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
-    public List<Cruise> getAllCruises() {
-        return null;
-    }
-
-    @Override
     @PermitAll
     public List<Cruise> getAllCurrentCruises() {
         return cruiseFacadeLocal.findAllFutureDate();
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
-    public List<Cruise> getAllCompletedCruises() {
-        return null;
-    }
-
-    @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Cruise getCruiseByNumber(String number) {
         return cruiseFacadeLocal.findByNumber(number);
-    }
-
-
-    @Override
-    @RolesAllowed({"EMPLOYEE"})
-    public List<Cruise> getCruisesByFerryName(String name) {
-        return null;
     }
 
     @Override
