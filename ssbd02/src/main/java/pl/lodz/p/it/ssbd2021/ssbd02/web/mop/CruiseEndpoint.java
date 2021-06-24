@@ -254,14 +254,7 @@ public class CruiseEndpoint {
                         securityContext.getUserPrincipal().getName());
                 transactionRollBack = cruiseManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
-                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
-                    transactionRollBack = true;
-                    if (transactionRetryCounter < 2) {
-                        throw generalException;
-                    }
-                } else {
-                    throw generalException;
-                }
+                throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
