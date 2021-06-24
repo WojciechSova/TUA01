@@ -71,4 +71,11 @@ public interface FerryManagerLocal {
      * @return Procentowa wartość popularności rejsu
      */
     double calculatePopularity(Cruise cruise);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

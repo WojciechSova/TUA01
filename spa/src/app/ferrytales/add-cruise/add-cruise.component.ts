@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { IdentityService } from '../../services/utils/identity.service';
 import {CruiseGeneralService} from '../../services/mop/cruise-general.service';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-add-cruise',
@@ -45,6 +46,7 @@ export class AddCruiseComponent implements OnInit {
                 public ferryGeneralService: FerryGeneralService,
                 private cruiseDetailsService: CruiseDetailsService,
                 private identityService: IdentityService,
+                private errorHandlerService: ErrorHandlerService,
                 private cruiseGeneralService: CruiseGeneralService) {
         this.code = this.route.snapshot.paramMap.get('code') as string;
         this.getFerries();
@@ -119,14 +121,14 @@ export class AddCruiseComponent implements OnInit {
 
         if (error.status === 400) {
             this.errorCode = 'ERROR.BAD_REQUEST';
-        }
-
-        if (error.status === 409) {
+        } else if (error.status === 409) {
             if (error.error === 'ERROR.CRUISE_NUMBER_UNIQUE') {
                 this.errorCode = error.error;
             } else if (error.error === 'ERROR.FERRY_IS_BEING_USED') {
                 this.errorCode = error.error;
             }
+        } else {
+            this.errorHandlerService.handleError(error);
         }
     }
 

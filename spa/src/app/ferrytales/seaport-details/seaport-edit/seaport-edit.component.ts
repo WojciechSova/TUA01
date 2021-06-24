@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { SeaportDetailsService } from '../../../services/mop/seaport-details.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ErrorHandlerService } from '../../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-seaport-edit',
@@ -26,7 +27,8 @@ export class SeaportEditComponent implements OnInit {
     @Output()
     isEditSeaportFormVisible = new EventEmitter<any>();
 
-    constructor(private seaportDetailsService: SeaportDetailsService) {
+    constructor(private seaportDetailsService: SeaportDetailsService,
+                private errorHandlerService: ErrorHandlerService) {
     }
 
     changeSeaportConfirmClick(city: string): void {
@@ -73,10 +75,10 @@ export class SeaportEditComponent implements OnInit {
             } else if (error.error === 'ERROR.SEAPORT_CITY_UNIQUE') {
                 this.emit(this.NAME_NOT_UNIQUE);
             } else {
-                this.emit(this.FAILURE);
+                this.errorHandlerService.handleError(error);
             }
         } else {
-            this.emit(this.FAILURE);
+            this.errorHandlerService.handleError(error);
         }
     }
 

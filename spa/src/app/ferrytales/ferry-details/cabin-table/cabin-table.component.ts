@@ -6,6 +6,7 @@ import { CabinDetailsService } from '../../../services/mop/cabin-details.service
 import { FerryDetailsService } from '../../../services/mop/ferry-details.service';
 import { FerryDetails } from '../../../model/mop/FerryDetails';
 import { HttpResponse } from '@angular/common/http';
+import { ErrorHandlerService } from '../../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-cabin-table',
@@ -23,7 +24,8 @@ export class CabinTableComponent {
     constructor(public identityService: IdentityService,
                 private router: Router,
                 private cabinDetailsService: CabinDetailsService,
-                private ferryDetailsService: FerryDetailsService) {
+                private ferryDetailsService: FerryDetailsService,
+                private errorHandlerService: ErrorHandlerService) {
     }
 
     @Input()
@@ -69,6 +71,8 @@ export class CabinTableComponent {
                     this.cabinGoneError = true;
                     this.cabinRemovalError = false;
                     this.cabinRemoved = false;
+                } else {
+                    this.errorHandlerService.handleError(error);
                 }
             })
         );

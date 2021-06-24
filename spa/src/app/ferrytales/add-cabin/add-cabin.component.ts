@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FerryDetailsService } from '../../services/mop/ferry-details.service';
 import { CabinGeneralService } from '../../services/mop/cabin-general.service';
 import { CabinGeneral } from '../../model/mop/CabinGeneral';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-add-cabin',
@@ -17,7 +19,8 @@ export class AddCabinComponent implements OnInit {
 
     constructor(private router: Router,
                 private ferryDetailsService: FerryDetailsService,
-                private cabinGeneralService: CabinGeneralService) {
+                private cabinGeneralService: CabinGeneralService,
+                private errorHandlerService: ErrorHandlerService) {
         this.name = ferryDetailsService.ferry.name;
     }
 
@@ -68,8 +71,14 @@ export class AddCabinComponent implements OnInit {
                 this.ferryDetailsService.popup = 'add_cabin_success';
                 setTimeout(() => this.ferryDetailsService.popup = 'hidden', 5000);
             },
-            (error: any) => this.error = true
-        );
+            (error: HttpErrorResponse) => {
+                if (error.error === 'ERROR.CABIN_FERRY_NUMBER_UNIQUE') {
+                    this.error = true;
+                } else {
+                    this.errorHandlerService.handleError(error);
+                }
+            }
+        )
     }
 
     getCurrentType(): string {

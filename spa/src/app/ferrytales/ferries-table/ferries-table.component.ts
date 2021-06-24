@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FerryGeneral } from '../../model/mop/FerryGeneral';
 import { FerryGeneralService } from '../../services/mop/ferry-general.service';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-ferries-table',
@@ -16,7 +17,8 @@ export class FerriesTableComponent implements OnInit {
     result = 'hidden';
 
     constructor(private router: Router,
-                public ferryGeneralService: FerryGeneralService) {
+                public ferryGeneralService: FerryGeneralService,
+                private errorHandlerService: ErrorHandlerService) {
         this.getFerries();
     }
 
@@ -62,6 +64,8 @@ export class FerriesTableComponent implements OnInit {
             (error => {
                 if (error.error === 'ERROR.FERRY_IS_BEING_USED') {
                     this.ferryUsed = true;
+                } else {
+                    this.errorHandlerService.handleError(error);
                 }
             })
         );

@@ -4,6 +4,7 @@ import { validateEmail, validatePassword } from './matching.validator';
 import { RegistrationService } from '../../../services/mok/registration.service';
 import { AccountDetails } from '../../../model/mok/AccountDetails';
 import { getTimezone } from 'countries-and-timezones';
+import { ErrorHandlerService } from '../../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-register',
@@ -14,7 +15,8 @@ export class RegisterComponent implements OnInit {
 
     private registrationService: RegistrationService;
 
-    constructor(registrationService: RegistrationService) {
+    constructor(registrationService: RegistrationService,
+                private errorHandlerService: ErrorHandlerService) {
         this.registrationService = registrationService;
     }
 
@@ -74,7 +76,13 @@ export class RegisterComponent implements OnInit {
         };
         this.registrationService.register(account).subscribe(
             () => this.closeComponent(),
-            (error: any) => this.error = true
+            (error: any) => {
+                if (error.status === 409) {
+                    this.error = true;
+                } else {
+                    this.errorHandlerService.handleError(error);
+                }
+            }
         );
     }
 }

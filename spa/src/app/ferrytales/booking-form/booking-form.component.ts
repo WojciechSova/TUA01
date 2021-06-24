@@ -9,7 +9,8 @@ import { AccountDetails } from '../../model/mok/AccountDetails';
 import { AccountDetailsService } from '../../services/mok/account-details.service';
 import { CabinGeneralService } from '../../services/mop/cabin-general.service';
 import { CabinGeneral } from '../../model/mop/CabinGeneral';
-import {BookingGeneralService} from '../../services/mop/booking-general.service';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
+import { BookingGeneralService } from '../../services/mop/booking-general.service';
 
 @Component({
     selector: 'app-booking-form',
@@ -68,6 +69,7 @@ export class BookingFormComponent implements OnInit {
                 public cruiseDetailsService: CruiseDetailsService,
                 public accountDetailsService: AccountDetailsService,
                 private cabinGeneralService: CabinGeneralService,
+                private errorHandlerService: ErrorHandlerService,
                 private bookingGeneralService: BookingGeneralService) {
         this.disabledClass = new ElementRef('disabledClass');
         this.cruiseNumber = this.route.snapshot.paramMap.get('number') as string;
@@ -271,9 +273,10 @@ export class BookingFormComponent implements OnInit {
             (error: any) => {
                 if (error.status === 400) {
                     this.errorConstraint = true;
-                }
-                if (error.status === 409) {
+                } else if (error.status === 409) {
                     this.conflict = true;
+                } else {
+                    this.errorHandlerService.handleError(error);
                 }
             }
         );

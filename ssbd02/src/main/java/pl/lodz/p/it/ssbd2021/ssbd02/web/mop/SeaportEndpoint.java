@@ -13,6 +13,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
+import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -23,7 +24,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -51,21 +55,33 @@ public class SeaportEndpoint {
     @RolesAllowed({"EMPLOYEE"})
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllSeaports() {
-        try {
-            List<SeaportGeneralDTO> seaportGeneralDTOList = seaportManager.getAllSeaports().stream()
-                    .map(SeaportMapper::createSeaportGeneralDTOFromEntities)
-                    .collect(Collectors.toList());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        List<SeaportGeneralDTO> seaportGeneralDTOList = null;
+        do {
+            try {
+                seaportGeneralDTOList = seaportManager.getAllSeaports().stream()
+                        .map(SeaportMapper::createSeaportGeneralDTOFromEntities)
+                        .collect(Collectors.toList());
+                transactionRollBack = seaportManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(seaportGeneralDTOList)
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(seaportGeneralDTOList)
+                .build();
     }
 
     /**
@@ -82,21 +98,33 @@ public class SeaportEndpoint {
             throw CommonExceptions.createConstraintViolationException();
         }
 
-        try {
-            SeaportDetailsDTO seaportDetailsDTO = SeaportMapper
-                    .createSeaportDetailsDTOFromEntity(seaportManager.getSeaportByCode(code));
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        SeaportDetailsDTO seaportDetailsDTO = null;
+        do {
+            try {
+                seaportDetailsDTO = SeaportMapper
+                        .createSeaportDetailsDTOFromEntity(seaportManager.getSeaportByCode(code));
+                transactionRollBack = seaportManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(seaportDetailsDTO)
-                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(seaportDetailsDTO))
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(seaportDetailsDTO)
+                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(seaportDetailsDTO))
+                .build();
     }
 
     /**
@@ -113,17 +141,29 @@ public class SeaportEndpoint {
         if (seaportDetailsDTO.getCity() == null || seaportDetailsDTO.getCode() == null) {
             throw CommonExceptions.createConstraintViolationException();
         }
-        try {
-            seaportManager.createSeaport(securityContext.getUserPrincipal().getName(), SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO));
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                seaportManager.createSeaport(securityContext.getUserPrincipal().getName(), SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO));
+                transactionRollBack = seaportManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -146,18 +186,30 @@ public class SeaportEndpoint {
         if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, seaportDetailsDTO)) {
             throw CommonExceptions.createPreconditionFailedException();
         }
-        try {
-            seaportManager.updateSeaport(SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO),
-                    securityContext.getUserPrincipal().getName());
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                seaportManager.updateSeaport(SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO),
+                        securityContext.getUserPrincipal().getName());
+                transactionRollBack = seaportManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -171,17 +223,40 @@ public class SeaportEndpoint {
     @Path("remove/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeSeaport(@PathParam("code") String code, @Context SecurityContext securityContext) {
-        try {
-            String userLogin = securityContext.getUserPrincipal().getName();
-            seaportManager.removeSeaport(code, userLogin);
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                String userLogin = securityContext.getUserPrincipal().getName();
+                seaportManager.removeSeaport(code, userLogin);
+                transactionRollBack = seaportManager.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
+    }
+
+    private int getTransactionRepetitionCounter() {
+        Properties prop = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
+            return 3;
         }
     }
 }

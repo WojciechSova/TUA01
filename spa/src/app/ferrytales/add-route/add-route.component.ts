@@ -4,6 +4,7 @@ import { FormControl , FormGroup, Validators } from '@angular/forms';
 import { SeaportGeneralService } from '../../services/mop/seaport-general.service';
 import { SeaportGeneral } from '../../model/mop/SeaportGeneral';
 import { RouteGeneralService } from '../../services/mop/route-general.service';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-add-route',
@@ -26,7 +27,8 @@ export class AddRouteComponent implements OnInit {
 
     constructor(private router: Router,
                 public seaportGeneralService: SeaportGeneralService,
-                private routeGeneralService: RouteGeneralService) {
+                private routeGeneralService: RouteGeneralService,
+                private errorHandlerService: ErrorHandlerService) {
         seaportGeneralService.getSeaports().subscribe(
             (seaports: SeaportGeneral[]) => seaportGeneralService.seaportsList = seaports
         );
@@ -54,9 +56,10 @@ export class AddRouteComponent implements OnInit {
             (error => {
                 if (error.error === 'ERROR.ROUTE_START_DESTINATION_UNIQUE') {
                     this.startDestinationUniqueViolation = true;
-                }
-                if (error.error === 'ERROR.ROUTE_CODE_UNIQUE') {
+                } else if (error.error === 'ERROR.ROUTE_CODE_UNIQUE') {
                     this.codeUniqueViolation = true;
+                } else {
+                    this.errorHandlerService.handleError(error);
                 }
             })
         );

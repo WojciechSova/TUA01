@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IdentityService } from '../../services/utils/identity.service';
 import { CabinDetailsService } from '../../services/mop/cabin-details.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-edit-cabin',
@@ -34,7 +35,8 @@ export class EditCabinComponent implements OnInit {
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 public identityService: IdentityService,
-                public cabinDetailsService: CabinDetailsService) {
+                public cabinDetailsService: CabinDetailsService,
+                private errorHandlerService: ErrorHandlerService) {
         this.cabinNumber = (this.route.snapshot.paramMap.get('cabin') as string);
         this.ferryName = (this.route.snapshot.paramMap.get('ferry') as string);
     }
@@ -106,8 +108,9 @@ export class EditCabinComponent implements OnInit {
             }, (error) => {
                 if (error.error === 'ERROR.OPTIMISTIC_LOCK') {
                     this.optimisticLockError = true;
+                } else {
+                    this.errorHandlerService.handleError(error);
                 }
-                this.editFailed = true;
                 this.getCabin();
             }
         );

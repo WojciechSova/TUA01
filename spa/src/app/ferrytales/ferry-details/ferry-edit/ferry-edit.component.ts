@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FerryDetailsService } from '../../../services/mop/ferry-details.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {ChangePasswordService} from "../../../services/mok/change-password.service";
+import {ErrorHandlerService} from "../../../services/error-handlers/error-handler.service";
 
 @Component({
     selector: 'app-ferry-edit',
@@ -28,7 +30,8 @@ export class FerryEditComponent {
 
     editFailed = false;
 
-    constructor(public ferryDetailsService: FerryDetailsService) {
+    constructor(public ferryDetailsService: FerryDetailsService,
+                private errorHandlerService: ErrorHandlerService) {
     }
 
     form = new FormGroup({
@@ -72,10 +75,10 @@ export class FerryEditComponent {
             if (error.error === 'ERROR.OPTIMISTIC_LOCK') {
                 this.emit(this.OPTIMISTIC_LOCK);
             } else {
-                this.emit(this.FAILURE);
+                this.errorHandlerService.handleError(error);
             }
         } else {
-            this.emit(this.FAILURE);
+            this.errorHandlerService.handleError(error);
         }
     }
 

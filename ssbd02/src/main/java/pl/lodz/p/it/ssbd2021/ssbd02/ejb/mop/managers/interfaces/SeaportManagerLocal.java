@@ -52,4 +52,11 @@ public interface SeaportManagerLocal {
      * @param userLogin   Login użytkownika usuwającego port
      */
     void removeSeaport(String seaportCode, String userLogin);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

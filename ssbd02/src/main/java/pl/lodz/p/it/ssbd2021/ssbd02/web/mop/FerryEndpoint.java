@@ -1,5 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.FerryDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.FerryGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.FerryManagerLocal;
@@ -11,6 +13,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
+import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -21,7 +24,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -35,6 +41,8 @@ import java.util.stream.Collectors;
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class FerryEndpoint {
 
+    private static final Logger logger = LogManager.getLogger();
+
     @Inject
     private FerryManagerLocal ferryManagerLocal;
 
@@ -47,21 +55,33 @@ public class FerryEndpoint {
     @RolesAllowed({"EMPLOYEE"})
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllFerries() {
-        try {
-            List<FerryGeneralDTO> ferryGeneralDTOList = ferryManagerLocal.getAllFerries().stream()
-                    .map(FerryMapper::createFerryGeneralDTOFromEntity)
-                    .collect(Collectors.toList());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        List<FerryGeneralDTO> ferryGeneralDTOList = null;
+        do {
+            try {
+                ferryGeneralDTOList = ferryManagerLocal.getAllFerries().stream()
+                        .map(FerryMapper::createFerryGeneralDTOFromEntity)
+                        .collect(Collectors.toList());
+                transactionRollBack = ferryManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(ferryGeneralDTOList)
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(ferryGeneralDTOList)
+                .build();
     }
 
     /**
@@ -74,21 +94,33 @@ public class FerryEndpoint {
     @Path("{name}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getFerry(@PathParam("name") String name) {
-        try {
-            FerryDetailsDTO ferryDetailsDTO = FerryMapper
-                    .createFerryDetailsDTOFromEntities(ferryManagerLocal.getFerryAndCabinsByFerryName(name));
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        FerryDetailsDTO ferryDetailsDTO = null;
+        do {
+            try {
+                ferryDetailsDTO = FerryMapper
+                        .createFerryDetailsDTOFromEntities(ferryManagerLocal.getFerryAndCabinsByFerryName(name));
+                transactionRollBack = ferryManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(ferryDetailsDTO)
-                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(ferryDetailsDTO))
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(ferryDetailsDTO)
+                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(ferryDetailsDTO))
+                .build();
     }
 
     /**
@@ -106,18 +138,30 @@ public class FerryEndpoint {
                 || ferryDetailsDTO.getOnDeckCapacity() == null) {
             throw CommonExceptions.createConstraintViolationException();
         }
-        try {
-            ferryManagerLocal.createFerry(securityContext.getUserPrincipal().getName(),
-                    FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO));
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                ferryManagerLocal.createFerry(securityContext.getUserPrincipal().getName(),
+                        FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO));
+                transactionRollBack = ferryManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -140,17 +184,37 @@ public class FerryEndpoint {
         if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, ferryDetailsDTO)) {
             throw CommonExceptions.createPreconditionFailedException();
         }
-        try {
-            ferryManagerLocal.updateFerry(FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO),
-                    securityContext.getUserPrincipal().getName());
-            return Response.ok().build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                ferryManagerLocal.updateFerry(FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO),
+                        securityContext.getUserPrincipal().getName());
+                transactionRollBack = ferryManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -165,19 +229,47 @@ public class FerryEndpoint {
     @RolesAllowed({"EMPLOYEE"})
     public Response removeFerry(@PathParam("name") String name, @Context SecurityContext securityContext) {
         if (name == null || name.isBlank() || name.length() > 30) {
-            throw  CommonExceptions.createConstraintViolationException();
+            throw CommonExceptions.createConstraintViolationException();
         }
 
-        try {
-            ferryManagerLocal.removeFerry(name, securityContext.getUserPrincipal().getName());
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                ferryManagerLocal.removeFerry(name, securityContext.getUserPrincipal().getName());
+                transactionRollBack = ferryManagerLocal.isTransactionRolledBack();
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
+    }
+
+    /**
+     * Metoda pobierająca z właściwości współczynnik określający ilość powtórzeń transakcji.
+     *
+     * @return Współczynnik powtórzeń transakcji
+     */
+    private int getTransactionRepetitionCounter() {
+        Properties prop = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
+            return 3;
         }
     }
 }

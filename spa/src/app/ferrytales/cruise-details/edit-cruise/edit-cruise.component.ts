@@ -5,6 +5,7 @@ import { CruiseDetailsService } from '../../../services/mop/cruise-details.servi
 import { IdentityService } from '../../../services/utils/identity.service';
 import { CruiseGeneral } from '../../../model/mop/CruiseGeneral';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandlerService } from '../../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-edit-cruise',
@@ -57,7 +58,8 @@ export class EditCruiseComponent implements OnInit, OnChanges {
     endDate: IMyDateModel = { isRange: false };
 
     constructor(private cruiseDetailsService: CruiseDetailsService,
-                private identityService: IdentityService) {
+                private identityService: IdentityService,
+                private errorHandlerService: ErrorHandlerService) {
         this.startDate = { isRange: false, singleDate: { jsDate: this.beginStartDate } };
         this.endDate = { isRange: false, singleDate: { jsDate: this.beginEndDate } };
     }
@@ -100,10 +102,10 @@ export class EditCruiseComponent implements OnInit, OnChanges {
             } else if (error.error === 'ERROR.FERRY_IS_BEING_USED') {
                 this.emit(this.FERRY_BEING_USED);
             } else {
-                this.emit(this.FAILURE);
+                this.errorHandlerService.handleError(error);
             }
         } else {
-            this.emit(this.FAILURE);
+            this.errorHandlerService.handleError(error);
         }
     }
 

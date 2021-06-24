@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteGeneralService } from '../../services/mop/route-general.service';
 import { RouteGeneral } from '../../model/mop/RouteGeneral';
+import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
 
 @Component({
     selector: 'app-routes-table',
@@ -17,7 +18,8 @@ export class RoutesTableComponent implements OnDestroy {
     routes: RouteGeneral[] = [];
 
     constructor(private router: Router,
-                public routeGeneralService: RouteGeneralService) {
+                public routeGeneralService: RouteGeneralService,
+                private errorHandlerService: ErrorHandlerService) {
         this.getRoutes();
     }
 
@@ -59,6 +61,8 @@ export class RoutesTableComponent implements OnDestroy {
             (error: any) => {
                 if (error.status === 409) {
                     this.result = 'failure';
+                } else {
+                    this.errorHandlerService.handleError(error);
                 }
                 this.getRoutes();
             });
