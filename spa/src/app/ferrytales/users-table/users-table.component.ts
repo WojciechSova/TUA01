@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AccountDetailsService } from '../../services/mok/account-details.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandlerService } from '../../services/error-handlers/error-handler.service';
+import { AccessLevelService } from '../../services/mok/access-level.service';
 
 @Component({
     selector: 'app-users-table',
@@ -28,7 +29,8 @@ export class UsersTableComponent {
     constructor(private accountGeneralService: AccountGeneralService,
                 private accountDetailsService: AccountDetailsService,
                 private router: Router,
-                private errorHandlerService: ErrorHandlerService) {
+                private errorHandlerService: ErrorHandlerService,
+                public accessLevelService: AccessLevelService) {
         this.getAccounts();
     }
 
@@ -109,6 +111,7 @@ export class UsersTableComponent {
     blockAccount(login: string): void {
         this.block = 'hide';
         this.unblock = 'hide';
+        this.accessLevelService.popup = 'hidden';
         this.accountGeneralService.blockAccount(login).subscribe(() => {
             this.getAccounts();
             this.block = 'success';
@@ -122,6 +125,7 @@ export class UsersTableComponent {
     unblockAccount(login: string): void {
         this.block = 'hide';
         this.unblock = 'hide';
+        this.accessLevelService.popup = 'hidden';
         this.accountGeneralService.unblockAccount(login).subscribe(() => {
             this.getAccounts();
             this.unblock = 'success';
@@ -132,6 +136,7 @@ export class UsersTableComponent {
     }
 
     goToHomeBreadcrumb(): void {
+        this.accessLevelService.popup = 'hidden';
         this.router.navigate(['/']);
     }
 }

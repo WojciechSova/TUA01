@@ -20,13 +20,13 @@
     </div>
     <div *ngIf="accountDetailsService.popup !== 'hidden' || accessLevelService.popup !== 'hidden'" class="info-popup">
         <p class="password-reset-success" *ngIf="accountDetailsService.popup === 'edit_user_success'"
-           translate>user-edit.successful</p>
+           translate>edit-user.successful</p>
         <p class="password-reset-success" *ngIf="accessLevelService.popup === 'edit_success'"
-           translate>user-edit.successful_access_level</p>
+           translate>edit-user.successful_access_level</p>
         <p class="password-reset-success" *ngIf="accountDetailsService.popup === 'email_success'"
-           translate>user-edit.successful_email</p>
+           translate>edit-user.successful_email</p>
         <p class="password-reset-success" *ngIf="accountDetailsService.popup === 'password'"
-           translate>user-edit.successful_password</p>
+           translate>edit-user.successful_password</p>
     </div>
     <div class="account-details" id="accountDetails">
         <div class="button-container">

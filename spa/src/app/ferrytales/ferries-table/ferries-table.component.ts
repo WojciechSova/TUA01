@@ -60,6 +60,7 @@ export class FerriesTableComponent implements OnInit {
             () => {
                 this.getFerries();
                 this.result = 'success';
+                setTimeout(() => this.result = 'hidden', 5000);
             },
             (error => {
                 if (error.error === 'ERROR.FERRY_IS_BEING_USED') {

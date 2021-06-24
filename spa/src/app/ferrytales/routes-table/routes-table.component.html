@@ -12,7 +12,7 @@
         <p *ngIf="(result) === 'failure'" class="failure" translate>route.response.failure</p>
     </div>
     <div *ngIf="routeGeneralService.popup !== 'hidden'" class="info-popup">
-        <p *ngIf="routeGeneralService.popup === 'add_route_success'" class="success" translate>route.response.add_success</p>
+        <p *ngIf="routeGeneralService.popup === 'add_route_success'" class="success" translate>route-details.add_success</p>
     </div>
     <button class="top-table-button create-button" (click)="addRoute()" translate>route.add</button>
     <button class="top-table-button" (click)="refresh()" translate>general.refresh</button>

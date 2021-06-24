@@ -78,7 +78,7 @@ export class AddCabinComponent implements OnInit {
                     this.errorHandlerService.handleError(error);
                 }
             }
-        )
+        );
     }
 
     getCurrentType(): string {
