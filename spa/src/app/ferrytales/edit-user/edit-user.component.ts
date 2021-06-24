@@ -72,8 +72,7 @@ export class EditUserComponent {
     }
 
     goToHomeBreadcrumb(): void {
-        // this.router.navigate(['/']);
-        this.optimisticLockError = !this.optimisticLockError;
+        this.router.navigate(['/']);
     }
 
     goToUserListBreadcrumb(): void {
