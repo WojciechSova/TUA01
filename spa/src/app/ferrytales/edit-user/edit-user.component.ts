@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AccountDetails } from '../../model/mok/AccountDetails';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountDetailsService } from '../../services/mok/account-details.service';
@@ -124,13 +124,12 @@ export class EditUserComponent {
             (err: HttpErrorResponse) => {
                 if (err.error === 'ERROR.PHONE_NUMBER_UNIQUE') {
                     this.existingPhoneNumber = true;
-                    this.getAccount();
                 } else if (err.error === 'ERROR.OPTIMISTIC_LOCK') {
                     this.optimisticLockError = true;
-                    this.getAccount();
                 } else {
                     this.unknownError = true;
                 }
+                this.getAccount();
             }
         );
     }
