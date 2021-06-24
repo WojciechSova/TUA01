@@ -20,7 +20,7 @@ export class ErrorHandlerService implements ErrorHandler {
             this.zone.run(() => this.router.navigateByUrl('error/notfound'));
         } else if (error.status === 410) {
             this.zone.run(() => this.router.navigateByUrl('error/gone'));
-        } else {
+        } else if (error.status.toString().match('4|5..')) {
             this.zone.run(() => this.router.navigateByUrl('error/internal'));
         }
     }

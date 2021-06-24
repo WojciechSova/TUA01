@@ -21,7 +21,8 @@ export class RouteDetailsComponent implements OnInit {
                 public routeDetailsService: RouteDetailsService,
                 public cruiseGeneralService: CruiseGeneralService) {
         this.code = this.route.snapshot.paramMap.get('code') as string;
-        this.refreshClick();
+        this.cruiseDeleteResult = 'HIDDEN';
+        this.getRoute();
     }
 
     ngOnInit(): void {
