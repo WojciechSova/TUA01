@@ -124,7 +124,7 @@ public class CabinEndpoint {
     @Path("details/{ferry}/{number}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getCabin(@PathParam("ferry") String ferryName, @PathParam("number") String cabinNumber) {
-        if (ferryName.length() > 30 || !cabinNumber.matches("[A-Z]{6}[0-9]{6}")) {
+        if (ferryName.length() > 30 || !cabinNumber.matches("[A-Z][0-9]{3}")) {
             throw CommonExceptions.createConstraintViolationException();
         }
 
