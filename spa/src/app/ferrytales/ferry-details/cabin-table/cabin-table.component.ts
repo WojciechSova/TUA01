@@ -86,4 +86,16 @@ export class CabinTableComponent {
         this.isPromptVisible = false;
     }
 
+    translateCabinType(cabinType: string): string {
+        if (cabinType === 'First class') {
+            return 'cabin-form.first';
+        }
+        if (cabinType === 'Second class') {
+            return 'cabin-form.second';
+        }
+        if (cabinType === 'Third class') {
+            return 'cabin-form.third';
+        }
+        return 'cabin-form.disabled';
+    }
 }

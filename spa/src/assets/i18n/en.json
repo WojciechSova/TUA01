@@ -459,11 +459,17 @@
         "people": "-person",
         "error_conflict": "Could not create a booking",
         "error_constraint": "Provided data is invalid",
-        "cruise_started": "Rejs już się rozpoczął",
+        "cruise_started": "The cruise has already started",
         "not_enough_vehicle_space": "There is no more vehicle space on the ferry",
         "not_enough_ferry_space": "There is not enoguh space on ferry's deck",
         "not_enough_cabin_space": "There is not enough space in the cabin",
-        "cabin_occupied": "The cabin is already occupied"
+        "cabin_occupied": "The cabin is already occupied",
+        "vehicle": {
+            "none": "None",
+            "motorcycle": "Motorcycle",
+            "car": "Car",
+            "bus": "Bus"
+        }
     },
     "add-route": {
         "new_route": "New route",

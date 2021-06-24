@@ -462,9 +462,14 @@
         "not_enough_vehicle_space": "Na promie nie ma już miejsca na ten typ pojazdu",
         "not_enough_ferry_space": "Na promie nie ma już miejsca na tyle osób",
         "not_enough_cabin_space": "W kajucie ma miejsca na tyle osób",
-        "cabin_occupied": "Wybrana kajuta jest już zajęta"
-
-
+        "cabin_occupied": "Wybrana kajuta jest już zajęta",
+        "error_conflict": "Nie udało sie utworzyć rezerwacji",
+        "vehicle": {
+            "none": "Brak",
+            "motorcycle": "Motocykl",
+            "car": "Samochód",
+            "bus": "Autobus"
+        }
     },
     "add-route": {
         "new_route": "Nowa trasa",
