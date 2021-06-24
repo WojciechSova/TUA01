@@ -11,6 +11,8 @@ import { RouteGeneral } from '../../model/mop/RouteGeneral';
 export class RoutesTableComponent implements OnDestroy {
 
     result = 'hidden';
+    isConfirmationVisible = false;
+    routeCode = '';
 
     routes: RouteGeneral[] = [];
 
@@ -38,6 +40,11 @@ export class RoutesTableComponent implements OnDestroy {
         this.result = 'hidden';
     }
 
+    removeRouteClick(routeCode: string): void {
+        this.isConfirmationVisible = true;
+        this.routeCode = routeCode;
+    }
+
     removeRoute(code: string): void {
         this.result = 'hidden';
         this.routeGeneralService.removeRoute(code).subscribe(
@@ -55,5 +62,12 @@ export class RoutesTableComponent implements OnDestroy {
 
     ngOnDestroy(): void {
         this.routes = [];
+    }
+
+    confirmationResult(confirmationResult: boolean): void {
+        this.isConfirmationVisible = false;
+        if (confirmationResult) {
+            this.removeRoute(this.routeCode);
+        }
     }
 }

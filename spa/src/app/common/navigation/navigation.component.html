@@ -15,6 +15,6 @@
         <img *ngIf="identityService.isClient()" src="assets/imgs/logo_secondary_color_basic.png" alt="Beautiful logo">
     </div>
     <div class="right">
-        <app-links [stickyStyles]="true"></app-links>
+        <app-links [loginVisible]="loginVisible" [stickyStyles]="true"></app-links>
     </div>
 </div>

@@ -11,6 +11,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class EditCabinComponent implements OnInit {
 
+    isConfirmationVisible = false;
+    newCapacity: string | undefined;
+
     public cabinTypes = {
         firstClass: false,
         secondClass: false,
@@ -81,9 +84,14 @@ export class EditCabinComponent implements OnInit {
         this.router.navigate(['/ferrytales/ferries/', this.ferryName, this.cabinNumber]);
     }
 
-    editCabin(value: string): void {
+    editCabinClick(value?: string): void {
         this.editFailed = false;
         this.optimisticLockError = false;
+        this.isConfirmationVisible = true;
+        this.newCapacity = value;
+    }
+
+    editCabin(value?: string): void {
         if (value != null && value !== '') {
             this.cabinDetailsService.cabin.capacity = value;
         }
@@ -120,6 +128,13 @@ export class EditCabinComponent implements OnInit {
             this.cabinTypes.thirdClass = true;
         } else if (this.cabinDetailsService.cabin.cabinType === 'Disabled class') {
             this.cabinTypes.disabledClass = true;
+        }
+    }
+
+    confirmationResult(confirmationResult: boolean): void {
+        this.isConfirmationVisible = false;
+        if (confirmationResult) {
+            this.editCabin(this.newCapacity);
         }
     }
 }

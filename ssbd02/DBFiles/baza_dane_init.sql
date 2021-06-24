@@ -33,10 +33,10 @@ VALUES (1, 'Ever Given', 10, 100),
        (1, 'White perl', 20, 150);
 
 INSERT INTO Seaport (version, city, code)
-VALUES (1, 'Venice', 'VEN'),
-       (1, 'Valencia', 'VAL'),
+VALUES (1, 'Wenecja', 'VEN'),
+       (1, 'Walencja', 'VAL'),
        (1, 'Barcelona', 'BAR'),
-       (1, 'Alexandria', 'ALE');
+       (1, 'Aleksandria', 'ALE');
 
 INSERT INTO Route (version, start, destination, code)
 VALUES (1, 1, 2, 'VENVAL'),
@@ -65,11 +65,11 @@ VALUES (1, 1, 4, 1, 'A321'),
        (1, 3, 7, 3, 'G234'),
        (1, 3, 8, 3, 'G123');
 
-INSERT INTO Cruise (version, start_date, end_date, route, ferry, number, created_by)
-VALUES (1, '2021-05-01 11:00:00', '2021-05-01 15:00:00', 1, 1, 'VENVAL000001', 2),
-       (1, '2021-05-01 15:00:00', '2021-05-01 20:00:00', 2, 2, 'VALVEN000001', 2),
-       (1, '2021-05-02 12:00:00', '2021-05-02 17:00:00', 3, 3, 'BARVEN000001', 2),
-       (1, '2021-05-03 15:00:00', '2021-05-03 21:00:00', 3, 3, 'BARVEN000002', 2);
+INSERT INTO Cruise (version, start_date, end_date, route, ferry, number, popularity, created_by)
+VALUES (1, '2021-05-01 11:00:00', '2021-05-01 15:00:00', 1, 1, 'VENVAL000001', 20, 2),
+       (1, '2021-05-01 15:00:00', '2021-05-01 20:00:00', 2, 2, 'VALVEN000001', 45, 2),
+       (1, '2021-05-02 12:00:00', '2021-05-02 17:00:00', 3, 3, 'BARVEN000001', 67, 2),
+       (1, '2021-05-03 15:00:00', '2021-05-03 21:00:00', 3, 3, 'BARVEN000002', 13, 2);
 
 
 INSERT INTO Vehicle_type (vehicle_type_name, required_space)

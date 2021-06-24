@@ -37,6 +37,8 @@ public class CruiseDetailsDTO extends AbstractDTO {
     @Pattern(regexp = "[A-Z]{6}[0-9]{6}", message = "Cruise number must have 6 capital letters and 6 digits")
     private String number;
 
+    private Double popularity;
+
     @PastOrPresent
     private Timestamp modificationDate;
 

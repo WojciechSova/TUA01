@@ -15,6 +15,12 @@ import { IdentityService } from '../../services/utils/identity.service';
 })
 export class EditUserComponent {
 
+    isConfirmationVisible = false;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    phoneNumber: string | undefined;
+    timeZone: string | undefined;
+
     constructor(public accountDetailsService: AccountDetailsService,
                 private route: ActivatedRoute,
                 private updateAccountService: UpdateAccountService,
@@ -99,6 +105,14 @@ export class EditUserComponent {
         }
     }
 
+    editUserClick(firstName?: string, lastName?: string, phoneNumber?: string, timeZone?: string): void {
+        this.isConfirmationVisible = true;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.timeZone = timeZone;
+    }
+
     editUser(firstName?: string, lastName?: string, phoneNumber?: string, timeZone?: string): void {
         this.clearErrors();
         const acc: AccountDetails = this.accountDetailsService.account;
@@ -146,6 +160,13 @@ export class EditUserComponent {
         this.optimisticLockError = false;
         this.existingPhoneNumber = false;
         this.unknownError = false;
+    }
+
+    confirmationResult(confirmationResult: boolean): void {
+        this.isConfirmationVisible = false;
+        if (confirmationResult) {
+            this.editUser(this.firstName, this.lastName, this.phoneNumber, this.timeZone);
+        }
     }
 
 }

@@ -58,7 +58,7 @@
                 </div>
             </div>
             <button class="edit-button" id="saveBtn"
-                    (click)="editCabin(newCapacity.value)"
+                    (click)="editCabinClick(newCapacity.value)"
                     [disabled]="form.invalid" translate>form.save
             </button>
             <img class="return-arrow" (click)="goToCabinBreadcrumb()" src="assets/imgs/back-arrow.png"
@@ -76,3 +76,5 @@
         </div>
     </ng-template>
 </div>
+<app-confirmation *ngIf="isConfirmationVisible"
+                  (isPromptVisibleAndAnswer)="confirmationResult($event)"></app-confirmation>
