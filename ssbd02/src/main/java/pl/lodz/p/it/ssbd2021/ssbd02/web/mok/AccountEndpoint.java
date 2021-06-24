@@ -546,10 +546,10 @@ public class AccountEndpoint {
     public Response confirmAccount(@PathParam("url") String url) {
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
+        if (url.length() != 32) {
+            throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
+        }
         do {
-            if (url.length() != 32) {
-                throw OneTimeUrlExceptions.createBadRequestException(OneTimeUrlExceptions.ERROR_INVALID_ONE_TIME_URL);
-            }
             try {
                 accountManager.confirmAccount(url);
                 transactionRollBack = accountManager.isTransactionRolledBack();
