@@ -26,6 +26,7 @@ import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -165,7 +166,8 @@ public class AuthEndpoint {
     @POST
     @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
     @Path("change/accesslevel")
-    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @Context HttpServletRequest httpServletRequest, String accessLevel) {
+    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @Context HttpServletRequest httpServletRequest,
+                                                 @NotBlank String accessLevel) {
         String clientAddress = getClientIp(httpServletRequest);
         logger.info("The user with login {} changed the access level to {} (ip: {})",
                 securityContext.getUserPrincipal().getName(), accessLevel, clientAddress);

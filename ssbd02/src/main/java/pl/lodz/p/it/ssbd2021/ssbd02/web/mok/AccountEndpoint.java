@@ -9,7 +9,6 @@ import pl.lodz.p.it.ssbd2021.ssbd02.dto.mok.PasswordDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mok.managers.interfaces.AccountManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccessLevelExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.OneTimeUrlExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.AccountMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
@@ -189,7 +188,7 @@ public class AccountEndpoint {
     @Path("register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAccount(@Valid AccountDetailsDTO accountDTO) {
-        if (accountDTO.getLogin() == null || accountDTO.getPassword() == null || accountDTO.getFirstName() == null
+        if (accountDTO.getPassword() == null || accountDTO.getFirstName() == null
                 || accountDTO.getLastName() == null || accountDTO.getEmail() == null
                 || accountDTO.getLanguage() == null || accountDTO.getTimeZone() == null) {
             throw CommonExceptions.createConstraintViolationException();
@@ -278,7 +277,7 @@ public class AccountEndpoint {
     @RolesAllowed({"ADMIN"})
     @Consumes(MediaType.TEXT_PLAIN)
     public Response removeAccessLevel(@Context SecurityContext securityContext,
-                                      @PathParam("login") String login, String accessLevel) {
+                                      @PathParam("login") String login, @NotBlank String accessLevel) {
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         do {
@@ -787,49 +786,6 @@ public class AccountEndpoint {
         do {
             try {
                 accountManager.resetPassword(url, new Password(newPassword));
-                transactionRollBack = accountManager.isTransactionRolledBack();
-            } catch (GeneralException generalException) {
-                throw generalException;
-            } catch (EJBAccessException | AccessLocalException accessExcept) {
-                if (transactionRetryCounter < 2) {
-                    throw CommonExceptions.createForbiddenException();
-                }
-            } catch (EJBException ejbException) {
-                if (transactionRetryCounter < 2) {
-                    throw CommonExceptions.createUnknownException();
-                }
-            } catch (Exception e) {
-                throw CommonExceptions.createUnknownException();
-            }
-        } while (transactionRollBack && --transactionRetryCounter > 0);
-
-        return Response.ok()
-                .build();
-    }
-
-    /**
-     * Metoda zmianiający aktualny poziom dostępu użytkownika.
-     *
-     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
-     * @param accessLevel     Poziom dostępu, który ma zostać zmieniony
-     * @return Kod 200 w przypadku poprawnej zmiany poziomu dostępu. Kod 400 w przypadku podania nieistniejącego
-     * poziomu dostępu
-     */
-    @POST
-    @RolesAllowed({"ADMIN", "CLIENT", "EMPLOYEE"})
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Path("change/accesslevel")
-    public Response informAboutAccessLevelChange(@Context SecurityContext securityContext, @NotBlank String
-            accessLevel) {
-        if (!List.of("ADMIN", "EMPLOYEE", "CLIENT").contains(accessLevel)) {
-            throw AccessLevelExceptions.createBadRequestException(AccessLevelExceptions.ERROR_NO_ACCESS_LEVEL);
-        }
-        int transactionRetryCounter = getTransactionRepetitionCounter();
-        boolean transactionRollBack = false;
-        do {
-            try {
-                logger.info("The user with login {} changed the access level to {}",
-                        securityContext.getUserPrincipal().getName(), accessLevel);
                 transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;

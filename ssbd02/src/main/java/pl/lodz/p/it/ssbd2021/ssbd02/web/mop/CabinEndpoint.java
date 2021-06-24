@@ -11,6 +11,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CabinMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOSignatureValidatorFilterBinding;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
@@ -70,8 +71,10 @@ public class CabinEndpoint {
     @Path("{ferryName}/add")
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"EMPLOYEE"})
-    public Response addCabin(@Valid CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext, @PathParam("ferryName") String ferryName) {
-        if (cabinDTO.getCapacity() == null || cabinDTO.getCabinType() == null || cabinDTO.getNumber() == null) {
+    public Response addCabin(@Valid CabinDetailsDTO cabinDTO, @Context SecurityContext securityContext,
+                             @PathParam("ferryName") String ferryName) {
+        if (cabinDTO.getCapacity() == null || cabinDTO.getCabinType() == null || cabinDTO.getNumber() == null
+                || ferryName.length() > 30) {
             throw CommonExceptions.createConstraintViolationException();
         }
 
@@ -121,6 +124,10 @@ public class CabinEndpoint {
     @Path("details/{ferry}/{number}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getCabin(@PathParam("ferry") String ferryName, @PathParam("number") String cabinNumber) {
+        if (ferryName.length() > 30 || !cabinNumber.matches("[A-Z]{6}[0-9]{6}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         CabinDetailsDTO cabinDetailsDTO = null;
@@ -160,6 +167,10 @@ public class CabinEndpoint {
     @Path("cruise/free/{number}")
     @RolesAllowed({"CLIENT"})
     public Response getFreeCabinsOnCruise(@PathParam("number") String cruiseNumber) {
+        if (!cruiseNumber.matches("[A-Z]{6}[0-9]{6}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         List<CabinGeneralDTO> cabinGeneralDTOList = null;
@@ -248,10 +259,11 @@ public class CabinEndpoint {
     @Path("update/{ferry}")
     @Consumes({MediaType.APPLICATION_JSON})
     @RolesAllowed({"EMPLOYEE"})
+    @DTOSignatureValidatorFilterBinding
     public Response updateCabin(@Valid CabinDetailsDTO cabinDTO, @PathParam("ferry") String ferryName,
                                 @Context SecurityContext securityContext, @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
 
-        if (cabinDTO.getNumber() == null || cabinDTO.getVersion() == null) {
+        if (cabinDTO.getNumber() == null || cabinDTO.getVersion() == null || ferryName.length() > 30) {
             throw CommonExceptions.createPreconditionFailedException();
         }
         if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, cabinDTO)) {

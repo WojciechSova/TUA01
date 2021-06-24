@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.SeaportMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOSignatureValidatorFilterBinding;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
@@ -94,7 +95,7 @@ public class SeaportEndpoint {
     @Path("{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getSeaport(@PathParam("code") String code) {
-        if (code == null || code.length() != 3) {
+        if (code == null || !code.matches("[A-Z]{3}")) {
             throw CommonExceptions.createConstraintViolationException();
         }
 
@@ -177,6 +178,7 @@ public class SeaportEndpoint {
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
+    @DTOSignatureValidatorFilterBinding
     public Response updateSeaport(@Valid SeaportDetailsDTO seaportDetailsDTO, @Context SecurityContext securityContext,
                                   @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
         if (seaportDetailsDTO.getCity() == null || seaportDetailsDTO.getCity().isBlank()
@@ -223,6 +225,10 @@ public class SeaportEndpoint {
     @Path("remove/{code}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeSeaport(@PathParam("code") String code, @Context SecurityContext securityContext) {
+        if (!code.matches("[A-Z]{3}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         do {

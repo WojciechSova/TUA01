@@ -9,6 +9,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CruiseMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOSignatureValidatorFilterBinding;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -57,6 +58,10 @@ public class CruiseEndpoint {
     @Path("/{number}")
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Response getCruise(@PathParam("number") String number) {
+        if (!number.matches("[A-Z]{6}[0-9]{6}")) {
+            throw CommonExceptions.createConstraintViolationException();
+        }
+
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
         CruiseDetailsDTO cruiseDetailsDTO = null;
@@ -187,7 +192,7 @@ public class CruiseEndpoint {
     @Path("remove/{number}")
     @RolesAllowed({"EMPLOYEE"})
     public Response removeCruise(@PathParam("number") String number, @Context SecurityContext securityContext) {
-        if (!(number.matches("[A-Z]{6}[0-9]{6}"))) {
+        if (!number.matches("[A-Z]{6}[0-9]{6}")) {
             throw CommonExceptions.createConstraintViolationException();
         }
 
@@ -228,6 +233,7 @@ public class CruiseEndpoint {
     @PUT
     @Path("update")
     @RolesAllowed({"EMPLOYEE"})
+    @DTOSignatureValidatorFilterBinding
     public Response updateCruise(@Valid CruiseDetailsDTO cruiseDetailsDTO, @Context SecurityContext securityContext,
                                  @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
         if (cruiseDetailsDTO.getStartDate() == null || cruiseDetailsDTO.getEndDate() == null
