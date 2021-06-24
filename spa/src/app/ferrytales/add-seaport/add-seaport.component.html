@@ -20,7 +20,7 @@
             </div>
             <div class="row">
                 <input #newCity type="text" id="add-city" formControlName="city"
-                       placeholder="{{'seaports-table.city' | translate}}"
+                       placeholder="{{'add-seaport.city' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.city.touched && form.controls.city.invalid}"/>
                 <div class="validation-error"
                      *ngIf="form.controls.city.hasError('required') && form.controls.city.touched"
@@ -33,7 +33,7 @@
 
             <div class="row">
                 <input #newCode type="text" id="add-code" formControlName="code"
-                       placeholder="{{'seaports-table.code' | translate}}"
+                       placeholder="{{'add-seaport.code' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.code.touched && form.controls.code.invalid}"/>
                 <div class="validation-error"
                      *ngIf="form.controls.code.hasError('required') && form.controls.code.touched"

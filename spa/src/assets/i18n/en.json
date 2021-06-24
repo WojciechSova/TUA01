@@ -432,9 +432,9 @@
     },
     "add-cabin": {
         "new_cabin": "New cabin",
-        "capacity": "Capacity",
+        "capacity": "*Capacity",
         "cabin_type": "Cabin type",
-        "number": "Number"
+        "number": "*Number"
     },
     "add-ferry": {
         "new_ferry": "New ferry",
