@@ -63,6 +63,7 @@ public class SeaportEndpoint {
                 seaportGeneralDTOList = seaportManager.getAllSeaports().stream()
                         .map(SeaportMapper::createSeaportGeneralDTOFromEntities)
                         .collect(Collectors.toList());
+                transactionRollBack = seaportManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -104,6 +105,7 @@ public class SeaportEndpoint {
             try {
                 seaportDetailsDTO = SeaportMapper
                         .createSeaportDetailsDTOFromEntity(seaportManager.getSeaportByCode(code));
+                transactionRollBack = seaportManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -144,6 +146,7 @@ public class SeaportEndpoint {
         do {
             try {
                 seaportManager.createSeaport(securityContext.getUserPrincipal().getName(), SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO));
+                transactionRollBack = seaportManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -189,6 +192,7 @@ public class SeaportEndpoint {
             try {
                 seaportManager.updateSeaport(SeaportMapper.createSeaportFromSeaportDetailsDTO(seaportDetailsDTO),
                         securityContext.getUserPrincipal().getName());
+                transactionRollBack = seaportManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -225,6 +229,7 @@ public class SeaportEndpoint {
             try {
                 String userLogin = securityContext.getUserPrincipal().getName();
                 seaportManager.removeSeaport(code, userLogin);
+                transactionRollBack = seaportManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {

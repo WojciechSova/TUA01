@@ -70,6 +70,7 @@ public class AccountEndpoint {
                 accountGeneralDTOList = accountManager.getAllAccountsWithActiveAccessLevels().stream()
                         .map(AccountMapper::createAccountGeneralDTOFromEntities)
                         .collect(Collectors.toList());
+                transactionRollBack = accountManager.isTransactionRolledBack();
 
             } catch (GeneralException generalException) {
                 throw generalException;
@@ -108,7 +109,7 @@ public class AccountEndpoint {
             try {
                 account = AccountMapper
                         .createAccountDetailsDTOFromEntities(accountManager.getAccountWithLogin(login));
-
+                transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -148,7 +149,7 @@ public class AccountEndpoint {
             try {
                 account = AccountMapper.createAccountDetailsDTOFromEntities(
                         accountManager.getAccountWithLogin(securityContext.getUserPrincipal().getName()));
-
+                transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -191,6 +192,7 @@ public class AccountEndpoint {
         do {
             try {
                 accountManager.createAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO));
+                transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -329,6 +331,7 @@ public class AccountEndpoint {
             try {
                 accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO),
                         securityContext.getUserPrincipal().getName());
+                transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -379,6 +382,7 @@ public class AccountEndpoint {
         do {
             try {
                 accountManager.updateAccount(AccountMapper.createAccountFromAccountDetailsDTO(accountDTO), accountDTO.getLogin());
+                transactionRollBack = accountManager.isTransactionRolledBack();
 
             } catch (GeneralException generalException) {
                 throw generalException;
@@ -597,6 +601,7 @@ public class AccountEndpoint {
             try {
                 accountManager.sendChangeEmailAddressUrl(securityContext.getUserPrincipal().getName(), newEmailAddress,
                         securityContext.getUserPrincipal().getName());
+                transactionRollBack = accountManager.isTransactionRolledBack();
 
             } catch (GeneralException generalException) {
                 throw generalException;
@@ -638,6 +643,7 @@ public class AccountEndpoint {
         do {
             try {
                 accountManager.sendChangeEmailAddressUrl(login, newEmailAddress, securityContext.getUserPrincipal().getName());
+                transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -727,7 +733,7 @@ public class AccountEndpoint {
                 } else {
                     accountManager.sendPasswordResetAddressUrl(email, null);
                 }
-
+                transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -771,6 +777,7 @@ public class AccountEndpoint {
         do {
             try {
                 accountManager.resetPassword(url, new Password(newPassword));
+                transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -813,7 +820,7 @@ public class AccountEndpoint {
             try {
                 logger.info("The user with login {} changed the access level to {}",
                         securityContext.getUserPrincipal().getName(), accessLevel);
-
+                transactionRollBack = accountManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {

@@ -75,6 +75,7 @@ public class CabinEndpoint {
                         CabinMapper.createEntityFromCabinDetailsDTO(cabinDTO, cabinTypeManager.getCabinTypeByName(cabinDTO.getCabinType())),
                         securityContext.getUserPrincipal().getName(),
                         ferryName);
+                transactionRollBack = cabinManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
                     transactionRollBack = true;
@@ -119,6 +120,7 @@ public class CabinEndpoint {
             try {
                 cabinDetailsDTO = CabinMapper
                         .createCabinDetailsDTOFromEntity(cabinManager.getCabinByFerryAndNumber(ferryName, cabinNumber));
+                transactionRollBack = cabinManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -164,6 +166,7 @@ public class CabinEndpoint {
             try {
                 cabinGeneralDTOList = cabinManager.getFreeCabinsOnCruise(cruiseNumber).stream()
                         .map(CabinMapper::createCabinGeneralDTOFromEntity).collect(Collectors.toList());
+                transactionRollBack = cabinManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -204,6 +207,7 @@ public class CabinEndpoint {
         do {
             try {
                 cabinManager.removeCabin(number, securityContext.getUserPrincipal().getName());
+                transactionRollBack = cabinManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
                     transactionRollBack = true;
@@ -250,6 +254,7 @@ public class CabinEndpoint {
                 CabinType cabinType = cabinTypeManager.getCabinTypeByName(cabinDTO.getCabinType());
                 cabinManager.updateCabin(CabinMapper.createEntityFromCabinDetailsDTO(cabinDTO, cabinType),
                         securityContext.getUserPrincipal().getName(), ferryName);
+                transactionRollBack = cabinManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
                     transactionRollBack = true;

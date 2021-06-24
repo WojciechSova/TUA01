@@ -62,4 +62,11 @@ public interface FerryManagerLocal {
      * @param login     Login użytkownika, który chce usunąć prom
      */
     void removeFerry(String ferryName, String login);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

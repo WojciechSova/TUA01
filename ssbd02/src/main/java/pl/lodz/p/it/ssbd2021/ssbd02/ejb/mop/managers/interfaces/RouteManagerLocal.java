@@ -71,4 +71,11 @@ public interface RouteManagerLocal {
      * @param login Login użytkownika usuwającego trasę
      */
     void removeRoute(String code, String login);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

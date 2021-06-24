@@ -78,4 +78,11 @@ public interface CruiseManagerLocal {
      * @param userLogin Login użytkownika, który usuwa encje {@link String}
      */
     void removeCruise(String cruiseNumber, String userLogin);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

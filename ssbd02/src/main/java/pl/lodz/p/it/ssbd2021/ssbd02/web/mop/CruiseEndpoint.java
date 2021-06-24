@@ -70,6 +70,7 @@ public class CruiseEndpoint {
             try {
                 cruiseDetailsDTO = CruiseMapper
                         .createCruiseDetailsDTOFromEntity(cruiseManagerLocal.getCruiseByNumber(number));
+                transactionRollBack = cruiseManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -108,6 +109,7 @@ public class CruiseEndpoint {
                 currentCruisesDTOList = cruiseManagerLocal.getAllCurrentCruises().stream()
                         .map(CruiseMapper::createCruiseGeneralDTOFromEntity)
                         .collect(Collectors.toList());
+                transactionRollBack = cruiseManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -160,6 +162,7 @@ public class CruiseEndpoint {
             try {
                 cruiseManagerLocal.createCruise(CruiseMapper.createCruiseFromCruiseDetailsDTO(cruiseDetailsDTO),
                         ferry, route, securityContext.getUserPrincipal().getName());
+                transactionRollBack = cruiseManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -200,6 +203,7 @@ public class CruiseEndpoint {
             try {
                 String userLogin = securityContext.getUserPrincipal().getName();
                 cruiseManagerLocal.removeCruise(number, userLogin);
+                transactionRollBack = cruiseManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -248,6 +252,7 @@ public class CruiseEndpoint {
             try {
                 cruiseManagerLocal.updateCruise(CruiseMapper.createCruiseFromCruiseDetailsDTO(cruiseDetailsDTO),
                         securityContext.getUserPrincipal().getName());
+                transactionRollBack = cruiseManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
                     transactionRollBack = true;

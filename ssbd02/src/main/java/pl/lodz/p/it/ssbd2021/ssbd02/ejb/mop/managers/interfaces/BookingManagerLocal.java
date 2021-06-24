@@ -85,4 +85,11 @@ public interface BookingManagerLocal {
      * @param number Numer rezerwacji, którą chcemy usunąć
      */
     void removeBooking(String login, String number);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

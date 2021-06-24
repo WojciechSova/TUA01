@@ -59,6 +59,7 @@ public class BookingEndpoint {
                 bookingGeneralDTOList = bookingManagerLocal.getAllBookings().stream()
                         .map(BookingMapper::createBookingGeneralDTOFromEntity)
                         .collect(Collectors.toList());
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -101,6 +102,7 @@ public class BookingEndpoint {
             try {
                 bookingDetailsDTO = BookingMapper
                         .createBookingDetailsDTOFromEntity(bookingManagerLocal.getBookingByNumber(number));
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -146,6 +148,7 @@ public class BookingEndpoint {
                 bookingDetailsDTO = BookingMapper
                         .createBookingDetailsDTOFromEntity(bookingManagerLocal
                                 .getBookingByAccountAndNumber(securityContext.getUserPrincipal().getName(), number));
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -186,6 +189,7 @@ public class BookingEndpoint {
                         securityContext.getUserPrincipal().getName()).stream()
                         .map(BookingMapper::createBookingGeneralDTOFromEntity)
                         .collect(Collectors.toList());
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -238,6 +242,7 @@ public class BookingEndpoint {
             try {
                 bookingManagerLocal.createBooking(peopleNumber, cruiseNumber, cabinNumber,
                         securityContext.getUserPrincipal().getName(), vehicleTypeName);
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
                     transactionRollBack = true;
@@ -283,6 +288,7 @@ public class BookingEndpoint {
         do {
             try {
                 bookingManagerLocal.removeBooking(securityContext.getUserPrincipal().getName(), number);
+                transactionRollBack = bookingManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
                     transactionRollBack = true;

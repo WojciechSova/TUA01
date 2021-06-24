@@ -63,6 +63,7 @@ public class FerryEndpoint {
                 ferryGeneralDTOList = ferryManagerLocal.getAllFerries().stream()
                         .map(FerryMapper::createFerryGeneralDTOFromEntity)
                         .collect(Collectors.toList());
+                transactionRollBack = ferryManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -100,6 +101,7 @@ public class FerryEndpoint {
             try {
                 ferryDetailsDTO = FerryMapper
                         .createFerryDetailsDTOFromEntities(ferryManagerLocal.getFerryAndCabinsByFerryName(name));
+                transactionRollBack = ferryManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -142,6 +144,7 @@ public class FerryEndpoint {
             try {
                 ferryManagerLocal.createFerry(securityContext.getUserPrincipal().getName(),
                         FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO));
+                transactionRollBack = ferryManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -187,6 +190,7 @@ public class FerryEndpoint {
             try {
                 ferryManagerLocal.updateFerry(FerryMapper.createFerryFromFerryDetailsDTO(ferryDetailsDTO),
                         securityContext.getUserPrincipal().getName());
+                transactionRollBack = ferryManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
                     transactionRollBack = true;
@@ -233,6 +237,7 @@ public class FerryEndpoint {
         do {
             try {
                 ferryManagerLocal.removeFerry(name, securityContext.getUserPrincipal().getName());
+                transactionRollBack = ferryManagerLocal.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {

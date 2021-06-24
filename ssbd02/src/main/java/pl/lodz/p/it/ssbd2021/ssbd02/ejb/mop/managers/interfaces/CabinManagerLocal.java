@@ -80,4 +80,11 @@ public interface CabinManagerLocal {
      * @param removedBy Login użytkownika, który usunął encję
      */
     void removeCabin(String number, String removedBy);
+
+    /**
+     * Metoda zwracająca status transakcji.
+     *
+     * @return Status transakcji - true w przypadku jej powodzenia, false w przypadku jej wycofania
+     */
+    boolean isTransactionRolledBack();
 }

@@ -62,6 +62,7 @@ public class RouteEndpoint {
                 routeDTOList = routeManager.getAllRoutes().stream()
                         .map(RouteMapper::createRouteGeneralDTOFromEntity)
                         .collect(Collectors.toList());
+                transactionRollBack = routeManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -99,6 +100,7 @@ public class RouteEndpoint {
             try {
                 Pair<Route, List<Cruise>> pair = routeManager.getRouteAndCruisesByRouteCode(code);
                 routeDetailsDTO = RouteMapper.createRouteDetailsDTOFromEntity(pair.getLeft(), pair.getRight());
+                transactionRollBack = routeManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -144,6 +146,7 @@ public class RouteEndpoint {
             try {
                 routeManager.createRoute(RouteMapper.createRouteFromRouteDetailsDTO(routeDetailsDTO),
                         start, dest, securityContext.getUserPrincipal().getName());
+                transactionRollBack = routeManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
@@ -183,6 +186,7 @@ public class RouteEndpoint {
         do {
             try {
                 routeManager.removeRoute(code, securityContext.getUserPrincipal().getName());
+                transactionRollBack = routeManager.isTransactionRolledBack();
             } catch (GeneralException generalException) {
                 throw generalException;
             } catch (EJBAccessException | AccessLocalException accessExcept) {
