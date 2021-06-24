@@ -1,10 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CabinGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CabinTypeManagerLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.CabinType;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
@@ -14,6 +15,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
+import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -24,7 +26,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +42,8 @@ import java.util.stream.Collectors;
 @Path("cabins")
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class CabinEndpoint {
+
+    private static final Logger logger = LogManager.getLogger();
 
     @Inject
     private CabinManagerLocal cabinManager;
@@ -59,20 +66,39 @@ public class CabinEndpoint {
         if (cabinDTO.getCapacity() == null || cabinDTO.getCabinType() == null || cabinDTO.getNumber() == null) {
             throw CommonExceptions.createConstraintViolationException();
         }
-        try {
-            cabinManager.createCabin(
-                    CabinMapper.createEntityFromCabinDetailsDTO(cabinDTO, cabinTypeManager.getCabinTypeByName(cabinDTO.getCabinType())),
-                    securityContext.getUserPrincipal().getName(),
-                    ferryName);
-            return Response.accepted()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                cabinManager.createCabin(
+                        CabinMapper.createEntityFromCabinDetailsDTO(cabinDTO, cabinTypeManager.getCabinTypeByName(cabinDTO.getCabinType())),
+                        securityContext.getUserPrincipal().getName(),
+                        ferryName);
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.accepted()
+                .build();
     }
 
     /**
@@ -86,21 +112,32 @@ public class CabinEndpoint {
     @Path("details/{ferry}/{number}")
     @RolesAllowed({"EMPLOYEE"})
     public Response getCabin(@PathParam("ferry") String ferryName, @PathParam("number") String cabinNumber) {
-        try {
-            CabinDetailsDTO cabinDetailsDTO = CabinMapper
-                    .createCabinDetailsDTOFromEntity(cabinManager.getCabinByFerryAndNumber(ferryName, cabinNumber));
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        CabinDetailsDTO cabinDetailsDTO = null;
+        do {
+            try {
+                cabinDetailsDTO = CabinMapper
+                        .createCabinDetailsDTOFromEntity(cabinManager.getCabinByFerryAndNumber(ferryName, cabinNumber));
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(cabinDetailsDTO)
-                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(cabinDetailsDTO))
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(cabinDetailsDTO)
+                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(cabinDetailsDTO))
+                .build();
     }
 
     @GET
@@ -119,21 +156,32 @@ public class CabinEndpoint {
     @GET
     @Path("cruise/free/{number}")
     @RolesAllowed({"CLIENT"})
-    public Response getFreeCabinsOnCruise(@PathParam("number") String cruiseNumber){
-        try {
-            List<CabinGeneralDTO> cabinGeneralDTOList = cabinManager.getFreeCabinsOnCruise(cruiseNumber).stream()
-                    .map(CabinMapper::createCabinGeneralDTOFromEntity).collect(Collectors.toList());
+    public Response getFreeCabinsOnCruise(@PathParam("number") String cruiseNumber) {
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        List<CabinGeneralDTO> cabinGeneralDTOList = null;
+        do {
+            try {
+                cabinGeneralDTOList = cabinManager.getFreeCabinsOnCruise(cruiseNumber).stream()
+                        .map(CabinMapper::createCabinGeneralDTOFromEntity).collect(Collectors.toList());
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(cabinGeneralDTOList)
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(cabinGeneralDTOList)
+                .build();
     }
 
     /**
@@ -151,17 +199,35 @@ public class CabinEndpoint {
             throw CommonExceptions.createConstraintViolationException();
         }
 
-        try {
-            cabinManager.removeCabin(number, securityContext.getUserPrincipal().getName());
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                cabinManager.removeCabin(number, securityContext.getUserPrincipal().getName());
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
     }
 
     @PUT
@@ -177,18 +243,52 @@ public class CabinEndpoint {
         if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, cabinDTO)) {
             throw CommonExceptions.createPreconditionFailedException();
         }
-        try {
-            CabinType cabinType = cabinTypeManager.getCabinTypeByName(cabinDTO.getCabinType());
-            cabinManager.updateCabin(CabinMapper.createEntityFromCabinDetailsDTO(cabinDTO, cabinType),
-                    securityContext.getUserPrincipal().getName(), ferryName);
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                CabinType cabinType = cabinTypeManager.getCabinTypeByName(cabinDTO.getCabinType());
+                cabinManager.updateCabin(CabinMapper.createEntityFromCabinDetailsDTO(cabinDTO, cabinType),
+                        securityContext.getUserPrincipal().getName(), ferryName);
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
+    }
+
+    /**
+     * Metoda pobierająca z właściwości współczynnik określający ilość powtórzeń transakcji.
+     *
+     * @return Współczynnik powtórzeń transakcji
+     */
+    private int getTransactionRepetitionCounter() {
+        Properties prop = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
+            return 3;
         }
     }
 }

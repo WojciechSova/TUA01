@@ -1,36 +1,34 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CruiseDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.CruiseGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CruiseManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.CruiseMapper;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.mappers.SeaportMapper;
 import pl.lodz.p.it.ssbd2021.ssbd02.utils.signing.DTOIdentitySignerVerifier;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.AccessLocalException;
 import javax.ejb.EJBAccessException;
+import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +41,8 @@ import java.util.stream.Collectors;
 @Path("cruises")
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
 public class CruiseEndpoint {
+
+    private static final Logger logger = LogManager.getLogger();
 
     @Inject
     private CruiseManagerLocal cruiseManagerLocal;
@@ -63,21 +63,32 @@ public class CruiseEndpoint {
     @Path("/{number}")
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Response getCruise(@PathParam("number") String number) {
-        try {
-            CruiseDetailsDTO cruiseDetailsDTO = CruiseMapper
-                    .createCruiseDetailsDTOFromEntity(cruiseManagerLocal.getCruiseByNumber(number));
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        CruiseDetailsDTO cruiseDetailsDTO = null;
+        do {
+            try {
+                cruiseDetailsDTO = CruiseMapper
+                        .createCruiseDetailsDTOFromEntity(cruiseManagerLocal.getCruiseByNumber(number));
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(cruiseDetailsDTO)
-                    .tag(DTOIdentitySignerVerifier.calculateDTOSignature(cruiseDetailsDTO))
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(cruiseDetailsDTO)
+                .tag(DTOIdentitySignerVerifier.calculateDTOSignature(cruiseDetailsDTO))
+                .build();
     }
 
     /**
@@ -89,21 +100,32 @@ public class CruiseEndpoint {
     @Path("current")
     @PermitAll
     public Response getCurrentCruises() {
-        try {
-            List<CruiseGeneralDTO> currentCruisesDTOList = cruiseManagerLocal.getAllCurrentCruises().stream()
-                    .map(CruiseMapper::createCruiseGeneralDTOFromEntity)
-                    .collect(Collectors.toList());
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        List<CruiseGeneralDTO> currentCruisesDTOList = null;
+        do {
+            try {
+                currentCruisesDTOList = cruiseManagerLocal.getAllCurrentCruises().stream()
+                        .map(CruiseMapper::createCruiseGeneralDTOFromEntity)
+                        .collect(Collectors.toList());
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .entity(currentCruisesDTOList)
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .entity(currentCruisesDTOList)
+                .build();
     }
 
     /**
@@ -132,18 +154,29 @@ public class CruiseEndpoint {
             throw CommonExceptions.createConstraintViolationException();
         }
 
-        try {
-            cruiseManagerLocal.createCruise(CruiseMapper.createCruiseFromCruiseDetailsDTO(cruiseDetailsDTO),
-                    ferry, route, securityContext.getUserPrincipal().getName());
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                cruiseManagerLocal.createCruise(CruiseMapper.createCruiseFromCruiseDetailsDTO(cruiseDetailsDTO),
+                        ferry, route, securityContext.getUserPrincipal().getName());
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -161,19 +194,29 @@ public class CruiseEndpoint {
             throw CommonExceptions.createConstraintViolationException();
         }
 
-        try {
-            String userLogin = securityContext.getUserPrincipal().getName();
-            cruiseManagerLocal.removeCruise(number, userLogin);
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                String userLogin = securityContext.getUserPrincipal().getName();
+                cruiseManagerLocal.removeCruise(number, userLogin);
+            } catch (GeneralException generalException) {
+                throw generalException;
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
 
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        return Response.ok()
+                .build();
     }
 
     /**
@@ -199,18 +242,51 @@ public class CruiseEndpoint {
             throw CommonExceptions.createPreconditionFailedException();
         }
 
-        try {
-            cruiseManagerLocal.updateCruise(CruiseMapper.createCruiseFromCruiseDetailsDTO(cruiseDetailsDTO),
-                    securityContext.getUserPrincipal().getName());
-            return Response.ok()
-                    .build();
-        } catch (GeneralException generalException) {
-            throw generalException;
-        } catch (EJBAccessException | AccessLocalException accessExcept) {
-            throw CommonExceptions.createForbiddenException();
-        } catch (Exception e) {
-            throw CommonExceptions.createUnknownException();
-        }
+        int transactionRetryCounter = getTransactionRepetitionCounter();
+        boolean transactionRollBack = false;
+        do {
+            try {
+                cruiseManagerLocal.updateCruise(CruiseMapper.createCruiseFromCruiseDetailsDTO(cruiseDetailsDTO),
+                        securityContext.getUserPrincipal().getName());
+            } catch (GeneralException generalException) {
+                if (generalException.getMessage().equals(CommonExceptions.createOptimisticLockException().getMessage())) {
+                    transactionRollBack = true;
+                    if (transactionRetryCounter < 2) {
+                        throw generalException;
+                    }
+                } else {
+                    throw generalException;
+                }
+            } catch (EJBAccessException | AccessLocalException accessExcept) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createForbiddenException();
+                }
+            } catch (EJBException ejbException) {
+                if (transactionRetryCounter < 2) {
+                    throw CommonExceptions.createUnknownException();
+                }
+            } catch (Exception e) {
+                throw CommonExceptions.createUnknownException();
+            }
+        } while (transactionRollBack && --transactionRetryCounter > 0);
+
+        return Response.ok()
+                .build();
     }
 
+    /**
+     * Metoda pobierająca z właściwości współczynnik określający ilość powtórzeń transakcji.
+     *
+     * @return Współczynnik powtórzeń transakcji
+     */
+    private int getTransactionRepetitionCounter() {
+        Properties prop = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
+            prop.load(input);
+            return Integer.parseInt(prop.getProperty("system.transaction.repetition"));
+        } catch (IOException | NullPointerException | NumberFormatException e) {
+            logger.warn(e);
+            return 3;
+        }
+    }
 }
