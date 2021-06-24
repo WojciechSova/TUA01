@@ -47,12 +47,6 @@ public class CruiseEndpoint {
     @Inject
     private CruiseManagerLocal cruiseManagerLocal;
 
-    @GET
-    @RolesAllowed({"EMPLOYEE"})
-    public Response getAllCruises() {
-        return null;
-    }
-
     /**
      * Metoda udostępniająca szczegółowe informacje dotyczące rejsu o podanym numerze
      *
@@ -95,7 +89,7 @@ public class CruiseEndpoint {
     /**
      * Metoda udostępniająca informacje o aktualnych rejsach
      *
-     * @return List aktualnych rejsów
+     * @return Lista aktualnych rejsów
      */
     @GET
     @Path("current")

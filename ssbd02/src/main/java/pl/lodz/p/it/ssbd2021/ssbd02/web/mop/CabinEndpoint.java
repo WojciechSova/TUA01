@@ -21,7 +21,14 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -34,7 +41,7 @@ import java.util.stream.Collectors;
 
 /**
  * Klasa ziarna CDI o zasięgu żądania.
- * Zawiera metody obsługujące żądania związane z rejsami.
+ * Zawiera metody obsługujące żądania związane z kajutami.
  *
  * @author Kacper Świercz
  */
@@ -47,6 +54,7 @@ public class CabinEndpoint {
 
     @Inject
     private CabinManagerLocal cabinManager;
+
     @Inject
     private CabinTypeManagerLocal cabinTypeManager;
 
@@ -142,13 +150,6 @@ public class CabinEndpoint {
                 .build();
     }
 
-    @GET
-    @Path("ferry/{name}")
-    @RolesAllowed({"CLIENT", "EMPLOYEE"})
-    public Response getCabinsByFerry(@PathParam("name") String name) {
-        return null;
-    }
-
     /**
      * Metoda udostępniająca listę ogólnych informacji o wolnych kajutach dla danego rejsu
      *
@@ -234,6 +235,15 @@ public class CabinEndpoint {
                 .build();
     }
 
+    /**
+     * Metoda edytująca kajutę.
+     *
+     * @param cabinDTO        Kajuta, która ma być edytowana
+     * @param ferryName       Nazwa promu
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
+     * @param eTag            ETag podawany w zawartości nagłówka "If-Match"
+     * @return Kod 200 w przypadku poprawnej modyfikacji kajuty
+     */
     @PUT
     @Path("update/{ferry}")
     @Consumes({MediaType.APPLICATION_JSON})

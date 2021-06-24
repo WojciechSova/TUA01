@@ -27,7 +27,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -354,8 +361,9 @@ public class AccountEndpoint {
     /**
      * Metoda umożliwiająca użytkownikowi aktualizowanie swojego konta w aplikacji.
      *
-     * @param accountDTO Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta
-     * @param eTag       ETag podawany w zawartości nagłówka "If-Match"
+     * @param accountDTO      Obiekt typu {@link AccountDetailsDTO} zawierający zaktualizowane pola konta
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika.
+     * @param eTag            ETag podawany w zawartości nagłówka "If-Match"
      * @return Kod 200 w przypadku poprawnej aktualizacji konta
      * Kod 400 w przypadku gdy przesyłane dane nie zawierają loginu lub wersji
      * Kod 412 w przypadku gdy eTag nie jest ważny lub próbujemy zmienić nie swoje konto
@@ -580,7 +588,7 @@ public class AccountEndpoint {
     }
 
     /**
-     * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiay adresu e-mail
+     * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiany adresu e-mail
      *
      * @param newEmailAddress Nowy adres e-mail
      * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
@@ -626,7 +634,8 @@ public class AccountEndpoint {
      * Metoda umożliwiająca wysłanie wiadomości z jednorazowym kodem url w celu zmiany adresu e-mail użytkownika o podanym loginie.
      *
      * @param newEmailAddress Nowy adres e-mail.
-     * @param login           Login użytkownika, któremy ma zostać zmieniony adres e-mail.
+     * @param login           Login użytkownika, któremu ma zostać zmieniony adres e-mail.
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego wysłania wiadomości o zmianie adresu e-mail
      */
     @POST
@@ -710,7 +719,8 @@ public class AccountEndpoint {
     /**
      * Metoda obsługująca żądanie resetowania hasła.
      *
-     * @param email Email użytkownika, którego hasło ma zostać zresetowane
+     * @param email           Email użytkownika, którego hasło ma zostać zresetowane
+     * @param securityContext Interfejs wstrzykiwany w celu pozyskania tożsamości aktualnie uwierzytelnionego użytkownika
      * @return Kod 200 w przypadku poprawnego formatu adresu email, w przeciwnym razie 400.
      * Aplikacja nie powiadamia użytkownika czy podany email znajduje się w bazie danych.
      */
