@@ -60,9 +60,9 @@ class CruiseEndpointTest {
 
     @Test
     void getCruise() {
-        when(cruiseManagerLocal.getCruiseByNumber("111")).thenReturn(cruise);
+        when(cruiseManagerLocal.getCruiseByNumber("ABCDEF123456")).thenReturn(cruise);
 
-        Response response = cruiseEndpoint.getCruise("111");
+        Response response = cruiseEndpoint.getCruise("ABCDEF123456");
 
         assertEquals(CruiseMapper.createCruiseDetailsDTOFromEntity(cruise), response.getEntity());
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());

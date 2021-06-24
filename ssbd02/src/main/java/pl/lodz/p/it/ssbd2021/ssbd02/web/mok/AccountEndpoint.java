@@ -188,7 +188,7 @@ public class AccountEndpoint {
     @Path("register")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAccount(@Valid AccountDetailsDTO accountDTO) {
-        if (accountDTO.getPassword() == null || accountDTO.getFirstName() == null
+        if (accountDTO.getLogin() == null || accountDTO.getPassword() == null || accountDTO.getFirstName() == null
                 || accountDTO.getLastName() == null || accountDTO.getEmail() == null
                 || accountDTO.getLanguage() == null || accountDTO.getTimeZone() == null) {
             throw CommonExceptions.createConstraintViolationException();

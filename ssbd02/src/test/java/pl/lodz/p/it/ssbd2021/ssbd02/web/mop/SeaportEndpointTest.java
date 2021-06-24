@@ -74,13 +74,13 @@ class SeaportEndpointTest {
 
     @Test
     void getSeaport() {
-        when(seaportManager.getSeaportByCode("123")).thenReturn(seaport1);
+        when(seaportManager.getSeaportByCode("ABC")).thenReturn(seaport1);
 
         SeaportDetailsDTO seaportDetailsDTO = SeaportMapper.createSeaportDetailsDTOFromEntity(seaport1);
 
         assertAll(
-                () -> assertEquals(seaportDetailsDTO.hashCode(), seaportEndpoint.getSeaport("123").getEntity().hashCode()),
-                () -> assertEquals(Response.Status.OK.getStatusCode(), seaportEndpoint.getSeaport("123").getStatus())
+                () -> assertEquals(seaportDetailsDTO.hashCode(), seaportEndpoint.getSeaport("ABC").getEntity().hashCode()),
+                () -> assertEquals(Response.Status.OK.getStatusCode(), seaportEndpoint.getSeaport("ABC").getStatus())
         );
 
         GeneralException exception = Assertions.assertThrows(CommonExceptions.class,
@@ -155,6 +155,7 @@ class SeaportEndpointTest {
     @Test
     void removeSeaport() {
         Account account = new Account();
+        seaport1.setCode("ABC");
         account.setLogin("Login");
         when(securityContext.getUserPrincipal()).thenReturn(userPrincipal);
         when(userPrincipal.getName()).thenReturn(account.getLogin());

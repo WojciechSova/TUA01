@@ -139,7 +139,7 @@ public class FerryEndpoint {
     @Path("add")
     @RolesAllowed({"EMPLOYEE"})
     public Response addFerry(@Valid FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext) {
-        if (ferryDetailsDTO.getVehicleCapacity() == null
+        if (ferryDetailsDTO.getName() == null || ferryDetailsDTO.getVehicleCapacity() == null
                 || ferryDetailsDTO.getOnDeckCapacity() == null) {
             throw CommonExceptions.createConstraintViolationException();
         }
@@ -183,7 +183,8 @@ public class FerryEndpoint {
     @DTOSignatureValidatorFilterBinding
     public Response updateFerry(@Valid FerryDetailsDTO ferryDetailsDTO, @Context SecurityContext securityContext,
                                 @HeaderParam("If-Match") @NotNull @NotEmpty String eTag) {
-        if (ferryDetailsDTO.getVersion() == null) {
+        if (ferryDetailsDTO.getName() == null || ferryDetailsDTO.getName().isBlank()
+                || ferryDetailsDTO.getVersion() == null) {
             throw CommonExceptions.createConstraintViolationException();
         }
         if (!DTOIdentitySignerVerifier.verifyDTOIntegrity(eTag, ferryDetailsDTO)) {
