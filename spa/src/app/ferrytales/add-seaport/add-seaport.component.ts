@@ -13,17 +13,17 @@ export class AddSeaportComponent implements OnInit {
 
     error = false;
 
+    form = new FormGroup({
+        city: new FormControl('', [Validators.required, Validators.max(30)]),
+        code: new FormControl('', [Validators.required, Validators.pattern('[A-Z]{3}')])
+    });
+
     constructor(private router: Router,
                 private seaportGeneralService: SeaportGeneralService) {
     }
 
     ngOnInit(): void {
     }
-
-    form = new FormGroup({
-        city: new FormControl('', [Validators.required, Validators.max(30)]),
-        code: new FormControl('', [Validators.required, Validators.pattern('[A-Z]{3}')])
-    });
 
     goToHomeBreadcrumb(): void {
         this.router.navigate(['/']);
@@ -38,9 +38,13 @@ export class AddSeaportComponent implements OnInit {
             city: newCity,
             code: newCode
         };
-
+        this.seaportGeneralService.popup = 'hidden';
         this.seaportGeneralService.addSeaport(seaport).subscribe(
-            () => this.goToSeaportListBreadcrumb(),
+            () => {
+                this.goToSeaportListBreadcrumb();
+                this.seaportGeneralService.popup = 'add_seaport_success';
+                setTimeout(() => this.seaportGeneralService.popup = 'hidden', 5000);
+            },
             (error: any) => this.error = true
         );
     }

@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 export class CruiseGeneralService implements OnDestroy {
 
     currentCruises: CruiseGeneral[] = [];
+    popup = 'hidden';
 
     private readonly url: string;
 
@@ -43,6 +44,7 @@ export class CruiseGeneralService implements OnDestroy {
 
 
     ngOnDestroy(): void {
+        this.popup = 'hidden';
         this.currentCruises = [];
     }
 }

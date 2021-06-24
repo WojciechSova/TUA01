@@ -23,6 +23,11 @@
             cruise-table.remove_result.in_use</p>
         <p *ngIf="(cruiseDeleteResult) === 'ALREADY_STARTED'" class="edit-failure" translate>
             cruise-table.remove_result.already_started</p>
+
+    </div>
+    <div class="info-popup" *ngIf="cruiseGeneralService.popup != 'hidden'">
+        <p *ngIf="cruiseGeneralService.popup == 'cruise_add_success'" class="edit-success" translate>
+            cruise-table.add_success</p>
     </div>
     <div class="route-details" id="routeDetails">
         <div class="button-container">

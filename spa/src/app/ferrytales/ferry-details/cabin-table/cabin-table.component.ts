@@ -33,6 +33,7 @@ export class CabinTableComponent {
     ferry = '';
 
     goToCabinDetails(cabinName: string): void {
+        this.ferryDetailsService.popup = 'hidden';
         this.router.navigate(['/ferrytales/ferries/', this.ferry, cabinName]);
     }
 
@@ -51,6 +52,7 @@ export class CabinTableComponent {
     }
 
     removeCabin(cabinNumber: string): void {
+        this.ferryDetailsService.popup = 'hidden';
         this.cabinDetailsService.removeCabin(cabinNumber).subscribe(
             () => {
                 this.getFerry();

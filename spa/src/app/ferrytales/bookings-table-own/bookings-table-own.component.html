@@ -13,6 +13,13 @@
 <div *ngIf="bookingCancelError" class="validation-error" translate>
     ERROR.CANNOT_CANCEL_BOOKING
 </div>
+<div *ngIf="bookingGeneralService.popup == 'add-success'" class="success" translate>
+    booking-list.response.add_success
+</div>
+<div *ngIf="bookingCancelSuccess" class="success" translate>
+    booking-list.response.remove_success
+</div>
+
 <div class="booking-list-container">
     <table id="users">
         <tr>

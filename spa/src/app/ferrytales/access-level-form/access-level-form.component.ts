@@ -48,6 +48,7 @@ export class AccessLevelFormComponent implements OnChanges {
     }
 
     confirm(): void {
+        this.accessLevelService.popup = 'hidden';
         forkJoin(
             {
                 admin:  this.accessLevel.admin ?
@@ -60,7 +61,11 @@ export class AccessLevelFormComponent implements OnChanges {
                     this.accessLevelService.addAccessLevel(this.loginToChangeAccessLevel, 'CLIENT') :
                     this.accessLevelService.removeAccessLevel(this.loginToChangeAccessLevel, 'CLIENT'),
             }
-        ).subscribe(() => this.closeComponent());
+        ).subscribe(() => {
+            this.closeComponent();
+            this.accessLevelService.popup = 'edit_success';
+            setTimeout(() => this.accessLevelService.popup = 'hidden', 5000);
+        });
     }
 
     closeComponent(): void {

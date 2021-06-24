@@ -17,7 +17,7 @@ export class SeaportsTableComponent implements OnInit {
     deleteResultMessage = 'HIDDEN';
 
     constructor(private router: Router,
-                private seaportGeneralService: SeaportGeneralService) {
+                public seaportGeneralService: SeaportGeneralService) {
         this.getSeaports();
     }
 
@@ -25,10 +25,12 @@ export class SeaportsTableComponent implements OnInit {
     }
 
     goToHomeBreadcrumb(): void {
+        this.seaportGeneralService.popup = 'hidden';
         this.router.navigate(['/']);
     }
 
     refresh(): void {
+        this.seaportGeneralService.popup = 'hidden';
         this.deleteResultMessage = 'HIDDEN';
         this.getSeaports();
     }
@@ -46,10 +48,12 @@ export class SeaportsTableComponent implements OnInit {
     }
 
     showAddingForm(): void {
+        this.seaportGeneralService.popup = 'hidden';
         this.router.navigate(['/ferrytales/seaports/add']);
     }
 
     deleteSeaportClick(seaportCode: string): void {
+        this.seaportGeneralService.popup = 'hidden';
         this.isConfirmationVisible = true;
         this.seaportDeleteAttempt = true;
         this.seaportCode = seaportCode;

@@ -20,6 +20,8 @@ export class UsersTableComponent {
     byLogin = true;
     byFirstName = false;
     byLastName = false;
+    block = 'hide';
+    unblock = 'hide';
 
     constructor(private accountGeneralService: AccountGeneralService,
                 private accountDetailsService: AccountDetailsService,
@@ -102,15 +104,31 @@ export class UsersTableComponent {
     }
 
     blockAccount(login: string): void {
+        this.block = 'hide';
+        this.unblock = 'hide';
         this.accountGeneralService.blockAccount(login).subscribe(() => {
             this.getAccounts();
+            this.block = 'success';
+            console.log(this.block);
+            console.log(this.unblock);
+            setTimeout(() => this.block = 'hide', 5000);
         });
+        console.log(this.block);
+        console.log(this.unblock);
     }
 
     unblockAccount(login: string): void {
+        this.block = 'hide';
+        this.unblock = 'hide';
         this.accountGeneralService.unblockAccount(login).subscribe(() => {
             this.getAccounts();
+            this.unblock = 'success';
+            console.log(this.block);
+            console.log(this.unblock);
+            setTimeout(() => this.unblock = 'hide', 5000);
         });
+        console.log(this.block);
+        console.log(this.unblock);
     }
 
     goToHomeBreadcrumb(): void {

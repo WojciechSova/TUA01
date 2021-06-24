@@ -14,6 +14,8 @@
 <div *ngIf="ferryUsed" class="validation-error" translate>
     ERROR.FERRY_IS_BEING_USED
 </div>
+<div *ngIf="(result) === 'success'" class="success" translate>ferry.response.success</div>
+<div *ngIf="ferryGeneralService.popup === 'add_ferry_success'" class="success" translate>ferry.response.add_success</div>
 <div class="ferries-list-container">
     <table id="users">
         <tr>

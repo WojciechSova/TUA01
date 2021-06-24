@@ -11,6 +11,7 @@ export class FerryGeneralService implements OnDestroy {
 
     ferriesGeneralList: FerryGeneral[] = [];
     private readonly url: string;
+    popup = 'hidden';
 
     constructor(private http: HttpClient) {
         this.url = environment.appUrl + '/ferries';
@@ -28,6 +29,7 @@ export class FerryGeneralService implements OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.popup = 'hidden';
         this.ferriesGeneralList = [];
     }
 

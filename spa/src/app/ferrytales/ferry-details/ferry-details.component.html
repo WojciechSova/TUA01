@@ -19,6 +19,9 @@
         <p *ngIf="(ferryEdit.response) === FAILURE" class="edit-failure" translate>ferry-edit.result_failure</p>
         <p *ngIf="(ferryEdit.response) === OPTIMISTIC_LOCK" class="edit-failure" translate>ERROR.OPTIMISTIC_LOCK_ERROR</p>
     </div>
+    <div class="info-popup" *ngIf="ferryDetailsService.popup != 'hidden'">
+        <p *ngIf="ferryDetailsService.popup === 'add_cabin_success'" class="edit-success">ferry-details.add_cabin_success</p>
+    </div>
     <div class="ferry-details" id="ferryDetails">
 
         <div class="button-container">

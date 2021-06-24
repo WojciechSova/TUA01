@@ -8,6 +8,7 @@ import { CruiseGeneral } from '../../model/mop/CruiseGeneral';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IAngularMyDpOptions, IMyDateModel } from 'angular-mydatepicker';
 import { IdentityService } from '../../services/utils/identity.service';
+import {CruiseGeneralService} from '../../services/mop/cruise-general.service';
 
 @Component({
     selector: 'app-add-cruise',
@@ -43,7 +44,8 @@ export class AddCruiseComponent implements OnInit {
                 private router: Router,
                 public ferryGeneralService: FerryGeneralService,
                 private cruiseDetailsService: CruiseDetailsService,
-                private identityService: IdentityService) {
+                private identityService: IdentityService,
+                private cruiseGeneralService: CruiseGeneralService) {
         this.code = this.route.snapshot.paramMap.get('code') as string;
         this.getFerries();
     }
@@ -101,8 +103,13 @@ export class AddCruiseComponent implements OnInit {
             endDate: this.endDate.singleDate?.jsDate ? this.endDate.singleDate?.jsDate.toJSON() : new Date(0).toJSON()
         };
 
+        this.cruiseGeneralService.popup = 'hidden';
         this.cruiseDetailsService.addCruise(cruise, this.ferry, this.code).subscribe(
-            () => this.goToRouteDetailsBreadcrumb(),
+            () => {
+                this.goToRouteDetailsBreadcrumb();
+                this.cruiseGeneralService.popup = 'add_cruise_success';
+                setTimeout(() => this.cruiseGeneralService.popup = 'hidden', 5000);
+            },
             (error: HttpErrorResponse) => this.handleError(error)
         );
     }

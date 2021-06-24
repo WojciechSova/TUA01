@@ -13,7 +13,7 @@ import { CabinGeneral } from '../../model/mop/CabinGeneral';
 export class AddCabinComponent implements OnInit {
 
     name = '';
-    error: boolean = false;
+    error = false;
 
     constructor(private router: Router,
                 private ferryDetailsService: FerryDetailsService,
@@ -23,7 +23,7 @@ export class AddCabinComponent implements OnInit {
 
     form = new FormGroup({
         capacity: new FormControl('', [Validators.required, Validators.min(1), Validators.max(99)]),
-        number: new FormControl('', [Validators.required, Validators.pattern("[A-Z][0-9]{3}")]),
+        number: new FormControl('', [Validators.required, Validators.pattern('[A-Z][0-9]{3}')]),
     });
 
     ngOnInit(): void {
@@ -38,33 +38,38 @@ export class AddCabinComponent implements OnInit {
     }
 
     goToFerryBreadcrumb(): void {
-        this.router.navigate(['/ferrytales/ferries/' + this.name])
+        this.router.navigate(['/ferrytales/ferries/' + this.name]);
     }
 
     addCabin(capacity: string, cabinType: string, number: string): any {
         switch (cabinType) {
-            case "Pierwsza klasa":
-                cabinType = "First class";
+            case 'Pierwsza klasa':
+                cabinType = 'First class';
                 break;
-            case "Druga klasa":
-                cabinType = "Second class";
+            case 'Druga klasa':
+                cabinType = 'Second class';
                 break;
-            case "Trzecia klasa":
-                cabinType = "Third class";
+            case 'Trzecia klasa':
+                cabinType = 'Third class';
                 break;
-            case "Klasa inwalidzka":
-                cabinType = "Disabled class";
+            case 'Klasa inwalidzka':
+                cabinType = 'Disabled class';
                 break;
         }
-        var cabin: CabinGeneral = {
-            capacity: capacity,
-            cabinType: cabinType,
-            number: number
-        }
+        const cabin: CabinGeneral = {
+            capacity,
+            cabinType,
+            number
+        };
+        this.ferryDetailsService.popup = 'hidden';
         this.cabinGeneralService.addCabin(cabin, this.name).subscribe(
-            () => this.goToFerryBreadcrumb(),
+            () => {
+                this.goToFerryBreadcrumb();
+                this.ferryDetailsService.popup = 'add_cabin_success';
+                setTimeout(() => this.ferryDetailsService.popup = 'hidden', 5000);
+            },
             (error: any) => this.error = true
-        )
+        );
     }
 
     getCurrentType(): string {
@@ -72,7 +77,7 @@ export class AddCabinComponent implements OnInit {
         if (selector != null) {
             return (selector as HTMLInputElement).value;
         } else {
-            return "First class";
+            return 'First class';
         }
     }
 

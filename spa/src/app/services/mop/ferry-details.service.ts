@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 export class FerryDetailsService implements OnDestroy{
 
     private readonly url: string;
+    popup = 'hidden';
 
     etag = '';
 
@@ -68,6 +69,7 @@ export class FerryDetailsService implements OnDestroy{
     }
 
     ngOnDestroy(): void {
+        this.popup = 'hidden';
         this.ferry = {
             name: '',
             cabins: [],

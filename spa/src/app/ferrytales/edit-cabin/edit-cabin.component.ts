@@ -95,8 +95,11 @@ export class EditCabinComponent implements OnInit {
         if (value != null && value !== '') {
             this.cabinDetailsService.cabin.capacity = value;
         }
+        this.cabinDetailsService.popup = 'hidden';
         this.cabinDetailsService.updateCabin(this.cabinDetailsService.cabin, this.ferryName).subscribe(
             () => {
+                this.cabinDetailsService.popup = 'edit_cabin_success';
+                setTimeout(() => this.cabinDetailsService.popup = 'hidden', 5000);
                 this.router.navigate(['ferrytales/ferries/', this.ferryName, this.cabinNumber]);
                 this.updating = true;
                 this.getCabin();

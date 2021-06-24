@@ -129,10 +129,13 @@ export class EditUserComponent {
             acc.timeZone = timeZone;
         }
 
+        this.accountDetailsService.popup = 'hidden';
         this.sendEditRequest(acc).subscribe(
             () => {
                 this.router.navigate(['ferrytales/accounts/' + acc.login]);
                 this.updating = true;
+                this.accountDetailsService.popup = 'edit_user_success';
+                setTimeout(() => this.accountDetailsService.popup = 'hidden', 5000);
                 this.getAccount();
             },
             (err: HttpErrorResponse) => {
@@ -160,6 +163,7 @@ export class EditUserComponent {
         this.optimisticLockError = false;
         this.existingPhoneNumber = false;
         this.unknownError = false;
+        this.accountDetailsService.popup = 'hidden';
     }
 
     confirmationResult(confirmationResult: boolean): void {

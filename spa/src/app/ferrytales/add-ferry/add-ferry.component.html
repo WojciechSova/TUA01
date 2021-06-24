@@ -33,7 +33,7 @@
             </div>
 
             <div class="row">
-                <input #newVehicleCapacity type="number" id="add-vehicle-capacity" formControlName="vehicleCapacity"
+                <input #newVehicleCapacity type="number" min="0" id="add-vehicle-capacity" formControlName="vehicleCapacity"
                        placeholder="{{'add-ferry.vehicle_capacity' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.vehicleCapacity.touched && form.controls.vehicleCapacity.invalid}"/>
                 <div class="validation-error"
@@ -47,7 +47,7 @@
             </div>
 
             <div class="row">
-                <input #newOnDeckCapacity type="number" id="add-on-deck-capacity" formControlName="onDeckCapacity"
+                <input #newOnDeckCapacity type="number" min="1" id="add-on-deck-capacity" formControlName="onDeckCapacity"
                        placeholder="{{'add-ferry.on_deck_capacity' | translate}}"
                        [ngClass]="{'is-invalid': form.controls.onDeckCapacity.touched && form.controls.onDeckCapacity.invalid}"/>
                 <div class="validation-error"

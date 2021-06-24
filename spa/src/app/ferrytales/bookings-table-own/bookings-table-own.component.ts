@@ -14,6 +14,7 @@ export class BookingsTableOwnComponent implements OnInit {
     bookingToCancel = '';
     bookingCancelError = false;
     isPromptVisible = false;
+    bookingCancelSuccess = false;
 
     constructor(private router: Router,
                 public bookingGeneralService: BookingGeneralService,
@@ -25,6 +26,7 @@ export class BookingsTableOwnComponent implements OnInit {
     }
 
     goToHomeBreadcrumb(): void {
+        this.bookingGeneralService.popup = 'hidden';
         this.router.navigate(['/']);
     }
 
@@ -37,6 +39,7 @@ export class BookingsTableOwnComponent implements OnInit {
     }
 
     showBookingDetails(bookingNumber: string): void {
+        this.bookingGeneralService.popup = 'hidden';
         this.router.navigate(['/ferrytales/bookings/own/' + bookingNumber]);
     }
 
@@ -47,8 +50,14 @@ export class BookingsTableOwnComponent implements OnInit {
     }
 
     cancelBooking(bookingNumber: string): void {
+        this.bookingCancelError = false;
+        this.bookingCancelSuccess = false;
+        this.bookingGeneralService.popup = 'hidden';
         this.bookingGeneralService.remove(bookingNumber).subscribe(
-            () => this.getBookings(),
+            () => {
+                this.getBookings();
+                this.bookingCancelSuccess = true;
+            },
             (error => {
                 if (error.error === 'ERROR.CANNOT_CANCEL_BOOKING') {
                     this.bookingCancelError = true;

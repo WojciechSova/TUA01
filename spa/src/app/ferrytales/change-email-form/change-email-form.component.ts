@@ -36,10 +36,13 @@ export class ChangeEmailFormComponent implements OnInit {
     }
 
     changeEmail(newEmail: string): void {
+        this.accountDetailsService.popup = 'hidden';
         if (this.accountDetailsService.account.login === this.identityService.getLogin()) {
             this.changeEmailService.changeEmail(newEmail).subscribe(
                 () => {
                     this.closeComponent();
+                    this.accountDetailsService.popup = 'email_success';
+                    setTimeout(() => this.accountDetailsService.popup = 'hidden', 5000);
                 },
                 (err: HttpErrorResponse) => {
                     if (err.status === 409) {

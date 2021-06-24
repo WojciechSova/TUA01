@@ -14,7 +14,8 @@
                name="search"/>
     </form>
 </div>
-
+<div *ngIf="block === 'success'" class="success" translate>users-table.block_success</div>
+<div *ngIf="unblock === 'success'" class="success" translate>users-table.unblock_success</div>
 <div class="users-list-container">
     <table id="users">
         <tr>
