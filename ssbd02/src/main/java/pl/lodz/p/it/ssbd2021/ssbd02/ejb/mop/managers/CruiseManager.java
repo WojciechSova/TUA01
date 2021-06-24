@@ -2,12 +2,10 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import org.apache.commons.lang3.SerializationUtils;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.CruiseFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.FerryFacadeLocal;
-import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.RouteFacadeLocal;
+import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.*;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.CruiseManagerLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Route;
@@ -51,11 +49,11 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     @Inject
     private AccountMopFacadeLocal accountMopFacade;
 
-    @Override
-    @RolesAllowed({"EMPLOYEE"})
-    public List<Cruise> getAllCruises() {
-        return null;
-    }
+    @Inject
+    private CabinFacadeLocal cabinFacade;
+
+    @Inject
+    private BookingFacadeLocal bookingFacade;
 
     @Override
     @PermitAll
@@ -64,22 +62,9 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
-    public List<Cruise> getAllCompletedCruises() {
-        return null;
-    }
-
-    @Override
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public Cruise getCruiseByNumber(String number) {
         return cruiseFacadeLocal.findByNumber(number);
-    }
-
-
-    @Override
-    @RolesAllowed({"EMPLOYEE"})
-    public List<Cruise> getCruisesByFerryName(String name) {
-        return null;
     }
 
     @Override
@@ -104,6 +89,7 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
         cruise.setModifiedBy(null);
         cruise.setCreationDate(Timestamp.from(Instant.now()));
         cruise.setCreatedBy(account);
+        cruise.setPopularity(0D);
         cruiseFacadeLocal.create(cruise);
         logger.info("The user with login {} has created cruise with number {}",
                 login, cruise.getNumber());
@@ -138,6 +124,7 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
         cruiseClone.setFerry(databaseCruise.getFerry());
         cruiseClone.setRoute(databaseCruise.getRoute());
         cruiseClone.setCreatedBy(databaseCruise.getCreatedBy());
+        cruiseClone.setPopularity(calculatePopularity(cruiseClone));
 
         cruiseFacadeLocal.edit(cruiseClone);
         logger.info("The user with login {} updated the cruise with number {}",
@@ -157,5 +144,24 @@ public class CruiseManager extends AbstractManager implements CruiseManagerLocal
 
         logger.info("The user with login {} has removed the cruise with number {}",
                 userLogin, cruiseNumber);
+    }
+
+    @Override
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    public double calculatePopularity(Cruise cruise) {
+
+        double taken = cabinFacade.findOccupiedCabinsOnCruise(cruise).stream().mapToInt(Cabin::getCapacity).sum();
+        double all = cabinFacade.findCabinsOnCruise(cruise).stream().mapToInt(Cabin::getCapacity).sum();
+
+        taken += bookingFacade.getSumNumberOfPeopleByCruise(cruise);
+        all += cruise.getFerry().getOnDeckCapacity();
+
+        double popularity = taken / all * 100;
+
+        if (popularity > 100) {
+            return 100;
+        }
+        return popularity;
+
     }
 }

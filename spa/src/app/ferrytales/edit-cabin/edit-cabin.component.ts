@@ -11,6 +11,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class EditCabinComponent implements OnInit {
 
+    isConfirmationVisible = false;
+    newCapacity: string | undefined;
+
     public cabinTypes = {
         firstClass: false,
         secondClass: false,
@@ -26,6 +29,7 @@ export class EditCabinComponent implements OnInit {
     private cabinNumber = '';
     private ferryName = '';
     editFailed = false;
+    optimisticLockError = false;
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -36,15 +40,7 @@ export class EditCabinComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.cabinDetailsService.cabin.cabinType === 'First class') {
-            this.cabinTypes.firstClass = true;
-        } else if (this.cabinDetailsService.cabin.cabinType === 'Second class') {
-            this.cabinTypes.secondClass = true;
-        } else if (this.cabinDetailsService.cabin.cabinType === 'Third class') {
-            this.cabinTypes.thirdClass = true;
-        } else if (this.cabinDetailsService.cabin.cabinType === 'Disabled class') {
-            this.cabinTypes.disabledClass = true;
-        }
+        this.getCabin();
     }
 
     onValueChange(value: string): void{
@@ -88,7 +84,14 @@ export class EditCabinComponent implements OnInit {
         this.router.navigate(['/ferrytales/ferries/', this.ferryName, this.cabinNumber]);
     }
 
-    editCabin(value: string): void {
+    editCabinClick(value?: string): void {
+        this.editFailed = false;
+        this.optimisticLockError = false;
+        this.isConfirmationVisible = true;
+        this.newCapacity = value;
+    }
+
+    editCabin(value?: string): void {
         if (value != null && value !== '') {
             this.cabinDetailsService.cabin.capacity = value;
         }
@@ -97,16 +100,41 @@ export class EditCabinComponent implements OnInit {
                 this.router.navigate(['ferrytales/ferries/', this.ferryName, this.cabinNumber]);
                 this.updating = true;
                 this.getCabin();
-            }, () => {
-                    this.editFailed = true;
-                    this.getCabin();
+            }, (error) => {
+                if (error.error === 'ERROR.OPTIMISTIC_LOCK') {
+                    this.optimisticLockError = true;
+                }
+                this.editFailed = true;
+                this.getCabin();
             }
         );
     }
 
     getCabin(): void {
         this.cabinDetailsService.getCabin(this.ferryName, this.cabinNumber).subscribe(
-            (response) => this.cabinDetailsService.readCabinAndEtagFromResponse(response)
+            (response) => {
+                this.cabinDetailsService.readCabinAndEtagFromResponse(response);
+                this.setCabinClassRadio();
+            }
         );
+    }
+
+    setCabinClassRadio(): void {
+        if (this.cabinDetailsService.cabin.cabinType === 'First class') {
+            this.cabinTypes.firstClass = true;
+        } else if (this.cabinDetailsService.cabin.cabinType === 'Second class') {
+            this.cabinTypes.secondClass = true;
+        } else if (this.cabinDetailsService.cabin.cabinType === 'Third class') {
+            this.cabinTypes.thirdClass = true;
+        } else if (this.cabinDetailsService.cabin.cabinType === 'Disabled class') {
+            this.cabinTypes.disabledClass = true;
+        }
+    }
+
+    confirmationResult(confirmationResult: boolean): void {
+        this.isConfirmationVisible = false;
+        if (confirmationResult) {
+            this.editCabin(this.newCapacity);
+        }
     }
 }

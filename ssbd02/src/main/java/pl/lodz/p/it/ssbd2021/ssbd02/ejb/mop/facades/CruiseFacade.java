@@ -93,7 +93,7 @@ public class CruiseFacade extends AbstractFacade<Cruise> implements CruiseFacade
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE"})
+    @RolesAllowed({"EMPLOYEE", "CLIENT"})
     public void edit(Cruise entity) {
         super.edit(entity);
     }

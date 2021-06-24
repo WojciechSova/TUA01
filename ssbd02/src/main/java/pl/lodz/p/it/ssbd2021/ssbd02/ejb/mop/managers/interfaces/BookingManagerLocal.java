@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -19,20 +20,6 @@ public interface BookingManagerLocal {
      * @return Lista rezerwacji {@link Booking}
      */
     List<Booking> getAllBookings();
-
-    /**
-     * Metoda wyszukująca wszystkie aktualne rezerwacje.
-     *
-     * @return Lista aktualnych rezerwacji {@link Booking}
-     */
-    List<Booking> getAllCurrentBookings();
-
-    /**
-     * Metoda wyszukująca wszystkie zakończone rezerwacje.
-     *
-     * @return Lista zakończonych rezerwacji {@link Booking}
-     */
-    List<Booking> getAllFinishedBookings();
 
     /**
      * Metoda wyszukująca wszystkie rezerwacje użytkownika o podanym loginie.
@@ -60,14 +47,6 @@ public interface BookingManagerLocal {
     Booking getBookingByAccountAndNumber(String login, String number);
 
     /**
-     * Metoda zwracająca potrzebne miejsce na promie na pojazd o podanej nazwie typu.
-     *
-     * @param name Nazwa typu pojazdu
-     * @return Wartość typu {@link Float}
-     */
-    Float getRequiredSpaceByVehicleTypeName(String name);
-
-    /**
      * Metoda tworząca rezerwacje.
      *
      * @param numberOfPeople Liczba osób przypisanych do rezerwacji
@@ -85,6 +64,14 @@ public interface BookingManagerLocal {
      * @param number Numer rezerwacji, którą chcemy usunąć
      */
     void removeBooking(String login, String number);
+
+    /**
+     * Metoda obliczająca popularność rejsu
+     *
+     * @param cruise Rejs, dla którego obliczany jest agregat
+     * @return Procentowa wartość popularności rejsu
+     */
+    double calculatePopularity(Cruise cruise);
 
     /**
      * Metoda zwracająca status transakcji.

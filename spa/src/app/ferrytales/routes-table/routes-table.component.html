@@ -29,7 +29,7 @@
             <td>{{route.start.city}}</td>
             <td>{{route.destination.city}}</td>
             <td>
-                <button class="top-table-button delete-button" (click)="removeRoute(route.code)" translate>
+                <button class="top-table-button delete-button" (click)="removeRouteClick(route.code)" translate>
                     route.delete
                 </button>
             </td>
@@ -41,3 +41,5 @@
         </tr>
     </table>
 </div>
+<app-confirmation *ngIf="isConfirmationVisible"
+                  (isPromptVisibleAndAnswer)="confirmationResult($event)"></app-confirmation>

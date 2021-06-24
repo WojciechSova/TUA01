@@ -17,8 +17,8 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.OneTimeUrl;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccessLevelExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.AccountExceptions;
-import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.mok.OneTimeUrlExceptions;
+import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -33,7 +33,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.*;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
@@ -92,6 +94,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
             throw OneTimeUrlExceptions.createExceptionConflict(OneTimeUrlExceptions.ERROR_NEW_EMAIL_UNIQUE);
         }
 
+        account.setVersion(0L);
         if (account.getPhoneNumber() == null || account.getPhoneNumber().isEmpty()) {
             account.setPhoneNumber(null);
         }
@@ -144,7 +147,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         if (badLogins >= badLoginsThreshold) {
             changeActivity(account.getLogin(), false, null);
         }
-
+        logger.info("The user with IP {} failed to log in to account {}", clientAddress, login);
     }
 
     @Override
@@ -391,6 +394,8 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         }
 
         emailSender.sendEmailChangeConfirmationEmail(account.getLanguage(), account.getFirstName(), newEmailAddress, oneTimeUrl.getUrl());
+        logger.info("The user with login {} created url to change email for account with login {} to email {}",
+                requestedBy, login, newEmailAddress);
     }
 
     @Override
@@ -437,6 +442,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         }
 
         emailSender.sendPasswordResetEmail(account.getLanguage(), account.getFirstName(), email, oneTimeUrl.getUrl());
+        logger.info("The user with login {} created url to reset password for account with email {}", requestedBy, email);
     }
 
     @Override
@@ -473,7 +479,7 @@ public class AccountManager extends AbstractManager implements AccountManagerLoc
         account.setLanguage(language);
         logger.info("The language of the account with login {} changed to {}",
                 this.getInvokerId(), language);
-
+        logger.info("The user with IP {} successfully logged in to account {}", clientAddress, login);
         return account.getTimeZone();
     }
 }

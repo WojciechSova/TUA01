@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {IdentityService} from '../../services/utils/identity.service';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { IdentityService } from '../../services/utils/identity.service';
 
 @Component({
     selector: 'app-navigation',
@@ -10,6 +10,9 @@ export class NavigationComponent implements AfterViewInit {
 
     @Input()
     public isSticky = true;
+
+    @Input()
+    public loginVisible = false;
 
     @ViewChild('logo')
     private readonly logo: ElementRef;

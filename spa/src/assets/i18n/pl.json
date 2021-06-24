@@ -167,15 +167,11 @@
         "sign_in_to_book": "Zaloguj się, aby zarezerwować bilet!"
     },
     "popular-offers": {
-        "popular_routes": "Najpopularniejsze trasy"
+        "upcoming_cruises": "Nadchodzące rejsy"
     },
     "offer": {
         "starting_at": "Już od {{price}}zł od osoby",
         "book": "Zarezerwuj"
-    },
-    "cities": {
-        "warsaw": "Warszawa",
-        "ciechocinek": "Ciechocinek"
     },
     "confirm-account": {
         "welcome_on_board": "Witamy na pokładzie!",
@@ -217,7 +213,9 @@
         "BAD_REQUEST": "Niepoprawne żądanie",
         "CRUISE_NUMBER_UNIQUE": "Rejs o podanym numerze już istnieje",
         "CANNOT_REMOVE_CABIN": "Nie można usunąć kajuty",
-        "CABIN_ALREADY_REMOVED": "Kajuta została już usunięta przez kogoś innego"
+        "CABIN_ALREADY_REMOVED": "Kajuta została już usunięta przez kogoś innego",
+        "OPTIMISTIC_LOCK_ERROR": "Dane, które próbujesz edytować nie są aktualne",
+        "UNKNOWN_ERROR": "Coś poszło nie tak"
     },
     "error-page": {
         "forbidden_code": "Kod błędu 403",
@@ -338,7 +336,8 @@
             "other_failure": "Usuwanie rejsu nie powiodło się",
             "in_use": "Rejs, który próbujesz usunąć jest wykorzystywany przez rezerwację",
             "already_started": "Rejs, który próbujesz usunąć jest po dacie rozpoczęcia"
-        }
+        },
+        "popularity": "Popularność"
     },
     "cruise-details": {
         "edit_cruise": "Edytuj rejs",
@@ -350,7 +349,8 @@
         "modification_date": "Data modyfikacji",
         "modified_by": "Autor ostatniej modyfikacji",
         "creation_date": "Data utworzenia",
-        "created_by": "Utworzony przez"
+        "created_by": "Utworzony przez",
+        "popularity": "Popularność"
     },
     "cruise-general": {
         "start_date": "Data rozpoczęcia",
@@ -359,7 +359,8 @@
         "route_destination": "Port docelowy",
         "ferry_name": "Nazwa promu",
         "book_a_ticket": "Zarezerwuj bilet",
-        "book": "Zarezerwuj"
+        "book": "Zarezerwuj",
+        "log_in_to_book_a_ticket": "Zaloguj się, aby zarezerwować bilet"
     },
     "add-cruise": {
         "new_cruise": "Nowy rejs",

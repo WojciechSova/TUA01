@@ -100,6 +100,8 @@ public interface AccountManagerLocal {
      * Podczas odblokowania konta ustawia jego licznik nieudanych logowań na 0.
      *
      * @param login Login użytkownika
+     * @param newActivity Wartość prawda/fałsz w zależności, czy blokujemy czy odblokowujemy konto
+     * @param modifiedBy Login użytkownika, który zlecił operację
      */
     void changeActivity(String login, boolean newActivity, String modifiedBy);
 

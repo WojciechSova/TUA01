@@ -167,15 +167,11 @@
         "sign_in_to_book": "Sign in to book a ticket!"
     },
     "popular-offers": {
-        "popular_routes": "Popular routes"
+        "upcoming_cruises": "Upcoming cruises"
     },
     "offer": {
         "starting_at": "Starting at {{price}}PLN per person",
         "book": "Book"
-    },
-    "cities": {
-        "warsaw": "Warsaw",
-        "ciechocinek": "Ciechocinek"
     },
     "confirm-account": {
         "welcome_on_board": "Welcome on board!",
@@ -217,7 +213,9 @@
         "BAD_REQUEST": "Bad request",
         "CRUISE_NUMBER_UNIQUE": "Provided cruise number already exists",
         "CANNOT_REMOVE_CABIN": "Cannot remove cabin",
-        "CABIN_ALREADY_REMOVED": "Cabin has already been removed by someone else"
+        "CABIN_ALREADY_REMOVED": "Cabin has already been removed by someone else",
+        "OPTIMISTIC_LOCK_ERROR": "Data you are trying to update is outdated",
+        "UNKNOWN_ERROR": "Something went wrong"
     },
     "error-page": {
         "forbidden_code": "Error 403",
@@ -332,6 +330,7 @@
         "name_of_ferry": "Ferry name",
         "cruise_details": "Details",
         "remove_cruise": "Remove cruise",
+        "popularity": "Popularity",
         "remove_result": {
             "success": "Cruise deleted successfully",
             "gone": "Cruise you tried to delete was deleted by someone else",
@@ -350,7 +349,8 @@
         "modification_date": "Modification date",
         "modified_by": "Modified by",
         "creation_date": "Creation date",
-        "created_by": "Created by"
+        "created_by": "Created by",
+        "popularity": "Popularity"
     },
     "cruise-general": {
         "start_date": "Start date",
@@ -359,7 +359,8 @@
         "route_destination": "Destination seaport",
         "ferry_name": "Ferry name",
         "book_a_ticket": "Book a ticket",
-        "book": "Book"
+        "book": "Book",
+        "log_in_to_book_a_ticket": "Log in to book a ticket"
     },
     "add-cruise": {
         "new_cruise": "New cruise",

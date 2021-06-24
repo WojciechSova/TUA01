@@ -8,6 +8,7 @@ export interface CruiseDetails {
     route: RouteGeneral;
     ferry: FerryGeneral;
     number: string;
+    popularity?: number;
     modificationDate?: Date;
     modifiedBy?: AccountGeneral;
     creationDate: Date;

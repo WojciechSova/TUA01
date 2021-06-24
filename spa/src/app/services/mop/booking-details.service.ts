@@ -94,6 +94,7 @@ export class BookingDetailsService implements OnDestroy {
                     vehicleCapacity: 0
                 },
                 number: '',
+                popularity: 0,
                 modificationDate: new Date(),
                 creationDate: new Date(),
                 createdBy: {

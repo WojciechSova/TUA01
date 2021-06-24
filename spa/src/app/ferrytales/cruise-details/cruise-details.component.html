@@ -21,7 +21,7 @@
         <p *ngIf="(cruiseEdit.response) === SUCCESS" class="edit-success" translate>cruise-edit.result_success</p>
         <p *ngIf="(cruiseEdit.response) === GONE" class="edit-failure" translate>cruise-edit.result_gone</p>
         <p *ngIf="(cruiseEdit.response) === FAILURE" class="edit-failure" translate>cruise-edit.result_failure</p>
-        <p *ngIf="(cruiseEdit.response) === OPTIMISTIC_LOCK" class="edit-failure" translate>cruise-edit.result_opl</p>
+        <p *ngIf="(cruiseEdit.response) === OPTIMISTIC_LOCK" class="edit-failure" translate>ERROR.OPTIMISTIC_LOCK_ERROR</p>
         <p *ngIf="(cruiseEdit.response) === FERRY_BEING_USED" class="edit-failure" translate>cruise-edit.ferry_being_used</p>
     </div>
     <div class="cruise-details" id="cruiseDetails">
@@ -58,6 +58,10 @@
             <div class="row">
                 <label class="uppercase" translate>cruise-details.number</label>
                 <label>{{cruiseDetailsService.cruise.number}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cruise-details.popularity</label>
+                <label>{{cruiseDetailsService.cruise.popularity | number:'1.2-2' }}%</label>
             </div>
             <div class="row">
                 <label class="uppercase" translate>cruise-details.modification_date</label>

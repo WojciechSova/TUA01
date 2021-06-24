@@ -61,18 +61,6 @@ public class RouteManager extends AbstractManager implements RouteManagerLocal, 
     }
 
     @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public List<Route> getRoutesByStart(String city) {
-        return null;
-    }
-
-    @Override
-    @RolesAllowed({"EMPLOYEE", "CLIENT"})
-    public List<Route> getRoutesByDestination(String city) {
-        return null;
-    }
-
-    @Override
     @RolesAllowed({"EMPLOYEE"})
     public Pair<Route, List<Cruise>> getRouteAndCruisesByRouteCode(String code) {
         Route route = routeFacadeLocal.findByCode(code);

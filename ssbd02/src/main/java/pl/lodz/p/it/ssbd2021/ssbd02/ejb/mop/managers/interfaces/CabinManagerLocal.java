@@ -1,6 +1,7 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces;
 
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -12,30 +13,6 @@ import java.util.List;
  */
 @Local
 public interface CabinManagerLocal {
-
-    /**
-     * Metoda wyszukująca wszystkie kajuty.
-     *
-     * @return Lista kajut {@link Cabin}
-     */
-    List<Cabin> getAllCabins();
-
-    /**
-     * Metoda wyszukująca wszystkie kajuty, które zawierają się na promie o podanym kodzie.
-     *
-     * @param code Kod promu, po którym chcemy wyszukać
-     * @return Lista kajut {@link Cabin}, które znajdują się na promie o podanym kodzie
-     */
-    List<Cabin> getAllCabinsByFerryCode(String code);
-
-    /**
-     * Metoda wyszukująca wszystkie kajuty, które znajdują się na promie o podanym kodzie i są wybranego typu.
-     *
-     * @param code      Kod promu, po którym chcemy wyszukać
-     * @param cabinType Nazwa typu kajuty
-     * @return Lista kajut {@link Cabin}, które znajdują się na promie o podanym kodzie i są wybranego typu
-     */
-    List<Cabin> getAllCabinsByFerryCodeAndCabinType(String code, String cabinType);
 
     /**
      * Metoda wyszukująca wszystkie wolne kajuty dla danego rejsu
@@ -80,6 +57,14 @@ public interface CabinManagerLocal {
      * @param removedBy Login użytkownika, który usunął encję
      */
     void removeCabin(String number, String removedBy);
+
+    /**
+     * Metoda obliczająca popularność rejsu
+     *
+     * @param cruise Rejs, dla którego liczony jest agregat
+     * @return Procentowa wartość popularności rejsu
+     */
+    double calculatePopularity(Cruise cruise);
 
     /**
      * Metoda zwracająca status transakcji.

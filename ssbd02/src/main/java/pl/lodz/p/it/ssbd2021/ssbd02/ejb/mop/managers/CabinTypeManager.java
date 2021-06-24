@@ -13,7 +13,6 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
-import java.util.List;
 
 /**
  * Manager typów kajut
@@ -28,12 +27,6 @@ public class CabinTypeManager extends AbstractManager implements CabinTypeManage
 
     @Inject
     private CabinTypeFacadeLocal cabinTypeFacadeLocal;
-
-    @Override
-    @RolesAllowed({"CLIENT", "EMPLOYEE"})
-    public List<CabinType> getAllCabinTypes() {
-        return null;
-    }
 
     @Override
     @RolesAllowed({"CLIENT", "EMPLOYEE"})

@@ -10,11 +10,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.entities.AbstractEntity;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -69,6 +65,11 @@ public class Cruise extends AbstractEntity implements Serializable {
     @Pattern(regexp = "[A-Z]{6}[0-9]{6}", message = "Cruise number must have 6 capital letters and 6 digits")
     @Column(name = "number", nullable = false, unique = true, updatable = false, length = 12)
     private String number;
+
+    @Min(0)
+    @Max(100)
+    @Column(name = "popularity", nullable = false, updatable = true)
+    private Double popularity;
 
     @PastOrPresent
     @Column(name = "modification_date", nullable = true, updatable = true)

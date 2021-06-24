@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces;
 
 import org.apache.commons.lang3.tuple.Pair;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin;
+import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cruise;
 import pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Ferry;
 
 import javax.ejb.Local;
@@ -62,6 +63,14 @@ public interface FerryManagerLocal {
      * @param login     Login użytkownika, który chce usunąć prom
      */
     void removeFerry(String ferryName, String login);
+
+    /**
+     * Metoda obliczająca popularność rejsu
+     *
+     * @param cruise Rejs, dla którego liczony jest agregat
+     * @return Procentowa wartość popularności rejsu
+     */
+    double calculatePopularity(Cruise cruise);
 
     /**
      * Metoda zwracająca status transakcji.

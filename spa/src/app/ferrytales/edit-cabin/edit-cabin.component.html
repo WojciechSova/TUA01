@@ -58,13 +58,15 @@
                 </div>
             </div>
             <button class="edit-button" id="saveBtn"
-                    (click)="editCabin(newCapacity.value)"
+                    (click)="editCabinClick(newCapacity.value)"
                     [disabled]="form.invalid" translate>form.save
             </button>
             <img class="return-arrow" (click)="goToCabinBreadcrumb()" src="assets/imgs/back-arrow.png"
                  alt=""/>
             <div class="edit-error" *ngIf="editFailed"
                  translate>form.cabin_edit_failed</div>
+            <div class="edit-error" *ngIf="optimisticLockError"
+                 translate>ERROR.OPTIMISTIC_LOCK_ERROR</div>
         </form>
 
     </ng-template>
@@ -74,3 +76,5 @@
         </div>
     </ng-template>
 </div>
+<app-confirmation *ngIf="isConfirmationVisible"
+                  (isPromptVisibleAndAnswer)="confirmationResult($event)"></app-confirmation>
