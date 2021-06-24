@@ -17,7 +17,7 @@
         <p *ngIf="(seaportEdit.response) === SUCCESS" class="edit-success" translate>seaport-edit.result_success</p>
         <p *ngIf="(seaportEdit.response) === GONE" class="edit-failure" translate>seaport-edit.result_gone</p>
         <p *ngIf="(seaportEdit.response) === FAILURE" class="edit-failure" translate>seaport-edit.result_failure</p>
-        <p *ngIf="(seaportEdit.response) === OPTIMISTIC_LOCK" class="edit-failure" translate>seaport-edit.result_opl</p>
+        <p *ngIf="(seaportEdit.response) === OPTIMISTIC_LOCK" class="edit-failure" translate>ERROR.OPTIMISTIC_LOCK_ERROR</p>
         <p *ngIf="(seaportEdit.response) === NAME_NOT_UNIQUE" class="edit-failure" translate>seaport-edit.result_name_not_unique</p>
     </div>
     <div class="seaport-details" id="seaportDetails">
