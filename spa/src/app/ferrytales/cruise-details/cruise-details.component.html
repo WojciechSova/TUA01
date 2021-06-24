@@ -20,7 +20,7 @@
     <div *ngIf="(cruiseEdit.response) !== HIDDEN" class="info-popup">
         <p *ngIf="(cruiseEdit.response) === SUCCESS" class="edit-success" translate>cruise-edit.result_success</p>
         <p *ngIf="(cruiseEdit.response) === GONE" class="edit-failure" translate>cruise-edit.result_gone</p>
-        <p *ngIf="(cruiseEdit.response) === FAILURE" class="edit-failure" translate>cruise-edit.result_failure</p>
+        <p *ngIf="(cruiseEdit.response) === FAILURE" class="edit-failure" translate>cruise-edit.wrong_dates</p>
         <p *ngIf="(cruiseEdit.response) === OPTIMISTIC_LOCK" class="edit-failure" translate>ERROR.OPTIMISTIC_LOCK_ERROR</p>
         <p *ngIf="(cruiseEdit.response) === FERRY_BEING_USED" class="edit-failure" translate>cruise-edit.ferry_being_used</p>
     </div>
