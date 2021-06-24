@@ -9,6 +9,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class FerryEditComponent {
 
+    isConfirmationVisible = false;
+
     readonly HIDDEN = 'hide';
     readonly SUCCESS = 'success';
     readonly GONE = 'gone';
@@ -33,6 +35,10 @@ export class FerryEditComponent {
         onDeckCapacity: new FormControl('', [Validators.pattern('[1-9][0-9]*')]),
         vehicleCapacity: new FormControl('', [Validators.pattern('[0-9]*')])
     });
+
+    changeFerryClick(): void {
+        this.isConfirmationVisible = true;
+    }
 
     changeFerry(): void {
         this.editFailed = false;
@@ -75,5 +81,12 @@ export class FerryEditComponent {
 
     closeComponent(): void {
         this.emit(this.HIDDEN);
+    }
+
+    confirmationResult(confirmationResult: boolean): void {
+        this.isConfirmationVisible = false;
+        if (confirmationResult) {
+            this.changeFerry();
+        }
     }
 }

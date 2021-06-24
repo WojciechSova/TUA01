@@ -21,8 +21,10 @@
                  *ngIf="form.controls.vehicleCapacity.hasError('pattern') && form.controls.vehicleCapacity.touched"
                  translate>ferry-edit.invalid_vehicle_capacity
             </div>
-            <button [disabled]="form.invalid" id="confirm" class="form-button" (click)="changeFerry()" translate>form.confirm</button>
+            <button [disabled]="form.invalid" id="confirm" class="form-button" (click)="changeFerryClick()" translate>form.confirm</button>
             <img class="return-arrow" (click)="closeComponent()" src="assets/imgs/back-arrow.png" alt=""/>
         </div>
     </form>
 </div>
+<app-confirmation *ngIf="isConfirmationVisible"
+                  (isPromptVisibleAndAnswer)="confirmationResult($event)"></app-confirmation>

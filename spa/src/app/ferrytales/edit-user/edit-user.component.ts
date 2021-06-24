@@ -15,6 +15,12 @@ import { IdentityService } from '../../services/utils/identity.service';
 })
 export class EditUserComponent implements OnInit {
 
+    isConfirmationVisible = false;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    phoneNumber: string | undefined;
+    timeZone: string | undefined;
+
     constructor(public accountDetailsService: AccountDetailsService,
                 private route: ActivatedRoute,
                 private updateAccountService: UpdateAccountService,
@@ -97,6 +103,14 @@ export class EditUserComponent implements OnInit {
         }
     }
 
+    editUserClick(firstName?: string, lastName?: string, phoneNumber?: string, timeZone?: string): void {
+        this.isConfirmationVisible = true;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.timeZone = timeZone;
+    }
+
     editUser(firstName?: string, lastName?: string, phoneNumber?: string, timeZone?: string): void {
         const acc: AccountDetails = this.accountDetailsService.account;
         if (firstName != null) {
@@ -136,6 +150,13 @@ export class EditUserComponent implements OnInit {
     }
 
     ngOnInit(): void {
+    }
+
+    confirmationResult(confirmationResult: boolean): void {
+        this.isConfirmationVisible = false;
+        if (confirmationResult) {
+            this.editUser(this.firstName, this.lastName, this.phoneNumber, this.timeZone);
+        }
     }
 
 }
