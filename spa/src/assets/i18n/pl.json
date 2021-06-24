@@ -378,7 +378,8 @@
         "result_gone": "Zmiana daty rejsu nie powiodła się, ponieważ wybrany rejs, miasto lub prom został usunięty",
         "result_failure": "Zmiana daty rejsu nie powiodła się",
         "result_opl": "Stan rejsu został zmieniony, proszę spróbować ponownie",
-        "ferry_being_used": "Prom jest wykorzystywany przez inny obiekt"
+        "ferry_being_used": "Prom jest wykorzystywany przez inny obiekt",
+        "wrong_dates": "Niepoprawne daty"
     },
     "seaport-edit": {
         "required_city": "*Nazwa miasta",

@@ -378,7 +378,8 @@
         "result_gone": "Cruise date change failed because the selected cruise, route or ferry was deleted",
         "result_failure": "Cruise date change failed",
         "result_opl": "State of the seaport changed, please try again",
-        "ferry_being_used": "Ferry is being used"
+        "ferry_being_used": "Ferry is being used",
+        "wrong_dates": "Wrong dates"
     },
     "seaport-edit": {
         "required_city": "*City name",
