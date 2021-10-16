@@ -49,15 +49,6 @@
         <project.environment>prod</project.environment>
         <jdbc.config.src>src/prod/java</jdbc.config.src>
         <mail.flag>true</mail.flag>
-
-        <servlet.port>8402</servlet.port>
-        <payara.adminPort>4802</payara.adminPort>
-        <payara.username>admin</payara.username>
-        <payara.password>Nencihoag5</payara.password>
-        <payara.hostname>172.16.0.84</payara.hostname>
-        <payara.domainName>ssbd02</payara.domainName>
-        <payara.home>/opt/java/payara-5.2021.1/glassfish</payara.home>
-        <payara.domainDir>${payara.home}/domains</payara.domainDir>
     </properties>
 
     <dependencies>

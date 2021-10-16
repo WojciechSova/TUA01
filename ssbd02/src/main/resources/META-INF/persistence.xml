@@ -5,7 +5,7 @@
              version="2.2">
 
     <persistence-unit name="ssbd02adminPU">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
         <jta-data-source>java:app/jdbc/ssbd02admin</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
@@ -13,14 +13,14 @@
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
 <!--            <property name="hibernate.hbm2ddl.auto" value="validate"/>  TODO: Próba implementacji w dalszej fazie rozwoju projektu -->
         </properties>
     </persistence-unit>
 
 
     <persistence-unit name="ssbd02authPU">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
         <jta-data-source>java:app/jdbc/ssbd02auth</jta-data-source>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.auth.AuthView</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
@@ -28,13 +28,13 @@
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
         </properties>
     </persistence-unit>
 
 
     <persistence-unit name="ssbd02mokPU">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
         <jta-data-source>java:app/jdbc/ssbd02mok</jta-data-source>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.AccessLevel</class>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mok.Account</class>
@@ -44,13 +44,13 @@
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
         </properties>
     </persistence-unit>
 
 
     <persistence-unit name="ssbd02mopPU">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+<!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
         <jta-data-source>java:app/jdbc/ssbd02mop</jta-data-source>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Booking</class>
         <class>pl.lodz.p.it.ssbd2021.ssbd02.entities.mop.Cabin</class>
@@ -66,7 +66,7 @@
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
         </properties>
     </persistence-unit>
 
