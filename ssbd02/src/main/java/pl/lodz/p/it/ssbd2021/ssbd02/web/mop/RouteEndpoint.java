@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.io.IOException;
@@ -53,6 +54,7 @@ public class RouteEndpoint {
      */
     @GET
     @RolesAllowed({"EMPLOYEE"})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllRoutes() {
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
@@ -69,10 +71,12 @@ public class RouteEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -92,6 +96,7 @@ public class RouteEndpoint {
     @GET
     @Path("/{code}")
     @RolesAllowed({"EMPLOYEE"})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getRouteAndCruisesForRoute(@PathParam("code") String code) {
         if (!code.matches("[A-Z]{6}")) {
             throw CommonExceptions.createConstraintViolationException();
@@ -111,10 +116,12 @@ public class RouteEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -157,10 +164,12 @@ public class RouteEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -197,10 +206,12 @@ public class RouteEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }

@@ -50,6 +50,7 @@ public class BookingEndpoint {
      */
     @GET
     @RolesAllowed({"EMPLOYEE"})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllBookings() {
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
@@ -66,10 +67,12 @@ public class BookingEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -109,10 +112,12 @@ public class BookingEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -155,10 +160,12 @@ public class BookingEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -179,6 +186,7 @@ public class BookingEndpoint {
     @GET
     @Path("own")
     @RolesAllowed({"CLIENT"})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getOwnBookings(@Context SecurityContext securityContext) {
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
@@ -196,10 +204,12 @@ public class BookingEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -256,10 +266,12 @@ public class BookingEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -302,10 +314,12 @@ public class BookingEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }

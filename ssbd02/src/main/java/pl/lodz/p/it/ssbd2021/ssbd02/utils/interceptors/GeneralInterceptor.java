@@ -4,6 +4,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.GeneralException;
 
+import javax.ejb.EJBAccessException;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.persistence.PersistenceException;
@@ -32,6 +33,8 @@ public class GeneralInterceptor {
                 throw CommonExceptions.createConstraintViolationException();
             }
             throw CommonExceptions.createUnknownException();
+        } catch (EJBAccessException e) {
+            throw CommonExceptions.createForbiddenException();
         } catch (Exception e) {
             throw CommonExceptions.createUnknownException();
         }

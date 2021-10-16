@@ -71,10 +71,12 @@ public class SeaportEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -94,6 +96,7 @@ public class SeaportEndpoint {
     @GET
     @Path("{code}")
     @RolesAllowed({"EMPLOYEE"})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getSeaport(@PathParam("code") String code) {
         if (code == null || !code.matches("[A-Z]{3}")) {
             throw CommonExceptions.createConstraintViolationException();
@@ -113,10 +116,12 @@ public class SeaportEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -154,10 +159,12 @@ public class SeaportEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -201,10 +208,12 @@ public class SeaportEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -242,10 +251,12 @@ public class SeaportEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }

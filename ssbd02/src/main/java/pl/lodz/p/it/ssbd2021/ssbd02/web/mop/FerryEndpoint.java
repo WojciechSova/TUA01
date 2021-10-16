@@ -71,10 +71,12 @@ public class FerryEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -94,6 +96,7 @@ public class FerryEndpoint {
     @GET
     @Path("{name}")
     @RolesAllowed({"EMPLOYEE"})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getFerry(@PathParam("name") String name) {
         if (name.length() > 30) {
             throw CommonExceptions.createConstraintViolationException();
@@ -113,10 +116,12 @@ public class FerryEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -156,10 +161,12 @@ public class FerryEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -210,10 +217,12 @@ public class FerryEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -250,10 +259,12 @@ public class FerryEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }

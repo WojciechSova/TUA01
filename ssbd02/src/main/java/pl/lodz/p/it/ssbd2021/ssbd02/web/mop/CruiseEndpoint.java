@@ -57,6 +57,7 @@ public class CruiseEndpoint {
     @GET
     @Path("/{number}")
     @RolesAllowed({"EMPLOYEE", "CLIENT"})
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getCruise(@PathParam("number") String number) {
         if (!number.matches("[A-Z]{6}[0-9]{6}")) {
             throw CommonExceptions.createConstraintViolationException();
@@ -76,10 +77,12 @@ public class CruiseEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -115,10 +118,12 @@ public class CruiseEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -168,10 +173,12 @@ public class CruiseEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -209,10 +216,12 @@ public class CruiseEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }
@@ -259,10 +268,12 @@ public class CruiseEndpoint {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createForbiddenException();
                 }
+                transactionRollBack = true;
             } catch (EJBException ejbException) {
                 if (transactionRetryCounter < 2) {
                     throw CommonExceptions.createUnknownException();
                 }
+                transactionRollBack = true;
             } catch (Exception e) {
                 throw CommonExceptions.createUnknownException();
             }

@@ -3,6 +3,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.ejb;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.SessionSynchronization;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -88,6 +89,7 @@ public abstract class AbstractManager {
     }
 
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    @PermitAll
     public boolean isTransactionRolledBack() {
         return transactionRolledBack;
     }
