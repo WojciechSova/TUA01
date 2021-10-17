@@ -15,6 +15,7 @@ import pl.lodz.p.it.ssbd2021.ssbd02.utils.interceptors.TrackerInterceptor;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
+import javax.annotation.security.RunAs;
 import javax.ejb.*;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
@@ -56,10 +57,10 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
     private EmailSenderLocal emailSender;
 
     @Override
-//    @Schedule(hour = "*", minute = "*", second = "0", persistent = false)
+    @Schedule(hour = "*", minute = "*", second = "0", persistent = false)
     @DenyAll
     public void removeUnconfirmedAccounts() {
-        int removalTime = 86400;
+        long removalTime = 86400L;
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("system.properties")) {
 
             prop.load(input);
@@ -90,7 +91,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
     }
 
     @Override
-//    @Schedule(hour = "*", minute = "*", second = "20", persistent = false)
+    @Schedule(hour = "*", minute = "*", second = "20", persistent = false)
     @DenyAll
     public void removeInactiveUrl() {
         List<OneTimeUrl> expired = oneTimeUrlFacadeLocal.findExpired();
@@ -103,7 +104,7 @@ public class SystemManager extends AbstractManager implements SystemManagerLocal
     }
 
     @Override
-//    @Schedule(hour = "*", minute = "*", second = "40", persistent = false)
+    @Schedule(hour = "*", minute = "*", second = "40", persistent = false)
     @DenyAll
     public void resendConfirmAccountEmail() {
         long removalTime = 86_400_000 / 2L;

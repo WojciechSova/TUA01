@@ -28,7 +28,7 @@ import java.time.Instant;
         @NamedQuery(name = "Account.findByEmail", query = "SELECT a FROM Account a WHERE a.email = :email"),
         @NamedQuery(name = "Account.findByConfirmed", query = "SELECT a FROM Account a WHERE a.confirmed = :confirmed"),
         @NamedQuery(name = "Account.findByUnconfirmedAndExpired", query = "SELECT a FROM Account a WHERE a.confirmed = false " +
-                "AND EXTRACT(epoch FROM now()) - EXTRACT(epoch FROM a.creationDate) > :removalTime")
+                "AND UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(a.creationDate) > :removalTime")
 
 })
 @Data

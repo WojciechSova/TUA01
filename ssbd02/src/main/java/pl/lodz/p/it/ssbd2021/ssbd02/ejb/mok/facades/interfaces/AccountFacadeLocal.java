@@ -48,7 +48,7 @@ public interface AccountFacadeLocal extends AbstractFacadeInterface<Account> {
      *                    w przypadku braku jego aktywacji.
      * @return Lista obiektów typu {@link Account}.
      */
-    List<Account> findByUnconfirmedAndExpired(int removalTime);
+    List<Account> findByUnconfirmedAndExpired(long removalTime);
 
     /**
      * Metoda wyszukująca listę encji typu {@link Account} o przekazanym adresie e-mail.
