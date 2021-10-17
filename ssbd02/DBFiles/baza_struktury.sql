@@ -345,3 +345,7 @@ CREATE INDEX one_time_url_url USING btree ON One_time_url  (url);
 CREATE INDEX one_time_url_account USING btree ON One_time_url  (account);
 CREATE INDEX one_time_url_modified_by USING btree ON One_time_url  (modified_by);
 CREATE INDEX one_time_url_created_by USING btree ON One_time_url  (created_by);
+
+GRANT ALL PRIVILEGES ON *.* TO 'ssbd02admin'@'localhost';
+
+FLUSH PRIVILEGES;
