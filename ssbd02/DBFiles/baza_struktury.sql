@@ -1,19 +1,25 @@
-DROP TABLE IF EXISTS Account CASCADE;
-DROP TABLE IF EXISTS Access_level CASCADE;
-DROP TABLE IF EXISTS Personal_data CASCADE;
-DROP TABLE IF EXISTS Ferry CASCADE;
-DROP TABLE IF EXISTS Seaport CASCADE;
-DROP TABLE IF EXISTS Route CASCADE;
-DROP TABLE IF EXISTS Cabin CASCADE;
-DROP TABLE IF EXISTS Cruise CASCADE;
-DROP TABLE IF EXISTS Booking CASCADE;
-DROP TABLE IF EXISTS Cabin_type CASCADE;
-DROP TABLE IF EXISTS Vehicle_type CASCADE;
-DROP TABLE IF EXISTS One_time_url CASCADE;
+DROP TABLE IF EXISTS Booking;
+DROP TABLE IF EXISTS Cabin;
+DROP TABLE IF EXISTS Cruise;
+DROP TABLE IF EXISTS Ferry;
+DROP TABLE IF EXISTS Route;
+DROP TABLE IF EXISTS Seaport;
+DROP TABLE IF EXISTS Cabin_type;
+DROP TABLE IF EXISTS Vehicle_type;
+DROP TABLE IF EXISTS One_time_url;
+DROP TABLE IF EXISTS Access_level;
+DROP TABLE IF EXISTS Personal_data;
+DROP TABLE IF EXISTS Account;
+DROP VIEW IF EXISTS Auth_view;
+
+CREATE USER IF NOT EXISTS 'ssbd02admin'@'localhost' IDENTIFIED BY 'admin_password';
+CREATE USER IF NOT EXISTS 'ssbd02mok'@'localhost' IDENTIFIED BY 'mok_password';
+CREATE USER IF NOT EXISTS 'ssbd02mop'@'localhost' IDENTIFIED BY 'mop_password';
+CREATE USER IF NOT EXISTS 'ssbd02auth'@'localhost' IDENTIFIED BY 'auth_password';
 
 CREATE TABLE Account
 (
-    id        bigint             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id        bigint             NOT NULL AUTO_INCREMENT,
     version   bigint             NOT NULL,
     login     varchar(30)        NOT NULL,
     password  char(128)          NOT NULL,
@@ -23,13 +29,10 @@ CREATE TABLE Account
     CONSTRAINT login_unique UNIQUE (login)
 );
 
-ALTER TABLE Account
-    OWNER TO ssbd02admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Account TO 'ssbd02mok'@'localhost';
+GRANT SELECT ON TABLE Account TO 'ssbd02mop'@'localhost';
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Account TO ssbd02mok;
-GRANT SELECT ON TABLE Account TO ssbd02mop;
-
-CREATE INDEX account_login ON Account USING btree (login);
+CREATE INDEX account_login USING btree ON Account (login);
 
 CREATE TABLE Personal_data
 (
@@ -40,49 +43,46 @@ CREATE TABLE Personal_data
     phone_number                varchar(15),
     language                    varchar(5)                                         NOT NULL,
     time_zone                   char(6)                                            NOT NULL,
-    modification_date           timestamp with time zone,
+    modification_date           timestamp,
     modified_by                 bigint,
-    activity_modification_date  timestamp with time zone,
+    activity_modification_date  timestamp,
     activity_modified_by        bigint,
-    confirmed_modification_date timestamp with time zone,
-    password_modification_date  timestamp with time zone,
-    email_modification_date     timestamp with time zone,
-    creation_date               timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    last_known_good_login       timestamp with time zone,
+    confirmed_modification_date timestamp,
+    password_modification_date  timestamp,
+    email_modification_date     timestamp,
+    creation_date               timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_known_good_login       timestamp,
     last_known_good_login_ip    varchar(39),
-    last_known_bad_login        timestamp with time zone,
+    last_known_bad_login        timestamp,
     last_known_bad_login_ip     varchar(39),
     number_of_bad_logins        int                      DEFAULT 0                 NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
+    CONSTRAINT fk_personal_data_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id_activity_modified_by FOREIGN KEY (activity_modified_by) REFERENCES Account (id),
     CONSTRAINT fk_account_id_id FOREIGN KEY (id) REFERENCES Account (id),
     CONSTRAINT email_unique UNIQUE (email),
     CONSTRAINT phone_number_unique UNIQUE (phone_number)
 );
 
-ALTER TABLE Personal_data
-    OWNER TO ssbd02admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Personal_data TO 'ssbd02mok'@'localhost';
+GRANT SELECT ON TABLE Personal_data TO 'ssbd02mop'@'localhost';
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Personal_data TO ssbd02mok;
-GRANT SELECT ON TABLE Personal_data TO ssbd02mop;
-
-CREATE INDEX personal_data_id ON Personal_data USING btree (id);
-CREATE INDEX personal_data_modified_by ON Personal_data USING btree (modified_by);
-CREATE INDEX personal_data_activity_modified_by ON Personal_data USING btree (activity_modified_by);
-CREATE INDEX personal_data_email ON Personal_data USING btree (email);
-CREATE INDEX personal_data_phone_number ON Personal_data USING btree (phone_number);
+CREATE INDEX personal_data_id USING btree ON Personal_data (id);
+CREATE INDEX personal_data_modified_by USING btree ON Personal_data (modified_by);
+CREATE INDEX personal_data_activity_modified_by USING btree ON Personal_data  (activity_modified_by);
+CREATE INDEX personal_data_email USING btree ON Personal_data  (email);
+CREATE INDEX personal_data_phone_number USING btree ON Personal_data  (phone_number);
 
 CREATE TABLE Access_level
 (
-    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id                bigint                                             NOT NULL AUTO_INCREMENT,
     version           bigint                                             NOT NULL,
     level             varchar(16)                                        NOT NULL,
     account           bigint                                             NOT NULL,
     active            boolean                  DEFAULT true              NOT NULL,
-    modification_date timestamp with time zone,
+    modification_date timestamp,
     modified_by       bigint,
-    creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_by        bigint,
     PRIMARY KEY (id),
     CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
@@ -91,16 +91,13 @@ CREATE TABLE Access_level
     CONSTRAINT account_level_unique UNIQUE (account, level)
 );
 
-ALTER TABLE Access_level
-    OWNER TO ssbd02admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Access_level TO 'ssbd02mok'@'localhost';
+GRANT SELECT ON TABLE Access_level TO 'ssbd02mop'@'localhost';
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Access_level TO ssbd02mok;
-GRANT SELECT ON TABLE Access_level TO ssbd02mop;
-
-CREATE INDEX access_level_account ON Access_level USING btree (account);
-CREATE INDEX access_level_modified_by ON Access_level USING btree (modified_by);
-CREATE INDEX access_level_created_by ON Access_level USING btree (created_by);
-CREATE INDEX access_level_level ON Access_level USING btree (level);
+CREATE INDEX access_level_account USING btree ON Access_level  (account);
+CREATE INDEX access_level_modified_by USING btree ON Access_level  (modified_by);
+CREATE INDEX access_level_created_by USING btree ON Access_level  (created_by);
+CREATE INDEX access_level_level USING btree ON Access_level  (level);
 
 CREATE VIEW Auth_view AS
 SELECT Account.login, Account.password, Access_level.level
@@ -110,188 +107,164 @@ FROM (Account
 WHERE (((Account.confirmed = true) AND (Account.active = true))
     AND (Access_level.active = true));
 
-ALTER TABLE public.Auth_view
-    OWNER TO ssbd02admin;
-
-GRANT SELECT ON TABLE Auth_view TO ssbd02auth;
+GRANT SELECT ON TABLE Auth_view TO 'ssbd02auth'@'localhost';
 
 CREATE TABLE Ferry
 (
-    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id                bigint                                             NOT NULL AUTO_INCREMENT,
     version           bigint                                             NOT NULL,
     name              varchar(30)                                        NOT NULL,
     vehicle_capacity  int                                                NOT NULL,
     on_deck_capacity  int                                                NOT NULL,
-    modification_date timestamp with time zone,
+    modification_date timestamp,
     modified_by       bigint,
-    creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_by        bigint,
     PRIMARY KEY (id),
     CONSTRAINT vehicle_capacity_not_negative CHECK (vehicle_capacity >= 0),
     CONSTRAINT on_deck_capacity_greater_than_zero CHECK (on_deck_capacity > 0),
     CONSTRAINT ferry_name_unique UNIQUE (name),
-    CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id)
+    CONSTRAINT fk_ferry_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
+    CONSTRAINT fk_ferry_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id)
 );
 
-ALTER TABLE Ferry
-    OWNER TO ssbd02admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Ferry TO 'ssbd02mop'@'localhost';
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Ferry TO ssbd02mop;
-
-CREATE INDEX ferry_modified_by ON Ferry USING btree (modified_by);
-CREATE INDEX ferry_created_by ON Ferry USING btree (created_by);
-CREATE INDEX ferry_name ON Ferry USING btree (name);
+CREATE INDEX ferry_modified_by USING btree ON Ferry  (modified_by);
+CREATE INDEX ferry_created_by USING btree ON Ferry  (created_by);
+CREATE INDEX ferry_name USING btree ON Ferry (name);
 
 CREATE TABLE Seaport
 (
-    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id                bigint                                             NOT NULL AUTO_INCREMENT,
     version           bigint                                             NOT NULL,
     city              varchar(30)                                        NOT NULL,
     code              varchar(3)                                         NOT NULL,
-    modification_date timestamp with time zone,
+    modification_date timestamp,
     modified_by       bigint,
-    creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    creation_date     timestamp DEFAULT CURRENT_TIMESTAMP                NOT NULL,
     created_by        bigint,
     PRIMARY KEY (id),
-    CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT fk_seaport_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
+    CONSTRAINT fk_seaport_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
     CONSTRAINT city_unique UNIQUE (city),
     CONSTRAINT seaport_code_unique UNIQUE (code)
 );
 
-ALTER TABLE Seaport
-    OWNER TO ssbd02admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Seaport TO 'ssbd02mop'@'localhost';
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Seaport TO ssbd02mop;
-
-CREATE INDEX seaport_modified_by ON Seaport USING btree (modified_by);
-CREATE INDEX seaport_created_by ON Seaport USING btree (created_by);
-CREATE INDEX seaport_city ON Seaport USING btree (city);
-CREATE INDEX seaport_code ON Seaport USING btree (code);
+CREATE INDEX seaport_modified_by USING btree ON Seaport  (modified_by);
+CREATE INDEX seaport_created_by USING btree ON Seaport  (created_by);
+CREATE INDEX seaport_city USING btree ON Seaport  (city);
+CREATE INDEX seaport_code USING btree ON Seaport  (code);
 
 CREATE TABLE Route
 (
-    id            bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id            bigint                                             NOT NULL AUTO_INCREMENT,
     version       bigint                                             NOT NULL,
     start         bigint                                             NOT NULL,
     destination   bigint                                             NOT NULL,
     code          varchar(6)                                         NOT NULL,
-    creation_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    creation_date timestamp DEFAULT CURRENT_TIMESTAMP                NOT NULL,
     created_by    bigint,
     PRIMARY KEY (id),
     CONSTRAINT fk_seaport_id_start FOREIGN KEY (start) REFERENCES Seaport (id),
     CONSTRAINT fk_seaport_id_destination FOREIGN KEY (destination) REFERENCES Seaport (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT fk_route_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
     CONSTRAINT start_destination_unique UNIQUE (start, destination),
     CONSTRAINT route_code_unique UNIQUE (code)
 );
 
-ALTER TABLE Route
-    OWNER TO ssbd02admin;
+GRANT SELECT, INSERT, DELETE ON TABLE Route TO 'ssbd02mop'@'localhost';
 
-GRANT SELECT, INSERT, DELETE ON TABLE Route TO ssbd02mop;
-
-CREATE INDEX route_created_by ON Route USING btree (created_by);
-CREATE INDEX route_start ON Route USING btree (start);
-CREATE INDEX route_destination ON Route USING btree (destination);
-CREATE INDEX route_code ON Route USING btree (code);
+CREATE INDEX route_created_by USING btree ON Route  (created_by);
+CREATE INDEX route_start USING btree ON Route  (start);
+CREATE INDEX route_destination USING btree ON Route  (destination);
+CREATE INDEX route_code USING btree ON Route  (code);
 
 CREATE TABLE Cabin_type
 (
-    id              bigint      NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id              bigint      NOT NULL AUTO_INCREMENT,
     cabin_type_name varchar(30) NOT NULL,
     PRIMARY KEY (id)
 );
 
-ALTER TABLE Cabin_type
-    OWNER TO ssbd02admin;
-
-GRANT SELECT ON TABLE Cabin_type TO ssbd02mop;
+GRANT SELECT ON TABLE Cabin_type TO 'ssbd02mop'@'localhost';
 
 CREATE TABLE Cabin
 (
-    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id                bigint                                             NOT NULL AUTO_INCREMENT,
     version           bigint                                             NOT NULL,
     ferry             bigint                                             NOT NULL,
     capacity          int                                                NOT NULL,
     cabin_type        bigint                                             NOT NULL,
     number            varchar(4)                                         NOT NULL,
-    modification_date timestamp with time zone,
+    modification_date timestamp,
     modified_by       bigint,
-    creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    creation_date     timestamp DEFAULT CURRENT_TIMESTAMP                NOT NULL,
     created_by        bigint,
     PRIMARY KEY (id),
     CONSTRAINT capacity_greater_than_zero CHECK (capacity > 0),
     CONSTRAINT fk_ferry_id FOREIGN KEY (ferry) REFERENCES Ferry (id),
     CONSTRAINT fk_cabin_type_id FOREIGN KEY (cabin_type) REFERENCES Cabin_type (id),
-    CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT fk_cabin_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
+    CONSTRAINT fk_cabin_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
     CONSTRAINT cabin_ferry_number_unique UNIQUE (ferry, number)
 );
 
-ALTER TABLE Cabin
-    OWNER TO ssbd02admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cabin TO 'ssbd02mop'@'localhost';
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cabin TO ssbd02mop;
-
-CREATE INDEX cabin_ferry ON Cabin USING btree (ferry);
-CREATE INDEX cabin_cabin_type ON Cabin USING btree (cabin_type);
-CREATE INDEX cabin_modified_by ON Cabin USING btree (modified_by);
-CREATE INDEX cabin_created_by ON Cabin USING btree (created_by);
-CREATE INDEX cabin_number ON Cabin USING btree (number);
+CREATE INDEX cabin_ferry USING btree ON Cabin  (ferry);
+CREATE INDEX cabin_cabin_type USING btree ON Cabin  (cabin_type);
+CREATE INDEX cabin_modified_by USING btree ON Cabin  (modified_by);
+CREATE INDEX cabin_created_by USING btree ON Cabin  (created_by);
+CREATE INDEX cabin_number USING btree ON Cabin  (number);
 
 CREATE TABLE Cruise
 (
-    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id                bigint                                             NOT NULL AUTO_INCREMENT,
     version           bigint                                             NOT NULL,
-    start_date        timestamp with time zone                           NOT NULL,
-    end_date          timestamp with time zone                           NOT NULL,
+    start_date        timestamp                                          NOT NULL,
+    end_date          timestamp                                          NOT NULL,
     route             bigint                                             NOT NULL,
     ferry             bigint                                             NOT NULL,
     number            varchar(12)                                        NOT NULL,
     popularity        float                                                NOT NULL,
-    modification_date timestamp with time zone,
+    modification_date timestamp,
     modified_by       bigint,
-    creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_by        bigint,
     PRIMARY KEY (id),
     CONSTRAINT end_date_after_start_date CHECK (end_date > start_date),
     CONSTRAINT fk_route_id FOREIGN KEY (route) REFERENCES Route (id),
-    CONSTRAINT fk_ferry_id FOREIGN KEY (ferry) REFERENCES Ferry (id),
-    CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT fk_cruise_ferry_id FOREIGN KEY (ferry) REFERENCES Ferry (id),
+    CONSTRAINT fk_cruise_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
+    CONSTRAINT fk_cruise_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
     CONSTRAINT cruise_number_unique UNIQUE (number)
 );
 
-ALTER TABLE Cruise
-    OWNER TO ssbd02admin;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cruise TO 'ssbd02mop'@'localhost';
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cruise TO ssbd02mop;
-
-CREATE INDEX cruise_ferry ON Cruise USING btree (ferry);
-CREATE INDEX cruise_route ON Cruise USING btree (route);
-CREATE INDEX cruise_modified_by ON Cruise USING btree (modified_by);
-CREATE INDEX cruise_created_by ON Cruise USING btree (created_by);
-CREATE INDEX cruise_number ON Cruise USING btree (number);
+CREATE INDEX cruise_ferry USING btree ON Cruise  (ferry);
+CREATE INDEX cruise_route USING btree ON Cruise  (route);
+CREATE INDEX cruise_modified_by USING btree ON Cruise  (modified_by);
+CREATE INDEX cruise_created_by USING btree ON Cruise  (created_by);
+CREATE INDEX cruise_number USING btree ON Cruise  (number);
 
 CREATE TABLE Vehicle_type
 (
-    id                bigint      NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id                bigint      NOT NULL AUTO_INCREMENT,
     vehicle_type_name varchar(30) NOT NULL,
     required_space    float       NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT required_space_not_negative CHECK (required_space >= 0)
 );
 
-ALTER TABLE Vehicle_type
-    OWNER TO ssbd02admin;
-
-GRANT SELECT ON TABLE Vehicle_type TO ssbd02mop;
+GRANT SELECT ON TABLE Vehicle_type TO 'ssbd02mop'@'localhost';
 
 CREATE TABLE Booking
 (
-    id               bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id               bigint                                             NOT NULL AUTO_INCREMENT,
     version          bigint                                             NOT NULL,
     cruise           bigint                                             NOT NULL,
     account          bigint                                             NOT NULL,
@@ -300,7 +273,7 @@ CREATE TABLE Booking
     vehicle_type     bigint                                             NOT NULL,
     price            float                                              NOT NULL,
     number           varchar(10)                                        NOT NULL,
-    creation_date    timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    creation_date    timestamp DEFAULT CURRENT_TIMESTAMP                NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT number_of_people_greater_than_zero CHECK (number_of_people > 0),
     CONSTRAINT price_greater_than_zero CHECK (price > 0),
@@ -311,46 +284,64 @@ CREATE TABLE Booking
     CONSTRAINT booking_number_unique UNIQUE (number)
 );
 
-ALTER TABLE Booking
-    OWNER TO ssbd02admin;
+GRANT SELECT, INSERT, DELETE ON TABLE Booking TO 'ssbd02mop'@'localhost';
 
-GRANT SELECT, INSERT, DELETE ON TABLE Booking TO ssbd02mop;
-
-CREATE INDEX booking_cruise ON Booking USING btree (cruise);
-CREATE INDEX booking_account ON Booking USING btree (account);
-CREATE INDEX booking_cabin ON Booking USING btree (cabin);
-CREATE INDEX booking_vehicle_type ON Booking USING btree (vehicle_type);
-CREATE INDEX booking_number ON Booking USING btree (number);
+CREATE INDEX booking_cruise USING btree ON Booking  (cruise);
+CREATE INDEX booking_account USING btree ON Booking  (account);
+CREATE INDEX booking_cabin USING btree ON Booking  (cabin);
+CREATE INDEX booking_vehicle_type USING btree ON Booking  (vehicle_type);
+CREATE INDEX booking_number USING btree ON Booking  (number);
 
 CREATE TABLE One_time_url
 (
-    id                bigint                                             NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 ),
+    id                bigint                                             NOT NULL AUTO_INCREMENT,
     version           bigint                                             NOT NULL,
     url               char(32)                                           NOT NULL,
     account           bigint                                             NOT NULL,
     action_type       varchar(6)                                         NOT NULL,
     new_email         varchar(70),
-    expire_date       timestamp with time zone                           NOT NULL,
-    modification_date timestamp with time zone,
+    expire_date       timestamp                                          NOT NULL,
+    modification_date timestamp,
     modified_by       bigint,
-    creation_date     timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    creation_date     timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_by        bigint,
     PRIMARY KEY (id),
-    CONSTRAINT expire_date_in_future CHECK (expire_date > CURRENT_TIMESTAMP),
-    CONSTRAINT fk_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
-    CONSTRAINT fk_account_id FOREIGN KEY (account) REFERENCES Account (id),
+    CONSTRAINT fk_url_account_id_modified_by FOREIGN KEY (modified_by) REFERENCES Account (id),
+    CONSTRAINT fk_url_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id),
+    CONSTRAINT fk_url_account_id FOREIGN KEY (account) REFERENCES Account (id),
     CONSTRAINT one_time_url_url_unique UNIQUE (url),
     CONSTRAINT new_email_unique UNIQUE (new_email),
     CONSTRAINT one_time_url_account_action_type_unique UNIQUE (account, action_type)
 );
 
-ALTER TABLE One_time_url
-    OWNER TO ssbd02admin;
+DELIMITER ;;
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE One_time_url TO ssbd02mok;
+CREATE TRIGGER One_time_url_expire_date_new
+    BEFORE INSERT ON One_time_url
+    FOR EACH ROW
+BEGIN
+    IF NEW.expire_date <= CURRENT_TIMESTAMP THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Expire date is not from the future';
+    END IF;
+END;;
 
-CREATE INDEX one_time_url_url ON One_time_url USING btree (url);
-CREATE INDEX one_time_url_account ON One_time_url USING btree (account);
-CREATE INDEX one_time_url_modified_by ON One_time_url USING btree (modified_by);
-CREATE INDEX one_time_url_created_by ON One_time_url USING btree (created_by);
+CREATE TRIGGER One_time_url_expire_date_modified
+    AFTER UPDATE ON One_time_url
+    FOR EACH ROW
+BEGIN
+    IF NEW.expire_date <= CURRENT_TIMESTAMP THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Expire date is not from the future';
+    END IF;
+END;;
+
+DELIMITER ;
+
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE One_time_url TO 'ssbd02mok'@'localhost';
+
+CREATE INDEX one_time_url_url USING btree ON One_time_url  (url);
+CREATE INDEX one_time_url_account USING btree ON One_time_url  (account);
+CREATE INDEX one_time_url_modified_by USING btree ON One_time_url  (modified_by);
+CREATE INDEX one_time_url_created_by USING btree ON One_time_url  (created_by);

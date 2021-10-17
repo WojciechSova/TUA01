@@ -12,7 +12,8 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
 <!--            <property name="hibernate.hbm2ddl.auto" value="validate"/>  TODO: Próba implementacji w dalszej fazie rozwoju projektu -->
         </properties>
@@ -27,7 +28,8 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
         </properties>
     </persistence-unit>
@@ -43,7 +45,8 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
         </properties>
     </persistence-unit>
@@ -65,7 +68,8 @@
         <properties>
             <!-- This line is responsible for logging level -->
             <property name="org.hibernate.SQL" value="DEBUG"/>
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform"/>
         </properties>
     </persistence-unit>

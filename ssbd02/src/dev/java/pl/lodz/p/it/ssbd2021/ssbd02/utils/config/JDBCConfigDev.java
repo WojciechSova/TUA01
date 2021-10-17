@@ -8,11 +8,11 @@ import java.sql.Connection;
 
 @DataSourceDefinition(
         name = "java:app/jdbc/ssbd02admin",
-        className = "org.postgresql.ds.PGSimpleDataSource",
+        className = "com.mysql.cj.jdbc.MysqlDataSource",
         user = "ssbd02admin",
         password = "admin_password",
         serverName = "localhost",
-        portNumber = 5432,
+        portNumber = 3306,
         databaseName = "ssbd02local",
         initialPoolSize = 1,
         minPoolSize = 0,
@@ -21,31 +21,31 @@ import java.sql.Connection;
 )
 @DataSourceDefinition(
         name = "java:app/jdbc/ssbd02auth",
-        className = "org.postgresql.ds.PGSimpleDataSource",
+        className = "com.mysql.cj.jdbc.MysqlDataSource",
         user = "ssbd02auth",
         password = "auth_password",
         serverName = "localhost",
-        portNumber = 5432,
+        portNumber = 3306,
         databaseName = "ssbd02local"
 )
 @DataSourceDefinition(
         name = "java:app/jdbc/ssbd02mok",
-        className = "org.postgresql.ds.PGSimpleDataSource",
+        className = "com.mysql.cj.jdbc.MysqlDataSource",
         user = "ssbd02mok",
         password = "mok_password",
         serverName = "localhost",
-        portNumber = 5432,
+        portNumber = 3306,
         databaseName = "ssbd02local",
         transactional = true,
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED
 )
 @DataSourceDefinition(
         name = "java:app/jdbc/ssbd02mop",
-        className = "org.postgresql.ds.PGSimpleDataSource",
+        className = "com.mysql.cj.jdbc.MysqlDataSource",
         user = "ssbd02mop",
         password = "mop_password",
         serverName = "localhost",
-        portNumber = 5432,
+        portNumber = 3306,
         databaseName = "ssbd02local",
         transactional = true,
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED
