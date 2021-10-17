@@ -102,6 +102,7 @@ public class CruiseEndpoint {
     @GET
     @Path("current")
     @PermitAll
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getCurrentCruises() {
         int transactionRetryCounter = getTransactionRepetitionCounter();
         boolean transactionRollBack = false;
