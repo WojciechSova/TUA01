@@ -251,6 +251,15 @@
                             </execution>
                         </executions>
                         <configuration>
+                            <webResources>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>src/main/webapp</directory>
+                                    <includes>
+                                        <include>**/jboss-web.xml</include>
+                                    </includes>
+                                </resource>
+                            </webResources>
                             <warSourceDirectory>../spa/dist/spa</warSourceDirectory>
                             <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
                         </configuration>
