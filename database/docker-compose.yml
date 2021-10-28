@@ -1,0 +1,40 @@
+version: '3'
+services:
+    tua-db:
+        container_name: tua-db
+        image: mysql:latest
+        environment:
+            - MYSQL_ROOT_PASSWORD=tua0110aut
+            - MYSQL_DATABASE=ssbd02local
+            - MYSQL_USER=mySQL
+            - MYSQL_PASSWORD=tua0110aut
+            - MYSQL_TCP_PORT=3310
+        restart: always
+        volumes:
+            - tua01-volume:/var/lib/mysql
+        networks:
+            - tua01-network
+        ports:
+            - 3310:3310
+        expose:
+            - 3310
+    tua-wildfly:
+        container_name: tua-wildfly
+        build:
+            context: ..
+            dockerfile: database/Dockerfile
+        restart: always
+        ports:
+            - 8080:8080
+        networks:
+            - tua01-network
+
+volumes:
+    tua01-volume:
+
+networks:
+    tua01-network:
+
+
+    
+        
