@@ -23,6 +23,8 @@ services:
         build:
             context: ..
             dockerfile: database/Dockerfile
+        environment:
+            - WILDFLY_PASSWORD=tua0110aut
         restart: always
         ports:
             - 8080:8080
