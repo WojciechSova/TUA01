@@ -11,8 +11,8 @@ import java.sql.Connection;
         className = "com.mysql.cj.jdbc.MysqlDataSource",
         user = "ssbd02admin",
         password = "admin_password",
-        serverName = "localhost",
-        portNumber = 3306,
+        serverName = "tua-db",
+        portNumber = 3310,
         databaseName = "ssbd02local",
         initialPoolSize = 1,
         minPoolSize = 0,
@@ -24,8 +24,8 @@ import java.sql.Connection;
         className = "com.mysql.cj.jdbc.MysqlDataSource",
         user = "ssbd02auth",
         password = "auth_password",
-        serverName = "localhost",
-        portNumber = 3306,
+        serverName = "tua-db",
+        portNumber = 3310,
         databaseName = "ssbd02local"
 )
 @DataSourceDefinition(
@@ -33,8 +33,8 @@ import java.sql.Connection;
         className = "com.mysql.cj.jdbc.MysqlDataSource",
         user = "ssbd02mok",
         password = "mok_password",
-        serverName = "localhost",
-        portNumber = 3306,
+        serverName = "tua-db",
+        portNumber = 3310,
         databaseName = "ssbd02local",
         transactional = true,
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED
@@ -44,8 +44,8 @@ import java.sql.Connection;
         className = "com.mysql.cj.jdbc.MysqlDataSource",
         user = "ssbd02mop",
         password = "mop_password",
-        serverName = "localhost",
-        portNumber = 3306,
+        serverName = "tua-db",
+        portNumber = 3310,
         databaseName = "ssbd02local",
         transactional = true,
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED

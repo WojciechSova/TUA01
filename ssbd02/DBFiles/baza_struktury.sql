@@ -12,10 +12,10 @@ DROP TABLE IF EXISTS Personal_data;
 DROP TABLE IF EXISTS Account;
 DROP VIEW IF EXISTS Auth_view;
 
-CREATE USER IF NOT EXISTS 'ssbd02admin'@'localhost' IDENTIFIED BY 'admin_password';
-CREATE USER IF NOT EXISTS 'ssbd02mok'@'localhost' IDENTIFIED BY 'mok_password';
-CREATE USER IF NOT EXISTS 'ssbd02mop'@'localhost' IDENTIFIED BY 'mop_password';
-CREATE USER IF NOT EXISTS 'ssbd02auth'@'localhost' IDENTIFIED BY 'auth_password';
+CREATE USER IF NOT EXISTS 'ssbd02admin' IDENTIFIED BY 'admin_password';
+CREATE USER IF NOT EXISTS 'ssbd02mok' IDENTIFIED BY 'mok_password';
+CREATE USER IF NOT EXISTS 'ssbd02mop' IDENTIFIED BY 'mop_password';
+CREATE USER IF NOT EXISTS 'ssbd02auth' IDENTIFIED BY 'auth_password';
 
 CREATE TABLE Account
 (
@@ -29,8 +29,8 @@ CREATE TABLE Account
     CONSTRAINT login_unique UNIQUE (login)
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Account TO 'ssbd02mok'@'localhost';
-GRANT SELECT ON TABLE Account TO 'ssbd02mop'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Account TO 'ssbd02mok';
+GRANT SELECT ON TABLE Account TO 'ssbd02mop';
 
 CREATE INDEX account_login USING btree ON Account (login);
 
@@ -64,8 +64,8 @@ CREATE TABLE Personal_data
     CONSTRAINT phone_number_unique UNIQUE (phone_number)
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Personal_data TO 'ssbd02mok'@'localhost';
-GRANT SELECT ON TABLE Personal_data TO 'ssbd02mop'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Personal_data TO 'ssbd02mok';
+GRANT SELECT ON TABLE Personal_data TO 'ssbd02mop';
 
 CREATE INDEX personal_data_id USING btree ON Personal_data (id);
 CREATE INDEX personal_data_modified_by USING btree ON Personal_data (modified_by);
@@ -91,8 +91,8 @@ CREATE TABLE Access_level
     CONSTRAINT account_level_unique UNIQUE (account, level)
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Access_level TO 'ssbd02mok'@'localhost';
-GRANT SELECT ON TABLE Access_level TO 'ssbd02mop'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Access_level TO 'ssbd02mok';
+GRANT SELECT ON TABLE Access_level TO 'ssbd02mop';
 
 CREATE INDEX access_level_account USING btree ON Access_level  (account);
 CREATE INDEX access_level_modified_by USING btree ON Access_level  (modified_by);
@@ -107,7 +107,7 @@ FROM (Account
 WHERE (((Account.confirmed = true) AND (Account.active = true))
     AND (Access_level.active = true));
 
-GRANT SELECT ON TABLE Auth_view TO 'ssbd02auth'@'localhost';
+GRANT SELECT ON TABLE Auth_view TO 'ssbd02auth';
 
 CREATE TABLE Ferry
 (
@@ -128,7 +128,7 @@ CREATE TABLE Ferry
     CONSTRAINT fk_ferry_account_id_created_by FOREIGN KEY (created_by) REFERENCES Account (id)
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Ferry TO 'ssbd02mop'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Ferry TO 'ssbd02mop';
 
 CREATE INDEX ferry_modified_by USING btree ON Ferry  (modified_by);
 CREATE INDEX ferry_created_by USING btree ON Ferry  (created_by);
@@ -151,7 +151,7 @@ CREATE TABLE Seaport
     CONSTRAINT seaport_code_unique UNIQUE (code)
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Seaport TO 'ssbd02mop'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Seaport TO 'ssbd02mop';
 
 CREATE INDEX seaport_modified_by USING btree ON Seaport  (modified_by);
 CREATE INDEX seaport_created_by USING btree ON Seaport  (created_by);
@@ -175,7 +175,7 @@ CREATE TABLE Route
     CONSTRAINT route_code_unique UNIQUE (code)
 );
 
-GRANT SELECT, INSERT, DELETE ON TABLE Route TO 'ssbd02mop'@'localhost';
+GRANT SELECT, INSERT, DELETE ON TABLE Route TO 'ssbd02mop';
 
 CREATE INDEX route_created_by USING btree ON Route  (created_by);
 CREATE INDEX route_start USING btree ON Route  (start);
@@ -189,7 +189,7 @@ CREATE TABLE Cabin_type
     PRIMARY KEY (id)
 );
 
-GRANT SELECT ON TABLE Cabin_type TO 'ssbd02mop'@'localhost';
+GRANT SELECT ON TABLE Cabin_type TO 'ssbd02mop';
 
 CREATE TABLE Cabin
 (
@@ -212,7 +212,7 @@ CREATE TABLE Cabin
     CONSTRAINT cabin_ferry_number_unique UNIQUE (ferry, number)
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cabin TO 'ssbd02mop'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cabin TO 'ssbd02mop';
 
 CREATE INDEX cabin_ferry USING btree ON Cabin  (ferry);
 CREATE INDEX cabin_cabin_type USING btree ON Cabin  (cabin_type);
@@ -243,7 +243,7 @@ CREATE TABLE Cruise
     CONSTRAINT cruise_number_unique UNIQUE (number)
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cruise TO 'ssbd02mop'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE Cruise TO 'ssbd02mop';
 
 CREATE INDEX cruise_ferry USING btree ON Cruise  (ferry);
 CREATE INDEX cruise_route USING btree ON Cruise  (route);
@@ -260,7 +260,7 @@ CREATE TABLE Vehicle_type
     CONSTRAINT required_space_not_negative CHECK (required_space >= 0)
 );
 
-GRANT SELECT ON TABLE Vehicle_type TO 'ssbd02mop'@'localhost';
+GRANT SELECT ON TABLE Vehicle_type TO 'ssbd02mop';
 
 CREATE TABLE Booking
 (
@@ -284,7 +284,7 @@ CREATE TABLE Booking
     CONSTRAINT booking_number_unique UNIQUE (number)
 );
 
-GRANT SELECT, INSERT, DELETE ON TABLE Booking TO 'ssbd02mop'@'localhost';
+GRANT SELECT, INSERT, DELETE ON TABLE Booking TO 'ssbd02mop';
 
 CREATE INDEX booking_cruise USING btree ON Booking  (cruise);
 CREATE INDEX booking_account USING btree ON Booking  (account);
@@ -339,13 +339,13 @@ END;;
 DELIMITER ;
 
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE One_time_url TO 'ssbd02mok'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE One_time_url TO 'ssbd02mok';
 
 CREATE INDEX one_time_url_url USING btree ON One_time_url  (url);
 CREATE INDEX one_time_url_account USING btree ON One_time_url  (account);
 CREATE INDEX one_time_url_modified_by USING btree ON One_time_url  (modified_by);
 CREATE INDEX one_time_url_created_by USING btree ON One_time_url  (created_by);
 
-GRANT ALL PRIVILEGES ON *.* TO 'ssbd02admin'@'localhost';
+GRANT ALL PRIVILEGES ON *.* TO 'ssbd02admin';
 
 FLUSH PRIVILEGES;
