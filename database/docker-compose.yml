@@ -6,7 +6,7 @@ services:
             - 80:80
             - 443:443
         volumes:
-            - /home/tua01/repo/ssbd202102/certs:/etc/nginx/certs
+            - ../certs:/etc/nginx/certs
             - /var/run/docker.sock:/tmp/docker.sock:ro
         networks:
             - tua01-network
