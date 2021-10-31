@@ -1,16 +1,5 @@
 version: '3'
 services:
-    nginx-proxy:
-        image: nginxproxy/nginx-proxy
-        ports:
-            - 80:80
-            - 443:443
-        volumes:
-            - ../certs:/etc/nginx/certs
-            - /var/run/docker.sock:/tmp/docker.sock:ro
-        networks:
-            - tua01-network
-
     tua-db:
         container_name: tua-db
         image: mysql:latest
@@ -23,9 +12,9 @@ services:
         volumes:
             - tua01-volume:/var/lib/mysql
         expose:
-            - 3310
+            - "3310"
         networks:
-            - tua01-network
+            - "tua01-network"
 
     tua-wildfly:
         container_name: tua-wildfly
@@ -37,7 +26,7 @@ services:
             - VIRTUAL_HOST=localhost
             - VIRTUAL_PORT=8080
         networks:
-            - tua01-network
+            - "tua01-network"
         depends_on:
             - "tua-db"
 
@@ -47,10 +36,10 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - /home/tua01/repo/ssbd202102/certs:/etc/nginx/certs
+            - ../certs:/etc/nginx/certs
             - /var/run/docker.sock:/tmp/docker.sock:ro
         networks:
-            - tua01-network
+            - "tua01-network"
         depends_on:
             - "tua-wildfly"
 
