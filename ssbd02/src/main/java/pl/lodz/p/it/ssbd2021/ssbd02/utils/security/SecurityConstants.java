@@ -1,14 +1,11 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.utils.security;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.lodz.p.it.ssbd2021.ssbd02.exceptions.CommonExceptions;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 /**
  * Klasa przechowująca stałe używane przez klasy w pakiecie security.
@@ -38,15 +35,12 @@ public class SecurityConstants {
      * @return Obiekt klucza prywatnego.
      */
     private static SecretKey generateKey() {
-        KeyGenerator keyGenerator = null;
-        try {
-            keyGenerator = KeyGenerator.getInstance("HmacSHA512");
-        } catch (NoSuchAlgorithmException e) {
-            logger.fatal(e);
-            throw CommonExceptions.createUnknownException();
-        }
-        SecureRandom secureRandom = new SecureRandom();
-        keyGenerator.init(512, secureRandom);
-        return keyGenerator.generateKey();
+        byte[] decodedKey = Base64.getDecoder().decode("NWdTlvvyYRnOBOUpXycQuEYdriocqlxRZxDUunilsWlNfUOnJlGmlxKST" +
+                "atFfqyyshkZcSFQmKXubWMUUpaxiRfJEDdyGzISwqFoMnjWYkchgDrClBFCtOzyKAtStEqziuDAokSlPVKNmFmAMMRgMwZOtfulm" +
+                "ekspyTUSQyzEpfFIjSzqUIpTmzPOlQFMiltVTdRIxDMXJgNGowRYATtMwrTBBUoXIGKAkrWMcqjPsDoCUeCajaAyXziTfgHlVBNz" +
+                "BwnhEJRIgAByrpULPArpCIUQwOAucJVnVeQOOXdasPsYfAPyuyLavqyVtWULfTCJTBLnPxWVWLKupTWyHRGLcicEapNtBaFrIshN" +
+                "qYUgEYQzvsKzbsXFNkVbVtVAIJyDFuDwXIsCUCwbotgSqdAWqxpPGdnkZBqjEpLKcgKAnvAHrLkdwxVQLVhLRcIUcQInUOCTIgLA" +
+                "BCNLfkUCRnTiYDJHbPVSHYhaOHnfgGtHzTxMcjwoBsilYySnYmHDLLs");
+        return new SecretKeySpec(decodedKey, 0, decodedKey.length, "HmacSHA512");
     }
 }
