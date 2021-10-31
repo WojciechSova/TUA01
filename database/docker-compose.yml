@@ -18,13 +18,13 @@ services:
 
     tua-wildfly:
         container_name: tua-wildfly
-        image: bitnami/wildfly:24.0.1
+        build:
+            context: ..
+            dockerfile: database/Dockerfile
         environment:
             - WILDFLY_PASSWORD=tua0110aut
             - VIRTUAL_HOST=localhost
             - VIRTUAL_PORT=8080
-        volumes:
-            - /ssbd02/target/ssbd02-Kv1.0.0.war:/opt/bitnami/wildfly/standalone/deployments/ssbd02-Kv1.0.0.war
         networks:
             - "tua01-network"
         depends_on:
