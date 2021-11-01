@@ -2,7 +2,7 @@ version: '3'
 services:
     tua-db:
         container_name: tua-db
-        image: mysql:latest
+        image: mysql:8.0.26
         environment:
             - MYSQL_ROOT_PASSWORD=tua0110aut
             - MYSQL_DATABASE=ssbd02local
@@ -29,7 +29,7 @@ services:
 
     nginx-proxy:
         container_name: tua-nginx
-        image: nginxproxy/nginx-proxy
+        image: nginxproxy/nginx-proxy:0.9.3
         ports:
             - "80:80"
             - "443:443"
