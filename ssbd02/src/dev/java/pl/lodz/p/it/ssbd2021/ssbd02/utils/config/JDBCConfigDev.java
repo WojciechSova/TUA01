@@ -12,7 +12,7 @@ import java.sql.Connection;
         user = "ssbd02admin",
         password = "admin_password",
         serverName = "tua-db",
-        portNumber = 3310,
+        portNumber = 3306,
         databaseName = "ssbd02local",
         initialPoolSize = 1,
         minPoolSize = 0,
@@ -25,7 +25,7 @@ import java.sql.Connection;
         user = "ssbd02auth",
         password = "auth_password",
         serverName = "tua-db",
-        portNumber = 3310,
+        portNumber = 3306,
         databaseName = "ssbd02local"
 )
 @DataSourceDefinition(
@@ -34,7 +34,7 @@ import java.sql.Connection;
         user = "ssbd02mok",
         password = "mok_password",
         serverName = "tua-db",
-        portNumber = 3310,
+        portNumber = 3306,
         databaseName = "ssbd02local",
         transactional = true,
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED
@@ -45,7 +45,7 @@ import java.sql.Connection;
         user = "ssbd02mop",
         password = "mop_password",
         serverName = "tua-db",
-        portNumber = 3310,
+        portNumber = 3306,
         databaseName = "ssbd02local",
         transactional = true,
         isolationLevel = Connection.TRANSACTION_READ_COMMITTED

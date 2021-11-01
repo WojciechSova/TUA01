@@ -8,11 +8,8 @@ services:
             - MYSQL_DATABASE=ssbd02local
             - MYSQL_USER=mySQL
             - MYSQL_PASSWORD=tua0110aut
-            - MYSQL_TCP_PORT=3310
         volumes:
             - tua01-volume:/var/lib/mysql
-        expose:
-            - "3310"
         networks:
             - "tua01-network"
 
@@ -20,7 +17,7 @@ services:
         container_name: tua-wildfly
         build:
             context: ..
-            dockerfile: database/Dockerfile
+            dockerfile: docker/Dockerfile
         environment:
             - WILDFLY_PASSWORD=tua0110aut
             - VIRTUAL_HOST=localhost
@@ -31,6 +28,7 @@ services:
             - "tua-db"
 
     nginx-proxy:
+        container_name: tua-nginx
         image: nginxproxy/nginx-proxy
         ports:
             - "80:80"
