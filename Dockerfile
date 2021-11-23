@@ -11,4 +11,4 @@ COPY /ssbd02/src /build/src
 RUN mvn package
 COPY /build/target/ssbd02-Kv1.0.0.war /tmp/build/inputs/build/target
 FROM bitnami/wildfly:24.0.1
-ADD /build/target/ssbd02-Kv1.0.0.war /opt/bitnami/wildfly/standalone/deployments
+ADD /tmp/build/inputs/build/target/ssbd02-Kv1.0.0.war /opt/bitnami/wildfly/standalone/deployments
