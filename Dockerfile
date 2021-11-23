@@ -9,5 +9,6 @@ RUN mvn -B dependency:resolve dependency:resolve-plugins
 COPY /ssbd02/src /build/src
 # Build application
 RUN mvn package
+COPY /build/target/ssbd02-Kv1.0.0.war /tmp/build/inputs/build/target
 FROM bitnami/wildfly:24.0.1
 ADD /build/target/ssbd02-Kv1.0.0.war /opt/bitnami/wildfly/standalone/deployments
