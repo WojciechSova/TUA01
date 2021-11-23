@@ -6,7 +6,7 @@ COPY /ssbd02/pom.xml /build
 #Download all required dependencies into one layer
 RUN mvn -B dependency:resolve dependency:resolve-plugins
 #Copy source code
-COPY src /build/src
+COPY /ssbd02/src /build/src
 # Build application
 RUN mvn package
 FROM bitnami/wildfly:24.0.1
