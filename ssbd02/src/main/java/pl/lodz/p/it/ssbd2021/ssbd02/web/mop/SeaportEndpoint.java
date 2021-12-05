@@ -2,6 +2,7 @@ package pl.lodz.p.it.ssbd2021.ssbd02.web.mop;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportDetailsDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.dto.mop.SeaportGeneralDTO;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers.interfaces.SeaportManagerLocal;
@@ -40,12 +41,14 @@ import java.util.stream.Collectors;
 @RequestScoped
 @Path("seaports")
 @RolesAllowed({"DEFINITELY_NOT_A_REAL_ROLE"})
+@Timed(description = "Time of endpoint method execution")
 public class SeaportEndpoint {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Inject
     private SeaportManagerLocal seaportManager;
+
 
     /**
      * Metoda udostępniająca ogólne informacje o portach.

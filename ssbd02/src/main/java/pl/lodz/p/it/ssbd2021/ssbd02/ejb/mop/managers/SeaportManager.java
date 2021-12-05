@@ -1,6 +1,8 @@
 package pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.managers;
 
 import org.apache.commons.lang3.SerializationUtils;
+import org.eclipse.microprofile.metrics.Counter;
+import org.eclipse.microprofile.metrics.annotation.Metric;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.AbstractManager;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.AccountMopFacadeLocal;
 import pl.lodz.p.it.ssbd2021.ssbd02.ejb.mop.facades.interfaces.SeaportFacadeLocal;
@@ -40,6 +42,10 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     @Inject
     private AccountMopFacadeLocal accountMopFacadeLocal;
 
+    @Inject
+    @Metric(name = "seaportCount", description = "Number of seaports in the system")
+    private Counter seaportCounter;
+
     @Override
     @RolesAllowed({"EMPLOYEE"})
     public List<Seaport> getAllSeaports() {
@@ -61,6 +67,7 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
         seaportFacadeLocal.create(seaport);
         logger.info("The user with login {} has created seaport with code {}",
                 login, seaport.getCode());
+        seaportCounter.inc();
     }
 
     @Override
@@ -90,6 +97,7 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
             seaportFacadeLocal.remove(seaport);
             logger.info("The employee with login {} has deleted seaport with code {}",
                     userLogin, seaportCode);
+            seaportCounter.dec();
         } catch (CommonExceptions ce) {
             if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
                 && ce.getResponse().getEntity().equals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION)){
