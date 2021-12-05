@@ -1,0 +1,95 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.account_list</li>
+</ol>
+
+<div class="button-container">
+    <button class="button-user-table" (click)="getAccounts()" translate>general.refresh</button>
+    <form class="filter">
+        <input [(ngModel)]="searchedValue" placeholder="{{'users-table.enter_your_search' | translate}}" id="search"
+               name="search"/>
+    </form>
+</div>
+<div *ngIf="block === 'success'" class="success" translate>users-table.block_success</div>
+<div *ngIf="unblock === 'success'" class="success" translate>users-table.unblock_success</div>
+<div class="success" *ngIf="accessLevelService.popup === 'edit_success'" translate>edit-user.successful_access_level</div>
+<div class="users-list-container">
+    <table id="users">
+        <tr>
+            <th translate>form.login
+                <div *ngIf="byLogin; then notSortByLoginTemplate else sortByLoginTemplate"></div>
+                <ng-template #sortByLoginTemplate>
+                    <img (click)="byLogin = true; byFirstName = false; byLastName = false; listAccounts()" src="../../../assets/imgs/sort_arrow_white.png" alt=""/>
+                </ng-template>
+                <ng-template #notSortByLoginTemplate>
+                    <img src="../../../assets/imgs/sort_arrow_purple.png" alt=""/>
+                </ng-template>
+            </th>
+            <th translate>form.first_name
+                <div *ngIf="byFirstName; then notSortByFirstNameTemplate else sortByFirstNameTemplate"></div>
+                <ng-template #sortByFirstNameTemplate>
+                    <img (click)="byLogin = false; byFirstName = true; byLastName = false; listAccounts()" src="../../../assets/imgs/sort_arrow_white.png" alt=""/>
+                </ng-template>
+                <ng-template #notSortByFirstNameTemplate>
+                    <img src="../../../assets/imgs/sort_arrow_purple.png" alt=""/>
+                </ng-template>
+            </th>
+            <th translate>form.last_name
+                <div *ngIf="byLastName; then notSortByLastNameTemplate else sortByLastNameTemplate"></div>
+                <ng-template #sortByLastNameTemplate>
+                    <img (click)="byLogin = false; byFirstName = false; byLastName = true; listAccounts()" src="../../../assets/imgs/sort_arrow_white.png" alt=""/>
+                </ng-template>
+                <ng-template #notSortByLastNameTemplate>
+                    <img src="../../../assets/imgs/sort_arrow_purple.png" alt=""/>
+                </ng-template>
+            </th>
+            <th translate>users-table.access_levels</th>
+            <th translate>users-table.unblock_block</th>
+            <th translate>users-table.manage</th>
+            <th translate>general.details</th>
+        </tr>
+
+        <tr *ngFor="let user of listAccounts() | searchFilter: searchedValue">
+            <td>{{user['login']}}</td>
+            <td>{{user['firstName']}}</td>
+            <td>{{user['lastName']}}</td>
+            <td>
+                <div *ngFor="let accessLevel of user.accessLevel">
+                    <div translate>{{translationService.translateAccessLevel(accessLevel)}}</div>
+                </div>
+            </td>
+            <td>
+                <div *ngIf="user.active; then block else unblock">{{user['active']}}</div>
+                <ng-template #unblock>
+                    <button class="button-user-table button-unblock" id="unblockButton"
+                            (click)="unblockAccount(user.login)" translate>users-table.unblock
+                    </button>
+                </ng-template>
+                <ng-template #block>
+                    <button class="button-user-table button-block" id="blockButton" (click)="blockAccount(user.login)"
+                            translate>users-table.block
+                    </button>
+                </ng-template>
+            </td>
+            <td>
+                <button class="button-user-table"
+                        (click)="setLoginAccessLevels(user.login, user.accessLevel); changeAccessLevelFormVisible(true)"
+                        translate>users-table.access_levels
+                </button>
+            </td>
+            <td>
+                <button id="details" class="button-user-table" (click)="showUserDetails(user.login)" translate>
+                    general.details
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
+<app-access-level-form *ngIf="isAccessLevelFormVisible"
+                       (isAccessLevelFormVisibleChange)="changeAccessLevelFormVisible($event)"
+                       [loginToChangeAccessLevel]="loginToChangeAccessLevel" [loginAccessLevels]="loginAccessLevels">
+</app-access-level-form>

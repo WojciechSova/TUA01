@@ -1,0 +1,80 @@
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.home </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li *ngIf="identityService.isEmployee()" class="breadcrumb-item">
+        <a href="" (click)="goToFerriesListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.ferries_list </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+ <li *ngIf="identityService.isEmployee()" class="breadcrumb-item">
+     <a href="" (click)="goToFerryBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.ferry </a>
+     <img src="../../../assets/wind.png" alt="" class="bullet">
+ </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToCabinBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate> breadcrumb.cabin </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.cabin-edit </li>
+</ol>
+<div class="outer-div">
+    <div *ngIf="isUpdating(); then updating else updateForm"></div>
+    <ng-template #updateForm>
+        <form class="edit-form" [formGroup]="form">
+            <div class="col">
+                <div class="row headers">
+                    <div class="uppercase" translate>edit-user.actual</div>
+                    <div class="uppercase" translate>edit-user.new</div>
+                </div>
+
+                <div class="row">
+                    <label for="edit-capacity">{{cabinDetailsService.cabin.capacity}}</label>
+                    <input #newCapacity type="text" id="edit-capacity" name="edit" formControlName="capacity"
+                           [ngClass]="{'is-invalid': form.controls.capacity.touched && form.controls.capacity.invalid}"
+                           placeholder="{{'cabin-form.capacity' | translate}}"/>
+                </div>
+                <div class="validation-error" *ngIf="form.controls.capacity.hasError('pattern') && form.controls.capacity.touched"
+                     translate>form.invalid_format</div>
+                <div class="top-center" translate>
+                    cabin-form.choose_cabin_type
+                </div>
+                <div class="checkbox-container">
+                    <label id="firstClass-label" class="container" translate>cabin-form.first
+                        <input type="radio" name="edit" [checked]="cabinTypes.firstClass" (change)="onValueChange('first')">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label id="secondClass-label" class="container" translate>cabin-form.second
+                        <input type="radio" name="edit" [checked]="cabinTypes.secondClass" (change)="onValueChange('second')">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label id="thirdClass-label" class="container" translate>cabin-form.third
+                        <input type="radio" name="edit" [checked]="cabinTypes.thirdClass" (change)="onValueChange('third')">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label id="disabledClass-label" class="container" translate>cabin-form.disabled
+                        <input type="radio" name="edit" [checked]="cabinTypes.disabledClass" (change)="onValueChange('disabled')">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <button class="edit-button" id="saveBtn"
+                    (click)="editCabinClick(newCapacity.value)"
+                    [disabled]="form.invalid" translate>form.save
+            </button>
+            <img class="return-arrow" (click)="goToCabinBreadcrumb()" src="../../../assets/imgs/back-arrow.png"
+                 alt=""/>
+            <div class="edit-error" *ngIf="editFailed"
+                 translate>form.cabin_edit_failed</div>
+            <div class="edit-error" *ngIf="optimisticLockError"
+                 translate>ERROR.OPTIMISTIC_LOCK_ERROR</div>
+        </form>
+
+    </ng-template>
+    <ng-template #updating>
+        <div class="updating-text" translate>
+            form.updating
+        </div>
+    </ng-template>
+</div>
+<app-confirmation *ngIf="isConfirmationVisible"
+                  (isPromptVisibleAndAnswer)="confirmationResult($event)"></app-confirmation>

@@ -1,0 +1,122 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home</a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToRoutesListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.routes.list</a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate>
+        <a href="" (click)="goToRouteDetailsBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.route</a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate>breadcrumb.cruise_add</li>
+</ol>
+
+<div class="outer-div">
+    <form class="edit-form" [formGroup]="form">
+        <div class="col">
+            <div class="row">
+                <label translate>add-cruise.new_cruise</label>
+            </div>
+            <div class="row">
+                <input #newNumber type="text" id="add-number" formControlName="number"
+                       placeholder="{{'add-cruise.number' | translate}}"
+                       [ngClass]="{'is-invalid': form.controls.number.touched && form.controls.number.invalid}"/>
+                <div class="validation-error"
+                     *ngIf="form.controls.number.hasError('required') && form.controls.number.touched"
+                     translate>form.field_required
+                </div>
+                <div class="validation-error"
+                     *ngIf="form.controls.number.hasError('pattern') && form.controls.number.touched"
+                     translate>form.invalid_number
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-box-container">
+                    <input class="input-box" placeholder="{{'add-cruise.start_date' | translate}}"
+                           angular-mydatepicker name="mydate1" (click)="dp1.toggleCalendar()"
+                           [(ngModel)]="startDate" [options]="myDpOptions" formControlName="startDate"
+                           #dp1="angular-mydatepicker"/>
+                </div>
+                <div class="validation-error"
+                     *ngIf="form.controls.startDate.hasError('required') && form.controls.startDate.touched"
+                     translate>form.field_required
+                </div>
+            </div>
+
+            <div class="row">
+                <select [(ngModel)]="startHour" formControlName="startHour">
+                    <option *ngFor="let i of range(0, 23)" value="{{i}}">{{i}}</option>
+                </select>
+                :
+                <select [(ngModel)]="startMinute" formControlName="startMinute">
+                    <option *ngFor="let i of range(0, 59)" value="{{i}}">{{i}}</option>
+                </select>
+                <div class="validation-error"
+                     *ngIf="form.controls.startHour.hasError('required') && form.controls.startHour.touched
+                     || form.controls.startMinute.hasError('required') && form.controls.startMinute.touched"
+                     translate>form.field_required
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-box-container">
+                    <input class="input-box" placeholder="{{'add-cruise.end_date' | translate}}"
+                           angular-mydatepicker name="mydate" (click)="dp2.toggleCalendar()"
+                           [(ngModel)]="endDate" [options]="myDpOptions" formControlName="endDate"
+                           #dp2="angular-mydatepicker"/>
+                </div>
+                <div class="validation-error"
+                     *ngIf="form.controls.endDate.hasError('required') && form.controls.endDate.touched"
+                     translate>form.field_required
+                </div>
+            </div>
+
+            <div class="row">
+                <select [(ngModel)]="endHour" formControlName="endHour"
+                        [ngClass]="{'is-invalid': form.controls.endHour.touched && form.controls.endHour.invalid}">
+                    <option *ngFor="let i of range(0, 23)" value="{{i}}">{{i}}</option>
+                </select>
+                :
+                <select [(ngModel)]="endMinute" formControlName="endMinute"
+                        [ngClass]="{'is-invalid': form.controls.endMinute.touched && form.controls.endMinute.invalid}">
+                    <option *ngFor="let i of range(0, 59)" value="{{i}}">{{i}}</option>
+                </select>
+                <div class="validation-error"
+                     *ngIf="form.controls.endHour.hasError('required') && form.controls.endHour.touched
+                     || form.controls.endMinute.hasError('required') && form.controls.endMinute.touched"
+                     translate>form.field_required
+                </div>
+            </div>
+
+            <div class="row">
+                <select [(ngModel)]="ferry" id="choose-ferry" formControlName="ferry"
+                        [ngClass]="{'is-invalid': form.controls.ferry.touched && form.controls.ferry.invalid}">
+                    <option value="" translate>add-cruise.ferry</option>
+                    <option *ngFor="let ferry of ferryGeneralService.ferriesGeneralList"
+                            value="{{ferry.name}}">{{ferry.name}}</option>
+                </select>
+                <div class="validation-error"
+                     *ngIf="form.controls.ferry.hasError('required') && form.controls.ferry.touched"
+                     translate>form.field_required
+                </div>
+            </div>
+        </div>
+        <button class="edit-button"
+                (click)="addCruise(newNumber.value)"
+                [disabled]=form.invalid translate>form.save
+        </button>
+        <div class="validation-error validation-info" *ngIf="error">
+            <p id="invalidCredentialsLabel" translate>{{errorCode}}</p>
+        </div>
+        <img class="return-arrow" (click)="goToRouteDetailsBreadcrumb()"
+             src="../../../assets/imgs/back-arrow.png"
+             alt=""/>
+    </form>
+</div>

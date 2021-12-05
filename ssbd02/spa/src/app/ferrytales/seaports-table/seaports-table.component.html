@@ -1,0 +1,53 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.seaport_list</li>
+</ol>
+
+<div *ngIf="(deleteResultMessage) !== 'HIDDEN'" class="info-popup">
+    <p *ngIf="(deleteResultMessage) === 'SUCCESS'" class="success" translate>seaports-table.response.success</p>
+    <p *ngIf="(deleteResultMessage) === 'FAILURE'" class="success" translate>seaports-table.response.result_gone</p>
+    <p *ngIf="(deleteResultMessage) === 'IN_USE'" class="failure" translate>seaports-table.response.in_use</p>
+</div>
+<div *ngIf="seaportGeneralService.popup !== 'hidden'" class="info-popup">
+    <p *ngIf="seaportGeneralService.popup === 'add_seaport_success'" class="success" translate>seaports-table.add_success</p>
+</div>
+
+<div class="button-container">
+    <button class="button-seaport-table add" (click)="showAddingForm()" translate>seaports-table.add</button>
+    <button class="button-seaport-table" (click)="refresh()" translate>general.refresh</button>
+</div>
+
+<div class="seaports-list-container">
+    <table id="seaports">
+        <tr>
+            <th translate>seaports-table.city</th>
+            <th translate>seaports-table.code</th>
+            <th translate>general.details</th>
+            <th translate>seaports-table.remove</th>
+        </tr>
+
+        <tr *ngFor="let seaport of listSeaports()">
+            <td>
+                {{seaport['city']}}
+            </td>
+            <td>
+                {{seaport['code']}}
+            </td>
+            <td>
+                <button class="button-seaport-table" routerLink="{{'/ferrytales/seaports/' + seaport['code']}}" translate>
+                    general.details
+                </button>
+            </td>
+            <td>
+                <button class="button-seaport-table remove" (click)="deleteSeaportClick(seaport.code)" translate>
+                    seaports-table.remove</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<app-confirmation *ngIf="isConfirmationVisible"
+                  (isPromptVisibleAndAnswer)="confirmationResult($event)"></app-confirmation>

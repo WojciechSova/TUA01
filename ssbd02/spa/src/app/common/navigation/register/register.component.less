@@ -1,0 +1,40 @@
+@import 'src/styles.less';
+
+
+.logo {
+    position: absolute;
+    top: 5vh;
+    bottom: 76vh;
+    left: 48%;
+    transform: translateX(-50%);
+    margin: auto;
+    width: 25%;
+    outline-width: 0;
+}
+
+.column-nav {
+    .column-nav-base();
+    top: 88%;
+}
+
+@media screen and (max-height: 750px) {
+    .logo {
+        top: 37.5px;
+        bottom: 570px;
+    }
+    .column-nav {
+        max-height: 75px;
+    }
+}
+
+.return-arrow {
+    .return-arrow-base();
+    top: 87%;
+}
+
+.validation-info {
+    bottom: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.05vh calc(0.2vw + 10px);
+}

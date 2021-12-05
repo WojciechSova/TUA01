@@ -1,0 +1,72 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToRoutesListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.routes.list </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate>breadcrumb.route</li>
+</ol>
+<div class="outer-div">
+    <div *ngIf="(cruiseDeleteResult) !== 'HIDDEN'" class="info-popup">
+        <p *ngIf="(cruiseDeleteResult) === 'SUCCESS'" class="edit-success" translate>
+            cruise-table.remove_result.success</p>
+        <p *ngIf="(cruiseDeleteResult) === 'GONE'" class="edit-success" translate>
+            cruise-table.remove_result.gone</p>
+        <p *ngIf="(cruiseDeleteResult) === 'OTHER_FAILURE'" class="edit-failure" translate>
+            cruise-table.remove_result.other_failure</p>
+        <p *ngIf="(cruiseDeleteResult) === 'IN_USE'" class="edit-failure" translate>
+            cruise-table.remove_result.in_use</p>
+        <p *ngIf="(cruiseDeleteResult) === 'ALREADY_STARTED'" class="edit-failure" translate>
+            cruise-table.remove_result.already_started</p>
+
+    </div>
+    <div class="info-popup" *ngIf="cruiseGeneralService.popup !== 'hidden'">
+        <p *ngIf="cruiseGeneralService.popup === 'add_cruise_success'" class="edit-success" translate>
+            cruise-table.add_success</p>
+    </div>
+    <div class="route-details" id="routeDetails">
+        <div class="button-container">
+            <button class="edit-button button-add" (click)="addCruise()" translate>route-details.add_cruise</button>
+            <button class="edit-button" (click)="refreshClick()" translate>general.refresh</button>
+        </div>
+        <div class="col">
+            <div class="row">
+                <label class="uppercase" translate>route-details.code</label>
+                <label id="code">{{routeDetailsService.routeDetails.code}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>route-details.start</label>
+                <label id="startCity">{{routeDetailsService.routeDetails.start?.city}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>route-details.destination</label>
+                <label id="destinationCity">{{routeDetailsService.routeDetails.destination?.city}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>route-details.creation_date</label>
+                <label id="creationDate">{{routeDetailsService.routeDetails.creationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>route-details.created_by</label>
+                <label id="createdBy">{{routeDetailsService.routeDetails.createdBy?.login}}</label>
+            </div>
+        </div>
+        <hr/>
+        <div class="cruises">
+            <div *ngIf="routeDetailsService.routeDetails.cruises.length > 0; then showCruiseTable else notShowCruiseTable"></div>
+            <ng-template #showCruiseTable>
+                <label class="uppercase-cruises" translate>route-details.cruises</label>
+                <app-cruise-table id="cruises" [cruises]="routeDetailsService.routeDetails.cruises"
+                                  (cruiseRemoveResult)="showCruiseDeleteResult($event)"></app-cruise-table>
+            </ng-template>
+            <ng-template #notShowCruiseTable>
+                <label class="uppercase-cruises" translate>route-details.no_cruises_on_route</label>
+            </ng-template>
+        </div>
+    </div>
+</div>

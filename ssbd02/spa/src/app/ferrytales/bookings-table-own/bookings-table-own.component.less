@@ -1,0 +1,16 @@
+@import "src/app/ferrytales/booking-table/booking-table.component.less";
+
+#cancel{
+    background-image: linear-gradient(to right, @primary-color-red 0%, @secondary-color-red 100%);
+    color: black;
+}
+
+.validation-error {
+    left: 50%;
+    transform: translateX(-50%);
+}
+.success{
+    .validation-error;
+    background-color: @primary-color-green;
+    color: @secondary-color-green;
+}

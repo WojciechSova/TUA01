@@ -1,0 +1,83 @@
+<div class="overlay">
+    <div class="box-container">
+        <div class="header-div" translate>cruise-edit.change-date</div>
+        <form id="edit-seaport-form" class="edit-form" [formGroup]="form">
+            <div class="col">
+                <div class="row">
+                    <div class="input-box-container">
+                        <input class="input-box" placeholder="{{'add-cruise.start_date' | translate}}"
+                               angular-mydatepicker name="mydate1" (click)="dp1.toggleCalendar()"
+                               [(ngModel)]="startDate" [options]="myDpOptions" formControlName="startDate"
+                               #dp1="angular-mydatepicker"/>
+
+                    </div>
+                    <div class="validation-error"
+                         *ngIf="form.controls.startDate.hasError('required') && form.controls.startDate.touched"
+                         translate>form.field_required
+                    </div>
+                    <div class="validation-error"
+                         *ngIf="form.controls.startDate.untouched"
+                         translate>form.confirm_date
+                    </div>
+                </div>
+
+                <div class="row">
+                    <select [(ngModel)]="startHour" formControlName="startHour">
+                        <option *ngFor="let i of range(0, 23)" value="{{i}}">{{i}}</option>
+                    </select>
+                    :
+                    <select [(ngModel)]="startMinute" formControlName="startMinute">
+                        <option *ngFor="let i of range(0, 59)" value="{{i}}">{{i}}</option>
+                    </select>
+                    <div class="validation-error"
+                         *ngIf="form.controls.startHour.hasError('required') && form.controls.startHour.touched
+                     || form.controls.startMinute.hasError('required') && form.controls.startMinute.touched"
+                         translate>form.field_required
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-box-container">
+                        <input class="input-box" placeholder="{{'add-cruise.end_date' | translate}}"
+                               angular-mydatepicker name="mydate" (click)="dp2.toggleCalendar()"
+                               [(ngModel)]="endDate" [options]="myDpOptions" formControlName="endDate"
+                               #dp2="angular-mydatepicker"/>
+                    </div>
+                    <div class="validation-error"
+                         *ngIf="form.controls.endDate.hasError('required') && form.controls.endDate.touched"
+                         translate>form.field_required
+                    </div>
+                    <div class="validation-error"
+                         *ngIf="form.controls.endDate.untouched"
+                         translate>form.confirm_date
+                    </div>
+                </div>
+
+                <div class="row">
+                    <select [(ngModel)]="endHour" formControlName="endHour"
+                            [ngClass]="{'is-invalid': form.controls.endHour.touched && form.controls.endHour.invalid}">
+                        <option *ngFor="let i of range(0, 23)" value="{{i}}">{{i}}</option>
+                    </select>
+                    :
+                    <select [(ngModel)]="endMinute" formControlName="endMinute"
+                            [ngClass]="{'is-invalid': form.controls.endMinute.touched && form.controls.endMinute.invalid}">
+                        <option *ngFor="let i of range(0, 59)" value="{{i}}">{{i}}</option>
+                    </select>
+                    <div class="validation-error"
+                         *ngIf="form.controls.endHour.hasError('required') && form.controls.endHour.touched
+                     || form.controls.endMinute.hasError('required') && form.controls.endMinute.touched"
+                         translate>form.field_required
+                    </div>
+                </div>
+            </div>
+        </form>
+        <button id="confirm" class="form-button" [disabled]="form.invalid
+        || form.controls.startDate.untouched || form.controls.endDate.untouched"
+                (click)="displayPrompt()" translate>
+            form.confirm
+        </button>
+        <img class="return-arrow" (click)="closeComponent()" src="../../../../assets/imgs/back-arrow.png" alt=""/>
+    </div>
+</div>
+<app-confirmation *ngIf="isPromptVisible"
+                  (isPromptVisibleAndAnswer)="getConfirmationResult($event)"></app-confirmation>

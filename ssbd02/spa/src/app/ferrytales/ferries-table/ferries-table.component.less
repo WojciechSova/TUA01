@@ -1,0 +1,63 @@
+@import "src/app/ferrytales/users-table/users-table.component";
+
+.ferries-list-container {
+    .users-list-container;
+    padding: 0 10% 10%;
+}
+
+.button-ferry-container {
+    .button-container;
+}
+
+.button-ferries-table {
+    .button-user-table;
+    margin-left: 1%;
+}
+
+.button-ferry-container .button-ferries-table {
+    width: 12%;
+}
+
+.button-ferry-add {
+    position: relative;
+    padding-right: 1.2rem;
+    padding-left: 1.2rem;
+    margin-left: 1%;
+    transition: 0.3s;
+    height:  2.5rem;
+    width: auto;
+    border: none;
+    border-radius: 35px;
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, @primary-color 0%, @secondary-color 100%);
+    font: lighter 1.3rem Source Sans Pro;
+    color: @primary-text-color;
+    text-align: center;
+
+    &:hover {
+        background-position: right center;
+        cursor: pointer;
+    }
+}
+
+.button-add {
+    background-image: linear-gradient(to right, @primary-color-green 0%, @secondary-color-green 100%);
+    color: black;
+}
+
+.remove{
+    background-image: linear-gradient(to right, @primary-color-red 0%, @secondary-color-red 100%);
+    color: black;
+}
+
+.validation-error {
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: revert;
+}
+
+.success{
+    .validation-error;
+    background-color: @primary-color-green;
+    color: @secondary-color-green;
+}

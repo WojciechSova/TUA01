@@ -1,0 +1,45 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.current_cruises_list</li>
+</ol>
+
+<div class="button-cruises-container">
+    <button class="button-cruises-table" (click)="getCurrentCruises()" translate>general.refresh</button>
+</div>
+
+<div class="current-cruises-list-container">
+    <table id="cruises">
+        <tr>
+            <th translate>cruise-general.route_start</th>
+            <th translate>cruise-general.route_destination</th>
+            <th translate>cruise-general.start_date</th>
+            <th translate>cruise-general.end_date</th>
+            <th translate>cruise-general.ferry_name</th>
+            <th translate>cruise-general.book_a_ticket</th>
+        </tr>
+
+        <tr *ngFor="let currentCruise of listCurrentCruises()">
+            <td>{{currentCruise.route?.start?.city}}</td>
+            <td>{{currentCruise.route?.destination?.city}}</td>
+            <td>{{currentCruise.startDate | date :'short':identityService.getTimezone()}}</td>
+            <td>{{currentCruise.endDate | date :'short':identityService.getTimezone()}}</td>
+            <td>{{currentCruise.ferry?.name}}</td>
+            <td>
+                <div *ngIf="identityService.isGuest(); then guest else notGuest"></div>
+                <ng-template #guest>
+                    <button class="button-cruises-table" [disabled]="identityService.isGuest()"
+                            translate>cruise-general.log_in_to_book_a_ticket</button>
+                </ng-template>
+                <ng-template #notGuest>
+                    <button class="button-cruises-table" (click)="createBooking(currentCruise.number)"
+                            translate>cruise-general.book</button>
+                </ng-template>
+            </td>
+        </tr>
+    </table>
+</div>
+

@@ -1,0 +1,59 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToFerryListBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.ferries_list </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToFerryBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.ferry </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate>breadcrumb.cabin</li>
+</ol>
+<div class="outer-div">
+    <div *ngIf="cabinDetailsService.popup !== 'hidden'" class="info-popup">
+        <p *ngIf="cabinDetailsService.popup === 'edit_cabin_success'" class="success" translate>cabin-details.edit_success</p>
+    </div>
+    <div class="cabin-details" id="cabinDetails">
+        <div class="button-container">
+            <button id="edit-button" class="edit-button" (click)="updateCabin()" translate>cabin-details.edit_cabin</button>
+            <button class="edit-button" (click)="getCabin()" translate>general.refresh</button>
+        </div>
+        <div class="col">
+            <div class="row">
+                <label class="uppercase" translate>cabin-details.number</label>
+                <label id="number">{{cabinDetailsService.cabin.number}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cabin-details.cabin_type</label>
+                <label id="cabinType">{{translateCabinType(cabinDetailsService.cabin.cabinType) | translate}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cabin-details.capacity</label>
+                <label id="capacity">{{cabinDetailsService.cabin.capacity}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cabin-details.modification_date</label>
+                <label>{{cabinDetailsService.cabin.modificationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cabin-details.modified_by</label>
+                <label>{{cabinDetailsService.cabin.modifiedBy?.login}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cabin-details.creation_date</label>
+                <label>{{cabinDetailsService.cabin.creationDate | date :'short':identityService.getTimezone()}}</label>
+            </div>
+            <div class="row">
+                <label class="uppercase" translate>cabin-details.created_by</label>
+                <label>{{cabinDetailsService.cabin.createdBy?.login}}</label>
+            </div>
+        </div>
+    </div>
+</div>

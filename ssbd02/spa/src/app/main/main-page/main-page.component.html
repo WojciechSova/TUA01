@@ -1,0 +1,26 @@
+<div class="main">
+    <div class="container">
+        <img class="main-image" src="../../../assets/imgs/mewa.jpg" alt=""/>
+
+        <app-navigation [loginVisible]="loginVisible" [isSticky]="false"></app-navigation>
+
+        <div class="centered">
+            <p class="main-text" translate>main-page.advert</p>
+            <p>
+                <button *ngIf="identityService.isClient() || identityService.isGuest()"
+                        routerLink="{{'/ferrytales/current'}}" class="button" translate>main-page.check_now
+                </button>
+            </p>
+        </div>
+    </div>
+
+    <button *ngIf="identityService.isGuest()" class="login-button" (click)="change()" translate>
+        main-page.sign_in_to_book
+    </button>
+
+    <app-popular-offers *ngIf="identityService.isGuest() || identityService.isClient()"
+                        (loginVisible)="change()"></app-popular-offers>
+    <app-footer></app-footer>
+</div>
+
+<router-outlet></router-outlet>

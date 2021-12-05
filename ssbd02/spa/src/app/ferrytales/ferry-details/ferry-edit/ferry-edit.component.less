@@ -1,0 +1,123 @@
+@import 'src/styles.less';
+
+.box-container {
+    position: absolute;
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    width: 45vw;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 0 0.05em rgba(0, 0, 0, 0.2);
+    font: lighter 1.45rem Source Sans Pro;
+    color: #777777;
+    line-height: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    * > {
+        margin: 5px;
+    }
+}
+
+.return-arrow {
+    width: 50px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.header-div {
+    font: lighter 1.7rem Source Sans Pro;
+    text-transform: none;
+    text-align: center;
+    color: #43BCCD;
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    position: unset;
+    top: unset;
+    margin-top: unset;
+    margin-bottom: unset;
+    left: unset;
+    transform: unset;
+}
+
+.form-button {
+    position: unset;
+    left: unset;
+    transform: unset;
+    font: lighter 1.8rem Source Sans Pro;
+    min-width: 172px;
+    min-height: 45px;
+}
+
+.city-input {
+    min-width: 162px;
+}
+
+.uppercase {
+    text-align: center;
+    color: @secondary-color;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 55px;
+
+    > * {
+        width: 100%;
+    }
+}
+
+.validation-error {
+    text-align: center;
+    z-index: 0;
+    display: flex;
+    margin-top: 5.7vh;
+    padding: 7.5px;
+    height: auto;
+    width: max-content;
+    border-radius: 10px;
+    font: normal 1rem Source Sans Pro;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    position: unset;
+    top: unset;
+    margin-bottom: unset;
+    left: unset;
+    transform: unset;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}

@@ -1,0 +1,41 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="" (click)="goToHomeBreadcrumb()" [routerLink]="" class="breadcrumb-link" translate>
+            breadcrumb.home </a>
+        <img src="../../../assets/wind.png" alt="" class="bullet">
+    </li>
+    <li class="breadcrumb-item active" translate> breadcrumb.booking_list</li>
+</ol>
+
+<div class="button-container">
+    <button class="button-user-table" (click)="getBookings()" translate>general.refresh</button>
+</div>
+
+<div class="booking-list-container">
+    <table id="users">
+        <tr>
+            <th translate>booking-list.number</th>
+            <th translate>booking-list.client</th>
+            <th translate>booking-list.cruise</th>
+            <th translate>booking-list.cruise_date</th>
+            <th translate>booking-list.creation_date</th>
+            <th translate>general.details</th>
+        </tr>
+
+        <tr *ngFor="let booking of bookingGeneralService.bookings">
+            <td>{{booking.number}}</td>
+            <td>{{booking.account.login}}</td>
+            <td>{{booking.cruise.route?.start?.city}} → {{booking.cruise.route?.destination?.city}}</td>
+            <td>
+                {{booking.cruise.startDate | date :'short':identityService.getTimezone()
+                }} - {{
+                booking.cruise.endDate | date :'short':identityService.getTimezone()}}
+            </td>
+            <td>{{booking.creationDate | date :'short':identityService.getTimezone()}}</td>
+            <td>
+                <button id="details" class="button-booking-table" (click)="showBookingDetails(booking.number)" translate>general.details</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
