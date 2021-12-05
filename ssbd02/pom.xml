@@ -46,8 +46,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.environment>prod</project.environment>
-        <jdbc.config.src>src/prod/java</jdbc.config.src>
+        <project.environment>dev</project.environment>
+        <jdbc.config.src>src/dev/java</jdbc.config.src>
         <mail.flag>true</mail.flag>
     </properties>
 
