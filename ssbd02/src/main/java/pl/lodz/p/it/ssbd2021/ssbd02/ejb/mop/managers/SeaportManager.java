@@ -43,8 +43,8 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
     private AccountMopFacadeLocal accountMopFacadeLocal;
 
     @Inject
-    @Metric(name = "seaportCount", description = "Number of seaports in the system")
-    private Counter seaportCounter;
+    @Metric(name = "addedSeaports", description = "Number of seaports in the system")
+    private Counter addedSeaports;
 
     @Override
     @RolesAllowed({"EMPLOYEE"})
@@ -67,7 +67,7 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
         seaportFacadeLocal.create(seaport);
         logger.info("The user with login {} has created seaport with code {}",
                 login, seaport.getCode());
-        seaportCounter.inc();
+        addedSeaports.inc();
     }
 
     @Override
@@ -97,7 +97,7 @@ public class SeaportManager extends AbstractManager implements SeaportManagerLoc
             seaportFacadeLocal.remove(seaport);
             logger.info("The employee with login {} has deleted seaport with code {}",
                     userLogin, seaportCode);
-            seaportCounter.dec();
+            addedSeaports.dec();
         } catch (CommonExceptions ce) {
             if (ce.getResponse().getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
                 && ce.getResponse().getEntity().equals(CommonExceptions.ERROR_CONSTRAINT_VIOLATION)){
